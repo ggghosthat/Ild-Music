@@ -1,0 +1,50 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net5.0-windows</TargetFramework>
+    <RootNamespace>Ild_Music</RootNamespace>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+<ItemGroup>
+    <ProjectReference Include="..\Ild-Music-Core\Ild-Music-Core.csproj" />
+    <ProjectReference Include="..\SynchronizationBlock\SynchronizationBlock.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="current_track.png" />
+    <Resource Include="Forms\add.png" />
+    <Resource Include="Forms\bin.png" />
+    <Resource Include="Forms\edit.png" />
+    <Resource Include="Forms\next.png" />
+    <Resource Include="Forms\pause.png" />
+    <Resource Include="Forms\play.png" />
+    <Resource Include="Forms\previous.png" />
+    <Resource Include="Forms\repeat_playlist.png" />
+    <Resource Include="Forms\shuffle.png" />
+    <Resource Include="home.png" />
+    <Resource Include="playlist.png" />
+    <Resource Include="search.png" />
+    <Resource Include="settings.png" />
+    <Resource Include="track-story.png" />
+    <Resource Include="UI\add1.png" />
+    <Resource Include="UI\cas.png" />
+    <Resource Include="UI\current_track.png" />
+    <Resource Include="UI\delete.png" />
+    <Resource Include="UI\edit.png" />
+    <Resource Include="UI\home.png" />
+    <Resource Include="UI\left.png" />
+    <Resource Include="UI\mus.png" />
+    <Resource Include="UI\musics.png" />
+    <Resource Include="UI\music_note100.png" />
+    <Resource Include="UI\next.png" />
+    <Resource Include="UI\play.png" />
+    <Resource Include="UI\playlist-100.png" />
+    <Resource Include="UI\playlist.png" />
+    <Resource Include="UI\previous.png" />
+    <Resource Include="UI\repeat.png" />
+    <Resource Include="UI\right.png" />
+    <Resource Include="UI\shuffle.png" />
+    <Resource Include="UI\singer100.png" />
+  </ItemGroup>
+</Project>

@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0-windows</TargetFramework>
+    <RootNamespace>Ild_Music_Core</RootNamespace>
+  </PropertyGroup>
+
+<ItemGroup>
+    <!-- <PackageReference Include="Avalonia" Version="0.10.6" /> -->
+    <PackageReference Include="NAudio" Version="2.0.1" />
+    <PackageReference Include="System.Windows.Extensions" Version="5.0.0" />
+  </ItemGroup>
+</Project>
