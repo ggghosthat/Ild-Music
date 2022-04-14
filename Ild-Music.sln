@@ -7,13 +7,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ild-Music_UI", "Ild-Music_U
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ild-Music-Core", "Ild-Music-Core\Ild-Music-Core.csproj", "{96E9836E-1DA5-446C-AF84-351F83468E7C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoreTest", "CoreTest\CoreTest.csproj", "{1BEDD7AD-E5B5-43E9-A5D3-FE8F1F29A8D3}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SynchronizationBlock", "SynchronizationBlock\SynchronizationBlock.csproj", "{73C0455C-9B3D-4543-8E21-9AA22504C33B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SynchTest", "SynchTest\SynchTest.csproj", "{E52710C0-A88F-48D7-A1E5-93F14924FA31}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ild-Music(MVVM)", "Ild-Music(MVVM)\Ild-Music(MVVM).csproj", "{F4736499-B265-4D3B-BA5B-533A854F6356}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ILD-Music_Player", "ILD-Music_Player\ILD-Music_Player.csproj", "{78D0E06F-8E64-4978-A181-D8AEB176B2B4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ReBorn.WPF.UI", "..\AvaloniaReborn\WPF\ReBorn.WPF.UI\ReBorn.WPF.UI.csproj", "{C211E575-B0FA-4B34-9B89-CC67506FBDAE}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shared", "..\AvaloniaReborn\Shared\Shared.csproj", "{39FBDF73-8FD5-4F2F-8C79-D269E9628A51}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,22 +29,22 @@ Global
 		{96E9836E-1DA5-446C-AF84-351F83468E7C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{96E9836E-1DA5-446C-AF84-351F83468E7C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{96E9836E-1DA5-446C-AF84-351F83468E7C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1BEDD7AD-E5B5-43E9-A5D3-FE8F1F29A8D3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1BEDD7AD-E5B5-43E9-A5D3-FE8F1F29A8D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1BEDD7AD-E5B5-43E9-A5D3-FE8F1F29A8D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1BEDD7AD-E5B5-43E9-A5D3-FE8F1F29A8D3}.Release|Any CPU.Build.0 = Release|Any CPU
 		{73C0455C-9B3D-4543-8E21-9AA22504C33B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{73C0455C-9B3D-4543-8E21-9AA22504C33B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{73C0455C-9B3D-4543-8E21-9AA22504C33B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{73C0455C-9B3D-4543-8E21-9AA22504C33B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E52710C0-A88F-48D7-A1E5-93F14924FA31}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E52710C0-A88F-48D7-A1E5-93F14924FA31}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E52710C0-A88F-48D7-A1E5-93F14924FA31}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E52710C0-A88F-48D7-A1E5-93F14924FA31}.Release|Any CPU.Build.0 = Release|Any CPU
-		{78D0E06F-8E64-4978-A181-D8AEB176B2B4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{78D0E06F-8E64-4978-A181-D8AEB176B2B4}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{78D0E06F-8E64-4978-A181-D8AEB176B2B4}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{78D0E06F-8E64-4978-A181-D8AEB176B2B4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F4736499-B265-4D3B-BA5B-533A854F6356}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F4736499-B265-4D3B-BA5B-533A854F6356}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F4736499-B265-4D3B-BA5B-533A854F6356}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F4736499-B265-4D3B-BA5B-533A854F6356}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C211E575-B0FA-4B34-9B89-CC67506FBDAE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C211E575-B0FA-4B34-9B89-CC67506FBDAE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C211E575-B0FA-4B34-9B89-CC67506FBDAE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C211E575-B0FA-4B34-9B89-CC67506FBDAE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{39FBDF73-8FD5-4F2F-8C79-D269E9628A51}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{39FBDF73-8FD5-4F2F-8C79-D269E9628A51}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{39FBDF73-8FD5-4F2F-8C79-D269E9628A51}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{39FBDF73-8FD5-4F2F-8C79-D269E9628A51}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
