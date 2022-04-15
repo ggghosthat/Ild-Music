@@ -1,9 +1,13 @@
 ﻿using Ild_Music_CORE.Models.Core.Tracklist_Structure;
+using Ild_Music_MVVM_.Services.Interfaces;
 
 namespace Ild_Music_MVVM_.Services
 {
-    public class FactoryService
+    public class FactoryService : IService
     {
+        public string ServiceType { get; init; } = "Factory";
+
+
         private EntityCreator creator = new ();
 
         private SupporterService supporter;

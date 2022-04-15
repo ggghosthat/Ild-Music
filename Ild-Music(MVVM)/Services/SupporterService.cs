@@ -1,4 +1,5 @@
 ﻿using Ild_Music_CORE.Models.Core.Tracklist_Structure;
+using Ild_Music_MVVM_.Services.Interfaces;
 using SynchronizationBlock.Models.SynchArea;
 using System.Collections.ObjectModel;
 
@@ -6,8 +7,10 @@ namespace Ild_Music_MVVM_.Services
 {
     public enum EntityState { Artist, Track, Playlist}
 
-    public class SupporterService
+    public class SupporterService : IService
     {
+        public string ServiceType { get; init; } = "Supporter";
+
         private Area synchArea;
         private EntityState state;
 
