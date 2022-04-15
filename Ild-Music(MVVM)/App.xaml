@@ -2,7 +2,7 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:Ild_Music_MVVM_"
-             StartupUri="MainWindow.xaml">
+             StartupUri="View/StartWindow.xaml">
     <Application.Resources>
         <Style TargetType="TextBox" x:Key="Textbox">
             <Setter Property="Padding" Value="7"/>

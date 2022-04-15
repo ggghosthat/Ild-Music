@@ -32,8 +32,7 @@
                            FontSize="15" 
                            Foreground="Wheat" 
                            VerticalAlignment="Top"
-                           HorizontalAlignment="Right"
-                           MouseLeftButtonDown="AddPlaylist_Click"/>
+                           HorizontalAlignment="Right"/>
             </StackPanel>
             <ScrollViewer VerticalScrollBarVisibility="Disabled"
                               HorizontalScrollBarVisibility="Auto"
@@ -56,14 +55,12 @@
                            />
 
                 <TextBlock
-                           Name="" 
                            Text="+"
                            Margin="0 3 0 0"
                            FontSize="15" 
                            Foreground="Wheat" 
                            VerticalAlignment="Top"
-                           HorizontalAlignment="Right"
-                           MouseLeftButtonDown="AddPlaylist_Click"/>
+                           HorizontalAlignment="Right"/>
             </StackPanel>
             <ListView x:Name="lsTracks"
                          Width="812"
@@ -74,8 +71,7 @@
                          BorderBrush="Transparent"
                          BorderThickness="0,1,1,0"
                          SelectionMode="Single"
-                         Margin="0,10"
-                         MouseDoubleClick="LsTracksDoubleClick">
+                         Margin="0,10">
 
 
                 <ListView.ItemContainerStyle>
@@ -114,7 +110,6 @@
                            Width="10"
                            Padding="0"
                            HorizontalAlignment="Right" 
-                           MouseLeftButtonDown="AddArtist_Ckuck"
                           />
             
             <ScrollViewer VerticalScrollBarVisibility="Auto"
