@@ -1,11 +1,8 @@
-﻿using Ild_Music_CORE.Models.Core;
-using Ild_Music_CORE.Models.Core.Tracklist_Structure;
-using Ild_Music_CORE.Models.Interfaces;
+﻿using Ild_Music_CORE.Models.Interfaces;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
-namespace Ild_Music_CORE.Models.CORE.Tracklist_Structure
+namespace Ild_Music_CORE.Models.Core.Tracklist_Structure
 {
     public class Artist : ResourceRoot, IDescriptional
     {

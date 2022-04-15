@@ -1,13 +1,13 @@
 ﻿using Ild_Music_CORE.Models.Core;
 using Ild_Music_CORE.Models.Core.Tracklist_Structure;
-using Ild_Music_CORE.Models.CORE.Session_Structure.Interfaces;
+using Ild_Music_CORE.Models.Core.Session_Structure.Interfaces;
 using NAudio.Wave;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Ild_Music_CORE.Models.CORE.Session_Structure
+namespace Ild_Music_CORE.Models.Core.Session_Structure
 {
     public class PlayerWrap : IPlayer
     {

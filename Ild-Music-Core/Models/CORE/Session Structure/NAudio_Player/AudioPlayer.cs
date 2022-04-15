@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Ild_Music_CORE.Models.CORE.Session_Structure
+namespace Ild_Music_CORE.Models.Core.Session_Structure
 {
     public class AudioPlayer
     {

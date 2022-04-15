@@ -8,6 +8,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\SynchronizationBlock\SynchronizationBlock.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Page Update="View\StartWindow.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
