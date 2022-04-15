@@ -25,18 +25,20 @@ namespace Ild_Music_MVVM_.Services
 
         public void AddInstanceObject(ResourceRoot instanceObject)
         {
-
             if (instanceObject is Track track)
             {
                 synchArea.AddTrackObj(track);
+                synchArea.SaveTracks();
             }
             else if (instanceObject is Tracklist playlist)
             {
                 synchArea.AddPlaylistObj(playlist);
+                synchArea.SavePlaylists();
             }
             else if (instanceObject is Artist artist)
             {
                 synchArea.AddArtistObj(artist);
+                synchArea.SaveArtists();
             }
         }
 
