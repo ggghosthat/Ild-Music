@@ -1,4 +1,4 @@
-﻿using Ild_Music_CORE.Models.CORE.Tracklist_Structure;
+﻿using Ild_Music_CORE.Models.Core.Tracklist_Structure;
 using Newtonsoft.Json;
 using SynchronizationBlock.Models.SynchArea;
 using System;

@@ -1,10 +1,6 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Collections.Generic;
-using System.Linq;
-using Ild_Music_CORE.Models.Core;
 using Ild_Music_CORE.Models.Core.Tracklist_Structure;
-using Ild_Music_CORE.Models.CORE.Tracklist_Structure;
 
 using SynchronizationBlock.Models.PlaylistSymch;
 using SynchronizationBlock.Models.TrackSynch;
