@@ -4,8 +4,10 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:Microsoft_Windows_Themes="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero"
-        xmlns:local="clr-namespace:Ild_Music.UI"
+        xmlns:local="clr-namespace:Ild_Music_MVVM_.View"
+        xmlns:ui="clr-namespace:Ild_Music_MVVM_.View.UIControls"
         mc:Ignorable="d"
+        
         Title="MainWindow" Height="555" Width="1100"
         WindowStyle="None" ResizeMode="NoResize"
         Background="#1f26af" WindowStartupLocation="CenterScreen">
@@ -353,7 +355,8 @@
             <ColumnDefinition Width="224*"/>
         </Grid.ColumnDefinitions>
 
-        <Grid Background="#09109e" Grid.ColumnSpan="2">
+        <Grid Background="#09109e"
+              Grid.ColumnSpan="2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="201*"/>
                 <ColumnDefinition Width="599*"/>
@@ -368,14 +371,10 @@
                       />
         </Grid>
 
-        <StackPanel Grid.Row="1"/>
 
         <StackPanel Grid.Row="1" Grid.Column="0">
             <StackPanel Name="Home" Height="45"
-                        Orientation="Horizontal"
-                        MouseEnter="EnterMouse_Home"
-                        MouseLeave="LeaverMouse_Home" MouseLeftButtonDown="Home_MouseClick"
-                        >
+                        Orientation="Horizontal">
                 <Image 
                        Stretch="UniformToFill"
                        Height="40"
@@ -391,10 +390,7 @@
 
             <StackPanel Name="Playlists"
                         Height="45" 
-                        Orientation="Horizontal" 
-                        MouseEnter="EnterMouse_Playlists" 
-                        MouseLeave="LeaveMouse_Playlists" 
-                        MouseLeftButtonDown="Playlists_MouseClick">
+                        Orientation="Horizontal" >
                 <Image
                        Stretch="UniformToFill"
                        Height="40"
@@ -410,10 +406,7 @@
 
             <StackPanel Name="Tracks" 
                         Height="45" 
-                        Orientation="Horizontal"
-                        MouseEnter="EnterMouse_Tracks"
-                        MouseLeave="LeaveMouse_Tracks" 
-                        MouseLeftButtonDown="Tracks_MouseClick">
+                        Orientation="Horizontal" >
                 <Image
                        Stretch="UniformToFill"
                        Height="40"
@@ -429,10 +422,7 @@
 
             <StackPanel Name="Artists" 
                         Height="45" 
-                        Orientation="Horizontal"
-                        MouseEnter="EnterMouse_Artists"
-                        MouseLeave="LeaveMouse_Artists" 
-                        MouseLeftButtonDown="Artists_MouseClick">
+                        Orientation="Horizontal">
                 <Image 
                        Stretch="UniformToFill"
                        HorizontalAlignment="Center"
@@ -467,18 +457,31 @@
                 </Button>
             </StackPanel>
         </StackPanel>
+
+
+        <ContentControl Grid.Column="1" Grid.Row="1"
+                        >
+            <ContentControl.ContentTemplate>
+                <DataTemplate>
+                    <ui:StartControl/>
+                </DataTemplate>
+            </ContentControl.ContentTemplate>
+        </ContentControl>
         
-        
-        
-        
-        <StackPanel x:Name="Player" Grid.Row="1" Grid.ColumnSpan="2"  HorizontalAlignment="Left" VerticalAlignment="Bottom" Background="#161d44" Orientation="Horizontal" Height="33" Width="1100">
+        <StackPanel x:Name="Player" 
+                    Grid.Row="1" Grid.ColumnSpan="2"  
+                    HorizontalAlignment="Left" 
+                    VerticalAlignment="Bottom"
+                    Background="#161d44" 
+                    Orientation="Horizontal" 
+                    Height="33" Width="1100">
             <StackPanel x:Name="Previous"
                             Height="25"
                             Width="25"
                             Background="Transparent"
                             HorizontalAlignment="Left"
                             VerticalAlignment="Center"
-                            Margin="100 0 0 0" MouseEnter="Previous_MouseEnter" MouseLeave="Previous_MouseLeave" MouseLeftButtonDown="Previous_mouseLeftDown">
+                            Margin="100 0 0 0">
                 <Border x:Name="brPrev"
                         CornerRadius="5"
                         Background="Transparent">
@@ -492,7 +495,7 @@
                             Background="Transparent"
                             HorizontalAlignment="Left"
                             VerticalAlignment="Center"
-                            Margin="10 0 0 0" MouseEnter="Play_MouseEnter" MouseLeave="Play_MouseLeave" MouseLeftButtonDown="Play_mouseLeftDown">
+                            Margin="10 0 0 0">
                 <Border x:Name="brPlay"
                         CornerRadius="5"
                         Background="Transparent">
@@ -506,7 +509,7 @@
                             Background="Transparent"
                             HorizontalAlignment="Left"
                             VerticalAlignment="Center"
-                            Margin="10 0 0 0" MouseEnter="Next_MouseEnter" MouseLeave="Next_MouseLeave" MouseLeftButtonDown="Next_mouseLeftDown">
+                            Margin="10 0 0 0">
                 <Border x:Name="brNext"
                         CornerRadius="5"
                         Background="Transparent">
@@ -520,7 +523,7 @@
                             Background="Transparent"
                             HorizontalAlignment="Left"
                             VerticalAlignment="Center"
-                            Margin="25 0 0 0" MouseEnter="Shuffle_MouseEnter" MouseLeave="Shuffle_MouseLeave" MouseLeftButtonDown="Shuffle_mouseLeftDown">
+                            Margin="25 0 0 0" >
                 <Border x:Name="brShuffle"
                         CornerRadius="5"
                         Background="Transparent">
@@ -534,7 +537,7 @@
                             Background="Transparent"
                             HorizontalAlignment="Left"
                             VerticalAlignment="Center"
-                            Margin="10 0 0 0" MouseEnter="Repeat_MouseEnter" MouseLeave="Repeat_MouseLeave" MouseLeftButtonDown="Repeat_mouseLeftDown">
+                            Margin="10 0 0 0">
                 <Border x:Name="brRepeat"
                         CornerRadius="5"
                         Background="Transparent">
