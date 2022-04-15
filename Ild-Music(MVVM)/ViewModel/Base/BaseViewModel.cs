@@ -1,4 +1,6 @@
-﻿using Ild_Music_MVVM_.Services.Interfaces;
+﻿using Ild_Music_MVVM_.Services;
+using Ild_Music_MVVM_.Services.Parents;
+using SynchronizationBlock.Models.SynchArea;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -9,7 +11,20 @@ namespace Ild_Music_MVVM_.ViewModel.Base
     public class BaseViewModel : INotifyPropertyChanged
     {
         #region Service Register
-        Dictionary<string, IService> services = new();
+        Dictionary<string, Service> services = new();
+        #endregion
+
+        #region Constructor
+        public BaseViewModel()
+        {
+            var area = new Area();
+            var supporter = new SupporterService(area);
+
+            var factory = new FactoryService(supporter);
+
+            RegistService(supporter);
+            RegistService(factory);
+        }
         #endregion
 
         #region Events
@@ -24,11 +39,11 @@ namespace Ild_Music_MVVM_.ViewModel.Base
         }
 
         //Add service to register
-        internal void RegistService (IService service) => services.Add(service.ServiceType, service);
+        protected void RegistService (Service service) => services.Add(service.ServiceType, service);
 
         //Return reference 2 special service (by type name)
         //return null type in case of absence
-        internal IService GetService (string type) {
+        protected Service GetService (string type) {
 
             if (services.Keys.ToList().Contains(type))
                 return services[type];

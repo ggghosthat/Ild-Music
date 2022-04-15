@@ -19,13 +19,6 @@ namespace SynchronizationBlock.Models.SynchArea
         public IList<Track> existedTracks => trackSynch.Instances;
         public IList<Tracklist> existedPlaylists => playlistSynch.Instances;
 
-        
-
-        public Area()
-        {
-        }
-
-
 
         public void Init()
         {
