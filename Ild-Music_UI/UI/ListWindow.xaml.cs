@@ -5,14 +5,8 @@ using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Controls;
 using System.Linq;
-using Ild_Music_CORE.Models.Interfaces;
-using Ild_Music_CORE.Models.CORE.Tracklist_Structure;
-using Ild_Music_CORE.Models.Core;
 using Ild_Music_CORE.Models.Core.Tracklist_Structure;
-using Ild_Music_CORE.Models;
-using System;
 
 namespace Ild_Music.UI
 {

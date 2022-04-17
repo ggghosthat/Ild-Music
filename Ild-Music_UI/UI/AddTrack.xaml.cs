@@ -1,20 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using Microsoft.Win32;
-using System.Windows.Shapes;
 using Ild_Music.Controllers;
-using Ild_Music_CORE.Models.CORE.Tracklist_Structure;
-using System.Linq;
 using Ild_Music_CORE.Models.Core.Tracklist_Structure;
-using Ild_Music_CORE.Models.Core;
+using System.Linq;
 using Ild_Music.Controllers.ControllerServices;
 
 namespace Ild_Music.UI

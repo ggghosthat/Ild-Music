@@ -351,8 +351,8 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="51*"/>
-            <ColumnDefinition Width="224*"/>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="896"/>
         </Grid.ColumnDefinitions>
 
         <Grid Background="#09109e"
@@ -467,7 +467,7 @@
                 </DataTemplate>
             </ContentControl.ContentTemplate>
         </ContentControl>
-        
+
         <StackPanel x:Name="Player" 
                     Grid.Row="1" Grid.ColumnSpan="2"  
                     HorizontalAlignment="Left" 

@@ -1,6 +1,6 @@
 ﻿using Ild_Music.Controllers.ControllerServices;
 using Ild_Music_CORE.Models;
-using Ild_Music_CORE.Models.Core;
+using Ild_Music_CORE.Models.Core.Tracklist_Structure;
 using System;
 using System.Linq;
 
@@ -57,7 +57,7 @@ namespace Ild_Music.UI
             RefreshContent.Invoke();
         }
 
-        private void ListViewItem_MouseDoubleClick(object sender, EventArgs e) 
+        private void ListViewItem_MouseDoubleClick(object sender, EventArgs e)
         {
             var index = lvAvailable.SelectedIndex;
             var track = _supporter.ExistedTracks[index];

@@ -10,11 +10,7 @@ using System.Windows.Media.Imaging;
 using System.Linq;
 using System.Collections.Generic;
 using Ild_Music_CORE.Models.Core.Tracklist_Structure;
-using Ild_Music_CORE.Models.Core;
-using Ild_Music_CORE.Models.CORE.Tracklist_Structure;
-using System.Threading.Tasks;
 using Ild_Music.Controllers.ControllerServices.Interfaces;
-using Ild_Music_CORE.Models.CORE.Session_Structure.Interfaces;
 using Ild_Music_CORE.Models;
 
 namespace Ild_Music.UI
@@ -140,8 +136,8 @@ namespace Ild_Music.UI
                     _playerStaffTracklist = _supporter.ExistedPlaylist.First(pl => pl.Id.Equals(entry.Key));
             });
 
-            var playlistContentShow = new PlaylistContentWindow(supporter: _supporter, ref _playerStaffTracklist);
-            playlistContentShow.Show();
+            //var playlistContentShow = new PlaylistContentWindow(supporter: _supporter, ref _playerStaffTracklist);
+            //playlistContentShow.Show();
         }
 
         private void PlaylistClick(object sender, RoutedEventArgs e)

@@ -18,6 +18,7 @@
                            FontSize="35"
                            FontWeight="Medium"
                            Foreground="White"
+                           Text="Collection"
                            Margin="10"/>
 
             <StackPanel Name="controlButtons" 
@@ -31,10 +32,7 @@
                             Background="Transparent"
                             HorizontalAlignment="Left"
                             VerticalAlignment="Center"
-                            Margin="10 0 10 0"
-                            MouseEnter="Edit_MouseEnter"
-                            MouseLeave="Edit_MouseLeave"
-                            MouseLeftButtonDown="Edit_MouseClick">
+                            Margin="10 0 10 0">
                     <Border x:Name="brEdit"
                         CornerRadius="5"
                         Background="Transparent">
@@ -57,10 +55,7 @@
                             Background="Transparent"
                             HorizontalAlignment="Right"
                             VerticalAlignment="Center"
-                            Margin="10 0 10 0"
-                            MouseEnter="Add_MouseEnter"
-                            MouseLeave="Add_MouseLeave"
-                            MouseLeftButtonDown="Add_MouseClick">
+                            Margin="10 0 10 0">
                     <Border x:Name="brAdd"
                                 CornerRadius="5"
                                 Background="Transparent">
@@ -74,9 +69,7 @@
                             Background="Transparent"
                             HorizontalAlignment="Right"
                             VerticalAlignment="Center"
-                            Margin="10 0 10 0" 
-                            MouseEnter="Delet_MouseEnter"
-                            MouseLeave="Delet_MouseLeave" MouseLeftButtonDown="Delete_MouseClick">
+                            Margin="10 0 10 0">
                     <Border x:Name="brDelete"
                                 CornerRadius="5"
                                 Background="Transparent">
@@ -96,8 +89,7 @@
                         BorderBrush="Transparent"
                         FontWeight="ExtraBold"
                         Background="#d32341"
-                        Foreground="White"
-                        Click="btn_Click">
+                        Foreground="White">
                     </Button>
                 </StackPanel>
             </StackPanel>
@@ -118,7 +110,7 @@
 
                 <ListView.ItemContainerStyle>
                     <Style TargetType="ListViewItem">
-                        <EventSetter Event="MouseDoubleClick" Handler="ListViewItem_MouseDoubleClick"/>
+                        <!--<EventSetter Event="MouseDoubleClick" Handler="ListViewItem_MouseDoubleClick"/>-->
                     </Style>
                 </ListView.ItemContainerStyle>
             </ListView>

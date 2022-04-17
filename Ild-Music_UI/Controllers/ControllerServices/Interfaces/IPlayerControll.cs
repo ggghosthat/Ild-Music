@@ -1,4 +1,4 @@
-﻿using Ild_Music_CORE.Models.CORE.Session_Structure.Interfaces;
+﻿using Ild_Music_CORE.Models.Core.Session_Structure.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Text;
