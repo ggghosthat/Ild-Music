@@ -10,7 +10,7 @@ namespace Ild_Music_MVVM_.View
         #region Ctors
         public StartWindow()
         {
-            DataContext = new StartViewModel();
+            DataContext = new MainViewModel();
         }
         #endregion
 

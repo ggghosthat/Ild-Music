@@ -460,7 +460,7 @@
 
 
         <ContentControl Grid.Column="1" Grid.Row="1"
-                        >
+                        Content="{Binding CurrenttViewModelItem}">
             <ContentControl.ContentTemplate>
                 <DataTemplate>
                     <ui:StartControl/>

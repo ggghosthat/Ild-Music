@@ -1,7 +1,10 @@
-﻿namespace Ild_Music_MVVM_.ViewModel.VM
+﻿using System.Collections.ObjectModel;
+
+namespace Ild_Music_MVVM_.ViewModel.VM
 {
     public class MainViewModel : Base.BaseViewModel
     {
-        public StartViewModel StartViewModelItem { get; set; }
+        public ObservableCollection<Base.BaseViewModel> ViewModelsCollection { get; set; } = new ();
+        public Base.BaseViewModel CurrenttViewModelItem { get; set; } = new StartViewModel();
     }
 }
