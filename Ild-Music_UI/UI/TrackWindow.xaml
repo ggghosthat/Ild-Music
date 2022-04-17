@@ -346,7 +346,7 @@
     <Grid RenderTransformOrigin="0.548,0.512">
         <Grid.RowDefinitions>
             <RowDefinition Height="45"/>
-            <RowDefinition/>
+            <RowDefinition Height="510"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="51*"/>
@@ -460,54 +460,12 @@
                             Width="891"
                             Margin="0,100"
                             Background="#272daa">
-                    
-                    <StackPanel x:Name="leftSkipArea"
-                                Width="250"
-                                Background="Transparent">
-
-                        <StackPanel x:Name="leftSkTrack" 
-                                VerticalAlignment="Center" 
-                                HorizontalAlignment="Center" 
-                                Width="250" 
-                                Height="300"
-                                Background="Transparent" MouseEnter="leftSkTrack_MouseEnter" MouseLeave="leftSkTrack_MouseLeave">
-                            <Image Name="imgLeft"
-                                   Margin="0,100"
-                                   Source="/UI/left.png"
-                                   Width="150" Height="150"
-                                   Stretch="Uniform" 
-                                   VerticalAlignment="Center"
-                                   MouseEnter="Image_MouseEnter"
-                                   MouseLeave="Image_MouseLeave"/>
-                        </StackPanel>
-                    </StackPanel>
-                    
                     <Image x:Name="TrackImage"
                            Width="391"
-                           HorizontalAlignment="Left"
+                           HorizontalAlignment="Center"
+                           Margin="250 0 "
                            Source="/UI/cas.png" Stretch="Fill"/>
 
-                    <StackPanel x:Name="rightSkipArea"
-                                Width="250"
-                                Background="Transparent">
-                        <StackPanel x:Name="rightSkTrack" 
-                                VerticalAlignment="Center" 
-                                HorizontalAlignment="Center" 
-                                Width="250"
-                                Background="Transparent"
-                                Height="300" MouseEnter="rightSkTrack_MouseEnter" MouseLeave="rightSkTrack_MouseLeave"
-                                    >
-                            <Image Name="imgRight" 
-                                   VerticalAlignment="Center" 
-                                   Margin="0,100" 
-                                   Source="/UI/right.png" 
-                                   Width="150" Height="150"
-                                   Stretch="Fill" 
-                                   MouseEnter="imgRight_MouseEnter"
-                                   MouseLeave="imgRight_MouseLeave"/>
-                        </StackPanel>
-                    </StackPanel>
-                    
                 </StackPanel>
 
             </StackPanel>

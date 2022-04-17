@@ -5,15 +5,15 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Ild_Music_MVVM_.View.UIControls"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="896">
+             d:DesignHeight="510" d:DesignWidth="896">
 
-    
+
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
-        
+
         <StackPanel Grid.Column="0" x:Name="Area" Background="#2f35af">
             <StackPanel Orientation="Horizontal">
                 <TextBlock x:Name="lblQuote"
@@ -98,9 +98,9 @@
         </StackPanel>
 
         <StackPanel Grid.Column="1" x:Name="lsArtists"
-                            HorizontalAlignment="Right"
-                            VerticalAlignment="Top"
-                            Height="477"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Height="510"
                             Width="80"
                             Background="#1f26af">
             <TextBlock Name="btnAddArtist"
@@ -112,12 +112,12 @@
                            Padding="0"
                            HorizontalAlignment="Right" 
                           />
-            
+
             <ScrollViewer VerticalScrollBarVisibility="Auto"
                           HorizontalScrollBarVisibility="Disabled"
                           HorizontalAlignment="Left"
                           Width="80"
-                          Height="446">
+                          Height="492">
                 <StackPanel Name="crdsArtists" Orientation="Vertical" Background="#1f26af"/>
             </ScrollViewer>
         </StackPanel>

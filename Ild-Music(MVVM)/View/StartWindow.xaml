@@ -463,7 +463,7 @@
                         Content="{Binding CurrenttViewModelItem}">
             <ContentControl.ContentTemplate>
                 <DataTemplate>
-                    <ui:StartControl/>
+                    <ui:TrackControl/>
                 </DataTemplate>
             </ContentControl.ContentTemplate>
         </ContentControl>
