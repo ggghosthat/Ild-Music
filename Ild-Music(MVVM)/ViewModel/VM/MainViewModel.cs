@@ -6,5 +6,9 @@ namespace Ild_Music_MVVM_.ViewModel.VM
     {
         public ObservableCollection<Base.BaseViewModel> ViewModelsCollection { get; set; } = new ();
         public Base.BaseViewModel CurrenttViewModelItem { get; set; } = new StartViewModel();
+
+        public MainViewModel() : base()
+        {
+        }
     }
 }

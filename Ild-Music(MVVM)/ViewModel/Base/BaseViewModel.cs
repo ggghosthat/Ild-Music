@@ -17,13 +17,7 @@ namespace Ild_Music_MVVM_.ViewModel.Base
         #region Constructor
         public BaseViewModel()
         {
-            var area = new Area();
-            var supporter = new SupporterService(area);
-
-            var factory = new FactoryService(supporter);
-
-            RegistService(supporter);
-            RegistService(factory);
+            UpServices();
         }
         #endregion
 
@@ -51,6 +45,20 @@ namespace Ild_Music_MVVM_.ViewModel.Base
             return null;
         }
         
+        //Enable services
+        private void UpServices()
+        {
+            var area = new Area();
+            var supporter = new SupporterService(area);
+
+            var factory = new FactoryService(supporter);
+
+            var controlHandler = new ControlHandlerService();
+
+            RegistService(supporter);
+            RegistService(factory);
+            RegistService(controlHandler);
+        }
         #endregion
     }
 }
