@@ -538,8 +538,7 @@
                                  FontWeight="Medium"
                                  Width="367"
                                  Height="27"
-                                 Margin="0,0,20,0"
-                            />
+                                 Margin="0,0,20,0"/>
 
                     <StackPanel x:Name="Add"
                             Height="25"
@@ -552,9 +551,9 @@
                             MouseLeave="Add_MouseLeave"
                             MouseLeftButtonDown="Add_MouseClick">
                         <Border x:Name="brAdd"
-                        CornerRadius="5"
-                        Background="Transparent">
-                            <Image Source="/UI/add1.png" Stretch="Uniform" RenderTransformOrigin="72.8,16.898"/>
+                                CornerRadius="5"
+                                Background="Transparent">
+                                    <Image Source="/UI/add1.png" Stretch="Uniform" RenderTransformOrigin="72.8,16.898"/>
                         </Border>
                     </StackPanel>
 
@@ -568,9 +567,9 @@
                             MouseEnter="Delet_MouseEnter"
                             MouseLeave="Delet_MouseLeave" MouseLeftButtonDown="Delete_MouseClick">
                         <Border x:Name="brDelete"
-                        CornerRadius="5"
-                        Background="Transparent">
-                            <Image Source="/UI/delete.png" Stretch="Uniform"/>
+                                CornerRadius="5"
+                                Background="Transparent">
+                                    <Image Source="/UI/delete.png" Stretch="Uniform"/>
                         </Border>
                     </StackPanel>
 
