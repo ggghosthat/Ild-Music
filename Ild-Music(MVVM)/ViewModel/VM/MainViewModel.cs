@@ -10,5 +10,23 @@ namespace Ild_Music_MVVM_.ViewModel.VM
         public MainViewModel() : base()
         {
         }
+
+
+        private void SwitchViewModel(ViewModelCollection collection)
+        {
+            switch (collection)
+            {
+                case ViewModelCollection.START:
+                    break;
+                case ViewModelCollection.LIST:
+                    break;
+                case ViewModelCollection.TRACK:
+                    break;
+                case ViewModelCollection.FACTORY:
+                    break;
+                default:
+                    break;
+            }
+        }
     }
 }

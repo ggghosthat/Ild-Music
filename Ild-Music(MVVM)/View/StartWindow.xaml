@@ -463,7 +463,7 @@
                         Content="{Binding CurrenttViewModelItem}">
             <ContentControl.ContentTemplate>
                 <DataTemplate>
-                    <ui:TrackControl/>
+                    <ui:FactoryConrol/>
                 </DataTemplate>
             </ContentControl.ContentTemplate>
         </ContentControl>
