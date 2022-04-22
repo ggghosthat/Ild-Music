@@ -110,7 +110,7 @@
                         Foreground="White"
                         BorderThickness="0"
                         FontSize="11"
-                        Width="260"
+                        Width="300"
                         Height="120"
                         Margin="10,0">
 
@@ -135,9 +135,9 @@
                                 Foreground="White"
                                 BorderThickness="0"
                                 FontSize="11"
-                                Width="260"
+                                Width="300"
                                 Height="120"
-                                Margin="140,0"
+                                Margin="100,0"
                                  >
 
                         <ListView.Resources>
@@ -180,7 +180,7 @@
                         Foreground="White"
                         BorderThickness="0"
                         FontSize="11"
-                        Width="260"
+                        Width="300"
                         Height="120"
                         Margin="10,0">
 
@@ -205,9 +205,9 @@
                                 Foreground="White"
                                 BorderThickness="0"
                                 FontSize="11"
-                                Width="260"
+                                Width="300"
                                 Height="120"
-                                Margin="140,0"
+                                Margin="100,0"
                                  >
 
                         <ListView.Resources>

@@ -6,7 +6,146 @@
              xmlns:local="clr-namespace:Ild_Music_MVVM_.View.UISubControls.FactorySubControl"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-            
+    <Grid Margin="2">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0">
+            <StackPanel Orientation="Vertical">
+                <TextBlock Name="lblName"
+                           Text=" Name : "
+                           Foreground="White"
+                           FontSize="15"
+                           Margin="10,2"
+                           FontWeight="Medium"/>
+
+                <StackPanel Orientation="Horizontal">
+
+                    <TextBox x:Name="txtName"
+                             HorizontalAlignment="Left"
+                             Width="700"
+                             Margin="10,2"
+                             Foreground="AliceBlue"
+                             Style="{StaticResource Textbox3}"
+                             Height="20"/>
+                </StackPanel>
+
+                <TextBlock Name="lblDescription"
+                           Text="Description : "
+                           Foreground="White"
+                           FontSize="15"
+                           Margin="10,2"
+                           FontWeight="Medium"/>
+
+                <StackPanel Orientation="Horizontal">
+
+                    <TextBox x:Name="txtDescription"
+                             HorizontalAlignment="Left"
+                             Width="700"
+                             Height="45"
+                             Margin="10,2"
+                             Foreground="AliceBlue"
+                             Style="{StaticResource Textbox3}"
+                             TextWrapping="Wrap"
+                             AcceptsReturn="True"
+                             AcceptsTab="True"
+                             />
+                </StackPanel>
+
+            </StackPanel>
+        </Grid>
+
+        <Grid Grid.Row="1">
+            <StackPanel Orientation="Vertical">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock
+                           Text=" Existed artists : "                       
+                           Foreground="White"
+                           FontSize="15"
+                           Margin="90,2"
+                           FontWeight="Medium"/>
+
+                    <TextBlock
+                           Text=" Enabled artists : "
+                           Foreground="White"
+                           FontSize="15"
+                           Margin="200,2"
+                           FontWeight="Medium"/>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal">
+                    <ListView 
+                        x:Name="lvArtistsProvider" 
+                        Foreground="White"
+                        BorderThickness="0"
+                        FontSize="11"
+                        Width="300"
+                        Height="120"
+                        Margin="10,0">
+
+                        <ListView.Resources>
+                            <Style TargetType="{x:Type GridViewColumnHeader}">
+                                <Setter Property="Visibility" Value="Collapsed" />
+                            </Style>
+                        </ListView.Resources>
+
+                        <ListView.Style>
+                            <StaticResource ResourceKey="listviewStyle1"/>
+                        </ListView.Style>
+
+                        <ListView.ItemContainerStyle>
+                            <Style TargetType="{x:Type ListViewItem}">
+
+                            </Style>
+                        </ListView.ItemContainerStyle>
+                    </ListView>
+
+                    <ListView x:Name="lvArtistsRoot" 
+                                Foreground="White"
+                                BorderThickness="0"
+                                FontSize="11"
+                                Width="300"
+                                Height="120"
+                                Margin="100,0"
+                                 >
+
+                        <ListView.Resources>
+                            <Style TargetType="{x:Type GridViewColumnHeader}">
+                                <Setter Property="Visibility" Value="Collapsed" />
+                            </Style>
+                        </ListView.Resources>
+
+                        <ListView.Style>
+                            <StaticResource ResourceKey="listviewStyle1"/>
+                        </ListView.Style>
+
+                        <ListView.ItemContainerStyle>
+                            <Style TargetType="{x:Type ListViewItem}">
+                                <EventSetter Event="Control.MouseDoubleClick" Handler="ListViewItem_MouseDoubleClick"/>
+                            </Style>
+                        </ListView.ItemContainerStyle>
+                    </ListView>
+                </StackPanel>
+            </StackPanel>
+        </Grid>
+        
+        <Grid Grid.Row="2"
+              VerticalAlignment="Bottom">
+            <Button x:Name="btn"
+                        Height="30" 
+                        Width="35" 
+                        BorderThickness="0" 
+                        HorizontalAlignment="right"
+                        Style="{StaticResource CardButton}" 
+                        Content="OK"
+                        FontWeight="ExtraBold"
+                        Background="#42d4f5"
+                        Foreground="White" 
+                        Margin="0,0,110,0">
+            </Button>
+        </Grid>
     </Grid>
 </UserControl>

@@ -6,7 +6,70 @@
              xmlns:local="clr-namespace:Ild_Music_MVVM_.View.UISubControls.FactorySubControl"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-            
+    <Grid Margin="2">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        
+        <Grid Grid.Row="0">
+            <StackPanel Orientation="Vertical">
+                <TextBlock Name="lblName"
+                           Text=" Name : "
+                           Foreground="White"
+                           FontSize="15"
+                           Margin="10,2"
+                           FontWeight="Medium"/>
+
+                <StackPanel Orientation="Horizontal">
+
+                    <TextBox x:Name="txtName"
+                             HorizontalAlignment="Left"
+                             Width="700"
+                             Margin="10,2"
+                             Foreground="AliceBlue"
+                             Style="{StaticResource Textbox3}"
+                             Height="20"/>
+                </StackPanel>
+
+                <TextBlock Name="lblDescription"
+                           Text="Description : "
+                           Foreground="White"
+                           FontSize="15"
+                           Margin="10,2"
+                           FontWeight="Medium"/>
+
+                <StackPanel Orientation="Horizontal">
+
+                    <TextBox x:Name="txtDescription"
+                             HorizontalAlignment="Left"
+                             Width="700"
+                             Height="45"
+                             Margin="10,2"
+                             Foreground="AliceBlue"
+                             Style="{StaticResource Textbox3}"
+                             TextWrapping="Wrap"
+                             AcceptsReturn="True"
+                             AcceptsTab="True"
+                             />
+                </StackPanel>
+
+            </StackPanel>
+        </Grid>
+        <Grid Grid.Row="1"
+              VerticalAlignment="Bottom">
+            <Button x:Name="btn"
+                        Height="30" 
+                        Width="35" 
+                        BorderThickness="0" 
+                        HorizontalAlignment="right"
+                        Style="{StaticResource CardButton}" 
+                        Content="OK"
+                        FontWeight="ExtraBold"
+                        Background="#42d4f5"
+                        Foreground="White" 
+                        Margin="0,0,110,0">
+            </Button>
+        </Grid>
     </Grid>
 </UserControl>
