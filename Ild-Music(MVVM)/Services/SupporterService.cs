@@ -2,6 +2,7 @@
 using Ild_Music_MVVM_.Services.Parents;
 using SynchronizationBlock.Models.SynchArea;
 using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace Ild_Music_MVVM_.Services
 {
@@ -23,9 +24,20 @@ namespace Ild_Music_MVVM_.Services
         {
             synchArea = area;
             synchArea.Init();
+            FlushExistedInstances();
         }
 
 
+        #region Private methods
+        private void FlushExistedInstances()
+        {
+            ArtistsSup.ToList().AddRange(synchArea.existedArtists);
+            TrackSup.ToList().AddRange(synchArea.existedTracks);
+            PlaylistSup.ToList().AddRange(synchArea.existedPlaylists);
+        }
+        #endregion
+
+        #region Public methods
         public void AddInstanceObject(ResourceRoot instanceObject)
         {
             if (instanceObject is Track track)
@@ -114,5 +126,6 @@ namespace Ild_Music_MVVM_.Services
         {
             synchArea.Save();
         }
+        #endregion
     }
 }

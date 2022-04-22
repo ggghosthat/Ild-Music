@@ -56,6 +56,7 @@
 
             </StackPanel>
         </Grid>
+        
         <Grid Grid.Row="1"
               VerticalAlignment="Bottom">
             <Button x:Name="btn"

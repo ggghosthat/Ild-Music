@@ -1,23 +1,48 @@
-﻿using Ild_Music_MVVM_.ViewModel.VM.FactoryVM;
+﻿using Ild_Music_MVVM_.Command;
+using Ild_Music_MVVM_.Services;
+using Ild_Music_MVVM_.ViewModel.VM.FactoryVM;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
 namespace Ild_Music_MVVM_.ViewModel.VM
 {
     public class FactoryViewModel : Base.BaseViewModel
     {
-        public ObservableCollection<FactoryEntity> EntityFactories { get; set; } = new()
-        {
-            new ArtistFactoryEntity("ArtistFactory"),
-            new PlaylistFactoryEntity("PlaylistFactory"),
-            new TrackFactoryEntity("TrackFactory")
-        };
+        #region Fields
+        private FactoryService factoryService => (FactoryService)base.GetService("Factory");
+        
 
-        public FactoryEntity CurrentFactoryEntity { get; set; }
+        private CommandDelegater createInstance;
+        #endregion
 
+        #region constructor
         public FactoryViewModel()
         {
-            CurrentFactoryEntity = EntityFactories[0];
         }
+        #endregion
+
+
+        #region Private methods
+        #endregion
+
+
+        #region Command Methods
+
+        private void CreateArtistInstance(string name, string decription = null)
+        {
+            factoryService.CreateArtist(name, decription);
+        }
+        private void CreatePlaylistInstance(string name, string decription = null, IList<object> lsTracks = null)
+        {
+            factoryService.CreatePlaylist(name, decription);
+        }
+
+        private void CreateTrackInstance(string path, string name, string decription = null, int? artistIndex = null)
+        {
+            factoryService.CreateTrack(path, name, decription, artistIndex);
+        }
+        #endregion
+
 
     }
 }

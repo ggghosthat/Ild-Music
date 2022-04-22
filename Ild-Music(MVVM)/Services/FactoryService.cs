@@ -1,5 +1,6 @@
 ﻿using Ild_Music_CORE.Models.Core.Tracklist_Structure;
 using Ild_Music_MVVM_.Services.Parents;
+using System.Collections.Generic;
 
 namespace Ild_Music_MVVM_.Services
 {
@@ -34,17 +35,33 @@ namespace Ild_Music_MVVM_.Services
             supporter.AddInstanceObject(artist);
         }
 
-        public void CreateTrack(string pathway, string name, string description)
+        public void CreateTrack(string pathway, string name, string description, int? artistIndex)
         {
-            creator.GenerateTrack(pathway: pathway, name: name, description: description);
+            if (artistIndex != null)
+            {
+                var artist = supporter.ArtistsSup[(int)artistIndex];
+                creator.GenerateTrack(pathway: pathway, name: name, description: description, artist: artist);
+            }
+            else
+            {
+                creator.GenerateTrack(pathway: pathway, name: name, description: description);
+            }
+            
             creator.GetTrack(out track);
             supporter.AddInstanceObject(track);
+            
         }
 
-        public void CreatePlaylist(string name, string description)
+        public void CreatePlaylist(string name, string description, IList<object>? tracks = null)
         {
+            
+
             creator.GeneratePlaylist(name: name, description: description);
             creator.GetPlaylist(out playlist);
+            
+            if (tracks != null)
+                playlist.Tracks = (IList<Track>)tracks;
+            
             supporter.AddInstanceObject(playlist);
         }
     }
