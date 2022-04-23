@@ -1,28 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using Ild_Music_MVVM_.ViewModel.VM;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace Ild_Music_MVVM_.View.UISubControls.FactorySubControl
 {
-    /// <summary>
-    /// Interaction logic for FacTrackSubControl.xaml
-    /// </summary>
     public partial class FacTrackSubControl : UserControl
     {
+        //TODO: reset DataContext connection
+        private FactoryViewModel factoryViewModel = new ();
         public FacTrackSubControl()
         {
             InitializeComponent();
+
+            DataContext = factoryViewModel;
+        }
+
+        private void TrackFactoryClick(object sender, System.Windows.RoutedEventArgs e)
+        {
+            object[] values = { txtPath.Text, txtName.Text, txtDescription.Text, lvArtistsRoot.Items, lvPlaylistRoot.Items };
+
+            factoryViewModel.CreateTrackInstance(values);
         }
     }
 }

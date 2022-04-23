@@ -6,6 +6,7 @@
              xmlns:local="clr-namespace:Ild_Music_MVVM_.View.UISubControls.FactorySubControl"
              mc:Ignorable="d" 
              d:DesignHeight="510" d:DesignWidth="800">
+    
     <Grid Margin="2">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
@@ -236,12 +237,12 @@
                         Width="35" 
                         BorderThickness="0" 
                         HorizontalAlignment="right"
-                        Style="{StaticResource CardButton}" 
-                        Content="OK"
+                        Style="{StaticResource CardButton}"
                         FontWeight="ExtraBold"
                         Background="#42d4f5"
                         Foreground="White" 
-                        Margin="0,0,110,0">
+                        Margin="0,0,110,0"
+                        Content="OK" Click="TrackFactoryClick">
             </Button>
         </Grid>
     </Grid>

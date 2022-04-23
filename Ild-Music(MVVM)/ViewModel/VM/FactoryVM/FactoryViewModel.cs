@@ -1,6 +1,6 @@
 ﻿using Ild_Music_MVVM_.Command;
 using Ild_Music_MVVM_.Services;
-using Ild_Music_MVVM_.ViewModel.VM.FactoryVM;
+using Ild_Music_MVVM_.ViewModel.VM;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
@@ -12,7 +12,7 @@ namespace Ild_Music_MVVM_.ViewModel.VM
         private FactoryService factoryService => (FactoryService)base.GetService("Factory");
         
 
-        private CommandDelegater createInstance;
+        private CommandDelegater CreateInstance;
         #endregion
 
         #region constructor
@@ -28,18 +28,21 @@ namespace Ild_Music_MVVM_.ViewModel.VM
 
         #region Command Methods
 
-        private void CreateArtistInstance(string name, string decription = null)
+        public void CreateArtistInstance(object values)
         {
-            factoryService.CreateArtist(name, decription);
+            //string name, string decription = null
+            //factoryService.CreateArtist(name, decription);
         }
-        private void CreatePlaylistInstance(string name, string decription = null, IList<object> lsTracks = null)
+        public void CreatePlaylistInstance(object values)
         {
-            factoryService.CreatePlaylist(name, decription);
+            //string name, string decription = null, IList< object > lsTracks = null
+            //factoryService.CreatePlaylist(name, decription);
         }
 
-        private void CreateTrackInstance(string path, string name, string decription = null, int? artistIndex = null)
+        public void CreateTrackInstance(object values)
         {
-            factoryService.CreateTrack(path, name, decription, artistIndex);
+            //string path, string name, string decription = null, int? artistIndex = null
+            //factoryService.CreateTrack(path, name, decription, artistIndex);
         }
         #endregion
 

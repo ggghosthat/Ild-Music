@@ -10,7 +10,6 @@ namespace Ild_Music_MVVM_.View.UISubControls.FactorySubControl
         public FacArtistSubControl()
         {            
             InitializeComponent();
-            DataContext = factoryVM.CurrentFactoryEntity
         }
     }
 }
