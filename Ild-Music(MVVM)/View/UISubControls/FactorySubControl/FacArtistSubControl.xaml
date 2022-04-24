@@ -69,7 +69,7 @@
                         FontWeight="ExtraBold"
                         Background="#42d4f5"
                         Foreground="White" 
-                        Margin="0,0,110,0">
+                        Margin="0,0,110,0" Click="ArtistFactoryClick">
             </Button>
         </Grid>
     </Grid>

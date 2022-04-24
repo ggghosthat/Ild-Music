@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Ild_Music_MVVM_.ViewModel.VM;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,15 +15,20 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace Ild_Music_MVVM_.View.UISubControls.FactorySubControl
-{
-    /// <summary>
-    /// Interaction logic for FacPlaylistSubControl.xaml
-    /// </summary>
+{    
     public partial class FacPlaylistSubControl : UserControl
     {
+        //TODO: reset DataContext connection
+        private FactoryViewModel factoryViewModel = new();
         public FacPlaylistSubControl()
         {
             InitializeComponent();
+        }
+
+        private void PlaylistFactoryClick(object sender, RoutedEventArgs e)
+        {
+            object[] values = { txtName.Text, txtDescription.Text, lvArtistsRoot.Items, };
+            factoryViewModel.CreatePlaylistInstance(values);
         }
     }
 }
