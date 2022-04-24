@@ -74,34 +74,18 @@ namespace Ild_Music.UI
 
         private void leftSkTrack_MouseEnter(object sender, MouseEventArgs e)
         {
-            imgLeft.Height = (imgLeft.Height) / 2;
-            imgLeft.Width = (imgLeft.Width) / 2;
-            imgLeft.Margin = new Thickness(0,125,0,0);
-            leftSkipArea.Background = new SolidColorBrush(Color.FromRgb(47,53,175));
         }
 
         private void leftSkTrack_MouseLeave(object sender, MouseEventArgs e)
         {
-            imgLeft.Height = imgLeft.Height * 2;
-            imgLeft.Width = imgLeft.Width * 2;
-            imgLeft.Margin = new Thickness(0, 100, 0, 0);
-            leftSkipArea.Background = new SolidColorBrush(Color.FromRgb(39, 45, 170));
         }
 
         private void rightSkTrack_MouseEnter(object sender, MouseEventArgs e)
         {
-            imgRight.Height = (imgRight.Height) / 2;
-            imgRight.Width = (imgRight.Width) / 2;
-            imgRight.Margin = new Thickness(0, 125, 0, 0);
-            rightSkipArea.Background = new SolidColorBrush(Color.FromRgb(47, 53, 175));
         }
 
         private void rightSkTrack_MouseLeave(object sender, MouseEventArgs e)
         {
-            imgRight.Height = imgRight.Height * 2;
-            imgRight.Width = imgRight.Width * 2;
-            imgRight.Margin = new Thickness(0, 100, 0, 0);
-            rightSkipArea.Background = new SolidColorBrush(Color.FromRgb(39, 45, 170));
         }
 
         private void Previous_MouseEnter(object sender, MouseEventArgs e)

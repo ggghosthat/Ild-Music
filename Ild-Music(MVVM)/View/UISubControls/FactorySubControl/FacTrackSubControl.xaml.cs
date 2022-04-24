@@ -6,7 +6,7 @@ namespace Ild_Music_MVVM_.View.UISubControls.FactorySubControl
     public partial class FacTrackSubControl : UserControl
     {
         //TODO: reset DataContext connection
-        private FactoryViewModel factoryViewModel = new ();
+        private FactoryViewModel factoryViewModel;
         public FacTrackSubControl()
         {
             InitializeComponent();

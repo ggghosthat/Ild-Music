@@ -8,10 +8,10 @@
              mc:Ignorable="d" 
              d:DesignHeight="510" d:DesignWidth="800">
     <Grid>
-        <ContentControl Margin="2">
+        <ContentControl Margin="0">
             <ContentControl.ContentTemplate>
                 <DataTemplate>
-                    <fui:FacTrackSubControl/>
+                    <fui:FacArtistSubControl/>
                 </DataTemplate>
             </ContentControl.ContentTemplate>
         </ContentControl>  

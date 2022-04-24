@@ -19,10 +19,11 @@ namespace Ild_Music_MVVM_.View.UISubControls.FactorySubControl
     public partial class FacPlaylistSubControl : UserControl
     {
         //TODO: reset DataContext connection
-        private FactoryViewModel factoryViewModel = new();
+        private FactoryViewModel factoryViewModel;
         public FacPlaylistSubControl()
         {
             InitializeComponent();
+            DataContext = factoryViewModel;
         }
 
         private void PlaylistFactoryClick(object sender, RoutedEventArgs e)
