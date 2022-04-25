@@ -8,11 +8,16 @@ namespace Ild_Music_MVVM_.ViewModel.VM
 {
     public class FactoryViewModel : Base.BaseViewModel
     {
+
+        /// <summary>
+        /// In this VM does not use CommandDelegator 'cause of some of reasons of bug
+        /// maybe in the future it wil be fixed
+        /// ~~~~~ keep calm ~~~~~ :)
+        /// </summary>
         #region Fields
         private FactoryService factoryService => (FactoryService)base.GetService("Factory");
         
 
-        private CommandDelegater CreateInstance;
         #endregion
 
         #region constructor
@@ -28,21 +33,27 @@ namespace Ild_Music_MVVM_.ViewModel.VM
 
         #region Command Methods
 
-        public void CreateArtistInstance(object values)
+        public void CreateArtistInstance(object[] values)
         {
-            //string name, string decription = null
-            //factoryService.CreateArtist(name, decription);
+            var name = (string)values[0];
+            var description = (string)values[1];
+            factoryService.CreateArtist(name, description);
         }
-        public void CreatePlaylistInstance(object values)
+        public void CreatePlaylistInstance(object[] values)
         {
-            //string name, string decription = null, IList< object > lsTracks = null
-            //factoryService.CreatePlaylist(name, decription);
+            var name = (string)values[0];
+            var description = (string)values[1];
+            var tracks = (IList<object>)values[2] ?? null;
+            factoryService.CreatePlaylist(name, description, tracks);
         }
 
-        public void CreateTrackInstance(object values)
+        public void CreateTrackInstance(object[] values)
         {
-            //string path, string name, string decription = null, int? artistIndex = null
-            //factoryService.CreateTrack(path, name, decription, artistIndex);
+            var path = (string)values[0];
+            var name = (string)values[1];
+            var description = (string)values[2];
+            var artistIndex = (int?)values[3] ?? null;
+            factoryService.CreateTrack(path, name, description, artistIndex);
         }
         #endregion
 
