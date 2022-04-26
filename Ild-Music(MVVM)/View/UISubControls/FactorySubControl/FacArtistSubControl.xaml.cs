@@ -1,5 +1,4 @@
-﻿using Ild_Music_MVVM_.ViewModel.Base;
-using Ild_Music_MVVM_.ViewModel.VM;
+﻿using Ild_Music_MVVM_.ViewModel.VM;
 using System.Windows.Controls;
 
 namespace Ild_Music_MVVM_.View.UISubControls.FactorySubControl
@@ -8,9 +7,10 @@ namespace Ild_Music_MVVM_.View.UISubControls.FactorySubControl
     {
         //TODO: reset DataContext connection
         private FactoryViewModel factoryViewModel;
-        public FacArtistSubControl()
+        public FacArtistSubControl(FactoryViewModel factoryViewModel)
         {
             InitializeComponent();
+            this.factoryViewModel = factoryViewModel;
             DataContext = factoryViewModel;
         }
 
