@@ -6,19 +6,18 @@ namespace Ild_Music_MVVM_.View.UISubControls.FactorySubControl
 {
     public partial class FacPlaylistSubControl : UserControl
     {
-        //TODO: reset DataContext connection
-        private FactoryViewModel factoryViewModel;
-        public FacPlaylistSubControl(FactoryViewModel factoryViewModel)
+        private FactoryViewModel FactoryViewModel;
+        public FacPlaylistSubControl()
         {
             InitializeComponent();
-            this.factoryViewModel = factoryViewModel;
-            DataContext = factoryViewModel;
+            this.FactoryViewModel = new FactoryViewModel();
+            DataContext = this.FactoryViewModel;
         }
 
         private void PlaylistFactoryClick(object sender, RoutedEventArgs e)
         {
             object[] values = { txtName.Text, txtDescription.Text, lvArtistsRoot.Items, };
-            factoryViewModel.CreatePlaylistInstance(values);
+            FactoryViewModel.CreatePlaylistInstance(values);
         }
     }
 }

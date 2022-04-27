@@ -40,7 +40,7 @@
             <ContentControl Content="{Binding CurrentFactoryEntity}">
                 <ContentControl.ContentTemplate>
                     <DataTemplate>
-                        <fui:FacContainerSubControl/>
+                        <fui:FacArtistSubControl/>
                     </DataTemplate>
                 </ContentControl.ContentTemplate>
             </ContentControl>

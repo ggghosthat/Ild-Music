@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Ild_Music_MVVM_.View.UISubControls.FactorySubControl"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="500" d:DesignWidth="800">
 
     <UserControl.Resources>
         <Style x:Key="FocusVisual11">
@@ -63,13 +63,13 @@
             </Setter>
         </Style>
     </UserControl.Resources>
-    
+
     <Grid Margin="2">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        
+
         <Grid Grid.Row="0">
             <StackPanel Orientation="Vertical">
                 <TextBlock Name="lblName"
@@ -82,12 +82,16 @@
                 <StackPanel Orientation="Horizontal">
 
                     <TextBox x:Name="txtName"
+                             Padding="8,0"
+                             FontSize="20"
                              HorizontalAlignment="Left"
+                             TextAlignment="Justify"
                              Width="700"
                              Margin="10,2"
-                             Foreground="AliceBlue"
+                             CaretBrush="White"
+                             Foreground="White"
                              Style="{StaticResource Textbox3}"
-                             Height="20"/>
+                             Height="30"/>
                 </StackPanel>
 
                 <TextBlock Name="lblDescription"
@@ -101,9 +105,13 @@
 
                     <TextBox x:Name="txtDescription"
                              HorizontalAlignment="Left"
+                             TextAlignment="Justify"
+                             Padding="8,0"
+                             FontSize="20"
                              Width="700"
-                             Height="45"
+                             Height="90"
                              Margin="10,2"
+                             CaretBrush="White"
                              Foreground="AliceBlue"
                              Style="{StaticResource Textbox3}"
                              TextWrapping="Wrap"
@@ -114,21 +122,21 @@
 
             </StackPanel>
         </Grid>
-        
+
         <Grid Grid.Row="1"
-              VerticalAlignment="Bottom"
-              Height="35">
+              VerticalAlignment="Top">
             <Button x:Name="btn"
-                        Height="30" 
-                        Width="35" 
+                        Height="40" 
+                        Width="100" 
                         BorderThickness="0" 
-                        HorizontalAlignment="right"
-                        VerticalAlignment="Bottom"
+                        HorizontalAlignment="left"
+                        VerticalAlignment="Top"
                         Content="OK"
                         FontWeight="ExtraBold"
+                        FontSize="30"
                         Background="#42d4f5"
                         Foreground="White" 
-                        Margin="0,0,110,0"
+                        Margin="10,7"
                         Style="{StaticResource CardButton11}"
                         Click="ArtistFactoryClick">
             </Button>

@@ -5,19 +5,19 @@ namespace Ild_Music_MVVM_.View.UISubControls.FactorySubControl
 {
     public partial class FacArtistSubControl : UserControl
     {
-        //TODO: reset DataContext connection
-        private FactoryViewModel factoryViewModel;
-        public FacArtistSubControl(FactoryViewModel factoryViewModel)
+        private FactoryViewModel FactoryViewModel;
+
+        public FacArtistSubControl()
         {
             InitializeComponent();
-            this.factoryViewModel = factoryViewModel;
-            DataContext = factoryViewModel;
+            FactoryViewModel = new FactoryViewModel();
+            DataContext = FactoryViewModel;
         }
 
         private void ArtistFactoryClick(object sender, System.Windows.RoutedEventArgs e)
         {
             object[] values = { txtName.Text, txtDescription.Text};
-            factoryViewModel.CreateArtistInstance(values);
+            FactoryViewModel.CreateArtistInstance(values);
         }
     }
 }

@@ -64,7 +64,7 @@
             </Setter>
         </Style>
     </UserControl.Resources>
-    
+
     <Grid Margin="2">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
@@ -75,22 +75,26 @@
 
         <Grid Grid.Row="0">
             <StackPanel Orientation="Vertical">
-                <TextBlock Name="lblPath"
-                           Text=" Path : "
-                           Foreground="White"
-                           FontSize="15"
-                           Margin="10,2"
-                           FontWeight="Medium"/>
+
 
                 <StackPanel Orientation="Horizontal">
 
+                    <TextBlock Name="lblPath"
+                               Text=" Path : "
+                               Foreground="White"
+                               FontSize="15"
+                               Margin="10,2"
+                               FontWeight="Medium"/>
+
                     <TextBox x:Name="txtPath"
-                             HorizontalAlignment="Left"
-                             Width="700"
+                             Width="500"
                              Margin="10,2"
+                             FontSize="16"
                              Foreground="AliceBlue"
                              Style="{StaticResource Textbox3}"
-                             Height="20"/>
+                             Height="25"
+                             Padding="8,0"
+                             CaretBrush="White"/>
 
                     <Button x:Name="btnPath"
                             Height="30" 
@@ -99,47 +103,55 @@
                             BorderThickness="0" 
                             Background="Yellow"
                             Style="{StaticResource CardButton11}"/>
+                    
                 </StackPanel>
 
 
-                <TextBlock Name="lblName"
-                           Text=" Name : "
-                           Foreground="White"
-                           FontSize="15"
-                           Margin="10,2"
-                           FontWeight="Medium"/>
+
 
                 <StackPanel Orientation="Horizontal">
 
+                    <TextBlock Name="lblName"
+                               Text=" Name : "
+                               Foreground="White"
+                               FontSize="15"
+                               Margin="10,2"
+                               FontWeight="Medium"/>
+
                     <TextBox x:Name="txtName"
                              HorizontalAlignment="Left"
-                             Width="700"
-                             Margin="10,2"
+                             Width="500"
+                             Margin="0,2"
+                             FontSize="16"
                              Foreground="AliceBlue"
                              Style="{StaticResource Textbox3}"
-                             Height="20"/>
+                             Height="25"
+                             Padding="8,0"
+                             CaretBrush="White"/>
                 </StackPanel>
 
-                <TextBlock Name="lblDescription"
+
+                <StackPanel Orientation="Horizontal">
+
+                    <TextBlock Name="lblDescription"
                            Text="Description : "
                            Foreground="White"
                            FontSize="15"
                            Margin="10,2"
                            FontWeight="Medium"/>
 
-                <StackPanel Orientation="Horizontal">
-
                     <TextBox x:Name="txtDescription"
-                             HorizontalAlignment="Left"
-                             Width="700"
+                             Width="457"
                              Height="45"
                              Margin="10,2"
+                             FontSize="16"
                              Foreground="AliceBlue"
                              Style="{StaticResource Textbox3}"
                              TextWrapping="Wrap"
                              AcceptsReturn="True"
                              AcceptsTab="True"
-                             />
+                             Padding="8,0"
+                             CaretBrush="White"/>
                 </StackPanel>
 
             </StackPanel>
@@ -167,7 +179,9 @@
                     <ListView 
                         x:Name="lvArtistsProvider" 
                         Foreground="White"
-                        BorderThickness="0"
+                        Background="#151d1f"
+                        BorderThickness="1"
+                        BorderBrush="Aqua"
                         FontSize="11"
                         Width="300"
                         Height="120"
@@ -192,7 +206,9 @@
 
                     <ListView x:Name="lvArtistsRoot" 
                                 Foreground="White"
-                                BorderThickness="0"
+                                Background="#151d1f"                                
+                                BorderThickness="1"
+                                BorderBrush="Aqua"
                                 FontSize="11"
                                 Width="300"
                                 Height="120"
@@ -211,7 +227,7 @@
 
                         <ListView.ItemContainerStyle>
                             <Style TargetType="{x:Type ListViewItem}">
-                               
+
                             </Style>
                         </ListView.ItemContainerStyle>
                     </ListView>
@@ -237,7 +253,9 @@
                     <ListView 
                         x:Name="lvPlaylistProvider" 
                         Foreground="White"
-                        BorderThickness="0"
+                        Background="#151d1f"
+                        BorderThickness="1"
+                        BorderBrush="Aqua"
                         FontSize="11"
                         Width="300"
                         Height="120"
@@ -262,7 +280,9 @@
 
                     <ListView x:Name="lvPlaylistRoot" 
                                 Foreground="White"
-                                BorderThickness="0"
+                                Background="#151d1f"
+                                BorderThickness="1"
+                                BorderBrush="Aqua"
                                 FontSize="11"
                                 Width="300"
                                 Height="120"
@@ -281,7 +301,6 @@
 
                         <ListView.ItemContainerStyle>
                             <Style TargetType="{x:Type ListViewItem}">
-                                
                             </Style>
                         </ListView.ItemContainerStyle>
                     </ListView>
@@ -291,16 +310,19 @@
 
         <Grid Grid.Row="2">
             <Button x:Name="btn"
-                        Height="30" 
-                        Width="35" 
-                        BorderThickness="0" 
-                        HorizontalAlignment="right"
-                        Style="{StaticResource CardButton11}"
-                        FontWeight="ExtraBold"
-                        Background="#42d4f5"
-                        Foreground="White" 
-                        Margin="0,0,110,0"
-                        Content="OK" Click="TrackFactoryClick">
+                            Height="30" 
+                            Width="100" 
+                            BorderThickness="0" 
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+                            Style="{StaticResource CardButton11}"
+                            FontSize="20"
+                            FontWeight="ExtraBold"
+                            Background="#42d4f5"
+                            Foreground="White" 
+                            Margin="10"
+                            Content="OK"
+                            Click="TrackFactoryClick">
             </Button>
         </Grid>
     </Grid>

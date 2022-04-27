@@ -80,8 +80,7 @@
         </Style>
 
         <Style TargetType="TextBox" x:Key="Textbox3">
-            <Setter Property="Padding" Value="2"/>
-            <Setter Property="Foreground" Value="#000"/>
+            <Setter Property="Padding" Value="0"/>
             <Setter Property="MinHeight" Value="5"/>
             <Setter Property="MinWidth" Value="30"/>
             <Setter Property="FontWeight" Value="Normal" />
@@ -102,7 +101,7 @@
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="true">
                                 <Setter Property="BorderBrush" TargetName="border" Value="White"/>
-                                <Setter Property="Foreground" Value="#000" />
+                                <Setter Property="Foreground" Value="#FFF" />
 
                             </Trigger>
                             <Trigger Property="IsFocused" Value="true">
@@ -326,7 +325,6 @@
 
 
         <Style x:Key="listviewStyle1" TargetType="ListView">
-            <Setter Property="Background" Value="#1f2482"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type ListView}">
@@ -338,7 +336,6 @@
                                 SnapsToDevicePixels="true">
                             <ScrollViewer Style="{DynamicResource {x:Static GridView.GridViewScrollViewerStyleKey}}"
                                   Padding="{TemplateBinding Padding}">
-
                                 <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
                             </ScrollViewer>
                         </Border>
@@ -351,6 +348,7 @@
                             <Trigger Property="IsEnabled" Value="false">
                                 <Setter TargetName="Bd" Property="Background" Value="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"/>
                             </Trigger>
+                            
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
                 </Setter.Value>

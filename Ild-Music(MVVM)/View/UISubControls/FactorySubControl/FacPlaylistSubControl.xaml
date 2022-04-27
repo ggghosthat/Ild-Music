@@ -85,10 +85,11 @@
                     <TextBox x:Name="txtName"
                              HorizontalAlignment="Left"
                              Width="700"
+                             FontSize="20"
                              Margin="10,2"
-                             Foreground="AliceBlue"
+                             Foreground="White"
                              Style="{StaticResource Textbox3}"
-                             Height="20"/>
+                             Height="30"/>
                 </StackPanel>
 
                 <TextBlock Name="lblDescription"
@@ -103,7 +104,8 @@
                     <TextBox x:Name="txtDescription"
                              HorizontalAlignment="Left"
                              Width="700"
-                             Height="45"
+                             FontSize="20"
+                             Height="60"
                              Margin="10,2"
                              Foreground="AliceBlue"
                              Style="{StaticResource Textbox3}"
@@ -138,12 +140,14 @@
                     <ListView 
                         x:Name="lvArtistsProvider" 
                         Foreground="White"
-                        BorderThickness="0"
+                        Background="#151d1f"
+                        BorderBrush="Aqua"
+                        BorderThickness="1"
                         FontSize="11"
                         Width="300"
                         Height="120"
                         Margin="10,0">
-
+                        
                         <ListView.Resources>
                             <Style TargetType="{x:Type GridViewColumnHeader}">
                                 <Setter Property="Visibility" Value="Collapsed" />
@@ -152,6 +156,7 @@
 
                         <ListView.Style>
                             <StaticResource ResourceKey="listviewStyle1"/>
+                            
                         </ListView.Style>
 
                         <ListView.ItemContainerStyle>
@@ -161,14 +166,16 @@
                         </ListView.ItemContainerStyle>
                     </ListView>
 
-                    <ListView x:Name="lvArtistsRoot" 
-                                Foreground="White"
-                                BorderThickness="0"
-                                FontSize="11"
-                                Width="300"
-                                Height="120"
-                                Margin="100,0"
-                                 >
+                    <ListView
+                              x:Name="lvArtistsRoot" 
+                              Foreground="White"
+                              BorderThickness="1"
+                              BorderBrush="Aqua"
+                              Background="#151d1f"
+                              FontSize="11"
+                              Width="300"
+                              Height="120" 
+                              Margin="100,0">
 
                         <ListView.Resources>
                             <Style TargetType="{x:Type GridViewColumnHeader}">
@@ -191,18 +198,19 @@
         </Grid>
         
         <Grid Grid.Row="2"
-              VerticalAlignment="Bottom">
+              VerticalAlignment="Top" Height="146">
             <Button x:Name="btn"
-                        Height="30" 
-                        Width="35" 
+                        Height="40" 
+                        Width="100" 
+                        FontSize="30"                       
                         BorderThickness="0" 
-                        HorizontalAlignment="right"
-                        VerticalAlignment="Bottom" 
+                        HorizontalAlignment="left"
+                        VerticalAlignment="Top" 
                         Content="OK"
                         FontWeight="ExtraBold"
                         Background="#42d4f5"
                         Foreground="White" 
-                        Margin="0,0,110,0"
+                        Margin="10,7"
                         Style="{StaticResource CardButton11}"
                         Click="PlaylistFactoryClick">
             </Button>

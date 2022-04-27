@@ -1,4 +1,4 @@
-﻿using Ild_Music_MVVM_.ViewModel.VM;
+﻿using Ild_Music_MVVM_.ViewModel.VM.FactoryVM;
 using System.Windows.Controls;
 
 namespace Ild_Music_MVVM_.View.UIControls
@@ -8,7 +8,7 @@ namespace Ild_Music_MVVM_.View.UIControls
         public FactoryConrol()
         {
             InitializeComponent();
-            DataContext = new FactoryViewModel();
+            DataContext = new FactoryContainerViewModel();
         }
     }
 }
