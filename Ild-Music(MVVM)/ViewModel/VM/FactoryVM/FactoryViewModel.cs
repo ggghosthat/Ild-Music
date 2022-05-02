@@ -13,6 +13,7 @@ namespace Ild_Music_MVVM_.ViewModel.VM
         /// In this VM does not use CommandDelegator 'cause of some of reasons of bug
         /// maybe in the future it wil be fixed
         /// ~~~~~ keep calm ~~~~~ :)
+        /// ---Using For Instance generating processes---
         /// </summary>
         #region Fields
         private FactoryService factoryService => (FactoryService)base.GetService("Factory");

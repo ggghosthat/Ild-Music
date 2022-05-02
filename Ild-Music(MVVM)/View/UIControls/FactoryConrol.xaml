@@ -14,8 +14,8 @@
 
         <Grid Grid.Row="0">
 
-            <ListBox ItemsSource="{Binding EntityFactories}"
-                     SelectedItem="{Binding CurrentFactoryEntity}"
+            <ListBox ItemsSource="{Binding Factories}"
+                     SelectedItem="{Binding CurrentFactory}"
                      Grid.Column="0"
                      Background="Transparent"
                      BorderThickness="0">
@@ -37,13 +37,7 @@
         </Grid>
 
         <Grid Grid.Row="1">
-            <ContentControl Content="{Binding CurrentFactoryEntity}">
-                <ContentControl.ContentTemplate>
-                    <DataTemplate>
-                        <fui:FacArtistSubControl/>
-                    </DataTemplate>
-                </ContentControl.ContentTemplate>
-            </ContentControl>
+            <ContentControl Content="{Binding CurrentFactory}"/>
         </Grid>
     </Grid>
 </UserControl>

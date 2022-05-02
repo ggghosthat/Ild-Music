@@ -55,9 +55,12 @@ namespace Ild_Music_MVVM_.ViewModel.Base
 
             var controlHandler = new ControlHandlerService();
 
+            var subControl = new SubControlService();
+
             RegistService(supporter);
             RegistService(factory);
             RegistService(controlHandler);
+            RegistService(subControl);
         }
         #endregion
     }
