@@ -3,10 +3,10 @@ using System.Windows.Controls;
 
 namespace Ild_Music_MVVM_.View.UISubControls.FactorySubControl
 {
-    public partial class FacTrackSubControl : UserControl
+    public partial class FacTrackSubControl : UserControl, IFactorySubControl
     {
         private FactoryViewModel FactoryViewModel;
-
+        public string Header { get; init; } = "Track";
         public FacTrackSubControl()
         {
             InitializeComponent();

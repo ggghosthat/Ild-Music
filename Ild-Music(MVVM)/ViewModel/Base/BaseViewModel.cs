@@ -1,23 +1,19 @@
 ﻿using Ild_Music_MVVM_.Services;
 using Ild_Music_MVVM_.Services.Parents;
-using SynchronizationBlock.Models.SynchArea;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
 using System.Runtime.CompilerServices;
 
 namespace Ild_Music_MVVM_.ViewModel.Base
 {
     public class BaseViewModel : INotifyPropertyChanged
     {
-        #region Service Register
-        Dictionary<string, Service> services = new();
+        #region Fields
+        private readonly static ServiceCenter serviceCenter = ServiceCenter.Instance;
         #endregion
 
         #region Constructor
         public BaseViewModel()
         {
-            UpServices();
         }
         #endregion
 
@@ -26,42 +22,19 @@ namespace Ild_Music_MVVM_.ViewModel.Base
         #endregion
 
         #region Methods
+
         //Notify if any property changed
-        protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
+        protected void OnPropertyChanged([CallerMemberName] string propertyName = null) =>
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
 
-        //Add service to register
-        protected void RegistService (Service service) => services.Add(service.ServiceType, service);
-
-        //Return reference 2 special service (by type name)
-        //return null type in case of absence
-        protected Service GetService (string type) {
-
-            if (services.Keys.ToList().Contains(type))
-                return services[type];
-            
-            return null;
-        }
+        /// <summary>
+        ///Return reference 2 special service (by type name)
+        ///return null type in case of absence
+        /// </summary>
+        /// <param name="type"> Define name of service</param>
+        /// <returns>Returning service</returns>
+        protected Service GetService(string type) => serviceCenter.GetService(type);
         
-        //Enable services
-        private void UpServices()
-        {
-            var area = new Area();
-            var supporter = new SupporterService(area);
-
-            var factory = new FactoryService(supporter);
-
-            var controlHandler = new ControlHandlerService();
-
-            var subControl = new SubControlService();
-
-            RegistService(supporter);
-            RegistService(factory);
-            RegistService(controlHandler);
-            RegistService(subControl);
-        }
         #endregion
     }
 }

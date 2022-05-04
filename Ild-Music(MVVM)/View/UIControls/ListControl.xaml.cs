@@ -15,9 +15,6 @@ using System.Windows.Shapes;
 
 namespace Ild_Music_MVVM_.View.UIControls
 {
-    /// <summary>
-    /// Interaction logic for ListControl.xaml
-    /// </summary>
     public partial class ListControl : UserControl
     {
         public ListControl()

@@ -28,7 +28,7 @@
                 <ListBox.ItemTemplate >
                     <DataTemplate>
                         <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="{Binding FactoryName}" Foreground="White"/>
+                            <TextBlock Text="{Binding Header}" Foreground="LightGray" FontWeight="Medium"/>
                         </StackPanel>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
@@ -37,7 +37,7 @@
         </Grid>
 
         <Grid Grid.Row="1">
-            <ContentControl Content="{Binding CurrentFactory}"/>
+            <ContentControl Content="{Binding CurrentFactory.UserControl}"/>
         </Grid>
     </Grid>
 </UserControl>
