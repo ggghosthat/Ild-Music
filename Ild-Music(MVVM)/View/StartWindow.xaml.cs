@@ -1,6 +1,8 @@
 ﻿using Ild_Music_MVVM_.ViewModel.VM;
+using System.Drawing;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Media;
 
 namespace Ild_Music_MVVM_.View
 {
@@ -14,142 +16,7 @@ namespace Ild_Music_MVVM_.View
         }
         #endregion
 
-        #region Methods
        
-        private void Btn_MouseRightButtonDown(object sender, RoutedEventArgs e)
-        {
-        }
-
-        private void PlaylistClick(object sender, RoutedEventArgs e)
-        {
-        }
-
-       
-
-        private void AddPlaylist_Click(object sender, MouseButtonEventArgs e)
-        {
-        }
-
-        private void AddTrack_Click(object sender, MouseButtonEventArgs e)
-        {
-        }
-
-        private void AddArtist_Ckuck(object sender, MouseButtonEventArgs e)
-        {
-        }
-
-
-        private void EnterMouse_Artists(object sender, MouseEventArgs e)
-        {
-           //Artists.Background = new SolidColorBrush(Color.FromRgb(25, 31, 158));
-        }
-
-        private void LeaveMouse_Artists(object sender, MouseEventArgs e)
-        {
-            //Artists.Background = new SolidColorBrush(Color.FromRgb(31, 38, 178));
-        }
-
-        private void EnterMouse_Home(object sender, MouseEventArgs e)
-        {
-            //Home.Background = new SolidColorBrush(Color.FromRgb(25, 31, 158));
-        }
-
-        private void LeaverMouse_Home(object sender, MouseEventArgs e)
-        {
-            //Home.Background = new SolidColorBrush(Color.FromRgb(31, 38, 178));
-        }
-
-        private void EnterMouse_Playlists(object sender, MouseEventArgs e)
-        {
-            //Playlists.Background = new SolidColorBrush(Color.FromRgb(25, 31, 158));
-        }
-
-        private void LeaveMouse_Playlists(object sender, MouseEventArgs e)
-        {
-            //Playlists.Background = new SolidColorBrush(Color.FromRgb(31, 38, 178));
-        }
-
-        private void EnterMouse_Tracks(object sender, MouseEventArgs e)
-        {
-            //Tracks.Background = new SolidColorBrush(Color.FromRgb(25, 31, 158));
-        }
-
-        private void LeaveMouse_Tracks(object sender, MouseEventArgs e)
-        {
-            //Tracks.Background = new SolidColorBrush(Color.FromRgb(31, 38, 178));
-        }
-
-        private void Previous_MouseEnter(object sender, MouseEventArgs e)
-        {
-            //brPrev.Background = new SolidColorBrush(Colors.Aqua);
-        }
-
-        private void Previous_MouseLeave(object sender, MouseEventArgs e)
-        {
-            //brPrev.Background = new SolidColorBrush(Colors.Transparent);
-        }
-
-        private void Play_MouseEnter(object sender, MouseEventArgs e)
-        {
-            //brPlay.Background = new SolidColorBrush(Colors.Aqua);
-        }
-
-        private void Play_MouseLeave(object sender, MouseEventArgs e)
-        {
-            //brPlay.Background = new SolidColorBrush(Colors.Transparent);
-        }
-
-        private void Next_MouseEnter(object sender, MouseEventArgs e)
-        {
-            //brNext.Background = new SolidColorBrush(Colors.Aqua);
-        }
-
-        private void Next_MouseLeave(object sender, MouseEventArgs e)
-        {
-            //brNext.Background = new SolidColorBrush(Colors.Transparent);
-        }
-
-        private void Shuffle_MouseEnter(object sender, MouseEventArgs e)
-        {
-            //brShuffle.Background = new SolidColorBrush(Colors.Aqua);
-        }
-
-        private void Shuffle_MouseLeave(object sender, MouseEventArgs e)
-        {
-            //brShuffle.Background = new SolidColorBrush(Colors.Transparent);
-        }
-
-        private void Repeat_MouseEnter(object sender, MouseEventArgs e)
-        {
-            //brRepeat.Background = new SolidColorBrush(Colors.Aqua);
-        }
-
-        private void Repeat_MouseLeave(object sender, MouseEventArgs e)
-        {
-            //brRepeat.Background = new SolidColorBrush(Colors.Transparent);
-        }
-
-     
-        
-
-        private void Home_MouseClick(object sender, MouseButtonEventArgs e)
-        {
-        }
-
-        private void Playlists_MouseClick(object sender, MouseButtonEventArgs e)
-        {
-        }
-
-        private void Tracks_MouseClick(object sender, MouseButtonEventArgs e)
-        {
-        }
-
-        private void Artists_MouseClick(object sender, MouseButtonEventArgs e)
-        {
-        }
-
-
-        #endregion
 
         #region IMethods
         //public void EnablePlayer(PlayerTrigger trigger)

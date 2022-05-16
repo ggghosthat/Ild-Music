@@ -4,14 +4,14 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:Microsoft_Windows_Themes="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero"
-        xmlns:local="clr-namespace:Ild_Music_MVVM_.View"
+        xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:ui="clr-namespace:Ild_Music_MVVM_.View.UIControls"
         mc:Ignorable="d"
-        
         Title="MainWindow" Height="555" Width="1100"
         WindowStyle="None" ResizeMode="NoResize"
         Background="#1f26af" WindowStartupLocation="CenterScreen">
 
+        
     <Window.Resources>
         <FontFamily x:Key="SigmarOne">Fonts/#Sigmar_One</FontFamily>
         <SolidColorBrush x:Key="TextBox.Static.Border" Color="#FFABAdB3"/>
@@ -372,9 +372,15 @@
         </Grid>
 
 
+        
+
         <StackPanel Grid.Row="1" Grid.Column="0">
-            <StackPanel Name="Home" Height="45"
-                        Orientation="Horizontal">
+
+            
+            <StackPanel Name="Home" 
+                        Height="45"
+                        Orientation="Horizontal"
+                        Style="{StaticResource SidebarOver}">
                 <Image 
                        Stretch="UniformToFill"
                        Height="40"
@@ -390,7 +396,8 @@
 
             <StackPanel Name="Playlists"
                         Height="45" 
-                        Orientation="Horizontal" >
+                        Orientation="Horizontal" 
+                        Style="{StaticResource SidebarOver}">
                 <Image
                        Stretch="UniformToFill"
                        Height="40"
@@ -406,7 +413,8 @@
 
             <StackPanel Name="Tracks" 
                         Height="45" 
-                        Orientation="Horizontal" >
+                        Orientation="Horizontal"
+                        Style="{StaticResource SidebarOver}">
                 <Image
                        Stretch="UniformToFill"
                        Height="40"
@@ -422,7 +430,8 @@
 
             <StackPanel Name="Artists" 
                         Height="45" 
-                        Orientation="Horizontal">
+                        Orientation="Horizontal"
+                        Style="{StaticResource SidebarOver}">
                 <Image 
                        Stretch="UniformToFill"
                        HorizontalAlignment="Center"

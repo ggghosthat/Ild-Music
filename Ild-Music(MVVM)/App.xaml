@@ -354,8 +354,17 @@
                 </Setter.Value>
             </Setter>
         </Style>
-        
-        
+
+        <Style x:Key="SidebarOver" TargetType="StackPanel">
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#191f9e"/>
+                </Trigger>
+                <Trigger Property="IsMouseOver" Value="False">
+                    <Setter Property="Background" Value="#1f26b2"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
         
         
         
