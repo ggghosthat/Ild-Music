@@ -98,13 +98,15 @@
                           Margin="10,10,10,0"
                           Height="300"
                           Style="{StaticResource listviewStyle1}"
-                          Foreground="White"
-                          BorderThickness="0"
+                          
+                          Background="#151d1f"
+                          BorderThickness="1"
+                          BorderBrush="Aqua"
                           FontSize="15">
 
                 <ListView.Resources>
                     <Style TargetType="GridViewColumnHeader">
-                        <Setter Property="Visibility" Value="Collapsed" />
+                        <Setter Property="Visibility" Value="Visible" />
                     </Style>
                 </ListView.Resources>
 

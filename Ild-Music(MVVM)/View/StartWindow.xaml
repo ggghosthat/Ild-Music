@@ -9,7 +9,7 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="555" Width="1100"
         WindowStyle="None" ResizeMode="NoResize"
-        Background="#1f26af" WindowStartupLocation="CenterScreen">
+        Background="#1b2b33" WindowStartupLocation="CenterScreen">
 
         
     <Window.Resources>
@@ -340,8 +340,42 @@
             </Style.Triggers>
         </Style>
 
+        <Style x:Key="SidebarOver" TargetType="StackPanel">
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#1b1f21"/>
+                </Trigger>
+                <Trigger Property="IsMouseOver" Value="False">
+                    <Setter Property="Background" Value="#1b2b33"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
 
+        <Style x:Key="SlideBarImage" TargetType="Path">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Path=IsMouseOver, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=StackPanel}}" Value="True">
+                    <Setter Property="Fill" Value="Aqua"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Path=IsMouseOver, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=StackPanel}}" Value="False">
+                    <Setter Property="Fill" Value="White"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
 
+        <Style x:Key="CustomFont1" TargetType="TextBlock">
+            <Setter Property="TextElement.FontFamily" Value="/UI/Fonts/#Promt"/>
+
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Path=IsMouseOver, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=StackPanel}}" Value="True">
+                    <Setter Property="Foreground" Value="Aqua"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding Path=IsMouseOver, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=StackPanel}}" Value="False">
+                    <Setter Property="Foreground" Value="White"/>
+                </DataTrigger>
+
+            </Style.Triggers>
+        </Style>
+        
     </Window.Resources>
 
 
@@ -355,7 +389,7 @@
             <ColumnDefinition Width="896"/>
         </Grid.ColumnDefinitions>
 
-        <Grid Background="#09109e"
+        <Grid Background="#16242b"
               Grid.ColumnSpan="2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="201*"/>
@@ -372,22 +406,24 @@
         </Grid>
 
 
-        
 
-        <StackPanel Grid.Row="1" Grid.Column="0">
 
-            
+        <StackPanel Grid.Row="1"
+                    Grid.Column="0"
+                    Background="Transparent">
             <StackPanel Name="Home" 
                         Height="45"
                         Orientation="Horizontal"
                         Style="{StaticResource SidebarOver}">
-                <Image 
-                       Stretch="UniformToFill"
-                       Height="40"
-                       Width="40"/>
+
+                <Viewbox Width="40" Height="40" Margin="5,0">
+                    <Canvas Width="24" Height="24">
+                        <Path Data="M10,20V14H14V20H19V12H22L12,3L2,12H5V20H10Z" 
+                              Style="{StaticResource SlideBarImage}"/>
+                    </Canvas>
+                </Viewbox>
                 <TextBlock Margin="10 0 0 0"
                            Text="Home" 
-                           Foreground="Wheat"
                            VerticalAlignment="Center"
                            FontSize="25"
                            Style="{StaticResource CustomFont1}"
@@ -398,13 +434,14 @@
                         Height="45" 
                         Orientation="Horizontal" 
                         Style="{StaticResource SidebarOver}">
-                <Image
-                       Stretch="UniformToFill"
-                       Height="40"
-                       Width="40"/>
+                <Viewbox Width="40" Height="40" Margin="5,0">
+                    <Canvas Width="24" Height="24">
+                        <Path Data="M15,6H3V8H15V6M15,10H3V12H15V10M3,16H11V14H3V16M17,6V14.18C16.69,14.07 16.35,14 16,14A3,3 0 0,0 13,17A3,3 0 0,0 16,20A3,3 0 0,0 19,17V8H22V6H17Z"
+                              Style="{StaticResource SlideBarImage}"/>
+                    </Canvas>
+                </Viewbox>
                 <TextBlock Margin="10 0 0 0"
                            Text="Playlists" 
-                           Foreground="Wheat"
                            VerticalAlignment="Center"
                            FontSize="25"
                            Style="{StaticResource CustomFont1}"
@@ -415,13 +452,14 @@
                         Height="45" 
                         Orientation="Horizontal"
                         Style="{StaticResource SidebarOver}">
-                <Image
-                       Stretch="UniformToFill"
-                       Height="40"
-                       Width="40"/>
+                <Viewbox Width="48" Height="48">
+                    <Canvas Width="24" Height="24">
+                        <Path Data="M17 9.5V7.5L15 8.1V5.5H13V8.7L11 9.3V6.5H9V9.9L7 10.5V12.5L9 11.9V13.9L7 14.5V16.5L9 15.9V18.5H11V15.3L13 14.7V17.5H15V14.1L17 13.5V11.5L15 12.1V10.1L17 9.5M13 12.7L11 13.3V11.3L13 10.7V12.7Z" 
+                              Style="{StaticResource SlideBarImage}"/>
+                    </Canvas>
+                </Viewbox>
                 <TextBlock Margin="10 0 0 0"
                            Text="Tracks" 
-                           Foreground="Wheat"
                            VerticalAlignment="Center"
                            FontSize="25"
                            Style="{StaticResource CustomFont1}"
@@ -432,25 +470,24 @@
                         Height="45" 
                         Orientation="Horizontal"
                         Style="{StaticResource SidebarOver}">
-                <Image 
-                       Stretch="UniformToFill"
-                       HorizontalAlignment="Center"
-                       VerticalAlignment="Center"
-                       Height="40"
-                       Width="40"/>
+                <Viewbox Width="40" Height="40" Margin="5,0">
+                    <Canvas Width="24" Height="24">
+                        <Path Data="M11,14C12,14 13.05,14.16 14.2,14.44C13.39,15.31 13,16.33 13,17.5C13,18.39 13.25,19.23 13.78,20H3V18C3,16.81 3.91,15.85 5.74,15.12C7.57,14.38 9.33,14 11,14M11,12C9.92,12 9,11.61 8.18,10.83C7.38,10.05 7,9.11 7,8C7,6.92 7.38,6 8.18,5.18C9,4.38 9.92,4 11,4C12.11,4 13.05,4.38 13.83,5.18C14.61,6 15,6.92 15,8C15,9.11 14.61,10.05 13.83,10.83C13.05,11.61 12.11,12 11,12M18.5,10H20L22,10V12H20V17.5A2.5,2.5 0 0,1 17.5,20A2.5,2.5 0 0,1 15,17.5A2.5,2.5 0 0,1 17.5,15C17.86,15 18.19,15.07 18.5,15.21V10Z" 
+                              Style="{StaticResource SlideBarImage}"/>
+                    </Canvas>
+                </Viewbox>
                 <TextBlock Margin="10 0 0 0"
                            Text="Artists" 
-                           Foreground="Wheat"
                            VerticalAlignment="Center"
                            FontSize="25"
                            Style="{StaticResource CustomFont1}"
                            FontWeight="Medium"/>
             </StackPanel>
         </StackPanel>
-
+        
         <StackPanel Grid.Row="0" Grid.Column="1">
             <StackPanel x:Name="SearchBar" Orientation="Horizontal">
-                <TextBox Name="txtSearch"
+                <!--<TextBox Name="txtSearch"
                          Width="842"
                          Height="25"
                          Margin="0,10,0,0"
@@ -463,7 +500,7 @@
                     <StackPanel Orientation="Horizontal">
                         <Image  Stretch="UniformToFill"/>
                     </StackPanel>
-                </Button>
+                </Button>-->
             </StackPanel>
         </StackPanel>
 
@@ -472,7 +509,7 @@
                         Content="{Binding CurrenttViewModelItem}">
             <ContentControl.ContentTemplate>
                 <DataTemplate>
-                    <ui:FactoryConrol/>
+                    <ui:ListControl/>
                 </DataTemplate>
             </ContentControl.ContentTemplate>
         </ContentControl>

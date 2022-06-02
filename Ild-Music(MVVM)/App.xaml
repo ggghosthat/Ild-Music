@@ -152,11 +152,7 @@
             </Setter>
         </Style>
 
-        <Style x:Key="CustomFont1">
-            <Setter Property="TextElement.FontFamily"
-                    Value="/UI/Fonts/#Promt">
-            </Setter>
-        </Style>
+        
 
         <Style x:Key="RoundArtistButton" TargetType="Button">
             <Setter Property="Template">
@@ -217,7 +213,7 @@
             </Setter>
         </Style>
 
-        
+
         <Style x:Key="FocusVisual1">
             <Setter Property="Control.Template">
                 <Setter.Value>
@@ -348,26 +344,15 @@
                             <Trigger Property="IsEnabled" Value="false">
                                 <Setter TargetName="Bd" Property="Background" Value="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"/>
                             </Trigger>
-                            
+
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
         </Style>
 
-        <Style x:Key="SidebarOver" TargetType="StackPanel">
-            <Style.Triggers>
-                <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" Value="#191f9e"/>
-                </Trigger>
-                <Trigger Property="IsMouseOver" Value="False">
-                    <Setter Property="Background" Value="#1f26b2"/>
-                </Trigger>
-            </Style.Triggers>
-        </Style>
         
-        
-        
-        
+
+
     </Application.Resources>
 </Application>
