@@ -505,14 +505,18 @@
         </StackPanel>
 
 
-        <ContentControl Grid.Column="1" Grid.Row="1"
+        <StackPanel Grid.Column="1" 
+                    Grid.Row="1"
+                    Background="#142026">
+            <ContentControl 
                         Content="{Binding CurrenttViewModelItem}">
-            <ContentControl.ContentTemplate>
-                <DataTemplate>
-                    <ui:ListControl/>
-                </DataTemplate>
-            </ContentControl.ContentTemplate>
-        </ContentControl>
+                <ContentControl.ContentTemplate>
+                    <DataTemplate>
+                        <ui:StartControl/>
+                    </DataTemplate>
+                </ContentControl.ContentTemplate>
+            </ContentControl>
+        </StackPanel>
 
         <StackPanel x:Name="Player" 
                     Grid.Row="1" Grid.ColumnSpan="2"  

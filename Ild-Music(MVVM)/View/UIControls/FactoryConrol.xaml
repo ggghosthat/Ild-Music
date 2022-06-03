@@ -6,7 +6,7 @@
              xmlns:fui="clr-namespace:Ild_Music_MVVM_.View.UISubControls.FactorySubControl"
              mc:Ignorable="d"
              d:DesignHeight="510" d:DesignWidth="800">
-    <Grid Background="#142026">
+    <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="*"/>

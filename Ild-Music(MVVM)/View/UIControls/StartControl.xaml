@@ -8,13 +8,74 @@
              d:DesignHeight="510" d:DesignWidth="896">
 
 
+    <UserControl.Resources>
+        <ControlTemplate x:Key="ScrollViewerControlTemplate" TargetType="{x:Type ScrollViewer}">
+            <Grid x:Name="Grid" Background="Transparent">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <!--<Rectangle x:Name="Corner" Grid.Column="1" Fill="Red" Grid.Row="1"/>-->
+                <ScrollContentPresenter x:Name="PART_ScrollContentPresenter"
+                                        CanContentScroll="{TemplateBinding CanContentScroll}" 
+                                        CanHorizontallyScroll="False" 
+                                        CanVerticallyScroll="False" 
+                                        ContentTemplate="{TemplateBinding ContentTemplate}" 
+                                        Content="{TemplateBinding Content}"
+                                        Grid.RowSpan="2"
+                                        Margin="{TemplateBinding Padding}"
+                                        Grid.ColumnSpan="2"/>
+                <ScrollBar x:Name="PART_VerticalScrollBar" 
+                           AutomationProperties.AutomationId="VerticalScrollBar" 
+                           Cursor="Arrow"
+                           Grid.Column="1" 
+                           Maximum="{TemplateBinding ScrollableHeight}"
+                           Minimum="0"
+                           Grid.Row="0"
+                           Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}"
+                           Value="{Binding VerticalOffset, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}" 
+                           ViewportSize="{TemplateBinding ViewportHeight}"
+                           Width="8"/>
+                <ScrollBar x:Name="PART_HorizontalScrollBar"
+                           AutomationProperties.AutomationId="HorizontalScrollBar"
+                           Cursor="Arrow"
+                           Grid.Column="0"
+                           Maximum="{TemplateBinding ScrollableWidth}"
+                           Minimum="0"
+                           Orientation="Horizontal"
+                           Grid.Row="1" 
+                           Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}" 
+                           Value="{Binding HorizontalOffset, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}" 
+                           ViewportSize="{TemplateBinding ViewportWidth}" 
+                           Height="8"/>
+            </Grid>
+        </ControlTemplate>
+
+        <Style x:Key="BtnAddMouseOver" TargetType="TextBlock">
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Foreground" Value="Aqua"></Setter>
+                </Trigger>
+                <Trigger Property="IsMouseOver" Value="False">
+                    <Setter Property="Foreground" Value="White"></Setter>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+               
+        
+    </UserControl.Resources>
+    
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
 
-        <StackPanel Grid.Column="0" x:Name="Area" Background="#2f35af">
+        <StackPanel Grid.Column="0" x:Name="Area">
             <StackPanel Orientation="Horizontal">
                 <TextBlock x:Name="lblQuote"
                        Height="37"
@@ -23,78 +84,101 @@
                         VerticalAlignment="Center"
                        Text="Playlists"
                        FontSize="20" 
-                       Foreground="Wheat"
+                       Foreground="White"
                        FontWeight="Medium" />
-                <TextBlock
-                           Name="txtAdd" 
+                <TextBlock x:Name="txtAdd" 
                            Text="+"
-                           Margin="0 3 0 0"
-                           FontSize="15" 
-                           Foreground="Wheat" 
+                           Style="{StaticResource BtnAddMouseOver}"
+                           Margin="0 4 0 0"
+                           FontSize="15"
+                           FontWeight="Bold"
                            VerticalAlignment="Top"
                            HorizontalAlignment="Right"/>
             </StackPanel>
-            <ScrollViewer VerticalScrollBarVisibility="Disabled"
-                              HorizontalScrollBarVisibility="Auto"
-                              HorizontalAlignment="Left"
-                              Width="812"
-                              Template="{StaticResource ScrollViewerControlTemplate}">
-                <StackPanel x:Name="crdsPlaylists" 
-                                Height="150" Orientation="Horizontal" 
-                                Background="#1f2482"/>
-            </ScrollViewer>
+
+            <Border Margin="5,0"
+                    BorderBrush="Aqua"
+                    BorderThickness="2"
+                    CornerRadius="5"
+                    Padding="1.2">
+                    
+                <ScrollViewer VerticalScrollBarVisibility="Disabled"
+                          HorizontalScrollBarVisibility="Auto"
+                          HorizontalAlignment="Left"
+                          Width="812"
+                          Template="{StaticResource ScrollViewerControlTemplate}"
+                          >
+                    <StackPanel x:Name="crdsPlaylists" 
+                            Height="150" 
+                            Orientation="Horizontal" 
+                            Background="#151d1f"/>
+                </ScrollViewer>
+            </Border>
+            
             <StackPanel Orientation="Horizontal">
                 <TextBlock x:Name="lblTracks"
                        Height="28"
                        Width="69"
                        Text="Tracks"
                        FontSize="20" 
-                       Foreground="Wheat"
+                       Foreground="White"
                        FontWeight="Medium" 
-                           HorizontalAlignment="Left"
+                       HorizontalAlignment="Left"
                            />
 
-                <TextBlock
-                           Text="+"
+                <TextBlock Text="+"
                            Margin="0 3 0 0"
-                           FontSize="15" 
-                           Foreground="Wheat" 
+                           FontSize="15"
+                           FontWeight="Bold"
+                           Style="{StaticResource BtnAddMouseOver}"
                            VerticalAlignment="Top"
                            HorizontalAlignment="Right"/>
             </StackPanel>
-            <ListView x:Name="lsTracks"
-                         Width="812"
-                         Height="195"
-                         FontSize="18"
-                         FontWeight="Medium"
-                         Background="#1f2482"
-                         BorderBrush="Transparent"
-                         BorderThickness="0,1,1,0"
-                         HorizontalAlignment="Left"
-                         SelectionMode="Single"
-                         Margin="0,10">
+            
+            <Border Margin="5,0"
+                    BorderBrush="Aqua"
+                    BorderThickness="2"
+                    CornerRadius="5"
+                    Padding="1.2"
+                    Background="#151d1f">
 
+                <ListView x:Name="lsTracks"                          
+                          Width="812"
+                          Height="195"
+                          FontSize="18"
+                          FontWeight="Medium"
+                          Background="#151d1f"
+                          BorderThickness="0"
+                          HorizontalAlignment="Left"
+                          SelectionMode="Single">
 
-                <ListView.ItemContainerStyle>
-                    <Style TargetType="{x:Type ListViewItem}">
-                        <Setter Property="BorderThickness" Value="0"/>
-                        <Setter Property="Foreground" Value="#d3cdd3"/>
-                        <Setter Property="HorizontalAlignment" Value="Left"/>
-                        <Setter Property="FontWeight" Value="Light"/>
-                        <Setter Property="Width" Value="809"/>
-                        <Style.Triggers>
-                            <Trigger Property="IsSelected" Value="true" >
-                                <Setter Property="Foreground" Value="Silver" />
-                                <Setter Property="Background" Value="{x:Null}"/>
-                                <Setter Property="BorderBrush" Value="{x:Null}"/>
-                            </Trigger>
-                        </Style.Triggers>
-                    </Style>
-                </ListView.ItemContainerStyle>
+                    <ListView.ItemContainerStyle>
+                        <Style TargetType="{x:Type ListViewItem}">
+                            <Setter Property="BorderThickness" Value="1"/>
+                            <Setter Property="Padding" Value="1"/>
+                            <Setter Property="HorizontalAlignment" Value="Left"/>
+                            <Setter Property="Width" Value="797"/>
+                            <Style.Triggers>
+                                <Trigger Property="IsSelected" Value="true" >
+                                    <Setter Property="Foreground" Value="DimGray" />
+                                    <Setter Property="Background" Value="#1b2e2d"/>
+                                </Trigger>
+                                <Trigger Property="IsSelected" Value="False" >
+                                    <Setter Property="Foreground" Value="Silver" />
+                                    <Setter Property="Background" Value="#1b2e2d"/>
+                                </Trigger>
 
+                                <Trigger Property="IsEnabled" Value="True">
+                                    <Setter Property="Foreground" Value="Silver" />
+                                    <Setter Property="Background" Value="#1b2e2d"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ListView.ItemContainerStyle>
 
-            </ListView>
-
+                    <ListViewItem Content="Heeloo" IsSelected="False"/>
+                </ListView>
+            </Border>
         </StackPanel>
 
         <StackPanel Grid.Column="1" x:Name="lsArtists"
@@ -102,15 +186,17 @@
                             VerticalAlignment="Center"
                             Height="510"
                             Width="80"
-                            Background="#1f26af">
+                            Background="#1b2b33">
             <TextBlock Name="btnAddArtist"
-                           Text="+" 
-                           FontSize="15"
-                           Foreground="White"
-                           Height="19"
-                           Width="10"
-                           Padding="0"
-                           HorizontalAlignment="Right" 
+                       Text="+" 
+                       Style="{StaticResource BtnAddMouseOver}"
+                       FontSize="15"
+                       FontWeight="Bold"
+                       Height="19"
+                       Width="10"
+                       Padding="0"
+                       HorizontalAlignment="Right" 
+                       
                           />
 
             <ScrollViewer VerticalScrollBarVisibility="Auto"
@@ -118,7 +204,7 @@
                           HorizontalAlignment="Left"
                           Width="80"
                           Height="492">
-                <StackPanel Name="crdsArtists" Orientation="Vertical" Background="#1f26af"/>
+                <StackPanel Name="crdsArtists" Orientation="Vertical" Background="Transparent"/>
             </ScrollViewer>
         </StackPanel>
     </Grid>
