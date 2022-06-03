@@ -143,18 +143,20 @@
                     Background="#151d1f">
 
                 <ListView x:Name="lsTracks"                          
-                          Width="812"
+                          Width="800"
                           Height="195"
                           FontSize="18"
                           FontWeight="Medium"
                           Background="#151d1f"
                           BorderThickness="0"
                           HorizontalAlignment="Left"
-                          SelectionMode="Single">
+                          SelectionMode="Single"
+                          ScrollViewer.VerticalScrollBarVisibility="Disabled">
 
                     <ListView.ItemContainerStyle>
                         <Style TargetType="{x:Type ListViewItem}">
-                            <Setter Property="BorderThickness" Value="1"/>
+                            <Setter Property="HorizontalAlignment" Value="Center"/>
+                            <Setter Property="BorderThickness" Value="0"/>
                             <Setter Property="Padding" Value="1"/>
                             <Setter Property="HorizontalAlignment" Value="Left"/>
                             <Setter Property="Width" Value="797"/>

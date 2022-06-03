@@ -97,7 +97,6 @@
             <ListView x:Name="lvList" 
                           Margin="10,10,10,0"
                           Height="300"
-                          Style="{StaticResource listviewStyle1}"
                           
                           Background="#151d1f"
                           BorderThickness="1"

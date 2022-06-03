@@ -19,7 +19,7 @@ namespace Ild_Music_MVVM_.ViewModel.VM.FactoryVM
         public FactoryContainerViewModel()
         {
             InitializeSubControls();
-            CurrentFactory = Factories[0];
+            CurrentFactory = Factories[2];
         }
         #endregion
 

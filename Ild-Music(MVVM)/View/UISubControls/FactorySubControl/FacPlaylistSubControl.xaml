@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Ild_Music_MVVM_.View.UISubControls.FactorySubControl"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="450" d:DesignWidth="896">
 
     <UserControl.Resources>
         <Style x:Key="FocusVisual11">
@@ -84,7 +84,7 @@
 
                     <TextBox x:Name="txtName"
                              HorizontalAlignment="Left"
-                             Width="700"
+                             Width="850"
                              FontSize="20"
                              Margin="10,2"
                              Foreground="White"
@@ -103,7 +103,7 @@
 
                     <TextBox x:Name="txtDescription"
                              HorizontalAlignment="Left"
-                             Width="700"
+                             Width="860"
                              FontSize="20"
                              Height="60"
                              Margin="10,2"
@@ -125,74 +125,116 @@
                            Text=" Existed artists : "                       
                            Foreground="White"
                            FontSize="15"
-                           Margin="90,2"
+                           Margin="40,2"
                            FontWeight="Medium"/>
 
                     <TextBlock
                            Text=" Enabled artists : "
                            Foreground="White"
                            FontSize="15"
-                           Margin="200,2"
+                           Margin="300,2"
                            FontWeight="Medium"/>
                 </StackPanel>
 
                 <StackPanel Orientation="Horizontal">
-                    <ListView 
-                        x:Name="lvArtistsProvider" 
-                        Foreground="White"
-                        Background="#151d1f"
-                        BorderBrush="Aqua"
-                        BorderThickness="1"
-                        FontSize="11"
-                        Width="300"
-                        Height="120"
-                        Margin="10,0">
-                        
-                        <ListView.Resources>
-                            <Style TargetType="{x:Type GridViewColumnHeader}">
-                                <Setter Property="Visibility" Value="Collapsed" />
-                            </Style>
-                        </ListView.Resources>
+                    <Border Margin="5,0"
+                            BorderBrush="Aqua"
+                            BorderThickness="2"
+                            CornerRadius="5"
+                            Padding="1.2"
+                            Background="#151d1f">
+                        <ListView x:Name="lvArtistsProvider" 
+                                  Foreground="White"
+                                  Background="#151d1f"
+                                  BorderThickness="0"
+                                  FontSize="11"
+                                  Width="400"
+                                  Height="120"
+                                  ScrollViewer.VerticalScrollBarVisibility="Disabled">
 
-                        <ListView.Style>
-                            <StaticResource ResourceKey="listviewStyle1"/>
-                            
-                        </ListView.Style>
+                            <ListView.Resources>
+                                <Style TargetType="{x:Type GridViewColumnHeader}">
+                                    <Setter Property="Visibility" Value="Collapsed" />
+                                </Style>
+                            </ListView.Resources>
 
-                        <ListView.ItemContainerStyle>
-                            <Style TargetType="{x:Type ListViewItem}">
+                            <ListView.ItemContainerStyle>
+                                <Style TargetType="{x:Type ListViewItem}">
+                                    <Setter Property="HorizontalAlignment" Value="Center"/>
+                                    <Setter Property="BorderThickness" Value="0"/>
+                                    <Setter Property="Margin" Value="1"/>
+                                    <Setter Property="Padding" Value="1"/>
+                                    <Setter Property="HorizontalAlignment" Value="Left"/>
+                                    <Setter Property="Width" Value="396"/>
+                                    <Style.Triggers>
+                                        <Trigger Property="IsSelected" Value="true" >
+                                            <Setter Property="Foreground" Value="DimGray" />
+                                            <Setter Property="Background" Value="#1b2e2d"/>
+                                        </Trigger>
+                                        <Trigger Property="IsSelected" Value="False" >
+                                            <Setter Property="Foreground" Value="Silver" />
+                                            <Setter Property="Background" Value="#1b2e2d"/>
+                                        </Trigger>
 
-                            </Style>
-                        </ListView.ItemContainerStyle>
-                    </ListView>
+                                        <Trigger Property="IsEnabled" Value="True">
+                                            <Setter Property="Foreground" Value="Silver" />
+                                            <Setter Property="Background" Value="#1b2e2d"/>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </ListView.ItemContainerStyle>
+                        </ListView>
+                    </Border>
 
-                    <ListView
-                              x:Name="lvArtistsRoot" 
-                              Foreground="White"
-                              BorderThickness="1"
-                              BorderBrush="Aqua"
-                              Background="#151d1f"
-                              FontSize="11"
-                              Width="300"
-                              Height="120" 
-                              Margin="100,0">
+                    <Border Margin="40,0"
+                            BorderBrush="Aqua"
+                            BorderThickness="2"
+                            CornerRadius="5"
+                            Padding="1.2"
+                            Background="#151d1f">
+                            <ListView
+                                  x:Name="lvArtistsRoot" 
+                                  Foreground="White"
+                                  BorderThickness="0"
+                                  Background="#151d1f"
+                                  FontSize="11"
+                                  Width="400"
+                                  Height="120"
+                                  ScrollViewer.VerticalScrollBarVisibility="Disabled">
 
-                        <ListView.Resources>
-                            <Style TargetType="{x:Type GridViewColumnHeader}">
-                                <Setter Property="Visibility" Value="Collapsed" />
-                            </Style>
-                        </ListView.Resources>
+                                <ListView.Resources>
+                                    <Style TargetType="{x:Type GridViewColumnHeader}">
+                                        <Setter Property="Visibility" Value="Collapsed" />
+                                    </Style>
+                                </ListView.Resources>
 
-                        <ListView.Style>
-                            <StaticResource ResourceKey="listviewStyle1"/>
-                        </ListView.Style>
+                            <ListView.ItemContainerStyle>
+                                <Style TargetType="{x:Type ListViewItem}">
+                                    <Setter Property="HorizontalAlignment" Value="Center"/>
+                                    <Setter Property="BorderThickness" Value="0"/>
+                                    <Setter Property="Margin" Value="1"/>
+                                    <Setter Property="Padding" Value="1"/>
+                                    <Setter Property="HorizontalAlignment" Value="Left"/>
+                                    <Setter Property="Width" Value="396"/>
+                                    <Style.Triggers>
+                                        <Trigger Property="IsSelected" Value="true" >
+                                            <Setter Property="Foreground" Value="DimGray" />
+                                            <Setter Property="Background" Value="#1b2e2d"/>
+                                        </Trigger>
+                                        <Trigger Property="IsSelected" Value="False" >
+                                            <Setter Property="Foreground" Value="Silver" />
+                                            <Setter Property="Background" Value="#1b2e2d"/>
+                                        </Trigger>
 
-                        <ListView.ItemContainerStyle>
-                            <Style TargetType="{x:Type ListViewItem}">
-                                
-                            </Style>
-                        </ListView.ItemContainerStyle>
-                    </ListView>
+                                        <Trigger Property="IsEnabled" Value="True">
+                                            <Setter Property="Foreground" Value="Silver" />
+                                            <Setter Property="Background" Value="#1b2e2d"/>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </ListView.ItemContainerStyle>
+                        </ListView>
+                    </Border>
                 </StackPanel>
             </StackPanel>
         </Grid>
