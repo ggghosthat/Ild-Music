@@ -19,7 +19,6 @@
                     <RowDefinition />
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
-                <!--<Rectangle x:Name="Corner" Grid.Column="1" Fill="Red" Grid.Row="1"/>-->
                 <ScrollContentPresenter x:Name="PART_ScrollContentPresenter"
                                         CanContentScroll="{TemplateBinding CanContentScroll}" 
                                         CanHorizontallyScroll="False" 
