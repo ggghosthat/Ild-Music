@@ -5,9 +5,9 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Ild_Music_MVVM_.View.UIControls"
              mc:Ignorable="d" 
-              d:DesignHeight="510" d:DesignWidth="800">
+              d:DesignHeight="510" d:DesignWidth="896">
     
-    <Grid Background="#2f35af">
+    <Grid>
         <Grid.RowDefinitions>
         </Grid.RowDefinitions>
         <StackPanel x:Name="Area" Margin="0,0,0,0">
@@ -21,100 +21,130 @@
                            Text="Collection"
                            Margin="10"/>
 
-            <StackPanel Name="controlButtons" 
-                            HorizontalAlignment="Right"
-                            Orientation="Horizontal"
-                            Margin="0,0,15,0" Width="769">
-
-                <StackPanel x:Name="Edit"
-                            Height="25"
-                            Width="25"
-                            Background="Transparent"
+            <StackPanel Orientation="Horizontal">
+                <StackPanel Name="controlButtons" 
                             HorizontalAlignment="Left"
-                            VerticalAlignment="Center"
-                            Margin="10 0 10 0">
+                            Orientation="Vertical"
+                            Width="auto">
                     <Border x:Name="brEdit"
-                        CornerRadius="5"
-                        Background="Transparent">
-                        <Image Stretch="Uniform"/>
-                    </Border>
-                </StackPanel>
-
-                <TextBox x:Name="txtName"
-                                 Style="{DynamicResource ResourceKey=Textbox1}"
-                                 Foreground="White"
-                                 HorizontalAlignment="Left"
-                                 FontWeight="Medium"
-                                 Width="367"
-                                 Height="27"
-                                 Margin="0,0,20,0"/>
-
-                <StackPanel x:Name="Add"
-                            Height="25"
-                            Width="25"
+                            CornerRadius="5"
+                            BorderThickness="1"
+                            BorderBrush="Aqua"
                             Background="Transparent"
-                            HorizontalAlignment="Right"
-                            VerticalAlignment="Center"
-                            Margin="10 0 10 0">
+                            Margin="2,5"
+                            Width="30"
+                            Height="30">
+                        <Viewbox Width="24" Height="24">
+                            <Canvas Width="24" Height="24">
+                                <Path Fill="White" Data="M20.71,7.04C21.1,6.65 21.1,6 20.71,5.63L18.37,3.29C18,2.9 17.35,2.9 16.96,3.29L15.12,5.12L18.87,8.87M3,17.25V21H6.75L17.81,9.93L14.06,6.18L3,17.25Z" />
+                            </Canvas>
+                        </Viewbox>
+                    </Border>
+
                     <Border x:Name="brAdd"
-                                CornerRadius="5"
-                                Background="Transparent">
-                        <Image  Stretch="Uniform" RenderTransformOrigin="72.8,16.898"/>
-                    </Border>
-                </StackPanel>
-
-                <StackPanel x:Name="Delete"
-                            Height="25"
-                            Width="25"
+                            CornerRadius="5"
+                            BorderThickness="1"
+                            BorderBrush="Aqua"
                             Background="Transparent"
-                            HorizontalAlignment="Right"
-                            VerticalAlignment="Center"
-                            Margin="10 0 10 0">
-                    <Border x:Name="brDelete"
-                                CornerRadius="5"
-                                Background="Transparent">
-                        <Image  Stretch="Uniform"/>
+                            Margin="2,5"
+                            Width="30"
+                            Height="30">
+                        <Viewbox Width="24" Height="24">
+                            <Canvas Width="24" Height="24">
+                                <Path Fill="White" Data="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z" />
+                            </Canvas>
+                        </Viewbox>
                     </Border>
-                </StackPanel>
 
-                <StackPanel Name="slection">
+                    <Border x:Name="brDelete"
+                            CornerRadius="5"
+                            BorderThickness="1"
+                            BorderBrush="Aqua"
+                            Background="Transparent"
+                            Margin="2,5"
+                            Width="30"
+                            Height="30">
+                        <Viewbox Width="24" Height="24">
+                            <Canvas Width="24" Height="24">
+                                <Path Fill="White" Data="M20.37,8.91L19.37,10.64L7.24,3.64L8.24,1.91L11.28,3.66L12.64,3.29L16.97,5.79L17.34,7.16L20.37,8.91M6,19V7H11.07L18,11V19A2,2 0 0,1 16,21H8A2,2 0 0,1 6,19Z" />
+                            </Canvas>
+                        </Viewbox>
+                    </Border>
+
+                    <Border x:Name="brBack"
+                            Visibility="Collapsed"
+                            CornerRadius="5"
+                            BorderThickness="1"
+                            BorderBrush="Aqua"
+                            Background="Transparent"
+                            Margin="2,5"
+                            Width="30"
+                            Height="30">
+                        <Viewbox Width="24" Height="24">
+                            <Canvas Width="24" Height="24">
+                                <Path Fill="Silver" Data="M15.41,16.58L10.83,12L15.41,7.41L14,6L8,12L14,18L15.41,16.58Z" />
+                            </Canvas>
+                        </Viewbox>
+                    </Border>
+
                     <Button x:Name="btn"
-                        Visibility ="Collapsed"
-                        Height="25" 
-                        Width="45" 
-                        BorderThickness="0" 
-                        VerticalAlignment="Bottom"
-                        Style="{StaticResource CardButton}" 
-                        Content="OK"
-                        BorderBrush="Transparent"
-                        FontWeight="ExtraBold"
-                        Background="#d32341"
-                        Foreground="White">
+                    Visibility ="Collapsed"
+                    Height="25" 
+                    Width="30" 
+                    Margin="2,2"
+                    BorderThickness="0" 
+                    VerticalAlignment="Bottom"
+                    Style="{StaticResource CardButton}" 
+                    Content="OK"
+                    BorderBrush="Transparent"
+                    FontWeight="ExtraBold"
+                    Background="#d32341"
+                    Foreground="White">
                     </Button>
                 </StackPanel>
+
+                <Border Margin="5,0"
+                    BorderBrush="Aqua"
+                    BorderThickness="2"
+                    CornerRadius="5"
+                    Padding="0"
+                    Background="#151d1f">
+                    <ListView x:Name="lvList" 
+                              Height="300"
+                              Background="#151d1f"
+                              BorderThickness="0"
+                              FontSize="15">
+
+                        <ListView.ItemContainerStyle>
+                            <Style TargetType="{x:Type ListViewItem}">
+                                <Setter Property="HorizontalAlignment" Value="Center"/>
+                                <Setter Property="BorderThickness" Value="0"/>
+                                <Setter Property="Padding" Value="1"/>
+                                <Setter Property="HorizontalAlignment" Value="Left"/>
+                                <Setter Property="Width" Value="845"/>
+                                <Style.Triggers>
+                                    <Trigger Property="IsSelected" Value="true" >
+                                        <Setter Property="Foreground" Value="DimGray" />
+                                        <Setter Property="Background" Value="#1b2e2d"/>
+                                    </Trigger>
+                                    <Trigger Property="IsSelected" Value="False" >
+                                        <Setter Property="Foreground" Value="Silver" />
+                                        <Setter Property="Background" Value="#1b2e2d"/>
+                                    </Trigger>
+
+                                    <Trigger Property="IsEnabled" Value="True">
+                                        <Setter Property="Foreground" Value="Silver" />
+                                        <Setter Property="Background" Value="#1b2e2d"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </ListView.ItemContainerStyle>
+
+                        <ListViewItem Content="Heeloo" IsSelected="False"/>
+                    </ListView>
+                </Border>
             </StackPanel>
 
-            <ListView x:Name="lvList" 
-                          Margin="10,10,10,0"
-                          Height="300"
-                          
-                          Background="#151d1f"
-                          BorderThickness="1"
-                          BorderBrush="Aqua"
-                          FontSize="15">
-
-                <ListView.Resources>
-                    <Style TargetType="GridViewColumnHeader">
-                        <Setter Property="Visibility" Value="Visible" />
-                    </Style>
-                </ListView.Resources>
-
-                <ListView.ItemContainerStyle>
-                    <Style TargetType="ListViewItem">
-                        <!--<EventSetter Event="MouseDoubleClick" Handler="ListViewItem_MouseDoubleClick"/>-->
-                    </Style>
-                </ListView.ItemContainerStyle>
-            </ListView>
         </StackPanel>
     </Grid>
 </UserControl>

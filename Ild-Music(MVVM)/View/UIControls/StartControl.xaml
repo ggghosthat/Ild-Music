@@ -150,7 +150,7 @@
                           BorderThickness="0"
                           HorizontalAlignment="Left"
                           SelectionMode="Single"
-                          ScrollViewer.VerticalScrollBarVisibility="Disabled">
+                          ScrollViewer.HorizontalScrollBarVisibility="Disabled">
 
                     <ListView.ItemContainerStyle>
                         <Style TargetType="{x:Type ListViewItem}">
