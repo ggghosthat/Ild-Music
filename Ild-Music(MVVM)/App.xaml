@@ -12,9 +12,12 @@
         <DataTemplate DataType="{x:Type viewmodel:FactoryViewModel}">
             <views:FactoryConrol/>
         </DataTemplate>
+        <DataTemplate DataType="{x:Type viewmodel:ListViewModel}">
+            <views:ListControl/>
+        </DataTemplate>
 
 
-        <Style TargetType="TextBox" x:Key="Textbox">
+            <Style TargetType="TextBox" x:Key="Textbox">
             <Setter Property="Padding" Value="7"/>
             <Setter Property="Margin" Value="5"/>
             <Setter Property="Foreground" Value="#000"/>

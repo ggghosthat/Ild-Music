@@ -28,6 +28,7 @@ namespace Ild_Music_MVVM_.ViewModel.VM
         public ObservableCollection<TrackEntityViewModel> TracksList { get; private set; }
 
         public ObservableCollection<EntityViewModel> CurrentList { get; private set; }
+        public string ListHeader { get; private set; }
         #endregion
 
         #region Ctors
@@ -65,12 +66,15 @@ namespace Ild_Music_MVVM_.ViewModel.VM
             {
                 case ListType.ARTISTS:
                     CurrentList = (ObservableCollection<EntityViewModel>)ArtistsList.Cast<EntityViewModel>();
+                    ListHeader = "Your artists :";
                     break;
                 case ListType.PLAYLISTS:
                     CurrentList = (ObservableCollection<EntityViewModel>)PlaylistsList.Cast<EntityViewModel>();
+                    ListHeader = "Your playlists :";
                     break;
                 case ListType.TRACKS:
                     CurrentList = (ObservableCollection<EntityViewModel>)TracksList.Cast<EntityViewModel>();
+                    ListHeader = "Your tracks :";
                     break;
             }
         }

@@ -13,13 +13,13 @@
         <StackPanel x:Name="Area" Margin="0,0,0,0">
 
             <TextBlock Name="lblPlaylistName"
-                           VerticalAlignment="Top"
-                           HorizontalAlignment="Left"
-                           FontSize="35"
-                           FontWeight="Medium"
-                           Foreground="White"
-                           Text="Collection"
-                           Margin="10"/>
+                       VerticalAlignment="Top"
+                       HorizontalAlignment="Left"
+                       FontSize="35"
+                       FontWeight="Medium"
+                       Foreground="White"
+                       Text="{Binding ListHeader}"
+                       Margin="10"/>
 
             <StackPanel Orientation="Horizontal">
                 <StackPanel Name="controlButtons" 

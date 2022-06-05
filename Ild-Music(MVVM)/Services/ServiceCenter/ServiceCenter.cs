@@ -10,7 +10,7 @@ namespace Ild_Music_MVVM_.Services
     public class ServiceCenter
     {
         #region Singleton fields
-        private static ServiceCenter serviceCenter = null;
+        private static ServiceCenter serviceCenter = new ServiceCenter();
         private static readonly object padlock = new object();
         #endregion
 

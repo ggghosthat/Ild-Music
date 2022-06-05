@@ -17,10 +17,11 @@ namespace Ild_Music_MVVM_.ViewModel.VM
         }
 
 
-        private void SlideItemsClick() 
+        private void SlideItemsClick(object parameter) 
         {
-            StartWindow1 window = new StartWindow1();
-           
+            if (parameter is string listType)
+            {
+            }
         }
         
     }
