@@ -6,6 +6,7 @@ using System.Linq;
 
 namespace Ild_Music_MVVM_.Services
 {
+    //These class Hold all services and provide service supply 
     public class ServiceCenter
     {
         #region Singleton fields

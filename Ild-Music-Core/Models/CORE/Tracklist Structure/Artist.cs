@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Ild_Music_CORE.Models.Core.Tracklist_Structure
 {
-    public class Artist : ResourceRoot, IDescriptional
+    public class Artist : ResourceRoot, IDescriptional, IDisposable
     {
         #region Fields
         private string id;
@@ -20,7 +20,7 @@ namespace Ild_Music_CORE.Models.Core.Tracklist_Structure
             get { return id; }
             set { id = value; }
         }
-        public string Name 
+        public override string Name 
         {
             get { return name; } 
             set { name = value; } 
@@ -145,9 +145,13 @@ namespace Ild_Music_CORE.Models.Core.Tracklist_Structure
             return $"{name}";
         }
 
-        public object ToList()
+        public void Dispose()
         {
-            throw new NotImplementedException();
+            this.id = default;
+            this.name = default;
+            this.tracksId_collection = default;
+            this.tracks_collection = default;
+            this._tracks = default;
         }
         #endregion
     }

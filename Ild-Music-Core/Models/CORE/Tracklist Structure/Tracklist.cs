@@ -5,7 +5,7 @@ using Ild_Music_CORE.Models.Interfaces;
 
 namespace Ild_Music_CORE.Models.Core.Tracklist_Structure
 {
-    public class Tracklist : ResourceRoot, ITrackable, IDescriptional
+    public class Tracklist : ResourceRoot, IDescriptional, IDisposable
     {
         #region Fields
         private string id;
@@ -21,8 +21,7 @@ namespace Ild_Music_CORE.Models.Core.Tracklist_Structure
             get { return id; }
             set { id = value; }
         }
-        string ITrackable.id => this.id;
-        public string Name
+        public override string Name
         {
             get { return name; }
             set { name = value; }
@@ -33,32 +32,13 @@ namespace Ild_Music_CORE.Models.Core.Tracklist_Structure
             set { this.tracks = value; }
         }
 
-        //public Track? Head => tracks[0] ?? null;
-        //public Track? Tail => tracks[tracks.Count - 1] ?? null;
-        public Track Current
-        {
-            get;
-            set;
-        }
+        public Track Current { get; set; }
+        public bool isCurrent { get; set; }
+        public bool isOrdered { get; private set; }
+        public string Description { get; set; }
 
-        public bool isCurrent 
-        {
-            get; 
-            set; 
-        }
-        public bool isOrdered 
-        {
-            get; 
-            private set;
-        }
-        public bool IsSynchronized => default(bool);
-
-        public string Description
-        {
-            get;
-            set;
-        }
         public int Count => tracks.Count;
+        public bool IsSynchronized => default(bool);
         public object SyncRoot => default(object);
         #endregion
 
@@ -254,9 +234,13 @@ namespace Ild_Music_CORE.Models.Core.Tracklist_Structure
             return $"{name}";
         }
 
-        public object ToList()
+        public void Dispose()
         {
-            throw new NotImplementedException();
+            this.id = default;
+            this.name= default;
+            this.head = default;
+            this.tail= default;
+            this.tracks = default;
         }
         #endregion
     }

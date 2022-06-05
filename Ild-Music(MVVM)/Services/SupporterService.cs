@@ -122,7 +122,7 @@ namespace Ild_Music_MVVM_.Services
             }
         }
 
-        public void SaveState()
+        public void SaveAllStates()
         {
             synchArea.Save();
         }

@@ -6,7 +6,7 @@ using System.IO;
 
 namespace Ild_Music_CORE.Models.Core.Tracklist_Structure
 {
-    public class Track : ResourceRoot, IDisposable, ITrackable, IDescriptional
+    public class Track : ResourceRoot, IDisposable, IDescriptional
     {
         #region Fields
         private string id = Guid.NewGuid().ToString();
@@ -23,13 +23,12 @@ namespace Ild_Music_CORE.Models.Core.Tracklist_Structure
             get { return id; }
             set { id = value; }
         }
-        string ITrackable.id => this.id;
         public string Pathway
         {
             get { return this.pathway; }
             set { pathway = value; }
         }
-        public string Name
+        public override string Name
         {
             get { return name; }
             set { name = value; }

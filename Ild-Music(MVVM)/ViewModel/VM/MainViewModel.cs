@@ -15,13 +15,6 @@ namespace Ild_Music_MVVM_.ViewModel.VM
         {
 
         }
-
-
-        private void SlideItemsClick() 
-        {
-            StartWindow1 window = new StartWindow1();
-           
-        }
         
     }
 }
