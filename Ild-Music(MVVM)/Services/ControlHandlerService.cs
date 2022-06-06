@@ -19,7 +19,7 @@ namespace Ild_Music_MVVM_.Services
         //initialize UIControls 
         private void HandleUIControls()
         {
-            handledControls.Add(new StartControl() );
+            handledControls.Add(new StartControl());
             handledControls.Add(new ListControl() );
             handledControls.Add(new TrackControl() );
         }

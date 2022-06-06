@@ -1,4 +1,5 @@
 ﻿using Ild_Music_Core.Models.Interfaces;
+using Ild_Music_CORE.Models.Core.Tracklist_Structure;
 
 namespace Ild_Music_MVVM_.ViewModel.ModelEntities.Basic
 {
@@ -11,6 +12,23 @@ namespace Ild_Music_MVVM_.ViewModel.ModelEntities.Basic
         {
             Id = id;
             Name = name;
+        }
+
+        public EntityViewModel(Artist artist)
+        {
+            Id = artist.Id;
+            Name = artist.Name;
+        }
+
+        public EntityViewModel(Tracklist tracklist)
+        {
+            Id = tracklist.Id;
+            Name = tracklist.Name;
+        }
+        public EntityViewModel(Track track)
+        {
+            Id = track.Id;
+            Name = track.Name;
         }
     }
 }

@@ -19,6 +19,7 @@
                        FontWeight="Medium"
                        Foreground="White"
                        Text="{Binding ListHeader}"
+                       Width="100"
                        Margin="10"/>
 
             <StackPanel Orientation="Horizontal">

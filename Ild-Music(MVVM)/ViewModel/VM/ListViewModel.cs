@@ -4,6 +4,8 @@ using Ild_Music_MVVM_.ViewModel.ModelEntities.Basic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using Ild_Music_MVVM_.Command;
+using System.Threading.Tasks;
+using System;
 
 namespace Ild_Music_MVVM_.ViewModel.VM
 {
@@ -23,38 +25,33 @@ namespace Ild_Music_MVVM_.ViewModel.VM
         #endregion
 
         #region Properties
-        public ObservableCollection<ArtistEntityViewModel> ArtistsList { get; private set; }
-        public ObservableCollection<PlaylistEntityViewModel> PlaylistsList { get; private set; }
-        public ObservableCollection<TrackEntityViewModel> TracksList { get; private set; }
+        public ObservableCollection<EntityViewModel> ArtistsList { get; private set; } = new ();
+        public ObservableCollection<EntityViewModel> PlaylistsList { get; private set; } = new ();
+        public ObservableCollection<EntityViewModel> TracksList { get; private set; } = new ();
 
-        public ObservableCollection<EntityViewModel> CurrentList { get; private set; }
-        public string ListHeader { get; private set; }
+        public ObservableCollection<EntityViewModel> CurrentList { get; private set; } = new ();
+        public string ListHeader { get; set; }
         #endregion
 
         #region Ctors
         //Postdefinning ListType Constructor
         public ListViewModel()
-        {
-            supporterService = (SupporterService)GetService("Supporter");
-            CastListStructure();
+        { 
+
         }
 
-        //Predefinning ListType Constructor
-        public ListViewModel(ListType listType)
-        {
-            supporterService = (SupporterService)GetService("Supporter");
-            CastListStructure();
-            SetListType(listType);
-        }
+
+
+
         #endregion
 
         #region private methods
         //These method casts list structures from storable types 2 viewable types
-        private void CastListStructure()
+        private async void CastListStructure()
         {
-            ArtistsList = (ObservableCollection<ArtistEntityViewModel>)supporterService.ArtistsSup.Cast<ArtistEntityViewModel>();
-            PlaylistsList = (ObservableCollection<PlaylistEntityViewModel>)supporterService.ArtistsSup.Cast<PlaylistEntityViewModel>();
-            TracksList = (ObservableCollection<TrackEntityViewModel>)supporterService.ArtistsSup.Cast<TrackEntityViewModel>();
+            supporterService.ArtistsSup.ToList().ForEach(a => ArtistsList.Add(new ArtistEntityViewModel(a) ) );
+            supporterService.PlaylistSup.ToList().ForEach(p => PlaylistsList.Add(new PlaylistEntityViewModel(p) ) );
+            supporterService.TrackSup.ToList().ForEach(t => TracksList.Add(new TrackEntityViewModel(t) ) );
         }
         #endregion
 
@@ -69,7 +66,7 @@ namespace Ild_Music_MVVM_.ViewModel.VM
                     ListHeader = "Your artists :";
                     break;
                 case ListType.PLAYLISTS:
-                    CurrentList = (ObservableCollection<EntityViewModel>)PlaylistsList.Cast<EntityViewModel>();
+                    CurrentList = PlaylistsList;
                     ListHeader = "Your playlists :";
                     break;
                 case ListType.TRACKS:
@@ -77,6 +74,25 @@ namespace Ild_Music_MVVM_.ViewModel.VM
                     ListHeader = "Your tracks :";
                     break;
             }
+            
+        }
+
+
+        //Call supporter service and cast lists structures
+        public ListViewModel CallServiceAndCastLists()
+        {
+            supporterService = (SupporterService)GetService("Supporter");
+            CastListStructure();
+            return this;
+        }
+
+        //Predefinning ListType
+        public ListViewModel CallServiceAndCastLists(ListType listType)
+        {
+            supporterService = (SupporterService)GetService("Supporter");
+            CastListStructure();
+            SetListType(listType);
+            return this;
         }
         #endregion
     }

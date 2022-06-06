@@ -9,39 +9,18 @@ namespace Ild_Music_MVVM_.Services
     //These class Hold all services and provide service supply 
     public class ServiceCenter
     {
-        #region Singleton fields
-        private static ServiceCenter serviceCenter = new ServiceCenter();
-        private static readonly object padlock = new object();
-        #endregion
 
         #region Service Register
         Dictionary<string, Service> services = new();
         #endregion
 
         #region Singleton Initialization
-        private ServiceCenter()
+        public ServiceCenter()
         {
             UpServices();
         }
 
-        /// <summary>
-        /// Property 2 get instance of this class (because it's singleton)
-        /// </summary>
-        public static ServiceCenter Instance
-        {
-            get 
-            {
-                if (serviceCenter == null)
-                {
-                    lock (padlock)
-                    {
-                        serviceCenter = new ServiceCenter();
-                        return serviceCenter;
-                    }
-                }
-                return serviceCenter;
-            }
-        }
+       
         #endregion
 
         #region Methods
@@ -71,8 +50,8 @@ namespace Ild_Music_MVVM_.Services
         /// </summary>
         private void UpServices()
         {
-            var area = new Area();
-            var supporter = new SupporterService(area);
+            //var area = new Area();
+            var supporter = new SupporterService();
 
             var factory = new FactoryService(supporter);
 

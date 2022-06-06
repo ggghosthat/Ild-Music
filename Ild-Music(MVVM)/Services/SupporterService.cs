@@ -12,7 +12,7 @@ namespace Ild_Music_MVVM_.Services
     {
         public override string ServiceType { get; init; } = "Supporter";
 
-        private Area synchArea;
+        private Area synchArea = new Area();
         private EntityState state;
 
         public ObservableCollection<Artist> ArtistsSup { get; set; } = new ObservableCollection<Artist>();
@@ -20,9 +20,8 @@ namespace Ild_Music_MVVM_.Services
         public ObservableCollection<Tracklist> PlaylistSup { get; set; } = new ObservableCollection<Tracklist>();
 
 
-        public SupporterService(Area area)
+        public SupporterService()
         {
-            synchArea = area;
             synchArea.Init();
             FlushExistedInstances();
         }

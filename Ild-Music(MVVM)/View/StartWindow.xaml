@@ -515,11 +515,6 @@
                     Background="#142026">
             <ContentControl x:Name="ContentHolder"
                         Content="{Binding CurrenttViewModelItem}">
-                <ContentControl.ContentTemplate>
-                    <DataTemplate>
-                        <ui:ListControl/>
-                    </DataTemplate>
-                </ContentControl.ContentTemplate>
             </ContentControl>
 
         </StackPanel>

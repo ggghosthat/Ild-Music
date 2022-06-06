@@ -8,7 +8,8 @@ namespace Ild_Music_MVVM_.ViewModel.Base
     public class BaseViewModel : INotifyPropertyChanged
     {
         #region Fields
-        private readonly static ServiceCenter serviceCenter = ServiceCenter.Instance;
+        
+        private static ServiceCenter serviceCenter = App.serviceCenter;
         #endregion
 
         #region Constructor
