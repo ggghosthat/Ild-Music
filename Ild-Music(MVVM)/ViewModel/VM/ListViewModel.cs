@@ -6,6 +6,7 @@ using System.Linq;
 using Ild_Music_MVVM_.Command;
 using System.Threading.Tasks;
 using System;
+using System.Windows;
 
 namespace Ild_Music_MVVM_.ViewModel.VM
 {
@@ -25,19 +26,27 @@ namespace Ild_Music_MVVM_.ViewModel.VM
         #endregion
 
         #region Properties
-        public ObservableCollection<EntityViewModel> ArtistsList { get; private set; } = new ();
-        public ObservableCollection<EntityViewModel> PlaylistsList { get; private set; } = new ();
-        public ObservableCollection<EntityViewModel> TracksList { get; private set; } = new ();
+        public static ObservableCollection<EntityViewModel> ArtistsList { get; private set; } = new ();
+        public static ObservableCollection<EntityViewModel> PlaylistsList { get; private set; } = new ();
+        public static ObservableCollection<EntityViewModel> TracksList { get; private set; } = new ();
 
         public ObservableCollection<EntityViewModel> CurrentList { get; private set; } = new ();
-        public string ListHeader { get; set; }
+        public object Icon { get; set; }
+
         #endregion
 
         #region Ctors
         //Postdefinning ListType Constructor
-        public ListViewModel()
-        { 
 
+        public ListViewModel()
+        {
+
+        }
+        public ListViewModel(ListType listType, string label)
+        {
+            supporterService = (SupporterService)GetService("Supporter");
+            CastListStructure();
+            SetListType(listType);
         }
 
 
@@ -47,7 +56,7 @@ namespace Ild_Music_MVVM_.ViewModel.VM
 
         #region private methods
         //These method casts list structures from storable types 2 viewable types
-        private async void CastListStructure()
+        private void CastListStructure()
         {
             supporterService.ArtistsSup.ToList().ForEach(a => ArtistsList.Add(new ArtistEntityViewModel(a) ) );
             supporterService.PlaylistSup.ToList().ForEach(p => PlaylistsList.Add(new PlaylistEntityViewModel(p) ) );
@@ -62,16 +71,16 @@ namespace Ild_Music_MVVM_.ViewModel.VM
             switch (listType)
             {
                 case ListType.ARTISTS:
-                    CurrentList = (ObservableCollection<EntityViewModel>)ArtistsList.Cast<EntityViewModel>();
-                    ListHeader = "Your artists :";
+                    CurrentList = ArtistsList;
+                    Icon = Application.Current.FindResource("ArtistsIcon");
                     break;
                 case ListType.PLAYLISTS:
                     CurrentList = PlaylistsList;
-                    ListHeader = "Your playlists :";
+                    Icon = Application.Current.FindResource("PlaylistIcon");
                     break;
                 case ListType.TRACKS:
-                    CurrentList = (ObservableCollection<EntityViewModel>)TracksList.Cast<EntityViewModel>();
-                    ListHeader = "Your tracks :";
+                    CurrentList = TracksList;
+                    Icon = Application.Current.FindResource("TracksIcon");
                     break;
             }
             
