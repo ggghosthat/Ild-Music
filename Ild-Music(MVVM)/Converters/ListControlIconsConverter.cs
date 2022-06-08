@@ -1,4 +1,5 @@
-﻿using Ild_Music_MVVM_.ViewModel.VM;
+﻿using Ild_Music_MVVM_.ViewModel.ModelEntities;
+using Ild_Music_MVVM_.ViewModel.VM;
 using System;
 using System.Globalization;
 using System.Windows;
@@ -13,34 +14,30 @@ namespace Ild_Music_MVVM_.Converters
         {
             if (value is ListType)
             {
-                var drawingImage = new Canvas();
+                var drawingImage = new Viewbox();
 
-                switch (value)
+                if (value is ArtistEntityViewModel) 
                 {
-                    case ListType.ARTISTS:
-                        var artistIcon = Application.Current.TryFindResource("ArtistsIcon");
+                    var artistIcon = Application.Current.TryFindResource("ArtistsIcon");
 
-                        if (artistIcon is Canvas aIcon)
-                            return aIcon;
-
-                        break;
-                    case ListType.PLAYLISTS:
-                        var playlistIcon = Application.Current.TryFindResource("PlaylistIcon");
-
-                        if (playlistIcon is Canvas pIcon)
-                            return pIcon;
-
-                        break;
-                    case ListType.TRACKS:
-                        var trackIcon = Application.Current.TryFindResource("TracksIcon");
-
-                        if (trackIcon is Canvas tIcon)
-                            return tIcon;
-
-                        break;
-                    default:
-                        break;
+                    if (artistIcon is Viewbox aIcon)
+                        return aIcon;
                 }
+                if (value is PlaylistEntityViewModel)
+                {
+                    var playlistIcon = Application.Current.TryFindResource("PlaylistsIcon");
+
+                    if (playlistIcon is Viewbox pIcon)
+                        return pIcon;
+                }
+                if (value is TrackEntityViewModel)
+                {
+                    var trackIcon = Application.Current.TryFindResource("TracksIcon");
+
+                    if (trackIcon is Viewbox tIcon)
+                        return tIcon;
+                }
+
 
                 return drawingImage;
             }

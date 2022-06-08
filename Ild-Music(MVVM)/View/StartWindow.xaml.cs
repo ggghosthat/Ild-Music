@@ -4,7 +4,6 @@ namespace Ild_Music_MVVM_.View
 {
     public partial class StartWindow
     {
-        ListViewModel ListViewModel = new ();
         public StartWindow()
         {
             App.serviceCenter = new ();
@@ -17,12 +16,12 @@ namespace Ild_Music_MVVM_.View
             ContentHolder.Content = new StartViewModel();
 
         private void PlaylistSlideClick(object sender, System.Windows.Input.MouseButtonEventArgs e) =>
-            ContentHolder.Content =  ListViewModel.CallServiceAndCastLists(ListType.PLAYLISTS);
+            ContentHolder.Content =  new ListViewModel(ListType.PLAYLISTS);
 
         private void TracksSlideClick(object sender, System.Windows.Input.MouseButtonEventArgs e) => 
-            ContentHolder.Content = ListViewModel.CallServiceAndCastLists(ListType.TRACKS);
+            ContentHolder.Content = new ListViewModel(ListType.TRACKS);
 
         private void ArtistsSlideClick(object sender, System.Windows.Input.MouseButtonEventArgs e) => 
-            ContentHolder.Content = ListViewModel.CallServiceAndCastLists(ListType.ARTISTS);
+            ContentHolder.Content = new ListViewModel(ListType.ARTISTS);
     }
 }

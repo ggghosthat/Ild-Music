@@ -7,6 +7,7 @@ using Ild_Music_MVVM_.Command;
 using System.Threading.Tasks;
 using System;
 using System.Windows;
+using System.Collections.Generic;
 
 namespace Ild_Music_MVVM_.ViewModel.VM
 {
@@ -26,11 +27,11 @@ namespace Ild_Music_MVVM_.ViewModel.VM
         #endregion
 
         #region Properties
-        public static ObservableCollection<EntityViewModel> ArtistsList { get; private set; } = new ();
-        public static ObservableCollection<EntityViewModel> PlaylistsList { get; private set; } = new ();
-        public static ObservableCollection<EntityViewModel> TracksList { get; private set; } = new ();
+        public List<EntityViewModel> ArtistsList { get; private set; }
+        public List<EntityViewModel> PlaylistsList { get; private set; }
+        public List<EntityViewModel> TracksList { get; private set; }
 
-        public ObservableCollection<EntityViewModel> CurrentList { get; private set; } = new ();
+        public static ObservableCollection<EntityViewModel> CurrentList { get; set; } = new();
         public object Icon { get; set; }
 
         #endregion
@@ -42,7 +43,7 @@ namespace Ild_Music_MVVM_.ViewModel.VM
         {
 
         }
-        public ListViewModel(ListType listType, string label)
+        public ListViewModel(ListType listType)
         {
             supporterService = (SupporterService)GetService("Supporter");
             CastListStructure();
@@ -58,9 +59,13 @@ namespace Ild_Music_MVVM_.ViewModel.VM
         //These method casts list structures from storable types 2 viewable types
         private void CastListStructure()
         {
-            supporterService.ArtistsSup.ToList().ForEach(a => ArtistsList.Add(new ArtistEntityViewModel(a) ) );
-            supporterService.PlaylistSup.ToList().ForEach(p => PlaylistsList.Add(new PlaylistEntityViewModel(p) ) );
-            supporterService.TrackSup.ToList().ForEach(t => TracksList.Add(new TrackEntityViewModel(t) ) );
+            //supporterService.ArtistsSup.ToList().ForEach(a => ArtistsList.Add(new ArtistEntityViewModel(a) ) );
+            //supporterService.PlaylistSup.ToList().ForEach(p => PlaylistsList.Add(new PlaylistEntityViewModel(p) ) );
+            //supporterService.TrackSup.ToList().ForEach(t => TracksList.Add(new TrackEntityViewModel(t) ) );
+
+            ArtistsList = new List<EntityViewModel>{new ArtistEntityViewModel("123", "hello"), new ArtistEntityViewModel("123", "hello"), new ArtistEntityViewModel("123", "hello")};
+            PlaylistsList = new List<EntityViewModel>{new PlaylistEntityViewModel("123", "Phello"), new PlaylistEntityViewModel("123", "Phello"), new PlaylistEntityViewModel("123", "Phello")};
+            TracksList = new List<EntityViewModel>{new TrackEntityViewModel("123", "Thello"), new TrackEntityViewModel("123", "Thello"), new TrackEntityViewModel("123", "Thello")};
         }
         #endregion
 
@@ -68,18 +73,22 @@ namespace Ild_Music_MVVM_.ViewModel.VM
         //Define type of list to present in CurrentList
         public void SetListType(ListType listType)
         {
+            CurrentList.Clear();
             switch (listType)
-            {
-                case ListType.ARTISTS:
-                    CurrentList = ArtistsList;
+            {                
+                case ListType.ARTISTS:                    
+                    foreach(var a in ArtistsList)
+                        CurrentList.Add(a);
                     Icon = Application.Current.FindResource("ArtistsIcon");
                     break;
                 case ListType.PLAYLISTS:
-                    CurrentList = PlaylistsList;
+                    foreach (var p in PlaylistsList)
+                        CurrentList.Add(p);
                     Icon = Application.Current.FindResource("PlaylistIcon");
                     break;
                 case ListType.TRACKS:
-                    CurrentList = TracksList;
+                    foreach (var t in TracksList)
+                        CurrentList.Add(t);
                     Icon = Application.Current.FindResource("TracksIcon");
                     break;
             }
