@@ -23,7 +23,7 @@ namespace Ild_Music_MVVM_.ViewModel.VM
             {
                 TracksItem = supporter.TrackSup;
                 PlaylistsItem = supporter.PlaylistSup;
-                ArtistsItem = supporter.ArtistsSup;
+                ArtistsItem = supporter.ArtistSup;
             }
         }
     }

@@ -42,7 +42,7 @@ namespace Ild_Music_MVVM_.Services
         {
             if (artistIndex != null)
             {
-                var artist = supporter.ArtistsSup[(int)artistIndex];
+                var artist = supporter.ArtistSup[(int)artistIndex];
                 creator.GenerateTrack(pathway: pathway, name: name, description: description, artist: artist);
             }
             else

@@ -32,6 +32,7 @@ namespace Ild_Music_MVVM_.ViewModel.VM
         public List<EntityViewModel> TracksList { get; private set; }
 
         public static ObservableCollection<EntityViewModel> CurrentList { get; set; } = new();
+        public EntityViewModel SelectedItem { get; set; }
         public object Icon { get; set; }
 
         #endregion
@@ -59,13 +60,9 @@ namespace Ild_Music_MVVM_.ViewModel.VM
         //These method casts list structures from storable types 2 viewable types
         private void CastListStructure()
         {
-            //supporterService.ArtistsSup.ToList().ForEach(a => ArtistsList.Add(new ArtistEntityViewModel(a) ) );
-            //supporterService.PlaylistSup.ToList().ForEach(p => PlaylistsList.Add(new PlaylistEntityViewModel(p) ) );
-            //supporterService.TrackSup.ToList().ForEach(t => TracksList.Add(new TrackEntityViewModel(t) ) );
-
-            ArtistsList = new List<EntityViewModel>{new ArtistEntityViewModel("123", "hello"), new ArtistEntityViewModel("123", "hello"), new ArtistEntityViewModel("123", "hello")};
-            PlaylistsList = new List<EntityViewModel>{new PlaylistEntityViewModel("123", "Phello"), new PlaylistEntityViewModel("123", "Phello"), new PlaylistEntityViewModel("123", "Phello")};
-            TracksList = new List<EntityViewModel>{new TrackEntityViewModel("123", "Thello"), new TrackEntityViewModel("123", "Thello"), new TrackEntityViewModel("123", "Thello")};
+            ArtistsList = new List<EntityViewModel>{new ArtistEntityViewModel("122", "hello"), new ArtistEntityViewModel("123", "hello"), new ArtistEntityViewModel("123", "hello")};
+            PlaylistsList = new List<EntityViewModel>{new PlaylistEntityViewModel("122", "Phelo"), new PlaylistEntityViewModel("13", "Pllo")};
+            TracksList = new List<EntityViewModel>{new TrackEntityViewModel("122", "Thello"), new TrackEntityViewModel("123", "Thello"), new TrackEntityViewModel("123", "Thello")};
         }
         #endregion
 
@@ -78,18 +75,15 @@ namespace Ild_Music_MVVM_.ViewModel.VM
             {                
                 case ListType.ARTISTS:                    
                     foreach(var a in ArtistsList)
-                        CurrentList.Add(a);
-                    Icon = Application.Current.FindResource("ArtistsIcon");
+                        CurrentList.Add(new ArtistEntityViewModel(a.Id, a.Name));
                     break;
                 case ListType.PLAYLISTS:
                     foreach (var p in PlaylistsList)
-                        CurrentList.Add(p);
-                    Icon = Application.Current.FindResource("PlaylistIcon");
+                        CurrentList.Add(new PlaylistEntityViewModel(p.Id, p.Name));
                     break;
                 case ListType.TRACKS:
                     foreach (var t in TracksList)
-                        CurrentList.Add(t);
-                    Icon = Application.Current.FindResource("TracksIcon");
+                        CurrentList.Add(new TrackEntityViewModel(t.Id, t.Name));
                     break;
             }
             

@@ -16,26 +16,23 @@
             <views:ListControl/>
         </DataTemplate>
 
-        <Viewbox x:Key="PlaylistsIcon" Width="48" Height="48">
-            <Canvas Width="24" Height="24">
-                <Path Data="M15,6H3V8H15V6M15,10H3V12H15V10M3,16H11V14H3V16M17,6V14.18C16.69,14.07 16.35,14 16,14A3,3 0 0,0 13,17A3,3 0 0,0 16,20A3,3 0 0,0 19,17V8H22V6H17Z"
-                  Fill="#78f28c1f"/>
-            </Canvas>
-        </Viewbox>
+        <DrawingImage x:Key="PlaylistsIcon">
+            <DrawingImage.Drawing>
+                <GeometryDrawing Brush="#212da6" Geometry="M15,6H3V8H15V6M15,10H3V12H15V10M3,16H11V14H3V16M17,6V14.18C16.69,14.07 16.35,14 16,14A3,3 0 0,0 13,17A3,3 0 0,0 16,20A3,3 0 0,0 19,17V8H22V6H17Z" />
+            </DrawingImage.Drawing>
+        </DrawingImage>
 
-        <Viewbox x:Key="TracksIcon" Width="48" Height="48">
-            <Canvas Width="24" Height="24">
-                <Path Data="M17 9.5V7.5L15 8.1V5.5H13V8.7L11 9.3V6.5H9V9.9L7 10.5V12.5L9 11.9V13.9L7 14.5V16.5L9 15.9V18.5H11V15.3L13 14.7V17.5H15V14.1L17 13.5V11.5L15 12.1V10.1L17 9.5M13 12.7L11 13.3V11.3L13 10.7V12.7Z" 
-                  Fill="#78f28c1f"/>
-            </Canvas>
-        </Viewbox>
+        <DrawingImage x:Key="TracksIcon">
+            <DrawingImage.Drawing>
+                <GeometryDrawing Brush="#2193a6" Geometry="M20,2H8A2,2 0 0,0 6,4V16A2,2 0 0,0 8,18H20A2,2 0 0,0 22,16V4A2,2 0 0,0 20,2M20,16H8V4H20M12.5,15A2.5,2.5 0 0,0 15,12.5V7H18V5H14V10.5C13.58,10.19 13.07,10 12.5,10A2.5,2.5 0 0,0 10,12.5A2.5,2.5 0 0,0 12.5,15M4,6H2V20A2,2 0 0,0 4,22H18V20H4" />
+            </DrawingImage.Drawing>
+        </DrawingImage>
 
-        <Viewbox x:Key="ArtistsIcon" Width="48" Height="48">
-            <Canvas Width="24" Height="24">
-                <Path Data="M11,14C12,14 13.05,14.16 14.2,14.44C13.39,15.31 13,16.33 13,17.5C13,18.39 13.25,19.23 13.78,20H3V18C3,16.81 3.91,15.85 5.74,15.12C7.57,14.38 9.33,14 11,14M11,12C9.92,12 9,11.61 8.18,10.83C7.38,10.05 7,9.11 7,8C7,6.92 7.38,6 8.18,5.18C9,4.38 9.92,4 11,4C12.11,4 13.05,4.38 13.83,5.18C14.61,6 15,6.92 15,8C15,9.11 14.61,10.05 13.83,10.83C13.05,11.61 12.11,12 11,12M18.5,10H20L22,10V12H20V17.5A2.5,2.5 0 0,1 17.5,20A2.5,2.5 0 0,1 15,17.5A2.5,2.5 0 0,1 17.5,15C17.86,15 18.19,15.07 18.5,15.21V10Z" 
-                  Fill="#78f28c1f"/>
-            </Canvas>
-        </Viewbox>
+        <DrawingImage x:Key="ArtistsIcon">
+            <DrawingImage.Drawing>
+                <GeometryDrawing Brush="#5c21a6" Geometry="M11,4A4,4 0 0,1 15,8A4,4 0 0,1 11,12A4,4 0 0,1 7,8A4,4 0 0,1 11,4M11,6A2,2 0 0,0 9,8A2,2 0 0,0 11,10A2,2 0 0,0 13,8A2,2 0 0,0 11,6M11,13C12.1,13 13.66,13.23 15.11,13.69C14.5,14.07 14,14.6 13.61,15.23C12.79,15.03 11.89,14.9 11,14.9C8.03,14.9 4.9,16.36 4.9,17V18.1H13.04C13.13,18.8 13.38,19.44 13.76,20H3V17C3,14.34 8.33,13 11,13M18.5,10H20L22,10V12H20V17.5A2.5,2.5 0 0,1 17.5,20A2.5,2.5 0 0,1 15,17.5A2.5,2.5 0 0,1 17.5,15C17.86,15 18.19,15.07 18.5,15.21V10Z" />
+            </DrawingImage.Drawing>
+        </DrawingImage>
 
 
         <Style TargetType="TextBox" x:Key="Textbox">

@@ -15,7 +15,7 @@ namespace Ild_Music_MVVM_.Services
         private Area synchArea = new Area();
         private EntityState state;
 
-        public ObservableCollection<Artist> ArtistsSup { get; set; } = new ObservableCollection<Artist>();
+        public ObservableCollection<Artist> ArtistSup { get; set; } = new ObservableCollection<Artist>();
         public ObservableCollection<Track> TrackSup { get; set; } = new ObservableCollection<Track>();
         public ObservableCollection<Tracklist> PlaylistSup { get; set; } = new ObservableCollection<Tracklist>();
 
@@ -30,7 +30,7 @@ namespace Ild_Music_MVVM_.Services
         #region Private methods
         private void FlushExistedInstances()
         {
-            ArtistsSup.ToList().AddRange(synchArea.existedArtists);
+            ArtistSup.ToList().AddRange(synchArea.existedArtists);
             TrackSup.ToList().AddRange(synchArea.existedTracks);
             PlaylistSup.ToList().AddRange(synchArea.existedPlaylists);
         }
