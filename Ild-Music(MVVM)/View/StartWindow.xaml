@@ -375,6 +375,16 @@
             </Style.Triggers>
         </Style>
 
+        <Style x:Key="PlayerStyle" TargetType="Path">
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Fill" Value="White"/>
+                </Trigger>
+                <Trigger Property="IsMouseOver" Value="False">
+                    <Setter Property="Fill" Value="Gray"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
     </Window.Resources>
     <Grid RenderTransformOrigin="0.548,0.512">
         <Grid.RowDefinitions>
@@ -523,7 +533,7 @@
                     Grid.Row="1" Grid.ColumnSpan="2"  
                     HorizontalAlignment="Left" 
                     VerticalAlignment="Bottom"
-                    Background="#161d44" 
+                    Background="#1b2333" 
                     Orientation="Horizontal" 
                     Height="33" Width="1100">
             <StackPanel x:Name="Previous"
@@ -536,7 +546,11 @@
                 <Border x:Name="brPrev"
                         CornerRadius="5"
                         Background="Transparent">
-                    <Image Stretch="Uniform"/>
+                    <Viewbox Width="24" Height="24">
+                        <Canvas Width="24" Height="24">
+                            <Path Style="{StaticResource PlayerStyle}" Data="M20,5V19L13,12M6,5V19H4V5M13,5V19L6,12" />
+                        </Canvas>
+                    </Viewbox>
                 </Border>
             </StackPanel>
 
@@ -550,7 +564,8 @@
                 <Border x:Name="brPlay"
                         CornerRadius="5"
                         Background="Transparent">
-                    <Image Name="btnPlayImage" Stretch="Uniform"/>
+                    <Viewbox Width="24" Height="24">
+                    </Viewbox>
                 </Border>
             </StackPanel>
 
@@ -564,7 +579,11 @@
                 <Border x:Name="brNext"
                         CornerRadius="5"
                         Background="Transparent">
-                    <Image  Stretch="Uniform"/>
+                    <Viewbox Width="24" Height="24">
+                        <Canvas Width="24" Height="24">
+                            <Path Style="{StaticResource PlayerStyle}" Data="M4,5V19L11,12M18,5V19H20V5M11,5V19L18,12" />
+                        </Canvas>
+                    </Viewbox>
                 </Border>
             </StackPanel>
 
@@ -578,7 +597,11 @@
                 <Border x:Name="brShuffle"
                         CornerRadius="5"
                         Background="Transparent">
-                    <Image  Stretch="Uniform"/>
+                    <Viewbox Width="24" Height="24">
+                        <Canvas Width="24" Height="24">
+                            <Path Style="{StaticResource PlayerStyle}" Data="M17,3L22.25,7.5L17,12L22.25,16.5L17,21V18H14.26L11.44,15.18L13.56,13.06L15.5,15H17V12L17,9H15.5L6.5,18H2V15H5.26L14.26,6H17V3M2,6H6.5L9.32,8.82L7.2,10.94L5.26,9H2V6Z" />
+                        </Canvas>
+                    </Viewbox>
                 </Border>
             </StackPanel>
 
@@ -592,7 +615,11 @@
                 <Border x:Name="brRepeat"
                         CornerRadius="5"
                         Background="Transparent">
-                    <Image  Stretch="Uniform"/>
+                    <Viewbox Width="24" Height="24">
+                        <Canvas Width="24" Height="24">
+                            <Path Style="{StaticResource PlayerStyle}" Data="M6,5.75L10.25,10H7V16H13.5L15.5,18H7A2,2 0 0,1 5,16V10H1.75L6,5.75M18,18.25L13.75,14H17V8H10.5L8.5,6H17A2,2 0 0,1 19,8V14H22.25L18,18.25Z" />
+                        </Canvas>
+                    </Viewbox>
                 </Border>
             </StackPanel>
         </StackPanel>
