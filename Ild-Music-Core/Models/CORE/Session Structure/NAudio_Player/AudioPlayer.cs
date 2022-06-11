@@ -1,9 +1,6 @@
 ﻿using Ild_Music_CORE.Models.Core.Tracklist_Structure;
 using NAudio.Wave;
 using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace Ild_Music_CORE.Models.Core.Session_Structure

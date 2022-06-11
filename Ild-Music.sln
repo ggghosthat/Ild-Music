@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ild-Music-Core", "Ild-Music
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SynchronizationBlock", "SynchronizationBlock\SynchronizationBlock.csproj", "{73C0455C-9B3D-4543-8E21-9AA22504C33B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ild-Music(MVVM)", "Ild-Music(MVVM)\Ild-Music(MVVM).csproj", "{F4736499-B265-4D3B-BA5B-533A854F6356}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ild-Music(MVVM)", "Ild-Music(MVVM)\Ild-Music(MVVM).csproj", "{F4736499-B265-4D3B-BA5B-533A854F6356}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ReBorn.WPF.UI", "..\AvaloniaReborn\WPF\ReBorn.WPF.UI\ReBorn.WPF.UI.csproj", "{C211E575-B0FA-4B34-9B89-CC67506FBDAE}"
 EndProject
