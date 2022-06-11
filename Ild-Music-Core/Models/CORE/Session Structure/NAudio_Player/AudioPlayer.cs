@@ -12,15 +12,17 @@ namespace Ild_Music_CORE.Models.Core.Session_Structure
     {
         private Track currentTrack;
 
+
         private WaveOutEvent outputDevice;
         private AudioFileReader _reader;
 
         private string title;
         private TimeSpan totalTime;
 
-        public event Action EndRiched;
+        public event Action TrackFinished;
         private bool isWatch = true;
 
+        private float volume;
 
         public Track? CurrentTrack => currentTrack ?? null;
 
@@ -33,43 +35,40 @@ namespace Ild_Music_CORE.Models.Core.Session_Structure
             }
         }
 
-        public AudioPlayer(Track inputTrack, float volume) 
+        public AudioPlayer(Track inputTrack, float volume)
         {
             Task.Run(Watch);
             currentTrack = inputTrack;
+            this.volume = volume;
             ReadTrack();
         }
 
+
+
+
+        #region Main Methods
         private void ReadTrack()
         {
-            this.title = currentTrack.Name;
-            this.totalTime = currentTrack.Duration;
+            title = currentTrack.Name;
+            totalTime = currentTrack.Duration;
         }
-
-
 
         public void Play(bool isWatch = true)
         {
             if (outputDevice == null)
             {
-                outputDevice = new WaveOutEvent();
+                outputDevice = new ();
+                outputDevice.Volume = volume;
                 outputDevice.PlaybackStopped += OnPlaybackStopped;
             }
             if (_reader == null)
             {
-                _reader = new AudioFileReader(currentTrack.Pathway);
+                _reader = new (currentTrack.Pathway);
                 outputDevice.Init(_reader);
             }
 
             outputDevice.Play();
         }
-
-        public void Stop()
-        {
-            if (outputDevice != null)
-                outputDevice?.Stop();
-        }
-
         public void Pause()
         {
             if (outputDevice.PlaybackState == PlaybackState.Paused)
@@ -80,8 +79,17 @@ namespace Ild_Music_CORE.Models.Core.Session_Structure
                 return;
         }
 
+        public void Stop()
+        {
+            if (outputDevice != null)
+                outputDevice?.Stop();
+        }
 
-
+        public void OnVolumeChanged(float volume)
+        {
+            if (outputDevice != null)
+                outputDevice.Volume = volume;
+        }
         private void OnPlaybackStopped(object sender, StoppedEventArgs e)
         {
             if (outputDevice != null) 
@@ -96,7 +104,10 @@ namespace Ild_Music_CORE.Models.Core.Session_Structure
             }
 
         }
+        #endregion
 
+        //These method control timespan of current track
+        //if timespan riched to total time Finish event raizing up
         private void Watch()
         {
             while (isWatch)
@@ -105,7 +116,7 @@ namespace Ild_Music_CORE.Models.Core.Session_Structure
                 {
                     if (_reader.CurrentTime.Equals(_reader.TotalTime)) 
                     {
-                        EndRiched.Invoke();
+                        TrackFinished.Invoke();
                         break;
                     }
                 }

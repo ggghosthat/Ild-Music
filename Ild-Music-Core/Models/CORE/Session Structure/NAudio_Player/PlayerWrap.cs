@@ -17,7 +17,6 @@ namespace Ild_Music_CORE.Models.Core.Session_Structure
         private AudioPlayer _audioPlayer;
 
         private Track _track;
-
         private Tracklist _tracklist;
         private IList<Track> tracksCollection;
         public IList<Track> Collection => tracksCollection ?? null;
@@ -31,37 +30,34 @@ namespace Ild_Music_CORE.Models.Core.Session_Structure
         #region ctor
         public PlayerWrap(Track track)
         {
-            this._track = track;
-            
+            _track = track;            
             InitAudioPlayer();
         }
 
         public PlayerWrap(Tracklist trackCollection, float volume, int index=0)
         {
-            this._tracklist = trackCollection;
-            this.tracksCollection = trackCollection.Tracks;
+            _tracklist = trackCollection;
+            tracksCollection = trackCollection.Tracks;
             this.volume = volume;
-            this.ShuffleCollection += OnShuffleCollection;
+            ShuffleCollection += OnShuffleCollection;
         }
         #endregion
 
-        #region Shuffle_region
-        private void OnShuffleCollection()
-        {
-            _audioPlayer.Stop();
-            tracksCollection = null;
-            var tmpCollection = Shuffle((IList<object>)tracksCollection);
-            tracksCollection = (IList<Track>)tmpCollection;
-            InitAudioPlayer(index:0);
-        }
 
-        private IList<object> Shuffle(IList<object> collection) 
+        #region PlayerInitialization
+        public void InitAudioPlayer()
         {
-            return collection.OrderBy(t => Guid.NewGuid()).ToList();
-        }
-        #endregion
+            if (_audioPlayer != null)
+                _audioPlayer.Stop();
 
-        #region Initial_player_region
+            current = _track;
+            if (current != null)
+            {
+                _audioPlayer = new AudioPlayer(current, volume);
+                _audioPlayer.TrackFinished += DropNext;
+                _audioPlayer.TrackFinished += StartPlayer;
+            }
+        }
         public void InitAudioPlayer(int index)
         {
             if (_audioPlayer != null)
@@ -71,8 +67,8 @@ namespace Ild_Music_CORE.Models.Core.Session_Structure
             if (current != null)         
             {
                 _audioPlayer = new AudioPlayer(current, this.volume);
-                _audioPlayer.EndRiched += ReloadNext;
-                _audioPlayer.EndRiched += Start;
+                _audioPlayer.TrackFinished += DropNext;
+                _audioPlayer.TrackFinished += StartPlayer;
             }
         }
 
@@ -85,73 +81,68 @@ namespace Ild_Music_CORE.Models.Core.Session_Structure
             if (current != null)
             {
                 _audioPlayer = new AudioPlayer(current, this.volume);
-                _audioPlayer.EndRiched += ReloadNext;
-                _audioPlayer.EndRiched += Start;
-            }
-        }
-
-        public void InitAudioPlayer()
-        {
-            if (_audioPlayer != null)
-                _audioPlayer.Stop();
-
-            this.current = this._track;
-            if (current != null)
-            {
-                _audioPlayer = new AudioPlayer(current, this.volume);
-                _audioPlayer.EndRiched += ReloadNext;
-                _audioPlayer.EndRiched += Start;
+                _audioPlayer.TrackFinished += DropNext;
+                _audioPlayer.TrackFinished += StartPlayer;
             }
         }
         #endregion
 
-        #region player_CLATS_region
-        public void Start() 
-        {
+
+        #region Player_Buttons
+        public void StartPlayer() =>
             _audioPlayer.Play();
-        }
 
-        public void StopPlayer()
-        {
+        public void StopPlayer() =>
             _audioPlayer.Stop();
-        }
 
-        public void Pause_ResumePlayer() 
-        {
+        public void Pause_ResumePlayer() =>
             _audioPlayer.Pause();
-        }
 
-        public void ReloadNext() 
+        public void ShuffleTrackCollection() =>
+            ShuffleCollection?.Invoke();
+
+        public PlaybackState? GetPlayerState() =>
+            _audioPlayer.PlayerState;
+
+
+        public void DropNext() 
         {
             if(_audioPlayer != null)
                 _audioPlayer.Stop();
 
             if (current.NextTrack != null)
-            {
-                InitAudioPlayer(track:(Track)current.NextTrack);
-            }
+                InitAudioPlayer(track:current.NextTrack);
+            
         }
 
-        public void ReloadPrevious()
+        public void DropPrevious()
         {
             if (_audioPlayer != null)
                 _audioPlayer.Stop();
 
             if (current.PreviousTrack != null)
-            {
                 InitAudioPlayer(current.PreviousTrack);
-            }
+            
         }
-        
-        public void ShuffleTrackCollection() 
-        {
-            ShuffleCollection?.Invoke();      
-        }
+
+        public void ChangeVolume(float volume) =>
+            _audioPlayer.OnVolumeChanged(volume);
         #endregion
 
-        public PlaybackState? GetPlayerState() 
+
+        #region Shuffle_region
+        private void OnShuffleCollection()
         {
-            return _audioPlayer.PlayerState;
+            _audioPlayer.Stop();
+            Shuffle();
+            InitAudioPlayer(index: 0);
         }
+
+        private void Shuffle()
+        {
+            var tmp = tracksCollection.OrderBy(t => Guid.NewGuid()).ToList();
+            tracksCollection = tmp;
+        }
+        #endregion
     }
 }

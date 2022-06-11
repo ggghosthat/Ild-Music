@@ -65,25 +65,25 @@ namespace Ild_Music.Controllers
         public void InitPlayer()
         {
             _player = new PlayerWrap(_track);                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
-            _player.Start();
+            _player.StartPlayer();
         }
 
         public void InitPlayer(int index)
         {
             _player = new PlayerWrap(_tracklist,(float)volume);
             _player.InitAudioPlayer(index);
-            _player.Start();
+            _player.StartPlayer();
         }
 
 
         private void MovePlayer(bool isNext) 
         {
             if (isNext)
-                _player.ReloadNext();
+                _player.DropNext();
             else
-                _player.ReloadPrevious();
+                _player.DropPrevious();
 
-            _player.Start();
+            _player.StartPlayer();
         }
 
 
