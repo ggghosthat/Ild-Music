@@ -40,6 +40,7 @@ namespace Ild_Music_CORE.Models.Core.Session_Structure
             tracksCollection = trackCollection.Tracks;
             this.volume = volume;
             ShuffleCollection += OnShuffleCollection;
+            InitAudioPlayer(index);
         }
         #endregion
 
@@ -89,43 +90,25 @@ namespace Ild_Music_CORE.Models.Core.Session_Structure
 
 
         #region Player_Buttons
-        public void StartPlayer() =>
-            _audioPlayer.Play();
+        public async void StartPlayer() =>
+            await Task.Run(() => _audioPlayer.Play());
 
-        public void StopPlayer() =>
-            _audioPlayer.Stop();
+        public async void StopPlayer() =>
+            await Task.Run(() => _audioPlayer.Stop());
 
-        public void Pause_ResumePlayer() =>
-            _audioPlayer.Pause();
+        public async void Pause_ResumePlayer() =>
+            await Task.Run(() => _audioPlayer.Pause());
 
-        public void ShuffleTrackCollection() =>
-            ShuffleCollection?.Invoke();
+        public async void ShuffleTrackCollection() =>
+            await Task.Run(() => ShuffleCollection?.Invoke());
 
         public PlaybackState? GetPlayerState() =>
             _audioPlayer.PlayerState;
 
 
-        public void DropNext() 
-        {
-            if(_audioPlayer != null)
-                _audioPlayer.Stop();
+        
 
-            if (current.NextTrack != null)
-                InitAudioPlayer(track:current.NextTrack);
-            
-        }
-
-        public void DropPrevious()
-        {
-            if (_audioPlayer != null)
-                _audioPlayer.Stop();
-
-            if (current.PreviousTrack != null)
-                InitAudioPlayer(current.PreviousTrack);
-            
-        }
-
-        public void ChangeVolume(float volume) =>
+        public async void ChangeVolume(float volume) =>
             _audioPlayer.OnVolumeChanged(volume);
         #endregion
 
@@ -142,6 +125,25 @@ namespace Ild_Music_CORE.Models.Core.Session_Structure
         {
             var tmp = tracksCollection.OrderBy(t => Guid.NewGuid()).ToList();
             tracksCollection = tmp;
+        }
+        #endregion
+
+        #region Drop_region
+        public async void DropNext() =>
+            await Task.Run(() => DropTrack(current.NextTrack));
+
+        public async void DropPrevious() =>
+            await Task.Run(() => DropTrack(current.PreviousTrack));
+
+        private void DropTrack(Track track)
+        {
+            if (_audioPlayer != null)
+                _audioPlayer.Stop();
+
+            if (current.PreviousTrack != null)
+                InitAudioPlayer(track);
+
+            _audioPlayer.Play();
         }
         #endregion
     }

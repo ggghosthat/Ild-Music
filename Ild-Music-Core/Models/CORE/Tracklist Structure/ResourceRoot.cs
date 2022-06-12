@@ -1,4 +1,4 @@
-﻿using Ild_Music_Core.Models.Interfaces;
+﻿using Ild_Music_CORE.Models.Interfaces;
 
 namespace Ild_Music_CORE.Models.Core.Tracklist_Structure
 {

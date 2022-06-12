@@ -7,6 +7,8 @@ namespace Ild_Music_CORE.Models.Core.Session_Structure
 {
     public class AudioPlayer
     {
+        Task task;
+
         private Track currentTrack;
 
 
@@ -19,25 +21,20 @@ namespace Ild_Music_CORE.Models.Core.Session_Structure
         public event Action TrackFinished;
         private bool isWatch = true;
 
-        private float volume;
+        private float volume = 25;
 
         public Track? CurrentTrack => currentTrack ?? null;
 
-        public PlaybackState PlayerState 
-        {
-            get 
-            {
-                if (outputDevice != null) return outputDevice.PlaybackState;
-                else return PlaybackState.Stopped;
-            }
-        }
+        public PlaybackState PlayerState => (outputDevice is null) ? PlaybackState.Stopped : outputDevice.PlaybackState;
+
+
 
         public AudioPlayer(Track inputTrack, float volume)
         {
-            Task.Run(Watch);
             currentTrack = inputTrack;
             this.volume = volume;
             ReadTrack();
+            task = new Task(Watch);
         }
 
 
@@ -50,12 +47,11 @@ namespace Ild_Music_CORE.Models.Core.Session_Structure
             totalTime = currentTrack.Duration;
         }
 
-        public void Play(bool isWatch = true)
+        public void Play()
         {
             if (outputDevice == null)
             {
                 outputDevice = new ();
-                outputDevice.Volume = volume;
                 outputDevice.PlaybackStopped += OnPlaybackStopped;
             }
             if (_reader == null)
@@ -65,6 +61,8 @@ namespace Ild_Music_CORE.Models.Core.Session_Structure
             }
 
             outputDevice.Play();
+
+            Process();
         }
         public void Pause()
         {
@@ -80,6 +78,12 @@ namespace Ild_Music_CORE.Models.Core.Session_Structure
         {
             if (outputDevice != null)
                 outputDevice?.Stop();
+        }
+
+        private void Process()
+        {
+            while(outputDevice.PlaybackState == PlaybackState.Playing) 
+                continue;
         }
 
         public void OnVolumeChanged(float volume)

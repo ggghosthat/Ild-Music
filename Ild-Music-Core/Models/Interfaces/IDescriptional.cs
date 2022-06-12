@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Ild_Music_CORE.Models.Interfaces
+﻿namespace Ild_Music_CORE.Models.Interfaces
 {
     public interface IDescriptional
     {
