@@ -1,5 +1,4 @@
-﻿using Ild_Music_CORE.Models.Core;
-using Ild_Music_CORE.Models.Core.Tracklist_Structure;
+﻿using Ild_Music_CORE.Models.Core.Tracklist_Structure;
 using Ild_Music_CORE.Models.Core.Session_Structure.Interfaces;
 using NAudio.Wave;
 using System;
@@ -39,8 +38,8 @@ namespace Ild_Music_CORE.Models.Core.Session_Structure
             _tracklist = trackCollection;
             tracksCollection = trackCollection.Tracks;
             this.volume = volume;
-            ShuffleCollection += OnShuffleCollection;
             InitAudioPlayer(index);
+            ShuffleCollection += OnShuffleCollection;
         }
         #endregion
 
@@ -55,10 +54,10 @@ namespace Ild_Music_CORE.Models.Core.Session_Structure
             if (current != null)
             {
                 _audioPlayer = new AudioPlayer(current, volume);
-                _audioPlayer.TrackFinished += DropNext;
-                _audioPlayer.TrackFinished += StartPlayer;
+                AutoDrop();
             }
         }
+
         public void InitAudioPlayer(int index)
         {
             if (_audioPlayer != null)
@@ -67,27 +66,26 @@ namespace Ild_Music_CORE.Models.Core.Session_Structure
             this.current = Collection[index];
             if (current != null)         
             {
-                _audioPlayer = new AudioPlayer(current, this.volume);
-                _audioPlayer.TrackFinished += DropNext;
-                _audioPlayer.TrackFinished += StartPlayer;
+                _audioPlayer = new AudioPlayer(current, this.volume); 
+                AutoDrop();
             }
         }
 
         public void InitAudioPlayer(Track track)
         {
             if (_audioPlayer != null)
+            {
                 _audioPlayer.Stop();
+            }
 
-            this.current = track;
+            current = track;
             if (current != null)
             {
                 _audioPlayer = new AudioPlayer(current, this.volume);
-                _audioPlayer.TrackFinished += DropNext;
-                _audioPlayer.TrackFinished += StartPlayer;
+                AutoDrop();
             }
         }
         #endregion
-
 
         #region Player_Buttons
         public async void StartPlayer() =>
@@ -111,7 +109,6 @@ namespace Ild_Music_CORE.Models.Core.Session_Structure
         public async void ChangeVolume(float volume) =>
             _audioPlayer.OnVolumeChanged(volume);
         #endregion
-
 
         #region Shuffle_region
         private void OnShuffleCollection()
@@ -140,10 +137,24 @@ namespace Ild_Music_CORE.Models.Core.Session_Structure
             if (_audioPlayer != null)
                 _audioPlayer.Stop();
 
-            if (current.PreviousTrack != null)
+            Console.WriteLine(current.Name);
+            if (current != null)
+            {
                 InitAudioPlayer(track);
+            }
+           _audioPlayer.Play();
+            
+        }
+        #endregion
 
-            _audioPlayer.Play();
+        #region AutoNextDrop_region
+        private void AutoDrop()
+        {
+            if (_audioPlayer != null)
+            {
+                _audioPlayer.TrackFinished += DropNext;
+                //_audioPlayer.TrackFinished += StartPlayer;
+            }
         }
         #endregion
     }

@@ -34,7 +34,6 @@ namespace Ild_Music_CORE.Models.Core.Session_Structure
             currentTrack = inputTrack;
             this.volume = volume;
             ReadTrack();
-            task = new Task(Watch);
         }
 
 
@@ -64,6 +63,7 @@ namespace Ild_Music_CORE.Models.Core.Session_Structure
 
             Process();
         }
+
         public void Pause()
         {
             if (outputDevice.PlaybackState == PlaybackState.Paused)
@@ -82,8 +82,17 @@ namespace Ild_Music_CORE.Models.Core.Session_Structure
 
         private void Process()
         {
-            while(outputDevice.PlaybackState == PlaybackState.Playing) 
+            while (outputDevice.PlaybackState == PlaybackState.Playing)
+            {
+                
+                if (!(_reader.CurrentTime < totalTime) || outputDevice.PlaybackState == PlaybackState.Stopped)
+                {                 
+                    TrackFinished?.Invoke();
+                    break;
+                }         
                 continue;
+                
+            }
         }
 
         public void OnVolumeChanged(float volume)
@@ -91,6 +100,7 @@ namespace Ild_Music_CORE.Models.Core.Session_Structure
             if (outputDevice != null)
                 outputDevice.Volume = volume;
         }
+
         private void OnPlaybackStopped(object sender, StoppedEventArgs e)
         {
             if (outputDevice != null) 
