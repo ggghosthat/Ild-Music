@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Ild_Music_CORE.Models.Core.Session_Structure
 {
-    public class AudioPlayer
+    public class NAudioPlaybacker
     {
         Task task;
 
@@ -29,7 +29,7 @@ namespace Ild_Music_CORE.Models.Core.Session_Structure
 
 
 
-        public AudioPlayer(Track inputTrack, float volume)
+        public NAudioPlaybacker(Track inputTrack, float volume)
         {
             currentTrack = inputTrack;
             this.volume = volume;

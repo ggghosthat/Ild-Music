@@ -11,14 +11,13 @@ namespace Ild_Music_MVVM_.Services
     {
 
         #region Service Register
-        Dictionary<string, Service> services = new();
+        private Dictionary<string, Service> services = new();
         #endregion
 
         #region Singleton Initialization
-        public ServiceCenter()
-        {
+        public ServiceCenter() =>
             UpServices();
-        }
+        
 
        
         #endregion
@@ -38,7 +37,6 @@ namespace Ild_Music_MVVM_.Services
         /// <returns>Returning service</returns>
         public Service GetService(string type)
         {
-
             if (services.Keys.ToList().Contains(type))
                 return services[type];
 
@@ -55,12 +53,11 @@ namespace Ild_Music_MVVM_.Services
 
             var factory = new FactoryService(supporter);
 
-            var controlHandler = new ControlHandlerService();
+            //var controlHandler = new ControlHandlerService();
 
 
             RegistService(supporter);
             RegistService(factory);
-            RegistService(controlHandler);
         }
         #endregion
     }

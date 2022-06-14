@@ -8,17 +8,19 @@ using System.Threading.Tasks;
 
 namespace Ild_Music_CORE.Models.Core.Session_Structure
 {
-    public class PlayerWrap : IPlayer
+    public class NAudioPlayer : IPlayer
     {
         #region Fields
         public Guid PlayerId => Guid.NewGuid();
+        public string PlayerName { get; } = "NAudio Player " ;
 
-        private AudioPlayer _audioPlayer;
+        private NAudioPlaybacker _audioPlayer;
 
         private Track _track;
         private Tracklist _tracklist;
         private IList<Track> tracksCollection;
         public IList<Track> Collection => tracksCollection ?? null;
+
         private Track current;
 
         private float volume;
@@ -26,14 +28,21 @@ namespace Ild_Music_CORE.Models.Core.Session_Structure
         private event Action ShuffleCollection;
         #endregion
 
+
+
         #region ctor
-        public PlayerWrap(Track track)
+        public NAudioPlayer()
+        {
+
+        }
+
+        public void StartTrack(Track track)
         {
             _track = track;            
             InitAudioPlayer();
         }
 
-        public PlayerWrap(Tracklist trackCollection, float volume, int index=0)
+        public void StartPlaylist(Tracklist trackCollection, float volume, int index=0)
         {
             _tracklist = trackCollection;
             tracksCollection = trackCollection.Tracks;
@@ -53,7 +62,7 @@ namespace Ild_Music_CORE.Models.Core.Session_Structure
             current = _track;
             if (current != null)
             {
-                _audioPlayer = new AudioPlayer(current, volume);
+                _audioPlayer = new NAudioPlaybacker(current, volume);
                 AutoDrop();
             }
         }
@@ -66,7 +75,7 @@ namespace Ild_Music_CORE.Models.Core.Session_Structure
             this.current = Collection[index];
             if (current != null)         
             {
-                _audioPlayer = new AudioPlayer(current, this.volume); 
+                _audioPlayer = new NAudioPlaybacker(current, this.volume); 
                 AutoDrop();
             }
         }
@@ -81,7 +90,7 @@ namespace Ild_Music_CORE.Models.Core.Session_Structure
             current = track;
             if (current != null)
             {
-                _audioPlayer = new AudioPlayer(current, this.volume);
+                _audioPlayer = new NAudioPlaybacker(current, this.volume);
                 AutoDrop();
             }
         }

@@ -7,7 +7,7 @@ namespace IldMusicCore_Test
 {
     class Program
     {
-        static PlayerWrap _player;
+        static NAudioPlayer _player = new();
         static bool isActive = true;
 
         //static Track tr1 = new("E://gaga/start/music/2_5233518075101315631.mp3");
@@ -27,7 +27,7 @@ namespace IldMusicCore_Test
             }
         }
 
-        private static void InitPlayer() => _player = new (playlist, 1);
+        private static void InitPlayer() => _player.StartPlaylist(playlist, 1);
 
         private static void CommandProcesser()
         {

@@ -26,7 +26,7 @@ namespace Ild_Music.Controllers
     public class PlayerController : IPlayerControll
     {
         #region Fields
-        private PlayerWrap _player;
+        private NAudioPlayer _player;
         private Track _track;
         
         private Tracklist _tracklist;
@@ -64,13 +64,13 @@ namespace Ild_Music.Controllers
 
         public void InitPlayer()
         {
-            _player = new PlayerWrap(_track);                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
+            _player = new NAudioPlayer(_track);                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
             _player.StartPlayer();
         }
 
         public void InitPlayer(int index)
         {
-            _player = new PlayerWrap(_tracklist,(float)volume);
+            _player = new NAudioPlayer(_tracklist,(float)volume);
             _player.InitAudioPlayer(index);
             _player.StartPlayer();
         }
