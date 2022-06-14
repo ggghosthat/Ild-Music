@@ -53,11 +53,14 @@ namespace Ild_Music_MVVM_.Services
 
             var factory = new FactoryService(supporter);
 
+            var playerService = new PlayerService();
+
             //var controlHandler = new ControlHandlerService();
 
 
             RegistService(supporter);
             RegistService(factory);
+            RegistService(playerService);
         }
         #endregion
     }

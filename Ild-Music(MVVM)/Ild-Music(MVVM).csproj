@@ -17,10 +17,4 @@
     <ProjectReference Include="..\SynchronizationBlock\SynchronizationBlock.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Page Update="View\StartWindow1.xaml">
-      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
-    </Page>
-  </ItemGroup>
-
 </Project>

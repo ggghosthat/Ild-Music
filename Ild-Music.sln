@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30309.148
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ild-Music_UI", "Ild-Music_UI\Ild-Music_UI.csproj", "{7EA5E633-E4CF-4A69-887D-258C2FB56957}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ild-Music-Core", "Ild-Music-Core\Ild-Music-Core.csproj", "{96E9836E-1DA5-446C-AF84-351F83468E7C}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SynchronizationBlock", "SynchronizationBlock\SynchronizationBlock.csproj", "{73C0455C-9B3D-4543-8E21-9AA22504C33B}"
@@ -15,7 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ReBorn.WPF.UI", "..\Avaloni
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shared", "..\AvaloniaReborn\Shared\Shared.csproj", "{39FBDF73-8FD5-4F2F-8C79-D269E9628A51}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IldMusicCore-Test", "IldMusicCore-Test\IldMusicCore-Test.csproj", "{666849E6-B108-4252-AA1A-25B7D59B25AE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IldMusicCore-Test", "IldMusicCore-Test\IldMusicCore-Test.csproj", "{666849E6-B108-4252-AA1A-25B7D59B25AE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,10 +21,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{7EA5E633-E4CF-4A69-887D-258C2FB56957}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7EA5E633-E4CF-4A69-887D-258C2FB56957}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7EA5E633-E4CF-4A69-887D-258C2FB56957}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7EA5E633-E4CF-4A69-887D-258C2FB56957}.Release|Any CPU.Build.0 = Release|Any CPU
 		{96E9836E-1DA5-446C-AF84-351F83468E7C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{96E9836E-1DA5-446C-AF84-351F83468E7C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{96E9836E-1DA5-446C-AF84-351F83468E7C}.Release|Any CPU.ActiveCfg = Release|Any CPU

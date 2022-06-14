@@ -26,6 +26,9 @@ namespace Ild_Music_CORE.Models.Core.Session_Structure
         private float volume;
 
         private event Action ShuffleCollection;
+
+        public bool isEmpty { get; private set; } = true;
+        public bool isSwipe { get; private set; } = false;
         #endregion
 
 
@@ -40,6 +43,7 @@ namespace Ild_Music_CORE.Models.Core.Session_Structure
         {
             _track = track;            
             InitAudioPlayer();
+            isEmpty = false;
         }
 
         public void StartPlaylist(Tracklist trackCollection, float volume, int index=0)
@@ -49,6 +53,8 @@ namespace Ild_Music_CORE.Models.Core.Session_Structure
             this.volume = volume;
             InitAudioPlayer(index);
             ShuffleCollection += OnShuffleCollection;
+            isEmpty = false;
+            isSwipe = true;
         }
         #endregion
 
@@ -97,7 +103,7 @@ namespace Ild_Music_CORE.Models.Core.Session_Structure
         #endregion
 
         #region Player_Buttons
-        public async void StartPlayer() =>
+        public async void Play() =>
             await Task.Run(() => _audioPlayer.Play());
 
         public async void StopPlayer() =>

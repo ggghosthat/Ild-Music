@@ -35,7 +35,7 @@ namespace IldMusicCore_Test
             var cmd = Console.ReadLine();
 
             if (cmd is "play")
-                _player.StartPlayer();
+                _player.Play();
             if (cmd is "stop")
                 _player.StopPlayer();
             if (cmd is "c")

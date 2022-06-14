@@ -386,6 +386,7 @@
             </Style.Triggers>
         </Style>
     </Window.Resources>
+    
     <Grid RenderTransformOrigin="0.548,0.512">
         <Grid.RowDefinitions>
             <RowDefinition Height="45"/>
@@ -536,6 +537,8 @@
                     Background="#1b2333" 
                     Orientation="Horizontal" 
                     Height="33" Width="1100">
+
+
             <StackPanel x:Name="Previous"
                             Height="25"
                             Width="25"
@@ -543,6 +546,9 @@
                             HorizontalAlignment="Left"
                             VerticalAlignment="Center"
                             Margin="100 0 0 0">
+                <b:Interaction.Triggers>
+
+                </b:Interaction.Triggers>
                 <Border x:Name="brPrev"
                         CornerRadius="5"
                         Background="Transparent">
@@ -618,6 +624,24 @@
                     <Viewbox Width="24" Height="24">
                         <Canvas Width="24" Height="24">
                             <Path Style="{StaticResource PlayerStyle}" Data="M6,5.75L10.25,10H7V16H13.5L15.5,18H7A2,2 0 0,1 5,16V10H1.75L6,5.75M18,18.25L13.75,14H17V8H10.5L8.5,6H17A2,2 0 0,1 19,8V14H22.25L18,18.25Z" />
+                        </Canvas>
+                    </Viewbox>
+                </Border>
+            </StackPanel>
+
+            <StackPanel x:Name="Break"
+                            Height="25"
+                            Width="25"
+                            Background="Transparent"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            Margin="10 0 0 0">
+                <Border x:Name="brBreak"
+                        CornerRadius="5"
+                        Background="Transparent">
+                    <Viewbox Width="24" Height="24">
+                        <Canvas Width="24" Height="24">
+                            <Path Style="{StaticResource PlayerStyle}" Data="M8.27,3L3,8.27V15.73L8.27,21H15.73L21,15.73V8.27L15.73,3M8.41,7L12,10.59L15.59,7L17,8.41L13.41,12L17,15.59L15.59,17L12,13.41L8.41,17L7,15.59L10.59,12L7,8.41" />
                         </Canvas>
                     </Viewbox>
                 </Border>

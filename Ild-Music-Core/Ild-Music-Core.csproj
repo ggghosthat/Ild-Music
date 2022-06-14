@@ -9,8 +9,4 @@
     <!-- <PackageReference Include="Avalonia" Version="0.10.6" /> -->
     <PackageReference Include="NAudio" Version="2.1.0" />
   </ItemGroup>
-
-<ItemGroup>
-  <Folder Include="Models\CORE\Units\" />
-</ItemGroup>
 </Project>
