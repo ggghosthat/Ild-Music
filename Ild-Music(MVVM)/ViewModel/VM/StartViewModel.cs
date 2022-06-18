@@ -11,6 +11,7 @@ namespace Ild_Music_MVVM_.ViewModel.VM
         public ObservableCollection<Tracklist> PlaylistsItem { get; set; }
         public ObservableCollection<Artist> ArtistsItem { get; set; }
         #endregion
+
         public StartViewModel()
         {
             InitItems();

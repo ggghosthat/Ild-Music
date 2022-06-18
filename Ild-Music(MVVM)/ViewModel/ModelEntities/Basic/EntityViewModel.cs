@@ -1,4 +1,4 @@
-﻿using Ild_Music_Core.Models.Interfaces;
+﻿using Ild_Music_CORE.Models.Interfaces;
 using Ild_Music_CORE.Models.Core.Tracklist_Structure;
 
 namespace Ild_Music_MVVM_.ViewModel.ModelEntities.Basic

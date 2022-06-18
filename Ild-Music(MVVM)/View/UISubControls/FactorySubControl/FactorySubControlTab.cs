@@ -6,6 +6,7 @@ namespace Ild_Music_MVVM_.View.UISubControls.FactorySubControl
     {
         public UserControl UserControl { get; init; }
         public string Header { get; init; }
+
         public FactorySubControlTab(UserControl userControl, string header)
         {
             UserControl = userControl;

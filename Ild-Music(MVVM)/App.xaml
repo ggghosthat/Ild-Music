@@ -9,7 +9,7 @@
         <DataTemplate DataType="{x:Type viewmodel:StartViewModel}">
             <views:StartControl/>
         </DataTemplate>
-        <DataTemplate DataType="{x:Type viewmodel:FactoryViewModel}">
+        <DataTemplate DataType="{x:Type viewmodel:FactoryContainerViewModel}">
             <views:FactoryConrol/>
         </DataTemplate>
         <DataTemplate DataType="{x:Type viewmodel:ListViewModel}">

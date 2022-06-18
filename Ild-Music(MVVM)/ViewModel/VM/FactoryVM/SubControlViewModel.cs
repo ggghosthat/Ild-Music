@@ -1,38 +1,20 @@
-﻿using Ild_Music_MVVM_.Command;
-using Ild_Music_MVVM_.Services;
-using Ild_Music_MVVM_.ViewModel.VM;
+﻿using Ild_Music_MVVM_.Services;
+using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 
-namespace Ild_Music_MVVM_.ViewModel.VM
+namespace Ild_Music_MVVM_.ViewModel.VM.FactoryVM
 {
-    public class FactoryViewModel : Base.BaseViewModel
+    public class SubControlViewModel : Base.BaseViewModel
     {
+        private FactoryService factoryService => (FactoryService)GetService("Factory");
 
-        /// <summary>
-        /// In this VM does not use CommandDelegator 'cause of some of reasons of bug
-        /// maybe in the future it wil be fixed
-        /// ~~~~~ keep calm ~~~~~ :)
-        /// ---Using For Instance generating processes---
-        /// </summary>
-        #region Fields
-        private FactoryService factoryService => (FactoryService)base.GetService("Factory");
-        
+        public static IList<Action<object>> SubConrolActions { get; private set; } = new List<Action<object>>();
 
-        #endregion
 
-        #region constructor
-        public FactoryViewModel()
+        public SubControlViewModel()
         {
         }
-        #endregion
 
-
-        #region Private methods
-        #endregion
-
-
-        #region Command Methods
 
         public void CreateArtistInstance(object[] values)
         {
@@ -40,6 +22,7 @@ namespace Ild_Music_MVVM_.ViewModel.VM
             var description = (string)values[1];
             factoryService.CreateArtist(name, description);
         }
+
         public void CreatePlaylistInstance(object[] values)
         {
             var name = (string)values[0];
@@ -56,8 +39,5 @@ namespace Ild_Music_MVVM_.ViewModel.VM
             var artistIndex = (int?)values[3] ?? null;
             factoryService.CreateTrack(path, name, description, artistIndex);
         }
-        #endregion
-
-
     }
 }

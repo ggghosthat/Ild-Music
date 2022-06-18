@@ -8,6 +8,6 @@ namespace Ild_Music_MVVM_
     /// </summary>
     public partial class App : Application
     {
-        public static ServiceCenter serviceCenter;
+        public static readonly ServiceCenter serviceCenter = new();
     }
 }

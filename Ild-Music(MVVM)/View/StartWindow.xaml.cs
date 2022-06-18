@@ -5,9 +5,7 @@ namespace Ild_Music_MVVM_.View
     public partial class StartWindow
     {
         public StartWindow()
-        {
-            App.serviceCenter = new ();
-            
+        {            
             InitializeComponent();
             DataContext = new MainViewModel();
         }

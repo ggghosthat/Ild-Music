@@ -5,13 +5,11 @@ namespace Ild_Music_MVVM_.View.UISubControls.FactorySubControl
 {
     public partial class FacTrackSubControl : UserControl, IFactorySubControl
     {
-        private FactoryViewModel FactoryViewModel;
+        private FactoryContainerViewModel FactoryViewModel;
         public string Header { get; init; } = "Track";
         public FacTrackSubControl()
         {
             InitializeComponent();
-            this.FactoryViewModel = new FactoryViewModel();
-            DataContext = FactoryViewModel;
         }
 
         private void TrackFactoryClick(object sender, System.Windows.RoutedEventArgs e)
