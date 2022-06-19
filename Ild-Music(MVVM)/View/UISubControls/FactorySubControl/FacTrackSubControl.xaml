@@ -90,19 +90,13 @@
                              Width="750"
                              Margin="5,2"
                              FontSize="16"
-                             Foreground="AliceBlue"
                              Style="{StaticResource Textbox3}"
                              Height="25"
                              Padding="8,0"
-                             CaretBrush="White"/>
+                             CaretBrush="White"
+                             IsReadOnly="True" MouseDoubleClick="Path2Track"/>
 
-                    <Button x:Name="btnPath"
-                            Height="30" 
-                            Width="31"
-                            Margin="2"
-                            BorderThickness="0" 
-                            Background="Yellow"
-                            Style="{StaticResource CardButton11}"/>
+                    
                     
                 </StackPanel>
 

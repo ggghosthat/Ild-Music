@@ -129,7 +129,10 @@
                                     </Grid.RowDefinitions>
 
 
-                                    <Image Grid.Row="0" Source="{Binding ., Converter={StaticResource ListItemConverter}}" Width="24" Height="24"/>
+                                    <Image Grid.Row="0" 
+                                           Width="24"
+                                           Height="24"
+                                           Source="{Binding ., Converter={StaticResource ListItemConverter}}" />
                                     <TextBlock Foreground="White"
                                                HorizontalAlignment="Center"
                                                Grid.Row="1"
