@@ -1,12 +1,10 @@
-﻿using Ild_Music_MVVM_.ViewModel.VM;
+﻿using Ild_Music_MVVM_.ViewModel.VM.FactoryVM;
 using System.Windows.Controls;
 
 namespace Ild_Music_MVVM_.View.UISubControls.FactorySubControl
 {
     public partial class FacArtistSubControl : UserControl, IFactorySubControl
     {
-        private FactoryContainerViewModel FactoryViewModel;
-
         public string Header { get; init; } = "Artist";
 
         public FacArtistSubControl()
@@ -16,8 +14,10 @@ namespace Ild_Music_MVVM_.View.UISubControls.FactorySubControl
 
         private void ArtistFactoryClick(object sender, System.Windows.RoutedEventArgs e)
         {
+            var subControlVM = (SubControlViewModel)DataContext;
+
             object[] values = { txtName.Text, txtDescription.Text};
-            //FactoryViewModel.CreateArtistInstance(values);
+            subControlVM.CreateArtistInstance(values);
         }
     }
 }

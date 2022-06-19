@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:b="http://schemas.microsoft.com/xaml/behaviors" 
              xmlns:local="clr-namespace:Ild_Music_MVVM_.View.UISubControls.FactorySubControl"
              mc:Ignorable="d" 
              d:DesignHeight="510" d:DesignWidth="896">
@@ -72,7 +73,6 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-
         <Grid Grid.Row="0">
             <StackPanel Orientation="Vertical">
 
@@ -99,9 +99,6 @@
                     
                     
                 </StackPanel>
-
-
-
 
                 <StackPanel Orientation="Horizontal">
 
@@ -182,7 +179,7 @@
                                   BorderThickness="0"
                                   FontSize="11"
                                   Width="400"
-                                  Height="120"
+                                  Height="270"
                                   ScrollViewer.VerticalScrollBarVisibility="Disabled">
 
                             <ListView.Resources>
@@ -232,7 +229,7 @@
                               BorderThickness="0"
                               FontSize="11"
                               Width="400"
-                              Height="120"
+                              Height="270"
                               ScrollViewer.VerticalScrollBarVisibility="Disabled">
 
                             <ListView.Resources>
@@ -271,142 +268,27 @@
                     </Border>
                 </StackPanel>
 
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock
-                           Text=" Existed playlists : "                       
-                           Foreground="White"
-                           FontSize="15"
-                           Margin="90,2"
-                           FontWeight="Medium"/>
 
-                    <TextBlock
-                           Text=" Enabled playlists : "
-                           Foreground="White"
-                           FontSize="15"
-                           Margin="200,2"
-                           FontWeight="Medium"/>
-                </StackPanel>
-
-                <StackPanel Orientation="Horizontal">
-                    <Border Margin="5,0"
-                            BorderBrush="Aqua"
-                            BorderThickness="2"
-                            CornerRadius="5"
-                            Padding="1.2"
-                            Background="#151d1f">
-                        <ListView x:Name="lvPlaylistProvider" 
-                                  Foreground="White"
-                                  Background="#151d1f"
-                                  BorderThickness="0"
-                                  FontSize="11"
-                                  Width="400"
-                                  Height="120"
-                                  ScrollViewer.VerticalScrollBarVisibility="Disabled">
-
-                            <ListView.Resources>
-                                <Style TargetType="{x:Type GridViewColumnHeader}">
-                                    <Setter Property="Visibility" Value="Collapsed" />
-                                </Style>
-                            </ListView.Resources>
-
-
-                            <ListView.ItemContainerStyle>
-                                <Style TargetType="{x:Type ListViewItem}">
-                                    <Setter Property="HorizontalAlignment" Value="Center"/>
-                                    <Setter Property="BorderThickness" Value="0"/>
-                                    <Setter Property="Margin" Value="1"/>
-                                    <Setter Property="Padding" Value="1"/>
-                                    <Setter Property="HorizontalAlignment" Value="Left"/>
-                                    <Setter Property="Width" Value="396"/>
-                                    <Style.Triggers>
-                                        <Trigger Property="IsSelected" Value="true" >
-                                            <Setter Property="Foreground" Value="DimGray" />
-                                            <Setter Property="Background" Value="#1b2e2d"/>
-                                        </Trigger>
-                                        <Trigger Property="IsSelected" Value="False" >
-                                            <Setter Property="Foreground" Value="Silver" />
-                                            <Setter Property="Background" Value="#1b2e2d"/>
-                                        </Trigger>
-
-                                        <Trigger Property="IsEnabled" Value="True">
-                                            <Setter Property="Foreground" Value="Silver" />
-                                            <Setter Property="Background" Value="#1b2e2d"/>
-                                        </Trigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </ListView.ItemContainerStyle>
-                        </ListView>
-                    </Border>
-
-                    <Border Margin="5,0"
-                            BorderBrush="Aqua"
-                            BorderThickness="2"
-                            CornerRadius="5"
-                            Padding="1.2"
-                            Background="#151d1f">
-                        <ListView x:Name="lvPlaylistRoot" 
-                              Foreground="White"
-                              Background="#151d1f"
-                              BorderThickness="0"
-                              FontSize="11"
-                              Width="400"
-                              Height="120"
-                              ScrollViewer.VerticalScrollBarVisibility="Disabled">
-
-                            <ListView.Resources>
-                                <Style TargetType="{x:Type GridViewColumnHeader}">
-                                    <Setter Property="Visibility" Value="Collapsed" />
-                                </Style>
-                            </ListView.Resources>
-
-
-                            <ListView.ItemContainerStyle>
-                                <Style TargetType="{x:Type ListViewItem}">
-                                    <Setter Property="HorizontalAlignment" Value="Center"/>
-                                    <Setter Property="BorderThickness" Value="0"/>
-                                    <Setter Property="Margin" Value="1"/>
-                                    <Setter Property="Padding" Value="1"/>
-                                    <Setter Property="HorizontalAlignment" Value="Left"/>
-                                    <Setter Property="Width" Value="396"/>
-                                    <Style.Triggers>
-                                        <Trigger Property="IsSelected" Value="true" >
-                                            <Setter Property="Foreground" Value="DimGray" />
-                                            <Setter Property="Background" Value="#1b2e2d"/>
-                                        </Trigger>
-                                        <Trigger Property="IsSelected" Value="False" >
-                                            <Setter Property="Foreground" Value="Silver" />
-                                            <Setter Property="Background" Value="#1b2e2d"/>
-                                        </Trigger>
-
-                                        <Trigger Property="IsEnabled" Value="True">
-                                            <Setter Property="Foreground" Value="Silver" />
-                                            <Setter Property="Background" Value="#1b2e2d"/>
-                                        </Trigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </ListView.ItemContainerStyle>
-                        </ListView>
-                    </Border>
-                </StackPanel>
             </StackPanel>
         </Grid>
 
         <Grid Grid.Row="2">
             <Button x:Name="btn"
-                            Height="25" 
-                            Width="100" 
-                            BorderThickness="0" 
-                            HorizontalAlignment="Left"
-                            VerticalAlignment="Top"
-                            Style="{StaticResource CardButton11}"
-                            FontSize="20"
-                            FontWeight="ExtraBold"
-                            Background="#42d4f5"
-                            Foreground="White" 
-                            Margin="10"
-                            Content="OK"
-                            Click="TrackFactoryClick">
+                    Height="30" 
+                    Width="100" 
+                    BorderThickness="0" 
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Bottom"
+                    Style="{StaticResource CardButton11}"
+                    FontSize="20"
+                    FontWeight="ExtraBold"
+                    Background="#42d4f5"
+                    Foreground="White" 
+                    Margin="10"
+                    Content="OK"
+                    Click="TrackFactoryClick">
             </Button>
         </Grid>
+        
     </Grid>
 </UserControl>

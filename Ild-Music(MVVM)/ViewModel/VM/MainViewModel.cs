@@ -21,13 +21,10 @@ namespace Ild_Music_MVVM_.ViewModel.VM
 
         public MainViewModel() : base()
         {
-
             PreviousCommand = new CommandDelegater(PreviousPlayerCommand, OnCanSwipe);
             NextCommand = new CommandDelegater(NextPlayerCommand, OnCanSwipe);
             KickCommand = new CommandDelegater(PlayPlayerCommand, OnCanUsePlayer);
             KickCommand = new CommandDelegater(StopPlayerCommand, OnCanUsePlayer);
-
-            Debug.WriteLine("Hello");
         }
 
 
@@ -42,8 +39,7 @@ namespace Ild_Music_MVVM_.ViewModel.VM
         #endregion
 
         private void PreviousPlayerCommand(object obj = null) =>
-            Debug.WriteLine("Previous Command");
-            //PlayerEntity.DropPrevious();
+            PlayerEntity.DropPrevious();
 
 
         private void NextPlayerCommand(object obj = null) =>

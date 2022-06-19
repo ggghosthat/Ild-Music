@@ -1,4 +1,4 @@
-﻿using Ild_Music_MVVM_.ViewModel.VM;
+﻿using Ild_Music_MVVM_.ViewModel.VM.FactoryVM;
 using System.Windows.Forms;
 using System.Windows.Media;
 
@@ -6,21 +6,19 @@ namespace Ild_Music_MVVM_.View.UISubControls.FactorySubControl
 {
     public partial class FacTrackSubControl : System.Windows.Controls.UserControl, IFactorySubControl
     {
-        private FactoryContainerViewModel FactoryViewModel;
         public string Header { get; init; } = "Track";
+
         public FacTrackSubControl()
         {
             InitializeComponent();
 
-            txtPath.Foreground = (Brush)new BrushConverter().ConvertFrom("#7e8f8a");
-            txtPath.Text = "Click twice to select your track.";
+            TrackPathPrecolor();
         }
 
-        private void TrackFactoryClick(object sender, System.Windows.RoutedEventArgs e)
+        private void TrackPathPrecolor()
         {
-            object[] values = { txtPath.Text, txtName.Text, txtDescription.Text, lvArtistsRoot.Items, lvPlaylistRoot.Items };
-
-            //FactoryViewModel.CreateTrackInstance(values);
+            txtPath.Foreground = (Brush)new BrushConverter().ConvertFrom("#7e8f8a");
+            txtPath.Text = "Click twice to select your track.";
         }
 
         private void Path2Track(object sender, System.Windows.Input.MouseButtonEventArgs e)
@@ -31,6 +29,15 @@ namespace Ild_Music_MVVM_.View.UISubControls.FactorySubControl
                 txtPath.Foreground = (Brush)new BrushConverter().ConvertFrom("AliceBlue");
                 txtPath.Text = dialog.FileName;
             }
+        }
+
+        private void TrackFactoryClick(object sender, System.Windows.RoutedEventArgs e)
+        {
+            var subControlVM = (SubControlViewModel)DataContext;
+
+            object[] values = { txtPath.Text, txtName.Text, txtDescription.Text, lvArtistsRoot.Items};
+            
+            subControlVM.CreateTrackInstance(values);
         }
     }
 }

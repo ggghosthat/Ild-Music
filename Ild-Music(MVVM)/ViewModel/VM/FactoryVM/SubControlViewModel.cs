@@ -1,5 +1,4 @@
 ﻿using Ild_Music_MVVM_.Services;
-using System;
 using System.Collections.Generic;
 
 namespace Ild_Music_MVVM_.ViewModel.VM.FactoryVM
@@ -7,8 +6,6 @@ namespace Ild_Music_MVVM_.ViewModel.VM.FactoryVM
     public class SubControlViewModel : Base.BaseViewModel
     {
         private FactoryService factoryService => (FactoryService)GetService("Factory");
-
-        public static IList<Action<object>> SubConrolActions { get; private set; } = new List<Action<object>>();
 
 
         public SubControlViewModel()
@@ -31,8 +28,9 @@ namespace Ild_Music_MVVM_.ViewModel.VM.FactoryVM
             factoryService.CreatePlaylist(name, description, tracks);
         }
 
-        public void CreateTrackInstance(object[] values)
+        public void CreateTrackInstance(object? value)
         {
+            var values = (object[])value;
             var path = (string)values[0];
             var name = (string)values[1];
             var description = (string)values[2];
