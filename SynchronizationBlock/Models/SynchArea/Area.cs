@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Collections.Generic;
 using Ild_Music_CORE.Models.Core.Tracklist_Structure;
 
@@ -8,8 +9,12 @@ using SynchronizationBlock.Models.ArtistSynch;
 
 namespace SynchronizationBlock.Models.SynchArea
 {
-    public class Area
+    public class Area : ISynchArea
     {
+        public Guid PlayerId => Guid.NewGuid();
+        public string PlayerName => "BaseSynch";
+
+
         private TrackSynch<Track> trackSynch = new TrackSynch<Track>();
         private ArtistSynch<Artist> artistSynch = new ArtistSynch<Artist>();
         private PlaylistSynch<Tracklist> playlistSynch = new PlaylistSynch<Tracklist>();
@@ -18,6 +23,7 @@ namespace SynchronizationBlock.Models.SynchArea
         public IList<Artist> existedArtists => artistSynch.Instances;
         public IList<Track> existedTracks => trackSynch.Instances;
         public IList<Tracklist> existedPlaylists => playlistSynch.Instances;
+
 
 
         public void Init()
@@ -38,54 +44,42 @@ namespace SynchronizationBlock.Models.SynchArea
         }
 
 
-        public void AddArtistObj(Artist artist)
-        {
+
+        #region add_methods
+
+        public void AddArtistObj(Artist artist) =>        
             artistSynch.AddInstance(artist);
-        }
-
-        public void AddTrackObj(Track track)
-        {
+        
+        public void AddTrackObj(Track track) =>        
             trackSynch.AddInstance(track);
-        }
-
-        public void AddPlaylistObj(Tracklist playlist)
-        {
+        
+        public void AddPlaylistObj(Tracklist playlist) =>
             playlistSynch.AddInstance(playlist);
-        }
+        #endregion
 
-
-        public void EditArtistObj(Artist artist)
-        {
+        #region edit_methods
+        public void EditArtistObj(Artist artist) =>        
             artistSynch.EditInstance(artist);
-        }
-
-        public void EditTrackObj(Track track) 
-        {
+        
+        public void EditTrackObj(Track track) =>
             trackSynch.EditInstance(track);
-        }
-
-        public void EditPlaylistObj(Tracklist playlist) 
-        {
+        
+        public void EditPlaylistObj(Tracklist playlist) => 
             playlistSynch.EditInstance(playlist);
-        }
+        #endregion
 
-
-        public void RemoveArtistObj(Artist artist)
-        {
+        #region remove_methods
+        public void RemoveArtistObj(Artist artist) => 
             artistSynch.RemoveInstance(artist);
-        }
-
-        public void RemoveTrackObj(Track track)
-        {
+        
+        public void RemoveTrackObj(Track track) =>
             trackSynch.RemoveInstance(track);
-        }
-
-        public void RemovePlaylistObj(Tracklist playlist)
-        {
+        
+        public void RemovePlaylistObj(Tracklist playlist) => 
             playlistSynch.RemoveInstance(playlist);
-        }
+        #endregion
 
-
+        #region save_methods
         public void Save() 
         {
             artistSynch.Serialize();
@@ -93,22 +87,14 @@ namespace SynchronizationBlock.Models.SynchArea
             playlistSynch.Serialize();
         }
 
-        public void SaveArtists()
-        {
+        public void SaveArtists() => 
             artistSynch.Serialize();
-        }
-        
-        public void SavePlaylists()
-        {
+                
+        public void SavePlaylists() =>
             playlistSynch.Serialize();
-        }
-
-        public void SaveTracks() 
-        {
-            trackSynch.Serialize();
-        }
-
-
         
+        public void SaveTracks() =>
+            trackSynch.Serialize();
+        #endregion
     }
 }
