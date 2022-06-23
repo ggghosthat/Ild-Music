@@ -1,5 +1,5 @@
 ﻿using Ild_Music_CORE.Models.Core.Session_Structure;
-using Ild_Music_CORE.Models.Core.Session_Structure.Interfaces;
+using ShareInstances;
 using System.Collections.Generic;
 
 namespace Ild_Music_MVVM_.Services

@@ -1,5 +1,5 @@
-﻿using Ild_Music_CORE.Models.Core.Tracklist_Structure;
-using Ild_Music_CORE.Models.Core.Session_Structure.Interfaces;
+﻿using ShareInstances;
+using Ild_Music_CORE.Models.Core.Tracklist_Structure;
 using NAudio.Wave;
 using System;
 using System.Collections.Generic;
@@ -31,8 +31,6 @@ namespace Ild_Music_CORE.Models.Core.Session_Structure
         public bool isSwipe { get; private set; } = false;
         #endregion
 
-
-
         #region ctor
         public NAudioPlayer()
         {
@@ -57,7 +55,6 @@ namespace Ild_Music_CORE.Models.Core.Session_Structure
             isSwipe = true;
         }
         #endregion
-
 
         #region PlayerInitialization
         public void InitAudioPlayer()
@@ -103,16 +100,16 @@ namespace Ild_Music_CORE.Models.Core.Session_Structure
         #endregion
 
         #region Player_Buttons
-        public async void Play() =>
+        public async Task Play() =>
             await Task.Run(() => _audioPlayer.Play());
 
-        public async void StopPlayer() =>
+        public async Task StopPlayer() =>
             await Task.Run(() => _audioPlayer.Stop());
 
-        public async void Pause_ResumePlayer() =>
+        public async Task Pause_ResumePlayer() =>
             await Task.Run(() => _audioPlayer.Pause());
 
-        public async void ShuffleTrackCollection() =>
+        public async Task ShuffleTrackCollection() =>
             await Task.Run(() => ShuffleCollection?.Invoke());
 
         public PlaybackState? GetPlayerState() =>
@@ -121,7 +118,7 @@ namespace Ild_Music_CORE.Models.Core.Session_Structure
 
         
 
-        public async void ChangeVolume(float volume) =>
+        public async Task ChangeVolume(float volume) =>
             _audioPlayer.OnVolumeChanged(volume);
         #endregion
 

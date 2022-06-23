@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net5.0-windows</TargetFramework>
@@ -9,4 +9,8 @@
     <!-- <PackageReference Include="Avalonia" Version="0.10.6" /> -->
     <PackageReference Include="NAudio" Version="2.1.0" />
   </ItemGroup>
+
+<ItemGroup>
+  <ProjectReference Include="..\ShareInstances\ShareInstances.csproj" />
+</ItemGroup>
 </Project>

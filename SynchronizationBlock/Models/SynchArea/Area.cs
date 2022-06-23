@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ShareInstances;
+using System;
 using System.IO;
 using System.Collections.Generic;
 using Ild_Music_CORE.Models.Core.Tracklist_Structure;
@@ -6,6 +7,7 @@ using Ild_Music_CORE.Models.Core.Tracklist_Structure;
 using SynchronizationBlock.Models.PlaylistSymch;
 using SynchronizationBlock.Models.TrackSynch;
 using SynchronizationBlock.Models.ArtistSynch;
+
 
 namespace SynchronizationBlock.Models.SynchArea
 {

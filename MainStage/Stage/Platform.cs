@@ -1,7 +1,6 @@
-﻿using Ild_Music_CORE.Models.Core.Session_Structure.Interfaces;
-using SynchronizationBlock.Models.SynchArea;
+﻿using ShareInstances;
 
-namespace Ild_Music_MVVM_.MainPlatform
+namespace MainStage.Stage
 {
     internal class Platform
     {

@@ -14,7 +14,13 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Ild-Music-Core\Ild-Music-Core.csproj" />
+    <ProjectReference Include="..\ShareInstances\ShareInstances.csproj" />
     <ProjectReference Include="..\SynchronizationBlock\SynchronizationBlock.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="MainPlatform\" />
   </ItemGroup>
 
 </Project>
