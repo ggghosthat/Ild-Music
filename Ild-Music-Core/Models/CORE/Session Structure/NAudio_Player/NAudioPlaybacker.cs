@@ -1,7 +1,7 @@
-﻿using Ild_Music_CORE.Models.Core.Tracklist_Structure;
-using NAudio.Wave;
+﻿using NAudio.Wave;
 using System;
 using System.Threading.Tasks;
+using ShareInstances.PlayerResources;
 
 namespace Ild_Music_CORE.Models.Core.Session_Structure
 {
@@ -10,7 +10,6 @@ namespace Ild_Music_CORE.Models.Core.Session_Structure
         Task task;
 
         private Track currentTrack;
-
 
         private WaveOutEvent outputDevice;
         private AudioFileReader _reader;

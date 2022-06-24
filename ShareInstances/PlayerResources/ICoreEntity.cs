@@ -1,4 +1,4 @@
-﻿namespace Ild_Music_CORE.Models.Interfaces
+﻿namespace ShareInstances.PlayerResources
 {
     public interface ICoreEntity
     {

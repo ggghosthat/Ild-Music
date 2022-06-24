@@ -8,6 +8,9 @@ namespace ShareInstances
     {
         public Guid PlayerId { get; }
         public string PlayerName { get; }
+
+
+        //public void AddArtistObj(Artist artist);
     }
 
     //Represent Player instance

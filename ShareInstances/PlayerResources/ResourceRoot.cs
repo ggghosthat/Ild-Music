@@ -1,6 +1,4 @@
-﻿using Ild_Music_CORE.Models.Interfaces;
-
-namespace Ild_Music_CORE.Models.Core.Tracklist_Structure
+﻿namespace ShareInstances.PlayerResources
 {
     public class ResourceRoot : ICoreEntity
     {

@@ -1,8 +1,7 @@
-﻿using Ild_Music_CORE.Models.Interfaces;
-using System;
+﻿using System;
 using System.Collections.Generic;
 
-namespace Ild_Music_CORE.Models.Core.Tracklist_Structure
+namespace ShareInstances.PlayerResources
 {
     public class Artist : ResourceRoot, IDescriptional, IDisposable
     {

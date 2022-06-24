@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Ild_Music_CORE.Models.Interfaces;
 
-namespace Ild_Music_CORE.Models.Core.Tracklist_Structure
+namespace ShareInstances.PlayerResources
 {
     public class Tracklist : ResourceRoot, IDescriptional, IDisposable
     {
