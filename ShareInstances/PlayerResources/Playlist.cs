@@ -49,7 +49,6 @@ namespace ShareInstances.PlayerResources
         public object SyncRoot => default(object);
         #endregion
 
-
         #region Ctor
         public Playlist()
         {
@@ -62,7 +61,6 @@ namespace ShareInstances.PlayerResources
 
         #endregion
 
-        #region Methods
         #region Order
         public void Order()
         {
@@ -118,31 +116,34 @@ namespace ShareInstances.PlayerResources
         }
         #endregion
 
+        #region CheckCurrentMethods
         public void CheckIsCurrent()
         {
             if (Current != null)
                 IsCurrent = true;
         }
+        #endregion
 
-
-
-        public void Add(Track track)
+        #region CollectionManipulationMethods
+        public void AddTrack(Track track)
         {
-            if (tracks_collection == null)
-                tracks_collection = new List<Track>();
+            if (tracks_collection.Count == 0 )
+            {
+                tracks_collection.Add(track);
+                return;
+            }
 
             if (tracks_collection.Count > 0 && IsOrdered)
             {                
                 var tail = tracks_collection.Last();
                 tail.NextTrack = track;
+                track.PreviousTrack = tail;
                 tracks_collection.Add(track);
                 return;
             }
-
-            tracks_collection.Add(track);
         }
 
-        public void Remove(Track track)
+        public void RemoveTrack(Track track)
         {
             if (tracks_collection.Contains(track))
             {
@@ -172,7 +173,6 @@ namespace ShareInstances.PlayerResources
             }
         }
         #endregion
-
 
         #region SpecialMethods
 
