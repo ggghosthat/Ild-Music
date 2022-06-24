@@ -6,10 +6,12 @@ namespace ShareInstances.PlayerResources
     public class Artist : ResourceRoot, IDescriptional, IDisposable
     {
         #region Fields
-        private string id;
+        private string id = Guid.NewGuid().ToString();
         private string name;
-        private IList<Playlist> _tracks;
-        private IList<Track> tracks_collection;
+        private string description;
+
+        private IList<Track> tracks = new List<Track>();
+        private IList<Playlist> playlists = new List<Playlist>();
         private IList<string> tracksId_collection;
         #endregion
 
@@ -24,15 +26,21 @@ namespace ShareInstances.PlayerResources
             get { return name; } 
             set { name = value; } 
         }
-        
+
+        public string Description
+        {
+            get { return description; }
+            set { description = value; }
+        }
+
         public IList<Playlist> Tracks 
         {
-            get { return _tracks; } 
-            set { _tracks = value; } 
+            get { return playlists; } 
+            set { playlists = value; } 
         }
         public IList<Track> TracksCollection {
-            get{ return tracks_collection;}
-            set{ tracks_collection = value;}
+            get{ return tracks;}
+            set{ tracks = value;}
         }
         public IList<string> TracksIdCollection 
         {
@@ -40,117 +48,40 @@ namespace ShareInstances.PlayerResources
             set{tracksId_collection = value;}
         }
 
-        public string Description { get; set; }
+        
         #endregion
-
 
         #region contr
 
         public Artist()
         {
-
-        }
-
-        public Artist(string name)
-        {
-            this.id = Guid.NewGuid().ToString();
-            this.name = name;
         }
 
         public Artist(string name, string? description = null)
         {
-            this.id = Guid.NewGuid().ToString();
             this.name = name;
-            this.Description = description ?? string.Empty;
-        }
-
-        public Artist(string id_str, string name, string? description = null)
-        {
-            this.id = id_str;
-            this.name = name;
-            this.Description = description ?? string.Empty;
-        }
-
-        public Artist(string name, IList<Playlist> tracks)
-        {
-            this.id = Guid.NewGuid().ToString();
-            this.name = name;
-            this._tracks = tracks;
-        }
-
-        public Artist(string name, IList<Track> tracks_collection)
-        {
-            this.id = Guid.NewGuid().ToString();
-            this.name = name;
-            this.tracks_collection = tracks_collection;
-        }
-
-        public Artist(string name, Track? track = null, string? trackId = null)
-        {
-            this.id = Guid.NewGuid().ToString();
-            this.name = name;
-            if (track != null)
-            {
-                tracks_collection = new List<Track>();
-                tracks_collection.Add(track);
-            }
-            if (trackId != null)
-            {
-                tracksId_collection = new List<string>();
-                tracksId_collection.Add(trackId);
-            }
-        }
-
-        public Artist(string name, Playlist track)
-        {
-            this.id = Guid.NewGuid().ToString();
-            this.name = name;
-            tracks_collection = new List<Track>();
-            _tracks.Add(track);
-        }
-
+            this.description = description ?? string.Empty;
+        }          
         #endregion
 
-        #region Methods
-        public void AddTrack(Track track)
-        {
-            if (_tracks != null)
-            {
-                tracks_collection.Add(track);
-            }
-            else
-            {
-                tracks_collection = new List<Track>();
-                tracks_collection.Add(track);
-            }
-        }
+        #region AddResourcesMethods
+        public void AddTrack(Track track) =>        
+            tracks.Add(track);
+        
+        public void AddTracklist(Playlist tracklist) =>        
+            playlists.Add(tracklist);
+        #endregion
 
-        public void AddTracklist(Playlist tracklist)
-        {
-            if (_tracks != null)
-            {
-                _tracks.Add(tracklist);
-            }
-            else
-            {
-                _tracks = new List<Playlist>();
-                _tracks.Add(tracklist);
-            }
-        }
-
-
-        public override string ToString()
-        {
-            return $"{name}";
-        }
-
+        #region SpecialMethods
+        public override string ToString() => $"{name}";
+        
         public void Dispose()
         {
-            this.id = default;
-            this.name = default;
-            this.tracksId_collection = default;
-            this.tracks_collection = default;
-            this._tracks = default;
+            id = default;
+            name = default;
+            tracksId_collection = default;
+            tracks = default;
+            playlists = default;
         }
         #endregion
     }
