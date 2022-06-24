@@ -1,5 +1,5 @@
 ﻿using Ild_Music_CORE.Models.Core.Session_Structure;
-using Ild_Music_CORE.Models.Core.Tracklist_Structure;
+using ShareInstances.PlayerResources;
 using System;
 using System.Collections.Generic;
 
@@ -10,17 +10,17 @@ namespace IldMusicCore_Test
         static NAudioPlayer _player = new();
         static bool isActive = true;
 
-        //static Track tr1 = new("E://gaga/start/music/2_5233518075101315631.mp3");
-        static Track tr1 = new("E://gaga/start/music/2_5235868813781631546.mp3");
-        static Track tr2 = new("E://gaga/start/music/2_5251668997736235620.mp3");
+        static Track tr1 = new("E://gaga/start/music/2_5233518075101315631.mp3");
+        static Track tr2 = new("E://gaga/start/music/2_5235868813781631546.mp3");
+        static Track tr3 = new("E://gaga/start/music/2_5251668997736235620.mp3");
 
-        static Tracklist playlist = new(new List<Track>() { tr1, tr2 });
+        static Playlist playlist = new(new List<Track>() { tr1, tr2, tr3 });
 
         static void Main(string[] args)
         {
             playlist.Order();
             InitPlayer();
-            
+
             while (isActive)
             {
                 CommandProcesser();

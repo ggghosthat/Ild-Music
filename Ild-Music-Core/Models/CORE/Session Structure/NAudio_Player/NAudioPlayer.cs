@@ -1,5 +1,5 @@
 ﻿using ShareInstances;
-using Ild_Music_CORE.Models.Core.Tracklist_Structure;
+using ShareInstances.PlayerResources;
 using NAudio.Wave;
 using System;
 using System.Collections.Generic;
@@ -17,7 +17,7 @@ namespace Ild_Music_CORE.Models.Core.Session_Structure
         private NAudioPlaybacker _audioPlayer;
 
         private Track _track;
-        private Tracklist _tracklist;
+        private Playlist _tracklist;
         private IList<Track> tracksCollection;
         public IList<Track> Collection => tracksCollection ?? null;
 
@@ -44,7 +44,7 @@ namespace Ild_Music_CORE.Models.Core.Session_Structure
             isEmpty = false;
         }
 
-        public void StartPlaylist(Tracklist trackCollection, float volume, int index=0)
+        public void StartPlaylist(Playlist trackCollection, float volume, int index=0)
         {
             _tracklist = trackCollection;
             tracksCollection = trackCollection.Tracks;

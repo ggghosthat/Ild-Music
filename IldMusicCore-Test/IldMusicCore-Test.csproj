@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Ild-Music-Core\Ild-Music-Core.csproj" />
+    <ProjectReference Include="..\ShareInstances\ShareInstances.csproj" />
   </ItemGroup>
 
 </Project>

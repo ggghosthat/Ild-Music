@@ -8,7 +8,7 @@ namespace ShareInstances.PlayerResources
         #region Fields
         private string id;
         private string name;
-        private IList<Tracklist> _tracks;
+        private IList<Playlist> _tracks;
         private IList<Track> tracks_collection;
         private IList<string> tracksId_collection;
         #endregion
@@ -25,7 +25,7 @@ namespace ShareInstances.PlayerResources
             set { name = value; } 
         }
         
-        public IList<Tracklist> Tracks 
+        public IList<Playlist> Tracks 
         {
             get { return _tracks; } 
             set { _tracks = value; } 
@@ -71,7 +71,7 @@ namespace ShareInstances.PlayerResources
             this.Description = description ?? string.Empty;
         }
 
-        public Artist(string name, IList<Tracklist> tracks)
+        public Artist(string name, IList<Playlist> tracks)
         {
             this.id = Guid.NewGuid().ToString();
             this.name = name;
@@ -101,7 +101,7 @@ namespace ShareInstances.PlayerResources
             }
         }
 
-        public Artist(string name, Tracklist track)
+        public Artist(string name, Playlist track)
         {
             this.id = Guid.NewGuid().ToString();
             this.name = name;
@@ -125,7 +125,7 @@ namespace ShareInstances.PlayerResources
             }
         }
 
-        public void AddTracklist(Tracklist tracklist)
+        public void AddTracklist(Playlist tracklist)
         {
             if (_tracks != null)
             {
@@ -133,7 +133,7 @@ namespace ShareInstances.PlayerResources
             }
             else
             {
-                _tracks = new List<Tracklist>();
+                _tracks = new List<Playlist>();
                 _tracks.Add(tracklist);
             }
         }
