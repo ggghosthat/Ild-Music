@@ -5,18 +5,17 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 using System.IO;
-using System.Text;
 
 namespace SynchronizationBlock.Models.ArtistSynch
 {
     public class ArtistSynch<T> : SynchBase<T> where T : Artist
     {
+        private string output_pathway = Environment.CurrentDirectory + "/ild_music_artists.json";
 
-        private IList<Artist> artists;
-
-        private string output_pathway = Environment.CurrentDirectory + "/service_artists.json";
-
+        private IList<Artist> artists = new List<Artist>();
+        
         public override IList<T> Instances => (IList<T>)artists;
+
         public string Prefix
         {
             get
@@ -26,31 +25,22 @@ namespace SynchronizationBlock.Models.ArtistSynch
             set
             {
                 Path = value;
-                output_pathway = Path + "/service_artists.json";
+                output_pathway = Path + "/ild_music_artists.json";
             }
         }
 
 
-        public ArtistSynch()
-        {
-            artists = new List<Artist>();
-        }
 
-        //add artist into collection
-        public override void AddInstance(T artist)
-        {
+        public override void AddInstance(T artist) =>
             artists.Add(artist);
-        }
-
-        //modify artists state
+                
         public override void EditInstance(T need_artist)
         {
-            var artist = this.artists.First(a => a.Id.Equals(need_artist.Id));
+            var artist = artists.First(a => a.Id.Equals(need_artist.Id));
             var index = artists.IndexOf(artist);
-            this.artists[index] = need_artist;
+            artists[index] = need_artist;
         }
 
-        //remove artist from collection
         public override void RemoveInstance(T artist)
         {
             if (artists.Contains(artist))
@@ -62,7 +52,7 @@ namespace SynchronizationBlock.Models.ArtistSynch
         {
             try
             {
-                string jsonString = JsonConvert.SerializeObject(this.artists);
+                string jsonString = JsonConvert.SerializeObject(artists);
                 File.WriteAllText(output_pathway, string.Empty);
                 File.WriteAllText(output_pathway, jsonString);
             }
@@ -74,18 +64,16 @@ namespace SynchronizationBlock.Models.ArtistSynch
 
         public override void Deserialize()
         {
-            if (File.Exists(output_pathway))
+            try
             {
-                try
-                {
-                    string jsonString = File.ReadAllText(output_pathway);
-                    this.artists = JsonConvert.DeserializeObject<List<Artist>>(jsonString);
-                }
-                catch (Exception)
-                {
-                    throw;
-                }
+                string jsonString = File.ReadAllText(output_pathway);
+                artists = JsonConvert.DeserializeObject<List<Artist>>(jsonString);
             }
+            catch (Exception)
+            {
+                throw;
+            }
+            
         }
     }
 }

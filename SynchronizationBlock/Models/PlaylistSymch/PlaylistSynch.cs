@@ -12,11 +12,10 @@ namespace SynchronizationBlock.Models.PlaylistSymch
     {
         private string output_pathway = Environment.CurrentDirectory + "/ild_music_playlists.json";
 
-        //determines a collection of playlists abstracly
         IList<Playlist> playlists = new List<Playlist>();
 
-
         public override IList<T> Instances => (IList<T>)playlists;
+
         public string Prefix
         {
             get => Path;
@@ -33,7 +32,6 @@ namespace SynchronizationBlock.Models.PlaylistSymch
         public override void AddInstance(T playlist) =>        
             playlists.Add(playlist);
         
-
         public override void EditInstance(T playlist_update)
         {
             var playlist = playlists.First(a => a.Id.Equals(playlist_update.Id));

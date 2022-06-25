@@ -12,12 +12,11 @@ namespace SynchronizationBlock.Models.TrackSynch
     {
         //<PSTF> -> Plain Single Track File
 
-        protected string output_pathway = Environment.CurrentDirectory + "/service_tracks.json";
-        private string log;
+        protected string output_pathway = Environment.CurrentDirectory + "/ild_music_tracks.json";
 
 
         //determines a collection of tracks (music files) abstracly
-        private IList<Track> tracks;
+        private IList<Track> tracks = new List<Track>();
         public string Prefix 
         {
             get 
@@ -27,7 +26,7 @@ namespace SynchronizationBlock.Models.TrackSynch
             set 
             {
                 Path = value;
-                output_pathway = Path + "/service_tracks.json";
+                output_pathway = Path + "/ild_music_tracks.json";
             }
         }
 
@@ -35,46 +34,20 @@ namespace SynchronizationBlock.Models.TrackSynch
 
 
 
-
-        public TrackSynch()
-        {
-            tracks = new List<Track>();
-        }
-
-
-
-
-
-        public override void AddInstance(T track)
-        {
-            if (tracks == null)
-                tracks = new List<Track>();
+        public override void AddInstance(T track) =>
             tracks.Add(track);
-        }
-
+        
         public override void EditInstance(T need_track)
         {
-            var track = this.tracks.First(a => a.Id.Equals(need_track.Id));
-            var index = this.tracks.IndexOf(track);
-            this.tracks[index] = need_track;
+            var track = tracks.First(a => a.Id.Equals(need_track.Id));
+            var index = tracks.IndexOf(track);
+            tracks[index] = need_track;
         }
-
 
         public override void RemoveInstance(T track)
         {
             if(tracks.Contains(track))
                 tracks.Remove(track);
-        }
-
-
-        //this method search a track(music file) in directory
-        public void InitPSTF(string path)
-        {
-            if (File.Exists(path)) 
-            {
-                var track = new Track(path);
-                tracks.Add(track);
-            }
         }
 
 
@@ -94,17 +67,14 @@ namespace SynchronizationBlock.Models.TrackSynch
 
         public override void Deserialize()
         {
-            if (File.Exists(output_pathway))
+            try
             {
-                try
-                {
-                    string jsonString = File.ReadAllText(output_pathway);
-                    tracks = JsonConvert.DeserializeObject<List<Track>>(jsonString);
-                }
-                catch (Exception)
-                {
-                    throw;
-                }
+                string jsonString = File.ReadAllText(output_pathway);
+                tracks = JsonConvert.DeserializeObject<List<Track>>(jsonString);
+            }
+            catch (Exception)
+            {
+                throw;
             }
         }
 
