@@ -1,20 +1,20 @@
-﻿using System;
+﻿using ShareInstances.PlayerResources;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using SynchronizationBlock.Models.SynchArea;
-using Ild_Music_CORE.Models.Core.Tracklist_Structure;
 using Newtonsoft.Json;
 using System.Linq;
 
 namespace SynchronizationBlock.Models.PlaylistSymch
 {
-    public class PlaylistSynch<T> : SynchBase<T> where T : Tracklist
+    public class PlaylistSynch<T> : SynchBase<T> where T : Playlist
     {
         private string output_pathway = Environment.CurrentDirectory + "/service_list.json";
         private string log;
 
         //determines a collection of playlists abstracly
-        IList<Tracklist> playlists;
+        IList<Playlist> playlists;
 
 
         public override IList<T> Instances => (IList<T>)playlists;
@@ -34,7 +34,7 @@ namespace SynchronizationBlock.Models.PlaylistSymch
 
         public PlaylistSynch()
         {
-            playlists = new List<Tracklist>();
+            playlists = new List<Playlist>();
         }
 
 
@@ -43,7 +43,7 @@ namespace SynchronizationBlock.Models.PlaylistSymch
         public override void AddInstance(T tracklist)
         {
             if(playlists == null)
-                playlists = new List<Tracklist>();
+                playlists = new List<Playlist>();
             playlists.Add(tracklist);
         }
 
@@ -84,7 +84,7 @@ namespace SynchronizationBlock.Models.PlaylistSymch
                 try 
                 {
                     string jsonString = File.ReadAllText(output_pathway);
-                    playlists = JsonConvert.DeserializeObject<List<Tracklist>>(jsonString);
+                    playlists = JsonConvert.DeserializeObject<List<Playlist>>(jsonString);
                 }
                 catch (Exception)
                 {

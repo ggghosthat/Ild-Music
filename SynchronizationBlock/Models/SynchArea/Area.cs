@@ -2,7 +2,8 @@
 using System;
 using System.IO;
 using System.Collections.Generic;
-using Ild_Music_CORE.Models.Core.Tracklist_Structure;
+using ShareInstances;
+using ShareInstances.PlayerResources;
 
 using SynchronizationBlock.Models.PlaylistSymch;
 using SynchronizationBlock.Models.TrackSynch;
@@ -19,12 +20,12 @@ namespace SynchronizationBlock.Models.SynchArea
 
         private TrackSynch<Track> trackSynch = new TrackSynch<Track>();
         private ArtistSynch<Artist> artistSynch = new ArtistSynch<Artist>();
-        private PlaylistSynch<Tracklist> playlistSynch = new PlaylistSynch<Tracklist>();
+        private PlaylistSynch<Playlist> playlistSynch = new PlaylistSynch<Playlist>();
 
 
         public IList<Artist> existedArtists => artistSynch.Instances;
         public IList<Track> existedTracks => trackSynch.Instances;
-        public IList<Tracklist> existedPlaylists => playlistSynch.Instances;
+        public IList<Playlist> existedPlaylists => playlistSynch.Instances;
 
 
 
@@ -55,7 +56,7 @@ namespace SynchronizationBlock.Models.SynchArea
         public void AddTrackObj(Track track) =>        
             trackSynch.AddInstance(track);
         
-        public void AddPlaylistObj(Tracklist playlist) =>
+        public void AddPlaylistObj(Playlist playlist) =>
             playlistSynch.AddInstance(playlist);
         #endregion
 
@@ -66,7 +67,7 @@ namespace SynchronizationBlock.Models.SynchArea
         public void EditTrackObj(Track track) =>
             trackSynch.EditInstance(track);
         
-        public void EditPlaylistObj(Tracklist playlist) => 
+        public void EditPlaylistObj(Playlist playlist) => 
             playlistSynch.EditInstance(playlist);
         #endregion
 
@@ -77,7 +78,7 @@ namespace SynchronizationBlock.Models.SynchArea
         public void RemoveTrackObj(Track track) =>
             trackSynch.RemoveInstance(track);
         
-        public void RemovePlaylistObj(Tracklist playlist) => 
+        public void RemovePlaylistObj(Playlist playlist) => 
             playlistSynch.RemoveInstance(playlist);
         #endregion
 
