@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace SynchronizationBlock.Models.SynchArea
+namespace SynchronizationBlock.Models.SynchObjects.Base
 {
     public abstract class SynchBase<T>
     {

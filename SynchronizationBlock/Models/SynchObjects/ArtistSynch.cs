@@ -5,8 +5,9 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 using System.IO;
+using SynchronizationBlock.Models.SynchObjects.Base;
 
-namespace SynchronizationBlock.Models.ArtistSynch
+namespace SynchronizationBlock.Models.SynchObjects
 {
     public class ArtistSynch<T> : SynchBase<T> where T : Artist
     {

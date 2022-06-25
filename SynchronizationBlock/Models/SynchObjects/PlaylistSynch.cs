@@ -2,11 +2,11 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using SynchronizationBlock.Models.SynchArea;
+using SynchronizationBlock.Models.SynchObjects.Base;
 using Newtonsoft.Json;
 using System.Linq;
 
-namespace SynchronizationBlock.Models.PlaylistSymch
+namespace SynchronizationBlock.Models.SynchObjects
 {
     public class PlaylistSynch<T> : SynchBase<T> where T : Playlist
     {

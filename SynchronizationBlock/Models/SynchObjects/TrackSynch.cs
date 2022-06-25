@@ -1,12 +1,12 @@
 ﻿using ShareInstances.PlayerResources;
 using Newtonsoft.Json;
-using SynchronizationBlock.Models.SynchArea;
+using SynchronizationBlock.Models.SynchObjects.Base;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-namespace SynchronizationBlock.Models.TrackSynch
+namespace SynchronizationBlock.Models.SynchObjects
 {
     public class TrackSynch<T> : SynchBase<T> where T : Track
     {

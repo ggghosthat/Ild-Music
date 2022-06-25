@@ -1,13 +1,9 @@
-﻿using ShareInstances;
-using System;
+﻿using System;
 using System.IO;
-using System.Collections.Generic;
 using ShareInstances;
+using System.Collections.Generic;
 using ShareInstances.PlayerResources;
-
-using SynchronizationBlock.Models.PlaylistSymch;
-using SynchronizationBlock.Models.TrackSynch;
-using SynchronizationBlock.Models.ArtistSynch;
+using SynchronizationBlock.Models.SynchObjects;
 
 
 namespace SynchronizationBlock.Models.SynchArea
