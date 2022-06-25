@@ -1,4 +1,4 @@
-﻿namespace ShareInstances.PlayerResources
+﻿namespace ShareInstances.PlayerResources.Interfaces
 {
     public interface IDescriptional
     {

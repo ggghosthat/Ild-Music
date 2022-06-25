@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using ShareInstances.PlayerResources.Base;
+using ShareInstances.PlayerResources.Interfaces;
 
 namespace ShareInstances.PlayerResources
 {

@@ -1,4 +1,6 @@
-﻿namespace ShareInstances.PlayerResources
+﻿using ShareInstances.PlayerResources.Interfaces;
+
+namespace ShareInstances.PlayerResources.Base
 {
     public class ResourceRoot : ICoreEntity
     {
