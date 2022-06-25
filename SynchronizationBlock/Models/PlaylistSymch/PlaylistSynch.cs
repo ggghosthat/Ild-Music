@@ -10,48 +10,35 @@ namespace SynchronizationBlock.Models.PlaylistSymch
 {
     public class PlaylistSynch<T> : SynchBase<T> where T : Playlist
     {
-        private string output_pathway = Environment.CurrentDirectory + "/service_list.json";
-        private string log;
+        private string output_pathway = Environment.CurrentDirectory + "/ild_music_playlists.json";
 
         //determines a collection of playlists abstracly
-        IList<Playlist> playlists;
+        IList<Playlist> playlists = new List<Playlist>();
 
 
         public override IList<T> Instances => (IList<T>)playlists;
         public string Prefix
         {
-            get
-            {
-                return Path;
-            }
+            get => Path;
+            
             set
             {
                 Path = value;
-                output_pathway = Path + "/service_list.json";
+                output_pathway = Path + "/ild_music_playlists.json";
             }
         }
 
 
-        public PlaylistSynch()
+
+        public override void AddInstance(T playlist) =>        
+            playlists.Add(playlist);
+        
+
+        public override void EditInstance(T playlist_update)
         {
-            playlists = new List<Playlist>();
-        }
-
-
-
-
-        public override void AddInstance(T tracklist)
-        {
-            if(playlists == null)
-                playlists = new List<Playlist>();
-            playlists.Add(tracklist);
-        }
-
-        public override void EditInstance(T need_playlist)
-        {
-            var playlist = this.playlists.First(a => a.Id.Equals(need_playlist.Id));
-            var index = this.playlists.IndexOf(playlist);
-            this.playlists[index] = playlist;
+            var playlist = playlists.First(a => a.Id.Equals(playlist_update.Id));
+            var index = playlists.IndexOf(playlist);
+            playlists[index] = playlist_update;
         }
 
         public override void RemoveInstance(T tracklist)
@@ -64,14 +51,13 @@ namespace SynchronizationBlock.Models.PlaylistSymch
 
         public override void Serialize()
         {
-            try 
+            try
             {
                 string jsonString = JsonConvert.SerializeObject(this.playlists);
-                File.WriteAllText(output_pathway,string.Empty);
+                File.WriteAllText(output_pathway, string.Empty);
                 File.WriteAllText(output_pathway, jsonString);
-
             }
-            catch (Exception) 
+            catch (Exception)
             {
                 throw;
             }
@@ -79,17 +65,14 @@ namespace SynchronizationBlock.Models.PlaylistSymch
 
         public override void Deserialize()
         {
-            if (File.Exists(output_pathway))
+            try 
             {
-                try 
-                {
-                    string jsonString = File.ReadAllText(output_pathway);
-                    playlists = JsonConvert.DeserializeObject<List<Playlist>>(jsonString);
-                }
-                catch (Exception)
-                {
-                    throw;
-                }
+                string jsonString = File.ReadAllText(output_pathway);
+                playlists = JsonConvert.DeserializeObject<List<Playlist>>(jsonString);
+            }
+            catch (Exception)
+            {
+                throw;
             }
         }
     }
