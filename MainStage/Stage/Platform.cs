@@ -4,23 +4,39 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Threading.Tasks;
 
 namespace MainStage.Stage
 {
-    internal class Platform
+    public class Platform
     {
         //player fields
-        private IList<IPlayer> _players = new List<IPlayer>();
+        #region PlayerFields
+        private static IList<IPlayer> _players = new List<IPlayer>();
         private IPlayer _playerInstance;
         public IPlayer PlayerInstance => _playerInstance;
+        #endregion
 
         //Synch fields
-        private IList<ISynchArea> _synchAreas = new List<ISynchArea>();
+        #region SynchFielfs
+        private static IList<ISynchArea> _synchAreas = new List<ISynchArea>();
         private ISynchArea _synchAreaInstance;
         public ISynchArea SynchArea => _synchAreaInstance;
+        #endregion
 
-        public Platform(string playerAssembly, string synchAssembly)
+        #region InitializeMethods
+        public void InitPlayer(string playerAssembly)
+        {
+            AssemblyProcess(playerAssembly, _playerInstance);
+            _playerInstance = _players[0];
+        }
+
+        public void InitSynch(string synchAssembly)
+        {
+            AssemblyProcess(synchAssembly, _synchAreaInstance);
+            _synchAreaInstance = _synchAreas[0];
+        }
+
+        public void Init(string playerAssembly, string synchAssembly)
         {
             AssemblyProcess(playerAssembly, _playerInstance);
             AssemblyProcess(synchAssembly, _synchAreaInstance);
@@ -28,8 +44,7 @@ namespace MainStage.Stage
             _playerInstance = _players[0];
             _synchAreaInstance = _synchAreas[0];
         }
-
-        
+        #endregion
 
         #region AssemblySearchingAPIMethod
         private void AssemblyProcess<T>(string assemblyPath, T assemblyType)
