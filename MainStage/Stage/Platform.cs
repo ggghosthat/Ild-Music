@@ -14,6 +14,9 @@ namespace MainStage.Stage
         private static IList<IPlayer> _players = new List<IPlayer>();
         private IPlayer _playerInstance;
         public IPlayer PlayerInstance => _playerInstance;
+        public IList<IPlayer> _listPlayers => _players;
+
+        public Dictionary<string, string> path = new();
         #endregion
 
         //Synch fields
@@ -26,13 +29,13 @@ namespace MainStage.Stage
         #region InitializeMethods
         public void InitPlayer(string playerAssembly)
         {
-            AssemblyProcess(playerAssembly, _playerInstance);
-            _playerInstance = _players[0];
+            AssemblyProcess<IPlayer>(playerAssembly, _playerInstance);
+            //_playerInstance = _players[0];
         }
 
         public void InitSynch(string synchAssembly)
         {
-            AssemblyProcess(synchAssembly, _synchAreaInstance);
+            AssemblyProcess(synchAssembly, typeof(ISynchArea));
             _synchAreaInstance = _synchAreas[0];
         }
 
@@ -52,15 +55,15 @@ namespace MainStage.Stage
             try
             {
                 IEnumerable<string> dlls = FindDlls(assemblyPath);
-                IEnumerable<Type> specialTypes = FindSpecialTypes<T>(dlls);
+                (Type, IEnumerable<T>) result = FindSpecialTypes<T>(dlls);
 
-                if (assemblyType is IPlayer)
-                    specialTypes.ToList()
+                if (typeof(IPlayer).IsAssignableFrom(result.Item1))
+                    result.Item2.ToList()
                                 .ForEach(player => _players.Add((IPlayer)player));
                 
-                if (assemblyType is ISynchArea)
-                    specialTypes.ToList()
-                                .ForEach(synch => _synchAreas.Add((ISynchArea)synch));
+                //if (assemblyType.GetType() is ISynchArea)
+                //    specialTypes.ToList()
+                //                .ForEach(synch => _synchAreas.Add((ISynchArea)synch));
             }
             catch
             {
@@ -70,24 +73,31 @@ namespace MainStage.Stage
         #endregion
 
         #region AssemblySearchingMethods
-        private IEnumerable<string> FindDlls(string path) =>
-            Directory.EnumerateDirectories(path, "*.dll");  
-        
-        private IEnumerable<Type> FindSpecialTypes<T>(IEnumerable<string> dllsPath)
+        private IEnumerable<string> FindDlls(string path)
         {
-            var result = new List<Type>();
+            var directory = Directory.EnumerateFileSystemEntries(path, "*.dll");
+
+            return directory;
+        }
+        
+        private (Type,IEnumerable<T>) FindSpecialTypes<T>(IEnumerable<string> dllsPath)
+        {
+            var list = new List<T>();
             foreach (string path in dllsPath)
             {
-                var assembly = Assembly.Load(path);
+                var assembly = Assembly.LoadFrom(path);
                 var exportedTypes = assembly.ExportedTypes;
                 exportedTypes.Where(t => t.IsClass && typeof(T).GetTypeInfo().IsAssignableFrom(t.GetTypeInfo()))
                              .Select(t => t)
                              .ToList()
-                             .ForEach(t => result.Add(t));               
-            }
+                             .ForEach(t => {
+                                 var tmp = (T)Activator.CreateInstance(t);
+                                 list.Add(tmp);
+                             });
 
-            result.ForEach(r => Activator.CreateInstance(r));
-            return result;
+
+            }
+            return (typeof(T), list);
         }
         #endregion
     }

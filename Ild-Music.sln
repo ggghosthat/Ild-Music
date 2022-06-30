@@ -11,9 +11,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ild-Music(MVVM)", "Ild-Musi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IldMusicCore-Test", "IldMusicCore-Test\IldMusicCore-Test.csproj", "{666849E6-B108-4252-AA1A-25B7D59B25AE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MainStage", "MainStage\MainStage.csproj", "{9A35F148-20F8-44F4-896C-C9CA5F1CD112}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MainStage", "MainStage\MainStage.csproj", "{9A35F148-20F8-44F4-896C-C9CA5F1CD112}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShareInstances", "ShareInstances\ShareInstances.csproj", "{FBF2FACD-7427-40D9-9ED5-C3A884464F7B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ShareInstances", "ShareInstances\ShareInstances.csproj", "{FBF2FACD-7427-40D9-9ED5-C3A884464F7B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MainStage_Test", "MainStage_Test\MainStage_Test.csproj", "{0B37FFD3-FA9E-4844-BC62-2D183C513FC7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,10 @@ Global
 		{FBF2FACD-7427-40D9-9ED5-C3A884464F7B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FBF2FACD-7427-40D9-9ED5-C3A884464F7B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FBF2FACD-7427-40D9-9ED5-C3A884464F7B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0B37FFD3-FA9E-4844-BC62-2D183C513FC7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0B37FFD3-FA9E-4844-BC62-2D183C513FC7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0B37FFD3-FA9E-4844-BC62-2D183C513FC7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0B37FFD3-FA9E-4844-BC62-2D183C513FC7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
