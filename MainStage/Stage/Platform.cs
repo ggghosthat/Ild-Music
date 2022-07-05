@@ -13,30 +13,25 @@ namespace MainStage.Stage
         #region PlayerFields
         private static IList<IPlayer> _players = new List<IPlayer>();
         private IPlayer _playerInstance;
-        public IPlayer PlayerInstance => _playerInstance;
         public IList<IPlayer> _listPlayers => _players;
-
-        public Dictionary<string, string> path = new();
         #endregion
 
         //Synch fields
         #region SynchFielfs
         private static IList<ISynchArea> _synchAreas = new List<ISynchArea>();
         private ISynchArea _synchAreaInstance;
-        public ISynchArea SynchArea => _synchAreaInstance;
+        public IList<ISynchArea> _listSynchAreas => _synchAreas;
         #endregion
 
         #region InitializeMethods
         public void InitPlayer(string playerAssembly)
         {
             AssemblyProcess<IPlayer>(playerAssembly, _playerInstance);
-            //_playerInstance = _players[0];
         }
 
         public void InitSynch(string synchAssembly)
         {
-            AssemblyProcess(synchAssembly, typeof(ISynchArea));
-            _synchAreaInstance = _synchAreas[0];
+            AssemblyProcess<ISynchArea>(synchAssembly, _synchAreaInstance);
         }
 
         public void Init(string playerAssembly, string synchAssembly)
@@ -60,10 +55,10 @@ namespace MainStage.Stage
                 if (typeof(IPlayer).IsAssignableFrom(result.Item1))
                     result.Item2.ToList()
                                 .ForEach(player => _players.Add((IPlayer)player));
-                
-                //if (assemblyType.GetType() is ISynchArea)
-                //    specialTypes.ToList()
-                //                .ForEach(synch => _synchAreas.Add((ISynchArea)synch));
+
+                if (typeof(ISynchArea).IsAssignableFrom(result.Item1))
+                    result.Item2.ToList()
+                                .ForEach(area => _synchAreas.Add((ISynchArea)area));
             }
             catch
             {
@@ -73,12 +68,9 @@ namespace MainStage.Stage
         #endregion
 
         #region AssemblySearchingMethods
-        private IEnumerable<string> FindDlls(string path)
-        {
-            var directory = Directory.EnumerateFileSystemEntries(path, "*.dll");
-
-            return directory;
-        }
+        private IEnumerable<string> FindDlls(string path) =>
+            Directory.EnumerateFileSystemEntries(path, "*.dll");
+        
         
         private (Type,IEnumerable<T>) FindSpecialTypes<T>(IEnumerable<string> dllsPath)
         {

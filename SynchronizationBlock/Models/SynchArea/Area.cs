@@ -10,8 +10,8 @@ namespace SynchronizationBlock.Models.SynchArea
 {
     public class Area : ISynchArea
     {
-        public Guid PlayerId => Guid.NewGuid();
-        public string PlayerName => "BaseSynch";
+        public Guid AreaId => Guid.NewGuid();
+        public string AreaName => "BaseSynch";
 
 
         private TrackSynch<Track> trackSynch = new TrackSynch<Track>();

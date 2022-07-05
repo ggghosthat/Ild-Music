@@ -7,8 +7,8 @@ namespace ShareInstances
     //Represent Synchronization block instance
     public interface ISynchArea
     {
-        public Guid PlayerId { get; }
-        public string PlayerName { get; }
+        public Guid AreaId { get; }
+        public string AreaName { get; }
 
         #region AddMethods
         public void AddArtistObj(Artist artist);
