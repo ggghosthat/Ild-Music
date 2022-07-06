@@ -6,6 +6,7 @@ using System.Linq;
 using System.Collections.Generic;
 using System.IO;
 using SynchronizationBlock.Models.SynchObjects.Base;
+using System.Diagnostics;
 
 namespace SynchronizationBlock.Models.SynchObjects
 {
@@ -59,6 +60,7 @@ namespace SynchronizationBlock.Models.SynchObjects
             }
             catch (Exception)
             {
+                Debug.WriteLine("Hello am exception");
                 throw;
             }
         }
@@ -69,6 +71,10 @@ namespace SynchronizationBlock.Models.SynchObjects
             {
                 string jsonString = File.ReadAllText(output_pathway);
                 artists = JsonConvert.DeserializeObject<List<Artist>>(jsonString);
+            }
+            catch(FileNotFoundException fileNotFound)
+            {
+
             }
             catch (Exception)
             {

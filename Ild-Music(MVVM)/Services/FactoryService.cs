@@ -1,6 +1,6 @@
-﻿using Ild_Music_CORE.Models.Core.Tracklist_Structure;
-using Ild_Music_MVVM_.Services.Parents;
+﻿using Ild_Music_MVVM_.Services.Parents;
 using System.Collections.Generic;
+using ShareInstances.PlayerResources;
 
 namespace Ild_Music_MVVM_.Services
 {
@@ -15,11 +15,11 @@ namespace Ild_Music_MVVM_.Services
 
         private Artist artist;
         private Track track;
-        private Tracklist playlist;
+        private Playlist playlist;
 
         public Artist Artist => artist;
         public Track Track => track;
-        public Tracklist Playlist => playlist;
+        public Playlist Playlist => playlist;
 
 
 

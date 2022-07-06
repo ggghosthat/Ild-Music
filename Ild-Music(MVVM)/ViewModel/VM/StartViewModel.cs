@@ -1,4 +1,4 @@
-﻿using Ild_Music_CORE.Models.Core.Tracklist_Structure;
+﻿using ShareInstances.PlayerResources;
 using Ild_Music_MVVM_.Services;
 using System.Collections.ObjectModel;
 
@@ -8,7 +8,7 @@ namespace Ild_Music_MVVM_.ViewModel.VM
     {
         #region Item Collection
         public ObservableCollection<Track> TracksItem { get; set; } 
-        public ObservableCollection<Tracklist> PlaylistsItem { get; set; }
+        public ObservableCollection<Playlist> PlaylistsItem { get; set; }
         public ObservableCollection<Artist> ArtistsItem { get; set; }
         #endregion
 

@@ -68,6 +68,10 @@ namespace SynchronizationBlock.Models.SynchObjects
                 string jsonString = File.ReadAllText(output_pathway);
                 playlists = JsonConvert.DeserializeObject<List<Playlist>>(jsonString);
             }
+            catch (FileNotFoundException fileNotFound)
+            {
+
+            }
             catch (Exception)
             {
                 throw;

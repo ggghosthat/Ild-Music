@@ -1,4 +1,4 @@
-﻿using Ild_Music_CORE.Models.Core.Tracklist_Structure;
+﻿using ShareInstances.PlayerResources;
 
 namespace Ild_Music_MVVM_.Services
 {
@@ -6,7 +6,7 @@ namespace Ild_Music_MVVM_.Services
     {
         private Artist _artist;
         private Track _track;
-        private Tracklist _playlist;
+        private Playlist _playlist;
 
 
 
@@ -17,7 +17,7 @@ namespace Ild_Music_MVVM_.Services
 
         public void GeneratePlaylist(string name, string description)
         {
-            _playlist = new Tracklist(name: name, description: description);
+            _playlist = new Playlist(name: name, description: description);
         }
 
         public void GenerateTrack(string pathway, string name, string description, Artist? artist = null)
@@ -45,7 +45,7 @@ namespace Ild_Music_MVVM_.Services
             track = _track ?? null;
         }
 
-        public void GetPlaylist(out Tracklist? playlist)
+        public void GetPlaylist(out Playlist? playlist)
         {
             playlist = _playlist ?? null;
         }

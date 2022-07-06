@@ -1,4 +1,4 @@
-﻿using Ild_Music_CORE.Models.Core.Tracklist_Structure;
+﻿using ShareInstances.PlayerResources;
 
 namespace Ild_Music_MVVM_.ViewModel.ModelEntities
 {
@@ -6,12 +6,10 @@ namespace Ild_Music_MVVM_.ViewModel.ModelEntities
     {
         public PlaylistEntityViewModel(string id, string name) : base(id, name)
         {
-
         }
 
-        public PlaylistEntityViewModel(Tracklist tracklist) : base(tracklist)
+        public PlaylistEntityViewModel(Playlist tracklist) : base(tracklist)
         {
-
         }
     }
 }

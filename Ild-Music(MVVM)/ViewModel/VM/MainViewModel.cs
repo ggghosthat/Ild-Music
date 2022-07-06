@@ -1,7 +1,6 @@
 ﻿using Ild_Music_CORE.Models.Core.Session_Structure;
-using Ild_Music_CORE.Models.Interfaces;
 using Ild_Music_MVVM_.Command;
-using System.Diagnostics;
+using ShareInstances.PlayerResources.Interfaces;
 
 namespace Ild_Music_MVVM_.ViewModel.VM
 {

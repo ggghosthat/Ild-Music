@@ -1,5 +1,5 @@
-﻿using Ild_Music_CORE.Models.Interfaces;
-using Ild_Music_CORE.Models.Core.Tracklist_Structure;
+﻿using ShareInstances.PlayerResources;
+using ShareInstances.PlayerResources.Interfaces;
 
 namespace Ild_Music_MVVM_.ViewModel.ModelEntities.Basic
 {
@@ -20,7 +20,7 @@ namespace Ild_Music_MVVM_.ViewModel.ModelEntities.Basic
             Name = artist.Name;
         }
 
-        public EntityViewModel(Tracklist tracklist)
+        public EntityViewModel(Playlist tracklist)
         {
             Id = tracklist.Id;
             Name = tracklist.Name;

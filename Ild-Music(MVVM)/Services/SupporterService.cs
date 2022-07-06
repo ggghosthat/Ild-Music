@@ -1,4 +1,5 @@
-﻿using Ild_Music_CORE.Models.Core.Tracklist_Structure;
+﻿using ShareInstances.PlayerResources.Base;
+using ShareInstances.PlayerResources;
 using Ild_Music_MVVM_.Services.Parents;
 using SynchronizationBlock.Models.SynchArea;
 using System.Collections.ObjectModel;
@@ -17,7 +18,7 @@ namespace Ild_Music_MVVM_.Services
 
         public ObservableCollection<Artist> ArtistSup { get; set; } = new ObservableCollection<Artist>();
         public ObservableCollection<Track> TrackSup { get; set; } = new ObservableCollection<Track>();
-        public ObservableCollection<Tracklist> PlaylistSup { get; set; } = new ObservableCollection<Tracklist>();
+        public ObservableCollection<Playlist> PlaylistSup { get; set; } = new ObservableCollection<Playlist>();
 
 
         public SupporterService()
@@ -44,7 +45,7 @@ namespace Ild_Music_MVVM_.Services
                 synchArea.AddTrackObj(track);
                 synchArea.SaveTracks();
             }
-            else if (instanceObject is Tracklist playlist)
+            else if (instanceObject is Playlist playlist)
             {
                 synchArea.AddPlaylistObj(playlist);
                 synchArea.SavePlaylists();
@@ -65,7 +66,7 @@ namespace Ild_Music_MVVM_.Services
                     synchArea.SaveTracks();
                     break;
                 case EntityState.Playlist:
-                    synchArea.EditPlaylistObj((Tracklist)instanceObject);
+                    synchArea.EditPlaylistObj((Playlist)instanceObject);
                     synchArea.SavePlaylists();
                     break;
                 case EntityState.Artist:
@@ -86,7 +87,7 @@ namespace Ild_Music_MVVM_.Services
                     synchArea.SaveTracks();
                     break;
                 case EntityState.Playlist:
-                    synchArea.RemovePlaylistObj((Tracklist)instanceObject);
+                    synchArea.RemovePlaylistObj((Playlist)instanceObject);
                     synchArea.SavePlaylists();
                     break;
                 case EntityState.Artist:

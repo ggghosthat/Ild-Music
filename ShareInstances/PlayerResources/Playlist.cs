@@ -56,6 +56,12 @@ namespace ShareInstances.PlayerResources
         {
         }
 
+        public Playlist(string name, string description)
+        {
+            this.name = name;
+            this.description = description;
+        }
+
         public Playlist(IList<Track> tracks)
         {
             tracks.ToList().ForEach(t => tracks_collection.Add(t));
