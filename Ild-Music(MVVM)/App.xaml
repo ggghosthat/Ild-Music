@@ -15,6 +15,9 @@
         <DataTemplate DataType="{x:Type viewmodel:ListViewModel}">
             <views:ListControl/>
         </DataTemplate>
+        <DataTemplate DataType="{x:Type viewmodel:StageViewModel}">
+            <views:MainStageControl/>
+        </DataTemplate>
 
         <DrawingImage x:Key="PlaylistsIcon">
             <DrawingImage.Drawing>

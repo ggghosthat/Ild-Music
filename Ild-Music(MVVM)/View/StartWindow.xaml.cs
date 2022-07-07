@@ -21,5 +21,8 @@ namespace Ild_Music_MVVM_.View
 
         private void ArtistsSlideClick(object sender, System.Windows.Input.MouseButtonEventArgs e) => 
             ContentHolder.Content = new ListViewModel(ListType.ARTISTS);
+
+        private void PlatformSliderClick(object sender, System.Windows.Input.MouseButtonEventArgs e) =>
+            ContentHolder.Content = new StageViewModel();
     }
 }

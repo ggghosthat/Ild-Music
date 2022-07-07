@@ -94,7 +94,8 @@
                              Height="25"
                              Padding="8,0"
                              CaretBrush="White"
-                             IsReadOnly="True" MouseDoubleClick="Path2Track"/>
+                             IsReadOnly="True" 
+                             MouseDoubleClick="Path2Track"/>
 
                     
                     
