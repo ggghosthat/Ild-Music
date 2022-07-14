@@ -15,7 +15,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MainStage", "MainStage\Main
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ShareInstances", "ShareInstances\ShareInstances.csproj", "{FBF2FACD-7427-40D9-9ED5-C3A884464F7B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MainStage_Test", "MainStage_Test\MainStage_Test.csproj", "{0B37FFD3-FA9E-4844-BC62-2D183C513FC7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MainStage_Test", "MainStage_Test\MainStage_Test.csproj", "{0B37FFD3-FA9E-4844-BC62-2D183C513FC7}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ReBorn.WPF.UI", "..\AvaloniaReborn\WPF\ReBorn.WPF.UI\ReBorn.WPF.UI.csproj", "{4B62B19E-BF5D-4298-A3B6-6A03C5A7A871}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,6 +53,10 @@ Global
 		{0B37FFD3-FA9E-4844-BC62-2D183C513FC7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0B37FFD3-FA9E-4844-BC62-2D183C513FC7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0B37FFD3-FA9E-4844-BC62-2D183C513FC7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4B62B19E-BF5D-4298-A3B6-6A03C5A7A871}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4B62B19E-BF5D-4298-A3B6-6A03C5A7A871}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4B62B19E-BF5D-4298-A3B6-6A03C5A7A871}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4B62B19E-BF5D-4298-A3B6-6A03C5A7A871}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

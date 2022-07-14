@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:fui="clr-namespace:Ild_Music_MVVM_.View.UISubControls.FactorySubControl"
              mc:Ignorable="d"
-             d:DesignHeight="510" d:DesignWidth="800">
+             d:DesignHeight="480" d:DesignWidth="800">
     <UserControl.Resources>
         <Style x:Key="ListBoxStyle1" TargetType="{x:Type ListBox}">
             <Setter Property="Background" Value="Transparent"/>
@@ -127,7 +127,8 @@
         </Grid>
 
         <Grid Grid.Row="1">
-            <ContentControl Content="{Binding CurrentFactory.UserControl}"/>
+            <ContentControl Content="{Binding CurrentFactory.UserControl}">
+            </ContentControl>
         </Grid>
     </Grid>
 </UserControl>
