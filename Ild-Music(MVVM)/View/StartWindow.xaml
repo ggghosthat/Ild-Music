@@ -382,12 +382,12 @@
                 </Trigger>
                 <Trigger Property="IsMouseOver" Value="False">
                     <Setter Property="Fill" Value="Gray"/>
-                    
+
                 </Trigger>
             </Style.Triggers>
         </Style>
     </Window.Resources>
-    
+
     <Grid RenderTransformOrigin="0.548,0.512">
         <Grid.RowDefinitions>
             <RowDefinition Height="45"/>
@@ -401,19 +401,26 @@
         <Grid Background="#16242b"
               Grid.ColumnSpan="2">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="201*"/>
-                <ColumnDefinition Width="599*"/>
+                <ColumnDefinition Width="307*"/>
+                <ColumnDefinition Width="793*"/>
             </Grid.ColumnDefinitions>
-            <TextBlock Text="ILD-MUSIC"
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="ILD-MUSIC"
                        Foreground="White"
                        FontSize="35"
                        VerticalAlignment="Top"
-                       HorizontalAlignment="Left"
                        FontFamily="Showcard Gothic"
-                       Width="188" 
+                       Width="180" 
                        Height="38" 
-                       Margin="10,0,0,0"
-                      />
+                       Margin="10,0,0,0"/>
+                <TextBlock Text="prototype"
+                       Foreground="White"
+                       FontSize="15"
+                       FontWeight="Bold"
+                       VerticalAlignment="Bottom"
+                       HorizontalAlignment="Left"
+                       Height="24" />
+            </StackPanel>
         </Grid>
 
 
@@ -579,7 +586,7 @@
                     </Viewbox>
                 </Border>
             </StackPanel>
-            
+
             <StackPanel x:Name="Play"
                             Height="25"
                             Width="25"

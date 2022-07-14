@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ild-Music-Core", "Ild-Music
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SynchronizationBlock", "SynchronizationBlock\SynchronizationBlock.csproj", "{73C0455C-9B3D-4543-8E21-9AA22504C33B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ild-Music(MVVM)", "Ild-Music(MVVM)\Ild-Music(MVVM).csproj", "{F4736499-B265-4D3B-BA5B-533A854F6356}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ild-Music(PROTOTYPE)", "Ild-Music(MVVM)\Ild-Music(PROTOTYPE).csproj", "{F4736499-B265-4D3B-BA5B-533A854F6356}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IldMusicCore-Test", "IldMusicCore-Test\IldMusicCore-Test.csproj", "{666849E6-B108-4252-AA1A-25B7D59B25AE}"
 EndProject

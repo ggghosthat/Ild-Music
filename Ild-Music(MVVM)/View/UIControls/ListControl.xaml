@@ -142,7 +142,6 @@
                         </ListView.ItemTemplate>
 
                     </ListView>
-
                 </Border>
             </StackPanel>
 
