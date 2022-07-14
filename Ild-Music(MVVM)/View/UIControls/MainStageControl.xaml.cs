@@ -18,10 +18,10 @@ namespace Ild_Music_MVVM_.View.UIControls
         private void StagePathPrecolor()
         {
             txtPlayerPath.Foreground = (Brush)new BrushConverter().ConvertFrom("#7e8f8a");
-            txtPlayerPath.Text = "Click twice to select player dll.";
+            txtPlayerPath.Text = "Click twice to select player.";
 
             txtSynchPath.Foreground = (Brush)new BrushConverter().ConvertFrom("#7e8f8a");
-            txtSynchPath.Text = "Click twice to select synch dll.";
+            txtSynchPath.Text = "Click twice to select synch.";
         }
 
         private void Path2Player(object sender, System.Windows.Input.MouseButtonEventArgs e)

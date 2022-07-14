@@ -37,7 +37,6 @@
                              Margin="5,2"
                              FontSize="16"
                              Style="{StaticResource Textbox3}"
-                             Text="{Binding Playerrow}"
                              Height="25"
                              Padding="8,0"
                              CaretBrush="White"

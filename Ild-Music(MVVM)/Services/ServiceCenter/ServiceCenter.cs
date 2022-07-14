@@ -48,6 +48,7 @@ namespace Ild_Music_MVVM_.Services
         /// </summary>
         private void UpServices()
         {
+            var mainStage = new MainStageService();
             //var area = new Area();
             var supporter = new SupporterService();
 
@@ -58,6 +59,8 @@ namespace Ild_Music_MVVM_.Services
             var subControll = new SubControlService();
 
 
+
+            RegistService(mainStage);
             RegistService(supporter);
             RegistService(factory);
             RegistService(playerService);

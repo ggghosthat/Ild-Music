@@ -20,8 +20,4 @@
     <ProjectReference Include="..\SynchronizationBlock\SynchronizationBlock.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="MainPlatform\" />
-  </ItemGroup>
-
 </Project>
