@@ -1,6 +1,11 @@
 ﻿using Ild_Music_MVVM_.Services;
-using Ild_Music_MVVM_.Services.Parents;
+using System.IO;
 using MainStage.Stage;
+using ShareInstances;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Diagnostics;
 
 namespace Ild_Music_MVVM_.ViewModel.VM
 {
@@ -13,14 +18,24 @@ namespace Ild_Music_MVVM_.ViewModel.VM
         #endregion
 
         #region Props
-        public string PlayerRow { get; set; }
+        public ObservableCollection<IPlayer> PlayerList { get; private set; } = new ();
+        public ObservableCollection<ISynchArea> SynchList { get; private set; } = new ();
 
+
+        public string PlayerRow { get; set; }
         public string SynchRow { get; set; }
         #endregion
 
         public StageViewModel()
         {
             _platform = platformService.Platform;
+            FillUpCollections();
+        }
+
+        private void FillUpCollections()
+        {
+            _platform.listPlayers.ToList().ForEach(player => PlayerList.Add(player));
+            _platform.listSynchAreas.ToList().ForEach(synch => SynchList.Add(synch));
         }
     }
 }

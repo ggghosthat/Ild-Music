@@ -2,6 +2,7 @@
 using SynchronizationBlock.Models.SynchArea;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 namespace Ild_Music_MVVM_.Services
@@ -17,6 +18,7 @@ namespace Ild_Music_MVVM_.Services
         #region Singleton Initialization
         public ServiceCenter() =>
             UpServices();
+
         
 
        
@@ -65,6 +67,9 @@ namespace Ild_Music_MVVM_.Services
             RegistService(factory);
             RegistService(playerService);
             RegistService(subControll);
+
+
+            Debug.WriteLine("Service center is ready 2 use");
         }
         #endregion
     }

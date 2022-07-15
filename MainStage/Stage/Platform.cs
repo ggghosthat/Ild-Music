@@ -1,6 +1,7 @@
 ﻿using ShareInstances;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -13,17 +14,31 @@ namespace MainStage.Stage
         #region PlayerFields
         private static IList<IPlayer> _players = new List<IPlayer>();
         private IPlayer _playerInstance;
-        public IList<IPlayer> _listPlayers => _players;
+        public IList<IPlayer> listPlayers => _players;
         #endregion
 
         //Synch fields
         #region SynchFielfs
         private static IList<ISynchArea> _synchAreas = new List<ISynchArea>();
         private ISynchArea _synchAreaInstance;
-        public IList<ISynchArea> _listSynchAreas => _synchAreas;
+        public IList<ISynchArea> listSynchAreas => _synchAreas;
+
         #endregion
 
+        #region PathProps
+        public string PlayerRow { get; private set; }
+        public string SynchRow { get; private set; }
+        #endregion
+
+        #region Events
+        public event Action OnInitialized;
+        #endregion
+
+
         #region InitializeMethods
+        public Platform() { }
+
+
         public void InitPlayer(string playerAssembly)
         {
             AssemblyProcess<IPlayer>(playerAssembly, _playerInstance);
@@ -42,6 +57,27 @@ namespace MainStage.Stage
             _playerInstance = _players[0];
             _synchAreaInstance = _synchAreas[0];
         }
+
+        #endregion
+
+        #region BuildMthods
+
+        public Platform CallPlatform()
+        {
+            PathsInit();
+            InitPlayer(PlayerRow);
+            InitSynch(SynchRow);
+            OnInitialized?.Invoke();
+            Debug.WriteLine("Platform is ready 2 use");
+            return this;
+        }
+
+        private void PathsInit()
+        {
+            string startupPath = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.Parent.FullName.ToString().Replace("\\", "/");
+            PlayerRow = startupPath + "/Ild-Music-Core/bin/Debug/net5.0-windows";
+            SynchRow = startupPath + "/SynchronizationBlock/bin/Debug/net5.0";
+        }        
         #endregion
 
         #region AssemblySearchingAPIMethod

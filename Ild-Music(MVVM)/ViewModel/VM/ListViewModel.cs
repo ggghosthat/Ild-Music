@@ -12,7 +12,7 @@ using System.Collections.Generic;
 namespace Ild_Music_MVVM_.ViewModel.VM
 {
     //Types of Lists
-    public enum ListType
+    public enum List
     {
         ARTISTS,
         PLAYLISTS,
@@ -44,7 +44,7 @@ namespace Ild_Music_MVVM_.ViewModel.VM
         {
 
         }
-        public ListViewModel(ListType listType)
+        public ListViewModel(List listType)
         {
             supporterService = (SupporterService)GetService("Supporter");
             CastListStructure();
@@ -68,20 +68,20 @@ namespace Ild_Music_MVVM_.ViewModel.VM
 
         #region Public Methods
         //Define type of list to present in CurrentList
-        public void SetListType(ListType listType)
+        public void SetListType(List listType)
         {
             CurrentList.Clear();
             switch (listType)
             {                
-                case ListType.ARTISTS:                    
+                case List.ARTISTS:                    
                     foreach(var a in ArtistsList)
                         CurrentList.Add(new ArtistEntityViewModel(a.Id, a.Name));
                     break;
-                case ListType.PLAYLISTS:
+                case List.PLAYLISTS:
                     foreach (var p in PlaylistsList)
                         CurrentList.Add(new PlaylistEntityViewModel(p.Id, p.Name));
                     break;
-                case ListType.TRACKS:
+                case List.TRACKS:
                     foreach (var t in TracksList)
                         CurrentList.Add(new TrackEntityViewModel(t.Id, t.Name));
                     break;
@@ -99,7 +99,7 @@ namespace Ild_Music_MVVM_.ViewModel.VM
         }
 
         //Predefinning ListType
-        public ListViewModel CallServiceAndCastLists(ListType listType)
+        public ListViewModel CallServiceAndCastLists(List listType)
         {
             supporterService = (SupporterService)GetService("Supporter");
             CastListStructure();

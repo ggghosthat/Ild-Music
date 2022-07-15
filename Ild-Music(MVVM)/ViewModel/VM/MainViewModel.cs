@@ -6,7 +6,8 @@ namespace Ild_Music_MVVM_.ViewModel.VM
 {
     public class MainViewModel : Base.BaseViewModel
     {
-        public Base.BaseViewModel CurrenttViewModelItem { get; set; } = new FactoryContainerViewModel();
+
+        public Base.BaseViewModel CurrenttViewModelItem { get; set; } = new StartViewModel();
 
         public NAudioPlayer PlayerEntity { get; set; } = new NAudioPlayer();
 

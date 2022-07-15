@@ -7,6 +7,6 @@ namespace Ild_Music_MVVM_.Services
     {
         public override string ServiceType { get; init; }  = "MainStageProvider";
 
-        public Platform Platform { get; private set; } = App.mainPlatform;
+        public Platform Platform => App.mainPlatform;
     }
 }

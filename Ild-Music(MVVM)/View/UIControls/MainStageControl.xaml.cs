@@ -6,6 +6,9 @@ namespace Ild_Music_MVVM_.View.UIControls
 {
     public partial class MainStageControl : System.Windows.Controls.UserControl
     {
+        private string playerPath;
+        private string synchPath;
+
         private static OpenFileDialog dialog = new();
 
         public MainStageControl()
