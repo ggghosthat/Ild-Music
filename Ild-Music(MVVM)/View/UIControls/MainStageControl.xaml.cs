@@ -45,5 +45,20 @@ namespace Ild_Music_MVVM_.View.UIControls
             }
         }
 
+        private void OnPlayerSelected(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        {
+            var playerIndex = lsPlayers.SelectedIndex;
+            var stageVM = (StageViewModel)DataContext;
+
+            App.mainPlatform.PlayerInstance = stageVM.PlayerList[playerIndex];
+        }
+
+        private void OnSynchAreaSelected(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        {
+            var synchIndex = lsSynch.SelectedIndex;
+            var stageVM = (StageViewModel)DataContext;
+
+            App.mainPlatform.SynchAreaInstance = stageVM.SynchList[synchIndex];
+        }
     }
 }

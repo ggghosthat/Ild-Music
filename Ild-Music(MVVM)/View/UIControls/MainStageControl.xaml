@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:b="http://schemas.microsoft.com/xaml/behaviors" 
              xmlns:local="clr-namespace:Ild_Music_MVVM_.View.UIControls"
              mc:Ignorable="d" 
              d:DesignHeight="580" d:DesignWidth="800">
@@ -116,109 +117,129 @@
                     </StackPanel>
 
                     <StackPanel Orientation="Vertical">
-                        <TextBlock Text=" Availlable player instances : "
-                           Foreground="White"
-                           FontSize="15"
-                           Margin="10,15,0,0"
-                           FontWeight="Medium"/>
+                            <TextBlock Text=" Availlable player instances : "
+                                       Foreground="White"
+                                       FontSize="15"
+                                       Margin="10,15,0,0"
+                                       FontWeight="Medium"/>
 
+                        
                         <Border BorderBrush="Aqua"
-                            BorderThickness="1"
-                            CornerRadius="5"
-                            Background="#151d1f"
-                            Margin="12,2" Width="748"
-                            HorizontalAlignment="Left">
+                                BorderThickness="1"
+                                CornerRadius="5"
+                                Background="#151d1f"
+                                Margin="12,2" Width="748"
+                                HorizontalAlignment="Left">
+
+
                             <ListView x:Name="lsPlayers"                          
-                              Width="746"
-                              Height="195"
-                              FontSize="18"
-                              FontWeight="Medium"
-                              Background="#151d1f"
-                              BorderThickness="0"
-                              HorizontalAlignment="Left"
-                              SelectionMode="Single"
-                              ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                                      Width="746"
+                                      Height="195"
+                                      FontSize="18"
+                                      FontWeight="Medium"
+                                      Background="#151d1f"
+                                      BorderThickness="0"
+                                      HorizontalAlignment="Left"
+                                      SelectionMode="Single"
+                                      ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                                      ItemsSource="{Binding PlayerList}" SelectionChanged="OnPlayerSelected">
 
-                                <ListView.ItemContainerStyle>
-                                    <Style TargetType="{x:Type ListViewItem}">
-                                        <Setter Property="HorizontalAlignment" Value="Center"/>
-                                        <Setter Property="BorderThickness" Value="0"/>
-                                        <Setter Property="Padding" Value="1"/>
-                                        <Setter Property="HorizontalAlignment" Value="Left"/>
-                                        <Setter Property="Width" Value="797"/>
-                                        <Style.Triggers>
-                                            <Trigger Property="IsSelected" Value="true" >
-                                                <Setter Property="Foreground" Value="DimGray" />
-                                                <Setter Property="Background" Value="#1b2e2d"/>
-                                            </Trigger>
-                                            <Trigger Property="IsSelected" Value="False" >
-                                                <Setter Property="Foreground" Value="Silver" />
-                                                <Setter Property="Background" Value="#1b2e2d"/>
-                                            </Trigger>
+                                    <ListView.ItemContainerStyle>
+                                        <Style TargetType="{x:Type ListViewItem}">
+                                             <Setter Property="HorizontalAlignment" Value="Center"/>
+                                             <Setter Property="BorderThickness" Value="0"/>
+                                             <Setter Property="Padding" Value="1"/>
+                                             <Setter Property="HorizontalAlignment" Value="Left"/>
+                                             <Setter Property="Width" Value="797"/>
+                                                <Style.Triggers>
+                                                    <Trigger Property="IsSelected" Value="true" >
+                                                        <Setter Property="Foreground" Value="DimGray" />
+                                                        <Setter Property="Background" Value="#1b2e2d"/>
+                                                    </Trigger>
+                                                    <Trigger Property="IsSelected" Value="False" >
+                                                        <Setter Property="Foreground" Value="Silver" />
+                                                        <Setter Property="Background" Value="#1b2e2d"/>
+                                                    </Trigger>
+                                                
+                                                    <Trigger Property="IsEnabled" Value="True">
+                                                        <Setter Property="Foreground" Value="Silver" />
+                                                        <Setter Property="Background" Value="#1b2e2d"/>
+                                                    </Trigger>
+                                                </Style.Triggers>
+                                        </Style>
+                                    </ListView.ItemContainerStyle>
 
-                                            <Trigger Property="IsEnabled" Value="True">
-                                                <Setter Property="Foreground" Value="Silver" />
-                                                <Setter Property="Background" Value="#1b2e2d"/>
-                                            </Trigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </ListView.ItemContainerStyle>
-
-                                <ListViewItem Content="Heeloo" IsSelected="False"/>
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <Label Content="{Binding PlayerName}"
+                                               FontSize="12"
+                                               FontWeight="Light"
+                                               Foreground="White"/>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                                    
                             </ListView>
                         </Border>
                     </StackPanel>
 
                     <StackPanel Orientation="Vertical">
-                        <TextBlock Text=" Availlable Synch instances : "
-                           Foreground="White"
-                           FontSize="15"
-                           Margin="10,15,0,0"
-                           FontWeight="Medium"/>
+                            <TextBlock Text=" Availlable Synch instances : "
+                                       Foreground="White"
+                                       FontSize="15"
+                                       Margin="10,15,0,0"
+                                       FontWeight="Medium"/>
 
-                        <Border BorderBrush="Aqua"
-                            BorderThickness="1"
-                            CornerRadius="5"
-                            Background="#151d1f"
-                            Margin="12,2" Width="748"
-                            HorizontalAlignment="Left">
-                            <ListView x:Name="lsSynch"                          
-                              Width="746"
-                              Height="195"
-                              FontSize="18"
-                              FontWeight="Medium"
-                              Background="#151d1f"
-                              BorderThickness="0"
-                              HorizontalAlignment="Left"
-                              SelectionMode="Single"
-                              ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                            <Border BorderBrush="Aqua"
+                                    BorderThickness="1"
+                                    CornerRadius="5"
+                                    Background="#151d1f"
+                                    Margin="12,2" Width="748"
+                                    HorizontalAlignment="Left">
+                                <ListView x:Name="lsSynch"                          
+                                          Width="746"
+                                          Height="195"
+                                          FontSize="18"
+                                          FontWeight="Medium"
+                                          Background="#151d1f"
+                                          BorderThickness="0"
+                                          HorizontalAlignment="Left"
+                                          SelectionMode="Single"
+                                          ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                                          ItemsSource="{Binding SynchList}" SelectionChanged="OnSynchAreaSelected">
 
-                                <ListView.ItemContainerStyle>
-                                    <Style TargetType="{x:Type ListViewItem}">
-                                        <Setter Property="HorizontalAlignment" Value="Center"/>
-                                        <Setter Property="BorderThickness" Value="0"/>
-                                        <Setter Property="Padding" Value="1"/>
-                                        <Setter Property="HorizontalAlignment" Value="Left"/>
-                                        <Setter Property="Width" Value="797"/>
-                                        <Style.Triggers>
-                                            <Trigger Property="IsSelected" Value="true" >
-                                                <Setter Property="Foreground" Value="DimGray" />
-                                                <Setter Property="Background" Value="#1b2e2d"/>
-                                            </Trigger>
-                                            <Trigger Property="IsSelected" Value="False" >
-                                                <Setter Property="Foreground" Value="Silver" />
-                                                <Setter Property="Background" Value="#1b2e2d"/>
-                                            </Trigger>
+                                         <ListView.ItemContainerStyle>
+                                                <Style TargetType="{x:Type ListViewItem}">
+                                                    <Setter Property="HorizontalAlignment" Value="Center"/>
+                                                    <Setter Property="BorderThickness" Value="0"/>
+                                                    <Setter Property="Padding" Value="1"/>
+                                                    <Setter Property="HorizontalAlignment" Value="Left"/>
+                                                    <Setter Property="Width" Value="797"/>
+                                                    <Style.Triggers>
+                                                        <Trigger Property="IsSelected" Value="true" >
+                                                            <Setter Property="Foreground" Value="DimGray" />
+                                                            <Setter Property="Background" Value="#1b2e2d"/>
+                                                        </Trigger>
+                                                        <Trigger Property="IsSelected" Value="False" >
+                                                            <Setter Property="Foreground" Value="Silver" />
+                                                            <Setter Property="Background" Value="#1b2e2d"/>
+                                                        </Trigger>
+                                         
+                                                        <Trigger Property="IsEnabled" Value="True">
+                                                            <Setter Property="Foreground" Value="Silver" />
+                                                            <Setter Property="Background" Value="#1b2e2d"/>
+                                                        </Trigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                         </ListView.ItemContainerStyle>
 
-                                            <Trigger Property="IsEnabled" Value="True">
-                                                <Setter Property="Foreground" Value="Silver" />
-                                                <Setter Property="Background" Value="#1b2e2d"/>
-                                            </Trigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </ListView.ItemContainerStyle>
-
-                                <ListViewItem Content="Heeloo" IsSelected="False"/>
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <Label Content="{Binding AreaName}"
+                                               FontSize="12"
+                                               FontWeight="Light"
+                                               Foreground="White"/>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
                             </ListView>
                         </Border>
                     </StackPanel>

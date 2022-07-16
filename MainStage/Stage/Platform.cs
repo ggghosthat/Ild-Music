@@ -13,16 +13,27 @@ namespace MainStage.Stage
         //player fields
         #region PlayerFields
         private static IList<IPlayer> _players = new List<IPlayer>();
-        private IPlayer _playerInstance;
         public IList<IPlayer> listPlayers => _players;
+
+        private IPlayer _playerInstance;
+        public IPlayer PlayerInstance 
+        {
+            get => _playerInstance;
+            set => _playerInstance = value;
+        }
         #endregion
 
         //Synch fields
         #region SynchFielfs
         private static IList<ISynchArea> _synchAreas = new List<ISynchArea>();
-        private ISynchArea _synchAreaInstance;
         public IList<ISynchArea> listSynchAreas => _synchAreas;
 
+        private ISynchArea _synchAreaInstance;
+        public ISynchArea SynchAreaInstance
+        {
+            get => _synchAreaInstance;
+            set => _synchAreaInstance = value;
+        }
         #endregion
 
         #region PathProps
