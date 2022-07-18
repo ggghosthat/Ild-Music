@@ -1,15 +1,19 @@
 ﻿using ShareInstances;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using Newtonsoft.Json;
 
 namespace MainStage.Stage
 {
     public class Platform
     {
+        #region Allocations
+        private readonly string allocation_path = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.Parent.FullName.ToString();
+        #endregion
+
         //player fields
         #region PlayerFields
         private static IList<IPlayer> _players = new List<IPlayer>();
@@ -45,10 +49,9 @@ namespace MainStage.Stage
         public event Action OnInitialized;
         #endregion
 
-
         #region InitializeMethods
-        public Platform() { }
-
+        public Platform() =>
+            Deserialize();
 
         public void InitPlayer(string playerAssembly)
         {
@@ -69,6 +72,10 @@ namespace MainStage.Stage
             _synchAreaInstance = _synchAreas[0];
         }
 
+        #endregion
+
+        #region Destructor
+        ~ Platform() => Serialize();
         #endregion
 
         #region BuildMthods
@@ -138,5 +145,69 @@ namespace MainStage.Stage
             return (typeof(T), list);
         }
         #endregion
+
+        #region Serialization
+        private void Serialize()
+        {
+            try
+            {
+                if (_players.Count > 0)
+                {
+                    string file = allocation_path + "\\platform_players.json";
+
+                    if (!File.Exists(file))
+                        File.Create(file);
+
+                    var jsonString = JsonConvert.SerializeObject(_players);
+                    File.WriteAllText(file, string.Empty);
+                    File.WriteAllText(file, jsonString);
+                }
+
+                if (_synchAreas.Count > 0)
+                {
+                    string file = allocation_path + "\\platform_areas.json";
+
+                    if (!File.Exists(file))
+                        File.Create(file);
+
+                    var jsonString = JsonConvert.SerializeObject(_synchAreas);
+                    File.WriteAllText(file, string.Empty);
+                    File.WriteAllText(file, jsonString);
+                }
+
+            }
+            catch 
+            {
+                throw; 
+            }
+
+        }
+
+        private void Deserialize()
+        {
+            try
+            {
+                string players_file = allocation_path + "\\platform_players.json";
+                string areas_file = allocation_path + "\\platform_areas.json";
+                
+                if (File.Exists(players_file))
+                {
+                    string jsonString = File.ReadAllText(players_file);
+                    _players = JsonConvert.DeserializeObject<List<IPlayer>>(jsonString);
+                }
+
+                if (File.Exists(areas_file))
+                {
+                    string jsonString = File.ReadAllText(areas_file);
+                    _synchAreas = JsonConvert.DeserializeObject<List<ISynchArea>>(jsonString);
+                }
+            }
+            catch
+            {
+                throw;
+            }
+        }
+        #endregion
+
     }
 }
