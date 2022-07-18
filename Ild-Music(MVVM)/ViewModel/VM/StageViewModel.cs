@@ -1,12 +1,9 @@
 ﻿using Ild_Music_MVVM_.Services;
-using System.IO;
 using MainStage.Stage;
 using ShareInstances;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Diagnostics;
-using Ild_Music_MVVM_.Command;
 
 namespace Ild_Music_MVVM_.ViewModel.VM
 {
@@ -21,7 +18,7 @@ namespace Ild_Music_MVVM_.ViewModel.VM
         public ObservableCollection<IPlayer> PlayerList { get; private set; } = new();
         public ObservableCollection<ISynchArea> SynchList { get; private set; } = new();
 
-        public Platform Platform { get; private set; }
+        public static Platform Platform { get; private set; }
         #endregion
 
 
@@ -29,6 +26,7 @@ namespace Ild_Music_MVVM_.ViewModel.VM
         public StageViewModel()
         {
             Platform = platformService.Platform;
+
             FillUpCollections();
         }
         #endregion
@@ -39,6 +37,33 @@ namespace Ild_Music_MVVM_.ViewModel.VM
             Platform.listPlayers.ToList().ForEach(player => PlayerList.Add(player));
             Platform.listSynchAreas.ToList().ForEach(synch => SynchList.Add(synch));
         }
+
+        private void FillUpPlayersCollection()
+        {
+            PlayerList.Clear();
+            Platform.listPlayers.ToList().ForEach(player => PlayerList.Add(player));
+        }
+
+        private void FillUpSynchCollection()
+        {
+            SynchList.Clear();
+            Platform.listSynchAreas.ToList().ForEach(synch => SynchList.Add(synch));
+        }
         #endregion
+
+        #region Public Methods
+        public async void SetPlayerPath(string playerPath)
+        {
+            await Task.Run(() => Platform.InitPlayer(playerPath));
+            FillUpPlayersCollection();
+        }
+
+        public async void SetSynchPath(string synchPath)
+        {
+            await Task.Run(() => Platform.InitSynch(synchPath));
+            FillUpSynchCollection();
+        }
+        #endregion
+
     }
 }

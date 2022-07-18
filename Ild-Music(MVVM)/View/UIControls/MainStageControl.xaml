@@ -41,6 +41,15 @@
             </Grid>
 
             <Grid Grid.Row="1">
+                <b:Interaction.Triggers>
+                    <b:EventTrigger EventName="Click">
+                        <b:InvokeCommandAction CommandName="AddPlayerCommand">
+                            <b:InvokeCommandAction.CommandParameter>
+                                <Binding ElementName="txtPlayerPath" Path="Text"/>
+                            </b:InvokeCommandAction.CommandParameter>
+                        </b:InvokeCommandAction>                                               
+                    </b:EventTrigger>
+                </b:Interaction.Triggers>
                 <StackPanel Orientation="Vertical">
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Name="lblPlayerPath"
@@ -61,19 +70,21 @@
                              IsReadOnly="True" 
                              MouseDoubleClick="Path2Player"/>
 
+
+
                         <Border BorderThickness="1"
-                            BorderBrush="Aqua"
-                            Background="#151d1f"
-                            CornerRadius="5"
-                            Margin="5,0"
-                            Width="20"
-                            Height="20">
+                                BorderBrush="Aqua"
+                                Background="#151d1f"
+                                Margin="5,0"
+                                Width="20"
+                                Height="20"
+                                CornerRadius="5" MouseLeftButtonDown="OnPlayerAdd">
                             <Viewbox Width="20" Height="20"
-                                 HorizontalAlignment="Center"
-                                 VerticalAlignment="Center">
+                                     HorizontalAlignment="Center"
+                                     VerticalAlignment="Center">
                                 <Canvas Width="24" Height="24" Background="Transparent">
                                     <Path Data="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z" 
-                                      Style="{StaticResource btnAddStyle}"/>
+                                          Style="{StaticResource btnAddStyle}"/>
                                 </Canvas>
                             </Viewbox>
                         </Border>
@@ -168,15 +179,15 @@
                                                 </Style.Triggers>
                                         </Style>
                                     </ListView.ItemContainerStyle>
-
-                                <ListView.ItemTemplate>
-                                    <DataTemplate>
-                                        <Label Content="{Binding PlayerName}"
-                                               FontSize="12"
-                                               FontWeight="Light"
-                                               Foreground="White"/>
-                                    </DataTemplate>
-                                </ListView.ItemTemplate>
+                                    
+                                    <ListView.ItemTemplate>
+                                        <DataTemplate>
+                                            <Label Content="{Binding PlayerName}"
+                                                   FontSize="12"
+                                                   FontWeight="Light"
+                                                   Foreground="White"/>
+                                        </DataTemplate>
+                                    </ListView.ItemTemplate>
                                     
                             </ListView>
                         </Border>

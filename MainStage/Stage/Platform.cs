@@ -79,7 +79,6 @@ namespace MainStage.Stage
             InitPlayer(PlayerRow);
             InitSynch(SynchRow);
             OnInitialized?.Invoke();
-            Debug.WriteLine("Platform is ready 2 use");
             return this;
         }
 

@@ -9,8 +9,8 @@ namespace Ild_Music_MVVM_.View.UIControls
         private string playerPath;
         private string synchPath;
 
-        private static OpenFileDialog dialog = new();
-
+        private static FolderBrowserDialog dialog = new();
+       
         public MainStageControl()
         {
             InitializeComponent();
@@ -32,7 +32,7 @@ namespace Ild_Music_MVVM_.View.UIControls
             if (dialog.ShowDialog() == DialogResult.OK)
             {
                 txtPlayerPath.Foreground = (Brush)new BrushConverter().ConvertFrom("AliceBlue");
-                txtPlayerPath.Text = dialog.FileName;
+                txtPlayerPath.Text = dialog.SelectedPath;
             }
         }
 
@@ -41,7 +41,7 @@ namespace Ild_Music_MVVM_.View.UIControls
             if (dialog.ShowDialog() == DialogResult.OK)
             {
                 txtSynchPath.Foreground = (Brush)new BrushConverter().ConvertFrom("AliceBlue");
-                txtSynchPath.Text = dialog.FileName;
+                txtSynchPath.Text = dialog.SelectedPath;
             }
         }
 
@@ -60,5 +60,17 @@ namespace Ild_Music_MVVM_.View.UIControls
 
             App.mainPlatform.SynchAreaInstance = stageVM.SynchList[synchIndex];
         }
+
+        private void OnPlayerAdd(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            if(!string.IsNullOrEmpty(txtPlayerPath.Text))
+            {
+                playerPath = txtPlayerPath.Text;
+                var stageVM = (StageViewModel)DataContext;
+                stageVM.SetPlayerPath(playerPath);
+            }
+        }
+
+
     }
 }
