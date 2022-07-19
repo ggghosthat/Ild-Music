@@ -35,7 +35,7 @@ namespace Ild_Music_MVVM_.View.UISubControls.FactorySubControl
         {
             var subControlVM = (SubControlViewModel)DataContext;
 
-            object[] values = { txtPath.Text, txtName.Text, txtDescription.Text, lvArtistsRoot.Items};
+            object[] values = { txtPath.Text, txtName.Text, txtDescription.Text, lvArtistsRoot.SelectedIndex, lvPlaylistsRoot.SelectedIndex};
             
             subControlVM.CreateTrackInstance(values);
         }

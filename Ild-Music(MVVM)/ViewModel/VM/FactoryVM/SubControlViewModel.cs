@@ -31,7 +31,8 @@ namespace Ild_Music_MVVM_.ViewModel.VM.FactoryVM
             var name = (string)values[1];
             var description = (string)values[2];
             var artistIndex = (int?)values[3] ?? null;
-            factoryService.CreateTrack(path, name, description, artistIndex);
+            var playlistIndex = (int?)values[4] ?? null;
+            factoryService.CreateTrack(path, name, description, artistIndex, playlistIndex);
         }
     }
 }
