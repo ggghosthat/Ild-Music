@@ -8,10 +8,6 @@ namespace Ild_Music_MVVM_.ViewModel.VM.FactoryVM
         private FactoryService factoryService => (FactoryService)GetService("Factory");
 
 
-        public SubControlViewModel()
-        {
-        }
-
 
         public void CreateArtistInstance(object[] values)
         {

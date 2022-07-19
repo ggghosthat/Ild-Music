@@ -174,7 +174,6 @@ namespace MainStage.Stage
                     File.WriteAllText(file, string.Empty);
                     File.WriteAllText(file, jsonString);
                 }
-
             }
             catch 
             {

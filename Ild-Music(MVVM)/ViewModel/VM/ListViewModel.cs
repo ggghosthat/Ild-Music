@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System;
 using System.Windows;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace Ild_Music_MVVM_.ViewModel.VM
 {
@@ -31,6 +32,12 @@ namespace Ild_Music_MVVM_.ViewModel.VM
         public List<EntityViewModel> PlaylistsList { get; private set; }
         public List<EntityViewModel> TracksList { get; private set; }
 
+        public CommandDelegater EditCommand { get; }
+        public CommandDelegater AddCommand { get; }
+        public CommandDelegater DeleteCommand { get; }
+        public CommandDelegater BackCommand { get; }
+
+
         public static ObservableCollection<EntityViewModel> CurrentList { get; set; } = new();
         public EntityViewModel SelectedItem { get; set; }
         public object Icon { get; set; }
@@ -42,18 +49,23 @@ namespace Ild_Music_MVVM_.ViewModel.VM
 
         public ListViewModel()
         {
-
+            EditCommand = new(Edit, null);
+            AddCommand = new(Add, null);
+            DeleteCommand = new(Delete, null);
+            BackCommand = new(Back, null);
         }
+
         public ListViewModel(List listType)
         {
+            EditCommand = new(Edit, null);
+            AddCommand = new(Add, null);
+            DeleteCommand = new(Delete, null);
+            BackCommand = new(Back, null);
+
             supporterService = (SupporterService)GetService("Supporter");
             CastListStructure();
             SetListType(listType);
         }
-
-
-
-
         #endregion
 
         #region private methods
@@ -106,6 +118,20 @@ namespace Ild_Music_MVVM_.ViewModel.VM
             SetListType(listType);
             return this;
         }
+        #endregion
+
+        #region Command Methods
+        private void Edit(object obj) =>
+            Debug.WriteLine("This is dummy list control editting");
+
+        private void Add(object obj) =>
+            Debug.WriteLine("This is dummy list control addition");
+
+        private void Delete(object obj) =>
+            Debug.WriteLine("This is dummy list control removing");
+
+        private void Back (object obj) =>
+            Debug.WriteLine("This is dummy list control going back");
         #endregion
     }
 }

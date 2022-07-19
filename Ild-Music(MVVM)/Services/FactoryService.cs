@@ -38,18 +38,26 @@ namespace Ild_Music_MVVM_.Services
             supporter.AddInstanceObject(artist);
         }
 
-        public void CreateTrack(string pathway, string name, string description, int? artistIndex)
+        public void CreateTrack(string pathway, string name, string description, int? artistIndex, int? playlistIndex)
         {
-            if (artistIndex != null)
-            {
-                var artist = supporter.ArtistSup[(int)artistIndex];
-                creator.GenerateTrack(pathway: pathway, name: name, description: description, artist: artist);
-            }
-            else
+            Artist artist = null;
+            Playlist playlist = null;
+
+            if (artistIndex == null && playlistIndex == null)
             {
                 creator.GenerateTrack(pathway: pathway, name: name, description: description);
+                goto GetTrack;
             }
+
+            if (artistIndex != null)
+                artist = supporter.ArtistSup[(int)artistIndex];
+            if (playlistIndex != null)
+                playlist = supporter.PlaylistSup[(int)playlistIndex];
             
+
+            creator.GenerateTrack(pathway: pathway, name: name, description: description, artist: artist, playlist: playlist);
+            
+            GetTrack:
             creator.GetTrack(out track);
             supporter.AddInstanceObject(track);
             

@@ -20,17 +20,17 @@ namespace Ild_Music_MVVM_.Services
             _playlist = new Playlist(name: name, description: description);
         }
 
-        public void GenerateTrack(string pathway, string name, string description, Artist? artist = null)
+        public void GenerateTrack(string pathway, string name, string description, Artist? artist = null, Playlist? playlist = null)
         {
             _track = new Track(pathway: pathway, name: name, description: description);
             if (artist != null)
-            {
                 _track.SetArtist(artist);
-            }
             else
-            {
                 _track.SetArtist(new Artist(name: "Unknown", description: "Unknown artist"));
-            }
+
+            if (playlist != null)
+                playlist.AddTrack(_track);
+                
         }
 
 

@@ -150,22 +150,16 @@
                         VerticalAlignment="Bottom"    
                         Orientation="Horizontal"
                         Height="auto">
-                <Border x:Name="brEdit"
-                        CornerRadius="5"
-                        BorderThickness="1"
-                        Background="Transparent"
-                        Margin="2,5"
-                        Width="30"
-                        Height="30"
-                        Style="{StaticResource ListControlButtonStyle}">
-                    <Viewbox Width="24" Height="24">
-                        <Canvas Width="24" Height="24" Background="Transparent">
-                            <Path Fill="White" Data="M20.71,7.04C21.1,6.65 21.1,6 20.71,5.63L18.37,3.29C18,2.9 17.35,2.9 16.96,3.29L15.12,5.12L18.87,8.87M3,17.25V21H6.75L17.81,9.93L14.06,6.18L3,17.25Z" />
-                        </Canvas>
-                    </Viewbox>
-                </Border>
 
-                <Border x:Name="brAdd"
+
+                <StackPanel>
+                    <b:Interaction.Triggers>
+                        <b:EventTrigger EventName="MouseLeftButtonDown">
+                            <b:InvokeCommandAction Command="{Binding EditCommand}"/>
+                        </b:EventTrigger>
+                    </b:Interaction.Triggers>
+
+                    <Border x:Name="brEdit"
                             CornerRadius="5"
                             BorderThickness="1"
                             Background="Transparent"
@@ -173,14 +167,23 @@
                             Width="30"
                             Height="30"
                             Style="{StaticResource ListControlButtonStyle}">
-                    <Viewbox Width="24" Height="24">
-                        <Canvas Width="24" Height="24" Background="Transparent">
-                            <Path Fill="White" Data="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z" />
-                        </Canvas>
-                    </Viewbox>
-                </Border>
 
-                <Border x:Name="brDelete"
+                        <Viewbox Width="24" Height="24">
+                            <Canvas Width="24" Height="24" Background="Transparent">
+                                <Path Fill="White" Data="M20.71,7.04C21.1,6.65 21.1,6 20.71,5.63L18.37,3.29C18,2.9 17.35,2.9 16.96,3.29L15.12,5.12L18.87,8.87M3,17.25V21H6.75L17.81,9.93L14.06,6.18L3,17.25Z" />
+                            </Canvas>
+                        </Viewbox>
+                    </Border>
+                </StackPanel>
+
+                <StackPanel>
+                    <b:Interaction.Triggers>
+                        <b:EventTrigger EventName="MouseLeftButtonDown">
+                            <b:InvokeCommandAction Command="{Binding AddCommand}"/>
+                        </b:EventTrigger>
+                    </b:Interaction.Triggers>
+                    
+                    <Border x:Name="brAdd"
                             CornerRadius="5"
                             BorderThickness="1"
                             Background="Transparent"
@@ -188,12 +191,36 @@
                             Width="30"
                             Height="30"
                             Style="{StaticResource ListControlButtonStyle}">
-                    <Viewbox Width="24" Height="24">
-                        <Canvas Width="24" Height="24" Background="Transparent">
-                            <Path Fill="White" Data="M20.37,8.91L19.37,10.64L7.24,3.64L8.24,1.91L11.28,3.66L12.64,3.29L16.97,5.79L17.34,7.16L20.37,8.91M6,19V7H11.07L18,11V19A2,2 0 0,1 16,21H8A2,2 0 0,1 6,19Z" />
-                        </Canvas>
-                    </Viewbox>
-                </Border>
+                        <Viewbox Width="24" Height="24">
+                            <Canvas Width="24" Height="24" Background="Transparent">
+                                <Path Fill="White" Data="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z" />
+                            </Canvas>
+                        </Viewbox>
+                    </Border>
+                </StackPanel>
+
+                <StackPanel>
+                    <b:Interaction.Triggers>
+                        <b:EventTrigger EventName="MouseLeftButtonDown">
+                            <b:InvokeCommandAction Command="{Binding DeleteCommand}"/>
+                        </b:EventTrigger>
+                    </b:Interaction.Triggers>
+                    
+                    <Border x:Name="brDelete"
+                            CornerRadius="5"
+                            BorderThickness="1"
+                            Background="Transparent"
+                            Margin="2,5"
+                            Width="30"
+                            Height="30"
+                            Style="{StaticResource ListControlButtonStyle}">
+                        <Viewbox Width="24" Height="24">
+                            <Canvas Width="24" Height="24" Background="Transparent">
+                                <Path Fill="White" Data="M20.37,8.91L19.37,10.64L7.24,3.64L8.24,1.91L11.28,3.66L12.64,3.29L16.97,5.79L17.34,7.16L20.37,8.91M6,19V7H11.07L18,11V19A2,2 0 0,1 16,21H8A2,2 0 0,1 6,19Z" />
+                            </Canvas>
+                        </Viewbox>
+                    </Border>
+                </StackPanel>
 
                 <Border x:Name="brBack"
                             Visibility="Collapsed"

@@ -2,6 +2,7 @@
 using Ild_Music_MVVM_.View.UISubControls.FactorySubControl;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace Ild_Music_MVVM_.ViewModel.VM
 {
@@ -28,17 +29,18 @@ namespace Ild_Music_MVVM_.ViewModel.VM
         }
         #endregion
 
-        #region Methods
+        #region Private Methods
         private void InitializeSubControls() 
         {
             Factories.Add(new FactorySubControlTab(subControlService.UserSubControls[0], "Artist"));
             Factories.Add(new FactorySubControlTab(subControlService.UserSubControls[1], "Playlist"));
             Factories.Add(new FactorySubControlTab(subControlService.UserSubControls[2], "Track"));
         }
-
-        
         #endregion
 
-
+        #region Public Methods
+        public void SetFactory([Range(0, 2)] int index) =>
+            CurrentFactory = Factories[index];
+        #endregion
     }
 }
