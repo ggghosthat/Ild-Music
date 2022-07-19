@@ -78,7 +78,8 @@
                                 Margin="5,0"
                                 Width="20"
                                 Height="20"
-                                CornerRadius="5" MouseLeftButtonDown="OnPlayerAdd">
+                                CornerRadius="5" 
+                                MouseLeftButtonDown="OnPlayerAdd">
                             <Viewbox Width="20" Height="20"
                                      HorizontalAlignment="Center"
                                      VerticalAlignment="Center">
@@ -115,7 +116,8 @@
                             CornerRadius="5"
                             Margin="5,0"
                             Width="20"
-                            Height="20">
+                            Height="20"
+                            MouseLeftButtonDown="OnSynchAdd">
                             <Viewbox Width="20" Height="20"
                                  HorizontalAlignment="Center"
                                  VerticalAlignment="Center">

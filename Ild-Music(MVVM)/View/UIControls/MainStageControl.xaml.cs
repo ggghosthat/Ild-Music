@@ -71,6 +71,14 @@ namespace Ild_Music_MVVM_.View.UIControls
             }
         }
 
-
+        private void OnSynchAdd(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            if (!string.IsNullOrEmpty(txtSynchPath.Text))
+            {
+                synchPath = txtSynchPath.Text;
+                var stageVM = (StageViewModel)DataContext;
+                stageVM.SetSynchPath(synchPath);
+            }
+        }
     }
 }
