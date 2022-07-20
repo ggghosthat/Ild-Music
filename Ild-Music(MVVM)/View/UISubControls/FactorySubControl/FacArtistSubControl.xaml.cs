@@ -10,6 +10,18 @@ namespace Ild_Music_MVVM_.View.UISubControls.FactorySubControl
         public FacArtistSubControl()
         {
             InitializeComponent();
+            CheckInstance();
+        }
+
+        private void CheckInstance() 
+        {
+            var subControlVM = (SubControlViewModel)DataContext;
+
+            if(subControlVM.ArtistInstance != null)
+            {
+                txtName.Text = subControlVM.ArtistInstance.Name;
+                txtDescription.Text = subControlVM.ArtistInstance.Description;
+            }
         }
 
         private void ArtistFactoryClick(object sender, System.Windows.RoutedEventArgs e)

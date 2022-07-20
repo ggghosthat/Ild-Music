@@ -10,6 +10,7 @@ namespace Ild_Music_MVVM_.ViewModel.Base
         #region Fields
         
         private static ServiceCenter serviceCenter = App.serviceCenter;
+        private static BackListService backListService = (BackListService)serviceCenter.GetService("BackListService");
         #endregion
 
         #region Constructor
@@ -35,7 +36,13 @@ namespace Ild_Music_MVVM_.ViewModel.Base
         /// <param name="type"> Define name of service</param>
         /// <returns>Returning service</returns>
         protected Service GetService(string type) => serviceCenter.GetService(type);
-        
+
+
+        protected void Add2BackList(BaseViewModel viewModel) =>
+            backListService.Add(viewModel);
+
+        protected BaseViewModel PekkFromBackList() =>
+            backListService.Peek();
         #endregion
     }
 }

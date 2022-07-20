@@ -50,23 +50,24 @@ namespace Ild_Music_MVVM_.Services
         /// </summary>
         private void UpServices()
         {
-            var mainStage = new MainStageService();
+            var mainStageService = new MainStageService();
             //var area = new Area();
-            var supporter = new SupporterService();
+            var supporterService = new SupporterService();
 
-            var factory = new FactoryService(supporter);
+            var factoryService = new FactoryService(supporterService);
 
             var playerService = new PlayerService();
 
-            var subControll = new SubControlService();
+            var subControllService = new SubControlService();
 
+            var backListService = new BackListService();
 
-
-            RegistService(mainStage);
-            RegistService(supporter);
-            RegistService(factory);
+            RegistService(mainStageService);
+            RegistService(supporterService);
+            RegistService(factoryService);
             RegistService(playerService);
-            RegistService(subControll);
+            RegistService(subControllService);
+            RegistService(backListService);
 
 
             Debug.WriteLine("Service center is ready 2 use");

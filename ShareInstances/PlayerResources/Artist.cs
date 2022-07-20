@@ -36,12 +36,13 @@ namespace ShareInstances.PlayerResources
             set { description = value; }
         }
 
-        public IList<Playlist> Tracks 
+        public IList<Playlist> Playlists 
         {
             get { return playlists; } 
             set { playlists = value; } 
         }
-        public IList<Track> TracksCollection {
+        public IList<Track> Tracks 
+        {
             get{ return tracks;}
             set{ tracks = value;}
         }

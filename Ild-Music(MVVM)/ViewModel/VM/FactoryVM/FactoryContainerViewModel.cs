@@ -1,5 +1,7 @@
 ﻿using Ild_Music_MVVM_.Services;
 using Ild_Music_MVVM_.View.UISubControls.FactorySubControl;
+using ShareInstances.PlayerResources;
+using ShareInstances.PlayerResources.Interfaces;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
@@ -25,7 +27,12 @@ namespace Ild_Music_MVVM_.ViewModel.VM
         public FactoryContainerViewModel()
         {
             InitializeSubControls();
-            CurrentFactory = Factories[0];
+        }
+
+        public FactoryContainerViewModel(int index)
+        {
+            InitializeSubControls();
+            CurrentFactory = Factories[index];
         }
         #endregion
 
@@ -39,8 +46,23 @@ namespace Ild_Music_MVVM_.ViewModel.VM
         #endregion
 
         #region Public Methods
-        public void SetFactory([Range(0, 2)] int index) =>
-            CurrentFactory = Factories[index];
+        public void DisplayInstance(object instance)
+        {
+            var instType = instance.GetType();
+
+            if (instance is Artist)
+            {
+                CurrentFactory = Factories[0];
+            }
+            if (instance is Playlist)
+            {
+                CurrentFactory = Factories[1];
+            }
+            if (instance is Track)
+            {
+                CurrentFactory = Factories[2];
+            }
+        }
         #endregion
     }
 }

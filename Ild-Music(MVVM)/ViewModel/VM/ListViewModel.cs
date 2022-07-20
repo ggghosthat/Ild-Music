@@ -9,6 +9,7 @@ using System;
 using System.Windows;
 using System.Collections.Generic;
 using System.Diagnostics;
+using ShareInstances.PlayerResources.Interfaces;
 
 namespace Ild_Music_MVVM_.ViewModel.VM
 {
@@ -25,12 +26,14 @@ namespace Ild_Music_MVVM_.ViewModel.VM
         #region Fields
         //SupporterService wich provide entities supply 2 list representation
         private SupporterService supporterService;
+
+        private List listType;
         #endregion
 
         #region Properties
-        public List<EntityViewModel> ArtistsList { get; private set; }
-        public List<EntityViewModel> PlaylistsList { get; private set; }
-        public List<EntityViewModel> TracksList { get; private set; }
+        public List<ICoreEntity> ArtistsList { get; private set; } = new();
+        public List<ICoreEntity> PlaylistsList { get; private set; } = new();
+        public List<ICoreEntity> TracksList { get; private set; } = new ();
 
         public CommandDelegater EditCommand { get; }
         public CommandDelegater AddCommand { get; }
@@ -63,7 +66,6 @@ namespace Ild_Music_MVVM_.ViewModel.VM
             BackCommand = new(Back, null);
 
             supporterService = (SupporterService)GetService("Supporter");
-            CastListStructure();
             SetListType(listType);
         }
         #endregion
@@ -72,9 +74,9 @@ namespace Ild_Music_MVVM_.ViewModel.VM
         //These method casts list structures from storable types 2 viewable types
         private void CastListStructure()
         {
-            ArtistsList = new List<EntityViewModel>{new ArtistEntityViewModel("122", "hello"), new ArtistEntityViewModel("123", "hello"), new ArtistEntityViewModel("123", "hello")};
-            PlaylistsList = new List<EntityViewModel>{new PlaylistEntityViewModel("122", "Phelo"), new PlaylistEntityViewModel("13", "Pllo")};
-            TracksList = new List<EntityViewModel>{new TrackEntityViewModel("122", "Thello"), new TrackEntityViewModel("123", "Thello"), new TrackEntityViewModel("123", "Thello")};
+            ArtistsList.AddRange(supporterService.ArtistSup);
+            PlaylistsList.AddRange(supporterService.PlaylistSup);
+            TracksList.AddRange(supporterService.TrackSup);
         }
         #endregion
 
@@ -82,6 +84,7 @@ namespace Ild_Music_MVVM_.ViewModel.VM
         //Define type of list to present in CurrentList
         public void SetListType(List listType)
         {
+            this.listType = listType;
             CurrentList.Clear();
             switch (listType)
             {                
@@ -121,8 +124,25 @@ namespace Ild_Music_MVVM_.ViewModel.VM
         #endregion
 
         #region Command Methods
-        private void Edit(object obj) =>
-            Debug.WriteLine("This is dummy list control editting");
+        private void Edit(object obj)
+        {
+            FactoryContainerViewModel factory;
+            switch (listType)
+            {
+                case List.ARTISTS:
+                    factory = new (0);
+
+                    break;
+                case List.PLAYLISTS:
+                    factory = new (1);
+                    break;
+                case List.TRACKS:
+                    factory = new (2);
+                    break;
+                default:
+                    break;
+            }
+        }
 
         private void Add(object obj) =>
             Debug.WriteLine("This is dummy list control addition");
