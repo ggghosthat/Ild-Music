@@ -130,18 +130,21 @@ namespace Ild_Music_MVVM_.ViewModel.VM
             switch (listType)
             {
                 case List.ARTISTS:
-                    factory = new (0);
-
+                    factory = new(SelectedItem);
+                    factory.DisplayInstance(SelectedItem);
                     break;
                 case List.PLAYLISTS:
-                    factory = new (1);
+                    factory = new(SelectedItem);
+                    factory.DisplayInstance(SelectedItem);
                     break;
                 case List.TRACKS:
-                    factory = new (2);
+                    factory = new(SelectedItem);
+                    factory.DisplayInstance(SelectedItem);
                     break;
                 default:
                     break;
             }
+            
         }
 
         private void Add(object obj) =>

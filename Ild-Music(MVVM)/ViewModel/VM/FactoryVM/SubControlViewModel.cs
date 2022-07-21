@@ -11,10 +11,7 @@ namespace Ild_Music_MVVM_.ViewModel.VM.FactoryVM
         public SupporterService Supporter => (SupporterService)GetService("Supporter");
 
 
-        public Artist ArtistInstance { get; private set; } = null;
-        public Playlist PlaylistInstance { get; private set; } = null;
-        public Track TrackInstance { get; private set; } = null;
-
+        public ICoreEntity Instance { get; private set; } = null;
 
         public void CreateArtistInstance(object[] values)
         {
@@ -42,14 +39,8 @@ namespace Ild_Music_MVVM_.ViewModel.VM.FactoryVM
             factoryService.CreateTrack(path, name, description, artistIndex, playlistIndex);
         }
 
-        public void DropInstance(ICoreEntity instance)
-        {
-            if (instance is Artist)
-                ArtistInstance = (Artist)instance;
-            if (instance is Playlist)
-                PlaylistInstance = (Playlist)instance;
-            if (instance is Track)
-                TrackInstance = (Track)instance;
-        }
+        public void DropInstance(ICoreEntity instance) =>
+            Instance = instance;
+        
     }
 }

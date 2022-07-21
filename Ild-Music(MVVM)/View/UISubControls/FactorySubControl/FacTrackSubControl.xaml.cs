@@ -3,19 +3,31 @@ using Ild_Music_MVVM_.Services;
 using Ild_Music_MVVM_.ViewModel.VM.FactoryVM;
 using System.Windows.Forms;
 using System.Windows.Media;
+using System;
+using ShareInstances.PlayerResources;
 
 namespace Ild_Music_MVVM_.View.UISubControls.FactorySubControl
 {
     public partial class FacTrackSubControl : System.Windows.Controls.UserControl, IFactorySubControl
     {
+        #region Fields
         private SupporterService supporter;
+        #endregion
 
+
+        #region Properties
         public string Header { get; init; } = "Track";
+        #endregion
+
+        #region Events
+        private event Action OnCheckInstance;
+        #endregion
 
         public FacTrackSubControl()
         {
             InitializeComponent();
-            CheckInstance();
+            OnCheckInstance += CheckInstance;
+            PathFieldDecorate();
         }
 
 
@@ -24,40 +36,34 @@ namespace Ild_Music_MVVM_.View.UISubControls.FactorySubControl
             var subControlVM = (SubControlViewModel)DataContext;
             supporter = subControlVM.Supporter;
 
-            if (subControlVM.TrackInstance != null)
+            if (subControlVM.Instance is Track trackInstance)
             {
-                txtPath.Text = subControlVM.TrackInstance.Pathway;
-                txtName.Text = subControlVM.TrackInstance.Name;
-                txtDescription.Text = subControlVM.TrackInstance.Description;
+                txtPath.Text = trackInstance.Pathway;
+                txtName.Text = trackInstance.Name;
+                txtDescription.Text = trackInstance.Description;
 
                 foreach (var artist in supporter.ArtistSup)
-                {
                     artist.Tracks.ToList().ForEach(t =>
                     {
-                        if (t.Id.Equals(subControlVM.TrackInstance.Id))
+                        if (t.Id.Equals(trackInstance.Id))
                             lvArtistsRoot.Items.Add(artist.Name);
-                    });
-                }
-
+                    });                
 
                 foreach (var playlist in supporter.PlaylistSup)
-                {
                     playlist.Tracks.ToList().ForEach(t =>
                     {
-                        if (t.Id.Equals(subControlVM.TrackInstance.Id))
+                        if (t.Id.Equals(trackInstance.Id))
                             lvPlaylistsRoot.Items.Add(playlist.Name);
                     });
-                }
-            }
-            else
-            {
-                txtPath.Foreground = (Brush)new BrushConverter().ConvertFrom("#7e8f8a");
-                txtPath.Text = "Click twice to select your track.";
+                
             }
         }
 
-
-
+        private void PathFieldDecorate()
+        {
+            txtPath.Foreground = (Brush)new BrushConverter().ConvertFrom("#7e8f8a");
+            txtPath.Text = "Click twice to select your track.";
+        }
 
         private void Path2Track(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
@@ -80,5 +86,12 @@ namespace Ild_Music_MVVM_.View.UISubControls.FactorySubControl
             
             subControlVM.CreateTrackInstance(values);
         }
+
+
+
+
+
+        public void InvokeCheckInstance() =>
+            OnCheckInstance?.Invoke();
     }
 }

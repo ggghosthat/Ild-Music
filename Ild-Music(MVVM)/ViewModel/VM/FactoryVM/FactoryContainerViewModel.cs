@@ -29,10 +29,12 @@ namespace Ild_Music_MVVM_.ViewModel.VM
             InitializeSubControls();
         }
 
-        public FactoryContainerViewModel(int index)
+        public FactoryContainerViewModel(ICoreEntity instance)
         {
-            InitializeSubControls();
-            CurrentFactory = Factories[index];
+            InitializeSubControls(); 
+            subControlService.DropInstance(instance);
+
+            
         }
         #endregion
 
@@ -46,22 +48,14 @@ namespace Ild_Music_MVVM_.ViewModel.VM
         #endregion
 
         #region Public Methods
-        public void DisplayInstance(object instance)
+        public void DisplayInstance(ICoreEntity instance)
         {
-            var instType = instance.GetType();
-
             if (instance is Artist)
-            {
                 CurrentFactory = Factories[0];
-            }
             if (instance is Playlist)
-            {
                 CurrentFactory = Factories[1];
-            }
             if (instance is Track)
-            {
                 CurrentFactory = Factories[2];
-            }
         }
         #endregion
     }
