@@ -45,6 +45,7 @@
                               FontSize="15" 
                               Width="884"
                               ItemsSource="{Binding CurrentList}"
+                              SelectedItem="{Binding SelectedItem}"
                               HorizontalContentAlignment="Center"
                               VerticalContentAlignment="Center">
 

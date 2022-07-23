@@ -1,12 +1,17 @@
 ﻿using Ild_Music_CORE.Models.Core.Session_Structure;
 using Ild_Music_MVVM_.Command;
+using Ild_Music_MVVM_.Services;
 using ShareInstances.PlayerResources.Interfaces;
 
 namespace Ild_Music_MVVM_.ViewModel.VM
 {
     public class MainViewModel : Base.BaseViewModel
     {
+        #region Fields
+        private static BackList<Base.BaseViewModel> _backList = new();
+        #endregion
 
+        #region Properties
         public Base.BaseViewModel CurrenttViewModelItem { get; set; } = new StartViewModel();
 
         public NAudioPlayer PlayerEntity { get; set; } = new NAudioPlayer();
@@ -19,14 +24,39 @@ namespace Ild_Music_MVVM_.ViewModel.VM
         public CommandDelegater KickCommand { get; }
         public CommandDelegater StopCommand { get; }
 
+        #endregion
+
+        #region Ctor
         public MainViewModel() : base()
         {
+            var mainWIndowServicew = (MainWindowService)GetService("MainWindowAPI");
+            mainWIndowServicew.MainWindow = this;
+
             PreviousCommand = new CommandDelegater(PreviousPlayerCommand, OnCanSwipe);
             NextCommand = new CommandDelegater(NextPlayerCommand, OnCanSwipe);
             KickCommand = new CommandDelegater(PlayPlayerCommand, OnCanUsePlayer);
             KickCommand = new CommandDelegater(StopPlayerCommand, OnCanUsePlayer);
         }
+        #endregion
 
+
+        #region Public Methods
+        public void SetVM(Base.BaseViewModel baseVM) =>
+            CurrenttViewModelItem = baseVM;
+
+        public void AddVM(Base.BaseViewModel baseVM)
+        {
+            _backList.Add(CurrenttViewModelItem);
+            _backList.Add(baseVM);
+            CurrenttViewModelItem = null;
+            CurrenttViewModelItem = _backList.Peek();
+        }
+
+        public void SetPriviousVM()
+        {
+            CurrenttViewModelItem = _backList.Peek();
+        }
+        #endregion
 
 
         #region CommandPredicate
@@ -38,6 +68,7 @@ namespace Ild_Music_MVVM_.ViewModel.VM
             PlayerEntity.isSwipe && PlayerEntity.isEmpty;
         #endregion
 
+        #region Command Methods
         private void PreviousPlayerCommand(object obj = null) =>
             PlayerEntity.DropPrevious();
 
@@ -57,5 +88,6 @@ namespace Ild_Music_MVVM_.ViewModel.VM
         //???
         private void PlayPlayerCommand(object obj) =>
             PlayerEntity.Play();
+        #endregion
     }
 }

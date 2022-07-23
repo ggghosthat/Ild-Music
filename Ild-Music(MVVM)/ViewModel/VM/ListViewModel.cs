@@ -26,6 +26,7 @@ namespace Ild_Music_MVVM_.ViewModel.VM
         #region Fields
         //SupporterService wich provide entities supply 2 list representation
         private SupporterService supporterService;
+        private MainWindowService _mainWindowAPI => (MainWindowService)GetService("MainWindowAPI");
 
         private List listType;
         #endregion
@@ -35,10 +36,12 @@ namespace Ild_Music_MVVM_.ViewModel.VM
         public List<ICoreEntity> PlaylistsList { get; private set; } = new();
         public List<ICoreEntity> TracksList { get; private set; } = new ();
 
+
         public CommandDelegater EditCommand { get; }
         public CommandDelegater AddCommand { get; }
         public CommandDelegater DeleteCommand { get; }
         public CommandDelegater BackCommand { get; }
+
 
 
         public static ObservableCollection<EntityViewModel> CurrentList { get; set; } = new();
@@ -127,34 +130,37 @@ namespace Ild_Music_MVVM_.ViewModel.VM
         private void Edit(object obj)
         {
             FactoryContainerViewModel factory;
+            factory = new(SelectedItem);
+            factory.DisplayInstance(SelectedItem);        
+        }
+
+        private void Add(object obj)
+        {
+            FactoryContainerViewModel factory;
+            factory = new();
             switch (listType)
             {
                 case List.ARTISTS:
-                    factory = new(SelectedItem);
-                    factory.DisplayInstance(SelectedItem);
+                    factory.DisplayInstance(0);
                     break;
                 case List.PLAYLISTS:
-                    factory = new(SelectedItem);
-                    factory.DisplayInstance(SelectedItem);
+                    factory.DisplayInstance(1);
                     break;
                 case List.TRACKS:
-                    factory = new(SelectedItem);
-                    factory.DisplayInstance(SelectedItem);
-                    break;
-                default:
+                    factory.DisplayInstance(2);
                     break;
             }
-            
+            _mainWindowAPI.MainWindow.AddVM(factory);
         }
 
-        private void Add(object obj) =>
-            Debug.WriteLine("This is dummy list control addition");
 
         private void Delete(object obj) =>
             Debug.WriteLine("This is dummy list control removing");
 
         private void Back (object obj) =>
             Debug.WriteLine("This is dummy list control going back");
+
+
         #endregion
     }
 }

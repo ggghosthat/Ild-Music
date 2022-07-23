@@ -26,7 +26,7 @@ namespace Ild_Music_MVVM_.View.UISubControls.FactorySubControl
         public FacPlaylistSubControl()
         {
             InitializeComponent();
-            CheckInstance();
+            //CheckInstance();
         }
         #endregion
 

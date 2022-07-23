@@ -32,9 +32,7 @@ namespace Ild_Music_MVVM_.ViewModel.VM
         public FactoryContainerViewModel(ICoreEntity instance)
         {
             InitializeSubControls(); 
-            subControlService.DropInstance(instance);
-
-            
+            subControlService.DropInstance(instance);            
         }
         #endregion
 
@@ -55,6 +53,16 @@ namespace Ild_Music_MVVM_.ViewModel.VM
             if (instance is Playlist)
                 CurrentFactory = Factories[1];
             if (instance is Track)
+                CurrentFactory = Factories[2];
+        }
+
+        public void DisplayInstance([Range(-1,2)]int instance)
+        {
+            if (instance == 0)
+                CurrentFactory = Factories[0];
+            if (instance == 1)
+                CurrentFactory = Factories[1];
+            if (instance == 2)
                 CurrentFactory = Factories[2];
         }
         #endregion

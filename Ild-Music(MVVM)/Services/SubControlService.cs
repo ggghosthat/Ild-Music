@@ -46,7 +46,7 @@ namespace Ild_Music_MVVM_.Services
             }
             if (instance is Playlist)
             {
-                var playlistSubControl = (FacPlaylistSubControl)UserSubControls[0];
+                var playlistSubControl = (FacPlaylistSubControl)UserSubControls[1];
                 playlistSubControl.InvokeCheckInstance();
             }
             if (instance is Track)

@@ -60,14 +60,14 @@ namespace Ild_Music_MVVM_.Services
 
             var subControllService = new SubControlService();
 
-            var backListService = new BackListService();
+            var mainWindowService = new MainWindowService();
 
             RegistService(mainStageService);
             RegistService(supporterService);
             RegistService(factoryService);
             RegistService(playerService);
             RegistService(subControllService);
-            RegistService(backListService);
+            RegistService(mainWindowService);
 
 
             Debug.WriteLine("Service center is ready 2 use");
