@@ -62,12 +62,15 @@ namespace Ild_Music_MVVM_.Services
 
             var mainWindowService = new MainWindowService();
 
+            var vmHolder = new ViewModelHolderService();
+
             RegistService(mainStageService);
             RegistService(supporterService);
             RegistService(factoryService);
             RegistService(playerService);
             RegistService(subControllService);
             RegistService(mainWindowService);
+            RegistService(vmHolder);
 
 
             Debug.WriteLine("Service center is ready 2 use");

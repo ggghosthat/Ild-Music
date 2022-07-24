@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:fui="clr-namespace:Ild_Music_MVVM_.View.UISubControls.FactorySubControl"
+             xmlns:converter="clr-namespace:Ild_Music_MVVM_.Converters"
              mc:Ignorable="d"
              d:DesignHeight="480" d:DesignWidth="800">
     <UserControl.Resources>
@@ -35,9 +35,10 @@
                 </Setter.Value>
             </Setter>
         </Style>
-        
-        
-        
+
+        <converter:FactoryControlUserControlConverter x:Key="FactoryConverter">
+        </converter:FactoryControlUserControlConverter>
+
     </UserControl.Resources>
    
     <Grid>
@@ -48,7 +49,8 @@
 
         <Grid Grid.Row="0">
 
-            <ListBox Style="{DynamicResource ListBoxStyle1}" ItemsSource="{Binding Factories}"
+            <ListBox Style="{DynamicResource ListBoxStyle1}"
+                     ItemsSource="{Binding Factories}"
                      SelectedItem="{Binding CurrentFactory}"
                      Grid.Column="0"
                      Background="Transparent"
@@ -110,6 +112,7 @@
                     </Style>
 
                 </ListBox.ItemContainerStyle>
+                
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <StackPanel Orientation="Horizontal">
@@ -127,7 +130,7 @@
         </Grid>
 
         <Grid Grid.Row="1">
-            <ContentControl Content="{Binding CurrentFactory.UserControl}">
+            <ContentControl Name="ContentHoster" Content="{Binding CurrentFactory, Converter={StaticResource FactoryConverter} }">
             </ContentControl>
         </Grid>
     </Grid>

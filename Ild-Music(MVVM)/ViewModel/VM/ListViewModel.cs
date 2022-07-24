@@ -27,6 +27,7 @@ namespace Ild_Music_MVVM_.ViewModel.VM
         //SupporterService wich provide entities supply 2 list representation
         private SupporterService supporterService;
         private MainWindowService _mainWindowAPI => (MainWindowService)GetService("MainWindowAPI");
+        private FactoryService factoryService => (FactoryService)GetService("Factory");
 
         private List listType;
         #endregion
@@ -129,28 +130,27 @@ namespace Ild_Music_MVVM_.ViewModel.VM
         #region Command Methods
         private void Edit(object obj)
         {
-            FactoryContainerViewModel factory;
-            factory = new(SelectedItem);
-            factory.DisplayInstance(SelectedItem);        
+            factoryService.FactoryContainerViewModel = new(SelectedItem);
+            factoryService.FactoryContainerViewModel.DisplayInstance(SelectedItem);        
         }
 
         private void Add(object obj)
         {
-            FactoryContainerViewModel factory;
-            factory = new();
+            factoryService.FactoryContainerViewModel = new();
+
             switch (listType)
             {
                 case List.ARTISTS:
-                    factory.DisplayInstance(0);
+                    factoryService.FactoryContainerViewModel.DisplayInstance(0);
                     break;
                 case List.PLAYLISTS:
-                    factory.DisplayInstance(1);
+                    factoryService.FactoryContainerViewModel.DisplayInstance(1);
                     break;
                 case List.TRACKS:
-                    factory.DisplayInstance(2);
+                    factoryService.FactoryContainerViewModel.DisplayInstance(2);
                     break;
             }
-            _mainWindowAPI.MainWindow.AddVM(factory);
+            _mainWindowAPI.MainWindow.AddVM(factoryService.FactoryContainerViewModel);
         }
 
 

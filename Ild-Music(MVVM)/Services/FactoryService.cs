@@ -1,6 +1,7 @@
 ﻿using Ild_Music_MVVM_.Services.Parents;
 using System.Collections.Generic;
 using ShareInstances.PlayerResources;
+using Ild_Music_MVVM_.ViewModel.VM;
 
 namespace Ild_Music_MVVM_.Services
 {
@@ -9,7 +10,6 @@ namespace Ild_Music_MVVM_.Services
         public override string ServiceType { get; init; } = "Factory";
 
         private EntityCreator creator = new ();
-
         private SupporterService supporter;
 
 
@@ -21,14 +21,12 @@ namespace Ild_Music_MVVM_.Services
         public Track Track => track;
         public Playlist Playlist => playlist;
 
+        public FactoryContainerViewModel FactoryContainerViewModel { get; set; }
 
 
 
-
-        public FactoryService(SupporterService supporterService)
-        {
+        public FactoryService(SupporterService supporterService) =>
             supporter = supporterService;
-        }
 
 
         public void CreateArtist(string name, string description)
@@ -64,9 +62,7 @@ namespace Ild_Music_MVVM_.Services
         }
 
         public void CreatePlaylist(string name, string description, IList<object>? tracks = null)
-        {
-            
-
+        {   
             creator.GeneratePlaylist(name: name, description: description);
             creator.GetPlaylist(out playlist);
             

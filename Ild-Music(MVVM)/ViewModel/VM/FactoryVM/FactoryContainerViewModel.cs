@@ -5,6 +5,7 @@ using ShareInstances.PlayerResources.Interfaces;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
+using System.Windows.Controls;
 
 namespace Ild_Music_MVVM_.ViewModel.VM
 {
@@ -56,7 +57,7 @@ namespace Ild_Music_MVVM_.ViewModel.VM
                 CurrentFactory = Factories[2];
         }
 
-        public void DisplayInstance([Range(-1,2)]int instance)
+        public void DisplayInstance(int instance)
         {
             if (instance == 0)
                 CurrentFactory = Factories[0];
