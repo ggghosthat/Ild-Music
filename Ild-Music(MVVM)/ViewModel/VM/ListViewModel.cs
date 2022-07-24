@@ -24,15 +24,21 @@ namespace Ild_Music_MVVM_.ViewModel.VM
     public class ListViewModel : Base.BaseViewModel
     {
         #region Fields
+        private static readonly string nameVM = "ListVM";
+
+
         //SupporterService wich provide entities supply 2 list representation
         private SupporterService supporterService;
         private MainWindowService _mainWindowAPI => (MainWindowService)GetService("MainWindowAPI");
         private FactoryService factoryService => (FactoryService)GetService("Factory");
+        private ViewModelHolderService vmHolder => (ViewModelHolderService)GetService("VMHolder");
 
         private List listType;
         #endregion
 
         #region Properties
+        public static string NameVM => nameVM;
+
         public List<ICoreEntity> ArtistsList { get; private set; } = new();
         public List<ICoreEntity> PlaylistsList { get; private set; } = new();
         public List<ICoreEntity> TracksList { get; private set; } = new ();
@@ -131,7 +137,10 @@ namespace Ild_Music_MVVM_.ViewModel.VM
         private void Edit(object obj)
         {
             factoryService.FactoryContainerViewModel = new(SelectedItem);
-            factoryService.FactoryContainerViewModel.DisplayInstance(SelectedItem);        
+            factoryService.FactoryContainerViewModel.DisplayInstance(SelectedItem);
+
+
+            vmHolder.AddViewModel(nameVM, this);
         }
 
         private void Add(object obj)
@@ -151,6 +160,7 @@ namespace Ild_Music_MVVM_.ViewModel.VM
                     break;
             }
             _mainWindowAPI.MainWindow.AddVM(factoryService.FactoryContainerViewModel);
+            vmHolder.AddViewModel(nameVM, this);
         }
 
 

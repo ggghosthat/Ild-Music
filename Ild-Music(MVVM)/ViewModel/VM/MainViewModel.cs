@@ -12,6 +12,7 @@ namespace Ild_Music_MVVM_.ViewModel.VM
         #endregion
 
         #region Properties
+        private ViewModelHolderService vmHolder => (ViewModelHolderService)GetService("VMHolder");
         public Base.BaseViewModel CurrenttViewModelItem { get; set; } = new StartViewModel();
 
         public NAudioPlayer PlayerEntity { get; set; } = new NAudioPlayer();
@@ -41,8 +42,14 @@ namespace Ild_Music_MVVM_.ViewModel.VM
 
 
         #region Public Methods
-        public void SetVM(Base.BaseViewModel baseVM) =>
+        public void SetVM(Base.BaseViewModel baseVM)
+        {
             CurrenttViewModelItem = baseVM;
+            if(baseVM is ListViewModel listVM)
+            {
+                vmHolder.AddViewModel(ListViewModel.NameVM, listVM);
+            }
+        }
 
         public void AddVM(Base.BaseViewModel baseVM)
         {
