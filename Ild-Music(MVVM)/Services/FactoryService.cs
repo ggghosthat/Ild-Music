@@ -36,24 +36,15 @@ namespace Ild_Music_MVVM_.Services
             supporter.AddInstanceObject(artist);
         }
 
-        public void CreateTrack(string pathway, string name, string description, int? artistIndex, int? playlistIndex)
+        public void CreateTrack(string pathway, string name, string description, IList<Artist?> artists, IList<Playlist?> playlists)
         {
-            Artist artist = null;
-            Playlist playlist = null;
-
-            if (artistIndex == null && playlistIndex == null)
+            if (artists == null && playlists == null)
             {
                 creator.GenerateTrack(pathway: pathway, name: name, description: description);
                 goto GetTrack;
             }
 
-            if (artistIndex != null)
-                artist = supporter.ArtistSup[(int)artistIndex];
-            if (playlistIndex != null)
-                playlist = supporter.PlaylistSup[(int)playlistIndex];
-            
-
-            creator.GenerateTrack(pathway: pathway, name: name, description: description, artist: artist, playlist: playlist);
+            creator.GenerateTrack(pathway: pathway, name: name, description: description, artists: artists, playlists: playlists);
             
             GetTrack:
             creator.GetTrack(out track);
@@ -61,13 +52,13 @@ namespace Ild_Music_MVVM_.Services
             
         }
 
-        public void CreatePlaylist(string name, string description, IList<object>? tracks = null)
+        public void CreatePlaylist(string name, string description, IList<Artist>? artists = null)
         {   
             creator.GeneratePlaylist(name: name, description: description);
             creator.GetPlaylist(out playlist);
-            
-            if (tracks != null)
-                playlist.Tracks = (IList<Track>)tracks;
+
+            foreach (var artist in artists)
+                artist.AddPlaylist(playlist);
             
             supporter.AddInstanceObject(playlist);
         }

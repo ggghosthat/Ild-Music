@@ -171,13 +171,13 @@ namespace ShareInstances.PlayerResources
 
         #region ArtistsSettings
         public void SetArtist(Artist artist) =>
-            artist.AddTracklist(this);
+            artist.AddPlaylist(this);
         
         public void SetArtists(IEnumerable<Artist> newArtists)
         {
             foreach (var artist in newArtists)
             {
-                artist.AddTracklist(this);
+                artist.AddPlaylist(this);
             }
         }
         #endregion

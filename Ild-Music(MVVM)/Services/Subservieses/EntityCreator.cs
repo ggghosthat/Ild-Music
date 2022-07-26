@@ -1,4 +1,6 @@
 ﻿using ShareInstances.PlayerResources;
+using System.Linq;
+using System.Collections.Generic;
 
 namespace Ild_Music_MVVM_.Services
 {
@@ -20,34 +22,25 @@ namespace Ild_Music_MVVM_.Services
             _playlist = new Playlist(name: name, description: description);
         }
 
-        public void GenerateTrack(string pathway, string name, string description, Artist? artist = null, Playlist? playlist = null)
+        public void GenerateTrack(string pathway, string name, string description, IList<Artist> artists = null, IList<Playlist> playlists = null)
         {
             _track = new Track(pathway: pathway, name: name, description: description);
-            if (artist != null)
-                _track.SetArtist(artist);
-            else
-                _track.SetArtist(new Artist(name: "Unknown", description: "Unknown artist"));
 
-            if (playlist != null)
-                playlist.AddTrack(_track);
-                
+            if (artists != null && artists.Count > 0)
+                artists.ToList().ForEach(a => a.AddTrack(_track));
+            if (playlists != null && playlists.Count > 0)
+                playlists.ToList().ForEach(p => p.AddTrack(_track));                            
         }
 
 
 
-        public void GetArtist(out Artist? artist)
-        {
+        public void GetArtist(out Artist? artist) =>
             artist = _artist ?? null;
-        }
 
-        public void GetTrack(out Track? track)
-        {
+        public void GetTrack(out Track? track) =>
             track = _track ?? null;
-        }
 
-        public void GetPlaylist(out Playlist? playlist)
-        {
+        public void GetPlaylist(out Playlist? playlist) =>
             playlist = _playlist ?? null;
-        }
     }
 }

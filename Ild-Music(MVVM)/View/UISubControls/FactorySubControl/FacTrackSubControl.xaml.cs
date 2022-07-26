@@ -75,23 +75,9 @@ namespace Ild_Music_MVVM_.View.UISubControls.FactorySubControl
             }
         }
 
-
-
-
-        private void TrackFactoryClick(object sender, System.Windows.RoutedEventArgs e)
-        {
-            var subControlVM = (SubControlViewModel)DataContext;
-
-            object[] values = { txtPath.Text, txtName.Text, txtDescription.Text, lvArtistsRoot.SelectedIndex, lvPlaylistsRoot.SelectedIndex};
-            
-            subControlVM.CreateTrackInstance(values);
-        }
-
-
-
-
-
         public void InvokeCheckInstance() =>
             OnCheckInstance?.Invoke();
+
+     
     }
 }

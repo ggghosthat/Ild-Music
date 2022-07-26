@@ -3,6 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:b="http://schemas.microsoft.com/xaml/behaviors" 
+             xmlns:converrter="clr-namespace:Ild_Music_MVVM_.Converters"
              xmlns:local="clr-namespace:Ild_Music_MVVM_.View.UISubControls.FactorySubControl"
              mc:Ignorable="d" 
              d:DesignHeight="500" d:DesignWidth="896">
@@ -62,6 +64,21 @@
                 </Setter.Value>
             </Setter>
         </Style>
+
+        <Style x:Key="ApplyBorderStyle" TargetType="Border">
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="BorderBrush" Value="#780db5b4"/>
+                    <Setter Property="Background" Value="#FF3C7FB1"/>
+                </Trigger>
+                <Trigger Property="IsMouseOver" Value="False">
+                    <Setter Property="BorderBrush" Value="Aqua"/>
+                    <Setter Property="Background" Value="Transparent"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <converrter:ShareInstanceTextConverter x:Key="ShareInstanceTextConverter"/>
     </UserControl.Resources>
 
     <Grid Margin="2,0,2,2" Height="496" VerticalAlignment="Bottom">
@@ -91,7 +108,8 @@
                              CaretBrush="White"
                              Foreground="White"
                              Style="{StaticResource Textbox3}"
-                             Height="30"/>
+                             Height="30"
+                             Text="{Binding ArtistName, Mode=TwoWay}"/>
                 </StackPanel>
 
                 <TextBlock Name="lblDescription"
@@ -117,29 +135,33 @@
                              TextWrapping="Wrap"
                              AcceptsReturn="True"
                              AcceptsTab="True"
-                             />
+                             Text="{Binding ArtistDescription, Mode=TwoWay}"/>
                 </StackPanel>
 
             </StackPanel>
         </Grid>
 
-        <Grid Grid.Row="1"
-              VerticalAlignment="Top">
-            <Button x:Name="btn"
-                        Height="40" 
-                        Width="100" 
-                        BorderThickness="0" 
-                        HorizontalAlignment="left"
-                        VerticalAlignment="Top"
-                        Content="OK"
-                        FontWeight="ExtraBold"
-                        FontSize="30"
-                        Background="#42d4f5"
-                        Foreground="White" 
-                        Margin="10,7"
-                        Style="{StaticResource CardButton11}"
-                        Click="ArtistFactoryClick">
-            </Button>
+        <Grid Grid.Row="1">
+            <StackPanel>
+                <b:Interaction.Triggers>
+                    <b:EventTrigger EventName="MouseLeftButtonDown">
+                        <b:InvokeCommandAction Command="{Binding CreateArtistCommand}"/>
+                    </b:EventTrigger>
+                </b:Interaction.Triggers>
+
+                <Border x:Name="brApply"
+                            CornerRadius="5"
+                            BorderThickness="1"
+                            HorizontalAlignment="Left"
+                            Margin="2,5"
+                            Style="{StaticResource ApplyBorderStyle}">
+                    <Label Content="Apply"
+                               FontSize="16"
+                               Foreground="White"
+                               FontWeight="Medium"
+                               Background="Transparent"/>
+                </Border>
+            </StackPanel>
         </Grid>
     </Grid>
 </UserControl>

@@ -16,7 +16,8 @@ namespace Ild_Music_MVVM_.Services
         {
             if (!vmStorage.ContainsKey(name))
                 vmStorage.Add(name, viewmodel);
-            vmStorage[name] = viewmodel;
+            else
+                vmStorage[name] = viewmodel;
         }
 
         public BaseViewModel GetViewModel(string name)

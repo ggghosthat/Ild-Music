@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:b="http://schemas.microsoft.com/xaml/behaviors" 
              xmlns:local="clr-namespace:Ild_Music_MVVM_.View.UISubControls.FactorySubControl"
+             xmlns:converrter="clr-namespace:Ild_Music_MVVM_.Converters"
              mc:Ignorable="d" 
              d:DesignHeight="795" d:DesignWidth="896">
 
@@ -64,9 +65,24 @@
                 </Setter.Value>
             </Setter>
         </Style>
+
+        <Style x:Key="ApplyBorderStyle" TargetType="Border">
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="BorderBrush" Value="#780db5b4"/>
+                    <Setter Property="Background" Value="#FF3C7FB1"/>
+                </Trigger>
+                <Trigger Property="IsMouseOver" Value="False">
+                    <Setter Property="BorderBrush" Value="Aqua"/>
+                    <Setter Property="Background" Value="Transparent"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <converrter:ShareInstanceTextConverter x:Key="ShareInstanceTextConverter"/>
     </UserControl.Resources>
 
-    <ScrollViewer VerticalScrollBarVisibility="Visible" Height="460">
+    <ScrollViewer VerticalScrollBarVisibility="Visible" Height="455">
         <Grid Margin="2">
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"/>
@@ -96,7 +112,8 @@
                              Padding="8,0"
                              CaretBrush="White"
                              IsReadOnly="True" 
-                             MouseDoubleClick="Path2Track"/>
+                             MouseDoubleClick="Path2Track"
+                             Text="{Binding TrackPath, Mode=TwoWay}"/>
 
 
 
@@ -120,7 +137,8 @@
                              Style="{StaticResource Textbox3}"
                              Height="25"
                              Padding="8,0"
-                             CaretBrush="White"/>
+                             CaretBrush="White"
+                             Text="{Binding TrackName, Mode=TwoWay}"/>
                     </StackPanel>
 
 
@@ -144,7 +162,8 @@
                              AcceptsReturn="True"
                              AcceptsTab="True"
                              Padding="8,0"
-                             CaretBrush="White"/>
+                             CaretBrush="White"
+                             Text="{Binding TrackDescription, Mode=TwoWay}"/>
                     </StackPanel>
 
                 </StackPanel>
@@ -176,13 +195,14 @@
                             Padding="1.2"
                             Background="#151d1f">
                             <ListView x:Name="lvArtistsProvider" 
-                                  Foreground="White"
-                                  Background="#151d1f"
-                                  BorderThickness="0"
-                                  FontSize="11"
-                                  Width="400"
-                                  Height="270"
-                                  ScrollViewer.VerticalScrollBarVisibility="Disabled">
+                                      Foreground="White"
+                                      Background="#151d1f"
+                                      BorderThickness="0"
+                                      FontSize="11"
+                                      Width="400"
+                                      Height="270"
+                                      ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                                      ItemsSource="{Binding ArtistProvider}">
 
                                 <ListView.Resources>
                                     <Style TargetType="{x:Type GridViewColumnHeader}">
@@ -216,6 +236,15 @@
                                         </Style.Triggers>
                                     </Style>
                                 </ListView.ItemContainerStyle>
+
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <Label Content="{Binding ., Converter={StaticResource ShareInstanceTextConverter}}"
+                                               Foreground="White"
+                                               FontSize="16"
+                                               FontWeight="Light"/>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
                             </ListView>
                         </Border>
 
@@ -226,13 +255,14 @@
                             Padding="1.2"
                             Background="#151d1f">
                             <ListView x:Name="lvPlaylistsRoot" 
-                              Foreground="White"
-                              Background="#151d1f"
-                              BorderThickness="0"
-                              FontSize="11"
-                              Width="400"
-                              Height="270"
-                              ScrollViewer.VerticalScrollBarVisibility="Disabled">
+                                      Foreground="White"
+                                      Background="#151d1f"
+                                      BorderThickness="0"
+                                      FontSize="11"
+                                      Width="400"
+                                      Height="270"
+                                      ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                                      ItemsSource="{Binding SelectedTrackArtists, Mode=TwoWay}">
 
                                 <ListView.Resources>
                                     <Style TargetType="{x:Type GridViewColumnHeader}">
@@ -273,14 +303,14 @@
 
                     <StackPanel Orientation="Horizontal" Margin="0,5">
                         <TextBlock
-                           Text=" Existed artists : "                       
+                           Text=" Existed playlists : "                       
                            Foreground="White"
                            FontSize="15"
                            Margin="90,2"
                            FontWeight="Medium"/>
 
                         <TextBlock
-                           Text=" Enabled artists : "
+                           Text=" Enabled playlists : "
                            Foreground="White"
                            FontSize="15"
                            Margin="200,2"
@@ -301,7 +331,8 @@
                                   FontSize="11"
                                   Width="400"
                                   Height="270"
-                                  ScrollViewer.VerticalScrollBarVisibility="Disabled">
+                                  ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                                      ItemsSource="{Binding PlaylistProvider}">
 
                                 <ListView.Resources>
                                     <Style TargetType="{x:Type GridViewColumnHeader}">
@@ -335,6 +366,15 @@
                                         </Style.Triggers>
                                     </Style>
                                 </ListView.ItemContainerStyle>
+
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <Label Content="{Binding ., Converter={StaticResource ShareInstanceTextConverter}}"
+                                               Foreground="White"
+                                               FontSize="16"
+                                               FontWeight="Light"/>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
                             </ListView>
                         </Border>
 
@@ -345,13 +385,14 @@
                             Padding="1.2"
                             Background="#151d1f">
                             <ListView x:Name="lvArtistsRoot" 
-                              Foreground="White"
-                              Background="#151d1f"
-                              BorderThickness="0"
-                              FontSize="11"
-                              Width="400"
-                              Height="270"
-                              ScrollViewer.VerticalScrollBarVisibility="Disabled">
+                                      Foreground="White"
+                                      Background="#151d1f"
+                                      BorderThickness="0"
+                                      FontSize="11"
+                                      Width="400"
+                                      Height="270"
+                                      ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                                      ItemsSource="{Binding SelectedTrackPlaylists, Mode=TwoWay}">
 
                                 <ListView.Resources>
                                     <Style TargetType="{x:Type GridViewColumnHeader}">
@@ -394,21 +435,26 @@
             </Grid>
 
             <Grid Grid.Row="2">
-                <Button x:Name="btn"
-                    Height="30" 
-                    Width="100" 
-                    BorderThickness="0" 
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Bottom"
-                    Style="{StaticResource CardButton11}"
-                    FontSize="20"
-                    FontWeight="ExtraBold"
-                    Background="#42d4f5"
-                    Foreground="White" 
-                    Margin="10"
-                    Content="OK"
-                    Click="TrackFactoryClick">
-                </Button>
+                <StackPanel>
+                    <b:Interaction.Triggers>
+                        <b:EventTrigger EventName="MouseLeftButtonDown">
+                            <b:InvokeCommandAction Command="{Binding CreateTrackCommand}"/>
+                        </b:EventTrigger>
+                    </b:Interaction.Triggers>
+
+                    <Border x:Name="brApply"
+                            CornerRadius="5"
+                            BorderThickness="1"
+                            HorizontalAlignment="Left"
+                            Margin="2,5"
+                            Style="{StaticResource ApplyBorderStyle}">
+                        <Label Content="Apply"
+                               FontSize="16"
+                               Foreground="White"
+                               FontWeight="Medium"
+                               Background="Transparent"/>
+                    </Border>
+                </StackPanel>
             </Grid>
 
         </Grid>

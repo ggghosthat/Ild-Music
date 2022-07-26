@@ -72,7 +72,7 @@ namespace ShareInstances.PlayerResources
         public void AddTrack(Track track) =>        
             tracks.Add(track);
         
-        public void AddTracklist(Playlist tracklist) =>        
+        public void AddPlaylist(Playlist tracklist) =>        
             playlists.Add(tracklist);
         #endregion
 
