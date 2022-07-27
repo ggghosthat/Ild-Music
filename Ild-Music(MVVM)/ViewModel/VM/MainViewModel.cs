@@ -53,9 +53,9 @@ namespace Ild_Music_MVVM_.ViewModel.VM
 
         public void AddVM(Base.BaseViewModel baseVM)
         {
+            _backList.Clear();
             _backList.Add(CurrenttViewModelItem);
             _backList.Add(baseVM);
-            CurrenttViewModelItem = null;
             CurrenttViewModelItem = _backList.Peek();
         }
 

@@ -11,7 +11,7 @@ namespace Ild_Music_MVVM_.Services
         public override string ServiceType { get; init; } = "VMHolder";
 
         private static IDictionary<string, BaseViewModel> vmStorage = new Dictionary<string, BaseViewModel>();
-
+        
         public void AddViewModel(string name, BaseViewModel viewmodel)
         {
             if (!vmStorage.ContainsKey(name))

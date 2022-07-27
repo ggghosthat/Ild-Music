@@ -18,5 +18,8 @@ namespace Ild_Music_MVVM_
             collection.RemoveAt(collection.Count - 1);
             return last;
         }
+
+        public void Clear() =>
+            collection.Clear();
     }
 }
