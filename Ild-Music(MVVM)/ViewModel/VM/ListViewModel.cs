@@ -44,7 +44,6 @@ namespace Ild_Music_MVVM_.ViewModel.VM
         public List<ICoreEntity> TracksList { get; private set; } = new ();
 
 
-        public CommandDelegater EditCommand { get; }
         public CommandDelegater AddCommand { get; }
         public CommandDelegater DeleteCommand { get; }
         public CommandDelegater BackCommand { get; }
@@ -62,7 +61,6 @@ namespace Ild_Music_MVVM_.ViewModel.VM
 
         public ListViewModel()
         {
-            EditCommand = new(Edit, null);
             AddCommand = new(Add, null);
             DeleteCommand = new(Delete, null);
             BackCommand = new(Back, null);
@@ -70,7 +68,6 @@ namespace Ild_Music_MVVM_.ViewModel.VM
 
         public ListViewModel(List listType)
         {
-            EditCommand = new(Edit, null);
             AddCommand = new(Add, null);
             DeleteCommand = new(Delete, null);
             BackCommand = new(Back, null);
@@ -134,14 +131,7 @@ namespace Ild_Music_MVVM_.ViewModel.VM
         #endregion
 
         #region Command Methods
-        private void Edit(object obj)
-        {
-            factoryService.FactoryContainerViewModel = new(SelectedItem);
-            factoryService.FactoryContainerViewModel.DisplayInstance(SelectedItem);
-
-
-            vmHolder.AddViewModel(nameVM, this);
-        }
+        
 
         private void Add(object obj)
         {
