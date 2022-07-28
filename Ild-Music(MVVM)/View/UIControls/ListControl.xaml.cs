@@ -11,7 +11,7 @@ namespace Ild_Music_MVVM_.View.UIControls
         public ListControl()
         {
             InitializeComponent();
-            DataContext = vmHolder.GetViewModel(ListViewModel.NameVM);
+            vmHolder.OnViewModelUpdate += () => DataContext = vmHolder.GetViewModel(ListViewModel.NameVM);
         }
 
     }

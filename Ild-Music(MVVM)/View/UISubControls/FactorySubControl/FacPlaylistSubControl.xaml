@@ -167,8 +167,10 @@
                                   BorderThickness="0"
                                   FontSize="11"
                                   Width="400"
-                                  Height="120"
-                                  ScrollViewer.VerticalScrollBarVisibility="Disabled">
+                                  Height="200"
+                                  ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                                  ItemsSource="{Binding ArtistProvider}"
+                                  SelectedItem="{Binding CurrentSelectedPlaylistArtist}" SelectionChanged="lvArtistsProvider_SelectionChanged">
 
                             <ListView.Resources>
                                 <Style TargetType="{x:Type GridViewColumnHeader}">
@@ -201,6 +203,15 @@
                                     </Style.Triggers>
                                 </Style>
                             </ListView.ItemContainerStyle>
+
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <Label Content="{Binding ., Converter={StaticResource ShareInstanceTextConverter}}"
+                                                       Foreground="White"
+                                                       FontSize="12"
+                                                       FontWeight="Light"/>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
                         </ListView>
                     </Border>
 
@@ -210,24 +221,24 @@
                             CornerRadius="5"
                             Padding="1.2"
                             Background="#151d1f">
-                            <ListView
-                                  x:Name="lvArtistsRoot" 
-                                  Foreground="White"
-                                  BorderThickness="0"
-                                  Background="#151d1f"
-                                  FontSize="11"
-                                  Width="400"
-                                  Height="120"
-                                  ItemsSource="{Binding SelectedArtists, Mode=TwoWay}"
-                                  ScrollViewer.VerticalScrollBarVisibility="Disabled">
+                            <ListView x:Name="lvArtistsRoot" 
+                                      Foreground="White"
+                                      BorderThickness="0"
+                                      Background="#151d1f"
+                                      FontSize="11"
+                                      Width="400"
+                                      Height="200"
+                                      ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                                      ItemsSource="{Binding SelectedPlaylistArtists}"
+                                      SelectedItem="{Binding CurrentDeletePlaylistArtist}" SelectionChanged="lvArtistsRoot_SelectionChanged">
 
-                                <ListView.Resources>
-                                    <Style TargetType="{x:Type GridViewColumnHeader}">
-                                        <Setter Property="Visibility" Value="Collapsed" />
-                                    </Style>
-                                </ListView.Resources>
+                                      <ListView.Resources>
+                                          <Style TargetType="{x:Type GridViewColumnHeader}">
+                                              <Setter Property="Visibility" Value="Collapsed" />
+                                          </Style>
+                                      </ListView.Resources>
 
-                            <ListView.ItemContainerStyle>
+                                      <ListView.ItemContainerStyle>
                                 <Style TargetType="{x:Type ListViewItem}">
                                     <Setter Property="HorizontalAlignment" Value="Center"/>
                                     <Setter Property="BorderThickness" Value="0"/>
@@ -252,6 +263,15 @@
                                     </Style.Triggers>
                                 </Style>
                             </ListView.ItemContainerStyle>
+
+                                      <ListView.ItemTemplate>
+                                          <DataTemplate>
+                                              <Label Content="{Binding ., Converter={StaticResource ShareInstanceTextConverter}}"
+                                                                 Foreground="White"
+                                                                 FontSize="12"
+                                                                 FontWeight="Light"/>
+                                          </DataTemplate>
+                                      </ListView.ItemTemplate>
                         </ListView>
                     </Border>
                 </StackPanel>
@@ -270,7 +290,7 @@
                             CornerRadius="5"
                             BorderThickness="1"
                             HorizontalAlignment="Left"
-                            Margin="2,5"
+                            Margin="4,5"
                             Style="{StaticResource ApplyBorderStyle}">
                     <Label Content="Apply"
                                FontSize="16"

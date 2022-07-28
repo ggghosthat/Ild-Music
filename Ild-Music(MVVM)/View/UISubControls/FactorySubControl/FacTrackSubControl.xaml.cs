@@ -46,14 +46,14 @@ namespace Ild_Music_MVVM_.View.UISubControls.FactorySubControl
                     artist.Tracks.ToList().ForEach(t =>
                     {
                         if (t.Id.Equals(trackInstance.Id))
-                            lvArtistsRoot.Items.Add(artist.Name);
+                            lvArtistsProvider.Items.Add(artist.Name);
                     });                
 
                 foreach (var playlist in supporter.PlaylistSup)
                     playlist.Tracks.ToList().ForEach(t =>
                     {
                         if (t.Id.Equals(trackInstance.Id))
-                            lvPlaylistsRoot.Items.Add(playlist.Name);
+                            lvPlaylistsProvider.Items.Add(playlist.Name);
                     });
                 
             }
@@ -78,6 +78,28 @@ namespace Ild_Music_MVVM_.View.UISubControls.FactorySubControl
         public void InvokeCheckInstance() =>
             OnCheckInstance?.Invoke();
 
-     
+        private void lvArtistsProvider_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        {
+            var viewModel = (SubControlViewModel)DataContext;
+            viewModel.SelectTrackArtistCommand.Execute(viewModel.CurrentSelectedTrackArtist);
+        }
+
+        private void lvPlaylistsRoot_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        {
+            var viewModel = (SubControlViewModel)DataContext;
+            viewModel.SelectTrackPlaylistCommand.Execute(viewModel.CurrentSelectedTrackPlaylist);
+        }
+
+        private void lvArtistRoot_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        {
+            var viewModel = (SubControlViewModel)DataContext;
+            viewModel.DeleteTrackArtistCommand.Execute(viewModel.CurrentDeleteTrackArtist);
+        }
+
+        private void lvPlaylistRoot_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        {
+            var viewModel = (SubControlViewModel)DataContext;
+            viewModel.DeleteTrackPlaylistCommand.Execute(viewModel.CurrentDeleteTrackPlaylist);
+        }
     }
 }

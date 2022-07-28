@@ -62,5 +62,17 @@ namespace Ild_Music_MVVM_.View.UISubControls.FactorySubControl
         public void InvokeCheckInstance() =>
             OnCheckInstance?.Invoke();
         #endregion
+
+        private void lvArtistsProvider_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var viewModel = (SubControlViewModel)DataContext;
+            viewModel.SelectPlaylistArtistCommand.Execute(viewModel.CurrentSelectedPlaylistArtist);
+        }
+
+        private void lvArtistsRoot_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var viewModel = (SubControlViewModel)DataContext;
+            viewModel.DeletePlaylistArtistCommand.Execute(viewModel.CurrentDeletePlaylistArtist);
+        }
     }
 }

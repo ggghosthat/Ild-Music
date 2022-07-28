@@ -44,6 +44,7 @@ namespace Ild_Music_MVVM_.ViewModel.VM
         #region Public Methods
         public void SetVM(Base.BaseViewModel baseVM)
         {
+            vmHolder.CleanStorage();
             CurrenttViewModelItem = baseVM;
             if(baseVM is ListViewModel listVM)
             {

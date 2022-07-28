@@ -20,28 +20,50 @@ namespace Ild_Music_MVVM_.ViewModel.VM.FactoryVM
         public CommandDelegater CreateArtistCommand { get; }
         public CommandDelegater CreatePlaylistCommand { get; }
         public CommandDelegater CreateTrackCommand { get; }
+
+        public CommandDelegater SelectTrackArtistCommand { get; }
+        public CommandDelegater SelectTrackPlaylistCommand { get; }
+
+        public CommandDelegater DeleteTrackArtistCommand { get; }
+        public CommandDelegater DeleteTrackPlaylistCommand { get; }
+
+        public CommandDelegater SelectPlaylistArtistCommand { get; }
+        public CommandDelegater DeletePlaylistArtistCommand { get; }
         #endregion
 
-        #region TwoWayProperties
+        #region Artist Factory Properties
         public string ArtistName { get; set; }
         public string ArtistDescription { get; set; }
+        #endregion
 
+        #region Playlist Factory Properties
         public string PlaylistName { get; set; }
         public string PlaylistDescription { get; set; }
 
-        public static ObservableCollection<Artist> SelectedPlaylistArtists { get; set; } = new();
 
+        public Artist CurrentSelectedPlaylistArtist { get; set; }
+        public Artist CurrentDeletePlaylistArtist { get; set; }
+
+        public static ObservableCollection<Artist> SelectedPlaylistArtists { get; set; } = new();
+        #endregion
+
+        #region Track Factory Proeprties
         public string TrackPath { get; set; }
         public string TracktName { get; set; }
         public string TrackDescription { get; set; }
 
+        public Artist CurrentSelectedTrackArtist { get; set; }
+        public Playlist CurrentSelectedTrackPlaylist { get; set; }
+
+        public Artist CurrentDeleteTrackArtist { get; set; }
+        public Playlist CurrentDeleteTrackPlaylist { get; set; }
+
         public static ObservableCollection<Artist> SelectedTrackArtists { get; set; } = new();
         public static ObservableCollection<Playlist> SelectedTrackPlaylists { get; set; } = new();
-
+        #endregion
 
         public static ObservableCollection<Playlist> PlaylistProvider { get; set; } = new();
         public static ObservableCollection<Artist> ArtistProvider { get; set; } = new();
-        #endregion
 
         #region Const
         public SubControlViewModel()
@@ -50,6 +72,15 @@ namespace Ild_Music_MVVM_.ViewModel.VM.FactoryVM
             CreateArtistCommand = new(CreateArtist, null);
             CreatePlaylistCommand = new(CreatePlaylist, null);
             CreateTrackCommand = new(CreateTrack, null);
+
+            SelectTrackArtistCommand = new(SelectTrackArtist, null);
+            SelectTrackPlaylistCommand = new(SelectTrackPlaylist, null);
+
+            DeleteTrackArtistCommand = new(DeleteTrackArtist, null);
+            DeleteTrackPlaylistCommand = new(DeleteTrackPlaylist, null);
+
+            SelectPlaylistArtistCommand = new(SelectPlaylistArtist, null);
+            DeletePlaylistArtistCommand = new(DeletePlaylistArtist, null);
         }
         #endregion
 
@@ -117,6 +148,45 @@ namespace Ild_Music_MVVM_.ViewModel.VM.FactoryVM
                 Debug.WriteLine(item.ToString());
             }
             //CreateTrackInstance(value);
+        }
+
+
+
+        private void SelectTrackArtist(object obj)
+        {
+            if (obj is Artist artist)
+                SelectedTrackArtists.Add(artist);
+        }
+
+        private void SelectTrackPlaylist(object obj)
+        {
+            if (obj is Playlist playlist)
+                SelectedTrackPlaylists.Add(playlist);            
+        }
+
+        private void DeleteTrackArtist(object obj)
+        {
+            if (obj is Artist artist)
+                SelectedTrackArtists.Remove(artist);
+        }
+
+        private void DeleteTrackPlaylist(object obj)
+        {
+            if (obj is Playlist playlist)
+                SelectedTrackPlaylists.Remove(playlist);
+        }
+
+
+        private void SelectPlaylistArtist(object obj)
+        {
+            if (obj is Artist artist)
+                SelectedPlaylistArtists.Add(artist);
+        }
+
+        private void DeletePlaylistArtist(object obj)
+        {
+            if (obj is Artist artist)
+                SelectedPlaylistArtists.Remove(artist);
         }
         #endregion
 

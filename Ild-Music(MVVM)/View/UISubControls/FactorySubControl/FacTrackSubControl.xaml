@@ -187,64 +187,67 @@
                            FontWeight="Medium"/>
                     </StackPanel>
 
+
                     <StackPanel Orientation="Horizontal">
                         <Border Margin="5,0"
-                            BorderBrush="Aqua"
-                            BorderThickness="2"
-                            CornerRadius="5"
-                            Padding="1.2"
-                            Background="#151d1f">
+                                BorderBrush="Aqua"
+                                BorderThickness="2"
+                                CornerRadius="5"
+                                Padding="1.2"
+                                Background="#151d1f">
                             <ListView x:Name="lvArtistsProvider" 
-                                      Foreground="White"
-                                      Background="#151d1f"
-                                      BorderThickness="0"
-                                      FontSize="11"
-                                      Width="400"
-                                      Height="270"
-                                      ScrollViewer.VerticalScrollBarVisibility="Disabled"
-                                      ItemsSource="{Binding ArtistProvider}">
+                                        Foreground="White"
+                                        Background="#151d1f"
+                                        BorderThickness="0"
+                                        FontSize="11"
+                                        Width="400"
+                                        Height="270"
+                                        ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                                        ItemsSource="{Binding ArtistProvider}"
+                                        SelectedItem="{Binding CurrentSelectedTrackArtist}" 
+                                        SelectionChanged="lvArtistsProvider_SelectionChanged">
 
-                                <ListView.Resources>
-                                    <Style TargetType="{x:Type GridViewColumnHeader}">
-                                        <Setter Property="Visibility" Value="Collapsed" />
-                                    </Style>
-                                </ListView.Resources>
+                                    <ListView.Resources>
+                                        <Style TargetType="{x:Type GridViewColumnHeader}">
+                                            <Setter Property="Visibility" Value="Collapsed" />
+                                        </Style>
+                                    </ListView.Resources>
 
 
-                                <ListView.ItemContainerStyle>
-                                    <Style TargetType="{x:Type ListViewItem}">
-                                        <Setter Property="HorizontalAlignment" Value="Center"/>
-                                        <Setter Property="BorderThickness" Value="0"/>
-                                        <Setter Property="Margin" Value="1"/>
-                                        <Setter Property="Padding" Value="1"/>
-                                        <Setter Property="HorizontalAlignment" Value="Left"/>
-                                        <Setter Property="Width" Value="396"/>
-                                        <Style.Triggers>
-                                            <Trigger Property="IsSelected" Value="true" >
-                                                <Setter Property="Foreground" Value="DimGray" />
-                                                <Setter Property="Background" Value="#1b2e2d"/>
-                                            </Trigger>
-                                            <Trigger Property="IsSelected" Value="False" >
-                                                <Setter Property="Foreground" Value="Silver" />
-                                                <Setter Property="Background" Value="#1b2e2d"/>
-                                            </Trigger>
+                                    <ListView.ItemContainerStyle>
+                                        <Style TargetType="{x:Type ListViewItem}">
+                                            <Setter Property="HorizontalAlignment" Value="Center"/>
+                                            <Setter Property="BorderThickness" Value="0"/>
+                                            <Setter Property="Margin" Value="1"/>
+                                            <Setter Property="Padding" Value="1"/>
+                                            <Setter Property="HorizontalAlignment" Value="Left"/>
+                                            <Setter Property="Width" Value="396"/>
+                                            <Style.Triggers>
+                                                <Trigger Property="IsSelected" Value="true" >
+                                                    <Setter Property="Foreground" Value="DimGray" />
+                                                    <Setter Property="Background" Value="#1b2e2d"/>
+                                                </Trigger>
+                                                <Trigger Property="IsSelected" Value="False" >
+                                                    <Setter Property="Foreground" Value="Silver" />
+                                                    <Setter Property="Background" Value="#1b2e2d"/>
+                                                </Trigger>
 
-                                            <Trigger Property="IsEnabled" Value="True">
-                                                <Setter Property="Foreground" Value="Silver" />
-                                                <Setter Property="Background" Value="#1b2e2d"/>
-                                            </Trigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </ListView.ItemContainerStyle>
+                                                <Trigger Property="IsEnabled" Value="True">
+                                                    <Setter Property="Foreground" Value="Silver" />
+                                                    <Setter Property="Background" Value="#1b2e2d"/>
+                                                </Trigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </ListView.ItemContainerStyle>
 
-                                <ListView.ItemTemplate>
-                                    <DataTemplate>
-                                        <Label Content="{Binding ., Converter={StaticResource ShareInstanceTextConverter}}"
-                                               Foreground="White"
-                                               FontSize="16"
-                                               FontWeight="Light"/>
-                                    </DataTemplate>
-                                </ListView.ItemTemplate>
+                                    <ListView.ItemTemplate>
+                                        <DataTemplate>
+                                            <Label Content="{Binding ., Converter={StaticResource ShareInstanceTextConverter}}"
+                                                       Foreground="White"
+                                                       FontSize="12"
+                                                       FontWeight="Light"/>
+                                        </DataTemplate>
+                                    </ListView.ItemTemplate>
                             </ListView>
                         </Border>
 
@@ -254,7 +257,7 @@
                             CornerRadius="5"
                             Padding="1.2"
                             Background="#151d1f">
-                            <ListView x:Name="lvPlaylistsRoot" 
+                            <ListView x:Name="lvArtistRoot" 
                                       Foreground="White"
                                       Background="#151d1f"
                                       BorderThickness="0"
@@ -262,16 +265,16 @@
                                       Width="400"
                                       Height="270"
                                       ScrollViewer.VerticalScrollBarVisibility="Disabled"
-                                      ItemsSource="{Binding SelectedTrackArtists, Mode=TwoWay}">
+                                      ItemsSource="{Binding SelectedTrackArtists, Mode=TwoWay}"
+                                      SelectedItem="{Binding CurrentDeleteTrackArtist}" SelectionChanged="lvArtistRoot_SelectionChanged">
 
-                                <ListView.Resources>
-                                    <Style TargetType="{x:Type GridViewColumnHeader}">
-                                        <Setter Property="Visibility" Value="Collapsed" />
-                                    </Style>
-                                </ListView.Resources>
+                                      <ListView.Resources>
+                                          <Style TargetType="{x:Type GridViewColumnHeader}">
+                                              <Setter Property="Visibility" Value="Collapsed" />
+                                          </Style>
+                                      </ListView.Resources>
 
-
-                                <ListView.ItemContainerStyle>
+                                      <ListView.ItemContainerStyle>
                                     <Style TargetType="{x:Type ListViewItem}">
                                         <Setter Property="HorizontalAlignment" Value="Center"/>
                                         <Setter Property="BorderThickness" Value="0"/>
@@ -296,6 +299,14 @@
                                         </Style.Triggers>
                                     </Style>
                                 </ListView.ItemContainerStyle>
+                                      <ListView.ItemTemplate>
+                                          <DataTemplate>
+                                              <Label Content="{Binding ., Converter={StaticResource ShareInstanceTextConverter}}"
+                                                             Foreground="White"
+                                                             FontSize="12"
+                                                             FontWeight="Light"/>
+                                          </DataTemplate>
+                                      </ListView.ItemTemplate>
                             </ListView>
                         </Border>
                     </StackPanel>
@@ -332,7 +343,9 @@
                                   Width="400"
                                   Height="270"
                                   ScrollViewer.VerticalScrollBarVisibility="Disabled"
-                                      ItemsSource="{Binding PlaylistProvider}">
+                                  ItemsSource="{Binding PlaylistProvider}" 
+                                  SelectedItem="{Binding CurrentSelectedTrackPlaylist}"
+                                  SelectionChanged="lvPlaylistsRoot_SelectionChanged">
 
                                 <ListView.Resources>
                                     <Style TargetType="{x:Type GridViewColumnHeader}">
@@ -371,7 +384,7 @@
                                     <DataTemplate>
                                         <Label Content="{Binding ., Converter={StaticResource ShareInstanceTextConverter}}"
                                                Foreground="White"
-                                               FontSize="16"
+                                               FontSize="12"
                                                FontWeight="Light"/>
                                     </DataTemplate>
                                 </ListView.ItemTemplate>
@@ -384,7 +397,7 @@
                             CornerRadius="5"
                             Padding="1.2"
                             Background="#151d1f">
-                            <ListView x:Name="lvArtistsRoot" 
+                            <ListView x:Name="lvPlaylistRoot" 
                                       Foreground="White"
                                       Background="#151d1f"
                                       BorderThickness="0"
@@ -392,7 +405,8 @@
                                       Width="400"
                                       Height="270"
                                       ScrollViewer.VerticalScrollBarVisibility="Disabled"
-                                      ItemsSource="{Binding SelectedTrackPlaylists, Mode=TwoWay}">
+                                      ItemsSource="{Binding SelectedTrackPlaylists, Mode=TwoWay}"
+                                      SelectedItem="{Binding CurrentDeleteTrackPlaylist}" SelectionChanged="lvPlaylistRoot_SelectionChanged">
 
                                 <ListView.Resources>
                                     <Style TargetType="{x:Type GridViewColumnHeader}">
@@ -426,6 +440,15 @@
                                         </Style.Triggers>
                                     </Style>
                                 </ListView.ItemContainerStyle>
+
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <Label Content="{Binding ., Converter={StaticResource ShareInstanceTextConverter}}"
+                                                             Foreground="White"
+                                                             FontSize="12"
+                                                             FontWeight="Light"/>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
                             </ListView>
                         </Border>
                     </StackPanel>
