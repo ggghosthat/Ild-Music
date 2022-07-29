@@ -386,6 +386,19 @@
                 </Trigger>
             </Style.Triggers>
         </Style>
+
+        <Style x:Key="BorderWindowButton" TargetType="Border">
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Height" Value="15"/>
+                    <Setter Property="CornerRadius" Value="0,0,7,7"/>
+                </Trigger>
+                <Trigger Property="IsMouseOver" Value="False">
+                    <Setter Property="Height" Value="7"/>
+                    <Setter Property="CornerRadius" Value="0,0,3,3"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
     </Window.Resources>
 
     <Grid RenderTransformOrigin="0.548,0.512">
@@ -399,12 +412,12 @@
         </Grid.ColumnDefinitions>
 
         <Grid Background="#16242b"
-              Grid.ColumnSpan="2">
+              Grid.ColumnSpan="2" Margin="0,-2,0,2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="307*"/>
                 <ColumnDefinition Width="793*"/>
             </Grid.ColumnDefinitions>
-            <StackPanel Orientation="Horizontal">
+            <StackPanel Orientation="Horizontal" Grid.Column="0">
                 <TextBlock Text="ILD-MUSIC"
                        Foreground="White"
                        FontSize="35"
@@ -420,6 +433,25 @@
                        VerticalAlignment="Bottom"
                        HorizontalAlignment="Left"
                        Height="24" />
+
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Top"
+                        Grid.Column="1">
+                <Border x:Name="btnMinimizeWindow"
+                        Width="30"
+                        Background="#0be0c2"
+                        VerticalAlignment="Top"
+                        Style="{StaticResource BorderWindowButton}" MouseLeftButtonDown="btnMinimizeWindow_MouseLeftButtonDown">
+                </Border>
+                <Border x:Name="btnCloseWindow"
+                        Width="30"
+                        Background="#e00b29"
+                        VerticalAlignment="Top"
+                        Style="{StaticResource BorderWindowButton}" MouseLeftButtonDown="btnCloseWindow_MouseLeftButtonDown">
+                </Border>
             </StackPanel>
         </Grid>
 
