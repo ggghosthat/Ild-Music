@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.Diagnostics;
+using System.Windows;
 using Ild_Music_MVVM_.ViewModel.VM;
 
 namespace Ild_Music_MVVM_.View
@@ -10,6 +11,7 @@ namespace Ild_Music_MVVM_.View
         {            
             InitializeComponent();
             DataContext = mainViewModel;
+
         }
 
         private void HomeSlideClick(object sender, System.Windows.Input.MouseButtonEventArgs e) =>
@@ -37,5 +39,11 @@ namespace Ild_Music_MVVM_.View
 
         private void btnCloseWindow_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e) =>
             Application.Current.Shutdown();
+
+        private void StackPanel_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            if (e.ChangedButton == System.Windows.Input.MouseButton.Left)
+                DragMove();
+        }
     }
 }

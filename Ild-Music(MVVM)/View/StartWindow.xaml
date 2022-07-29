@@ -6,6 +6,7 @@
         xmlns:Microsoft_Windows_Themes="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero"
         xmlns:b="http://schemas.microsoft.com/xaml/behaviors" 
         xmlns:ui="clr-namespace:Ild_Music_MVVM_.View.UIControls"
+        xmlns:converters="clr-namespace:Ild_Music_MVVM_.Converters"
         mc:Ignorable="d"
         Title="MainWindow" Height="555" Width="1100"
         WindowStyle="None" ResizeMode="NoResize"
@@ -399,8 +400,10 @@
                 </Trigger>
             </Style.Triggers>
         </Style>
-    </Window.Resources>
 
+        
+    </Window.Resources>
+    
     <Grid RenderTransformOrigin="0.548,0.512">
         <Grid.RowDefinitions>
             <RowDefinition Height="45"/>
@@ -414,11 +417,12 @@
         <Grid Background="#16242b"
               Grid.ColumnSpan="2" Margin="0,-2,0,2">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="307*"/>
-                <ColumnDefinition Width="793*"/>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="auto"/>
             </Grid.ColumnDefinitions>
             <StackPanel Orientation="Horizontal" Grid.Column="0">
-                <TextBlock Text="ILD-MUSIC"
+                    <TextBlock Text="ILD-MUSIC"
                        Foreground="White"
                        FontSize="35"
                        VerticalAlignment="Top"
@@ -426,7 +430,7 @@
                        Width="180" 
                        Height="38" 
                        Margin="10,0,0,0"/>
-                <TextBlock Text="prototype"
+                    <TextBlock Text="prototype"
                        Foreground="White"
                        FontSize="15"
                        FontWeight="Bold"
@@ -435,11 +439,15 @@
                        Height="24" />
 
             </StackPanel>
-
+            <StackPanel x:Name="DragPanel"
+                        Grid.Column="1"
+                        Grid.Row="0"
+                        MouseDown="StackPanel_MouseDown" 
+                        Background="Transparent"/>
             <StackPanel Orientation="Horizontal"
                         HorizontalAlignment="Right"
                         VerticalAlignment="Top"
-                        Grid.Column="1">
+                        Grid.Column="2">
                 <Border x:Name="btnMinimizeWindow"
                         Width="30"
                         Background="#0be0c2"
