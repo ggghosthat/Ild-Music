@@ -1,14 +1,9 @@
 ﻿using Ild_Music_MVVM_.Services;
-using Ild_Music_MVVM_.ViewModel.ModelEntities;
 using Ild_Music_MVVM_.ViewModel.ModelEntities.Basic;
 using System.Collections.ObjectModel;
-using System.Linq;
 using Ild_Music_MVVM_.Command;
-using System.Threading.Tasks;
-using System;
-using System.Windows;
-using System.Collections.Generic;
 using System.Diagnostics;
+using ShareInstances.PlayerResources.Base;
 using ShareInstances.PlayerResources.Interfaces;
 
 namespace Ild_Music_MVVM_.ViewModel.VM
@@ -39,10 +34,6 @@ namespace Ild_Music_MVVM_.ViewModel.VM
         #region Properties
         public static string NameVM => nameVM;
 
-        public List<ICoreEntity> ArtistsList { get; private set; } = new();
-        public List<ICoreEntity> PlaylistsList { get; private set; } = new();
-        public List<ICoreEntity> TracksList { get; private set; } = new ();
-
 
         public CommandDelegater AddCommand { get; }
         public CommandDelegater DeleteCommand { get; }
@@ -50,8 +41,10 @@ namespace Ild_Music_MVVM_.ViewModel.VM
 
 
 
-        public static ObservableCollection<EntityViewModel> CurrentList { get; set; } = new();
-        public EntityViewModel SelectedItem { get; set; }
+        public static ObservableCollection<ICoreEntity> CurrentList { get; set; } = new();
+        public ICoreEntity SelectedItem { get; set; }
+
+        
         public object Icon { get; set; }
 
         #endregion
@@ -79,13 +72,7 @@ namespace Ild_Music_MVVM_.ViewModel.VM
         #endregion
 
         #region private methods
-        //These method casts list structures from storable types 2 viewable types
-        private void CastListStructure()
-        {
-            ArtistsList.AddRange(supporterService.ArtistSup);
-            PlaylistsList.AddRange(supporterService.PlaylistSup);
-            TracksList.AddRange(supporterService.TrackSup);
-        }
+        
         #endregion
 
         #region Public Methods
@@ -97,38 +84,22 @@ namespace Ild_Music_MVVM_.ViewModel.VM
             switch (listType)
             {                
                 case List.ARTISTS:                    
-                    foreach(var a in ArtistsList)
-                        CurrentList.Add(new ArtistEntityViewModel(a.Id, a.Name));
+                    foreach(var a in supporterService.ArtistSup)
+                        CurrentList.Add(a);
                     break;
                 case List.PLAYLISTS:
-                    foreach (var p in PlaylistsList)
-                        CurrentList.Add(new PlaylistEntityViewModel(p.Id, p.Name));
+                    foreach (var p in supporterService.PlaylistSup)
+                        CurrentList.Add(p);
                     break;
                 case List.TRACKS:
-                    foreach (var t in TracksList)
-                        CurrentList.Add(new TrackEntityViewModel(t.Id, t.Name));
+                    foreach (var t in supporterService.TrackSup)
+                        CurrentList.Add(t);
                     break;
-            }
-            
+            }            
         }
 
 
-        //Call supporter service and cast lists structures
-        public ListViewModel CallServiceAndCastLists()
-        {
-            supporterService = (SupporterService)GetService("Supporter");
-            CastListStructure();
-            return this;
-        }
-
-        //Predefinning ListType
-        public ListViewModel CallServiceAndCastLists(List listType)
-        {
-            supporterService = (SupporterService)GetService("Supporter");
-            CastListStructure();
-            SetListType(listType);
-            return this;
-        }
+       
         #endregion
 
         #region Command Methods

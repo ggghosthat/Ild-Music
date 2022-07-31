@@ -1,15 +1,16 @@
 ﻿using ShareInstances.PlayerResources;
 using Ild_Music_MVVM_.Services;
 using System.Collections.ObjectModel;
+using System.Collections.Generic;
 
 namespace Ild_Music_MVVM_.ViewModel.VM
 {
     public class StartViewModel : Base.BaseViewModel
     {
         #region Item Collection
-        public ObservableCollection<Track> TracksItem { get; set; } 
-        public ObservableCollection<Playlist> PlaylistsItem { get; set; }
-        public ObservableCollection<Artist> ArtistsItem { get; set; }
+        public IList<Track> TracksItem { get; set; } 
+        public IList<Playlist> PlaylistsItem { get; set; }
+        public IList<Artist> ArtistsItem { get; set; }
         #endregion
 
         public StartViewModel()

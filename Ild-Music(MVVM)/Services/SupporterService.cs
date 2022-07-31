@@ -2,8 +2,7 @@
 using ShareInstances.PlayerResources;
 using Ild_Music_MVVM_.Services.Parents;
 using SynchronizationBlock.Models.SynchArea;
-using System.Collections.ObjectModel;
-using System.Linq;
+using System.Collections.Generic;
 
 namespace Ild_Music_MVVM_.Services
 {
@@ -13,29 +12,17 @@ namespace Ild_Music_MVVM_.Services
     {
         public override string ServiceType { get; init; } = "Supporter";
 
-        private Area synchArea = new Area();
-        private EntityState state;
+        private Area synchArea = new ();
 
-        public ObservableCollection<Artist> ArtistSup { get; set; } = new ObservableCollection<Artist>();
-        public ObservableCollection<Track> TrackSup { get; set; } = new ObservableCollection<Track>();
-        public ObservableCollection<Playlist> PlaylistSup { get; set; } = new ObservableCollection<Playlist>();
+        public IList<Artist> ArtistSup => synchArea.existedArtists;
+        public IList<Track> TrackSup => synchArea.existedTracks;
+        public IList<Playlist> PlaylistSup => synchArea.existedPlaylists;
 
 
         public SupporterService()
         {
             synchArea.Init();
-            FlushExistedInstances();
         }
-
-
-        #region Private methods
-        private void FlushExistedInstances()
-        {
-            ArtistSup.ToList().AddRange(synchArea.existedArtists);
-            TrackSup.ToList().AddRange(synchArea.existedTracks);
-            PlaylistSup.ToList().AddRange(synchArea.existedPlaylists);
-        }
-        #endregion
 
         #region Public methods
         public void AddInstanceObject(ResourceRoot instanceObject)

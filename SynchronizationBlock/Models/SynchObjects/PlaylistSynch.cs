@@ -77,5 +77,10 @@ namespace SynchronizationBlock.Models.SynchObjects
                 throw;
             }
         }
+
+        public override void Update()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

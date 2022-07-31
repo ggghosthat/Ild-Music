@@ -109,7 +109,7 @@
                              Foreground="White"
                              Style="{StaticResource Textbox3}"
                              Height="30"
-                             Text="{Binding ArtistName, Mode=TwoWay}"/>
+                             Text="{Binding ArtistName, Mode=TwoWay,  UpdateSourceTrigger=PropertyChanged}"/>
                 </StackPanel>
 
                 <TextBlock Name="lblDescription"
@@ -120,7 +120,6 @@
                            FontWeight="Medium"/>
 
                 <StackPanel Orientation="Horizontal">
-
                     <TextBox x:Name="txtDescription"
                              HorizontalAlignment="Left"
                              TextAlignment="Justify"
@@ -130,12 +129,9 @@
                              Height="90"
                              Margin="10,2"
                              CaretBrush="White"
-                             Foreground="AliceBlue"
+                             Foreground="White"
                              Style="{StaticResource Textbox3}"
-                             TextWrapping="Wrap"
-                             AcceptsReturn="True"
-                             AcceptsTab="True"
-                             Text="{Binding ArtistDescription, Mode=TwoWay}"/>
+                             Text="{Binding ArtistDescription, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                 </StackPanel>
 
             </StackPanel>
@@ -154,7 +150,8 @@
                             BorderThickness="1"
                             HorizontalAlignment="Left"
                             Margin="2,5"
-                            Style="{StaticResource ApplyBorderStyle}">
+                            Style="{StaticResource ApplyBorderStyle}"
+                        MouseEnter="brApply_MouseEnter">
                     <Label Content="Apply"
                                FontSize="16"
                                Foreground="White"

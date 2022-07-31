@@ -19,7 +19,6 @@ namespace Ild_Music_MVVM_.View.UISubControls.FactorySubControl
         public FacArtistSubControl()
         {
             InitializeComponent();
-            OnCheckInstance += CheckInstance;
         }
         #endregion
 
@@ -48,5 +47,12 @@ namespace Ild_Music_MVVM_.View.UISubControls.FactorySubControl
         public void InvokeCheckInstance() =>
             OnCheckInstance?.Invoke();
         #endregion
+
+        
+        private void brApply_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+            txtName.Focusable = false;
+            txtName.Focusable = false;
+        }
     }
 }

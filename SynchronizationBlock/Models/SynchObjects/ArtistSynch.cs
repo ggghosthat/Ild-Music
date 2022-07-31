@@ -20,10 +20,8 @@ namespace SynchronizationBlock.Models.SynchObjects
 
         public string Prefix
         {
-            get
-            {
-                return Path;
-            }
+            get => Path;
+            
             set
             {
                 Path = value;
@@ -81,6 +79,11 @@ namespace SynchronizationBlock.Models.SynchObjects
                 throw;
             }
             
+        }
+
+        public override void Update()
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -7,6 +7,7 @@ namespace Ild_Music_MVVM_.Services
 {
     public class FactoryService : Service
     {
+        #region Fields
         public override string ServiceType { get; init; } = "Factory";
 
         private EntityCreator creator = new ();
@@ -17,18 +18,23 @@ namespace Ild_Music_MVVM_.Services
         private Track track;
         private Playlist playlist;
 
+        #endregion
+
+        #region Properties
         public Artist Artist => artist;
         public Track Track => track;
         public Playlist Playlist => playlist;
 
         public FactoryContainerViewModel FactoryContainerViewModel { get; set; }
+        #endregion
 
-
-
+        #region Const
         public FactoryService(SupporterService supporterService) =>
             supporter = supporterService;
+        #endregion
 
 
+        #region Public Methods
         public void CreateArtist(string name, string description)
         {
             creator.GenerateArtist(name: name, description: description);
@@ -62,5 +68,7 @@ namespace Ild_Music_MVVM_.Services
             
             supporter.AddInstanceObject(playlist);
         }
+
+        #endregion
     }
 }

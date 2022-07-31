@@ -12,6 +12,9 @@ namespace Ild_Music_MVVM_.ViewModel.VM.FactoryVM
         #region Fields
         private FactoryService factoryService => (FactoryService)GetService("Factory");
         public SupporterService Supporter => (SupporterService)GetService("Supporter");
+        private ViewModelHolderService vmHolder => (ViewModelHolderService)GetService("VMHolder");
+
+        private ListViewModel listVM => (ListViewModel)vmHolder.GetViewModel(ListViewModel.NameVM);
         #endregion
 
         #region  Properties
@@ -125,7 +128,8 @@ namespace Ild_Music_MVVM_.ViewModel.VM.FactoryVM
                 Debug.WriteLine(item.ToString());
             }
 
-            //CreateArtistInstance(value);
+            CreateArtistInstance(value);
+            listVM.SetListType(List.ARTISTS);
         }
 
         private void CreatePlaylist(object obj)
@@ -136,7 +140,9 @@ namespace Ild_Music_MVVM_.ViewModel.VM.FactoryVM
             {
                 Debug.WriteLine(item.ToString());
             }
-            //CreatePlaylistInstance(value);
+
+            CreatePlaylistInstance(value);
+            listVM.SetListType(List.PLAYLISTS);
         }
 
         private void CreateTrack(object obj)
@@ -147,7 +153,9 @@ namespace Ild_Music_MVVM_.ViewModel.VM.FactoryVM
             {
                 Debug.WriteLine(item.ToString());
             }
-            //CreateTrackInstance(value);
+
+            CreateTrackInstance(value);
+            listVM.SetListType(List.TRACKS);
         }
 
 

@@ -19,10 +19,8 @@ namespace SynchronizationBlock.Models.SynchObjects
         private IList<Track> tracks = new List<Track>();
         public string Prefix 
         {
-            get 
-            {
-                return Path;
-            }
+            get => Path;
+            
             set 
             {
                 Path = value;
@@ -55,7 +53,7 @@ namespace SynchronizationBlock.Models.SynchObjects
         {
             try
             {
-                string jsonString = JsonConvert.SerializeObject(this.tracks);
+                string jsonString = JsonConvert.SerializeObject(tracks);
                 File.WriteAllText(output_pathway, string.Empty);
                 File.WriteAllText(output_pathway, jsonString);
             }
@@ -82,5 +80,9 @@ namespace SynchronizationBlock.Models.SynchObjects
             }
         }
 
+        public override void Update()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

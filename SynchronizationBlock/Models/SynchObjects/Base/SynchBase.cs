@@ -27,6 +27,8 @@ namespace SynchronizationBlock.Models.SynchObjects.Base
         public abstract void Serialize();
 
         public abstract void Deserialize();
+
+        public abstract void Update();
         #endregion
     }
 }
