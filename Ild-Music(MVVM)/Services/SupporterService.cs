@@ -3,6 +3,7 @@ using ShareInstances.PlayerResources;
 using Ild_Music_MVVM_.Services.Parents;
 using SynchronizationBlock.Models.SynchArea;
 using System.Collections.Generic;
+using ShareInstances.PlayerResources.Interfaces;
 
 namespace Ild_Music_MVVM_.Services
 {
@@ -44,45 +45,42 @@ namespace Ild_Music_MVVM_.Services
             }
         }
 
-        public void EditInstanceObject(ResourceRoot instanceObject, EntityState entityState)
+        public void EditInstanceObject(ICoreEntity instance)
         {
-            switch (entityState)
+            if (instance is Track track)
             {
-                case EntityState.Track:
-                    synchArea.EditTrackObj((Track)instanceObject);
-                    synchArea.SaveTracks();
-                    break;
-                case EntityState.Playlist:
-                    synchArea.EditPlaylistObj((Playlist)instanceObject);
-                    synchArea.SavePlaylists();
-                    break;
-                case EntityState.Artist:
-                    synchArea.EditArtistObj((Artist)instanceObject);
-                    synchArea.SaveArtists();
-                    break;
-                default:
-                    break;
+                synchArea.EditTrackObj(track);
+                synchArea.SaveTracks();
+            }
+            else if (instance is Playlist playlist)
+            {
+                synchArea.EditPlaylistObj(playlist);
+                synchArea.SavePlaylists();
+            }
+            else if (instance is Artist artist)
+            {
+                synchArea.EditArtistObj(artist);
+                synchArea.SaveArtists();
             }
         }
 
-        public void RemoveInstanceObject(ResourceRoot instanceObject, EntityState entityState)
+        public void RemoveInstanceObject(ICoreEntity instance)
         {
-            switch (entityState)
+
+            if(instance is Track track)
             {
-                case EntityState.Track:
-                    synchArea.RemoveTrackObj((Track)instanceObject);
-                    synchArea.SaveTracks();
-                    break;
-                case EntityState.Playlist:
-                    synchArea.RemovePlaylistObj((Playlist)instanceObject);
-                    synchArea.SavePlaylists();
-                    break;
-                case EntityState.Artist:
-                    synchArea.RemoveArtistObj((Artist)instanceObject);
-                    synchArea.SaveArtists();
-                    break;
-                default:
-                    break;
+                synchArea.RemoveTrackObj(track);
+                synchArea.SaveTracks();
+            }
+            else if (instance is Playlist playlist) 
+            {
+                synchArea.RemovePlaylistObj(playlist);
+                synchArea.SavePlaylists();
+            }
+            else if (instance is Artist artist) 
+            {
+                synchArea.RemoveArtistObj(artist);
+                synchArea.SaveArtists();
             }
         }
 

@@ -25,7 +25,7 @@ namespace Ild_Music_MVVM_.Services
         public Track Track => track;
         public Playlist Playlist => playlist;
 
-        public FactoryContainerViewModel FactoryContainerViewModel { get; set; }
+        public FactoryContainerViewModel FactoryContainerViewModel => App.factoryContainer;
         #endregion
 
         #region Const

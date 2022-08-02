@@ -51,14 +51,14 @@ namespace Ild_Music_MVVM_.Services
         private void UpServices()
         {
             var mainStageService = new MainStageService();
-            //var area = new Area();
+
             var supporterService = new SupporterService();
 
             var factoryService = new FactoryService(supporterService);
 
-            var playerService = new PlayerService();
+            var subControllService = new SubControlService(supporterService);
 
-            var subControllService = new SubControlService();
+            var playerService = new PlayerService();
 
             var mainWindowService = new MainWindowService();
 

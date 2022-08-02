@@ -107,7 +107,7 @@
                              Foreground="White"
                              Style="{StaticResource Textbox3}"
                              Height="30"
-                             Text="{Binding PlaylistName, Mode=TwoWay}"/>
+                             Text="{Binding PlaylistName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                 </StackPanel>
 
                 <TextBlock Name="lblDescription"
@@ -130,7 +130,7 @@
                              TextWrapping="Wrap"
                              AcceptsReturn="True"
                              AcceptsTab="True"
-                             Text="{Binding PlaylistDescription, Mode=TwoWay}"/>
+                             Text="{Binding PlaylistDescription, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                 </StackPanel>
 
             </StackPanel>
@@ -170,7 +170,8 @@
                                   Height="200"
                                   ScrollViewer.VerticalScrollBarVisibility="Disabled"
                                   ItemsSource="{Binding ArtistProvider}"
-                                  SelectedItem="{Binding CurrentSelectedPlaylistArtist}" SelectionChanged="lvArtistsProvider_SelectionChanged">
+                                  SelectedItem="{Binding CurrentSelectedPlaylistArtist}" 
+                                  SelectionChanged="lvArtistsProvider_SelectionChanged">
 
                             <ListView.Resources>
                                 <Style TargetType="{x:Type GridViewColumnHeader}">
@@ -230,7 +231,8 @@
                                       Height="200"
                                       ScrollViewer.VerticalScrollBarVisibility="Disabled"
                                       ItemsSource="{Binding SelectedPlaylistArtists}"
-                                      SelectedItem="{Binding CurrentDeletePlaylistArtist}" SelectionChanged="lvArtistsRoot_SelectionChanged">
+                                      SelectedItem="{Binding CurrentDeletePlaylistArtist}"
+                                      SelectionChanged="lvArtistsRoot_SelectionChanged">
 
                                       <ListView.Resources>
                                           <Style TargetType="{x:Type GridViewColumnHeader}">

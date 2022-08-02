@@ -1,6 +1,5 @@
 ﻿using ShareInstances.PlayerResources;
 using Ild_Music_MVVM_.Services;
-using System.Collections.ObjectModel;
 using System.Collections.Generic;
 
 namespace Ild_Music_MVVM_.ViewModel.VM
@@ -21,12 +20,12 @@ namespace Ild_Music_MVVM_.ViewModel.VM
         //Collections providing
         private void InitItems()
         {
-            if (base.GetService("Supporter") is SupporterService supporter)
-            {
-                TracksItem = supporter.TrackSup;
-                PlaylistsItem = supporter.PlaylistSup;
-                ArtistsItem = supporter.ArtistSup;
-            }
+            //if (base.GetService("Supporter") is SupporterService supporter)
+            //{
+            //    TracksItem = supporter.TrackSup;
+            //    PlaylistsItem = supporter.PlaylistSup;
+            //    ArtistsItem = supporter.ArtistSup;
+            //}
         }
     }
 }

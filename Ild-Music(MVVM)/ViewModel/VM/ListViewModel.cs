@@ -72,19 +72,13 @@ namespace Ild_Music_MVVM_.ViewModel.VM
         #endregion
 
         #region private methods
-        
-        #endregion
-
-        #region Public Methods
-        //Define type of list to present in CurrentList
-        public void SetListType(List listType)
+        private void InitCurrentList(List listType)
         {
-            this.listType = listType;
             CurrentList.Clear();
             switch (listType)
-            {                
-                case List.ARTISTS:                    
-                    foreach(var a in supporterService.ArtistSup)
+            {
+                case List.ARTISTS:
+                    foreach (var a in supporterService.ArtistSup)
                         CurrentList.Add(a);
                     break;
                 case List.PLAYLISTS:
@@ -95,20 +89,11 @@ namespace Ild_Music_MVVM_.ViewModel.VM
                     foreach (var t in supporterService.TrackSup)
                         CurrentList.Add(t);
                     break;
-            }            
+            }
         }
 
-
-       
-        #endregion
-
-        #region Command Methods
-        
-
-        private void Add(object obj)
+        private void DisplayListType()
         {
-            factoryService.FactoryContainerViewModel = new();
-
             switch (listType)
             {
                 case List.ARTISTS:
@@ -121,16 +106,39 @@ namespace Ild_Music_MVVM_.ViewModel.VM
                     factoryService.FactoryContainerViewModel.DisplayInstance(2);
                     break;
             }
-            _mainWindowAPI.MainWindow.AddVM(factoryService.FactoryContainerViewModel);
+        }
+        #endregion
+
+        #region Public Methods
+        //Define type of list to present in CurrentList
+        public void SetListType(List listType)
+        {
+            this.listType = listType;
+            InitCurrentList(listType);
+        }    
+        #endregion
+
+        #region Command Methods
+
+
+        private void Add(object obj)
+        {
+            DisplayListType();
+            _mainWindowAPI.MainWindow.ResetVM(factoryService.FactoryContainerViewModel);
             vmHolder.AddViewModel(nameVM, this);
         }
 
+        
 
-        private void Delete(object obj) =>
-            Debug.WriteLine("This is dummy list control removing");
+        private void Delete(object obj)
+        {
+            supporterService.RemoveInstanceObject(SelectedItem);
+            SetListType(listType);
+        }
 
-        private void Back (object obj) =>
-            Debug.WriteLine("This is dummy list control going back");
+        private void Back(object obj) 
+        {
+        }
 
 
         #endregion

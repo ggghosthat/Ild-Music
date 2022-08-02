@@ -11,7 +11,7 @@ namespace Ild_Music_MVVM_.Services
     public class SubControlService : Service
     {
         #region Fields
-        private static SubControlViewModel SubControlVM = new();
+        private static SubControlViewModel SubControlVM;
         #endregion
 
         #region PROPERTIES 
@@ -21,8 +21,11 @@ namespace Ild_Music_MVVM_.Services
         #endregion
 
         #region Const
-        public SubControlService() 
-            => InitSubControls();
+        public SubControlService(SupporterService supporterService)
+        {
+            SubControlVM = new(supporterService);
+            InitSubControls();
+        }
         #endregion
 
         #region Private Methods

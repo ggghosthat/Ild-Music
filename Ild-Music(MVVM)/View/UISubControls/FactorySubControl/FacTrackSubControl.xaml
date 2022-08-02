@@ -113,7 +113,7 @@
                              CaretBrush="White"
                              IsReadOnly="True" 
                              MouseDoubleClick="Path2Track"
-                             Text="{Binding TrackPath, Mode=TwoWay}"/>
+                             Text="{Binding TrackPath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
 
 
@@ -138,7 +138,7 @@
                              Height="25"
                              Padding="8,0"
                              CaretBrush="White"
-                             Text="{Binding TrackName, Mode=TwoWay}"/>
+                             Text="{Binding TrackName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                     </StackPanel>
 
 
@@ -163,7 +163,7 @@
                              AcceptsTab="True"
                              Padding="8,0"
                              CaretBrush="White"
-                             Text="{Binding TrackDescription, Mode=TwoWay}"/>
+                             Text="{Binding TrackDescription, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                     </StackPanel>
 
                 </StackPanel>

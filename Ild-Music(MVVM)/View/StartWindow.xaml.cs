@@ -11,7 +11,6 @@ namespace Ild_Music_MVVM_.View
         {            
             InitializeComponent();
             DataContext = mainViewModel;
-
         }
 
         private void HomeSlideClick(object sender, System.Windows.Input.MouseButtonEventArgs e) =>

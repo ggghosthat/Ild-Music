@@ -51,8 +51,6 @@ namespace Ild_Music_MVVM_.View.UISubControls.FactorySubControl
         
         private void brApply_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
         {
-            txtName.Focusable = false;
-            txtName.Focusable = false;
         }
     }
 }

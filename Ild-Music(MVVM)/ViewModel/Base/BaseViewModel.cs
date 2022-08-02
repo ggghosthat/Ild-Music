@@ -9,7 +9,7 @@ namespace Ild_Music_MVVM_.ViewModel.Base
     {
         #region Fields
         
-        private static ServiceCenter serviceCenter = App.serviceCenter;
+        private static ServiceCenter serviceCenter => App.serviceCenter;
         private static BackListService backListService = (BackListService)serviceCenter.GetService("BackListService");
         #endregion
 

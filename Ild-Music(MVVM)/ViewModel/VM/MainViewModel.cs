@@ -8,6 +8,8 @@ namespace Ild_Music_MVVM_.ViewModel.VM
     public class MainViewModel : Base.BaseViewModel
     {
         #region Fields
+        
+
         private static BackList<Base.BaseViewModel> _backList = new();
         #endregion
 
@@ -46,24 +48,13 @@ namespace Ild_Music_MVVM_.ViewModel.VM
         {
             vmHolder.CleanStorage();
             CurrenttViewModelItem = baseVM;
+
             if(baseVM is ListViewModel listVM)
-            {
                 vmHolder.AddViewModel(ListViewModel.NameVM, listVM);
-            }
         }
 
-        public void AddVM(Base.BaseViewModel baseVM)
-        {
-            _backList.Clear();
-            _backList.Add(CurrenttViewModelItem);
-            _backList.Add(baseVM);
-            CurrenttViewModelItem = _backList.Peek();
-        }
-
-        public void SetPriviousVM()
-        {
-            CurrenttViewModelItem = _backList.Peek();
-        }
+        public void ResetVM(Base.BaseViewModel baseVM) =>
+            CurrenttViewModelItem = baseVM;
         #endregion
 
 

@@ -5,13 +5,16 @@ using ShareInstances.PlayerResources.Interfaces;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Linq;
+using System.Threading.Tasks;
+using System;
 namespace Ild_Music_MVVM_.ViewModel.VM.FactoryVM
 {
     public class SubControlViewModel : Base.BaseViewModel
     {
         #region Fields
+        public SupporterService Supporter;
         private FactoryService factoryService => (FactoryService)GetService("Factory");
-        public SupporterService Supporter => (SupporterService)GetService("Supporter");
         private ViewModelHolderService vmHolder => (ViewModelHolderService)GetService("VMHolder");
 
         private ListViewModel listVM => (ListViewModel)vmHolder.GetViewModel(ListViewModel.NameVM);
@@ -69,9 +72,12 @@ namespace Ild_Music_MVVM_.ViewModel.VM.FactoryVM
         public static ObservableCollection<Artist> ArtistProvider { get; set; } = new();
 
         #region Const
-        public SubControlViewModel()
+        public SubControlViewModel(SupporterService supporterService)
         {
-            TestTrackPlaylist();
+            Supporter = supporterService;
+            ArtistProviderUpdate();
+            PlaylistProviderUpdate();
+
             CreateArtistCommand = new(CreateArtist, null);
             CreatePlaylistCommand = new(CreatePlaylist, null);
             CreateTrackCommand = new(CreateTrack, null);
@@ -87,6 +93,21 @@ namespace Ild_Music_MVVM_.ViewModel.VM.FactoryVM
         }
         #endregion
 
+
+        #region Private Methods
+        private void PlaylistProviderUpdate()
+        {
+            PlaylistProvider.ToList().Clear();
+            PlaylistProvider.ToList().AddRange(Supporter.PlaylistSup);
+        }
+
+        private void ArtistProviderUpdate()
+        {
+            ArtistProvider.ToList().Clear();
+            ArtistProvider.ToList().AddRange(Supporter.ArtistSup);
+        }
+
+        #endregion
 
         #region Public Methods
         public void CreateArtistInstance(object[] values)
@@ -129,7 +150,9 @@ namespace Ild_Music_MVVM_.ViewModel.VM.FactoryVM
             }
 
             CreateArtistInstance(value);
+
             listVM.SetListType(List.ARTISTS);
+            Task.Run(ArtistProviderUpdate);
         }
 
         private void CreatePlaylist(object obj)
@@ -143,6 +166,7 @@ namespace Ild_Music_MVVM_.ViewModel.VM.FactoryVM
 
             CreatePlaylistInstance(value);
             listVM.SetListType(List.PLAYLISTS);
+            Task.Run(PlaylistProviderUpdate);
         }
 
         private void CreateTrack(object obj)
@@ -198,17 +222,5 @@ namespace Ild_Music_MVVM_.ViewModel.VM.FactoryVM
         }
         #endregion
 
-        #region Test Methods
-        private void TestTrackPlaylist()
-        {
-            PlaylistProvider.Add(new Playlist("P_Name_one", "***"));
-            PlaylistProvider.Add(new Playlist("P_Name_two", "***"));
-            PlaylistProvider.Add(new Playlist("P_Name_three", "***"));
-
-            ArtistProvider.Add(new Artist("A_Name_one", "***"));
-            ArtistProvider.Add(new Artist("A_Name_one", "***"));
-            ArtistProvider.Add(new Artist("A_Name_one", "***"));
-        }
-        #endregion
     }
 }
