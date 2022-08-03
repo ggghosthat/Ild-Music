@@ -8,6 +8,7 @@ using ShareInstances.PlayerResources.Interfaces;
 using ShareInstances.PlayerResources;
 using System.Collections.Generic;
 using System.Linq;
+using System;
 
 namespace Ild_Music_MVVM_.ViewModel.VM
 {
@@ -148,23 +149,61 @@ namespace Ild_Music_MVVM_.ViewModel.VM
 
         private void ItemSelect(object obj)
         {
-            _storage.Push(CurrentList);
-            CurrentList.Clear();
-            if (SelectedItem is Artist artist) 
+            if (SelectedItem != null)
             {
-                artist.Playlists.ToList().ForEach(artistPlaylist => CurrentList.Add(artistPlaylist));
-                artist.Tracks.ToList().ForEach(artistTrack => CurrentList.Add(artistTrack));
+                var current = CurrentList;
+                _storage.Push(current);
+                ProcessItemSelection();
             }
-            if(SelectedItem is Playlist playlist)
-            {
-                supporterService.ArtistSup.Where(artist => artist.Playlists.Contains(playlist))
-                                          .ToList()
-                                          .ForEach(artist => CurrentList.Add(artist));
-
-                playlist.Tracks.ToList().ForEach(track => CurrentList.Add(track));
-            }
-            if(SelectedItem is Track track) { }
         }
+
+        private void ProcessItemSelection()
+        {
+            switch (listType)
+            {
+                case List.ARTISTS:
+                    ProcessArtistType();
+                    break;
+                case List.PLAYLISTS:
+                    ProcessPlaylistType();
+                    break;
+                case List.TRACKS:
+                    ProcessTrackType();
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        private void ProcessArtistType()
+        {
+            var artist = (Artist)SelectedItem;
+            CurrentList.Clear();
+            artist.Playlists.ToList().ForEach(artistPlaylist => CurrentList.Add(artistPlaylist));
+            artist.Tracks.ToList().ForEach(artistTrack => CurrentList.Add(artistTrack));
+        }
+
+        private void ProcessPlaylistType()
+        {
+            var playlist = (Playlist)SelectedItem;
+            CurrentList.Clear();
+            var artists = supporterService.ArtistSup.Where((artist) => artist.Playlists.Contains(playlist));
+
+            foreach (var artist in artists)
+                CurrentList.Add(artist);
+
+
+            playlist.Tracks.ToList().ForEach(track => CurrentList.Add(track));
+        }
+
+        private void ProcessTrackType()
+        {
+            var track = (Track)SelectedItem;
+            CurrentList.Clear();
+        }
+
+
+
         #endregion
     }
 }

@@ -45,7 +45,7 @@
                               FontSize="15" 
                               Width="884"
                               ItemsSource="{Binding CurrentList}"
-                              SelectedItem="{Binding SelectedItem}"
+                              SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
                               HorizontalContentAlignment="Center"
                               VerticalContentAlignment="Center">
 
@@ -122,7 +122,7 @@
                         </ListView.ItemsPanel>
 
                         <b:Interaction.Triggers>
-                            <b:EventTrigger EventName="MouseLeftButtonDown">
+                            <b:EventTrigger EventName="MouseDoubleClick">
                                 <b:InvokeCommandAction Command="{Binding ItemSelectCommand}"/>
                             </b:EventTrigger>
                         </b:Interaction.Triggers>
@@ -148,6 +148,7 @@
                             </DataTemplate>
                         </ListView.ItemTemplate>
 
+                        
                     </ListView>
                 </Border>
             </StackPanel>

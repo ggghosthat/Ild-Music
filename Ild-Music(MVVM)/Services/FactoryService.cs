@@ -51,6 +51,7 @@ namespace Ild_Music_MVVM_.Services
             }
 
             creator.GenerateTrack(pathway: pathway, name: name, description: description, artists: artists, playlists: playlists);
+            supporter.SaveAllStates();
             
             GetTrack:
             creator.GetTrack(out track);
@@ -65,7 +66,7 @@ namespace Ild_Music_MVVM_.Services
 
             foreach (var artist in artists)
                 artist.AddPlaylist(playlist);
-            
+
             supporter.AddInstanceObject(playlist);
         }
 
