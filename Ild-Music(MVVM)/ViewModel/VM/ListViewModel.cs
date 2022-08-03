@@ -5,6 +5,9 @@ using Ild_Music_MVVM_.Command;
 using System.Diagnostics;
 using ShareInstances.PlayerResources.Base;
 using ShareInstances.PlayerResources.Interfaces;
+using ShareInstances.PlayerResources;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Ild_Music_MVVM_.ViewModel.VM
 {
@@ -38,9 +41,10 @@ namespace Ild_Music_MVVM_.ViewModel.VM
         public CommandDelegater AddCommand { get; }
         public CommandDelegater DeleteCommand { get; }
         public CommandDelegater BackCommand { get; }
+        public CommandDelegater ItemSelectCommand { get; }
 
 
-
+        private static Stack<IEnumerable<ICoreEntity>> _storage = new();
         public static ObservableCollection<ICoreEntity> CurrentList { get; set; } = new();
         public ICoreEntity SelectedItem { get; set; }
 
@@ -58,6 +62,7 @@ namespace Ild_Music_MVVM_.ViewModel.VM
             AddCommand = new(Add, null);
             DeleteCommand = new(Delete, null);
             BackCommand = new(Back, null);
+            ItemSelectCommand = new(ItemSelect, null);
         }
 
         public ListViewModel(List listType)
@@ -65,6 +70,7 @@ namespace Ild_Music_MVVM_.ViewModel.VM
             AddCommand = new(Add, null);
             DeleteCommand = new(Delete, null);
             BackCommand = new(Back, null);
+            ItemSelectCommand = new(ItemSelect, null);
 
             supporterService = (SupporterService)GetService("Supporter");
             SetListType(listType);
@@ -140,7 +146,25 @@ namespace Ild_Music_MVVM_.ViewModel.VM
         {
         }
 
+        private void ItemSelect(object obj)
+        {
+            _storage.Push(CurrentList);
+            CurrentList.Clear();
+            if (SelectedItem is Artist artist) 
+            {
+                artist.Playlists.ToList().ForEach(artistPlaylist => CurrentList.Add(artistPlaylist));
+                artist.Tracks.ToList().ForEach(artistTrack => CurrentList.Add(artistTrack));
+            }
+            if(SelectedItem is Playlist playlist)
+            {
+                supporterService.ArtistSup.Where(artist => artist.Playlists.Contains(playlist))
+                                          .ToList()
+                                          .ForEach(artist => CurrentList.Add(artist));
 
+                playlist.Tracks.ToList().ForEach(track => CurrentList.Add(track));
+            }
+            if(SelectedItem is Track track) { }
+        }
         #endregion
     }
 }

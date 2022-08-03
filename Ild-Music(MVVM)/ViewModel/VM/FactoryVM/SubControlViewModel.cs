@@ -71,12 +71,13 @@ namespace Ild_Music_MVVM_.ViewModel.VM.FactoryVM
         public static ObservableCollection<Playlist> PlaylistProvider { get; set; } = new();
         public static ObservableCollection<Artist> ArtistProvider { get; set; } = new();
 
+        public event Action OnInitProvider;
+
         #region Const
         public SubControlViewModel(SupporterService supporterService)
         {
             Supporter = supporterService;
-            ArtistProviderUpdate();
-            PlaylistProviderUpdate();
+
 
             CreateArtistCommand = new(CreateArtist, null);
             CreatePlaylistCommand = new(CreatePlaylist, null);
@@ -90,21 +91,37 @@ namespace Ild_Music_MVVM_.ViewModel.VM.FactoryVM
 
             SelectPlaylistArtistCommand = new(SelectPlaylistArtist, null);
             DeletePlaylistArtistCommand = new(DeletePlaylistArtist, null);
+
+            Task.Run(InitArtists);
+            Task.Run(InitPlaylists);
         }
         #endregion
 
 
         #region Private Methods
+        private void InitPlaylists()
+        {
+            PlaylistProvider.ToList().Clear();
+            Supporter.PlaylistSup.ToList().ForEach(playlist => PlaylistProvider.Add(playlist));
+        }
+
+        private void InitArtists()
+        {
+            ArtistProvider.Clear();
+            Supporter.ArtistSup.ToList().ForEach(artist => ArtistProvider.Add(artist));
+        }
+
+
         private void PlaylistProviderUpdate()
         {
             PlaylistProvider.ToList().Clear();
-            PlaylistProvider.ToList().AddRange(Supporter.PlaylistSup);
+            Supporter.PlaylistSup.ToList().ForEach(playlist => PlaylistProvider.ToList().Add(playlist));
         }
 
         private void ArtistProviderUpdate()
         {
-            ArtistProvider.ToList().Clear();
-            ArtistProvider.ToList().AddRange(Supporter.ArtistSup);
+            ArtistProvider.Clear();
+            Supporter.ArtistSup.ToList().ForEach(artist => ArtistProvider.ToList().Add(artist));            
         }
 
         #endregion
@@ -121,7 +138,7 @@ namespace Ild_Music_MVVM_.ViewModel.VM.FactoryVM
         {
             var name = (string)values[0];
             var description = (string)values[1];
-            var tracks = (values.Length == 2) ? (IList<Artist>)values[2] : null;
+            var tracks = (IList<Artist>)values[2];
             factoryService.CreatePlaylist(name, description, tracks);
         }
 
@@ -130,8 +147,8 @@ namespace Ild_Music_MVVM_.ViewModel.VM.FactoryVM
             var path = (string)values[0];
             var name = (string)values[1];
             var description = (string)values[2];
-            var artists =(values[3] != null) ? (IList<Artist>)values[3] : null;
-            var playlists = (values[4] != null) ? (IList<Playlist>)values[4] : null;
+            var artists = (IList<Artist>)values[3];
+            var playlists = (IList<Playlist>)values[4];
             factoryService.CreateTrack(path, name, description, artists, playlists);
         }
 
@@ -144,10 +161,6 @@ namespace Ild_Music_MVVM_.ViewModel.VM.FactoryVM
         {
             object[] value = { ArtistName, ArtistDescription};
 
-            foreach (var item in value)
-            {
-                Debug.WriteLine(item.ToString());
-            }
 
             CreateArtistInstance(value);
 
@@ -157,12 +170,7 @@ namespace Ild_Music_MVVM_.ViewModel.VM.FactoryVM
 
         private void CreatePlaylist(object obj)
         {
-            object[] value = { ArtistName, ArtistDescription, SelectedPlaylistArtists };
-
-            foreach (var item in value)
-            {
-                Debug.WriteLine(item.ToString());
-            }
+            object[] value = { PlaylistName, PlaylistDescription, SelectedPlaylistArtists };
 
             CreatePlaylistInstance(value);
             listVM.SetListType(List.PLAYLISTS);
@@ -172,11 +180,6 @@ namespace Ild_Music_MVVM_.ViewModel.VM.FactoryVM
         private void CreateTrack(object obj)
         {
             object[] value = { TrackPath, TracktName, TrackDescription, SelectedTrackArtists, SelectedTrackPlaylists };
-
-            foreach (var item in value)
-            {
-                Debug.WriteLine(item.ToString());
-            }
 
             CreateTrackInstance(value);
             listVM.SetListType(List.TRACKS);

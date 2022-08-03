@@ -121,9 +121,15 @@
                             </ItemsPanelTemplate>
                         </ListView.ItemsPanel>
 
+                        <b:Interaction.Triggers>
+                            <b:EventTrigger EventName="MouseLeftButtonDown">
+                                <b:InvokeCommandAction Command="{Binding ItemSelectCommand}"/>
+                            </b:EventTrigger>
+                        </b:Interaction.Triggers>
+
                         <ListView.ItemTemplate>
                             <DataTemplate>
-                                <Grid Background="Transparent">
+                                <Grid x:Name="Duoble" Background="Transparent">
                                     <Grid.RowDefinitions>
                                         <RowDefinition/>
                                         <RowDefinition Height="auto"/>
