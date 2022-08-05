@@ -35,7 +35,12 @@ namespace Ild_Music_MVVM_.ViewModel.Base
         /// </summary>
         /// <param name="type"> Define name of service</param>
         /// <returns>Returning service</returns>
-        protected Service GetService(string type) => serviceCenter.GetService(type);
+        protected Service GetService(string type)
+        {
+            while (serviceCenter == null){ }    
+
+            return serviceCenter.GetService(type);
+        }
 
 
         protected void Add2BackList(BaseViewModel viewModel) =>

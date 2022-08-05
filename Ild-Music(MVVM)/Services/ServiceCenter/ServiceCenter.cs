@@ -17,7 +17,7 @@ namespace Ild_Music_MVVM_.Services
 
         #region Singleton Initialization
         public ServiceCenter() =>
-            UpServices();
+            InitServices();
 
         
 
@@ -44,11 +44,12 @@ namespace Ild_Music_MVVM_.Services
 
             return null;
         }
-        
+
+
         /// <summary>
-        /// Enable services
+        /// Enable other platform dependened services
         /// </summary>
-        private void UpServices()
+        public void InitServices()
         {
             var mainStageService = new MainStageService();
 
@@ -73,7 +74,7 @@ namespace Ild_Music_MVVM_.Services
             RegistService(vmHolder);
 
 
-            Debug.WriteLine("Service center is ready 2 use");
+            Debug.WriteLine("platform dependened services ready touse");
         }
         #endregion
     }

@@ -123,10 +123,11 @@
 
                         <b:Interaction.Triggers>
                             <b:EventTrigger EventName="MouseDoubleClick">
-                                <b:InvokeCommandAction Command="{Binding ItemSelectCommand}"/>
+                                <b:InvokeCommandAction Command="{Binding DropStaffCommand}"
+                                                       CommandParameter="{Binding SelectedItem}"/>
                             </b:EventTrigger>
                         </b:Interaction.Triggers>
-
+                                                
                         <ListView.ItemTemplate>
                             <DataTemplate>
                                 <Grid x:Name="Duoble" Background="Transparent">
@@ -207,7 +208,31 @@
                     </Border>
                 </StackPanel>
 
-                <Border x:Name="brBack"
+                <StackPanel>
+                    <b:Interaction.Triggers>
+                        <b:EventTrigger EventName="MouseLeftButtonDown">
+                            <b:InvokeCommandAction Command="{Binding ItemSelectCommand}"/>
+                        </b:EventTrigger>
+                    </b:Interaction.Triggers>
+                    
+                    <Border x:Name="brInfo"
+                            CornerRadius="5"
+                            BorderThickness="1"
+                            Background="Transparent"
+                            Margin="2,5"
+                            Width="30"
+                            Height="30"
+                            Style="{StaticResource ListControlButtonStyle}">
+                        <Viewbox Width="24" Height="24">
+                            <Canvas Width="24" Height="24" Background="Transparent">
+                                <Path Fill="White" Data="M15.41,16.58L10.83,12L15.41,7.41L14,6L8,12L14,18L15.41,16.58Z" />
+                            </Canvas>
+                        </Viewbox>
+                    </Border>
+                </StackPanel>
+                
+                <StackPanel>
+                    <Border x:Name="brBack"
                             Visibility="Collapsed"
                             CornerRadius="5"
                             BorderThickness="1"
@@ -216,13 +241,14 @@
                             Width="30"
                             Height="30"
                             Style="{StaticResource ListControlButtonStyle}">
-                    <Viewbox Width="24" Height="24">
-                        <Canvas Width="24" Height="24" Background="Transparent">
-                            <Path Fill="Silver" Data="M15.41,16.58L10.83,12L15.41,7.41L14,6L8,12L14,18L15.41,16.58Z" />
-                        </Canvas>
-                    </Viewbox>
-                </Border>
-
+                        <Viewbox Width="24" Height="24">
+                            <Canvas Width="24" Height="24" Background="Transparent">
+                                <Path Fill="Silver" Data="M15.41,16.58L10.83,12L15.41,7.41L14,6L8,12L14,18L15.41,16.58Z" />
+                            </Canvas>
+                        </Viewbox>
+                    </Border>
+                </StackPanel>
+                
                 <Button x:Name="btn"
                     Visibility ="Collapsed"
                     Height="25" 

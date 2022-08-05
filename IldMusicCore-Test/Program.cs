@@ -27,7 +27,7 @@ namespace IldMusicCore_Test
             }
         }
 
-        private static void InitPlayer() => _player.StartPlaylist(playlist, 1);
+        private static void InitPlayer() => _player.SetPlaylistInstance(playlist, 1);
 
         private static void CommandProcesser()
         {

@@ -1,14 +1,11 @@
 ﻿using Ild_Music_MVVM_.Services;
-using Ild_Music_MVVM_.ViewModel.ModelEntities.Basic;
 using System.Collections.ObjectModel;
 using Ild_Music_MVVM_.Command;
-using System.Diagnostics;
-using ShareInstances.PlayerResources.Base;
 using ShareInstances.PlayerResources.Interfaces;
 using ShareInstances.PlayerResources;
 using System.Collections.Generic;
 using System.Linq;
-using System;
+using ShareInstances;
 
 namespace Ild_Music_MVVM_.ViewModel.VM
 {
@@ -24,13 +21,14 @@ namespace Ild_Music_MVVM_.ViewModel.VM
     {
         #region Fields
         private static readonly string nameVM = "ListVM";
-
+        private static IPlayer _playerInstance;
 
         //SupporterService wich provide entities supply 2 list representation
         private SupporterService supporterService;
         private MainWindowService _mainWindowAPI => (MainWindowService)GetService("MainWindowAPI");
         private FactoryService factoryService => (FactoryService)GetService("Factory");
         private ViewModelHolderService vmHolder => (ViewModelHolderService)GetService("VMHolder");
+        private PlayerService playerService => (PlayerService)GetService("PlayerService");
 
         private List listType;
         #endregion
@@ -43,6 +41,7 @@ namespace Ild_Music_MVVM_.ViewModel.VM
         public CommandDelegater DeleteCommand { get; }
         public CommandDelegater BackCommand { get; }
         public CommandDelegater ItemSelectCommand { get; }
+        public CommandDelegater DropStaffCommand { get; }
 
 
         private static Stack<IEnumerable<ICoreEntity>> _storage = new();
@@ -64,6 +63,7 @@ namespace Ild_Music_MVVM_.ViewModel.VM
             DeleteCommand = new(Delete, null);
             BackCommand = new(Back, null);
             ItemSelectCommand = new(ItemSelect, null);
+            DropStaffCommand = new(DropStaff, null);
         }
 
         public ListViewModel(List listType)
@@ -72,6 +72,7 @@ namespace Ild_Music_MVVM_.ViewModel.VM
             DeleteCommand = new(Delete, null);
             BackCommand = new(Back, null);
             ItemSelectCommand = new(ItemSelect, null);
+            DropStaffCommand = new(DropStaff, null);
 
             supporterService = (SupporterService)GetService("Supporter");
             SetListType(listType);
@@ -114,48 +115,6 @@ namespace Ild_Music_MVVM_.ViewModel.VM
                     break;
             }
         }
-        #endregion
-
-        #region Public Methods
-        //Define type of list to present in CurrentList
-        public void SetListType(List listType)
-        {
-            this.listType = listType;
-            InitCurrentList(listType);
-        }    
-        #endregion
-
-        #region Command Methods
-
-
-        private void Add(object obj)
-        {
-            DisplayListType();
-            _mainWindowAPI.MainWindow.ResetVM(factoryService.FactoryContainerViewModel);
-            vmHolder.AddViewModel(nameVM, this);
-        }
-
-        
-
-        private void Delete(object obj)
-        {
-            supporterService.RemoveInstanceObject(SelectedItem);
-            SetListType(listType);
-        }
-
-        private void Back(object obj) 
-        {
-        }
-
-        private void ItemSelect(object obj)
-        {
-            if (SelectedItem != null)
-            {
-                var current = CurrentList;
-                _storage.Push(current);
-                ProcessItemSelection();
-            }
-        }
 
         private void ProcessItemSelection()
         {
@@ -178,6 +137,11 @@ namespace Ild_Music_MVVM_.ViewModel.VM
         private void ProcessArtistType()
         {
             var artist = (Artist)SelectedItem;
+
+            if ((artist.Playlists.Count == 0) &&
+                (artist.Tracks.Count == 0))
+                return;
+
             CurrentList.Clear();
             artist.Playlists.ToList().ForEach(artistPlaylist => CurrentList.Add(artistPlaylist));
             artist.Tracks.ToList().ForEach(artistTrack => CurrentList.Add(artistTrack));
@@ -186,10 +150,14 @@ namespace Ild_Music_MVVM_.ViewModel.VM
         private void ProcessPlaylistType()
         {
             var playlist = (Playlist)SelectedItem;
-            CurrentList.Clear();
-            var artists = supporterService.ArtistSup.Where((artist) => artist.Playlists.Contains(playlist));
+            var artists = supporterService.ArtistSup.Where((artist) => artist.Playlists.Contains(playlist))
+                                                    .ToList();
 
-            foreach (var artist in artists)
+            
+
+            CurrentList.Clear();
+
+            foreach (var artist in artists.ToList())
                 CurrentList.Add(artist);
 
 
@@ -202,8 +170,67 @@ namespace Ild_Music_MVVM_.ViewModel.VM
             CurrentList.Clear();
         }
 
+        #endregion
 
+        #region Public Methods
+        //Define type of list to present in CurrentList
+        public void SetListType(List listType)
+        {
+            this.listType = listType;
+            InitCurrentList(listType);
+        }    
+        #endregion
 
+        #region Command Methods
+
+        private void Add(object obj)
+        {
+            DisplayListType();
+            _mainWindowAPI.MainWindow.ResetVM(factoryService.FactoryContainerViewModel);
+            vmHolder.AddViewModel(nameVM, this);
+        }        
+
+        private void Delete(object obj)
+        {
+            supporterService.RemoveInstanceObject(SelectedItem);
+            SetListType(listType);
+        }
+
+        private void Back(object obj) 
+        {
+            if (_storage.Count != 0)
+            {
+                var previous = _storage.Pop();
+                CurrentList.Clear();
+                previous.ToList().ForEach(prev => CurrentList.Add(prev));
+            }
+        }
+
+        private void ItemSelect(object obj)
+        {
+            if (SelectedItem != null)
+            {
+                var current = CurrentList;
+                _storage.Push(current);
+                ProcessItemSelection();
+            }
+        }
+
+        
+        private void DropStaff(object obj)
+        {
+            _playerInstance = playerService.GetPlayer();
+            if (obj is Playlist playerPlaylist) 
+            {
+                _playerInstance.SetPlaylistInstance(playerPlaylist);
+                _playerInstance.Play();
+            }
+            if (obj is Track playerTrack) 
+            {
+                _playerInstance.SetTrackInstance(playerTrack);
+                _playerInstance.Play();
+            }
+        }
         #endregion
     }
 }

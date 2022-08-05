@@ -27,32 +27,31 @@ namespace Ild_Music_CORE.Models.Core.Session_Structure
 
         private event Action ShuffleCollection;
 
-        public bool isEmpty { get; private set; } = true;
-        public bool isSwipe { get; private set; } = false;
+        public bool IsEmpty { get; private set; } = true;
+        public bool IsSwipe { get; private set; } = false;
         #endregion
 
         #region ctor
         public NAudioPlayer()
         {
-
+        
         }
 
-        public void StartTrack(Track track)
+        public void SetTrackInstance(Track track)
         {
             _track = track;            
             InitAudioPlayer();
-            isEmpty = false;
+            IsEmpty = false;
         }
 
-        public void StartPlaylist(Playlist trackCollection, float volume, int index=0)
+        public void SetPlaylistInstance(Playlist trackCollection, int index=0)
         {
             _tracklist = trackCollection;
             tracksCollection = trackCollection.Tracks;
-            this.volume = volume;
             InitAudioPlayer(index);
             ShuffleCollection += OnShuffleCollection;
-            isEmpty = false;
-            isSwipe = true;
+            IsEmpty = false;
+            IsSwipe = true;
         }
         #endregion
 
@@ -75,7 +74,8 @@ namespace Ild_Music_CORE.Models.Core.Session_Structure
             if (_audioPlayer != null)
                 _audioPlayer.Stop();
 
-            this.current = Collection[index];
+            if(Collection != null && Collection.Count > 0)
+                this.current = Collection[index];
             if (current != null)         
             {
                 _audioPlayer = new NAudioPlaybacker(current, this.volume); 

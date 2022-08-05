@@ -42,11 +42,24 @@ namespace ShareInstances
         public Guid PlayerId { get; }
         public string PlayerName { get; }
 
+        public bool IsSwipe { get; }
+        public bool IsEmpty { get; }
+
+
+        public void SetTrackInstance(Track track);
+
+        public void SetPlaylistInstance(Playlist trackCollection, int index = 0);
+
+
         public Task Play();
 
         public Task StopPlayer();
 
         public Task Pause_ResumePlayer();
+
+        public void DropPrevious();
+
+        public void DropNext();
 
         public Task ShuffleTrackCollection();
 

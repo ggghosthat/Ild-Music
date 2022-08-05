@@ -1,23 +1,18 @@
-﻿using Ild_Music_CORE.Models.Core.Session_Structure;
-using Ild_Music_MVVM_.Command;
+﻿using Ild_Music_MVVM_.Command;
 using Ild_Music_MVVM_.Services;
+using ShareInstances;
 using ShareInstances.PlayerResources.Interfaces;
 
 namespace Ild_Music_MVVM_.ViewModel.VM
 {
     public class MainViewModel : Base.BaseViewModel
     {
-        #region Fields
-        
-
-        private static BackList<Base.BaseViewModel> _backList = new();
-        #endregion
-
         #region Properties
         private ViewModelHolderService vmHolder => (ViewModelHolderService)GetService("VMHolder");
+        //private PlayerService playerService => (PlayerService)GetService("PlayerService");
         public Base.BaseViewModel CurrenttViewModelItem { get; set; } = new StartViewModel();
 
-        public NAudioPlayer PlayerEntity { get; set; } = new NAudioPlayer();
+        public IPlayer PlayerEntity;
 
         public ICoreEntity CoreEntity { get; set; }
 
@@ -39,6 +34,8 @@ namespace Ild_Music_MVVM_.ViewModel.VM
             NextCommand = new CommandDelegater(NextPlayerCommand, OnCanSwipe);
             KickCommand = new CommandDelegater(PlayPlayerCommand, OnCanUsePlayer);
             KickCommand = new CommandDelegater(StopPlayerCommand, OnCanUsePlayer);
+
+            //PlayerEntity = playerService.GetPlayer();
         }
         #endregion
 
@@ -60,11 +57,11 @@ namespace Ild_Music_MVVM_.ViewModel.VM
 
         #region CommandPredicate
         private bool OnCanUsePlayer(object obj)  =>        
-            PlayerEntity.isEmpty;
+            PlayerEntity.IsEmpty;
 
 
         private bool OnCanSwipe(object obj) =>
-            PlayerEntity.isSwipe && PlayerEntity.isEmpty;
+            PlayerEntity.IsSwipe && PlayerEntity.IsEmpty;
         #endregion
 
         #region Command Methods
