@@ -9,10 +9,12 @@ namespace Ild_Music_MVVM_.ViewModel.VM
     {
         #region Properties
         private ViewModelHolderService vmHolder => (ViewModelHolderService)GetService("VMHolder");
-        //private PlayerService playerService => (PlayerService)GetService("PlayerService");
+        private PlayerService playerService => (PlayerService)GetService("PlayerService");
         public Base.BaseViewModel CurrenttViewModelItem { get; set; } = new StartViewModel();
 
         public IPlayer PlayerEntity;
+
+        public bool IsPlayerActive => PlayerEntity.PlayerState;
 
         public ICoreEntity CoreEntity { get; set; }
 
@@ -30,12 +32,13 @@ namespace Ild_Music_MVVM_.ViewModel.VM
             var mainWIndowServicew = (MainWindowService)GetService("MainWindowAPI");
             mainWIndowServicew.MainWindow = this;
 
+            PlayerEntity = playerService.GetPlayer();
+
             PreviousCommand = new CommandDelegater(PreviousPlayerCommand, OnCanSwipe);
             NextCommand = new CommandDelegater(NextPlayerCommand, OnCanSwipe);
-            KickCommand = new CommandDelegater(PlayPlayerCommand, OnCanUsePlayer);
-            KickCommand = new CommandDelegater(StopPlayerCommand, OnCanUsePlayer);
+            KickCommand = new CommandDelegater(ResumePausePlayerCommand, OnCanUsePlayer);
+            StopCommand = new CommandDelegater(StopPlayerCommand, OnCanUsePlayer);
 
-            //PlayerEntity = playerService.GetPlayer();
         }
         #endregion
 
@@ -57,7 +60,7 @@ namespace Ild_Music_MVVM_.ViewModel.VM
 
         #region CommandPredicate
         private bool OnCanUsePlayer(object obj)  =>        
-            PlayerEntity.IsEmpty;
+            PlayerEntity.IsEmpty == false;
 
 
         private bool OnCanSwipe(object obj) =>
@@ -65,7 +68,7 @@ namespace Ild_Music_MVVM_.ViewModel.VM
         #endregion
 
         #region Command Methods
-        private void PreviousPlayerCommand(object obj = null) =>
+        private void PreviousPlayerCommand(object obj) =>
             PlayerEntity.DropPrevious();
 
 

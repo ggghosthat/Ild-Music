@@ -7,6 +7,7 @@ namespace Ild_Music_CORE.Models.Core.Session_Structure
 {
     public class NAudioPlaybacker
     {
+        private readonly object _locker = new();
         Task task;
 
         private Track currentTrack;
@@ -18,18 +19,31 @@ namespace Ild_Music_CORE.Models.Core.Session_Structure
         private TimeSpan totalTime;
 
         public event Action TrackFinished;
-        private bool isWatch = true;
 
         private float volume = 25;
 
         public Track? CurrentTrack => currentTrack ?? null;
 
-        public PlaybackState PlayerState => (outputDevice is null) ? PlaybackState.Stopped : outputDevice.PlaybackState;
+        public bool IsPlaying { get; private set; } = false;
 
-
-
-        public NAudioPlaybacker(Track inputTrack, float volume)
+        public NAudioPlaybacker()
         {
+
+        }
+
+        public void SetTrack(Track inputTrack, float volume)
+        {
+            if (outputDevice != null || _reader != null)
+            {
+                Task.Run(() => outputDevice?.Stop());
+
+                while(true)
+                {
+                    if (outputDevice == null && _reader == null)
+                        break;
+                }
+            }
+
             currentTrack = inputTrack;
             this.volume = volume;
             ReadTrack();
@@ -43,23 +57,22 @@ namespace Ild_Music_CORE.Models.Core.Session_Structure
         {
             title = currentTrack.Name;
             totalTime = currentTrack.Duration;
+            IsPlaying = true;
         }
 
         public void Play()
         {
             if (outputDevice == null)
             {
-                outputDevice = new ();
+                outputDevice = new();
                 outputDevice.PlaybackStopped += OnPlaybackStopped;
             }
             if (_reader == null)
             {
-                _reader = new (currentTrack.Pathway);
+                _reader = new(currentTrack.Pathway);
                 outputDevice.Init(_reader);
             }
-
             outputDevice.Play();
-
             Process();
         }
 
@@ -83,14 +96,12 @@ namespace Ild_Music_CORE.Models.Core.Session_Structure
         {
             while (outputDevice.PlaybackState == PlaybackState.Playing)
             {
-                
                 if (!(_reader.CurrentTime < totalTime) || outputDevice.PlaybackState == PlaybackState.Stopped)
-                {                 
+                {
                     TrackFinished?.Invoke();
+                    IsPlaying = false;
                     break;
-                }         
-                continue;
-                
+                }
             }
         }
 
@@ -116,22 +127,7 @@ namespace Ild_Music_CORE.Models.Core.Session_Structure
         }
         #endregion
 
-        //These method control timespan of current track
-        //if timespan riched to total time Finish event raizing up
-        private void Watch()
-        {
-            while (isWatch)
-            {
-                if (_reader != null) 
-                {
-                    if (_reader.CurrentTime.Equals(_reader.TotalTime)) 
-                    {
-                        TrackFinished.Invoke();
-                        break;
-                    }
-                }
-            }
-        }
+        
 
     }
 }

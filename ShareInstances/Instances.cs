@@ -45,6 +45,7 @@ namespace ShareInstances
         public bool IsSwipe { get; }
         public bool IsEmpty { get; }
 
+        public bool PlayerState { get; }
 
         public void SetTrackInstance(Track track);
 
@@ -64,5 +65,12 @@ namespace ShareInstances
         public Task ShuffleTrackCollection();
 
         public Task ChangeVolume(float volume);
+    }
+
+
+    public enum PlayerState
+    {
+        ACTIVE,
+        PAUSED
     }
 }

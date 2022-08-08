@@ -12,9 +12,9 @@ namespace Ild_Music_CORE.Models.Core.Session_Structure
     {
         #region Fields
         public Guid PlayerId => Guid.NewGuid();
-        public string PlayerName { get; } = "NAudio Player " ;
+        public string PlayerName { get; } = "NAudio Player ";
 
-        private NAudioPlaybacker _audioPlayer;
+        private NAudioPlaybacker _audioPlayer = new();
 
         private Track _track;
         private Playlist _tracklist;
@@ -29,6 +29,8 @@ namespace Ild_Music_CORE.Models.Core.Session_Structure
 
         public bool IsEmpty { get; private set; } = true;
         public bool IsSwipe { get; private set; } = false;
+
+        public bool PlayerState => (_audioPlayer != null) ? _audioPlayer.IsPlaying : false;
         #endregion
 
         #region ctor
@@ -58,42 +60,30 @@ namespace Ild_Music_CORE.Models.Core.Session_Structure
         #region PlayerInitialization
         public void InitAudioPlayer()
         {
-            if (_audioPlayer != null)
-                _audioPlayer.Stop();
-
             current = _track;
             if (current != null)
             {
-                _audioPlayer = new NAudioPlaybacker(current, volume);
-                AutoDrop();
+                _audioPlayer.SetTrack(current, volume);
             }
         }
 
         public void InitAudioPlayer(int index)
         {
-            if (_audioPlayer != null)
-                _audioPlayer.Stop();
-
             if(Collection != null && Collection.Count > 0)
-                this.current = Collection[index];
+                current = Collection[index];
             if (current != null)         
             {
-                _audioPlayer = new NAudioPlaybacker(current, this.volume); 
+                _audioPlayer.SetTrack(current, volume); 
                 AutoDrop();
             }
         }
 
         public void InitAudioPlayer(Track track)
         {
-            if (_audioPlayer != null)
-            {
-                _audioPlayer.Stop();
-            }
-
             current = track;
             if (current != null)
             {
-                _audioPlayer = new NAudioPlaybacker(current, this.volume);
+                _audioPlayer.SetTrack(current, volume);
                 AutoDrop();
             }
         }
@@ -112,8 +102,8 @@ namespace Ild_Music_CORE.Models.Core.Session_Structure
         public async Task ShuffleTrackCollection() =>
             await Task.Run(() => ShuffleCollection?.Invoke());
 
-        public PlaybackState? GetPlayerState() =>
-            _audioPlayer.PlayerState;
+        public bool GetPlayerState() =>
+            _audioPlayer.IsPlaying;
 
 
         
