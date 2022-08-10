@@ -142,38 +142,28 @@ namespace Ild_Music_MVVM_.ViewModel.VM
 
         private void ProcessArtistType()
         {
-            var artist = (Artist)SelectedItem;
+            if (SelectedItem is Artist artist)            
+                ArtistInstanceProcess(artist);
+            
+            if (SelectedItem is Playlist playlist)
+                PlaylistInstanceProcess(playlist);
+            
+            if (SelectedItem is Track track)
+                TrackInstanceProcess(track);
+            
 
-            if ((artist.Playlists.Count == 0) &&
-                (artist.Tracks.Count == 0))
-                return;
-
-            CurrentList.Clear();
-            artist.Playlists.ToList().ForEach(artistPlaylist => CurrentList.Add(artistPlaylist));
-            artist.Tracks.ToList().ForEach(artistTrack => CurrentList.Add(artistTrack));
         }
 
         private void ProcessPlaylistType()
         {
             var playlist = (Playlist)SelectedItem;
-            var artists = supporterService.ArtistSup.Where((artist) => artist.Playlists.Contains(playlist))
-                                                    .ToList();
-
-
-
-            CurrentList.Clear();
-
-            foreach (var artist in artists.ToList())
-                CurrentList.Add(artist);
-
-
-            playlist.Tracks.ToList().ForEach(track => CurrentList.Add(track));
+            PlaylistInstanceProcess(playlist);
         }
 
         private void ProcessTrackType()
         {
             var track = (Track)SelectedItem;
-            //CurrentList.Clear();
+            TrackInstanceProcess(track);
         }
 
         #endregion
@@ -240,6 +230,41 @@ namespace Ild_Music_MVVM_.ViewModel.VM
                 _playerInstance.SetTrackInstance(playerTrack);
                 _playerInstance.Play();
             }
+        }
+        #endregion
+
+
+        #region InstanceProcess
+        private void ArtistInstanceProcess(Artist artist)
+        {
+            if ((artist.Playlists.Count == 0) &&
+                    (artist.Tracks.Count == 0))
+            {
+                CurrentList.Clear();
+                return;
+            }
+
+            CurrentList.Clear();
+            artist.Playlists.ToList().ForEach(artistPlaylist => CurrentList.Add(artistPlaylist));
+            artist.Tracks.ToList().ForEach(artistTrack => CurrentList.Add(artistTrack));
+        }
+
+        private void PlaylistInstanceProcess(Playlist playlist)
+        {
+            var artists = supporterService.ArtistSup.Where((artist) => artist.Playlists.Contains(playlist))
+                                                    .ToList();
+
+            CurrentList.Clear();
+
+            foreach (var artistInstance in artists.ToList())
+                CurrentList.Add(artistInstance);
+
+            playlist.Tracks.ToList().ForEach(track => CurrentList.Add(track));
+        }
+
+        private void TrackInstanceProcess(Track track)
+        {
+            CurrentList.Clear();
         }
         #endregion
     }
