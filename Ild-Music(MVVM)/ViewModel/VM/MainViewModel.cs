@@ -2,6 +2,8 @@
 using Ild_Music_MVVM_.Services;
 using ShareInstances;
 using ShareInstances.PlayerResources.Interfaces;
+using System.Diagnostics;
+using System.Windows.Media;
 
 namespace Ild_Music_MVVM_.ViewModel.VM
 {
@@ -14,8 +16,12 @@ namespace Ild_Music_MVVM_.ViewModel.VM
 
         public IPlayer PlayerEntity;
 
-        public bool IsPlayerActive => PlayerEntity.PlayerState;
+        private bool isPlayerActive;
 
+        public bool IsPlayerActive => PlayerEntity.PlayerState;
+    
+        
+            
         public ICoreEntity CoreEntity { get; set; }
 
 
@@ -33,12 +39,12 @@ namespace Ild_Music_MVVM_.ViewModel.VM
             mainWIndowServicew.MainWindow = this;
 
             PlayerEntity = playerService.GetPlayer();
+            PlayerEntity.SetNotifier(() => OnPropertyChanged("IsPlayerActive"));
 
             PreviousCommand = new CommandDelegater(PreviousPlayerCommand, OnCanSwipe);
             NextCommand = new CommandDelegater(NextPlayerCommand, OnCanSwipe);
-            KickCommand = new CommandDelegater(ResumePausePlayerCommand, OnCanUsePlayer);
+            KickCommand = new CommandDelegater(ResumePausePlayerCommand, null);
             StopCommand = new CommandDelegater(StopPlayerCommand, OnCanUsePlayer);
-
         }
         #endregion
 
@@ -80,13 +86,10 @@ namespace Ild_Music_MVVM_.ViewModel.VM
             PlayerEntity.StopPlayer();
 
 
-        //???
         private void ResumePausePlayerCommand(object obj) =>
             PlayerEntity.Pause_ResumePlayer();
 
-        //???
-        private void PlayPlayerCommand(object obj) =>
-            PlayerEntity.Play();
+      
         #endregion
     }
 }

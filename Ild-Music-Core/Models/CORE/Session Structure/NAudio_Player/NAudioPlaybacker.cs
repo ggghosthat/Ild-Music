@@ -7,28 +7,22 @@ namespace Ild_Music_CORE.Models.Core.Session_Structure
 {
     public class NAudioPlaybacker
     {
-        private readonly object _locker = new();
-        Task task;
-
         private Track currentTrack;
+        public Track? CurrentTrack => currentTrack;
 
         private WaveOutEvent outputDevice;
         private AudioFileReader _reader;
+        public PlaybackState PlaybackState => outputDevice.PlaybackState;
 
         private string title;
         private TimeSpan totalTime;
+        private float volume = 25;
 
         public event Action TrackFinished;
 
-        private float volume = 25;
-
-        public Track? CurrentTrack => currentTrack ?? null;
-
-        public bool IsPlaying { get; private set; } = false;
-
+        
         public NAudioPlaybacker()
         {
-
         }
 
         public void SetTrack(Track inputTrack, float volume)
@@ -49,15 +43,11 @@ namespace Ild_Music_CORE.Models.Core.Session_Structure
             ReadTrack();
         }
 
-
-
-
         #region Main Methods
         private void ReadTrack()
         {
             title = currentTrack.Name;
             totalTime = currentTrack.Duration;
-            IsPlaying = true;
         }
 
         public void Play()
@@ -99,7 +89,6 @@ namespace Ild_Music_CORE.Models.Core.Session_Structure
                 if (!(_reader.CurrentTime < totalTime) || outputDevice.PlaybackState == PlaybackState.Stopped)
                 {
                     TrackFinished?.Invoke();
-                    IsPlaying = false;
                     break;
                 }
             }
@@ -126,8 +115,5 @@ namespace Ild_Music_CORE.Models.Core.Session_Structure
 
         }
         #endregion
-
-        
-
     }
 }

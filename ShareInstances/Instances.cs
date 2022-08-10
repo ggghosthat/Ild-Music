@@ -51,6 +51,7 @@ namespace ShareInstances
 
         public void SetPlaylistInstance(Playlist trackCollection, int index = 0);
 
+        public void SetNotifier(Action callBack);
 
         public Task Play();
 

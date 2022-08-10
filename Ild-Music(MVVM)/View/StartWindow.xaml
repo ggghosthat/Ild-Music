@@ -7,13 +7,15 @@
         xmlns:b="http://schemas.microsoft.com/xaml/behaviors" 
         xmlns:ui="clr-namespace:Ild_Music_MVVM_.View.UIControls"
         xmlns:converters="clr-namespace:Ild_Music_MVVM_.Converters"
-        xmlns:props="clr-namespace:Ild_Music_MVVM_.AttachedProperties"
         mc:Ignorable="d"
         Title="MainWindow" Height="555" Width="1100"
         WindowStyle="None" ResizeMode="NoResize"
         Background="#1b2b33" WindowStartupLocation="CenterScreen">
 
     <Window.Resources>
+        <converters:PlayerActivityConverter x:Key="PlayerActivityConverter">
+        </converters:PlayerActivityConverter>
+        
         <FontFamily x:Key="SigmarOne">Fonts/#Sigmar_One</FontFamily>
         <SolidColorBrush x:Key="TextBox.Static.Border" Color="#FFABAdB3"/>
         <SolidColorBrush x:Key="TextBox.MouseOver.Border" Color="#FF7EB4EA"/>
@@ -401,21 +403,12 @@
             </Style.Triggers>
         </Style>
 
-        <Geometry x:Key="Play">
-            M8,5.14V19.14L19,12.14L8,5.14Z
-        </Geometry>
-
-        <Geometry x:Key="Pause">
-            M14,19H18V5H14M6,19H10V5H6V19Z
-        </Geometry>
 
         <Style x:Key="PlayButtonStyle" TargetType="Path">
             <Style.Triggers>
                 <DataTrigger Binding="{Binding PlayerEntity.PlayerState}" Value="ACTIVE">
-                    <Setter Property="Data" Value="{StaticResource Play}"/>
                 </DataTrigger>
                 <DataTrigger Binding="{Binding PlayerEntity.PlayerState}" Value="PAUSED">
-                    <Setter Property="Data" Value="{StaticResource Play}"/>
                 </DataTrigger>
             </Style.Triggers>
         </Style>
@@ -635,31 +628,21 @@
                             HorizontalAlignment="Left"
                             VerticalAlignment="Center"
                             Margin="10 0 0 0">
+
+
+
+                <b:Interaction.Triggers>
+                    <b:EventTrigger EventName="MouseLeftButtonDown">
+                        <b:InvokeCommandAction Command="{Binding KickCommand}"/>
+                    </b:EventTrigger>
+                </b:Interaction.Triggers>
                 <Border x:Name="brPlay"
                         CornerRadius="5"
                         Background="Transparent">
                     <Viewbox Width="24" Height="24">
                         <Canvas Width="24" Height="24">
-                            <Path>
-                                <Path.Style>
-                                    <Style TargetType="Path">
-                                        <Style.Triggers>
-                                            <Trigger Property="IsMouseOver" Value="True">
-                                                <Setter Property="Fill" Value="White"/>
-                                            </Trigger>
-                                            <Trigger Property="IsMouseOver" Value="False">
-                                                <Setter Property="Fill" Value="Gray"/>
-                                            </Trigger>
-                                            <DataTrigger Binding="{Binding IsPlayerActive}" Value="True">
-                                                    <Setter Property="Data" Value="{StaticResource Play}"/>
-                                            </DataTrigger>
-                                            <DataTrigger Binding="{Binding IsPlayerActive}" Value="False">
-                                                <Setter Property="Data" Value="{StaticResource Play}"/>
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </Path.Style>
-                            </Path>
+                            <Path Data="{Binding IsPlayerActive, Converter={StaticResource PlayerActivityConverter}}"
+                                  Style="{StaticResource PlayerStyle}"/>
                         </Canvas>
                     </Viewbox>
                 </Border>

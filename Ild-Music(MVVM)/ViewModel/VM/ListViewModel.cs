@@ -44,7 +44,9 @@ namespace Ild_Music_MVVM_.ViewModel.VM
         public CommandDelegater DropStaffCommand { get; }
 
 
-        private static Stack<IEnumerable<ICoreEntity>> _storage = new();
+        private static BackList<IEnumerable<ICoreEntity>> _storage = new();
+        public bool IsStackEmpty = _storage.Count == 0;
+
         public static ObservableCollection<ICoreEntity> CurrentList { get; set; } = new();
         public ICoreEntity SelectedItem { get; set; }
 
@@ -86,18 +88,22 @@ namespace Ild_Music_MVVM_.ViewModel.VM
             switch (listType)
             {
                 case List.ARTISTS:
+                    //_storage.Add(supporterService.ArtistSup);
                     foreach (var a in supporterService.ArtistSup)
                         CurrentList.Add(a);
                     break;
                 case List.PLAYLISTS:
+                    //_storage.Add(supporterService.PlaylistSup);
                     foreach (var p in supporterService.PlaylistSup)
                         CurrentList.Add(p);
                     break;
                 case List.TRACKS:
+                    //_storage.Add(supporterService.TrackSup);
                     foreach (var t in supporterService.TrackSup)
                         CurrentList.Add(t);
                     break;
             }
+            
         }
 
         private void DisplayListType()
@@ -153,7 +159,7 @@ namespace Ild_Music_MVVM_.ViewModel.VM
             var artists = supporterService.ArtistSup.Where((artist) => artist.Playlists.Contains(playlist))
                                                     .ToList();
 
-            
+
 
             CurrentList.Clear();
 
@@ -167,7 +173,7 @@ namespace Ild_Music_MVVM_.ViewModel.VM
         private void ProcessTrackType()
         {
             var track = (Track)SelectedItem;
-            CurrentList.Clear();
+            //CurrentList.Clear();
         }
 
         #endregion
@@ -198,11 +204,12 @@ namespace Ild_Music_MVVM_.ViewModel.VM
 
         private void Back(object obj) 
         {
-            if (_storage.Count != 0)
+            if (_storage.Count > 0)
             {
-                var previous = _storage.Pop();
+                var previous = _storage.Peek();
                 CurrentList.Clear();
-                previous.ToList().ForEach(prev => CurrentList.Add(prev));
+                foreach (var prev in previous.ToList())
+                    CurrentList.Add(prev);
             }
         }
 
@@ -210,8 +217,11 @@ namespace Ild_Music_MVVM_.ViewModel.VM
         {
             if (SelectedItem != null)
             {
-                var current = CurrentList;
-                _storage.Push(current);
+                if (_storage.Count >= 0)
+                {
+                    var current = CurrentList;
+                    _storage.Add(current.ToList());
+                }
                 ProcessItemSelection();
             }
         }
