@@ -69,7 +69,7 @@ namespace ShareInstances.PlayerResources
 
             DefineName();
 
-            this.Description = description ?? string.Empty;
+            Description = description ?? string.Empty;
             
             ExtractDuration();
         }

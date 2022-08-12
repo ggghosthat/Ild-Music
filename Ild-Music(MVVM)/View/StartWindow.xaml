@@ -15,6 +15,8 @@
     <Window.Resources>
         <converters:PlayerActivityConverter x:Key="PlayerActivityConverter">
         </converters:PlayerActivityConverter>
+        <converters:PlayerTimeConverter x:Key="PlayerTimeConverter">
+        </converters:PlayerTimeConverter>
 
         <FontFamily x:Key="SigmarOne">Fonts/#Sigmar_One</FontFamily>
         <SolidColorBrush x:Key="TextBox.Static.Border" Color="#FFABAdB3"/>
@@ -461,6 +463,18 @@
             </Setter>
         </Style>
 
+        <Style x:Key="VolumeSliderThumb" TargetType="Thumb">
+            <Setter Property="SnapsToDevicePixels" Value="true" />
+            <Setter Property="OverridesDefaultStyle" Value="true" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Thumb">
+                        <Ellipse Width="7" Height="7" Fill="Aqua"/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
         <ControlTemplate x:Key="Slider"  TargetType="Slider">
             <Grid>
                 <Grid.RowDefinitions>
@@ -494,6 +508,38 @@
                 </Trigger>
             </Style.Triggers>
         </Style>
+        
+        <Style x:Key="RepeatButtonTransparent" TargetType="{x:Type RepeatButton}">
+            <Setter Property="OverridesDefaultStyle" Value="true"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Focusable" Value="false"/>
+            <Setter Property="IsTabStop" Value="false"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type RepeatButton}">
+                        <Rectangle Fill="{TemplateBinding Background}" Height="{TemplateBinding Height}" Width="{TemplateBinding Width}"/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+
+        <Style x:Key="CustomSlider" TargetType="{x:Type Slider}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Slider}">
+                        <Thumb>
+                            <Thumb.Template>
+                                <ControlTemplate TargetType="{x:Type Thumb}">
+                                    <Ellipse Height="7" Width="7" Fill="White"/>
+                                </ControlTemplate>
+                            </Thumb.Template>
+                        </Thumb>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
     </Window.Resources>
 
     <Grid RenderTransformOrigin="0.548,0.512">
@@ -807,12 +853,15 @@
                         Height="auto"
                         Width="auto">
                 <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition />
-                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="auto"/>
+                    </Grid.ColumnDefinitions>
 
-                    <StackPanel Grid.Row="0"
-                                Orientation="Vertical">
+                    <StackPanel Grid.Column="0"
+                                Orientation="Vertical"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center">
                         <Label Content="This is your track"
                                FontSize="10"
                                FontWeight="Medium"
@@ -821,12 +870,83 @@
                                Foreground="White" 
                                Height="22"/>
 
-                        <Slider Style="{DynamicResource Horizontal_Slider}" 
-                                Width="600"
-                                Margin="5,0"
-                                 IsMoveToPointEnabled="True"
-                                Value="0.1"
-                                Background="#6d7c7a"/>
+                        <StackPanel Orientation="Horizontal" Margin="10,0">
+                            <TextBlock Name="lblCurrentTime"                                   
+                                   FontSize="14"
+                                   FontWeight="Medium"
+                                   Foreground="White" 
+                                   Padding="0"
+                                   Height="30"
+                                   Text="{Binding CurrentTime}">
+                            </TextBlock>
+                            <StackPanel>
+                                
+                                <b:Interaction.Triggers>
+                                    <b:EventTrigger EventName="ValueChanged">
+                                        <b:InvokeCommandAction Command="{Binding TrackTimeChangedCommand}">
+                                            <b:InvokeCommandAction.CommandParameter>
+                                                <Binding>
+                                                </Binding>
+                                            </b:InvokeCommandAction.CommandParameter>
+                                        </b:InvokeCommandAction>
+                                    </b:EventTrigger>
+                                </b:Interaction.Triggers>
+                                
+                                <Slider x:Name="sldTrackDuration"
+                                        Style="{DynamicResource Horizontal_Slider}" 
+                                        Width="500"
+                                        Margin="15,0"
+                                        IsMoveToPointEnabled="True"
+                                        Value="0.1"
+                                        Background="#6d7c7a"/>
+                            </StackPanel>
+                            <TextBlock Name="lblTotatTime"
+                                   Text="{Binding TotalTime}"
+                                   FontSize="14"
+                                   FontWeight="Medium"
+                                   Foreground="White" 
+                                   Padding="0"
+                                   Height="30"/>
+                        </StackPanel>
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="1"
+                                Orientation="Horizontal"
+                                VerticalAlignment="Center">
+                        <Viewbox Width="24" Height="24">
+                            <Canvas Width="24" Height="24">
+                                <Path Fill="#0a79ce" Data="M12,4L9.91,6.09L12,8.18M4.27,3L3,4.27L7.73,9H3V15H7L12,20V13.27L16.25,17.53C15.58,18.04 14.83,18.46 14,18.7V20.77C15.38,20.45 16.63,19.82 17.68,18.96L19.73,21L21,19.73L12,10.73M19,12C19,12.94 18.8,13.82 18.46,14.64L19.97,16.15C20.62,14.91 21,13.5 21,12C21,7.72 18,4.14 14,3.23V5.29C16.89,6.15 19,8.83 19,12M16.5,12C16.5,10.23 15.5,8.71 14,7.97V10.18L16.45,12.63C16.5,12.43 16.5,12.21 16.5,12Z" />
+                            </Canvas>
+                        </Viewbox>
+                        <Slider Margin="5px" Minimum="0" Maximum="100"
+                                IsSelectionRangeEnabled="True" 
+                                SelectionStart="0" SelectionEnd="100"
+                                Width="150" Style="{StaticResource CustomSlider}">
+                            
+                            <Slider.Resources>
+                                <LinearGradientBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" EndPoint="1,0.5" StartPoint="0,0.5">
+                                    <GradientStop Color="Blue" Offset="1"/>
+                                    <GradientStop Color="Cyan" Offset="0.75"/>
+                                    <GradientStop Color="Green" Offset="0.5"/>
+                                    <GradientStop Color="Yellow" Offset="0.25"/>
+                                    <GradientStop Color="Red" Offset="0"/>
+                                </LinearGradientBrush>
+
+                                <Thumb x:Key="VolumeThumb">
+                                    <Thumb.Template>
+                                        <ControlTemplate TargetType="Thumb">
+                                            <Ellipse Width="7" Height="7" Fill="White"/>
+                                        </ControlTemplate>
+                                    </Thumb.Template>
+                                </Thumb>
+                            </Slider.Resources>
+                        </Slider>
+
+                        <Viewbox Width="24" Height="24" HorizontalAlignment="Right">
+                            <Canvas Width="24" Height="24">
+                                <Path Fill="#ce480a" Data="M14,3.23V5.29C16.89,6.15 19,8.83 19,12C19,15.17 16.89,17.84 14,18.7V20.77C18,19.86 21,16.28 21,12C21,7.72 18,4.14 14,3.23M16.5,12C16.5,10.23 15.5,8.71 14,7.97V16C15.5,15.29 16.5,13.76 16.5,12M3,9V15H7L12,20V4L7,9H3Z" />
+                            </Canvas>
+                        </Viewbox>
                     </StackPanel>
                 </Grid>
             </StackPanel>

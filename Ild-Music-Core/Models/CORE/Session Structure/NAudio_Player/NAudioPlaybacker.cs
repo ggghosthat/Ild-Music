@@ -15,8 +15,9 @@ namespace Ild_Music_CORE.Models.Core.Session_Structure
         public PlaybackState PlaybackState => outputDevice.PlaybackState;
 
         private string title;
-        private TimeSpan totalTime;
         private float volume = 25;
+        public TimeSpan TotalTime { get; private set; }
+        public TimeSpan CurrentTime { get; private set; }
 
         public event Action TrackFinished;
 
@@ -47,7 +48,7 @@ namespace Ild_Music_CORE.Models.Core.Session_Structure
         private void ReadTrack()
         {
             title = currentTrack.Name;
-            totalTime = currentTrack.Duration;
+            TotalTime = currentTrack.Duration;
         }
 
         public void Play()
@@ -86,7 +87,8 @@ namespace Ild_Music_CORE.Models.Core.Session_Structure
         {
             while (outputDevice.PlaybackState == PlaybackState.Playing)
             {
-                if (!(_reader.CurrentTime < totalTime) || outputDevice.PlaybackState == PlaybackState.Stopped)
+                CurrentTime = _reader.CurrentTime;
+                if (!(_reader.CurrentTime < TotalTime) || outputDevice.PlaybackState == PlaybackState.Stopped)
                 {
                     TrackFinished?.Invoke();
                     break;

@@ -44,8 +44,10 @@ namespace ShareInstances
 
         public bool IsSwipe { get; }
         public bool IsEmpty { get; }
-
         public bool PlayerState { get; }
+
+        public TimeSpan TotalTime { get; }
+        public TimeSpan CurrentTime { get; }
 
         public void SetTrackInstance(Track track);
 

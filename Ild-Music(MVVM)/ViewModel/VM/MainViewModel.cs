@@ -2,7 +2,10 @@
 using Ild_Music_MVVM_.Services;
 using ShareInstances;
 using ShareInstances.PlayerResources.Interfaces;
+using System;
 using System.Diagnostics;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Media;
 
 namespace Ild_Music_MVVM_.ViewModel.VM
@@ -16,12 +19,15 @@ namespace Ild_Music_MVVM_.ViewModel.VM
 
         public IPlayer PlayerEntity;
 
-        private bool isPlayerActive;
+        private TimeSpan currentTime;
 
         public bool IsPlayerActive => PlayerEntity.PlayerState;
-    
-        
-            
+        public string TotalTime => PlayerEntity.TotalTime.ToString("mm':'ss");
+        public string CurrentTime => PlayerEntity.CurrentTime.ToString("mm':'ss");
+
+
+
+
         public ICoreEntity CoreEntity { get; set; }
 
 
@@ -29,6 +35,7 @@ namespace Ild_Music_MVVM_.ViewModel.VM
         public CommandDelegater NextCommand { get; }
         public CommandDelegater KickCommand { get; }
         public CommandDelegater StopCommand { get; }
+        public CommandDelegater TrackTimeChangedCommand { get; }
 
         #endregion
 
@@ -45,6 +52,15 @@ namespace Ild_Music_MVVM_.ViewModel.VM
             NextCommand = new CommandDelegater(NextPlayerCommand, OnCanSwipe);
             KickCommand = new CommandDelegater(ResumePausePlayerCommand, null);
             StopCommand = new CommandDelegater(StopPlayerCommand, OnCanUsePlayer);
+
+            Task.Run(() =>
+            {
+                while (true)
+                {
+                    OnPropertyChanged("TotalTime");
+                    OnPropertyChanged("CurrentTime");
+                }
+            });
         }
         #endregion
 

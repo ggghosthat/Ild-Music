@@ -21,17 +21,17 @@ namespace Ild_Music_CORE.Models.Core.Session_Structure
         public IList<Track> Collection => tracksCollection ?? null;
 
         private Track current;
-
         private float volume;
+        public TimeSpan TotalTime => _audioPlayer.TotalTime;
+        public TimeSpan CurrentTime => _audioPlayer.CurrentTime;
 
-        private event Action ShuffleCollection;
 
         public bool IsEmpty { get; private set; } = true;
         public bool IsSwipe { get; private set; } = false;
-
         public bool PlayerState { get; private set; }
 
         private Action notifyAction;
+        private event Action ShuffleCollection;
         #endregion
 
         #region ctor
@@ -59,6 +59,8 @@ namespace Ild_Music_CORE.Models.Core.Session_Structure
 
         public void SetNotifier(Action callBack) =>
             notifyAction = callBack;
+        
+
         
         #endregion
 
