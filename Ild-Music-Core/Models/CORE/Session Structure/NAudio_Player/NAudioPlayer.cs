@@ -9,28 +9,36 @@ namespace Ild_Music_CORE.Models.Core.Session_Structure
 {
     public class NAudioPlayer : IPlayer
     {
-        #region Fields
+        
+        #region Player Indentity Properties
         public Guid PlayerId => Guid.NewGuid();
-        public string PlayerName { get; } = "NAudio Player ";
+        public string PlayerName => "NAudio Player ";
+        #endregion
 
+
+        #region Player Resource Properties
+        public Track CurrentTrack { get; private set; }
+        public Playlist CurrentPlaylist { get; private set; }
+        public IList<Track> Collection { get; private set; }
+        #endregion
+        #region Playbacker Properties
         private NAudioPlaybacker _audioPlayer = new();
-
-        private Track _track;
-        private Playlist _tracklist;
-        private IList<Track> tracksCollection;
-        public IList<Track> Collection => tracksCollection ?? null;
-
-        private Track current;
         private float volume;
         public TimeSpan TotalTime => _audioPlayer.TotalTime;
         public TimeSpan CurrentTime => _audioPlayer.CurrentTime;
+        #endregion
 
-
+        #region Player State Properties
         public bool IsEmpty { get; private set; } = true;
         public bool IsSwipe { get; private set; } = false;
         public bool PlayerState { get; private set; }
+        #endregion
 
+        #region Actions
         private Action notifyAction;
+        #endregion
+
+        #region Events
         private event Action ShuffleCollection;
         #endregion
 
@@ -42,37 +50,31 @@ namespace Ild_Music_CORE.Models.Core.Session_Structure
 
         public void SetTrackInstance(Track track)
         {
-            _track = track;            
+            CurrentTrack = track;            
             InitAudioPlayer();
             IsEmpty = false;
         }
 
-        public void SetPlaylistInstance(Playlist trackCollection, int index=0)
+        public void SetPlaylistInstance(Playlist playlist, int index=0)
         {
-            _tracklist = trackCollection;
-            tracksCollection = trackCollection.Tracks;
+            CurrentPlaylist = playlist;
+            Collection = playlist.Tracks;
             InitAudioPlayer(index);
             ShuffleCollection += OnShuffleCollection;
             IsEmpty = false;
             IsSwipe = true;
         }
 
-        public void SetNotifier(Action callBack) =>
-            notifyAction = callBack;
-        
-
-        
         #endregion
 
         #region PlayerInitialization
         public void InitAudioPlayer()
         {
-            current = _track;
-            if (current != null)
+            if (CurrentTrack != null)
             {
                 PlayerState = true;
                 notifyAction?.Invoke();
-                _audioPlayer.SetTrack(current, volume);
+                _audioPlayer.SetTrack(CurrentTrack, volume);
                 FinishNotify();
             }
         }
@@ -80,15 +82,20 @@ namespace Ild_Music_CORE.Models.Core.Session_Structure
         public void InitAudioPlayer(int index)
         {
             if(Collection != null && Collection.Count > 0)
-                current = Collection[index];
-            if (current != null)
+                CurrentTrack = Collection[index];
+            if (CurrentTrack != null)
             {
                 PlayerState = true;
                 notifyAction?.Invoke();
-                _audioPlayer.SetTrack(current, volume);
+                _audioPlayer.SetTrack(CurrentTrack, volume);
                 AutoDrop();
             }
         }
+
+
+        public void SetNotifier(Action callBack) =>
+            notifyAction = callBack;
+
         #endregion
 
         #region Player_Buttons
@@ -140,37 +147,38 @@ namespace Ild_Music_CORE.Models.Core.Session_Structure
 
         private void Shuffle()
         {
-            var tmp = tracksCollection.OrderBy(t => Guid.NewGuid()).ToList();
-            tracksCollection = tmp;
+            var tmp = Collection.OrderBy(t => Guid.NewGuid()).ToList();
+            Collection = tmp;
         }
         #endregion
 
         #region Drop_region
         public async void DropNext() =>
-            await Task.Run(() => DropTrack(current.NextTrack));
+            await Task.Run(() => DropTrack(CurrentTrack.NextTrack));
 
         public async void DropPrevious() =>
-            await Task.Run(() => DropTrack(current.PreviousTrack));
+            await Task.Run(() => DropTrack(CurrentTrack.PreviousTrack));
 
         private void DropTrack(Track track)
         {
             if (_audioPlayer != null)
                 _audioPlayer.Stop();
 
-            if (current != null)
-                DropTrack2Player(track);
-           _audioPlayer.Play();
+            //if (CurrentTrack != null)
+            //    DropTrack2Player(track);
+            DropTrack2Player(track);
+            _audioPlayer.Play();
             
         }
 
         private void DropTrack2Player(Track track)
         {
-            current = track;
-            if (current != null)
+            CurrentTrack = track;
+            if (CurrentTrack != null)
             {
                 PlayerState = true;
                 notifyAction?.Invoke();
-                _audioPlayer.SetTrack(current, volume);
+                _audioPlayer.SetTrack(CurrentTrack, volume);
                 AutoDrop();
             }
         }

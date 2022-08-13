@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Globalization;
 using System.Windows.Data;
-using System.Diagnostics;
 
 namespace Ild_Music_MVVM_.Converters
 {
@@ -10,10 +9,8 @@ namespace Ild_Music_MVVM_.Converters
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if (value is TimeSpan time)
-            {
-                Debug.WriteLine(time.ToString());
                 return time.ToString();
-            }
+            
             return null;
         }
 

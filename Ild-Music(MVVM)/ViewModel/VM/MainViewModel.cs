@@ -1,56 +1,44 @@
 ﻿using Ild_Music_MVVM_.Command;
 using Ild_Music_MVVM_.Services;
 using ShareInstances;
-using ShareInstances.PlayerResources.Interfaces;
-using System;
-using System.Diagnostics;
-using System.Threading;
 using System.Threading.Tasks;
-using System.Windows.Media;
 
 namespace Ild_Music_MVVM_.ViewModel.VM
 {
     public class MainViewModel : Base.BaseViewModel
     {
-        #region Properties
+        #region Services Properties
         private ViewModelHolderService vmHolder => (ViewModelHolderService)GetService("VMHolder");
         private PlayerService playerService => (PlayerService)GetService("PlayerService");
         public Base.BaseViewModel CurrenttViewModelItem { get; set; } = new StartViewModel();
+        #endregion
 
+        #region Player Properties
         public IPlayer PlayerEntity;
-
-        private TimeSpan currentTime;
-
         public bool IsPlayerActive => PlayerEntity.PlayerState;
         public string TotalTime => PlayerEntity.TotalTime.ToString("mm':'ss");
         public string CurrentTime => PlayerEntity.CurrentTime.ToString("mm':'ss");
+        #endregion
 
-
-
-
-        public ICoreEntity CoreEntity { get; set; }
-
-
+        #region Command Propertoes
         public CommandDelegater PreviousCommand { get; }
         public CommandDelegater NextCommand { get; }
         public CommandDelegater KickCommand { get; }
         public CommandDelegater StopCommand { get; }
         public CommandDelegater TrackTimeChangedCommand { get; }
-
         #endregion
 
         #region Ctor
         public MainViewModel() : base()
         {
-            var mainWIndowServicew = (MainWindowService)GetService("MainWindowAPI");
-            mainWIndowServicew.MainWindow = this;
+            ((MainWindowService)GetService("MainWindowAPI")).MainWindow = this;
 
             PlayerEntity = playerService.GetPlayer();
             PlayerEntity.SetNotifier(() => OnPropertyChanged("IsPlayerActive"));
 
             PreviousCommand = new CommandDelegater(PreviousPlayerCommand, OnCanSwipe);
             NextCommand = new CommandDelegater(NextPlayerCommand, OnCanSwipe);
-            KickCommand = new CommandDelegater(ResumePausePlayerCommand, null);
+            KickCommand = new CommandDelegater(ResumePausePlayerCommand, OnCanUsePlayer);
             StopCommand = new CommandDelegater(StopPlayerCommand, OnCanUsePlayer);
 
             Task.Run(() =>
@@ -64,8 +52,7 @@ namespace Ild_Music_MVVM_.ViewModel.VM
         }
         #endregion
 
-
-        #region Public Methods
+        #region StartWindow API Methods
         public void SetVM(Base.BaseViewModel baseVM)
         {
             vmHolder.CleanStorage();
@@ -78,7 +65,6 @@ namespace Ild_Music_MVVM_.ViewModel.VM
         public void ResetVM(Base.BaseViewModel baseVM) =>
             CurrenttViewModelItem = baseVM;
         #endregion
-
 
         #region CommandPredicate
         private bool OnCanUsePlayer(object obj)  =>        

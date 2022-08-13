@@ -7,88 +7,94 @@ namespace Ild_Music_CORE.Models.Core.Session_Structure
 {
     public class NAudioPlaybacker
     {
-        private Track currentTrack;
-        public Track? CurrentTrack => currentTrack;
-
-        private WaveOutEvent outputDevice;
+        #region Player Properties
+        private WaveOutEvent _device;
         private AudioFileReader _reader;
-        public PlaybackState PlaybackState => outputDevice.PlaybackState;
+        public PlaybackState PlaybackState => _device.PlaybackState;
+        #endregion
 
-        private string title;
-        private float volume = 25;
+        #region Current Track Properties
+        public Track? CurrentTrack { get; private set; }
+        public string Title { get; private set; }
+        public float Volume { get; private set; }
         public TimeSpan TotalTime { get; private set; }
         public TimeSpan CurrentTime { get; private set; }
+        #endregion
 
+        #region Events
         public event Action TrackFinished;
+        #endregion
 
-        
+
+        #region Ctor
         public NAudioPlaybacker()
         {
         }
 
-        public void SetTrack(Track inputTrack, float volume)
+        public void SetTrack(Track inputTrack, float? volume)
         {
-            if (outputDevice != null || _reader != null)
+            if (_device != null || _reader != null)
             {
-                Task.Run(() => outputDevice?.Stop());
+                Task.Run(() => _device?.Stop());
 
                 while(true)
                 {
-                    if (outputDevice == null && _reader == null)
+                    if (_device == null && _reader == null)
                         break;
                 }
             }
 
-            currentTrack = inputTrack;
-            this.volume = volume;
+            CurrentTrack = inputTrack;
+            Volume = volume ?? 25f;
             ReadTrack();
         }
+        #endregion
 
         #region Main Methods
         private void ReadTrack()
         {
-            title = currentTrack.Name;
-            TotalTime = currentTrack.Duration;
+            Title = CurrentTrack.Name;
+            TotalTime = CurrentTrack.Duration;
         }
 
         public void Play()
         {
-            if (outputDevice == null)
+            if (_device == null)
             {
-                outputDevice = new();
-                outputDevice.PlaybackStopped += OnPlaybackStopped;
+                _device = new();
+                _device.PlaybackStopped += OnPlaybackStopped;
             }
             if (_reader == null)
             {
-                _reader = new(currentTrack.Pathway);
-                outputDevice.Init(_reader);
+                _reader = new(CurrentTrack.Pathway);
+                _device.Init(_reader);
             }
-            outputDevice.Play();
+            _device.Play();
             Process();
         }
 
         public void Pause()
         {
-            if (outputDevice.PlaybackState == PlaybackState.Paused)
-                outputDevice.Play();
-            else if (outputDevice.PlaybackState == PlaybackState.Playing)
-                outputDevice.Pause();
+            if (_device.PlaybackState == PlaybackState.Paused)
+                _device.Play();
+            else if (_device.PlaybackState == PlaybackState.Playing)
+                _device.Pause();
             else
                 return;
         }
 
         public void Stop()
         {
-            if (outputDevice != null)
-                outputDevice?.Stop();
+            if (_device != null)
+                _device?.Stop();
         }
 
         private void Process()
         {
-            while (outputDevice.PlaybackState == PlaybackState.Playing)
+            while (_device.PlaybackState == PlaybackState.Playing)
             {
                 CurrentTime = _reader.CurrentTime;
-                if (!(_reader.CurrentTime < TotalTime) || outputDevice.PlaybackState == PlaybackState.Stopped)
+                if (!(_reader.CurrentTime < TotalTime) || _device.PlaybackState == PlaybackState.Stopped)
                 {
                     TrackFinished?.Invoke();
                     break;
@@ -98,16 +104,16 @@ namespace Ild_Music_CORE.Models.Core.Session_Structure
 
         public void OnVolumeChanged(float volume)
         {
-            if (outputDevice != null)
-                outputDevice.Volume = volume;
+            if (_device != null)
+                _device.Volume = volume;
         }
 
         private void OnPlaybackStopped(object sender, StoppedEventArgs e)
         {
-            if (outputDevice != null) 
+            if (_device != null) 
             {
-                outputDevice.Dispose();
-                outputDevice = null;
+                _device.Dispose();
+                _device = null;
             }
             if (_reader != null) 
             {

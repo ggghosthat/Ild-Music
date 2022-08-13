@@ -1,5 +1,4 @@
-﻿using System.Diagnostics;
-using System.Windows;
+﻿using System.Windows;
 using Ild_Music_MVVM_.ViewModel.VM;
 
 namespace Ild_Music_MVVM_.View
