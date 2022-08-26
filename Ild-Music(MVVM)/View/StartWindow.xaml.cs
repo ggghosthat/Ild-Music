@@ -1,4 +1,6 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
+using System.Windows.Threading;
 using Ild_Music_MVVM_.ViewModel.VM;
 
 namespace Ild_Music_MVVM_.View
@@ -6,12 +8,35 @@ namespace Ild_Music_MVVM_.View
     public partial class StartWindow
     {
         private MainViewModel mainViewModel = new();
+        private DispatcherTimer timer = new();
+
         public StartWindow()
-        {            
+        {
             InitializeComponent();
             DataContext = mainViewModel;
+
+            TimerBoost();
         }
 
+        private void TimerBoost()
+        {
+            timer.Interval = TimeSpan.FromSeconds(1);
+            timer.Tick += Timer_Tick;
+            timer.Start();
+        }
+
+        private void Timer_Tick(object sender, EventArgs e)
+        {
+            //1. is player entity is enabled
+            if ((mainViewModel.PlayerEntity != null) && (!mainViewModel.PlayerEntity.IsEmpty)) 
+            {
+                sldTrackDuration.Minimum = 0;
+                sldTrackDuration.Maximum = mainViewModel.PlayerEntity.TotalTime.TotalSeconds;
+                sldTrackDuration.Value = mainViewModel.PlayerEntity.CurrentTime.TotalSeconds;
+            }
+        }
+
+        #region Sliders
         private void HomeSlideClick(object sender, System.Windows.Input.MouseButtonEventArgs e) =>
             mainViewModel.SetVM(new StartViewModel());
 
@@ -26,22 +51,20 @@ namespace Ild_Music_MVVM_.View
 
         private void PlatformSliderClick(object sender, System.Windows.Input.MouseButtonEventArgs e) =>
             mainViewModel.SetVM(new StageViewModel());
+        #endregion
 
-
-
-
-
+        #region Window Manipullation mathods
         private void btnMinimizeWindow_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e) =>
             WindowState = WindowState.Minimized;
         
-
         private void btnCloseWindow_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e) =>
             Application.Current.Shutdown();
 
-        private void StackPanel_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        private void DragWindow(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             if (e.ChangedButton == System.Windows.Input.MouseButton.Left)
                 DragMove();
         }
+        #endregion
     }
 }

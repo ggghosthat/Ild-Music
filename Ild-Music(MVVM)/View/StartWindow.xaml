@@ -552,6 +552,7 @@
             <ColumnDefinition Width="896"/>
         </Grid.ColumnDefinitions>
 
+       <!--Header label-->
         <Grid Background="#16242b"
               Grid.ColumnSpan="2" Margin="0,-2,0,2">
             <Grid.ColumnDefinitions>
@@ -580,7 +581,7 @@
             <StackPanel x:Name="DragPanel"
                         Grid.Column="1"
                         Grid.Row="0"
-                        MouseDown="StackPanel_MouseDown" 
+                        MouseDown="DragWindow" 
                         Background="Transparent"/>
             <StackPanel Orientation="Horizontal"
                         HorizontalAlignment="Right"
@@ -601,11 +602,10 @@
             </StackPanel>
         </Grid>
 
+        <!--Sidebar-->
         <StackPanel Grid.Row="1"
                     Grid.Column="0"
                     Background="Transparent">
-
-
             <StackPanel Name="Home" 
                         Height="45"
                         Orientation="Horizontal"
@@ -701,11 +701,12 @@
             </StackPanel>
         </StackPanel>
 
+        <!--Search bar-->
         <StackPanel Grid.Row="0" Grid.Column="1">
 
         </StackPanel>
 
-
+        <!--Display area-->
         <StackPanel Grid.Column="1" 
                     Grid.Row="1"
                     Background="#142026">
@@ -715,6 +716,7 @@
 
         </StackPanel>
 
+        <!--Player area-->
         <StackPanel x:Name="Player" 
                     Grid.Row="1" Grid.ColumnSpan="2"  
                     HorizontalAlignment="Left" 
@@ -722,9 +724,6 @@
                     Background="#1b2333" 
                     Orientation="Horizontal" 
                     Height="35" Width="1100">
-
-
-
             <StackPanel x:Name="Previous"
                             Height="25"
                             Width="25"
@@ -755,9 +754,6 @@
                             HorizontalAlignment="Left"
                             VerticalAlignment="Center"
                             Margin="10 0 0 0">
-
-
-
                 <b:Interaction.Triggers>
                     <b:EventTrigger EventName="MouseLeftButtonDown">
                         <b:InvokeCommandAction Command="{Binding KickCommand}"/>

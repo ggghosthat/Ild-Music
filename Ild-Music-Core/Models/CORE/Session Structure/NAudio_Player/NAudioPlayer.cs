@@ -15,12 +15,12 @@ namespace Ild_Music_CORE.Models.Core.Session_Structure
         public string PlayerName => "NAudio Player ";
         #endregion
 
-
         #region Player Resource Properties
         public Track CurrentTrack { get; private set; }
         public Playlist CurrentPlaylist { get; private set; }
         public IList<Track> Collection { get; private set; }
         #endregion
+
         #region Playbacker Properties
         private NAudioPlaybacker _audioPlayer = new();
         private float volume;
