@@ -99,8 +99,11 @@ namespace Ild_Music_CORE.Models.Core.Session_Structure
         #endregion
 
         #region Player_Buttons
-        public async Task Play() =>
+        public async Task Play()
+        {
             await Task.Run(() => _audioPlayer.Play());
+            PlayerState = true;
+        }
 
         public async Task StopPlayer()
         {
@@ -128,11 +131,7 @@ namespace Ild_Music_CORE.Models.Core.Session_Structure
 
         public async Task ShuffleTrackCollection() =>
             await Task.Run(() => ShuffleCollection?.Invoke());
-
-
-
         
-
         public async Task ChangeVolume(float volume) =>
             _audioPlayer.OnVolumeChanged(volume);
         #endregion

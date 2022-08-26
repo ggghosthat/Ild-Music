@@ -27,8 +27,7 @@ namespace Ild_Music_MVVM_.View
 
         private void Timer_Tick(object sender, EventArgs e)
         {
-            //1. is player entity is enabled
-            if ((mainViewModel.PlayerEntity != null) && (!mainViewModel.PlayerEntity.IsEmpty)) 
+            if ((mainViewModel.PlayerEntity != null) && (!mainViewModel.PlayerEntity.IsEmpty) ) 
             {
                 sldTrackDuration.Minimum = 0;
                 sldTrackDuration.Maximum = mainViewModel.PlayerEntity.TotalTime.TotalSeconds;

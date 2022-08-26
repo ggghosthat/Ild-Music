@@ -1,6 +1,7 @@
 ﻿using Ild_Music_MVVM_.Command;
 using Ild_Music_MVVM_.Services;
 using ShareInstances;
+using System.Diagnostics;
 using System.Threading.Tasks;
 
 namespace Ild_Music_MVVM_.ViewModel.VM

@@ -91,7 +91,7 @@ namespace Ild_Music_CORE.Models.Core.Session_Structure
 
         private void Process()
         {
-            while (_device.PlaybackState == PlaybackState.Playing)
+            while (_device.PlaybackState == PlaybackState.Playing || _device.PlaybackState == PlaybackState.Paused)
             {
                 CurrentTime = _reader.CurrentTime;
                 if (!(_reader.CurrentTime < TotalTime) || _device.PlaybackState == PlaybackState.Stopped)
