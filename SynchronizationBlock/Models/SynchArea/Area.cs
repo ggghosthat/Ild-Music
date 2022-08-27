@@ -124,17 +124,5 @@ namespace SynchronizationBlock.Models.SynchArea
         public void SaveTracks() =>
             trackSynch.Serialize();
         #endregion
-
-
-
-        #region refresh_methods
-        public void Refresh() { }
-
-        public void RefreshArtists() { }
-
-        public void RefreshPlaylists() { }
-
-        public void RefreshTracks() { }
-        #endregion
     }
 }

@@ -13,11 +13,13 @@ namespace Ild_Music_MVVM_.Services
     {
         public override string ServiceType { get; init; } = "Supporter";
 
-        private Area synchArea = new ();
+        private Area synchArea = new();
 
         public IList<Artist> ArtistSup => synchArea.existedArtists;
         public IList<Track> TrackSup => synchArea.existedTracks;
         public IList<Playlist> PlaylistSup => synchArea.existedPlaylists;
+
+        public Area Area => synchArea;
 
 
         public SupporterService()

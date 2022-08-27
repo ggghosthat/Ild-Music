@@ -1,12 +1,15 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Threading;
+using Ild_Music_MVVM_.Services;
 using Ild_Music_MVVM_.ViewModel.VM;
 
 namespace Ild_Music_MVVM_.View
 {
     public partial class StartWindow
     {
+        private ViewModelHolderService vmHolder => (ViewModelHolderService)App.serviceCenter.GetService("VMHolder");
+
         private MainViewModel mainViewModel = new();
         private DispatcherTimer timer = new();
 
@@ -37,7 +40,7 @@ namespace Ild_Music_MVVM_.View
 
         #region Sliders
         private void HomeSlideClick(object sender, System.Windows.Input.MouseButtonEventArgs e) =>
-            mainViewModel.SetVM(new StartViewModel());
+            mainViewModel.SetVM(vmHolder.GetViewModel("StartVM"));
 
         private void PlaylistSlideClick(object sender, System.Windows.Input.MouseButtonEventArgs e) =>
             mainViewModel.SetVM(new ListViewModel(List.PLAYLISTS));

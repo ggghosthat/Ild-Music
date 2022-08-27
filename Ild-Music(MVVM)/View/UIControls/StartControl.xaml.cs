@@ -1,28 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using Ild_Music_MVVM_.Services;
+using Ild_Music_MVVM_.ViewModel.VM;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace Ild_Music_MVVM_.View.UIControls
 {
-    /// <summary>
-    /// Interaction logic for StartControl.xaml
-    /// </summary>
     public partial class StartControl : UserControl
     {
+        private ViewModelHolderService vmHolder => (ViewModelHolderService)App.serviceCenter.GetService("VMHolder");
+
         public StartControl()
         {
             InitializeComponent();
+            DataContext = vmHolder.GetViewModel("StartVM");
+        }
+
+        private void lsTracks_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
         }
     }
 }

@@ -1,31 +1,52 @@
 ﻿using ShareInstances.PlayerResources;
 using Ild_Music_MVVM_.Services;
-using System.Collections.Generic;
+using System.Linq;
+using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 
 namespace Ild_Music_MVVM_.ViewModel.VM
 {
     public class StartViewModel : Base.BaseViewModel
     {
+        private SupporterService supporter => (SupporterService)base.GetService("Supporter");
         #region Item Collection
-        public IList<Track> TracksItem { get; set; } 
-        public IList<Playlist> PlaylistsItem { get; set; }
-        public IList<Artist> ArtistsItem { get; set; }
+        public ObservableCollection<Track> TracksItem { get; set; } = new();
+        public ObservableCollection<Playlist> PlaylistsItem { get; set; } = new();
+        public ObservableCollection<Artist> ArtistsItem { get; set; } = new();
         #endregion
 
         public StartViewModel()
         {
-            InitItems();
+            Task.Run(PopullateLists);
+            supporter.Area.OnArtistSynchRefresh += Area_OnArtistSynchRefresh;
+            supporter.Area.OnPlaylistSynchRefresh += Area_OnPlaylistSynchRefresh;
+            supporter.Area.OnTrackSynchRefresh += Area_OnTrackSynchRefresh;
+        }
+
+        private void Area_OnTrackSynchRefresh()
+        {
+            TracksItem.Clear();
+            supporter.TrackSup.ToList().ForEach(t => TracksItem.Add(t));
+        }
+
+        private void Area_OnPlaylistSynchRefresh()
+        {
+            PlaylistsItem.Clear();
+            supporter.PlaylistSup.ToList().ForEach(p => PlaylistsItem.Add(p));
+        }
+
+        private void Area_OnArtistSynchRefresh()
+        {
+            ArtistsItem.Clear();
+            supporter.ArtistSup.ToList().ForEach(a => ArtistsItem.Add(a));
         }
 
         //Collections providing
-        private void InitItems()
+        private void PopullateLists()
         {
-            //if (base.GetService("Supporter") is SupporterService supporter)
-            //{
-            //    TracksItem = supporter.TrackSup;
-            //    PlaylistsItem = supporter.PlaylistSup;
-            //    ArtistsItem = supporter.ArtistSup;
-            //}
+            supporter.ArtistSup.ToList().ForEach(a => ArtistsItem.Add(a));
+            supporter.PlaylistSup.ToList().ForEach(p => PlaylistsItem.Add(p));
+            supporter.TrackSup.ToList().ForEach(t => TracksItem.Add(t));         
         }
     }
 }

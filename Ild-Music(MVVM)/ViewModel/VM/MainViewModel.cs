@@ -1,17 +1,18 @@
 ﻿using Ild_Music_MVVM_.Command;
 using Ild_Music_MVVM_.Services;
 using ShareInstances;
-using System.Diagnostics;
 using System.Threading.Tasks;
 
 namespace Ild_Music_MVVM_.ViewModel.VM
 {
     public class MainViewModel : Base.BaseViewModel
     {
+        StartViewModel startVM = new ();
+
         #region Services Properties
         private ViewModelHolderService vmHolder => (ViewModelHolderService)GetService("VMHolder");
         private PlayerService playerService => (PlayerService)GetService("PlayerService");
-        public Base.BaseViewModel CurrenttViewModelItem { get; set; } = new StartViewModel();
+        public Base.BaseViewModel CurrenttViewModelItem { get; set; }
         #endregion
 
         #region Player Properties
@@ -33,6 +34,8 @@ namespace Ild_Music_MVVM_.ViewModel.VM
         public MainViewModel() : base()
         {
             ((MainWindowService)GetService("MainWindowAPI")).MainWindow = this;
+            vmHolder.AddViewModel("StartVM", startVM);
+            CurrenttViewModelItem = vmHolder.GetViewModel("StartVM");
 
             PlayerEntity = playerService.GetPlayer();
             PlayerEntity.SetNotifier(() => OnPropertyChanged("IsPlayerActive"));
@@ -56,7 +59,6 @@ namespace Ild_Music_MVVM_.ViewModel.VM
         #region StartWindow API Methods
         public void SetVM(Base.BaseViewModel baseVM)
         {
-            vmHolder.CleanStorage();
             CurrenttViewModelItem = baseVM;
 
             if(baseVM is ListViewModel listVM)

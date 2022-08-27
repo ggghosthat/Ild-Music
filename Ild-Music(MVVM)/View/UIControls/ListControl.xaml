@@ -157,14 +157,11 @@
                 </Border>
             </StackPanel>
 
-            <StackPanel Name="controlButtons" 
+            <StackPanel Name="ControlButtons" 
                         HorizontalAlignment="Left"
                         VerticalAlignment="Bottom"    
                         Orientation="Horizontal"
-                        Height="auto">
-
-
-                
+                        Height="auto">                
                 <StackPanel>
                     <b:Interaction.Triggers>
                         <b:EventTrigger EventName="MouseLeftButtonDown">

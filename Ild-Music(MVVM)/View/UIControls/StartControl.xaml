@@ -150,6 +150,7 @@
                           BorderThickness="0"
                           HorizontalAlignment="Left"
                           SelectionMode="Single"
+                          ItemsSource="{Binding TracksItem}"
                           ScrollViewer.HorizontalScrollBarVisibility="Disabled">
 
                     <ListView.ItemContainerStyle>
@@ -177,7 +178,11 @@
                         </Style>
                     </ListView.ItemContainerStyle>
 
-                    <ListViewItem Content="Heeloo" IsSelected="False"/>
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <!---->
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
                 </ListView>
             </Border>
         </StackPanel>
