@@ -3,12 +3,14 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:converters="clr-namespace:Ild_Music_MVVM_.Converters"
              xmlns:local="clr-namespace:Ild_Music_MVVM_.View.UIControls"
              mc:Ignorable="d" 
              d:DesignHeight="510" d:DesignWidth="896">
 
 
     <UserControl.Resources>
+
         <ControlTemplate x:Key="ScrollViewerControlTemplate" TargetType="{x:Type ScrollViewer}">
             <Grid x:Name="Grid" Background="Transparent">
                 <Grid.ColumnDefinitions>
@@ -64,10 +66,23 @@
                 </Trigger>
             </Style.Triggers>
         </Style>
-               
+
+        <converters:StartControlTrackConverter x:Key="TrackConverter"/>
+        <converters:StartControlPlaylistConverter x:Key="PlaylistConverter"/>
+
+        <Style x:Key="PlaylistViewItemStyle" TargetType="ListViewItem">
+            <Setter Property="Height" Value="auto"/>
+            <Setter Property="Width" Value="auto"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="Aqua"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
         
     </UserControl.Resources>
-    
+
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
@@ -99,21 +114,113 @@
                     BorderBrush="Aqua"
                     BorderThickness="2"
                     CornerRadius="5"
-                    Padding="1.2">
-                    
+                    Padding="1.2"
+                    Background="#151d1f">
+
                 <ScrollViewer VerticalScrollBarVisibility="Disabled"
-                          HorizontalScrollBarVisibility="Auto"
-                          HorizontalAlignment="Left"
-                          Width="812"
-                          Template="{StaticResource ScrollViewerControlTemplate}"
-                          >
-                    <StackPanel x:Name="crdsPlaylists" 
-                            Height="150" 
-                            Orientation="Horizontal" 
-                            Background="#151d1f"/>
+                              HorizontalScrollBarVisibility="Auto"
+                              HorizontalAlignment="Left"
+                              HorizontalContentAlignment="Left"
+                              Width="812"
+                              Height="150"
+                              Template="{StaticResource ScrollViewerControlTemplate}">
+
+                    <ListView ScrollViewer.VerticalScrollBarVisibility="Disabled" 
+                              ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                              Width="798"
+                              Height="150"
+                              Background="Transparent"
+                              ItemsSource="{Binding PlaylistsItem}"
+                              SelectedItem="{Binding SelectedPlaylist}"
+                              BorderThickness="0"
+                              HorizontalAlignment="Left"
+                              SelectionMode="Single">
+
+                        <ListView.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Background="Transparent" 
+                                            Orientation="Horizontal" />
+                            </ItemsPanelTemplate>
+                        </ListView.ItemsPanel>
+
+                        <ListView.ItemContainerStyle>
+                            <Style TargetType="{x:Type ListBoxItem}">
+                            <Setter Property="SnapsToDevicePixels" Value="True"/>
+                            <Setter Property="Padding" Value="4,1"/>
+                            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                            <Setter Property="VerticalContentAlignment" Value="Center"/>
+                            <Setter Property="Background" Value="Transparent"/>
+                            <Setter Property="BorderBrush" Value="Transparent"/>
+                                <Setter Property="BorderThickness" Value="0"/>
+                                <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                                        <Border x:Name="Bd"
+                                            Background="Transparent" 
+                                            BorderThickness="0"
+                                            BorderBrush="Transparent" 
+                                            SnapsToDevicePixels="true"
+                                            CornerRadius="7">
+                                            <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                              SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                                              VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                                        </Border>
+                                        <ControlTemplate.Triggers>
+                                            <MultiTrigger>
+                                                <MultiTrigger.Conditions>
+                                                    <Condition Property="IsMouseOver" Value="True"/>
+                                                </MultiTrigger.Conditions>
+                                                <Setter Property="Background" TargetName="Bd" Value="Transparent"/>
+                                            </MultiTrigger>
+                                            <MultiTrigger>
+                                                <MultiTrigger.Conditions>
+                                                    <Condition Property="Selector.IsSelectionActive" Value="False"/>
+                                                    <Condition Property="IsSelected" Value="True"/>
+                                                </MultiTrigger.Conditions>
+                                                <Setter Property="Background" TargetName="Bd" Value="Transparent"/>
+                                            </MultiTrigger>
+                                            <MultiTrigger>
+                                                <MultiTrigger.Conditions>
+                                                    <Condition Property="Selector.IsSelectionActive" Value="True"/>
+                                                    <Condition Property="IsSelected" Value="True"/>
+                                                </MultiTrigger.Conditions>
+                                                <Setter Property="Background" TargetName="Bd" Value="Transparent"/>
+                                            </MultiTrigger>
+
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+
+                        </ListView.ItemContainerStyle>
+
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Background="Transparent">
+                                    <Border Width="120"
+                                            Height="120"
+                                            CornerRadius="15"
+                                            BorderThickness="0"
+                                            Background="#1b2e2d"
+                                            Margin="10, 0">
+                                        
+                                    <TextBlock FontSize="30"
+                                                FontWeight="Light"
+                                                HorizontalAlignment="Center"
+                                                VerticalAlignment="Center"
+                                                Foreground="White" 
+                                                Text="{Binding ., Converter={StaticResource PlaylistConverter}}"/>
+
+                                    </Border>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+
                 </ScrollViewer>
             </Border>
-            
+
             <StackPanel Orientation="Horizontal">
                 <TextBlock x:Name="lblTracks"
                        Height="28"
@@ -124,7 +231,6 @@
                        FontWeight="Medium" 
                        HorizontalAlignment="Left"
                            />
-
                 <TextBlock Text="+"
                            Margin="0 3 0 0"
                            FontSize="15"
@@ -133,7 +239,7 @@
                            VerticalAlignment="Top"
                            HorizontalAlignment="Right"/>
             </StackPanel>
-            
+
             <Border Margin="5,0"
                     BorderBrush="Aqua"
                     BorderThickness="2"
@@ -144,13 +250,12 @@
                 <ListView x:Name="lsTracks"                          
                           Width="800"
                           Height="195"
-                          FontSize="18"
-                          FontWeight="Medium"
-                          Background="#151d1f"
+                          Background="Transparent"
                           BorderThickness="0"
                           HorizontalAlignment="Left"
                           SelectionMode="Single"
                           ItemsSource="{Binding TracksItem}"
+                          SelectedItem="{Binding SelectedTrack}"
                           ScrollViewer.HorizontalScrollBarVisibility="Disabled">
 
                     <ListView.ItemContainerStyle>
@@ -180,7 +285,10 @@
 
                     <ListView.ItemTemplate>
                         <DataTemplate>
-                            <!---->
+                            <TextBlock Foreground="White"
+                                       FontSize="14"
+                                       FontWeight="Light"
+                                       Text="{Binding ., Converter={StaticResource TrackConverter}}"/>
                         </DataTemplate>
                     </ListView.ItemTemplate>
                 </ListView>

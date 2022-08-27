@@ -9,10 +9,17 @@ namespace Ild_Music_MVVM_.ViewModel.VM
     public class StartViewModel : Base.BaseViewModel
     {
         private SupporterService supporter => (SupporterService)base.GetService("Supporter");
+
         #region Item Collection
         public ObservableCollection<Track> TracksItem { get; set; } = new();
         public ObservableCollection<Playlist> PlaylistsItem { get; set; } = new();
         public ObservableCollection<Artist> ArtistsItem { get; set; } = new();
+        #endregion
+
+        #region Props
+        public Artist SelectedArtist { get; set; }
+        public Playlist SelectedPlaylist { get; set; }
+        public Track SelectedTrack { get; set; }
         #endregion
 
         public StartViewModel()
@@ -23,10 +30,12 @@ namespace Ild_Music_MVVM_.ViewModel.VM
             supporter.Area.OnTrackSynchRefresh += Area_OnTrackSynchRefresh;
         }
 
-        private void Area_OnTrackSynchRefresh()
+
+        #region Popullation funcs
+        private void Area_OnArtistSynchRefresh()
         {
-            TracksItem.Clear();
-            supporter.TrackSup.ToList().ForEach(t => TracksItem.Add(t));
+            ArtistsItem.Clear();
+            supporter.ArtistSup.ToList().ForEach(a => ArtistsItem.Add(a));
         }
 
         private void Area_OnPlaylistSynchRefresh()
@@ -35,18 +44,19 @@ namespace Ild_Music_MVVM_.ViewModel.VM
             supporter.PlaylistSup.ToList().ForEach(p => PlaylistsItem.Add(p));
         }
 
-        private void Area_OnArtistSynchRefresh()
+        private void Area_OnTrackSynchRefresh()
         {
-            ArtistsItem.Clear();
-            supporter.ArtistSup.ToList().ForEach(a => ArtistsItem.Add(a));
+            TracksItem.Clear();
+            supporter.TrackSup.ToList().ForEach(t => TracksItem.Add(t));
         }
 
-        //Collections providing
+
         private void PopullateLists()
         {
             supporter.ArtistSup.ToList().ForEach(a => ArtistsItem.Add(a));
             supporter.PlaylistSup.ToList().ForEach(p => PlaylistsItem.Add(p));
             supporter.TrackSup.ToList().ForEach(t => TracksItem.Add(t));         
         }
+        #endregion
     }
 }
