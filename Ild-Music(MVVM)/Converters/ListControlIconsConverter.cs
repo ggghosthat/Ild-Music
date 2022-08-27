@@ -6,6 +6,8 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Media;
+using System.Diagnostics;
+using ShareInstances.PlayerResources;
 
 namespace Ild_Music_MVVM_.Converters
 {
@@ -15,21 +17,21 @@ namespace Ild_Music_MVVM_.Converters
         {
             var drawingImage = new object();
 
-            if (value is ArtistEntityViewModel) 
+            if (value is Artist) 
             {
                 var artistIcon = Application.Current.TryFindResource("ArtistsIcon");
 
                 if (artistIcon is DrawingImage aIcon)
                     return aIcon;
             }
-            if (value is PlaylistEntityViewModel)
+            if (value is Playlist)
             {
                 var playlistIcon = Application.Current.TryFindResource("PlaylistsIcon");
 
                 if (playlistIcon is DrawingImage pIcon)
                     return pIcon;
             }
-            if (value is TrackEntityViewModel)
+            if (value is Track)
             {
                 var trackIcon = Application.Current.TryFindResource("TracksIcon");
 

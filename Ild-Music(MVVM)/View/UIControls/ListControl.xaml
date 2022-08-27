@@ -144,6 +144,9 @@
                                     <TextBlock Foreground="White"
                                                HorizontalAlignment="Center"
                                                Grid.Row="1"
+                                               TextWrapping="Wrap"
+                                               FontSize="12"
+                                               FontWeight="Light"
                                                Text="{Binding Name}"/>
                                 </Grid>
                             </DataTemplate>
