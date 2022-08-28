@@ -5,10 +5,14 @@ using System.Windows.Data;
 
 namespace Ild_Music_MVVM_.Converters
 {
-    internal class StartControlTrackConverter : IValueConverter
+    internal class StartControlInstanceConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
+            if (value is Artist artist)
+                return artist.Name.Substring(0, 1).ToUpper();
+            if (value is Playlist playlist)
+                return playlist.Name.Substring(0, 1).ToUpper();
             if (value is Track track)
                 return track.Name;
             return null;
