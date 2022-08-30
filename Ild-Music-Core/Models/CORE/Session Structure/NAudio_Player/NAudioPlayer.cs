@@ -25,7 +25,13 @@ namespace Ild_Music_CORE.Models.Core.Session_Structure
         private NAudioPlaybacker _audioPlayer = new();
         private float volume;
         public TimeSpan TotalTime => _audioPlayer.TotalTime;
-        public TimeSpan CurrentTime => _audioPlayer.CurrentTime;
+
+        public TimeSpan CurrentTime
+        {
+            get => _audioPlayer.CurrentTime;
+            set => _audioPlayer.CurrentTime = value;
+            
+        }
         #endregion
 
         #region Player State Properties

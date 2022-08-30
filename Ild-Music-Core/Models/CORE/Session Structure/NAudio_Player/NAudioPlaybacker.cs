@@ -2,11 +2,13 @@
 using System;
 using System.Threading.Tasks;
 using ShareInstances.PlayerResources;
+using System.Diagnostics;
 
 namespace Ild_Music_CORE.Models.Core.Session_Structure
 {
     public class NAudioPlaybacker
     {
+        private object obj = new();
         #region Player Properties
         private WaveOutEvent _device;
         private AudioFileReader _reader;
@@ -18,7 +20,21 @@ namespace Ild_Music_CORE.Models.Core.Session_Structure
         public string Title { get; private set; }
         public float Volume { get; private set; }
         public TimeSpan TotalTime { get; private set; }
-        public TimeSpan CurrentTime { get; private set; }
+        public TimeSpan CurrentTime 
+        {
+            get 
+            {
+                if (_reader != null)
+                    return _reader.CurrentTime;
+                return TimeSpan.FromSeconds(0);
+            }
+            set 
+            {
+                lock (obj) 
+                    _reader.CurrentTime = value;
+                
+            } 
+        }
         #endregion
 
         #region Events
@@ -93,7 +109,7 @@ namespace Ild_Music_CORE.Models.Core.Session_Structure
         {
             while (_device.PlaybackState == PlaybackState.Playing || _device.PlaybackState == PlaybackState.Paused)
             {
-                CurrentTime = _reader.CurrentTime;
+
                 if (!(_reader.CurrentTime < TotalTime) || _device.PlaybackState == PlaybackState.Stopped)
                 {
                     TrackFinished?.Invoke();

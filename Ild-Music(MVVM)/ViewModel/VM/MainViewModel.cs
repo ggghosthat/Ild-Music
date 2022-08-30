@@ -2,6 +2,7 @@
 using Ild_Music_MVVM_.Services;
 using ShareInstances;
 using System.Threading.Tasks;
+using System.Diagnostics;
 
 namespace Ild_Music_MVVM_.ViewModel.VM
 {
@@ -44,6 +45,8 @@ namespace Ild_Music_MVVM_.ViewModel.VM
             NextCommand = new CommandDelegater(NextPlayerCommand, OnCanSwipe);
             KickCommand = new CommandDelegater(ResumePausePlayerCommand, OnCanUsePlayer);
             StopCommand = new CommandDelegater(StopPlayerCommand, OnCanUsePlayer);
+            TrackTimeChangedCommand = new CommandDelegater(TrackTimeChanged, null);
+
 
             Task.Run(() =>
             {
@@ -94,7 +97,8 @@ namespace Ild_Music_MVVM_.ViewModel.VM
         private void ResumePausePlayerCommand(object obj) =>
             PlayerEntity.Pause_ResumePlayer();
 
-      
+        private void TrackTimeChanged(object obj) =>
+            Debug.WriteLine("value changed");
         #endregion
     }
 }

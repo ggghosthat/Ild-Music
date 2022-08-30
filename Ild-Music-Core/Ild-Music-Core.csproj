@@ -5,8 +5,7 @@
     <RootNamespace>Ild_Music_Core</RootNamespace>
   </PropertyGroup>
 
-<ItemGroup>
-    <!-- <PackageReference Include="Avalonia" Version="0.10.6" /> -->
+  <ItemGroup>
     <PackageReference Include="NAudio" Version="2.1.0" />
   </ItemGroup>
 

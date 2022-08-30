@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Windows;
+using System.Diagnostics;
+using System.Windows.Controls.Primitives;
 using System.Windows.Threading;
 using Ild_Music_MVVM_.Services;
 using Ild_Music_MVVM_.ViewModel.VM;
@@ -13,6 +15,8 @@ namespace Ild_Music_MVVM_.View
         private MainViewModel mainViewModel = new();
         private DispatcherTimer timer = new();
 
+        private bool isDragging = false;
+
         public StartWindow()
         {
             InitializeComponent();
@@ -24,19 +28,23 @@ namespace Ild_Music_MVVM_.View
         private void TimerBoost()
         {
             timer.Interval = TimeSpan.FromSeconds(1);
+            sldTrackDuration.Value = 0;
             timer.Tick += Timer_Tick;
             timer.Start();
         }
 
         private void Timer_Tick(object sender, EventArgs e)
         {
-            if ((mainViewModel.PlayerEntity != null) && (!mainViewModel.PlayerEntity.IsEmpty) ) 
+            sldTrackDuration.Value = sldTrackDuration.Minimum;
+            if ((mainViewModel.PlayerEntity != null) && (!mainViewModel.PlayerEntity.IsEmpty) && !isDragging)
             {
                 sldTrackDuration.Minimum = 0;
                 sldTrackDuration.Maximum = mainViewModel.PlayerEntity.TotalTime.TotalSeconds;
                 sldTrackDuration.Value = mainViewModel.PlayerEntity.CurrentTime.TotalSeconds;
+                Debug.WriteLine($"V -{sldTrackDuration.Value}");
             }
         }
+
 
         #region Sliders
         private void HomeSlideClick(object sender, System.Windows.Input.MouseButtonEventArgs e) =>
@@ -68,5 +76,20 @@ namespace Ild_Music_MVVM_.View
                 DragMove();
         }
         #endregion
+
+        private void sldTrackDuration_DragCompleted(object sender, DragCompletedEventArgs e)
+        {
+            isDragging = false;
+
+            //var x = sldTrackDuration.Value * mainViewModel.PlayerEntity.CurrentTime.TotalSeconds;
+            var x = sldTrackDuration.Value;
+            mainViewModel.PlayerEntity.CurrentTime = TimeSpan.FromSeconds((int)x);
+        }
+
+        private void sldTrackDuration_DragStarted(object sender, DragStartedEventArgs e)
+        {
+            isDragging = true;
+        }
     }
 }
+

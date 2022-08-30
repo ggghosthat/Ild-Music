@@ -47,7 +47,7 @@ namespace ShareInstances
         public bool PlayerState { get; }
 
         public TimeSpan TotalTime { get; }
-        public TimeSpan CurrentTime { get; }
+        public TimeSpan CurrentTime { get; set; }
 
         public void SetTrackInstance(Track track);
 
