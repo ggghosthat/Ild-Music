@@ -41,7 +41,6 @@ namespace Ild_Music_MVVM_.View
                 sldTrackDuration.Minimum = 0;
                 sldTrackDuration.Maximum = mainViewModel.PlayerEntity.TotalTime.TotalSeconds;
                 sldTrackDuration.Value = mainViewModel.PlayerEntity.CurrentTime.TotalSeconds;
-                Debug.WriteLine($"V -{sldTrackDuration.Value}");
             }
         }
 
@@ -80,10 +79,7 @@ namespace Ild_Music_MVVM_.View
         private void sldTrackDuration_DragCompleted(object sender, DragCompletedEventArgs e)
         {
             isDragging = false;
-
-            //var x = sldTrackDuration.Value * mainViewModel.PlayerEntity.CurrentTime.TotalSeconds;
-            var x = sldTrackDuration.Value;
-            mainViewModel.PlayerEntity.CurrentTime = TimeSpan.FromSeconds((int)x);
+            mainViewModel.PlayerEntity.CurrentTime = TimeSpan.FromSeconds((int)sldTrackDuration.Value);
         }
 
         private void sldTrackDuration_DragStarted(object sender, DragStartedEventArgs e)
