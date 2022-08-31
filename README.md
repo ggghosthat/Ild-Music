@@ -6,3 +6,9 @@ This is a beta-preview of Prototype edition, so it can containning some logical 
 
 
 So in case you will find some of them, please write in issue.
+
+
+
+Requirements:
+- dotnet 5.0
+- Windows OS
