@@ -25,10 +25,9 @@ namespace Ild_Music_MVVM_.ViewModel.VM
         #endregion
 
         #region Constructor
-        public FactoryContainerViewModel()
-        {
+        public FactoryContainerViewModel() =>        
             InitializeSubControls();
-        }
+        
 
         public FactoryContainerViewModel(ICoreEntity instance)
         {

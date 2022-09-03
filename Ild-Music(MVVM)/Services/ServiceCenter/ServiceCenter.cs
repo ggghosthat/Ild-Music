@@ -17,12 +17,9 @@ namespace Ild_Music_MVVM_.Services
 
         #region Singleton Initialization
         public ServiceCenter() =>
-            InitServices();
-
-        
-
-       
+            InitServices();           
         #endregion
+
 
         #region Methods
         /// <summary>

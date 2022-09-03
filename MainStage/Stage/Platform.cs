@@ -8,6 +8,15 @@ using Newtonsoft.Json;
 
 namespace MainStage.Stage
 {
+    /// <summary>
+    /// This class holds 2 main project structures
+    ///  1) PlayerInstance - this structure was represented here as an interface,
+    ///                      it's mean, that Platform class can reffer  to any build of PlayerInstance.
+    ///                      Player Instance is an object wich provider audio output properties
+    ///  2) SynchAreaInstance - was represented as interface, has the same opportunities.
+    ///                         SynchArea Instance is an object which communicate with the file system 
+    ///                         to fin up music media files and process them.
+    /// </summary>
     public class Platform
     {
         #region Allocations
