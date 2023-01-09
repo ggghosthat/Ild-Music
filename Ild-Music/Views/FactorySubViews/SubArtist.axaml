@@ -1,0 +1,130 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+
+             xmlns:vm="clr-namespace:Ild_Music.ViewModels" 
+             xmlns:conv="using:Ild_Music.Converters"
+             
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="Ild_Music.Views.FactorySubViews.SubArtist"
+             x:DataType="vm:FactoryItemViewModel">
+
+  <UserControl.Resources>
+    <conv:ErrorMessageConverter x:Key="ErrorStateConverter"/>
+
+    <SolidColorBrush x:Key="btnApplyColor1" Color="#4006a59b"/>
+    <SolidColorBrush x:Key="btnApplyColor2" Color="#7006a59b"/>
+    <SolidColorBrush x:Key="btnApplyColor3" Color="#06a59b"/>
+  </UserControl.Resources>
+
+  <UserControl.Styles>
+    <Style Selector="TextBox">
+      <Setter Property="BorderThickness" Value="0,0,0,1"/>
+      <Setter Property="BorderBrush" Value="#01877e"/>
+      <Setter Property="Background" Value="Transparent"/>
+      <Setter Property="SelectionBrush" Value="#0b3338"/>
+    </Style>
+
+    <Style Selector="TextBox:pointerover /template/ Border#PART_BorderElement">
+      <Setter Property="BorderThickness" Value="0,0,0,1"/>
+      <Setter Property="BorderBrush" Value="#01877e"/>
+      <Setter Property="Background" Value="#50000000"/>
+    </Style>
+
+    <Style Selector="TextBox:focus /template/ Border#PART_BorderElement">
+      <Setter Property="BorderThickness" Value="0,0,0,1"/>
+      <Setter Property="BorderBrush" Value="#03ffdb"/>
+      <Setter Property="Background" Value="Transparent"/>
+    </Style>
+
+    <Style Selector="TextBox:focus:pointerover /template/ Border#PART_BorderElement">
+      <Setter Property="BorderThickness" Value="0,0,0,1"/>
+      <Setter Property="BorderBrush" Value="#03ffdb"/>
+      <Setter Property="Background" Value="#50000000"/>
+    </Style>
+
+    <Style Selector="Button.btnApply">
+      <Setter Property="Content" Value="{TemplateBinding Content}"/>
+      <Setter Property="Background" Value="{TemplateBinding Background}"/>
+      <Setter Property="Width" Value="{TemplateBinding Width}"/>
+      <Setter Property="Height" Value="{TemplateBinding Height}"/>
+
+      <Setter Property="Template">
+        <Setter.Value>
+          <ControlTemplate>
+            <Border Background="{TemplateBinding Background}"
+                    Width="{TemplateBinding Width}"
+                    Height="{TemplateBinding Height}"
+                    BorderThickness="0"
+                    CornerRadius="5">
+                <Border.Styles>
+                  <Style Selector="Button.btnApply /template/ Border">
+                    <Setter Property="Background" Value="{StaticResource btnApplyColor1}"/>
+                  </Style>
+                  <Style Selector="Button.btnApply:pointerover /template/ Border">
+                    <Setter Property="Background" Value="{StaticResource btnApplyColor2}"/>
+                  </Style>
+                  <Style Selector="Button.btnApply:pressed /template/ Border">
+                    <Setter Property="Background" Value="{StaticResource btnApplyColor3}"/>
+                  </Style>
+                </Border.Styles>
+                <TextBlock Text="{TemplateBinding Content}"
+                          HorizontalAlignment="Center"
+                          VerticalAlignment="Center"
+                          FontSize="16"
+                          FontWeight="Bold"
+                          Foreground="White"/>
+            </Border>
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
+    </Style>
+  </UserControl.Styles>
+  
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="auto"/>
+      <RowDefinition Height="*"/>
+    </Grid.RowDefinitions>
+
+    <StackPanel>
+      <TextBlock Text="New artist"
+                Margin="15, 5"
+                FontSize="20"
+                FontWeight="Light"/>
+
+      <TextBox Watermark="Artist name"
+                Text="{Binding ArtistName, Mode=TwoWay}"
+                HorizontalAlignment="Left"
+                FontSize="16"
+                Margin="15,0"
+                Width="500"/>
+
+      <TextBox Watermark="Description"
+                Text="{Binding ArtistDescription}"
+                HorizontalAlignment="Left"
+                FontSize="16"
+                Margin="15,5,15,0"
+                Width="500"/>
+
+      <StackPanel Orientation="Horizontal"
+                  Margin="15">
+        <Button Classes="btnApply"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Bottom"
+                Width="100"
+                Height="25"
+                Content="Apply"
+                Command="{Binding CreateArtistCommand}"/>
+                
+        <TextBlock  Classes="logLine"
+                    Text="{Binding ArtistLogLine}"
+                    Foreground="{Binding ArtistLogError, Converter={StaticResource ErrorStateConverter} }"
+                    Background="Transparent"
+                    FontSize="12"
+                    Margin="5"/>
+      </StackPanel>
+    </StackPanel>
+  </Grid>
+</UserControl>

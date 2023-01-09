@@ -1,0 +1,308 @@
+﻿<UserControl x:Class="Ild_Music_MVVM_.View.UISubControls.FactorySubControl.FacPlaylistSubControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:b="http://schemas.microsoft.com/xaml/behaviors" 
+             xmlns:converrter="clr-namespace:Ild_Music_MVVM_.Converters"
+             xmlns:local="clr-namespace:Ild_Music_MVVM_.View.UISubControls.FactorySubControl"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="896">
+
+    <UserControl.Resources>
+        <Style x:Key="FocusVisual11">
+            <Setter Property="Control.Template">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <Rectangle Margin="2" StrokeDashArray="1 2" SnapsToDevicePixels="true" StrokeThickness="1" Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <SolidColorBrush x:Key="Button.Static.Background1" Color="#FFDDDDDD"/>
+        <SolidColorBrush x:Key="Button.Static.Border1" Color="#FF707070"/>
+        <SolidColorBrush x:Key="Button.MouseOver.Background1" Color="#bdc9fc"/>
+        <SolidColorBrush x:Key="Button.MouseOver.Border1" Color="#FF3C7FB1"/>
+        <SolidColorBrush x:Key="Button.Pressed.Background1" Color="#FFC4E5F6"/>
+        <SolidColorBrush x:Key="Button.Pressed.Border1" Color="#FF2C628B"/>
+        <SolidColorBrush x:Key="Button.Disabled.Background1" Color="#FFF4F4F4"/>
+        <SolidColorBrush x:Key="Button.Disabled.Border1" Color="#FFADB2B5"/>
+        <SolidColorBrush x:Key="Button.Disabled.Foreground1" Color="#FF838383"/>
+        <Style x:Key="CardButton11" TargetType="{x:Type Button}">
+            <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual1}"/>
+            <Setter Property="Background" Value="{StaticResource Button.Static.Background1}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource Button.Static.Border1}"/>
+            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Padding" Value="1"/>
+            <Setter Property="Margin" Value="0,0,0,0"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border x:Name="border" Background="{TemplateBinding Background}" CornerRadius="10" BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}" SnapsToDevicePixels="true">
+                            <ContentPresenter x:Name="contentPresenter" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsDefaulted" Value="true">
+                                <Setter Property="BorderBrush" TargetName="border" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter Property="Background" TargetName="border" Value="{StaticResource Button.MouseOver.Background1}"/>
+                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.MouseOver.Border1}"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="true">
+                                <Setter Property="Background" TargetName="border" Value="{StaticResource Button.Pressed.Background1}"/>
+                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.Pressed.Border1}"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="false">
+                                <Setter Property="Background" TargetName="border" Value="{StaticResource Button.Disabled.Background1}"/>
+                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.Disabled.Border1}"/>
+                                <Setter Property="TextElement.Foreground" TargetName="contentPresenter" Value="{StaticResource Button.Disabled.Foreground1}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="ApplyBorderStyle" TargetType="Border">
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="BorderBrush" Value="#780db5b4"/>
+                    <Setter Property="Background" Value="#FF3C7FB1"/>
+                </Trigger>
+                <Trigger Property="IsMouseOver" Value="False">
+                    <Setter Property="BorderBrush" Value="Aqua"/>
+                    <Setter Property="Background" Value="Transparent"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <converrter:ShareInstanceTextConverter x:Key="ShareInstanceTextConverter"/>
+    </UserControl.Resources>
+    
+    <Grid Margin="2">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0">
+            <StackPanel Orientation="Vertical">
+                <TextBlock Name="lblName"
+                           Text=" Name : "
+                           Foreground="White"
+                           FontSize="15"
+                           Margin="10,2"
+                           FontWeight="Medium"/>
+
+                <StackPanel Orientation="Horizontal">
+
+                    <TextBox x:Name="txtName"
+                             HorizontalAlignment="Left"
+                             Width="850"
+                             FontSize="20"
+                             Margin="10,2"
+                             CaretBrush="White"
+                             Foreground="White"
+                             Style="{StaticResource Textbox3}"
+                             Height="30"
+                             Text="{Binding PlaylistName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                </StackPanel>
+
+                <TextBlock Name="lblDescription"
+                           Text="Description : "
+                           Foreground="White"
+                           FontSize="15"
+                           Margin="10,2"
+                           FontWeight="Medium"/>
+
+                <StackPanel Orientation="Horizontal">
+
+                    <TextBox x:Name="txtDescription"
+                             HorizontalAlignment="Left"
+                             Width="860"
+                             FontSize="20"
+                             Height="60"
+                             Margin="10,2"
+                             CaretBrush="White"
+                             Foreground="White"
+                             Style="{StaticResource Textbox3}"
+                             TextWrapping="Wrap"
+                             AcceptsReturn="True"
+                             AcceptsTab="True"
+                             Text="{Binding PlaylistDescription, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                </StackPanel>
+
+            </StackPanel>
+        </Grid>
+
+        <Grid Grid.Row="1">
+            <StackPanel Orientation="Vertical">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock
+                           Text=" Existed artists : "                       
+                           Foreground="White"
+                           FontSize="15"
+                           Margin="40,2"
+                           FontWeight="Medium"/>
+
+                    <TextBlock
+                           Text=" Enabled artists : "
+                           Foreground="White"
+                           FontSize="15"
+                           Margin="300,2"
+                           FontWeight="Medium"/>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal">
+                    <Border Margin="5,0"
+                            BorderBrush="Aqua"
+                            BorderThickness="2"
+                            CornerRadius="5"
+                            Padding="1.2"
+                            Background="#151d1f">
+                        <ListView x:Name="lvArtistsProvider" 
+                                  Foreground="White"
+                                  Background="#151d1f"
+                                  BorderThickness="0"
+                                  FontSize="11"
+                                  Width="400"
+                                  Height="200"
+                                  ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                                  ItemsSource="{Binding ArtistProvider}"
+                                  SelectedItem="{Binding CurrentSelectedPlaylistArtist}" 
+                                  SelectionChanged="lvArtistsProvider_SelectionChanged">
+
+                            <ListView.Resources>
+                                <Style TargetType="{x:Type GridViewColumnHeader}">
+                                    <Setter Property="Visibility" Value="Collapsed" />
+                                </Style>
+                            </ListView.Resources>
+
+                            <ListView.ItemContainerStyle>
+                                <Style TargetType="{x:Type ListViewItem}">
+                                    <Setter Property="HorizontalAlignment" Value="Center"/>
+                                    <Setter Property="BorderThickness" Value="0"/>
+                                    <Setter Property="Margin" Value="1"/>
+                                    <Setter Property="Padding" Value="1"/>
+                                    <Setter Property="HorizontalAlignment" Value="Left"/>
+                                    <Setter Property="Width" Value="396"/>
+                                    <Style.Triggers>
+                                        <Trigger Property="IsSelected" Value="true" >
+                                            <Setter Property="Foreground" Value="DimGray" />
+                                            <Setter Property="Background" Value="#1b2e2d"/>
+                                        </Trigger>
+                                        <Trigger Property="IsSelected" Value="False" >
+                                            <Setter Property="Foreground" Value="Silver" />
+                                            <Setter Property="Background" Value="#1b2e2d"/>
+                                        </Trigger>
+
+                                        <Trigger Property="IsEnabled" Value="True">
+                                            <Setter Property="Foreground" Value="Silver" />
+                                            <Setter Property="Background" Value="#1b2e2d"/>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </ListView.ItemContainerStyle>
+
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <Label Content="{Binding ., Converter={StaticResource ShareInstanceTextConverter}}"
+                                                       Foreground="White"
+                                                       FontSize="12"
+                                                       FontWeight="Light"/>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                    </Border>
+
+                    <Border Margin="40,0"
+                            BorderBrush="Aqua"
+                            BorderThickness="2"
+                            CornerRadius="5"
+                            Padding="1.2"
+                            Background="#151d1f">
+                            <ListView x:Name="lvArtistsRoot" 
+                                      Foreground="White"
+                                      BorderThickness="0"
+                                      Background="#151d1f"
+                                      FontSize="11"
+                                      Width="400"
+                                      Height="200"
+                                      ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                                      ItemsSource="{Binding SelectedPlaylistArtists}"
+                                      SelectedItem="{Binding CurrentDeletePlaylistArtist}"
+                                      SelectionChanged="lvArtistsRoot_SelectionChanged">
+
+                                      <ListView.Resources>
+                                          <Style TargetType="{x:Type GridViewColumnHeader}">
+                                              <Setter Property="Visibility" Value="Collapsed" />
+                                          </Style>
+                                      </ListView.Resources>
+
+                                      <ListView.ItemContainerStyle>
+                                <Style TargetType="{x:Type ListViewItem}">
+                                    <Setter Property="HorizontalAlignment" Value="Center"/>
+                                    <Setter Property="BorderThickness" Value="0"/>
+                                    <Setter Property="Margin" Value="1"/>
+                                    <Setter Property="Padding" Value="1"/>
+                                    <Setter Property="HorizontalAlignment" Value="Left"/>
+                                    <Setter Property="Width" Value="396"/>
+                                    <Style.Triggers>
+                                        <Trigger Property="IsSelected" Value="true" >
+                                            <Setter Property="Foreground" Value="DimGray" />
+                                            <Setter Property="Background" Value="#1b2e2d"/>
+                                        </Trigger>
+                                        <Trigger Property="IsSelected" Value="False" >
+                                            <Setter Property="Foreground" Value="Silver" />
+                                            <Setter Property="Background" Value="#1b2e2d"/>
+                                        </Trigger>
+
+                                        <Trigger Property="IsEnabled" Value="True">
+                                            <Setter Property="Foreground" Value="Silver" />
+                                            <Setter Property="Background" Value="#1b2e2d"/>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </ListView.ItemContainerStyle>
+
+                                      <ListView.ItemTemplate>
+                                          <DataTemplate>
+                                              <Label Content="{Binding ., Converter={StaticResource ShareInstanceTextConverter}}"
+                                                                 Foreground="White"
+                                                                 FontSize="12"
+                                                                 FontWeight="Light"/>
+                                          </DataTemplate>
+                                      </ListView.ItemTemplate>
+                        </ListView>
+                    </Border>
+                </StackPanel>
+            </StackPanel>
+        </Grid>
+
+        <Grid Grid.Row="2">
+            <StackPanel>
+                <b:Interaction.Triggers>
+                    <b:EventTrigger EventName="MouseLeftButtonDown">
+                        <b:InvokeCommandAction Command="{Binding CreatePlaylistCommand}"/>
+                    </b:EventTrigger>
+                </b:Interaction.Triggers>
+
+                <Border x:Name="brApply"
+                            CornerRadius="5"
+                            BorderThickness="1"
+                            HorizontalAlignment="Left"
+                            Margin="4,5"
+                            Style="{StaticResource ApplyBorderStyle}">
+                    <Label Content="Apply"
+                               FontSize="16"
+                               Foreground="White"
+                               FontWeight="Medium"
+                               Background="Transparent"/>
+                </Border>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</UserControl>
