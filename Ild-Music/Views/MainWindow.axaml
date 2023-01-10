@@ -44,39 +44,39 @@
         </Style>
 
         
+        <Style Selector="Slider.thumby Track#PART_Track">
+            <Setter Property="Height" Value="25"/>
+        </Style>
 
         <Style Selector="Slider.thumby /template/ Thumb#thumb">
             <Setter Property="Template">
                 <Setter.Value>
                 <ControlTemplate>
-                    <Grid Background="red">
-                        <!-- <Grid.RowDefinitions>
-                            <RowDefinition Height="4" />
-                            <RowDefinition Height="4" />
-                            <RowDefinition />
-                            <RowDefinition Height="4" />
-                            <RowDefinition Height="4" />
-                        </Grid.RowDefinitions>
-                        <Ellipse Grid.Row="0" Grid.RowSpan="2" Fill="#1b88e8" />
-                        <Rectangle Grid.Row="1" Grid.RowSpan="3" Fill="#1b88e8" />
-                        <Ellipse Grid.Row="3" Grid.RowSpan="2" Fill="#1b88e8" /> -->
+                    <Grid Background="red">                        
                     </Grid>
                 </ControlTemplate>
                 </Setter.Value>
             </Setter>
         </Style>
 
-
-        <Style Selector="Slider.thumby /template/ Grid#HorizontalTemplate">
-            
+        <Style Selector="Slider.thumby  RepeatButton#PART_DecreaseButton">
+            <Setter Property="Height" Value="20"/>
+            <Setter Property="Template">
+                <ControlTemplate>
+                    <Grid >
+                        <Border Padding="0"
+                                Background="Blue" 
+                                Height="17"
+                                CornerRadius="2"/>
+                    </Grid>
+                </ControlTemplate>
+            </Setter>
+              
         </Style>
 
-        <Style Selector="Slider.thumby /template/ TickBar#TopTickBar">
-            <Setter Property="Height" Value="0"/>
+        <Style Selector="Slider.thumby /template/ RepeatButton#PART_IncreaseButton">
         </Style>
-        <Style Selector="Slider.thumby /template/ TickBar#BottomTickBar">
-            <Setter Property="Height" Value="0"/>
-        </Style>
+
 
         <Style Selector="Window">
             <Setter Property="Template">
@@ -322,19 +322,20 @@
                                             Orientation="Horizontal">
                                             <StackPanel.Resources>
                                                 <x:Double x:Key="SliderHorizontalThumbWidth">3</x:Double>
+                                                <GridLength x:Key="SliderPreContentMargin">5</GridLength>
+                                                <GridLength x:Key="SliderPostContentMargin">5</GridLength>
                                             </StackPanel.Resources>
 
-                                            <TextBlock Text="00:00" Foreground="White" Margin="10,10"
+                                            <TextBlock Text="00:00" Foreground="White" Margin="10"
                                                         FontSize="14" FontWeight="Light" VerticalAlignment="Bottom"/>
 
                                             <Slider Classes="thumby"
                                                     VerticalAlignment="Top"
                                                     Width="350"
-                                                    Foreground="Red"
-                                                    Margin="5, -10,0,0">
+                                                    Margin="5">
                                             </Slider>
 
-                                            <TextBlock Text="00:00" Foreground="White" Margin="10,10"
+                                            <TextBlock Text="00:00" Foreground="White" Margin="10"
                                                         FontSize="14" FontWeight="Light"/>                     
                                 </StackPanel>
                             </StackPanel>
