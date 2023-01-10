@@ -49,7 +49,7 @@
             <Setter Property="Template">
                 <Setter.Value>
                 <ControlTemplate>
-                    <Grid>
+                    <Grid Background="red">
                         <!-- <Grid.RowDefinitions>
                             <RowDefinition Height="4" />
                             <RowDefinition Height="4" />
@@ -320,10 +320,19 @@
                                 <StackPanel VerticalAlignment="Top"
                                             HorizontalAlignment="Left"
                                             Orientation="Horizontal">
+                                            <StackPanel.Resources>
+                                                <x:Double x:Key="SliderHorizontalThumbWidth">3</x:Double>
+                                            </StackPanel.Resources>
+
                                             <TextBlock Text="00:00" Foreground="White" Margin="10,10"
                                                         FontSize="14" FontWeight="Light" VerticalAlignment="Bottom"/>
 
-                                            <Slider Classes="thumby" VerticalAlignment="Top" Width="350" Foreground="Red" Margin="5, -10,0,0"/>
+                                            <Slider Classes="thumby"
+                                                    VerticalAlignment="Top"
+                                                    Width="350"
+                                                    Foreground="Red"
+                                                    Margin="5, -10,0,0">
+                                            </Slider>
 
                                             <TextBlock Text="00:00" Foreground="White" Margin="10,10"
                                                         FontSize="14" FontWeight="Light"/>                     
