@@ -14,7 +14,10 @@
         HasSystemDecorations="false"
         Background="#1b2b33"
         WindowStartupLocation="CenterScreen">
-        
+    
+    <Window.Resources>
+    </Window.Resources>
+
     <Window.Styles>
         <Style Selector="Panel.pnlClose">
             <Setter Property="Height" Value="10"/>
@@ -44,38 +47,9 @@
         </Style>
 
         
-        <Style Selector="Slider.thumby Track#PART_Track">
-            <Setter Property="Height" Value="25"/>
-        </Style>
 
-        <Style Selector="Slider.thumby /template/ Thumb#thumb">
-            <Setter Property="Template">
-                <Setter.Value>
-                <ControlTemplate>
-                    <Grid Background="red">                        
-                    </Grid>
-                </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
+        
 
-        <Style Selector="Slider.thumby  RepeatButton#PART_DecreaseButton">
-            <Setter Property="Height" Value="20"/>
-            <Setter Property="Template">
-                <ControlTemplate>
-                    <Grid >
-                        <Border Padding="0"
-                                Background="Blue" 
-                                Height="17"
-                                CornerRadius="2"/>
-                    </Grid>
-                </ControlTemplate>
-            </Setter>
-              
-        </Style>
-
-        <Style Selector="Slider.thumby /template/ RepeatButton#PART_IncreaseButton">
-        </Style>
 
 
         <Style Selector="Window">
@@ -233,7 +207,7 @@
                         <!--Player-->
                         <Grid Grid.Row="2"
                               ColumnSpan="2"
-                              Height="40"
+                              Height="60"
                               Background="#1b2533">
 
                             <StackPanel Orientation="Horizontal"
@@ -330,9 +304,63 @@
                                                         FontSize="14" FontWeight="Light" VerticalAlignment="Bottom"/>
 
                                             <Slider Classes="thumby"
+                                                    Orientation="Horizontal"
                                                     VerticalAlignment="Top"
                                                     Width="350"
-                                                    Margin="5">
+                                                    Margin="5,0">      
+                                                <Slider.Resources>
+                                                    <ControlTemplate x:Key="IncreaseButtonTemplate">
+                                                        <Grid>
+                                                        <Border BorderThickness="1"
+                                                                 BorderBrush="#6d7c7a"
+                                                                 Background="#6d7c7a"/>
+                                                        </Grid>
+                                                    </ControlTemplate>
+
+                                                    <ControlTemplate x:Key="DecreaseButtonTemplate">
+                                                        <Grid>
+                                                        <Border Background="Aqua" 
+                                                                BorderThickness="1" 
+                                                                BorderBrush="Aqua"/>
+                                                        </Grid>
+                                                    </ControlTemplate>
+
+                                                    <ControlTemplate x:Key="ThumbTemplate">
+                                                        <Grid Background="red">                        
+                                                        </Grid>
+                                                    </ControlTemplate>
+
+                                                    <ControlTemplate x:Key="custom_slider" TargetType="Slider">
+                                                        <Border>
+                                                        <Grid>
+                                                            <Grid.RowDefinitions>
+                                                                <RowDefinition Height="Auto" />
+                                                                <RowDefinition Height="Auto" />
+                                                                <RowDefinition Height="Auto" />
+                                                            </Grid.RowDefinitions>
+                                                            <Track Grid.Row="1" x:Name="PART_Track">
+                                                                <Track.DecreaseButton>
+                                                                    <RepeatButton Classes="decrese"
+                                                                                  Template="{StaticResource DecreaseButtonTemplate}"/>
+                                                                </Track.DecreaseButton>
+                                                                <Track.Thumb>
+                                                                    <Thumb Template="{StaticResource ThumbTemplate}"/>
+                                                                </Track.Thumb>
+                                                                <Track.IncreaseButton>
+                                                                    <RepeatButton Classes="increse"
+                                                                                  Template="{StaticResource IncreaseButtonTemplate}"/>
+                                                                </Track.IncreaseButton>
+                                                            </Track>
+                                                        </Grid>
+                                                        </Border>
+                                                    </ControlTemplate>
+                                                </Slider.Resources>
+
+                                                <Slider.Styles>
+                                                    <Style Selector="Slider.thumby:horizontal">
+                                                        <Setter Property="Template" Value="{StaticResource custom_slider}"/>
+                                                    </Style>
+                                                </Slider.Styles>
                                             </Slider>
 
                                             <TextBlock Text="00:00" Foreground="White" Margin="10"
