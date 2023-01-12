@@ -22,9 +22,18 @@ namespace Ild_Music.Views
         #region Parts
         private const string PART_TITLEBAR = "DragBar";
         private const string PART_NAVBAR = "NavBar";
+        private const string PART_VOLUME_AREA = "VolumeArea";
+        private const string PART_VOLUME_BUTTON = "VolumeButton";
+        private const string PART_MAIN_GRID = "MainGrid";
+        private const string PART_VOLUME_SLIDER = "VolumeSlider";
 
         private Grid? titleBar;
         private Grid? navBar;
+
+        private Control volumePopup;
+        private Control volumeButton;
+        private Control mainGrid;
+        private Slider volumeSlider;
         #endregion
 
 
@@ -50,7 +59,13 @@ namespace Ild_Music.Views
             base.OnTemplateApplied(e);
             titleBar = e.NameScope.Get<Grid>(PART_TITLEBAR);
             navBar = e.NameScope.Get<Grid>(PART_NAVBAR);
+
+            volumePopup = (Control)e.NameScope.Get<Border>(PART_VOLUME_AREA);
+            volumeButton = (Control)e.NameScope.Get<StackPanel>(PART_VOLUME_BUTTON);
+            mainGrid = (Control)e.NameScope.Get<Grid>(PART_MAIN_GRID);
+            volumeSlider = e.NameScope.Get<Slider>(PART_VOLUME_SLIDER);
         }
+
 
         protected override void OnPointerPressed(PointerPressedEventArgs e)
         {
@@ -58,6 +73,22 @@ namespace Ild_Music.Views
 
             if (Equals(e.Source, titleBar))
                 BeginMoveDrag(e);
+        }
+
+        public override void Render(DrawingContext context)
+        {
+            base.Render(context);
+
+            // Get relative position of button, in relation to main grid
+            var position = volumeButton.TranslatePoint(new Point(), mainGrid) ??
+                           throw new Exception("Cannot get TranslatePoint from Configuration Button");
+
+            // Set margin of popup so it appears bottom left of button
+            volumePopup.Margin = new Thickness(
+                position.X,
+                0,
+                0,
+                mainGrid.Bounds.Height - position.Y );
         }
 
         private void OnHideClick(object sender, RoutedEventArgs e)
@@ -82,24 +113,19 @@ namespace Ild_Music.Views
                 Context.CurrentVM = vm;   
         }
         
-        private void OnHomePointerPressed(object? sender, PointerPressedEventArgs e)
-        {
+        private void OnHomePointerPressed(object? sender, PointerPressedEventArgs e) =>
             SwitchContext(StartViewModel.nameVM);
-        }
 
-        private void OnCollectsPointerPressed(object? sender, PointerPressedEventArgs e)
-        {
+        private void OnCollectsPointerPressed(object? sender, PointerPressedEventArgs e) =>
             SwitchContext(ListViewModel.nameVM);
-            // if (!context.CurrentVM.GetType().Equals(typeof(ListViewModel)))
-            //     context.CurrentVM = new ListViewModel();
-        }
 
-        private void OnSettingPointerPressed(object? sender, PointerPressedEventArgs e)
-        {
+        private void OnSettingPointerPressed(object? sender, PointerPressedEventArgs e) =>
             SwitchContext(SettingViewModel.nameVM);
-            // if (!context.CurrentVM.GetType().Equals(typeof(SettingViewModel)))
-            //     context.CurrentVM = new SettingViewModel();   
-        }
+
+        private void VolumePopupDown(object? sender, PointerPressedEventArgs e) => ((MainViewModel)DataContext).VolumeSliderShowCommand.Execute(null);
         #endregion
+
+
+
     }
 }

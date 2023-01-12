@@ -18,8 +18,16 @@ namespace Ild_Music.ViewModels
     public class MainViewModel : Base.BaseViewModel
     {
         public string HugeName {get; set;} = "This is a huge player line for test This is a huge player line for test This is a huge player line for test This is a huge player line for test This is a huge player line for test";
+        
+        #region Fields
+        public bool VolumeSliderOpen {get; private set;} = false;
+        #endregion
+
+        #region VM id
         public static readonly string nameVM = "MainVM";
         public override string NameVM => nameVM;
+        #endregion
+        
         #region Services
         private ViewModelHolder<BaseViewModel> viewModelHolder => (ViewModelHolder<BaseViewModel>)App.Stage.GetServiceInstance("HolderService");
         private SupporterService supporter => (SupporterService)App.Stage.GetServiceInstance("SupporterService");
@@ -38,6 +46,8 @@ namespace Ild_Music.ViewModels
         public CommandDelegator KickCommand { get; }
         public CommandDelegator StopCommand { get; }
         public CommandDelegator TrackTimeChangedCommand { get; }
+
+        public CommandDelegator VolumeSliderShowCommand {get;}
         #endregion
 
         #region Properties
@@ -59,6 +69,8 @@ namespace Ild_Music.ViewModels
             App.ViewModelTable.Add(PlaylistViewModel.nameVM, new PlaylistViewModel());
             App.ViewModelTable.Add(TrackViewModel.nameVM, new TrackViewModel());
             App.ViewModelTable.Add(nameVM, this);
+
+            VolumeSliderShowCommand = new(VolumeSliderShow,null);
 
             CurrentVM = new SettingViewModel();
         }
@@ -112,6 +124,11 @@ namespace Ild_Music.ViewModels
                 ResolveWindowStack();
             }
         }
+        #endregion
+
+
+        #region Command Methods
+        private void VolumeSliderShow(object obj) => VolumeSliderOpen ^= true;
         #endregion
     }
 }

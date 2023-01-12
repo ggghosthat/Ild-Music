@@ -1,10 +1,13 @@
 <Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:v="clr-namespace:Ild_Music.Views"
-        xmlns:vm="using:Ild_Music.ViewModels"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:aconverters="clr-namespace:Ild_Music.Avalonia.Converters"
+
+        xmlns:v="clr-namespace:Ild_Music.Views"
+        xmlns:vm="using:Ild_Music.ViewModels"
+        xmlns:converters="clr-namespace:Ild_Music.Avalonia.Converters"
+        xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
+        xmlns:ia="clr-namespace:Avalonia.Xaml.Interactions.Core;assembly=Avalonia.Xaml.Interactions"
 
 
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
@@ -46,16 +49,29 @@
             <Setter Property="Fill" Value="#fff"/>
         </Style>
 
-        
+        <Style Selector="Border.volumePopup">
+            <Setter Property="Width" Value="0"/>
+            <Setter Property="Height" Value="0"/>
+        </Style>
+        <Style Selector="Border.volumePopup Slider.volumeSlider">
+            <Setter Property="Width" Value="0"/>
+            <Setter Property="Height" Value="0"/>
+        </Style>
 
-        
-
-
+        <Style Selector="Border.volumePopup.open">
+            <Setter Property="Width" Value="36"/>
+            <Setter Property="Height" Value="100"/>
+        </Style>
+        <Style Selector="Border.volumePopup.open Slider.volumeSlider">
+            <Setter Property="Width" Value="10"/>
+            <Setter Property="Height" Value="100"/>
+        </Style>
 
         <Style Selector="Window">
             <Setter Property="Template">
                 <ControlTemplate>
-                    <Grid Background="#1b2b33">
+                    <Grid x:Name="MainGrid"
+                          Background="#1b2b33">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="45"/>
                             <RowDefinition Height="*"/>
@@ -66,6 +82,57 @@
                             <ColumnDefinition Width="896"/>
                         </Grid.ColumnDefinitions>
 
+
+                        <Border Grid.Row="0" 
+                                Grid.RowSpan="3"
+                                Grid.ColumnSpan="2"
+                                ZIndex="1"
+                                IsVisible="{Binding VolumeSliderOpen}"
+                                Background="Transparent"
+                                PointerPressed="VolumePopupDown"/>
+
+                        <Border x:Name="VolumeArea"
+                                Classes="volumePopup"
+                                Classes.open="{Binding VolumeSliderOpen}"
+                                ZIndex="3"
+                                Grid.Row="0"
+                                Grid.RowSpan="3"
+                                CornerRadius="5,5,0,0"
+                                Background="#95000000"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Bottom">
+                            <Slider x:Name="VolumeSlider"
+                                    Classes="volumeSlider"
+                                    Orientation="Vertical"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Bottom">
+                                <Slider.Resources>
+                                    <x:Double x:Key="SliderVerticalThumbWidth">10</x:Double>
+                                    <x:Double x:Key="SliderVerticalThumbHeight">10</x:Double>
+                                    <x:Double x:Key="SliderVerticalWidth">7</x:Double>
+                                    <GridLength x:Key="SliderPreContentMargin">0</GridLength>
+                                    <GridLength x:Key="SliderPostContentMargin">0</GridLength>
+                                </Slider.Resources>
+
+                                <Slider.Styles>
+                                    <Style Selector="Slider.volumeSlider /template/ RepeatButton#PART_DecreaseButton">
+                                        <Setter Property="Background" Value="#34eb64"/>
+                                    </Style>
+
+                                    <Style Selector="Slider.volumeSlider /template/ RepeatButton#PART_IncreaseButton">
+                                        <Setter Property="Background" Value="#2b4532"/>
+                                    </Style>         
+
+                                    <Style Selector="Slider.volumeSlider Thumb">
+                                        <Setter Property="Template">
+                                            <ControlTemplate>
+                                                <Ellipse Width="10" Height="10" Fill="#19e04e" />
+                                            </ControlTemplate>
+                                        </Setter>
+                                    </Style>                                     
+                                </Slider.Styles>
+                            </Slider>
+                        </Border>
 
                         <!--Header-->
                         <Grid Background="#16242b"
@@ -294,22 +361,30 @@
                                     </Viewbox>
                                 </StackPanel>
 
-                                <StackPanel Classes="PlayerButton"
+
+
+                                <StackPanel x:Name="VolumeButton"
+                                            Classes="PlayerButton"
                                             VerticalAlignment="Center"
                                             HorizontalAlignment="Left"
-                                            Margin="0,5">
-                                    <Viewbox Classes="vb" Width="24" Height="24" Margin="2,0" HorizontalAlignment="Left">
-                                        <Canvas Width="24" Height="24">
-                                            <Path Data="M7,9V15H11L16,20V4L11,9H7Z" />
-                                        </Canvas>
-                                    </Viewbox>
+                                            Margin="5">
+                                    <i:Interaction.Behaviors>
+                                        <ia:EventTriggerBehavior EventName="Tapped">
+                                          <ia:InvokeCommandAction Command="{Binding VolumeSliderShowCommand}"/>
+                                        </ia:EventTriggerBehavior>  
+                                    </i:Interaction.Behaviors>
+                                    <StackPanel>
+                                        <Viewbox Classes="vb" Width="24" Height="24" Margin="2,0" HorizontalAlignment="Left">
+                                            <Canvas Width="24" Height="24">
+                                                <Path Data="M7,9V15H11L16,20V4L11,9H7Z" />
+                                            </Canvas>
+                                        </Viewbox>
+                                    </StackPanel>
                                 </StackPanel>
 
                                 <StackPanel VerticalAlignment="Top"
                                             HorizontalAlignment="Left"
                                             Orientation="Horizontal">
-                                            <StackPanel.Resources>
-                                            </StackPanel.Resources>
 
                                             <TextBlock Text="00:00" Foreground="White" Margin="10"
                                                         FontSize="14" FontWeight="Light" VerticalAlignment="Bottom"/>
@@ -342,6 +417,9 @@
                                             <TextBlock Text="00:00" Foreground="White" Margin="10"
                                                         FontSize="14" FontWeight="Light"/>                     
                                 </StackPanel>
+
+
+
                             </StackPanel>
                         </Grid>
                     </Grid>
