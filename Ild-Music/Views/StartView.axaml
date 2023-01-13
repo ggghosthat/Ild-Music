@@ -260,6 +260,7 @@
                                       Padding="3"
                                       Background="#12495c"
                                       HorizontalAlignment="Left"
+                                      CornerRadius="5"
                                       VerticalAlignment="Center">
                                       <DrawingPresenter Drawing="{Binding ., Converter={StaticResource InstanceIconConverter}, ConverterParameter=def}"
                                                         HorizontalAlignment="Center"
@@ -299,12 +300,14 @@
                 FontWeight="Bold"/>
       
       <ScrollViewer HorizontalScrollBarVisibility="Disabled"
+                    VerticalScrollBarVisibility="Auto"
                     HorizontalAlignment="Right"
                     Width="60"
                     Grid.Row="1"
                     Background="#4016262e"
                           Margin="3">
                 <ListBox  Items="{Binding Artists}"
+                          HorizontalAlignment="Right"
                           SelectedItem="{Binding CurrentArtist}"
                           ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                           ScrollViewer.VerticalScrollBarVisibility="Visible"
@@ -320,19 +323,15 @@
                     <Style Selector="ListBoxItem">
                       <Setter Property="BorderBrush" Value="Transparent"/>
                       <Setter Property="BorderThickness" Value="0"/>
-                      <Setter Property="Margin" Value="5"/>
-                      <Setter Property="Padding" Value="4"/>
-                      
-                      <Setter Property="HorizontalContentAlignment" Value="Center"/>
-                      
-                      <Setter Property="Width" Value="50"/>
-                      <Setter Property="Height" Value="50"/>
+                      <Setter Property="Margin" Value="0"/>
+                      <Setter Property="Padding" Value="0"/>
+                      <Setter Property="HorizontalContentAlignment" Value="Right"/>
 
                       <Setter Property="Template">
                         <ControlTemplate>
                           <Grid>
                             <Border x:Name="Bd"
-                                    Margin="7"
+                                    Margin="{TemplateBinding Margin}"
                                     CornerRadius="10"
                                     Background="{TemplateBinding Background}"
                                     BorderThickness="{TemplateBinding BorderThickness}"
@@ -393,12 +392,17 @@
 
                   <ListBox.ItemTemplate>
                     <DataTemplate>
+                      <Grid>
+                        <Grid.RowDefinitions>
+                          <RowDefinition Height="Auto"/>
+                          <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
                         <Border Grid.Row="0"
-                                Margin="5"
+                                Margin="5,0"
                                 Width="50"
                                 Height="50"
                                 CornerRadius="10"
-                                HorizontalAlignment="Center"
+                                HorizontalAlignment="Left"
                                 VerticalAlignment="Center">
 
                             <Border.Styles>
@@ -417,6 +421,18 @@
                                               Width="30"
                                               Height="30"/>
                         </Border>
+
+                        <TextBlock Grid.Row="1"
+                                   Width="50"
+                                   Margin="5, 0"
+                                   TextWrapping="Wrap"
+                                   Text="{Binding ., Converter={StaticResource InstanceNameConverter}}"
+                                   VerticalAlignment="Center"
+                                   HorizontalAlignment="Left"
+                                   FontSize="12"
+                                   Foreground="White"
+                                   FontWeight="Light"/>
+                      </Grid>
                     </DataTemplate>
                   </ListBox.ItemTemplate>
                 </ListBox>
