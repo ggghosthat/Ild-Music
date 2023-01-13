@@ -36,7 +36,7 @@
                           HorizontalAlignment="Left"
                           HorizontalContentAlignment="Left"
                           Width="1000"
-                          Height="120"
+                          Height="110"
                           Margin="5"
                           Background="#16262e">
                 <ListBox Items="{Binding Playlists}"
@@ -65,7 +65,7 @@
                         <ControlTemplate>
                           <Grid>
                             <Border x:Name="Bd"
-                                    Margin="5"
+                                    Margin="0"
                                     CornerRadius="10"
                                     Background="{TemplateBinding Background}"
                                     BorderThickness="{TemplateBinding BorderThickness}"
@@ -305,7 +305,7 @@
                     Width="60"
                     Grid.Row="1"
                     Background="#4016262e"
-                          Margin="3">
+                    Margin="3">
                 <ListBox  Items="{Binding Artists}"
                           HorizontalAlignment="Right"
                           SelectedItem="{Binding CurrentArtist}"
@@ -398,7 +398,7 @@
                           <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
                         <Border Grid.Row="0"
-                                Margin="5,0"
+                                Margin="5,0,4,0"
                                 Width="50"
                                 Height="50"
                                 CornerRadius="10"
@@ -428,7 +428,7 @@
                                    TextWrapping="Wrap"
                                    Text="{Binding ., Converter={StaticResource InstanceNameConverter}}"
                                    VerticalAlignment="Center"
-                                   HorizontalAlignment="Left"
+                                   HorizontalAlignment="Center"
                                    FontSize="12"
                                    Foreground="White"
                                    FontWeight="Light"/>
