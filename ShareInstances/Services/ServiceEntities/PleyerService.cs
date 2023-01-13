@@ -16,9 +16,7 @@ namespace ShareInstances.Services.Entities
 
     	public IPlayer PlayerInstance {get; private set;}
 
-    	public void EnablePlayer(IPlayer _player)
-    	{
-    		PlayerInstance = _player;
-    	}
+    	public void EnablePlayer(IPlayer _player) =>    	
+    		PlayerInstance = _player;    	
     }
 }

@@ -17,7 +17,7 @@ namespace Ild_Music.ViewModels
 {
     public class MainViewModel : Base.BaseViewModel
     {
-        public string HugeName {get; set;} = "This is a huge player line for test This is a huge player line for test This is a huge player line for test This is a huge player line for test This is a huge player line for test";
+        public string HugeName {get; set;}
         
         #region Fields
         public bool VolumeSliderOpen {get; private set;} = false;
@@ -29,8 +29,8 @@ namespace Ild_Music.ViewModels
         #endregion
         
         #region Services
-        private ViewModelHolder<BaseViewModel> viewModelHolder => (ViewModelHolder<BaseViewModel>)App.Stage.GetServiceInstance("HolderService");
-        private SupporterService supporter => (SupporterService)App.Stage.GetServiceInstance("SupporterService");
+        private static SupporterService supporter => (SupporterService)App.Stage.GetServiceInstance("SupporterService");
+        private PlayerService player => (PlayerService)App.Stage.GetServiceInstance("PlayerService");
         #endregion
 
         #region Player Scope
@@ -70,9 +70,15 @@ namespace Ild_Music.ViewModels
             App.ViewModelTable.Add(TrackViewModel.nameVM, new TrackViewModel());
             App.ViewModelTable.Add(nameVM, this);
 
+            PreviousCommand = new();
+            NextCommand = new();
+            KickCommand = new();
+            StopCommand = new();
+            TrackTimeChangedCommand = new();
             VolumeSliderShowCommand = new(VolumeSliderShow,null);
 
             CurrentVM = new SettingViewModel();
+            _player = player.PlayerInstance;
         }
 
         #endregion

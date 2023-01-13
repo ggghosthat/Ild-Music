@@ -21,7 +21,7 @@ namespace ShareInstances.Services.Center
         #region App services
         private Entities.SupporterService supporterService = new();
         private Entities.FactoryService factoryService = new();
-        private Entities.PlayerService PlayerService = new();
+        private Entities.PlayerService playerService = new();
         #endregion
         #region UI services
         private Entities.UIControlService<object> controlService = new ();
@@ -38,6 +38,7 @@ namespace ShareInstances.Services.Center
         public void OnCenterRegisterActivate()
         {
             RegistService((IService)supporterService);
+            RegistService((IService)playerService);
             RegistService((IService)factoryService);
             RegistService((IService)controlService);
             RegistService((IService)holder);
@@ -47,6 +48,9 @@ namespace ShareInstances.Services.Center
 
         public void RegistService(IService service) =>
             serviceRegister.Add(service.ServiceName, service);
+
+        public void UpdateService(IService service) =>
+            serviceRegister[service.ServiceName] = service;
         
         public IService GetService(string name)
         {
@@ -54,10 +58,9 @@ namespace ShareInstances.Services.Center
                 return serviceRegister[name];
             return null;
         }
-        public IList<string> GetServices() 
-        {
-            return serviceRegister.ToList().Select(x => x.Value.ServiceName).ToList();
-        }
+        public IList<string> GetServices() =>
+            serviceRegister.ToList().Select(x => x.Value.ServiceName).ToList();
+        
     
         public void ResolveSupporter(ISynchArea synchArea)
         {
@@ -70,8 +73,9 @@ namespace ShareInstances.Services.Center
 
         public void ResolvePlayer(IPlayer _player)
         {
-            var player = (PlayerService)GetService(((IService)PlayerService).ServiceName);
+            var player = (PlayerService)GetService(((IService)playerService).ServiceName);
             player.EnablePlayer(_player);
+            UpdateService(player);
         }
     }
 }

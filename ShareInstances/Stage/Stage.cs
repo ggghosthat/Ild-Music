@@ -66,8 +66,6 @@ namespace ShareInstances.Stage
         public Stage(string playerPath, string synchPath)
         {
             Init(playerPath, synchPath);
-            OnComponentMuted += () => serviceCenter.ResolveSupporter(AreaInstace);
-            OnComponentMuted?.Invoke();
         }
         #endregion
 
@@ -82,6 +80,7 @@ namespace ShareInstances.Stage
             AreaInstace = _areas[0];
 
             serviceCenter.ResolveSupporter(AreaInstace);
+            serviceCenter.ResolvePlayer(PlayerInstance);
         }
         
         private void InitUnit(string path, string type)
