@@ -71,6 +71,9 @@ namespace Ild_Music.ViewModels
             EditCommand = new(Edit, null);
             ItemSelectCommand = new(ItemSelect, null);
             DefineListTypeCommand = new(InitCurrentList, null);
+
+            Header = Headers.FirstOrDefault();
+            DisplayProviders();
         }
         #endregion
 

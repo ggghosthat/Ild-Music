@@ -58,8 +58,7 @@
                 <ControlTemplate>
                   
                   <Grid>
-                  <StackPanel Classes="Wrap" Orientation="Vertical">
-                      
+                  <StackPanel Classes="Wrap" Orientation="Vertical">                      
                       <Border x:Name="Bd"
                               Margin="2"
                               CornerRadius="15"
@@ -131,7 +130,6 @@
                   <TextBlock Text="{Binding .}"
                             Foreground="White"
                             FontSize="12"/>
-                <Button/>
               </Grid>
             </DataTemplate>
           </ListBox.ItemTemplate>
@@ -140,21 +138,21 @@
 
     <StackPanel Grid.Row="1" 
                 Orientation="Vertical">
-        <TextBlock Text="Your collections"
+        <!-- <TextBlock Text="Your collections"
                    Margin="10,0"
                    Foreground="White"
                    FontSize="20"
-                   FontWeight="Light"/>
+                   FontWeight="Light"/> -->
         
         <ScrollViewer HorizontalAlignment="Left"
                       VerticalAlignment="Top"
                       HorizontalContentAlignment="Center"
                       HorizontalScrollBarVisibility="Disabled"
                       VerticalScrollBarVisibility="Auto"
-                      Width="1070"
-                      Height="450"
+                      Width="1080"
+                      Height="460"
                       Background="#50000000"
-                      Margin="10, 2">
+                      Margin="10, 0">
               <ListBox Items="{Binding CurrentList}"
                       SelectedItem="{Binding CurrentItem}"
                       ScrollViewer.VerticalScrollBarVisibility="Auto"
@@ -286,7 +284,6 @@
 
 
     <StackPanel Grid.Row="2"
-                Margin="0, 0"
                 Orientation="Horizontal"
                 HorizontalAlignment="Left">
           <StackPanel>
@@ -297,7 +294,7 @@
           </i:Interaction.Behaviors>
           <Border Width="30"
                   Height="30"
-                  Margin="10, 2, 5, 2"
+                  Margin="10, 2, 5, 5"
                   BorderThickness="0"
                   CornerRadius="5"
                   HorizontalAlignment="Right"
@@ -337,7 +334,7 @@
           </i:Interaction.Behaviors>
           <Border Width="30"
                   Height="30"
-                  Margin="10, 2, 5, 2"
+                  Margin="10, 2, 5, 5"
                   BorderThickness="0"
                   CornerRadius="5"
                   HorizontalAlignment="Right"
@@ -377,7 +374,7 @@
           </i:Interaction.Behaviors>
           <Border Width="30"
                   Height="30"
-                  Margin="10, 2, 5, 2"
+                  Margin="10, 2, 5, 5"
                   BorderThickness="0"
                   CornerRadius="5"
                   HorizontalAlignment="Right"
