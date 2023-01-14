@@ -251,150 +251,151 @@
                               Height="40"
                               Background="#40000000">
 
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="*"/>
-                                <RowDefinition Height="Auto"/>
-                            </Grid.RowDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
 
-                            <StackPanel Grid.Row="0">
-                                <TextBlock Text="{Binding HugeName}" 
-                                           Foreground="White" 
-                                           HorizontalAlignment="Left"
-                                           FontSize="12" 
-                                           FontWeight="Light"
-                                           Margin="50,2"/>
-                            </StackPanel>
-
-                            <StackPanel Grid.Row="1"
-                                        Orientation="Horizontal"
-                                        VerticalAlignment="Top"
-                                        HorizontalAlignment="Left"
-                                        Margin="15,10,0,0">
-                                <StackPanel Classes="PlayerButton"
-                                            VerticalAlignment="Center"
-                                            HorizontalAlignment="Left">
-                                    <Viewbox Classes="vb" Width="24" Height="24" Margin="2,0" HorizontalAlignment="Left">
-                                        <Canvas Width="24" Height="24">
-                                            <Path Data="M6,6H8V18H6M9.5,12L18,18V6M16,14.14L12.97,12L16,9.86V14.14Z" />
-                                        </Canvas>
-                                    </Viewbox>
+                                <StackPanel Grid.Row="0">
+                                    <TextBlock Text="{Binding HugeName}" 
+                                               Foreground="White" 
+                                               HorizontalAlignment="Left"
+                                               FontSize="12" 
+                                               FontWeight="Light"
+                                               Margin="50,2"/>
                                 </StackPanel>
 
-                                <StackPanel Classes="PlayerButton"
-                                            VerticalAlignment="Center"
+                                <StackPanel Grid.Row="1"
+                                            Orientation="Horizontal"
+                                            VerticalAlignment="Top"
                                             HorizontalAlignment="Left"
-                                            Margin="0,5">
-                                    <Viewbox Classes="vb" Width="24" Height="24" Margin="2,0" HorizontalAlignment="Left">
-                                        <Canvas Width="24" Height="24">
-                                            <Path Data="M8.5,8.64L13.77,12L8.5,15.36V8.64M6.5,5V19L17.5,12" />
-                                        </Canvas>
-                                    </Viewbox>
-                                </StackPanel>
-
-                                <StackPanel Classes="PlayerButton"
-                                            VerticalAlignment="Center"
-                                            HorizontalAlignment="Left"
-                                            Margin="0,5">
-                                    <Viewbox Classes="vb" Width="24" Height="24" Margin="2,0" HorizontalAlignment="Left">
-                                        <Canvas Width="24" Height="24">
-                                            <Path Data="M6,18L14.5,12L6,6M8,9.86L11.03,12L8,14.14M16,6H18V18H16" />
-                                        </Canvas>
-                                    </Viewbox>
-                                </StackPanel>
-
-                                <StackPanel Classes="PlayerButton"
-                                            VerticalAlignment="Center"
-                                            HorizontalAlignment="Left"
-                                            Margin="0,5">
-                                    <Viewbox Classes="vb" Width="24" Height="24" Margin="2,0" HorizontalAlignment="Left">
-                                        <Canvas Width="24" Height="24">
-                                            <Path Data="M17,3L22.25,7.5L17,12L22.25,16.5L17,21V18H14.26L11.44,15.18L13.56,13.06L15.5,15H17V12L17,9H15.5L6.5,18H2V15H5.26L14.26,6H17V3M2,6H6.5L9.32,8.82L7.2,10.94L5.26,9H2V6Z" />
-                                        </Canvas>
-                                    </Viewbox>
-                                </StackPanel>
-
-                                <StackPanel Classes="PlayerButton"
-                                            VerticalAlignment="Center"
-                                            HorizontalAlignment="Left"
-                                            Margin="0,5">
-                                    <Viewbox Classes="vb" Width="24" Height="24" Margin="2,0" HorizontalAlignment="Left">
-                                        <Canvas Width="24" Height="24">
-                                            <Path Data="M6,5.75L10.25,10H7V16H13.5L15.5,18H7A2,2 0 0,1 5,16V10H1.75L6,5.75M18,18.25L13.75,14H17V8H10.5L8.5,6H17A2,2 0 0,1 19,8V14H22.25L18,18.25Z" />
-                                        </Canvas>
-                                    </Viewbox>
-                                </StackPanel>
-
-                                <StackPanel Classes="PlayerButton"
-                                            VerticalAlignment="Center"
-                                            HorizontalAlignment="Left"
-                                            Margin="0,5">
-                                    <Viewbox Classes="vb" Width="24" Height="24" Margin="2,0" HorizontalAlignment="Left">
-                                        <Canvas Width="24" Height="24">
-                                            <Path Data="M18,18H6V6H18V18Z" />
-                                        </Canvas>
-                                    </Viewbox>
-                                </StackPanel>
-
-
-
-                                <StackPanel x:Name="VolumeButton"
-                                            Classes="PlayerButton"
-                                            VerticalAlignment="Center"
-                                            HorizontalAlignment="Left"
-                                            Margin="5">
-                                    <i:Interaction.Behaviors>
-                                        <ia:EventTriggerBehavior EventName="Tapped">
-                                          <ia:InvokeCommandAction Command="{Binding VolumeSliderShowCommand}"/>
-                                        </ia:EventTriggerBehavior>  
-                                    </i:Interaction.Behaviors>
-                                    <StackPanel>
+                                            Margin="15,10,0,0">
+                                    <StackPanel Classes="PlayerButton"
+                                                VerticalAlignment="Center"
+                                                HorizontalAlignment="Left">
                                         <Viewbox Classes="vb" Width="24" Height="24" Margin="2,0" HorizontalAlignment="Left">
                                             <Canvas Width="24" Height="24">
-                                                <Path Data="M7,9V15H11L16,20V4L11,9H7Z" />
+                                                <Path Data="M6,6H8V18H6M9.5,12L18,18V6M16,14.14L12.97,12L16,9.86V14.14Z" />
                                             </Canvas>
                                         </Viewbox>
                                     </StackPanel>
+
+                                    <StackPanel Classes="PlayerButton"
+                                                VerticalAlignment="Center"
+                                                HorizontalAlignment="Left"
+                                                Margin="0,5">
+                                        <Viewbox Classes="vb" Width="24" Height="24" Margin="2,0" HorizontalAlignment="Left">
+                                            <Canvas Width="24" Height="24">
+                                                <Path Data="M8.5,8.64L13.77,12L8.5,15.36V8.64M6.5,5V19L17.5,12" />
+                                            </Canvas>
+                                        </Viewbox>
+                                    </StackPanel>
+
+                                    <StackPanel Classes="PlayerButton"
+                                                VerticalAlignment="Center"
+                                                HorizontalAlignment="Left"
+                                                Margin="0,5">
+                                        <Viewbox Classes="vb" Width="24" Height="24" Margin="2,0" HorizontalAlignment="Left">
+                                            <Canvas Width="24" Height="24">
+                                                <Path Data="M6,18L14.5,12L6,6M8,9.86L11.03,12L8,14.14M16,6H18V18H16" />
+                                            </Canvas>
+                                        </Viewbox>
+                                    </StackPanel>
+
+                                    <StackPanel Classes="PlayerButton"
+                                                VerticalAlignment="Center"
+                                                HorizontalAlignment="Left"
+                                                Margin="0,5">
+                                        <Viewbox Classes="vb" Width="24" Height="24" Margin="2,0" HorizontalAlignment="Left">
+                                            <Canvas Width="24" Height="24">
+                                                <Path Data="M17,3L22.25,7.5L17,12L22.25,16.5L17,21V18H14.26L11.44,15.18L13.56,13.06L15.5,15H17V12L17,9H15.5L6.5,18H2V15H5.26L14.26,6H17V3M2,6H6.5L9.32,8.82L7.2,10.94L5.26,9H2V6Z" />
+                                            </Canvas>
+                                        </Viewbox>
+                                    </StackPanel>
+
+                                    <StackPanel Classes="PlayerButton"
+                                                VerticalAlignment="Center"
+                                                HorizontalAlignment="Left"
+                                                Margin="0,5">
+                                        <Viewbox Classes="vb" Width="24" Height="24" Margin="2,0" HorizontalAlignment="Left">
+                                            <Canvas Width="24" Height="24">
+                                                <Path Data="M6,5.75L10.25,10H7V16H13.5L15.5,18H7A2,2 0 0,1 5,16V10H1.75L6,5.75M18,18.25L13.75,14H17V8H10.5L8.5,6H17A2,2 0 0,1 19,8V14H22.25L18,18.25Z" />
+                                            </Canvas>
+                                        </Viewbox>
+                                    </StackPanel>
+
+                                    <StackPanel Classes="PlayerButton"
+                                                VerticalAlignment="Center"
+                                                HorizontalAlignment="Left"
+                                                Margin="0,5">
+                                        <Viewbox Classes="vb" Width="24" Height="24" Margin="2,0" HorizontalAlignment="Left">
+                                            <Canvas Width="24" Height="24">
+                                                <Path Data="M18,18H6V6H18V18Z" />
+                                            </Canvas>
+                                        </Viewbox>
+                                    </StackPanel>
+
+
+
+                                    <StackPanel x:Name="VolumeButton"
+                                                Classes="PlayerButton"
+                                                VerticalAlignment="Center"
+                                                HorizontalAlignment="Left"
+                                                Margin="5">
+                                        <i:Interaction.Behaviors>
+                                            <ia:EventTriggerBehavior EventName="Tapped">
+                                              <ia:InvokeCommandAction Command="{Binding VolumeSliderShowCommand}"/>
+                                            </ia:EventTriggerBehavior>  
+                                        </i:Interaction.Behaviors>
+                                        <StackPanel>
+                                            <Viewbox Classes="vb" Width="24" Height="24" Margin="2,0" HorizontalAlignment="Left">
+                                                <Canvas Width="24" Height="24">
+                                                    <Path Data="M7,9V15H11L16,20V4L11,9H7Z" />
+                                                </Canvas>
+                                            </Viewbox>
+                                        </StackPanel>
+                                    </StackPanel>
+
+                                    <StackPanel VerticalAlignment="Top"
+                                                HorizontalAlignment="Left"
+                                                Orientation="Horizontal">
+
+                                                <TextBlock Text="{Binding CurrentTime}"
+                                                            Foreground="White" 
+                                                            Margin="10"
+                                                            FontSize="14"
+                                                            FontWeight="Light"
+                                                            VerticalAlignment="Bottom"/>
+
+                                                <StackPanel Orientation="Vertical">
+                                                    
+                                                    <Slider Classes="thumby"
+                                                            Orientation="Horizontal"
+                                                            HorizontalAlignment="Left"
+                                                            VerticalAlignment="Bottom"
+                                                            Width="500"
+                                                            Margin="0, 0,0,0">
+                                                        <Slider.Resources>
+                                                            <x:Double x:Key="SliderHorizontalThumbWidth">0</x:Double>
+                                                            <GridLength x:Key="SliderPreContentMargin">2</GridLength>
+                                                            <GridLength x:Key="SliderPostContentMargin">2</GridLength>
+                                                        </Slider.Resources>
+                                                        <Slider.Styles>
+                                                            <Style Selector="Slider.thumby /template/ RepeatButton#PART_DecreaseButton">
+                                                                <Setter Property="Background" Value="#34eb64"/>
+                                                            </Style>
+
+                                                            <Style Selector="Slider.thumby /template/ RepeatButton#PART_IncreaseButton">
+                                                                <Setter Property="Background" Value="#2b4532"/>
+                                                            </Style>
+                                                        </Slider.Styles>
+                                                    </Slider>
+                                                </StackPanel>
+
+                                                <TextBlock Text="00:00" Foreground="White" Margin="10"
+                                                            FontSize="14" FontWeight="Light"/>                     
+                                    </StackPanel>
                                 </StackPanel>
-
-                                <StackPanel VerticalAlignment="Top"
-                                            HorizontalAlignment="Left"
-                                            Orientation="Horizontal">
-
-                                            <TextBlock Text="00:00" Foreground="White" Margin="10"
-                                                        FontSize="14" FontWeight="Light" VerticalAlignment="Bottom"/>
-
-                                            <StackPanel Orientation="Vertical">
-                                                
-                                                <Slider Classes="thumby"
-                                                        Orientation="Horizontal"
-                                                        HorizontalAlignment="Left"
-                                                        VerticalAlignment="Bottom"
-                                                        Width="500"
-                                                        Margin="0, 0,0,0">
-                                                    <Slider.Resources>
-                                                        <x:Double x:Key="SliderHorizontalThumbWidth">0</x:Double>
-                                                        <GridLength x:Key="SliderPreContentMargin">2</GridLength>
-                                                        <GridLength x:Key="SliderPostContentMargin">2</GridLength>
-                                                    </Slider.Resources>
-                                                    <Slider.Styles>
-                                                        <Style Selector="Slider.thumby /template/ RepeatButton#PART_DecreaseButton">
-                                                            <Setter Property="Background" Value="#34eb64"/>
-                                                        </Style>
-
-                                                        <Style Selector="Slider.thumby /template/ RepeatButton#PART_IncreaseButton">
-                                                            <Setter Property="Background" Value="#2b4532"/>
-                                                        </Style>
-                                                    </Slider.Styles>
-                                                </Slider>
-                                            </StackPanel>
-
-                                            <TextBlock Text="00:00" Foreground="White" Margin="10"
-                                                        FontSize="14" FontWeight="Light"/>                     
-                                </StackPanel>
-
-
-
-                            </StackPanel>
                         </Grid>
                     </Grid>
                 </ControlTemplate>

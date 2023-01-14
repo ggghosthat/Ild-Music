@@ -31,7 +31,8 @@ namespace Ild_Music_CORE.Models.Core.Session_Structure
             {
                 if (_audioPlayer != null)
                     return _audioPlayer.CurrentTime;
-                return TimeSpan.FromSeconds(0);
+                else
+                    return TimeSpan.Zero;
             }
             set => _audioPlayer.CurrentTime = value;
             

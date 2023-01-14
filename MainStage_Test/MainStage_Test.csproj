@@ -7,8 +7,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\MainStage\MainStage.csproj" />
+    <ProjectReference Include="..\Ild-Music-Core\Ild-Music-Core.csproj" />
     <ProjectReference Include="..\ShareInstances\ShareInstances.csproj" />
     <ProjectReference Include="..\SynchronizationBlock\SynchronizationBlock.csproj" />
   </ItemGroup>
-
 </Project>

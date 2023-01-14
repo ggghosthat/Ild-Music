@@ -1,15 +1,19 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net6.0-windows</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <RootNamespace>Ild_Music_Core</RootNamespace>
   </PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="NAudio" Version="2.1.0" />
-  </ItemGroup>
+<ItemGroup>
+  <ProjectReference Include="..\ShareInstances\ShareInstances.csproj">
+  	<Private>false</Private>
+  	<ExcludeAssets>runtime</ExcludeAssets>
+  </ProjectReference>
+</ItemGroup>
 
 <ItemGroup>
-  <ProjectReference Include="..\ShareInstances\ShareInstances.csproj" />
+  <PackageReference Include="NAudio" Version="2.1.0" />
+  <PackageReference Include="NAudio.WinMM" Version="2.1.0" />
 </ItemGroup>
 </Project>

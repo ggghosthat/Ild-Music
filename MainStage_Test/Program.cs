@@ -4,6 +4,7 @@ using ShareInstances.Services.Entities;
 using ShareInstances.Stage;
 using SynchronizationBlock.Models.SynchArea;
 using System.Linq;
+using System.Reflection;
 using ShareInstances;
 using ShareInstances.PlayerResources;
 using System.Collections.ObjectModel;
@@ -23,9 +24,14 @@ namespace MainStage_Test
             _stage = new(corePlayerPath, areaPath);
             var supporter = (SupporterService)_stage.serviceCenter.GetService("SupporterService");
             var zzz = new ObservableCollection<IPlayer>();
-            _stage.Players.ToList().ForEach(x => zzz.Add((IPlayer)x));
-            foreach (var j in zzz)
-                Console.WriteLine(j.PlayerName);
+            var xxxx = _stage.Players.ToList()[0];
+            Console.WriteLine(xxxx.CurrentTime);
+
+            // var path = "E:/ild_music/Ild-Music/Ild-Music-Core/bin/Debug/net6.0-windows/Ild-Music-Core.dll";
+            // var assembly = Assembly.LoadFrom(path);
+            // foreach (var i in assembly.GetReferencedAssemblies().ToList().Where(x => x.Name.StartsWith("System") == false ))
+            //     Console.WriteLine($"{i.Name} --- {i.Version}");
         }
+
     }
 }

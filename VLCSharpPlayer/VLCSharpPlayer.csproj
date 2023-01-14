@@ -9,7 +9,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ShareInstances\ShareInstances.csproj" />
+    <ProjectReference Include="..\ShareInstances\ShareInstances.csproj">
+    	<Private>false</Private>
+    	<ExcludeAssets>runtime</ExcludeAssets>
+    </ProjectReference>
   </ItemGroup>
 
 </Project>

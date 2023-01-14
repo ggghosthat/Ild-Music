@@ -26,7 +26,8 @@ namespace Ild_Music_CORE.Models.Core.Session_Structure
             {
                 if (_reader != null)
                     return _reader.CurrentTime;
-                return TimeSpan.FromSeconds(0);
+                else 
+                    return TimeSpan.FromSeconds(0);
             }
             set 
             {

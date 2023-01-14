@@ -17,10 +17,10 @@ namespace Ild_Music.ViewModels
 {
     public class MainViewModel : Base.BaseViewModel
     {
-        public string HugeName {get; set;}
-        
+        public string HugeName {get; set;}        
         #region Fields
         public bool VolumeSliderOpen {get; private set;} = false;
+        private TimeSpan current = 
         #endregion
 
         #region VM id
@@ -30,14 +30,15 @@ namespace Ild_Music.ViewModels
         
         #region Services
         private static SupporterService supporter => (SupporterService)App.Stage.GetServiceInstance("SupporterService");
-        private PlayerService player => (PlayerService)App.Stage.GetServiceInstance("PlayerService");
+        private static PlayerService player => (PlayerService)App.Stage.GetServiceInstance("PlayerService");
         #endregion
 
         #region Player Scope
         public IPlayer _player;
         private bool PlayerToggle => _player.PlayerState;
         public TimeSpan TotalTime => _player.TotalTime;
-        public TimeSpan CurrentTime => _player.CurrentTime;
+        public string CurrentTime => _player.CurrentTime.ToString();
+        // public TimeSpan CurrentTime => TimeSpan.Zero;
         #endregion
 
         #region Commands Scope
@@ -45,7 +46,7 @@ namespace Ild_Music.ViewModels
         public CommandDelegator NextCommand { get; }
         public CommandDelegator KickCommand { get; }
         public CommandDelegator StopCommand { get; }
-        public CommandDelegator TrackTimeChangedCommand { get; }
+        public CommandDelegator TimeChangedCommand { get; }
 
         public CommandDelegator VolumeSliderShowCommand {get;}
         #endregion
@@ -53,7 +54,7 @@ namespace Ild_Music.ViewModels
         #region Properties
         public BaseViewModel CurrentVM { get; set; }
 
-        public Stack<BaseViewModel> WindowStack {get;} = new();
+        public Stack<BaseViewModel> WindowStack {get; private set;} = new();
         #endregion
 
 
@@ -61,6 +62,8 @@ namespace Ild_Music.ViewModels
         #region Ctor
         public MainViewModel()
         {
+            _player = player.PlayerInstance;
+
             App.ViewModelTable.Add(StartViewModel.nameVM, new StartViewModel());
             App.ViewModelTable.Add(FactoryViewModel.nameVM, new FactoryViewModel());
             App.ViewModelTable.Add(ListViewModel.nameVM, new ListViewModel());
@@ -70,15 +73,23 @@ namespace Ild_Music.ViewModels
             App.ViewModelTable.Add(TrackViewModel.nameVM, new TrackViewModel());
             App.ViewModelTable.Add(nameVM, this);
 
-            PreviousCommand = new();
-            NextCommand = new();
-            KickCommand = new();
-            StopCommand = new();
-            TrackTimeChangedCommand = new();
+            KickCommand = new(KickPlayer, OnCanTogglePlayer);
+            StopCommand = new(StopPlayer, OnCanTogglePlayer);
+            PreviousCommand = new(PreviousSwipePlayer, OnCanSwipePlayer);
+            NextCommand = new(NextSwipePlayer, OnCanSwipePlayer);
+            TimeChangedCommand = new(TimeChangedPlayer, OnCanTogglePlayer);
             VolumeSliderShowCommand = new(VolumeSliderShow,null);
 
             CurrentVM = new SettingViewModel();
-            _player = player.PlayerInstance;
+
+            Task.Run(() =>
+            {
+                while (true)
+                {
+                    OnPropertyChanged("TotalTime");
+                    OnPropertyChanged("CurrentTime");
+                }
+            });
         }
 
         #endregion
@@ -132,9 +143,42 @@ namespace Ild_Music.ViewModels
         }
         #endregion
 
+        #region Predicates
+        private bool OnCanTogglePlayer(object obj) => _player.IsEmpty == false;
+        private bool OnCanSwipePlayer(object obj) => (_player.IsEmpty == false) && (_player.IsSwipe == true);
+        #endregion
 
         #region Command Methods
-        private void VolumeSliderShow(object obj) => VolumeSliderOpen ^= true;
+        private void KickPlayer(object obj) =>
+            _player.Pause_ResumePlayer();
+        
+
+        private void StopPlayer(object obj) =>
+            _player.StopPlayer();
+
+        private void PreviousSwipePlayer(object obj) =>
+            _player.DropPrevious();
+
+        private void NextSwipePlayer(object obj) =>
+            _player.DropNext();
+
+        private void TimeChangedPlayer(object obj)
+        {
+            if (obj is TimeSpan newTimeSpan)
+                _player.CurrentTime = newTimeSpan;
+        }
+
+        private void ShuffleCollectionPlayer(object obj) =>
+            _player.ShuffleTrackCollection();
+
+        private void ChangeVolumePlayer(object obj)
+        {
+            if (obj is float volume)
+                _player.ChangeVolume(volume);
+        }
+
+        private void VolumeSliderShow(object obj) =>
+            VolumeSliderOpen ^= true;
         #endregion
     }
 }
