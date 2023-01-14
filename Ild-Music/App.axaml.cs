@@ -24,7 +24,7 @@ namespace Ild_Music
 
         public App()
         {
-            string playerPath = "E:/ild_music/Ild-Music/Ild-Music-Core/bin/Debug/net6.0-windows";
+            string playerPath = "E:/ild_music/Ild-Music/Ild-Music-Core/bin/Debug/net6.0";
             string areaPath = "E:/ild_music/Ild-Music/SynchronizationBlock/bin/Debug/net6.0";
             Stage.Init(playerPath, areaPath);
             ViewModelTable = new Hashtable();

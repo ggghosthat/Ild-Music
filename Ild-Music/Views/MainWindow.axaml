@@ -360,7 +360,7 @@
                                                 HorizontalAlignment="Left"
                                                 Orientation="Horizontal">
 
-                                                <TextBlock Text="{Binding CurrentTime}"
+                                                <TextBlock Text="{Binding CurrentTime, StringFormat=\{0:mm\\:ss\}}"
                                                             Foreground="White" 
                                                             Margin="10"
                                                             FontSize="14"
@@ -392,7 +392,7 @@
                                                     </Slider>
                                                 </StackPanel>
 
-                                                <TextBlock Text="00:00" Foreground="White" Margin="10"
+                                                <TextBlock Text="{Binding TotalTime, StringFormat=\{0:mm\\:ss\}}}" Foreground="White" Margin="10"
                                                             FontSize="14" FontWeight="Light"/>                     
                                     </StackPanel>
                                 </StackPanel>

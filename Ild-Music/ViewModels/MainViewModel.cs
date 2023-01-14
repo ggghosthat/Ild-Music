@@ -20,7 +20,6 @@ namespace Ild_Music.ViewModels
         public string HugeName {get; set;}        
         #region Fields
         public bool VolumeSliderOpen {get; private set;} = false;
-        private TimeSpan current = 
         #endregion
 
         #region VM id
@@ -37,7 +36,7 @@ namespace Ild_Music.ViewModels
         public IPlayer _player;
         private bool PlayerToggle => _player.PlayerState;
         public TimeSpan TotalTime => _player.TotalTime;
-        public string CurrentTime => _player.CurrentTime.ToString();
+        public TimeSpan CurrentTime => _player.CurrentTime;
         // public TimeSpan CurrentTime => TimeSpan.Zero;
         #endregion
 
@@ -81,15 +80,6 @@ namespace Ild_Music.ViewModels
             VolumeSliderShowCommand = new(VolumeSliderShow,null);
 
             CurrentVM = new SettingViewModel();
-
-            Task.Run(() =>
-            {
-                while (true)
-                {
-                    OnPropertyChanged("TotalTime");
-                    OnPropertyChanged("CurrentTime");
-                }
-            });
         }
 
         #endregion
