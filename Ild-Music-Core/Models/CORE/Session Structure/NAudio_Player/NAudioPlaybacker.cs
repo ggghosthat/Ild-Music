@@ -66,10 +66,7 @@ namespace Ild_Music_CORE.Models.Core.Session_Structure
             Volume = volume ?? 25f;
             ReadTrack();
             BuildPlayer();
-        }
-
-        
-
+        }       
         #endregion
 
         #region Main Methods

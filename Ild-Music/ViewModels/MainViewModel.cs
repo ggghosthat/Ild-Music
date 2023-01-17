@@ -17,7 +17,6 @@ namespace Ild_Music.ViewModels
 {
     public class MainViewModel : Base.BaseViewModel
     {
-        public string HugeName {get; set;}        
         #region Fields
         public bool VolumeSliderOpen {get; private set;} = false;
         #endregion
@@ -34,10 +33,13 @@ namespace Ild_Music.ViewModels
 
         #region Player Scope
         public IPlayer _player;
-        private bool PlayerState => _player.PlayerState;
-        public TimeSpan TotalTime => _player.TotalTime;
+        public bool PlayerState => _player.PlayerState;
+
+        public string Title {get; private set;}
+
+        private TimeSpan totalTime = TimeSpan.Zero;
+        public TimeSpan TotalTime => totalTime;
         public TimeSpan CurrentTime => _player.CurrentTime;
-        // public TimeSpan CurrentTime => TimeSpan.Zero;
         #endregion
 
         #region Commands Scope
@@ -62,8 +64,7 @@ namespace Ild_Music.ViewModels
         public MainViewModel()
         {
             _player = player.PlayerInstance;
-            _player.SetNotifier(() => 
-                    OnPropertyChanged("PlayerState"));
+            _player.SetNotifier(() => OnPropertyChanged("PlayerState") );
 
             App.ViewModelTable.Add(StartViewModel.nameVM, new StartViewModel());
             App.ViewModelTable.Add(FactoryViewModel.nameVM, new FactoryViewModel());
@@ -83,7 +84,11 @@ namespace Ild_Music.ViewModels
 
             CurrentVM = new SettingViewModel();
 
-
+            Task.Run(() => 
+            {
+                while(true)
+                    OnPropertyChanged("CurrentTime");
+            });
         }
 
         #endregion
@@ -150,8 +155,12 @@ namespace Ild_Music.ViewModels
             else if (instance is Track track)
             {
                 _player.SetTrackInstance(track);
-                HugeName = track.Pathway;
+                totalTime = track.Duration;
+                OnPropertyChanged("TotalTime");
+                // Title = track.Name;
+                // Title = PlayerState.ToString();
                 Task.Run(async () => await _player.Pause_ResumePlayer());
+                // OnPropertyChanged("PlayerState");
             }
         }
         #endregion
@@ -172,7 +181,7 @@ namespace Ild_Music.ViewModels
         private void KickPlayer(object obj) 
         {
             Task.Run(async () => await _player.Pause_ResumePlayer());
-            OnPropertyChanged("PlayerState");
+            OnPropertyChanged("PlayerState");   
         }
         
         private void StopPlayer(object obj) 

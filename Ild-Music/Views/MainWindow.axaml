@@ -258,7 +258,7 @@
                                 </Grid.RowDefinitions>
 
                                 <StackPanel Grid.Row="0">
-                                    <TextBlock Text="{Binding HugeName}" 
+                                    <TextBlock Text="{Binding Title}" 
                                                Foreground="White" 
                                                HorizontalAlignment="Left"
                                                FontSize="12" 

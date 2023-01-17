@@ -60,6 +60,7 @@ namespace Ild_Music_CORE.Models.Core.Session_Structure
 
         public void SetTrackInstance(Track track)
         {
+
             CurrentTrack = track;            
             InitAudioPlayer();
             IsEmpty = false;
@@ -83,7 +84,7 @@ namespace Ild_Music_CORE.Models.Core.Session_Structure
             if (CurrentTrack != null)
             {
                 PlayerState = true;
-                notifyAction?.Invoke();
+                notifyAction?.Invoke(); 
                 _audioPlayer.SetTrack(CurrentTrack, volume);
             }
         }
@@ -95,7 +96,7 @@ namespace Ild_Music_CORE.Models.Core.Session_Structure
             if (CurrentTrack != null)
             {
                 PlayerState = true;
-                notifyAction?.Invoke();
+                notifyAction?.Invoke(); 
                 _audioPlayer.SetTrack(CurrentTrack, volume);
                 AutoDrop();
             }
@@ -110,14 +111,14 @@ namespace Ild_Music_CORE.Models.Core.Session_Structure
         #region Player_Buttons
         public async Task Play()
         {
-            await Task.Run(() => _audioPlayer.Play());
+            await Task.Run(() => _audioPlayer.Play());  
             PlayerState = true;
         }
 
         public async Task StopPlayer()
         {
             await Task.Run(() => _audioPlayer.Stop());
-            PlayerState = false;
+            PlayerState = false;    
         }
         
         public async Task Pause_ResumePlayer()
@@ -126,15 +127,17 @@ namespace Ild_Music_CORE.Models.Core.Session_Structure
             {
                 case NAudio.Wave.PlaybackState.Stopped:
                     await Task.Run(() => _audioPlayer.Play());
+                    PlayerState = true;    
                     break;
                 case NAudio.Wave.PlaybackState.Paused:
                     await Task.Run(() => _audioPlayer.Pause());
+                    PlayerState = true;     
                     break;
                 case NAudio.Wave.PlaybackState.Playing:
                     await Task.Run(() => _audioPlayer.Pause());
+                    PlayerState = false;    
                     break;
             }
-            PlayerState ^= true;    
             notifyAction?.Invoke(); 
         }
 
@@ -143,6 +146,8 @@ namespace Ild_Music_CORE.Models.Core.Session_Structure
         
         public async Task ChangeVolume(float volume) =>
             _audioPlayer.OnVolumeChanged(volume);
+
+        
         #endregion
 
         #region Shuffle_region

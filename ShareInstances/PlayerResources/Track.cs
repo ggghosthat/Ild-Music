@@ -98,11 +98,11 @@ namespace ShareInstances.PlayerResources
         {
             if (File.Exists(pathway))
             {
-                if (new FileInfo(pathway).Extension == ".mp3")
-                {
-                    var taglib = TagLib.File.Create(pathway);
-                    duration = taglib.Properties.Duration;
-                }
+                // if (new FileInfo(pathway).Extension == ".mp3")
+                // {
+                var taglib = TagLib.File.Create(pathway);
+                duration = taglib.Properties.Duration;
+                // }
             }
         }
         #endregion
