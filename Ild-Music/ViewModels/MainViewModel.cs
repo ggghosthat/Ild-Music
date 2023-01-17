@@ -34,7 +34,7 @@ namespace Ild_Music.ViewModels
 
         #region Player Scope
         public IPlayer _player;
-        private bool PlayerToggle => _player.PlayerState;
+        private bool PlayerState => _player.PlayerState;
         public TimeSpan TotalTime => _player.TotalTime;
         public TimeSpan CurrentTime => _player.CurrentTime;
         // public TimeSpan CurrentTime => TimeSpan.Zero;
@@ -62,6 +62,8 @@ namespace Ild_Music.ViewModels
         public MainViewModel()
         {
             _player = player.PlayerInstance;
+            _player.SetNotifier(() => 
+                    OnPropertyChanged("PlayerState"));
 
             App.ViewModelTable.Add(StartViewModel.nameVM, new StartViewModel());
             App.ViewModelTable.Add(FactoryViewModel.nameVM, new FactoryViewModel());
@@ -80,13 +82,17 @@ namespace Ild_Music.ViewModels
             VolumeSliderShowCommand = new(VolumeSliderShow,null);
 
             CurrentVM = new SettingViewModel();
+
+
         }
 
         #endregion
         
-        #region External API
-        public void DefineNewPresentItem(BaseViewModel newItem) =>
+        #region MainViewModel API Methods
+        public void DefineNewPresentItem(BaseViewModel newItem)
+        {
             CurrentVM = newItem;
+        }
 
         public void PushVM(BaseViewModel prev, BaseViewModel next)
         {
@@ -94,13 +100,15 @@ namespace Ild_Music.ViewModels
             WindowStack.Push(next);
         }
 
-        public BaseViewModel PopVM() =>
-            WindowStack.Pop();
+        public BaseViewModel PopVM()
+        {
+            return WindowStack.Pop();
+        }
 
         public void ResolveWindowStack()
         {
-            // if (WindowStack.Count > 0)
-            CurrentVM = WindowStack.Pop();
+            if (WindowStack.Count > 0)
+                CurrentVM = PopVM();
 
             if (CurrentVM is ListViewModel listVM)
                 listVM.UpdateProviders();
@@ -131,26 +139,56 @@ namespace Ild_Music.ViewModels
                 ResolveWindowStack();
             }
         }
+
+        public void DropInstance(ICoreEntity instance, int playlistIndex = 0)
+        {
+            if (instance is Playlist playlist)
+            {
+                _player.SetPlaylistInstance(playlist, playlistIndex);
+                Task.Run(async () => await _player.Pause_ResumePlayer());
+            }
+            else if (instance is Track track)
+            {
+                _player.SetTrackInstance(track);
+                HugeName = track.Pathway;
+                Task.Run(async () => await _player.Pause_ResumePlayer());
+            }
+        }
         #endregion
 
         #region Predicates
-        private bool OnCanTogglePlayer(object obj) => _player.IsEmpty == false;
-        private bool OnCanSwipePlayer(object obj) => (_player.IsEmpty == false) && (_player.IsSwipe == true);
+        private bool OnCanTogglePlayer(object obj) 
+        {
+            return _player.IsEmpty == false;
+        }
+
+        private bool OnCanSwipePlayer(object obj)
+        {
+            return (_player.IsEmpty == false) && (_player.IsSwipe == true);
+        }
         #endregion
 
         #region Command Methods
-        private void KickPlayer(object obj) =>
-            _player.Pause_ResumePlayer();
+        private void KickPlayer(object obj) 
+        {
+            Task.Run(async () => await _player.Pause_ResumePlayer());
+            OnPropertyChanged("PlayerState");
+        }
         
-
-        private void StopPlayer(object obj) =>
+        private void StopPlayer(object obj) 
+        {
             _player.StopPlayer();
+        }
 
-        private void PreviousSwipePlayer(object obj) =>
+        private void PreviousSwipePlayer(object obj) 
+        {
             _player.DropPrevious();
+        }
 
-        private void NextSwipePlayer(object obj) =>
+        private void NextSwipePlayer(object obj) 
+        {
             _player.DropNext();
+        }
 
         private void TimeChangedPlayer(object obj)
         {
@@ -158,8 +196,10 @@ namespace Ild_Music.ViewModels
                 _player.CurrentTime = newTimeSpan;
         }
 
-        private void ShuffleCollectionPlayer(object obj) =>
+        private void ShuffleCollectionPlayer(object obj) 
+        {
             _player.ShuffleTrackCollection();
+        }
 
         private void ChangeVolumePlayer(object obj)
         {
@@ -167,8 +207,10 @@ namespace Ild_Music.ViewModels
                 _player.ChangeVolume(volume);
         }
 
-        private void VolumeSliderShow(object obj) =>
+        private void VolumeSliderShow(object obj)
+        {
             VolumeSliderOpen ^= true;
+        }
         #endregion
     }
 }

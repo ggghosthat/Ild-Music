@@ -1,4 +1,5 @@
 ﻿using NAudio.Wave;
+using NAudio;
 using System;
 using System.Threading.Tasks;
 using ShareInstances.PlayerResources;
@@ -8,10 +9,10 @@ namespace Ild_Music_CORE.Models.Core.Session_Structure
 {
     public class NAudioPlaybacker
     {
-        private object obj = new();
+        private readonly object obj = new object();
         #region Player Properties
-        private WaveOutEvent _device;
-        private AudioFileReader _reader;
+        private static WaveOutEvent _device;
+        private static AudioFileReader _reader;
         public PlaybackState PlaybackState => _device.PlaybackState;
         #endregion
 
@@ -64,7 +65,11 @@ namespace Ild_Music_CORE.Models.Core.Session_Structure
             CurrentTrack = inputTrack;
             Volume = volume ?? 25f;
             ReadTrack();
+            BuildPlayer();
         }
+
+        
+
         #endregion
 
         #region Main Methods
@@ -74,21 +79,28 @@ namespace Ild_Music_CORE.Models.Core.Session_Structure
             TotalTime = CurrentTrack.Duration;
         }
 
+        private void BuildPlayer()
+        {
+            if (_device == null)
+            {
+                _device = new();
+                _device.PlaybackStopped += OnPlaybackStopped;
+            }
+            if (_reader == null)
+            {
+                _reader = new(CurrentTrack.Pathway);
+                var wc = new WaveChannel32(_reader);
+                wc.PadWithZeroes = false;
+                _device.Init(_reader);
+            }
+        }
+
+
         public void Play()
         {
-            if (CurrentTrack != null)
-            {
-                if (_device == null)
-                {
-                    _device = new();
-                    _device.PlaybackStopped += OnPlaybackStopped;
-                }
-                if (_reader == null)
-                {
-                    _reader = new(CurrentTrack.Pathway);
-                    _device.Init(_reader);
-                }
-                _device.Play();
+            if (CurrentTrack != null && _device != null && _reader != null)
+            {            
+                _device?.Play();
                 Process();
             }
         }
@@ -106,20 +118,21 @@ namespace Ild_Music_CORE.Models.Core.Session_Structure
         public void Stop()
         {
             if (_device != null)
-                _device?.Stop();
+                _device?.Stop();    
         }
 
         private void Process()
         {
-            while (_device.PlaybackState == PlaybackState.Playing || _device.PlaybackState == PlaybackState.Paused)
+            while (_device.PlaybackState != PlaybackState.Stopped)
             {
-
-                if (!(_reader.CurrentTime < TotalTime) || _device.PlaybackState == PlaybackState.Stopped)
+                if (!(_reader.CurrentTime < TotalTime))
                 {
                     TrackFinished?.Invoke();
                     break;
                 }
             }
+
+            TrackFinished?.Invoke();    
         }
 
         public void OnVolumeChanged(float volume)
@@ -129,18 +142,14 @@ namespace Ild_Music_CORE.Models.Core.Session_Structure
         }
 
         private void OnPlaybackStopped(object sender, StoppedEventArgs e)
-        {
-            if (_device != null) 
-            {
-                _device.Dispose();
-                _device = null;
-            }
-            if (_reader != null) 
-            {
-                _reader.Dispose();
-                _reader = null;
-            }
-
+        {   
+            if (_device.PlaybackState == PlaybackState.Playing)
+                _device.Stop();
+            
+            _device.Dispose();
+            _device = null;
+            _reader.Dispose();
+            _reader = null;
         }
         #endregion
     }

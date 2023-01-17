@@ -5,7 +5,7 @@
 
         xmlns:v="clr-namespace:Ild_Music.Views"
         xmlns:vm="using:Ild_Music.ViewModels"
-        xmlns:converters="clr-namespace:Ild_Music.Avalonia.Converters"
+        xmlns:conv="clr-namespace:Ild_Music.Converters"
         xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
         xmlns:ia="clr-namespace:Avalonia.Xaml.Interactions.Core;assembly=Avalonia.Xaml.Interactions"
 
@@ -19,6 +19,7 @@
         WindowStartupLocation="CenterScreen">
     
     <Window.Resources>
+        <conv:PlayerToggleButtonConverter x:Key="ToggleButtonConverter"/>
     </Window.Resources>
 
     <Window.Styles>
@@ -280,16 +281,24 @@
                                         </Viewbox>
                                     </StackPanel>
 
-                                    <StackPanel Classes="PlayerButton"
-                                                VerticalAlignment="Center"
-                                                HorizontalAlignment="Left"
-                                                Margin="0,5">
-                                        <Viewbox Classes="vb" Width="24" Height="24" Margin="2,0" HorizontalAlignment="Left">
-                                            <Canvas Width="24" Height="24">
-                                                <Path Data="M8.5,8.64L13.77,12L8.5,15.36V8.64M6.5,5V19L17.5,12" />
-                                            </Canvas>
-                                        </Viewbox>
-                                    </StackPanel>
+                                    
+                                    <Border>
+                                        <i:Interaction.Behaviors>
+                                            <ia:EventTriggerBehavior EventName="Tapped">
+                                              <ia:InvokeCommandAction Command="{Binding KickCommand}"/>
+                                            </ia:EventTriggerBehavior>  
+                                        </i:Interaction.Behaviors>
+                                        <StackPanel Classes="PlayerButton"
+                                                    VerticalAlignment="Center"
+                                                    HorizontalAlignment="Left"
+                                                    Margin="0,5">
+                                            <Viewbox Classes="vb" Width="24" Height="24" Margin="2,0" HorizontalAlignment="Left">
+                                                <Canvas Width="24" Height="24">
+                                                    <Path Data="{Binding PlayerState, Converter={StaticResource ToggleButtonConverter} }" />
+                                                </Canvas>
+                                            </Viewbox>
+                                        </StackPanel>
+                                    </Border>
 
                                     <StackPanel Classes="PlayerButton"
                                                 VerticalAlignment="Center"

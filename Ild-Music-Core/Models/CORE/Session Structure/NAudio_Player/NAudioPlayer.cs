@@ -21,7 +21,7 @@ namespace Ild_Music_CORE.Models.Core.Session_Structure
         #endregion
 
         #region Playbacker Properties
-        private NAudioPlaybacker _audioPlayer = new();
+        public NAudioPlaybacker _audioPlayer = new();
         private float volume;
         public TimeSpan TotalTime => _audioPlayer.TotalTime;
 
@@ -34,15 +34,14 @@ namespace Ild_Music_CORE.Models.Core.Session_Structure
                 else
                     return TimeSpan.Zero;
             }
-            set => _audioPlayer.CurrentTime = value;
-            
+            set => _audioPlayer.CurrentTime = value;            
         }
         #endregion
 
         #region Player State Properties
         public bool IsEmpty { get; private set; } = true;
         public bool IsSwipe { get; private set; } = false;
-        public bool PlayerState { get; private set; }
+        public bool PlayerState { get; private set; } = false;
         #endregion
 
         #region Actions
@@ -84,10 +83,8 @@ namespace Ild_Music_CORE.Models.Core.Session_Structure
             if (CurrentTrack != null)
             {
                 PlayerState = true;
-                if (notifyAction != null)
-                    notifyAction?.Invoke();
+                notifyAction?.Invoke();
                 _audioPlayer.SetTrack(CurrentTrack, volume);
-                FinishNotify();
             }
         }
 
@@ -125,20 +122,20 @@ namespace Ild_Music_CORE.Models.Core.Session_Structure
         
         public async Task Pause_ResumePlayer()
         {
-            await Task.Run(() => _audioPlayer.Pause());
             switch (_audioPlayer.PlaybackState)
             {
                 case NAudio.Wave.PlaybackState.Stopped:
-                    PlayerState = false;
+                    await Task.Run(() => _audioPlayer.Play());
                     break;
                 case NAudio.Wave.PlaybackState.Paused:
-                    PlayerState = false;
+                    await Task.Run(() => _audioPlayer.Pause());
                     break;
                 case NAudio.Wave.PlaybackState.Playing:
-                    PlayerState = true;
+                    await Task.Run(() => _audioPlayer.Pause());
                     break;
             }
-            notifyAction?.Invoke();
+            PlayerState ^= true;    
+            notifyAction?.Invoke(); 
         }
 
         public async Task ShuffleTrackCollection() =>
@@ -149,14 +146,14 @@ namespace Ild_Music_CORE.Models.Core.Session_Structure
         #endregion
 
         #region Shuffle_region
-        void OnShuffleCollection()
+        private void OnShuffleCollection()
         {
-            _audioPlayer.Stop();
+            // _audioPlayer.Stop();
             Shuffle();
             InitAudioPlayer(index: 0);
         }
 
-        void Shuffle()
+        private void Shuffle()
         {
             var tmp = Collection.OrderBy(t => Guid.NewGuid()).ToList();
             Collection = tmp;
@@ -164,65 +161,37 @@ namespace Ild_Music_CORE.Models.Core.Session_Structure
         #endregion
 
         #region Drop_region
+        private void AutoDrop() =>
+            _audioPlayer.TrackFinished += DropNext;
+        
         public async void DropNext() =>
-            await Task.Run(() => DropTrack(CurrentTrack.NextTrack));
+            await Task.Run(() => {
+                if ((IsSwipe) && (!IsEmpty))
+                    DropMediaInstance(true);
+            });
 
         public async void DropPrevious() =>
-            await Task.Run(() => DropTrack(CurrentTrack.PreviousTrack));
+            await Task.Run(() => {
+                if ((IsSwipe) && (!IsEmpty))
+                    DropMediaInstance(false);
+            });
+               
 
-        void DropTrack(Track track)
+
+        private void DropMediaInstance(bool direct)
         {
-            if (_audioPlayer != null)
-                _audioPlayer.Stop();
+            _audioPlayer.TrackFinished -= DropNext;
 
-            //if (CurrentTrack != null)
-            //    DropTrack2Player(track);
-            DropTrack2Player(track);
-            _audioPlayer.Play();   
-        }
-
-        void DropTrack2Player(Track track)
-        {
-            CurrentTrack = track;
-            if (CurrentTrack != null)
-            {
-                PlayerState = true;
-                notifyAction?.Invoke();
-                _audioPlayer.SetTrack(CurrentTrack, volume);
-                AutoDrop();
-            }
+            if (direct)
+                CurrentTrack = CurrentTrack.NextTrack;
+            else
+                CurrentTrack = CurrentTrack.PreviousTrack;
+            
+            _audioPlayer.SetTrack(CurrentTrack, volume);
+            AutoDrop();
+            Pause_ResumePlayer();
         }
         #endregion
-
-        #region end
-
-
-        void AutoDrop()
-        {
-            if (_audioPlayer != null)
-            {
-                _audioPlayer.TrackFinished += () =>
-                {
-                    PlayerState = false;
-                    notifyAction?.Invoke();
-                };
-                _audioPlayer.TrackFinished += DropNext;
-                //_audioPlayer.TrackFinished += StartPlayer;
-            }
-        }
-
-        
-        void FinishNotify()
-        {
-            if (_audioPlayer != null)
-                _audioPlayer.TrackFinished += () =>
-                {
-                    PlayerState = false;
-                    notifyAction?.Invoke();
-                };             
-        }
     }
-        #endregion
-        
 }
 
