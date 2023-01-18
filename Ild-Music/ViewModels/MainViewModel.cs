@@ -150,17 +150,15 @@ namespace Ild_Music.ViewModels
             if (instance is Playlist playlist)
             {
                 _player.SetPlaylistInstance(playlist, playlistIndex);
-                Task.Run(async () => await _player.Pause_ResumePlayer());
+                _player.Pause_ResumePlayer();
             }
             else if (instance is Track track)
             {
                 _player.SetTrackInstance(track);
                 totalTime = track.Duration;
                 OnPropertyChanged("TotalTime");
-                // Title = track.Name;
-                // Title = PlayerState.ToString();
-                Task.Run(async () => await _player.Pause_ResumePlayer());
-                // OnPropertyChanged("PlayerState");
+                Title = track.Name;
+                _player.Pause_ResumePlayer();
             }
         }
         #endregion
@@ -180,7 +178,8 @@ namespace Ild_Music.ViewModels
         #region Command Methods
         private void KickPlayer(object obj) 
         {
-            Task.Run(async () => await _player.Pause_ResumePlayer());
+            // Task.Run(async () => await _player.Pause_ResumePlayer());
+            _player.Pause_ResumePlayer();
             OnPropertyChanged("PlayerState");   
         }
         

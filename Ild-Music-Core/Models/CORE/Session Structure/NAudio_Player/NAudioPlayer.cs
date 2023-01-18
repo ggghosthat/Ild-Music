@@ -113,12 +113,16 @@ namespace Ild_Music_CORE.Models.Core.Session_Structure
         {
             await Task.Run(() => _audioPlayer.Play());  
             PlayerState = true;
+            notifyAction?.Invoke(); 
+
         }
 
         public async Task StopPlayer()
         {
             await Task.Run(() => _audioPlayer.Stop());
             PlayerState = false;    
+            notifyAction?.Invoke(); 
+
         }
         
         public async Task Pause_ResumePlayer()

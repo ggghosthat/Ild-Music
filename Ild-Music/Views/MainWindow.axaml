@@ -378,7 +378,8 @@
 
                                                 <StackPanel Orientation="Vertical">
                                                     
-                                                    <Slider Classes="thumby"
+                                                    <Slider x:Name="sldThumby"
+                                                            Classes="thumby"
                                                             Orientation="Horizontal"
                                                             HorizontalAlignment="Left"
                                                             VerticalAlignment="Bottom"

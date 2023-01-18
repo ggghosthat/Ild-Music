@@ -1,4 +1,12 @@
+using Ild_Music.ViewModels;
+using Ild_Music.ViewModels.Base;
+using ShareInstances;
+
+using System;
+using System.Diagnostics;
+using PropertyChanged;
 using Avalonia;
+using Avalonia.Threading;
 using Avalonia.Media;
 using Avalonia.Input;
 using Avalonia.Markup.Xaml;
@@ -7,12 +15,7 @@ using Avalonia.Interactivity;
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
 using Avalonia.Controls.ApplicationLifetimes;
-using Ild_Music.ViewModels;
-using Ild_Music.ViewModels.Base;
 
-using System;
-using System.Diagnostics;
-using PropertyChanged;
 
 namespace Ild_Music.Views
 {
@@ -26,6 +29,7 @@ namespace Ild_Music.Views
         private const string PART_VOLUME_BUTTON = "VolumeButton";
         private const string PART_MAIN_GRID = "MainGrid";
         private const string PART_VOLUME_SLIDER = "VolumeSlider";
+        private const string PART_TIME_SLIDER = "sldThumby";
 
         private Grid? titleBar;
         private Grid? navBar;
@@ -34,10 +38,14 @@ namespace Ild_Music.Views
         private Control volumeButton;
         private Control mainGrid;
         private Slider volumeSlider;
+        private static Slider sldThumby;
         #endregion
 
+        private static DispatcherTimer timer = new(TimeSpan.FromSeconds(1), DispatcherPriority.Normal, Timer_Tick);
+        private static bool isDragging = false;
 
-        public MainViewModel Context {get; private set;}
+
+        public static MainViewModel Context {get; private set;}
 
         #region Ctor
         public MainWindow()
@@ -45,6 +53,26 @@ namespace Ild_Music.Views
             InitializeComponent();
             DataContext = new MainViewModel();
             Context = (MainViewModel)DataContext;
+            timer.Start();
+        }
+        #endregion
+
+        #region Dispatcher timer Methods
+        
+
+        private static void Timer_Tick(object sender, EventArgs e)
+        {
+            if ((Context.PlayerState) && !isDragging)
+            {
+                sldThumby.Minimum = 0;
+                sldThumby.Maximum = Context.TotalTime.TotalSeconds;
+                sldThumby.Value = Context.CurrentTime.TotalSeconds;
+            }
+            else if(!Context.PlayerState)
+            {                
+                sldThumby.Value = sldThumby.Minimum;
+                sldThumby.Maximum = 100;
+            }
         }
         #endregion
 
@@ -64,6 +92,7 @@ namespace Ild_Music.Views
             volumeButton = (Control)e.NameScope.Get<StackPanel>(PART_VOLUME_BUTTON);
             mainGrid = (Control)e.NameScope.Get<Grid>(PART_MAIN_GRID);
             volumeSlider = e.NameScope.Get<Slider>(PART_VOLUME_SLIDER);
+            sldThumby = e.NameScope.Get<Slider>(PART_TIME_SLIDER);
         }
 
 

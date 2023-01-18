@@ -883,8 +883,7 @@
                                     Value="0"
                                     Background="#6d7c7a"
                                     Thumb.DragCompleted="sldTrackDuration_DragCompleted"
-                                    Thumb.DragStarted="sldTrackDuration_DragStarted"
-                                    />
+                                    Thumb.DragStarted="sldTrackDuration_DragStarted"/>
                         </StackPanel>
                         <StackPanel>
                             <TextBlock Name="lblTotatTime"
