@@ -9,6 +9,7 @@ using ShareInstances.PlayerResources.Interfaces;
 
 
 using System;
+using Avalonia.Threading;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -18,6 +19,7 @@ namespace Ild_Music.ViewModels
     public class MainViewModel : Base.BaseViewModel
     {
         #region Fields
+        private DispatcherTimer timer;
         public bool VolumeSliderOpen {get; private set;} = false;
         #endregion
 
@@ -35,11 +37,19 @@ namespace Ild_Music.ViewModels
         public IPlayer _player;
         public bool PlayerState => _player.PlayerState;
 
-        public string Title {get; private set;}
-
         private TimeSpan totalTime = TimeSpan.Zero;
-        public TimeSpan TotalTime => totalTime;
-        public TimeSpan CurrentTime => _player.CurrentTime;
+        public double TotalTime => totalTime.TotalSeconds;
+        public double StartTime => TimeSpan.Zero.TotalSeconds;
+        public double CurrentTime 
+        {
+            get => _player.CurrentTime.TotalSeconds;
+            set => _player.CurrentTime = TimeSpan.FromSeconds(value);
+        }
+
+        public TimeSpan CurrentTimeDisplay => TimeSpan.FromSeconds(CurrentTime);
+        public TimeSpan TotalTimeDisplay => totalTime;
+
+        public string Title {get; private set;}
         #endregion
 
         #region Commands Scope
@@ -84,15 +94,23 @@ namespace Ild_Music.ViewModels
 
             CurrentVM = new SettingViewModel();
 
-            Task.Run(() => 
-            {
-                while(true)
-                    OnPropertyChanged("CurrentTime");
-            });
+            timer = new(TimeSpan.FromMilliseconds(100), DispatcherPriority.Normal, UpdateCurrentTime);
+            timer.Start();
         }
 
         #endregion
         
+        #region Private Methods
+        private void UpdateCurrentTime(object sender, EventArgs e)
+        {
+            if (PlayerState)
+            {
+                OnPropertyChanged("CurrentTime");
+                OnPropertyChanged("CurrentTimeDisplay");
+            }
+        }
+        #endregion
+
         #region MainViewModel API Methods
         public void DefineNewPresentItem(BaseViewModel newItem)
         {
@@ -156,8 +174,9 @@ namespace Ild_Music.ViewModels
             {
                 _player.SetTrackInstance(track);
                 totalTime = track.Duration;
-                OnPropertyChanged("TotalTime");
                 Title = track.Name;
+                OnPropertyChanged("TotalTime");
+                OnPropertyChanged("TotalTimeDisplay");
                 _player.Pause_ResumePlayer();
             }
         }
@@ -178,7 +197,6 @@ namespace Ild_Music.ViewModels
         #region Command Methods
         private void KickPlayer(object obj) 
         {
-            // Task.Run(async () => await _player.Pause_ResumePlayer());
             _player.Pause_ResumePlayer();
             OnPropertyChanged("PlayerState");   
         }

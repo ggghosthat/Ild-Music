@@ -31,10 +31,15 @@ namespace Ild_Music_CORE.Models.Core.Session_Structure
             {
                 if (_audioPlayer != null)
                     return _audioPlayer.CurrentTime;
-                else
-                    return TimeSpan.Zero;
+                // else
+                    // return TimeSpan.Zero;
             }
-            set => _audioPlayer.CurrentTime = value;            
+            set
+            {
+                _audioPlayer.Stop();
+                _audioPlayer.CurrentTime = value;        
+
+            } 
         }
         #endregion
 

@@ -32,9 +32,9 @@ namespace Ild_Music_CORE.Models.Core.Session_Structure
             }
             set 
             {
-                lock (obj) 
-                    _reader.CurrentTime = value;
-                
+                _device.Stop();
+                _reader.CurrentTime = value;   
+                _device.PLay();
             } 
         }
         #endregion

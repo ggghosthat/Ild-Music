@@ -30,6 +30,7 @@ namespace Ild_Music.Views
         private const string PART_MAIN_GRID = "MainGrid";
         private const string PART_VOLUME_SLIDER = "VolumeSlider";
         private const string PART_TIME_SLIDER = "sldThumby";
+        private const string PART_TIME_SLIDER_THUMB = "timeThumber";
 
         private Grid? titleBar;
         private Grid? navBar;
@@ -38,12 +39,7 @@ namespace Ild_Music.Views
         private Control volumeButton;
         private Control mainGrid;
         private Slider volumeSlider;
-        private static Slider sldThumby;
         #endregion
-
-        private static DispatcherTimer timer = new(TimeSpan.FromSeconds(1), DispatcherPriority.Normal, Timer_Tick);
-        private static bool isDragging = false;
-
 
         public static MainViewModel Context {get; private set;}
 
@@ -53,26 +49,7 @@ namespace Ild_Music.Views
             InitializeComponent();
             DataContext = new MainViewModel();
             Context = (MainViewModel)DataContext;
-            timer.Start();
-        }
-        #endregion
-
-        #region Dispatcher timer Methods
-        
-
-        private static void Timer_Tick(object sender, EventArgs e)
-        {
-            if ((Context.PlayerState) && !isDragging)
-            {
-                sldThumby.Minimum = 0;
-                sldThumby.Maximum = Context.TotalTime.TotalSeconds;
-                sldThumby.Value = Context.CurrentTime.TotalSeconds;
-            }
-            else if(!Context.PlayerState)
-            {                
-                sldThumby.Value = sldThumby.Minimum;
-                sldThumby.Maximum = 100;
-            }
+            // timer.Start();
         }
         #endregion
 
@@ -85,6 +62,7 @@ namespace Ild_Music.Views
         protected override void OnTemplateApplied(TemplateAppliedEventArgs e)
         {
             base.OnTemplateApplied(e);
+
             titleBar = e.NameScope.Get<Grid>(PART_TITLEBAR);
             navBar = e.NameScope.Get<Grid>(PART_NAVBAR);
 
@@ -92,7 +70,6 @@ namespace Ild_Music.Views
             volumeButton = (Control)e.NameScope.Get<StackPanel>(PART_VOLUME_BUTTON);
             mainGrid = (Control)e.NameScope.Get<Grid>(PART_MAIN_GRID);
             volumeSlider = e.NameScope.Get<Slider>(PART_VOLUME_SLIDER);
-            sldThumby = e.NameScope.Get<Slider>(PART_TIME_SLIDER);
         }
 
 
@@ -151,7 +128,8 @@ namespace Ild_Music.Views
         private void OnSettingPointerPressed(object? sender, PointerPressedEventArgs e) =>
             SwitchContext(SettingViewModel.nameVM);
 
-        private void VolumePopupDown(object? sender, PointerPressedEventArgs e) => ((MainViewModel)DataContext).VolumeSliderShowCommand.Execute(null);
+        private void VolumePopupDown(object? sender, PointerPressedEventArgs e) => 
+            ((MainViewModel)DataContext).VolumeSliderShowCommand.Execute(null);
         #endregion
 
 
