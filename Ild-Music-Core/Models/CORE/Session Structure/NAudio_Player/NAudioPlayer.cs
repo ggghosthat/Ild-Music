@@ -27,19 +27,8 @@ namespace Ild_Music_CORE.Models.Core.Session_Structure
 
         public TimeSpan CurrentTime
         {
-            get 
-            {
-                if (_audioPlayer != null)
-                    return _audioPlayer.CurrentTime;
-                // else
-                    // return TimeSpan.Zero;
-            }
-            set
-            {
-                _audioPlayer.Stop();
-                _audioPlayer.CurrentTime = value;        
-
-            } 
+            get => _audioPlayer.CurrentTime; 
+            set => _audioPlayer.CurrentTime = value; 
         }
         #endregion
 
@@ -65,7 +54,6 @@ namespace Ild_Music_CORE.Models.Core.Session_Structure
 
         public void SetTrackInstance(Track track)
         {
-
             CurrentTrack = track;            
             InitAudioPlayer();
             IsEmpty = false;
@@ -91,6 +79,7 @@ namespace Ild_Music_CORE.Models.Core.Session_Structure
                 PlayerState = true;
                 notifyAction?.Invoke(); 
                 _audioPlayer.SetTrack(CurrentTrack, volume);
+                _audioPlayer.TrackFinished += TrackFinishedKick;
             }
         }
 
@@ -107,10 +96,10 @@ namespace Ild_Music_CORE.Models.Core.Session_Structure
             }
         }
 
-
-        public void SetNotifier(Action callBack) =>
+        public void SetNotifier(Action callBack)
+        {
             notifyAction = callBack;
-
+        }
         #endregion
 
         #region Player_Buttons
@@ -119,7 +108,6 @@ namespace Ild_Music_CORE.Models.Core.Session_Structure
             await Task.Run(() => _audioPlayer.Play());  
             PlayerState = true;
             notifyAction?.Invoke(); 
-
         }
 
         public async Task StopPlayer()
@@ -150,19 +138,30 @@ namespace Ild_Music_CORE.Models.Core.Session_Structure
             notifyAction?.Invoke(); 
         }
 
-        public async Task ShuffleTrackCollection() =>
+        public async Task ShuffleTrackCollection()
+        {
             await Task.Run(() => ShuffleCollection?.Invoke());
+        }
         
-        public async Task ChangeVolume(float volume) =>
+        public async Task ChangeVolume(float volume)
+        {
             _audioPlayer.OnVolumeChanged(volume);
+        }
 
-        
+        public async Task RepeatTrack()
+        {
+            await Task.Run(() => _audioPlayer.Repeat());
+        }
+
+        public async void ResetTime(double resetTime)
+        {
+            _audioPlayer.ResetTime(resetTime);
+        }
         #endregion
 
-        #region Shuffle_region
+        #region Shuffle Methods
         private void OnShuffleCollection()
         {
-            // _audioPlayer.Stop();
             Shuffle();
             InitAudioPlayer(index: 0);
         }
@@ -174,7 +173,7 @@ namespace Ild_Music_CORE.Models.Core.Session_Structure
         }
         #endregion
 
-        #region Drop_region
+        #region Drop Methods
         private void AutoDrop() =>
             _audioPlayer.TrackFinished += DropNext;
         
@@ -204,6 +203,14 @@ namespace Ild_Music_CORE.Models.Core.Session_Structure
             _audioPlayer.SetTrack(CurrentTrack, volume);
             AutoDrop();
             Pause_ResumePlayer();
+        }
+        #endregion
+
+        #region Private Methods
+        private void TrackFinishedKick()
+        {
+            PlayerState = false;
+            notifyAction?.Invoke();
         }
         #endregion
     }

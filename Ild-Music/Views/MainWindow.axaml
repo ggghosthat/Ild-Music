@@ -264,17 +264,23 @@
                                         VerticalAlignment="Top"
                                         HorizontalAlignment="Left"
                                         Margin="15,0,0,0">
-                                <StackPanel Classes="PlayerButton"
-                                            VerticalAlignment="Center"
-                                            HorizontalAlignment="Left"
-                                            Margin="0,5">
-                                    <Viewbox Classes="vb" Width="24" Height="24" Margin="2,0" HorizontalAlignment="Left">
-                                        <Canvas Width="24" Height="24">
-                                            <Path Data="M6,6H8V18H6M9.5,12L18,18V6M16,14.14L12.97,12L16,9.86V14.14Z" />
-                                        </Canvas>
-                                    </Viewbox>
-                                </StackPanel>
-
+                                <Border>
+                                    <i:Interaction.Behaviors>
+                                        <ia:EventTriggerBehavior EventName="Tapped">
+                                          <ia:InvokeCommandAction Command="{Binding PreviousCommand}"/>
+                                        </ia:EventTriggerBehavior>  
+                                    </i:Interaction.Behaviors>
+                                    <StackPanel Classes="PlayerButton"
+                                                VerticalAlignment="Center"
+                                                HorizontalAlignment="Left"
+                                                Margin="0,5">
+                                        <Viewbox Classes="vb" Width="24" Height="24" Margin="2,0" HorizontalAlignment="Left">
+                                            <Canvas Width="24" Height="24">
+                                                <Path Data="M6,6H8V18H6M9.5,12L18,18V6M16,14.14L12.97,12L16,9.86V14.14Z" />
+                                            </Canvas>
+                                        </Viewbox>
+                                    </StackPanel>
+                                </Border>
                                 
                                 <Border>
                                     <i:Interaction.Behaviors>
@@ -294,18 +300,25 @@
                                     </StackPanel>
                                 </Border>
 
-                                <StackPanel Classes="PlayerButton"
-                                            VerticalAlignment="Center"
-                                            HorizontalAlignment="Left"
-                                            Margin="0,5">
-                                    <Viewbox Classes="vb" Width="24" Height="24" Margin="2,0" HorizontalAlignment="Left">
-                                        <Canvas Width="24" Height="24">
-                                            <Path Data="M6,18L14.5,12L6,6M8,9.86L11.03,12L8,14.14M16,6H18V18H16" />
-                                        </Canvas>
-                                    </Viewbox>
-                                </StackPanel>
+                                <Border>
+                                    <i:Interaction.Behaviors>
+                                        <ia:EventTriggerBehavior EventName="Tapped">
+                                          <ia:InvokeCommandAction Command="{Binding NextCommand}"/>
+                                        </ia:EventTriggerBehavior>  
+                                    </i:Interaction.Behaviors>
+                                    <StackPanel Classes="PlayerButton"
+                                                VerticalAlignment="Center"
+                                                HorizontalAlignment="Left"
+                                                Margin="0,5">
+                                        <Viewbox Classes="vb" Width="24" Height="24" Margin="2,0" HorizontalAlignment="Left">
+                                            <Canvas Width="24" Height="24">
+                                                <Path Data="M6,18L14.5,12L6,6M8,9.86L11.03,12L8,14.14M16,6H18V18H16" />
+                                            </Canvas>
+                                        </Viewbox>
+                                    </StackPanel>
+                                </Border>
 
-                                <StackPanel Classes="PlayerButton"
+                                <!-- <StackPanel Classes="PlayerButton"
                                             VerticalAlignment="Center"
                                             HorizontalAlignment="Left"
                                             Margin="0,5">
@@ -314,18 +327,25 @@
                                             <Path Data="M17,3L22.25,7.5L17,12L22.25,16.5L17,21V18H14.26L11.44,15.18L13.56,13.06L15.5,15H17V12L17,9H15.5L6.5,18H2V15H5.26L14.26,6H17V3M2,6H6.5L9.32,8.82L7.2,10.94L5.26,9H2V6Z" />
                                         </Canvas>
                                     </Viewbox>
-                                </StackPanel>
+                                </StackPanel> -->
 
-                                <StackPanel Classes="PlayerButton"
-                                            VerticalAlignment="Center"
-                                            HorizontalAlignment="Left"
-                                            Margin="0,5">
-                                    <Viewbox Classes="vb" Width="24" Height="24" Margin="2,0" HorizontalAlignment="Left">
-                                        <Canvas Width="24" Height="24">
-                                            <Path Data="M6,5.75L10.25,10H7V16H13.5L15.5,18H7A2,2 0 0,1 5,16V10H1.75L6,5.75M18,18.25L13.75,14H17V8H10.5L8.5,6H17A2,2 0 0,1 19,8V14H22.25L18,18.25Z" />
-                                        </Canvas>
-                                    </Viewbox>
-                                </StackPanel>
+                                <Border>
+                                    <i:Interaction.Behaviors>
+                                        <ia:EventTriggerBehavior EventName="Tapped">
+                                          <ia:InvokeCommandAction Command="{Binding RepeatCommand}"/>
+                                        </ia:EventTriggerBehavior>  
+                                    </i:Interaction.Behaviors>
+                                    <StackPanel Classes="PlayerButton"
+                                                VerticalAlignment="Center"
+                                                HorizontalAlignment="Left"
+                                                Margin="0,5">
+                                        <Viewbox Classes="vb" Width="24" Height="24" Margin="2,0" HorizontalAlignment="Left">
+                                            <Canvas Width="24" Height="24">
+                                                <Path Data="M6,5.75L10.25,10H7V16H13.5L15.5,18H7A2,2 0 0,1 5,16V10H1.75L6,5.75M18,18.25L13.75,14H17V8H10.5L8.5,6H17A2,2 0 0,1 19,8V14H22.25L18,18.25Z" />
+                                            </Canvas>
+                                        </Viewbox>
+                                    </StackPanel>
+                                </Border>
 
                                 <StackPanel x:Name="VolumeButton"
                                             Classes="PlayerButton"
@@ -416,6 +436,14 @@
                                             </Grid>
                                         </Grid>                  
                                 </StackPanel>
+
+                                <TextBlock Grid.Column="2"
+                                           Text="{Binding Title}"
+                                           Foreground="#6ed48b"
+                                           Margin="0,-8"
+                                           FontSize="10"
+                                           FontWeight="Light"
+                                           HorizontalAlignment="Right"/>
                             </StackPanel>
                         </Grid>
                     </Grid>

@@ -48,7 +48,14 @@ namespace IldMusicCore_Test
                 _player.DropNext();
             if (cmd is "prev")
                 _player.DropPrevious();
-
+            if (cmd is "total")
+                Console.WriteLine(_player.TotalTime);
+            if (cmd is "skip")
+            {
+                Console.Write("Type your time: ");
+                var into = Convert.ToDouble(Console.ReadLine());
+                _player.CurrentTime = TimeSpan.FromSeconds((double)into);
+            }
         }
     }
 }

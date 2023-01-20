@@ -57,7 +57,7 @@ namespace Ild_Music.ViewModels
         public CommandDelegator NextCommand { get; }
         public CommandDelegator KickCommand { get; }
         public CommandDelegator StopCommand { get; }
-        public CommandDelegator TimeChangedCommand { get; }
+        public CommandDelegator RepeatCommand { get; }
 
         public CommandDelegator VolumeSliderShowCommand {get;}
         #endregion
@@ -89,12 +89,12 @@ namespace Ild_Music.ViewModels
             StopCommand = new(StopPlayer, OnCanTogglePlayer);
             PreviousCommand = new(PreviousSwipePlayer, OnCanSwipePlayer);
             NextCommand = new(NextSwipePlayer, OnCanSwipePlayer);
-            TimeChangedCommand = new(TimeChangedPlayer, OnCanTogglePlayer);
+            RepeatCommand = new(RepeatPlayer, OnCanTogglePlayer);
             VolumeSliderShowCommand = new(VolumeSliderShow,null);
 
             CurrentVM = new SettingViewModel();
 
-            timer = new(TimeSpan.FromMilliseconds(100), DispatcherPriority.Normal, UpdateCurrentTime);
+            timer = new(TimeSpan.FromMilliseconds(300), DispatcherPriority.Normal, UpdateCurrentTime);
             timer.Start();
         }
 
@@ -108,6 +108,7 @@ namespace Ild_Music.ViewModels
                 OnPropertyChanged("CurrentTime");
                 OnPropertyChanged("CurrentTimeDisplay");
             }
+            OnPropertyChanged("PlayerState");
         }
         #endregion
 
@@ -174,7 +175,7 @@ namespace Ild_Music.ViewModels
             {
                 _player.SetTrackInstance(track);
                 totalTime = track.Duration;
-                Title = track.Name;
+                Title = PlayerState.ToString();
                 OnPropertyChanged("TotalTime");
                 OnPropertyChanged("TotalTimeDisplay");
                 _player.Pause_ResumePlayer();
@@ -216,10 +217,9 @@ namespace Ild_Music.ViewModels
             _player.DropNext();
         }
 
-        private void TimeChangedPlayer(object obj)
+        private void RepeatPlayer(object obj)
         {
-            if (obj is TimeSpan newTimeSpan)
-                _player.CurrentTime = newTimeSpan;
+            _player.RepeatTrack();
         }
 
         private void ShuffleCollectionPlayer(object obj) 

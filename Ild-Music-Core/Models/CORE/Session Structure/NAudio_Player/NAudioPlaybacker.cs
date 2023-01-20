@@ -28,14 +28,9 @@ namespace Ild_Music_CORE.Models.Core.Session_Structure
                 if (_reader != null)
                     return _reader.CurrentTime;
                 else 
-                    return TimeSpan.FromSeconds(0);
+                    return TimeSpan.Zero;
             }
-            set 
-            {
-                _device.Stop();
-                _reader.CurrentTime = value;   
-                _device.PLay();
-            } 
+            set => _reader.CurrentTime = value;
         }
         #endregion
 
@@ -64,20 +59,16 @@ namespace Ild_Music_CORE.Models.Core.Session_Structure
 
             CurrentTrack = inputTrack;
             Volume = volume ?? 25f;
-            ReadTrack();
             BuildPlayer();
         }       
         #endregion
 
         #region Main Methods
-        private void ReadTrack()
+        private void BuildPlayer()
         {
             Title = CurrentTrack.Name;
             TotalTime = CurrentTrack.Duration;
-        }
 
-        private void BuildPlayer()
-        {
             if (_device == null)
             {
                 _device = new();
@@ -91,7 +82,6 @@ namespace Ild_Music_CORE.Models.Core.Session_Structure
                 _device.Init(_reader);
             }
         }
-
 
         public void Play()
         {
@@ -108,8 +98,6 @@ namespace Ild_Music_CORE.Models.Core.Session_Structure
                 _device.Play();
             else if (_device.PlaybackState == PlaybackState.Playing)
                 _device.Pause();
-            else
-                return;
         }
 
         public void Stop()
@@ -128,8 +116,24 @@ namespace Ild_Music_CORE.Models.Core.Session_Structure
                     break;
                 }
             }
+            if (_device.PlaybackState == PlaybackState.Stopped)
+                TrackFinished?.Invoke();    
+        }
 
-            TrackFinished?.Invoke();    
+        public void Repeat()
+        {
+            if (CurrentTrack != null)
+                _reader.Position = 0;
+        }
+
+        public void ResetTime(double resetTime)
+        {
+            if (CurrentTrack != null)
+            {
+                _device.Stop();
+                _reader.CurrentTime = TimeSpan.FromSeconds(resetTime);
+                _device.Play();
+            }
         }
 
         public void OnVolumeChanged(float volume)
@@ -139,10 +143,7 @@ namespace Ild_Music_CORE.Models.Core.Session_Structure
         }
 
         private void OnPlaybackStopped(object sender, StoppedEventArgs e)
-        {   
-            if (_device.PlaybackState == PlaybackState.Playing)
-                _device.Stop();
-            
+        {
             _device.Dispose();
             _device = null;
             _reader.Dispose();

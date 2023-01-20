@@ -83,6 +83,10 @@ namespace ShareInstances
         public Task ShuffleTrackCollection();
 
         public Task ChangeVolume(float volume);
+
+        public Task RepeatTrack();
+
+        public void ResetTime(double resetTime);
     }
     
     public enum PlayerState
