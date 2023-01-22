@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Ild_Music_CORE.Models.Core.Session_Structure
+namespace NAudioPlayerCore.Models.Core.Session_Structure
 {
     public class NAudioPlayer : IPlayer
     {
@@ -39,11 +39,12 @@ namespace Ild_Music_CORE.Models.Core.Session_Structure
         #endregion
 
         #region Actions
-        private Action notifyAction;
+        private static Action notifyAction;
         #endregion
 
         #region Events
         private event Action ShuffleCollection;
+        public event Action CurrentPlaybackStopped;
         #endregion
 
         #region ctor
@@ -77,9 +78,14 @@ namespace Ild_Music_CORE.Models.Core.Session_Structure
             if (CurrentTrack != null)
             {
                 PlayerState = true;
-                notifyAction?.Invoke(); 
+                notifyAction.Invoke();
                 _audioPlayer.SetTrack(CurrentTrack, volume);
-                _audioPlayer.TrackFinished += TrackFinishedKick;
+                _audioPlayer.TrackFinished += () => 
+                {
+                    _audioPlayer.Stop();
+                    PlayerState = false;
+                    notifyAction.Invoke();
+                };
             }
         }
 
@@ -89,7 +95,7 @@ namespace Ild_Music_CORE.Models.Core.Session_Structure
                 CurrentTrack = Collection[index];
             if (CurrentTrack != null)
             {
-                PlayerState = true;
+                // PlayerState = true;
                 notifyAction?.Invoke(); 
                 _audioPlayer.SetTrack(CurrentTrack, volume);
                 AutoDrop();
@@ -114,7 +120,7 @@ namespace Ild_Music_CORE.Models.Core.Session_Structure
         {
             await Task.Run(() => _audioPlayer.Stop());
             PlayerState = false;    
-            notifyAction?.Invoke(); 
+            // notifyAction?.Invoke(); 
 
         }
         
@@ -123,19 +129,22 @@ namespace Ild_Music_CORE.Models.Core.Session_Structure
             switch (_audioPlayer.PlaybackState)
             {
                 case NAudio.Wave.PlaybackState.Stopped:
+                    PlayerState = true; 
+                    notifyAction.Invoke();   
                     await Task.Run(() => _audioPlayer.Play());
-                    PlayerState = true;    
                     break;
                 case NAudio.Wave.PlaybackState.Paused:
-                    await Task.Run(() => _audioPlayer.Pause());
-                    PlayerState = true;     
+                    PlayerState = true;
+                    notifyAction.Invoke();    
+                    await Task.Run(() => _audioPlayer.Pause()); 
                     break;
                 case NAudio.Wave.PlaybackState.Playing:
+                    PlayerState = false;
+                    notifyAction.Invoke();    
                     await Task.Run(() => _audioPlayer.Pause());
-                    PlayerState = false;    
                     break;
             }
-            notifyAction?.Invoke(); 
+            // notifyAction.Invoke(); 
         }
 
         public async Task ShuffleTrackCollection()
@@ -188,9 +197,7 @@ namespace Ild_Music_CORE.Models.Core.Session_Structure
                 if ((IsSwipe) && (!IsEmpty))
                     DropMediaInstance(false);
             });
-               
-
-
+        
         private void DropMediaInstance(bool direct)
         {
             _audioPlayer.TrackFinished -= DropNext;
@@ -209,8 +216,6 @@ namespace Ild_Music_CORE.Models.Core.Session_Structure
         #region Private Methods
         private void TrackFinishedKick()
         {
-            PlayerState = false;
-            notifyAction?.Invoke();
         }
         #endregion
     }

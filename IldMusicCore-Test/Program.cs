@@ -1,4 +1,4 @@
-﻿using Ild_Music_CORE.Models.Core.Session_Structure;
+﻿using NAudioPlayerCore.Models.Core.Session_Structure;
 using ShareInstances.PlayerResources;
 using System;
 using System.Collections.Generic;
@@ -18,8 +18,9 @@ namespace IldMusicCore_Test
 
         static void Main(string[] args)
         {
+            _player.SetNotifier(() => Console.WriteLine("Notify u"));
             playlist.Order();
-            InitPlayer();
+            _player.SetTrackInstance(tr1);
 
             while (isActive)
             {
@@ -50,6 +51,10 @@ namespace IldMusicCore_Test
                 _player.DropPrevious();
             if (cmd is "total")
                 Console.WriteLine(_player.TotalTime);
+            if (cmd is "current")
+                Console.WriteLine(_player.CurrentTime);
+            if (cmd is "state")
+                Console.WriteLine(_player.PlayerState);
             if (cmd is "skip")
             {
                 Console.Write("Type your time: ");

@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using ShareInstances.PlayerResources;
 using System.Diagnostics;
 
-namespace Ild_Music_CORE.Models.Core.Session_Structure
+namespace NAudioPlayerCore.Models.Core.Session_Structure
 {
     public class NAudioPlaybacker
     {
@@ -48,10 +48,9 @@ namespace Ild_Music_CORE.Models.Core.Session_Structure
         {
             if (_device != null || _reader != null)
             {
-                Task.Run(() => _device?.Stop());
-
                 while(true)
                 {
+                    _device?.Stop();
                     if (_device == null && _reader == null)
                         break;
                 }
@@ -79,7 +78,7 @@ namespace Ild_Music_CORE.Models.Core.Session_Structure
                 _reader = new(CurrentTrack.Pathway);
                 var wc = new WaveChannel32(_reader);
                 wc.PadWithZeroes = false;
-                _device.Init(_reader);
+                _device.Init(wc);
             }
         }
 
@@ -110,14 +109,10 @@ namespace Ild_Music_CORE.Models.Core.Session_Structure
         {
             while (_device.PlaybackState != PlaybackState.Stopped)
             {
-                if (!(_reader.CurrentTime < TotalTime))
-                {
-                    TrackFinished?.Invoke();
+                if (_reader.CurrentTime.TotalSeconds == TotalTime.TotalSeconds)
                     break;
-                }
             }
-            if (_device.PlaybackState == PlaybackState.Stopped)
-                TrackFinished?.Invoke();    
+            TrackFinished.Invoke();    
         }
 
         public void Repeat()
@@ -144,10 +139,16 @@ namespace Ild_Music_CORE.Models.Core.Session_Structure
 
         private void OnPlaybackStopped(object sender, StoppedEventArgs e)
         {
-            _device.Dispose();
-            _device = null;
-            _reader.Dispose();
-            _reader = null;
+            if(_device != null)
+            {
+                _device.Dispose();
+                _device = null;
+            }
+            if(_reader != null)
+            {
+                _reader.Dispose();
+                _reader = null;
+            }
         }
         #endregion
     }

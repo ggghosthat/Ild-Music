@@ -64,6 +64,8 @@ namespace ShareInstances
         public TimeSpan TotalTime { get; }
         public TimeSpan CurrentTime { get; set; }
 
+        public event Action CurrentPlaybackStopped;
+
         public void SetTrackInstance(Track track);
 
         public void SetPlaylistInstance(Playlist trackCollection, int index = 0);

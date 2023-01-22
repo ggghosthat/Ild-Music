@@ -434,16 +434,14 @@
                                                                    FontWeight="Light"
                                                                    HorizontalAlignment="Right"/>   
                                             </Grid>
-                                        </Grid>                  
+                                        </Grid>                   
                                 </StackPanel>
-
-                                <TextBlock Grid.Column="2"
-                                           Text="{Binding Title}"
+                                <TextBlock Text="{Binding Title}"
                                            Foreground="#6ed48b"
                                            Margin="0,-8"
                                            FontSize="10"
                                            FontWeight="Light"
-                                           HorizontalAlignment="Right"/>
+                                           HorizontalAlignment="Right"/> 
                             </StackPanel>
                         </Grid>
                     </Grid>

@@ -34,10 +34,11 @@ namespace Ild_Music.ViewModels
         #endregion
 
         #region Player Scope
-        public IPlayer _player;
+        public static IPlayer _player;
         public bool PlayerState => _player.PlayerState;
+        public bool PlayerEmpty => _player.IsEmpty;
 
-        private TimeSpan totalTime = TimeSpan.Zero;
+        private TimeSpan totalTime = TimeSpan.FromSeconds(1);
         public double TotalTime => totalTime.TotalSeconds;
         public double StartTime => TimeSpan.Zero.TotalSeconds;
         public double CurrentTime 
@@ -49,7 +50,7 @@ namespace Ild_Music.ViewModels
         public TimeSpan CurrentTimeDisplay => TimeSpan.FromSeconds(CurrentTime);
         public TimeSpan TotalTimeDisplay => totalTime;
 
-        public string Title {get; private set;}
+        public string Title => PlayerState.ToString();
         #endregion
 
         #region Commands Scope
@@ -103,12 +104,12 @@ namespace Ild_Music.ViewModels
         #region Private Methods
         private void UpdateCurrentTime(object sender, EventArgs e)
         {
+            OnPropertyChanged("PlayerState");
             if (PlayerState)
             {
                 OnPropertyChanged("CurrentTime");
                 OnPropertyChanged("CurrentTimeDisplay");
             }
-            OnPropertyChanged("PlayerState");
         }
         #endregion
 
@@ -175,10 +176,10 @@ namespace Ild_Music.ViewModels
             {
                 _player.SetTrackInstance(track);
                 totalTime = track.Duration;
-                Title = PlayerState.ToString();
                 OnPropertyChanged("TotalTime");
                 OnPropertyChanged("TotalTimeDisplay");
                 _player.Pause_ResumePlayer();
+                // OnPropertyChanged("PlayerState");   
             }
         }
         #endregion
