@@ -378,6 +378,7 @@
                                                         Classes="thumby"
                                                         Width="500"
                                                         Margin="0,-5"
+                                                        IsEnabled="{Binding PlayerState}"
                                                         Orientation="Horizontal"
                                                         HorizontalAlignment="Stretch"
                                                         VerticalAlignment="Bottom"
