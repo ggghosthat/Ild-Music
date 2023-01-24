@@ -76,8 +76,9 @@
                             <RowDefinition Height="auto"/>
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition/>
-                            <ColumnDefinition Width="896"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
 
 
@@ -99,43 +100,43 @@
                                 Background="#95000000"
                                 HorizontalAlignment="Left"
                                 VerticalAlignment="Bottom">
-                            <Slider x:Name="VolumeSlider"
-                                    Classes="volumeSlider"
-                                    Orientation="Vertical"
-                                    HorizontalAlignment="Center"
-                                    VerticalAlignment="Bottom">
-                                <Slider.Resources>
-                                    <x:Double x:Key="SliderVerticalThumbWidth">10</x:Double>
-                                    <x:Double x:Key="SliderVerticalThumbHeight">10</x:Double>
-                                    <x:Double x:Key="SliderVerticalWidth">7</x:Double>
-                                    <GridLength x:Key="SliderPreContentMargin">0</GridLength>
-                                    <GridLength x:Key="SliderPostContentMargin">0</GridLength>
-                                </Slider.Resources>
+                                <Slider x:Name="VolumeSlider"
+                                        Classes="volumeSlider"
+                                        Orientation="Vertical"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Bottom">
+                                    <Slider.Resources>
+                                        <x:Double x:Key="SliderVerticalThumbWidth">10</x:Double>
+                                        <x:Double x:Key="SliderVerticalThumbHeight">10</x:Double>
+                                        <x:Double x:Key="SliderVerticalWidth">7</x:Double>
+                                        <GridLength x:Key="SliderPreContentMargin">0</GridLength>
+                                        <GridLength x:Key="SliderPostContentMargin">0</GridLength>
+                                    </Slider.Resources>
 
-                                <Slider.Styles>
-                                    <Style Selector="Slider.volumeSlider /template/ RepeatButton#PART_DecreaseButton">
-                                        <Setter Property="Background" Value="#34eb64"/>
-                                    </Style>
+                                    <Slider.Styles>
+                                        <Style Selector="Slider.volumeSlider /template/ RepeatButton#PART_DecreaseButton">
+                                            <Setter Property="Background" Value="#34eb64"/>
+                                        </Style>
 
-                                    <Style Selector="Slider.volumeSlider /template/ RepeatButton#PART_IncreaseButton">
-                                        <Setter Property="Background" Value="#2b4532"/>
-                                    </Style>         
+                                        <Style Selector="Slider.volumeSlider /template/ RepeatButton#PART_IncreaseButton">
+                                            <Setter Property="Background" Value="#2b4532"/>
+                                        </Style>         
 
-                                    <Style Selector="Slider.volumeSlider Thumb">
-                                        <Setter Property="Template">
-                                            <ControlTemplate>
-                                                <Ellipse Width="10" Height="10" Fill="#19e04e" />
-                                            </ControlTemplate>
-                                        </Setter>
-                                    </Style>                                     
-                                </Slider.Styles>
-                            </Slider>
+                                        <Style Selector="Slider.volumeSlider Thumb">
+                                            <Setter Property="Template">
+                                                <ControlTemplate>
+                                                    <Ellipse Width="10" Height="10" Fill="#19e04e" />
+                                                </ControlTemplate>
+                                            </Setter>
+                                        </Style>                                     
+                                    </Slider.Styles>
+                                </Slider>
                         </Border>
 
                         <!--Header-->
                         <Grid Background="#16242b"
                                 Grid.Row="0"
-                                Grid.ColumnSpan="2">
+                                Grid.ColumnSpan="3">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="auto"/>
                                 <ColumnDefinition Width="*" />
@@ -164,7 +165,7 @@
                             <StackPanel Orientation="Horizontal"
                                         HorizontalAlignment="Right"
                                         VerticalAlignment="Top"
-                                        Grid.Column="2">
+                                        Grid.Column="3">
                                 <Button VerticalAlignment="Top"
                                         Padding="0"
                                         Click="OnHideClick">
@@ -242,7 +243,8 @@
                                 </Grid>      
 
                                 <!--ContextArea-->
-                                <Grid Grid.Column="2">
+                                <Grid Grid.Column="2"
+                                      Grid.ColumnSpan="2">
                                     <ContentControl Grid.Row="3"
                                                     Content="{Binding CurrentVM}"> 
                                     </ContentControl>
@@ -251,15 +253,21 @@
 
                         <!--Player-->
                         <Grid Grid.Row="2"
-                              ColumnSpan="2"
+                              ColumnSpan="3"
                               Height="30"
                               Background="#40000000">
 
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto"/>
                             </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
 
                             <StackPanel Grid.Row="0"
+                                        Grid.Column="0"
                                         Orientation="Horizontal"
                                         VerticalAlignment="Top"
                                         HorizontalAlignment="Left"
@@ -318,17 +326,6 @@
                                     </StackPanel>
                                 </Border>
 
-                                <!-- <StackPanel Classes="PlayerButton"
-                                            VerticalAlignment="Center"
-                                            HorizontalAlignment="Left"
-                                            Margin="0,5">
-                                    <Viewbox Classes="vb" Width="24" Height="24" Margin="2,0" HorizontalAlignment="Left">
-                                        <Canvas Width="24" Height="24">
-                                            <Path Data="M17,3L22.25,7.5L17,12L22.25,16.5L17,21V18H14.26L11.44,15.18L13.56,13.06L15.5,15H17V12L17,9H15.5L6.5,18H2V15H5.26L14.26,6H17V3M2,6H6.5L9.32,8.82L7.2,10.94L5.26,9H2V6Z" />
-                                        </Canvas>
-                                    </Viewbox>
-                                </StackPanel> -->
-
                                 <Border>
                                     <i:Interaction.Behaviors>
                                         <ia:EventTriggerBehavior EventName="Tapped">
@@ -365,9 +362,14 @@
                                         </Viewbox>
                                     </StackPanel>
                                 </StackPanel>
+                            </StackPanel>
 
-                                <StackPanel VerticalAlignment="Top"
-                                            HorizontalAlignment="Left">
+                            <StackPanel Grid.Row="0"
+                                        Grid.Column="1"
+                                        Orientation="Horizontal"
+                                        VerticalAlignment="Top"
+                                        HorizontalAlignment="Left"
+                                        Margin="5,0,0,0">
                                         <Grid>
                                             <Grid.RowDefinitions>
                                                 <RowDefinition Height="Auto"/>
@@ -435,14 +437,7 @@
                                                                    FontWeight="Light"
                                                                    HorizontalAlignment="Right"/>   
                                             </Grid>
-                                        </Grid>                   
-                                </StackPanel>
-                                <TextBlock Text="{Binding Title}"
-                                           Foreground="#6ed48b"
-                                           Margin="0,-8"
-                                           FontSize="10"
-                                           FontWeight="Light"
-                                           HorizontalAlignment="Right"/> 
+                                        </Grid>
                             </StackPanel>
                         </Grid>
                     </Grid>
