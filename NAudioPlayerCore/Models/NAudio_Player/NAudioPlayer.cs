@@ -1,5 +1,6 @@
 ﻿using ShareInstances;
 using ShareInstances.PlayerResources;
+using ShareInstances.PlayerResources.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +16,8 @@ namespace NAudioPlayerCore.Models.Core.Session_Structure
         #endregion
 
         #region Player Resource Properties
+        public ICoreEntity CurrentEntity {get; private set;}
+
         public Track CurrentTrack { get; private set; }
         public Playlist CurrentPlaylist { get; private set; }
         public IList<Track> Collection { get; private set; }
@@ -55,14 +58,14 @@ namespace NAudioPlayerCore.Models.Core.Session_Structure
 
         public void SetTrackInstance(Track track)
         {
-            CurrentTrack = track;            
+            CurrentEntity = (ICoreEntity)track;            
             InitAudioPlayer();
             IsEmpty = false;
         }
 
         public void SetPlaylistInstance(Playlist playlist, int index=0)
         {
-            CurrentPlaylist = playlist;
+            CurrentEntity = playlist;
             Collection = playlist.Tracks;
             InitAudioPlayer(index);
             ShuffleCollection += ShuffleCollection;
@@ -70,34 +73,59 @@ namespace NAudioPlayerCore.Models.Core.Session_Structure
             IsSwipe = true;
         }
 
+        public void SetInstance(ICoreEntity entity, int index=0)
+        {
+            if (CurrentEntity is Track track)
+            {
+
+                CurrentEntity = (ICoreEntity)track;
+                InitAudioPlayer();
+                IsEmpty = false;
+            }
+            else if(CurrentEntity is Playlist playlist)
+            {
+                Collection = playlist.Tracks;
+                CurrentEntity = (ICoreEntity)Collection[index];
+                InitAudioPlayer(index);
+
+                IsEmpty = false;
+                IsSwipe = true;
+            }
+        }
+
         #endregion
 
         #region PlayerInitialization
-        public void InitAudioPlayer()
+        public void InitAudioPlayer(bool isTrack)
         {
-            if (CurrentTrack != null)
+            if (CurrentEntity is Track track)
             {
                 PlayerState = true;
                 notifyAction.Invoke();
-                _audioPlayer.SetTrack(CurrentTrack, volume);
-                _audioPlayer.TrackFinished += () => 
+                _audioPlayer.SetTrack(track, volume);
+
+                if (isTrack)
                 {
-                    _audioPlayer.Stop();
-                    PlayerState = false;
-                    notifyAction.Invoke();
-                };
+                    _audioPlayer.TrackFinished += () => 
+                    {
+                        _audioPlayer.Stop();
+                        PlayerState = false;
+                        notifyAction.Invoke();
+                    };
+                }
+                else
+                {
+                    AutoDrop();  
+                }
             }
         }
 
         public void InitAudioPlayer(int index)
         {
             if(Collection != null && Collection.Count > 0)
-                CurrentTrack = Collection[index];
-            if (CurrentTrack != null)
             {
-                // PlayerState = true;
                 notifyAction?.Invoke(); 
-                _audioPlayer.SetTrack(CurrentTrack, volume);
+                _audioPlayer.SetTrack(Collection[index], volume);
                 AutoDrop();
             }
         }
@@ -119,8 +147,9 @@ namespace NAudioPlayerCore.Models.Core.Session_Structure
         public async Task StopPlayer()
         {
             await Task.Run(() => _audioPlayer.Stop());
+
             PlayerState = false;    
-            // notifyAction?.Invoke(); 
+            notifyAction?.Invoke(); 
 
         }
         
@@ -144,7 +173,6 @@ namespace NAudioPlayerCore.Models.Core.Session_Structure
                     await Task.Run(() => _audioPlayer.Pause());
                     break;
             }
-            // notifyAction.Invoke(); 
         }
 
         public async Task ShuffleTrackCollection()
@@ -162,10 +190,6 @@ namespace NAudioPlayerCore.Models.Core.Session_Structure
             await Task.Run(() => _audioPlayer.Repeat());
         }
 
-        public async void ResetTime(double resetTime)
-        {
-            _audioPlayer.ResetTime(resetTime);
-        }
         #endregion
 
         #region Shuffle Methods
@@ -203,11 +227,11 @@ namespace NAudioPlayerCore.Models.Core.Session_Structure
             _audioPlayer.TrackFinished -= DropNext;
 
             if (direct)
-                CurrentTrack = CurrentTrack.NextTrack;
+                CurrentEntity = (ICoreEntity)(_audioPlayer.CurrentTrack.NextTrack);
             else
-                CurrentTrack = CurrentTrack.PreviousTrack;
+                CurrentEntity = (ICoreEntity)(_audioPlayer.CurrentTrack.PreviousTrack);
             
-            _audioPlayer.SetTrack(CurrentTrack, volume);
+            _audioPlayer.SetInstance(CurrentEntity, volume);
             AutoDrop();
             Pause_ResumePlayer();
         }

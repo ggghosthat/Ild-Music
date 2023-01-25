@@ -167,19 +167,21 @@ namespace Ild_Music.ViewModels
 
         public void DropInstance(ICoreEntity instance, int playlistIndex = 0)
         {
+            _player.SetInstance(instance);
             if (instance is Playlist playlist)
             {
-                _player.SetPlaylistInstance(playlist, playlistIndex);
+                // totalTime = _player.Duration;
+                OnPropertyChanged("TotalTime");
+                OnPropertyChanged("TotalTimeDisplay");
                 _player.Pause_ResumePlayer();
             }
             else if (instance is Track track)
             {
-                _player.SetTrackInstance(track);
+            
                 totalTime = track.Duration;
                 OnPropertyChanged("TotalTime");
                 OnPropertyChanged("TotalTimeDisplay");
                 _player.Pause_ResumePlayer();
-                // OnPropertyChanged("PlayerState");   
             }
         }
         #endregion

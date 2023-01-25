@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using ShareInstances.PlayerResources;
+using ShareInstances.PlayerResources.Interfaces;
 
 namespace ShareInstances
 {
@@ -57,6 +58,8 @@ namespace ShareInstances
         public Guid PlayerId { get; }
         public string PlayerName { get; }
 
+        public ICoreEntity CurrentEntity {get;}
+
         public bool IsSwipe { get; }
         public bool IsEmpty { get; }
         public bool PlayerState { get; }
@@ -66,9 +69,13 @@ namespace ShareInstances
 
         public event Action CurrentPlaybackStopped;
 
+
+
         public void SetTrackInstance(Track track);
 
         public void SetPlaylistInstance(Playlist trackCollection, int index = 0);
+
+        public void SetInstance(ICoreEntity entity, int index=0);
 
         public void SetNotifier(Action callBack);
 
@@ -87,8 +94,6 @@ namespace ShareInstances
         public Task ChangeVolume(float volume);
 
         public Task RepeatTrack();
-
-        public void ResetTime(double resetTime);
     }
     
     public enum PlayerState

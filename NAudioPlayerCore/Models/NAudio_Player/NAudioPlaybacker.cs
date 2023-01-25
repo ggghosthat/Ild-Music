@@ -109,7 +109,7 @@ namespace NAudioPlayerCore.Models.Core.Session_Structure
         {
             while (_device.PlaybackState != PlaybackState.Stopped)
             {
-                if (!(_reader.CurrentTime.TotalSeconds <= TotalTime.TotalSeconds)
+                if (!(_reader.CurrentTime.TotalSeconds <= TotalTime.TotalSeconds))
                     break;
             }
             TrackFinished.Invoke();    
