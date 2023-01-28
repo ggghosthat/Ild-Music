@@ -25,18 +25,15 @@ namespace IldMusic.VLCSharp
         public Media CurrentMedia {get; private set;}
         public ICoreEntity CurrentEntity {get; private set;}
 
-
-        public Track CurrentTrack {get; private set;}
-        public Playlist CurrentPlaylist {get; private set;}
+        public int PlaylistPoint {get; private set;}
+        public IList<Track> CurrentPlaylistPool {get; private set;}
         #endregion
 
         #region Player Triggers
         public bool IsSwipe {get; private set;} = false;
         public bool IsEmpty {get; private set;} = true;
         public bool PlayerState {get; private set;}
-
-        private bool PlayerStopped = false;
-
+        //private bool PlayerStopped = false;
         private bool IsTrackPlaylist = true;
         #endregion
 
@@ -54,45 +51,58 @@ namespace IldMusic.VLCSharp
 
         #region constructor
         public VLCSharpPlayer()
-        {
-        }
+        {}
         #endregion
 
 
         #region Player Inits
-        public void SetInstance(ICoreEntity entity, int index)
-        {}
+        public void SetNotifier(Action callback)
+        {
+            notifyAction = callback;
+        }
+
+        public void SetInstance(ICoreEntity entity, int index = 0)
+        {
+            CurrentEntity = entity;
+            PlaylistPoint = index;
+            IsEmpty = false;
+
+            if (CurrentEntity is Playlist playlist)
+            {
+                CurrentPlaylistPool = playlist.Tracks;
+                IsTrackPlaylist = false;
+                IsSwipe = true;
+            }
+
+            SetTrackMedia();
+        }
 
         public void SetTrackInstance(Track track)
-        {
-            CurrentTrack = track;
-            InitPlayer();
-            IsEmpty = false;
-        }
+        {}
          
         public void SetPlaylistInstance(Playlist playlist, int index = 0)
-        {
-            CurrentPlaylist = playlist;
-            CurrentTrack = playlist.Tracks[index];
-
-            InitPlayer();
-
-            IsTrackPlaylist = false;
-            IsEmpty = false;
-            IsSwipe = true;
-        }
+        {}
        
-
-        private void InitPlayer()
+        private void SetTrackMedia()
         {
-            if (CurrentTrack != null)
+            if (CurrentMedia != null)
             {
-                if (notifyAction != null)
-                    notifyAction?.Invoke();
-                SetTrackMedia();
-                PlayerState = true;
+                CurrentMedia.Dispose();
+                CurrentMedia = null;
+            }
+
+            if (CurrentEntity is Track track)
+            {
+                CurrentMedia = new Media (_vlc, new Uri(track.Pathway));
+                _mediaPlayer = new(CurrentMedia);
+            }
+            else if (CurrentEntity is Playlist playlist)
+            {
+                CurrentMedia = new Media (_vlc, new Uri(CurrentPlaylistPool[PlaylistPoint].Pathway));
+                _mediaPlayer = new(CurrentMedia);
             }
         }
+
         #endregion
 
         #region Player Activity
@@ -104,13 +114,9 @@ namespace IldMusic.VLCSharp
 
         public async Task StopPlayer()
         {
-            await Task.Run(() => {
+            await Task.Run(() => 
+            {
                 _mediaPlayer.Stop();
-
-                if (PlayerStopped)
-                    return;
-                else 
-                    _mediaPlayer.Stop();
             });
         }
 
@@ -118,17 +124,19 @@ namespace IldMusic.VLCSharp
         {
             if (!_mediaPlayer.IsPlaying)
             {
-                Console.WriteLine(CurrentTrack.Name);
-                _mediaPlayer.Play();
-                
+                PlayerState = true;
+                notifyAction?.Invoke();
+                _mediaPlayer.Play();                
                 //_mediaPlayer.Position = 0.88f;
 
                 while(_mediaPlayer.Position < 0.99f);
 
+                PlayerState = true;
+                notifyAction?.Invoke();
                 _mediaPlayer.Stop();
 
                 if (!IsTrackPlaylist) 
-                    TrackEndReached();
+                    DropMediaInstance(true);
             }
             else
                 _mediaPlayer.Pause();
@@ -148,9 +156,6 @@ namespace IldMusic.VLCSharp
         {
             return null;
         }
-
-        public void RepeatTrack()
-        {}
         #endregion
 
 
@@ -174,54 +179,31 @@ namespace IldMusic.VLCSharp
         private void DropMediaInstance(bool direct)
         {
             _mediaPlayer.Stop();
-            if (direct)
-                CurrentTrack = CurrentTrack.NextTrack;
-            else
-                CurrentTrack = CurrentTrack.PreviousTrack;
-
+            DragPointer(direct);
             SetTrackMedia();
             TogglePlayer();
         }
-        #endregion
 
-
-        #region Media Control Methods
-        private void SetTrackMedia()
+        private void DragPointer(bool direction)
         {
-            if (CurrentMedia != null)
+            if (direction)
             {
-                CurrentMedia.Dispose();
-                CurrentMedia = null;
+                if (PlaylistPoint == CurrentPlaylistPool.Count - 1)
+                    PlaylistPoint = 0;
+                else
+                    PlaylistPoint++;
             }
-            Console.WriteLine(CurrentTrack.Pathway);
-            CurrentMedia = new Media (_vlc, new Uri(CurrentTrack.Pathway));
-
-            _mediaPlayer = new(CurrentMedia);
-        }
-
-        private void SetPlaylistMedia()
-        {
+            else 
+            {
+                if (PlaylistPoint == 0)
+                    PlaylistPoint = CurrentPlaylistPool.Count - 1;
+                else
+                    PlaylistPoint--;
+            }
         }
         #endregion
-
-
 
         #region Notify Action Methods
-        public void SetNotifier(Action callback) => 
-            notifyAction = callback;
-
-        public void NotifyAboutState()
-        {}
-        #endregion
-
-        #region Player Triggered Player        
-        private void TrackEndReached()
-        {
-            _mediaPlayer.Stop();
-            CurrentTrack = CurrentTrack.NextTrack;
-            SetTrackMedia();
-            TogglePlayer();
-        }
-        #endregion
+               #endregion
     }
 }

@@ -67,15 +67,12 @@ namespace ShareInstances
         public TimeSpan TotalTime { get; }
         public TimeSpan CurrentTime { get; set; }
 
-
-
-        public void SetTrackInstance(Track track);
-
-        public void SetPlaylistInstance(Playlist trackCollection, int index = 0);
+ 
 
         public void SetInstance(ICoreEntity entity, int index=0);
 
         public void SetNotifier(Action callBack);
+
 
         public Task Play();
 
