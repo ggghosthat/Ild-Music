@@ -1,8 +1,9 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <ItemGroup>
-    <ProjectReference Include="..\VLCSharpPlayer\VLCSharpPlayer.csproj" />
-    <!--<ProjectReference Include="VlcPlayerTest.csproj" />-->
+      <ProjectReference Include="..\VLCSharpPlayer\VLCSharpPlayer.csproj" />
+      <ProjectReference Include="..\ShareInstances\ShareInstances.csproj" />
+    <!--ProjectReference Include="VlcPlayerTest.csproj" />-->
   </ItemGroup>
 
   <PropertyGroup>

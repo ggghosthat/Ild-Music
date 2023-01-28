@@ -1,5 +1,6 @@
 using ShareInstances;
 using ShareInstances.PlayerResources;
+using ShareInstances.PlayerResources.Interfaces;
 using LibVLCSharp.Shared;
 
 using System;
@@ -22,6 +23,9 @@ namespace IldMusic.VLCSharp
 
         #region Player Resources
         public Media CurrentMedia {get; private set;}
+        public ICoreEntity CurrentEntity {get; private set;}
+
+
         public Track CurrentTrack {get; private set;}
         public Playlist CurrentPlaylist {get; private set;}
         #endregion
@@ -56,6 +60,9 @@ namespace IldMusic.VLCSharp
 
 
         #region Player Inits
+        public void SetInstance(ICoreEntity entity, int index)
+        {}
+
         public void SetTrackInstance(Track track)
         {
             CurrentTrack = track;
@@ -141,6 +148,9 @@ namespace IldMusic.VLCSharp
         {
             return null;
         }
+
+        public void RepeatTrack()
+        {}
         #endregion
 
 
@@ -183,7 +193,7 @@ namespace IldMusic.VLCSharp
                 CurrentMedia.Dispose();
                 CurrentMedia = null;
             }
-
+            Console.WriteLine(CurrentTrack.Pathway);
             CurrentMedia = new Media (_vlc, new Uri(CurrentTrack.Pathway));
 
             _mediaPlayer = new(CurrentMedia);

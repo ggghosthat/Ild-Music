@@ -67,8 +67,6 @@ namespace ShareInstances
         public TimeSpan TotalTime { get; }
         public TimeSpan CurrentTime { get; set; }
 
-        public event Action CurrentPlaybackStopped;
-
 
 
         public void SetTrackInstance(Track track);
@@ -92,8 +90,6 @@ namespace ShareInstances
         public Task ShuffleTrackCollection();
 
         public Task ChangeVolume(float volume);
-
-        public Task RepeatTrack();
     }
     
     public enum PlayerState
