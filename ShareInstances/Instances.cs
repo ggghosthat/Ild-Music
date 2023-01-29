@@ -80,6 +80,8 @@ namespace ShareInstances
 
         public Task Pause_ResumePlayer();
 
+        public Task RepeatTrack();
+
         public void DropPrevious();
 
         public void DropNext();
