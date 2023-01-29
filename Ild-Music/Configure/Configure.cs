@@ -6,12 +6,12 @@ using Newtonsoft.Json.Linq;
 
 namespace Ild_Music.Configure
 {
-    public class Configure
+    public class Configure : IConfigure
     {
-        private string ComponentsFile {get; init;}
+        public string ComponentsFile {get; init;}
 
-        private IList<string> Players {get; set;}
-        private IList<string> Synches {get; set;}
+        public IEnumerable<string> Players {get; set;}
+        public IEnumerable<string> Synches {get; set;}
 
         public Configure()
         {}
@@ -22,14 +22,21 @@ namespace Ild_Music.Configure
             Parse();
         }
 
-        private static void Parse()
+        public void Parse()
         {
-            using (StreamReader file = File.OpenText(ComponentsFile))
-            using (JsonTextReader reader = new JsonTextReader(file))
+            if (File.Exists(ComponentsFile))
             {
-                JObject json = (JObject)JToken.ReadFrom(reader);
-                Players = json["components"]["player"].ToList();
-                Synches = json["components"]["synch"].ToList();
+                using (StreamReader file = File.OpenText(ComponentsFile))
+                using (JsonTextReader reader = new JsonTextReader(file))
+                {
+                    JObject json = (JObject)JToken.ReadFrom(reader);
+                    Players = (IEnumerable<string>)json["components"]["player"];
+                    Synches = (IEnumerable<string>)json["components"]["synch"];
+                }
+            }
+            else
+            {
+                throw new Exception("Could not find your configuration file!");
             }
         }
     }
