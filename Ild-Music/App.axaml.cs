@@ -6,8 +6,9 @@ using ShareInstances.Services.Entities;
 using ShareInstances.Services.Center;
 using ShareInstances;
 using ShareInstances.Stage;
-using System.Diagnostics;
+using ShareInstances.Configure;
 
+using System.Diagnostics;
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
@@ -20,13 +21,17 @@ namespace Ild_Music
     public partial class App : Application
     {
         public static Hashtable ViewModelTable;
-        public static Stage Stage = new Stage();
+        public static IConfigure Configure;
+        public static Stage Stage = new();
 
         public App()
         {
-            string playerPath = "E:/ild_music/Ild-Music/NAudioPlayerCore/bin/Debug/net6.0";
-            string areaPath = "E:/ild_music/Ild-Music/SynchronizationBlock/bin/Debug/net6.0";
-            Stage.Init(playerPath, areaPath);
+            //string playerPath = "E:/ild_music/Ild-Music/NAudioPlayerCore/bin/Debug/net6.0";
+            //string areaPath = "E:/ild_music/Ild-Music/SynchronizationBlock/bin/Debug/net6.0";
+            //Stage.Init(playerPath, areaPath);
+
+            Configure = new Configure("Configuration/configuration.json");
+            Stage.Init(Configure.Players, Configure.Synches);
             ViewModelTable = new Hashtable();
         }
 

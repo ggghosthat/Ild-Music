@@ -1,0 +1,11 @@
+{
+   "components":
+   {
+        "players": [
+            "../VLCSharpPlayer/bin/Debug/net6.0/VLCSharpPlayer.dll"
+        ],
+        "synches": [
+            "../SynchronizationBlock/bin/Debug/net6.0/SynchronizationBlock.dll"
+        ]
+   }
+}

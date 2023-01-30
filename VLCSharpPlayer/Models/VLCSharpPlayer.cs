@@ -147,6 +147,11 @@ namespace IldMusic.VLCSharp
             await Task.Run(TogglePlayer);
         }
 
+        public Task RepeatTrack()
+        {
+            return null;
+        }
+
         public Task ShuffleTrackCollection()
         {
             return null;
@@ -202,8 +207,5 @@ namespace IldMusic.VLCSharp
             }
         }
         #endregion
-
-        #region Notify Action Methods
-               #endregion
     }
 }

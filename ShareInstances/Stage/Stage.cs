@@ -1,5 +1,6 @@
 using ShareInstances.Services.Center;
 using ShareInstances.Services.Interfaces;
+using ShareInstances.Configure;
 
 using System;
 using System.Linq;
@@ -67,6 +68,11 @@ namespace ShareInstances.Stage
         {
             Init(playerPath, synchPath);
         }
+
+        public Stage(IConfigure configure)
+        {
+            Init(configure.Players, configure.Synches);
+        }
         #endregion
 
 
@@ -82,6 +88,19 @@ namespace ShareInstances.Stage
             serviceCenter.ResolveSupporter(AreaInstace);
             serviceCenter.ResolvePlayer(PlayerInstance);
         }
+
+        public void Init(IEnumerable<string> playerAssemblies, IEnumerable<string> synchAssemblies)
+        {
+            AssemblyProcess(playerAssemblies, PlayerInstance);
+            AssemblyProcess(synchAssemblies, AreaInstace);
+
+            PlayerInstance = _players[0];
+            AreaInstace = _areas[0];
+
+            serviceCenter.ResolveSupporter(AreaInstace);
+            serviceCenter.ResolvePlayer(PlayerInstance);
+        }
+
         
         private void InitUnit(string path, string type)
         {
@@ -105,9 +124,7 @@ namespace ShareInstances.Stage
             try
             {
                 IEnumerable<string> dlls = FindDlls(assemblyPath);
-
                 (Type, IEnumerable<T>) result = FindSpecialTypes<T>(ref dlls);
-
 
                 if (typeof(IPlayer).IsAssignableFrom(result.Item1))
                     result.Item2.ToList()
@@ -116,13 +133,33 @@ namespace ShareInstances.Stage
                 else if (typeof(ISynchArea).IsAssignableFrom(result.Item1))
                     result.Item2.ToList()
                                 .ForEach(area => _areas.Add((ISynchArea)area));
-            
             }
             catch
             {
                 throw;
             }
         }
+
+        private void AssemblyProcess<T>(IEnumerable<string> assembliesPaths, T assemblyType)
+        {
+            try
+            {
+                (Type, IEnumerable<T>) result = FindSpecialTypes<T>(ref assembliesPaths);
+
+                if (typeof(IPlayer).IsAssignableFrom(result.Item1))
+                    result.Item2.ToList()
+                                .ForEach(player => _players.Add((IPlayer)player));
+
+                else if (typeof(ISynchArea).IsAssignableFrom(result.Item1))
+                    result.Item2.ToList()
+                                .ForEach(area => _areas.Add((ISynchArea)area));
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
 
         private IEnumerable<string> FindDlls(string path) 
         {

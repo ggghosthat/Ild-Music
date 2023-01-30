@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace Ild_Music.Configure
+namespace ShareInstances.Configure
 {
     public class Configure : IConfigure
     {
@@ -30,14 +30,20 @@ namespace Ild_Music.Configure
                 using (JsonTextReader reader = new JsonTextReader(file))
                 {
                     JObject json = (JObject)JToken.ReadFrom(reader);
-                    Players = (IEnumerable<string>)json["components"]["player"];
-                    Synches = (IEnumerable<string>)json["components"]["synch"];
+                    Players = PassJObject(json["components"]["players"]);
+                    Synches = PassJObject(json["components"]["synches"]);
                 }
             }
             else
             {
                 throw new Exception("Could not find your configuration file!");
             }
+        }
+
+        private IEnumerable<string> PassJObject(JToken array)
+        {
+            foreach (JToken token in array)
+                yield return token.ToString();
         }
     }
 }

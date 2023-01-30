@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace Ild_Music.Configure
+namespace ShareInstances.Configure
 {
     public interface IConfigure
     {
