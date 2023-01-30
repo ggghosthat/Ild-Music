@@ -32,15 +32,18 @@ namespace IldMusic.VLCSharp
         #region Player Triggers
         public bool IsSwipe {get; private set;} = false;
         public bool IsEmpty {get; private set;} = true;
-        public bool PlayerState {get; private set;}
-        //private bool PlayerStopped = false;
+        public bool PlayerState {get; private set;} = false;
         private bool IsTrackPlaylist = true;
         #endregion
 
 
         #region Time Presenters
         public TimeSpan TotalTime {get; private set;}
-        public TimeSpan CurrentTime {get; set;}
+        public TimeSpan CurrentTime 
+        {
+            get => TimeSpan.FromTicks(_mediaPlayer.Time);
+            set => _mediaPlayer.SeekTo(value);
+        }
         #endregion
 
 
@@ -116,6 +119,8 @@ namespace IldMusic.VLCSharp
         {
             await Task.Run(() => 
             {
+                PlayerState = false;
+                notifyAction?.Invoke();
                 _mediaPlayer.Stop();
             });
         }
@@ -131,7 +136,7 @@ namespace IldMusic.VLCSharp
 
                 while(_mediaPlayer.Position < 0.99f);
 
-                PlayerState = true;
+                PlayerState = false;
                 notifyAction?.Invoke();
                 _mediaPlayer.Stop();
 
@@ -139,12 +144,29 @@ namespace IldMusic.VLCSharp
                     DropMediaInstance(true);
             }
             else
+            {
+                PlayerState = false;
+                notifyAction?.Invoke();
                 _mediaPlayer.Pause();
+            }
         }
 
         public async Task Pause_ResumePlayer()
         {
-            await Task.Run(TogglePlayer);
+            //await Task.Run(TogglePlayer);
+            if (_mediaPlayer.IsPlaying)
+            {
+                PlayerState = false;
+                notifyAction?.Invoke();
+                _mediaPlayer.Pause();
+            }
+            else
+            {
+                PlayerState = true;
+                notifyAction?.Invoke();
+                _mediaPlayer.Play();
+
+            }
         }
 
         public Task RepeatTrack()
