@@ -254,8 +254,9 @@
                         <!--Player-->
                         <Grid Grid.Row="2"
                               ColumnSpan="3"
-                              Height="30"
-                              Background="#40000000">
+                              Height="45"
+                              Background="#40000000"
+                              HorizontalAlignment="Stretch">
 
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto"/>
@@ -282,7 +283,7 @@
                                                 VerticalAlignment="Center"
                                                 HorizontalAlignment="Left"
                                                 Margin="0,5">
-                                        <Viewbox Classes="vb" Width="24" Height="24" Margin="2,0" HorizontalAlignment="Left">
+                                        <Viewbox Classes="vb" Width="30" Height="30" Margin="2,0" HorizontalAlignment="Left">
                                             <Canvas Width="24" Height="24">
                                                 <Path Data="M6,6H8V18H6M9.5,12L18,18V6M16,14.14L12.97,12L16,9.86V14.14Z" />
                                             </Canvas>
@@ -300,7 +301,7 @@
                                                 VerticalAlignment="Center"
                                                 HorizontalAlignment="Left"
                                                 Margin="0,5">
-                                        <Viewbox Classes="vb" Width="24" Height="24" Margin="2,0" HorizontalAlignment="Left">
+                                        <Viewbox Classes="vb" Width="30" Height="30" Margin="2,0" HorizontalAlignment="Left">
                                             <Canvas Width="24" Height="24">
                                                 <Path Data="{Binding PlayerState, Converter={StaticResource ToggleButtonConverter} }" />
                                             </Canvas>
@@ -318,7 +319,7 @@
                                                 VerticalAlignment="Center"
                                                 HorizontalAlignment="Left"
                                                 Margin="0,5">
-                                        <Viewbox Classes="vb" Width="24" Height="24" Margin="2,0" HorizontalAlignment="Left">
+                                        <Viewbox Classes="vb" Width="30" Height="30" Margin="2,0" HorizontalAlignment="Left">
                                             <Canvas Width="24" Height="24">
                                                 <Path Data="M6,18L14.5,12L6,6M8,9.86L11.03,12L8,14.14M16,6H18V18H16" />
                                             </Canvas>
@@ -336,7 +337,7 @@
                                                 VerticalAlignment="Center"
                                                 HorizontalAlignment="Left"
                                                 Margin="0,5">
-                                        <Viewbox Classes="vb" Width="24" Height="24" Margin="2,0" HorizontalAlignment="Left">
+                                        <Viewbox Classes="vb" Width="30" Height="30" Margin="2,0" HorizontalAlignment="Left">
                                             <Canvas Width="24" Height="24">
                                                 <Path Data="M6,5.75L10.25,10H7V16H13.5L15.5,18H7A2,2 0 0,1 5,16V10H1.75L6,5.75M18,18.25L13.75,14H17V8H10.5L8.5,6H17A2,2 0 0,1 19,8V14H22.25L18,18.25Z" />
                                             </Canvas>
@@ -355,7 +356,7 @@
                                         </ia:EventTriggerBehavior>  
                                     </i:Interaction.Behaviors>
                                     <StackPanel>
-                                        <Viewbox Classes="vb" Width="24" Height="24" Margin="2,0" HorizontalAlignment="Left">
+                                        <Viewbox Classes="vb" Width="30" Height="30" Margin="2,0" HorizontalAlignment="Left">
                                             <Canvas Width="24" Height="24">
                                                 <Path Data="M7,9V15H11L16,20V4L11,9H7Z" />
                                             </Canvas>
@@ -364,26 +365,32 @@
                                 </StackPanel>
                             </StackPanel>
 
-                            <StackPanel Grid.Row="0"
+                            <StackPanel x:Name="sliderArea"
+                                        Grid.Row="0"
                                         Grid.Column="1"
                                         Orientation="Horizontal"
                                         VerticalAlignment="Top"
-                                        HorizontalAlignment="Left"
-                                        Margin="5,0,0,0">
-                                        <Grid>
+                                        HorizontalAlignment="Stretch"
+                                        Margin="5,0, 10,0">
+                                        <Grid x:Name="sliderParent"
+                                                HorizontalAlignment="Stretch">
                                             <Grid.RowDefinitions>
                                                 <RowDefinition Height="Auto"/>
                                                 <RowDefinition Height="Auto"/>
                                             </Grid.RowDefinitions>
-                                            <StackPanel Grid.Row="0">
-                                                <Slider x:Name="sldThumby"
-                                                        Classes="thumby"
-                                                        Width="500"
-                                                        Margin="0,-5"
+                                            
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+
+                                            <Slider x:Name="sldThumby"       
+                                                    Grid.Row="0"                    
+                                                    Width="{Binding #sliderArea.Bounds.Width}"
+                                                        Classes="thumby"                                           
                                                         IsEnabled="{Binding PlayerState}"
                                                         Orientation="Horizontal"
-                                                        HorizontalAlignment="Stretch"
-                                                        VerticalAlignment="Bottom"
                                                         Maximum="{Binding TotalTime, Mode=OneWay}"
                                                         Minimum="{Binding StartTime, Mode=OneWay}"
                                                         Value="{Binding CurrentTime, Mode=TwoWay}">
@@ -413,8 +420,7 @@
                                                             </Setter>
                                                         </Style>
                                                     </Slider.Styles>
-                                                </Slider>
-                                            </StackPanel>
+                                            </Slider>
 
                                             <Grid Grid.Row="1">
                                                     <Grid.ColumnDefinitions>
@@ -437,6 +443,32 @@
                                                                    FontWeight="Light"
                                                                    HorizontalAlignment="Right"/>   
                                             </Grid>
+                                        </Grid>
+                            </StackPanel>
+
+                            <StackPanel Grid.Row="0"
+                                        Grid.Column="2"
+                                        Orientation="Horizontal"
+                                        VerticalAlignment="Top"
+                                        HorizontalAlignment="Left"
+                                        Margin="3,0,10,0">
+                                        <Grid>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="Auto"/>
+                                            </Grid.RowDefinitions>
+
+                                            <Border Grid.Row="0">
+                                                <TextBlock Text="Hello" 
+                                                           FontSize="14"
+                                                           Foreground="#fff"/>
+                                            </Border>
+
+                                            <Border Grid.Row="1">
+                                                <TextBlock Text="World"
+                                                           FontSize="12"
+                                                           Foreground="#5e5e5e"/>
+                                            </Border>
                                         </Grid>
                             </StackPanel>
                         </Grid>
