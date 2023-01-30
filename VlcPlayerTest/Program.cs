@@ -18,7 +18,7 @@ namespace VlcPlayerTest
         static void Main(string[] args)
         {
             //_player.SetTrackInstance(track1);
-            _player.SetInstance(playlist);
+            _player.SetInstance(track2);
 
             while (true)
             {
@@ -49,6 +49,10 @@ namespace VlcPlayerTest
             if (cmd == "next")
             {
                 _player.DropNext();
+            }
+            if (cmd == "current")
+            {
+                Console.WriteLine(_player.CurrentTime);
             }
         }
 

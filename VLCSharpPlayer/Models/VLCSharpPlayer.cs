@@ -41,7 +41,8 @@ namespace IldMusic.VLCSharp
         public TimeSpan TotalTime {get; private set;}
         public TimeSpan CurrentTime 
         {
-            get => TimeSpan.FromTicks(_mediaPlayer.Time);
+            //get => (TotalTime.Ticks != 0)?( TimeSpan.FromTicks((long)(_mediaPlayer.Position * 100)) / TotalTime.Ticks) : TimeSpan.FromSeconds(0);
+            get => TimeSpan.FromMilliseconds(_mediaPlayer.Time);
             set => _mediaPlayer.SeekTo(value);
         }
         #endregion
@@ -96,11 +97,13 @@ namespace IldMusic.VLCSharp
 
             if (CurrentEntity is Track track)
             {
+                TotalTime = track.Duration;
                 CurrentMedia = new Media (_vlc, new Uri(track.Pathway));
                 _mediaPlayer = new(CurrentMedia);
             }
-            else if (CurrentEntity is Playlist playlist)
+            else if (CurrentEntity is Playlist)
             {
+                TotalTime = CurrentPlaylistPool[PlaylistPoint].Duration;
                 CurrentMedia = new Media (_vlc, new Uri(CurrentPlaylistPool[PlaylistPoint].Pathway));
                 _mediaPlayer = new(CurrentMedia);
             }
@@ -158,13 +161,13 @@ namespace IldMusic.VLCSharp
             {
                 PlayerState = false;
                 notifyAction?.Invoke();
-                _mediaPlayer.Pause();
+                await Task.Run(() => _mediaPlayer.Pause());
             }
             else
             {
                 PlayerState = true;
                 notifyAction?.Invoke();
-                _mediaPlayer.Play();
+                await Task.Run(() => _mediaPlayer.Play());
 
             }
         }

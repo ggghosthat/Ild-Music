@@ -41,16 +41,17 @@ namespace Ild_Music.ViewModels
         private TimeSpan totalTime = TimeSpan.FromSeconds(1);
         public double TotalTime => totalTime.TotalSeconds;
         public double StartTime => TimeSpan.Zero.TotalSeconds;
+
         public double CurrentTime 
         {
-            get => _player.CurrentTime.TotalSeconds;
+            get => (double)(_player.CurrentTime.TotalSeconds);
             set => _player.CurrentTime = TimeSpan.FromSeconds(value);
         }
 
         public TimeSpan CurrentTimeDisplay => TimeSpan.FromSeconds(CurrentTime);
         public TimeSpan TotalTimeDisplay => totalTime;
 
-        public string Title => PlayerState.ToString();
+        public string Title => CurrentTime.ToString();
         #endregion
 
         #region Commands Scope
@@ -181,6 +182,7 @@ namespace Ild_Music.ViewModels
                 totalTime = track.Duration;
                 OnPropertyChanged("TotalTime");
                 OnPropertyChanged("TotalTimeDisplay");
+                OnPropertyChanged("CurrentTime");
                 _player.Pause_ResumePlayer();
             }
         }
