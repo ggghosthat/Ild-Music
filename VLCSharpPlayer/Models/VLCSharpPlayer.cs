@@ -41,7 +41,6 @@ namespace IldMusic.VLCSharp
         public TimeSpan TotalTime {get; private set;}
         public TimeSpan CurrentTime 
         {
-            //get => (TotalTime.Ticks != 0)?( TimeSpan.FromTicks((long)(_mediaPlayer.Position * 100)) / TotalTime.Ticks) : TimeSpan.FromSeconds(0);
             get => TimeSpan.FromMilliseconds(_mediaPlayer.Time);
             set => _mediaPlayer.SeekTo(value);
         }
@@ -67,6 +66,9 @@ namespace IldMusic.VLCSharp
 
         public void SetInstance(ICoreEntity entity, int index = 0)
         {
+            _mediaPlayer.Stop();
+            CleanCurrentState();
+
             CurrentEntity = entity;
             PlaylistPoint = index;
             IsEmpty = false;
@@ -110,7 +112,29 @@ namespace IldMusic.VLCSharp
                 _mediaPlayer = new(CurrentMedia);
             }
         }
+        
+        private void CleanCurrentState()
+        {
+            PlayerState = false;
+            notifyAction?.Invoke();
+            _mediaPlayer.Stop();
+            //_mediaPlayer.Dispose();
 
+            if (CurrentMedia != null)
+            {
+                CurrentMedia.Dispose();
+                CurrentMedia = null;
+            }
+            
+            CurrentEntity = null;
+            PlaylistPoint = 0;
+            
+            if (CurrentPlaylistPool != null)
+            {
+                CurrentPlaylistPool.Clear();
+                CurrentPlaylistPool = null;
+            }
+        }
         #endregion
 
         #region Player Activity
@@ -135,7 +159,7 @@ namespace IldMusic.VLCSharp
             if (!_mediaPlayer.IsPlaying)
             {
                 PlayerState = true;
-            notifyAction?.Invoke();
+                notifyAction?.Invoke();
                 _mediaPlayer.Play();                
                 //_mediaPlayer.Position = 0.88f;
 
@@ -162,13 +186,13 @@ namespace IldMusic.VLCSharp
             {
                 PlayerState = false;
                 notifyAction?.Invoke();
-                await Task.Run(() => _mediaPlayer.Pause());
+                _mediaPlayer.Pause();
             }
             else
             {
                 PlayerState = true;
                 notifyAction?.Invoke();
-                await Task.Run(() => _mediaPlayer.Play());
+                _mediaPlayer.Play();
             }
         }
 
