@@ -1,25 +1,31 @@
-using ShareInstances;
+using ShareInstances.PlayerResources;
 
 using System;
 using System.Globalization;
-using Avalonia.Data.Converters;
 using Avalonia;
+using Avalonia.Data.Converters;
 using Avalonia.Platform;
+using Avalonia.Media;
 using Avalonia.Media.Imaging;
 using Avalonia.Controls;
-using Avalonia.Media;
+
 
 namespace Ild_Music.Converters
 {
-    internal class ComponentsIconConverter : IValueConverter
+    internal class CurrentEntityNameConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value is IPlayer player)
-                return Application.Current.FindResource("PlayerDefaultIcon");
-            else if (value is ISynchArea area)
-                return Application.Current.FindResource("AreaDefaultIcon");
-                
+            if (value is Track track)
+            {
+                return track.Name;
+            }
+            else if (value is Playlist playlist)
+            {
+                return playlist.Tracks[playlist.CurrentIndex].Name;
+            }
+
+
             return null;
         }
 

@@ -20,6 +20,7 @@
     
     <Window.Resources>
         <conv:PlayerToggleButtonConverter x:Key="ToggleButtonConverter"/>
+        <conv:CurrentEntityNameConverter x:Key="CurrentEntityNameConverter"/>
     </Window.Resources>
 
     <Window.Styles>
@@ -264,7 +265,7 @@
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto"/>
                                 <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="0.25*"/>
                             </Grid.ColumnDefinitions>
 
                             <StackPanel Grid.Row="0"
@@ -450,24 +451,18 @@
                                         Grid.Column="2"
                                         Orientation="Horizontal"
                                         VerticalAlignment="Top"
-                                        HorizontalAlignment="Left"
-                                        Margin="3,0,10,0">
+                                        HorizontalAlignment="Stretch"
+                                        Margin="3">
                                         <Grid>
                                             <Grid.RowDefinitions>
                                                 <RowDefinition Height="Auto"/>
-                                                <RowDefinition Height="Auto"/>
                                             </Grid.RowDefinitions>
 
-                                            <Border Grid.Row="0">
-                                                <TextBlock Text="Hello" 
+                                            <Border Grid.Row="0"
+                                                    Margin="3,0">
+                                                <TextBlock Text="{Binding CurrentEntity, Converter={StaticResource CurrentEntityNameConverter} }" 
                                                            FontSize="14"
                                                            Foreground="#fff"/>
-                                            </Border>
-
-                                            <Border Grid.Row="1">
-                                                <TextBlock Text="World"
-                                                           FontSize="12"
-                                                           Foreground="#5e5e5e"/>
                                             </Border>
                                         </Grid>
                             </StackPanel>

@@ -41,8 +41,8 @@ namespace ShareInstances.PlayerResources
             set { description = value; }
         }
 
-        public Track Current { get; set; }
-        public bool IsCurrent { get; set; } = false;
+        public int CurrentIndex { get; set; }
+
         public bool IsOrdered { get; private set; } = false;
 
         public int Count => tracks_collection.Count;
@@ -132,14 +132,6 @@ namespace ShareInstances.PlayerResources
         }
         #endregion
 
-        #region CheckCurrentMethods
-        public void CheckIsCurrent()
-        {
-            if (Current != null)
-                IsCurrent = true;
-        }
-        #endregion
-
         #region CollectionManipulationMethods
         public void AddTrack(Track track)
         {
@@ -178,8 +170,10 @@ namespace ShareInstances.PlayerResources
         #endregion
 
         #region ArtistsSettings
-        public void SetArtist(Artist artist) =>
+        public void SetArtist(Artist artist)
+        {
             artist.AddPlaylist(this);
+        }
         
         public void SetArtists(IEnumerable<Artist> newArtists)
         {

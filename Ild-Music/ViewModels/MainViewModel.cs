@@ -38,6 +38,8 @@ namespace Ild_Music.ViewModels
         public bool PlayerState => _player.PlayerState;
         public bool PlayerEmpty => _player.IsEmpty;
 
+        public ICoreEntity CurrentEntity => _player.CurrentEntity;
+
         private TimeSpan totalTime = TimeSpan.FromSeconds(1);
         public double TotalTime => totalTime.TotalSeconds;
         public double StartTime => TimeSpan.Zero.TotalSeconds;
@@ -51,7 +53,7 @@ namespace Ild_Music.ViewModels
         public TimeSpan CurrentTimeDisplay => TimeSpan.FromSeconds(CurrentTime);
         public TimeSpan TotalTimeDisplay => totalTime;
 
-        public string Title => CurrentTime.ToString();
+        public string Title => CurrentEntity.Name;
         #endregion
 
         #region Commands Scope
@@ -169,11 +171,13 @@ namespace Ild_Music.ViewModels
         public void DropInstance(ICoreEntity instance, int playlistIndex = 0)
         {
             _player.SetInstance(instance);
+            OnPropertyChanged("CurrentEntity");
             if (instance is Playlist playlist)
             {
-                // totalTime = _player.Duration;
                 OnPropertyChanged("TotalTime");
                 OnPropertyChanged("TotalTimeDisplay");
+               
+                totalTime = playlist.Tracks[playlist.CurrentIndex].Duration;
                 _player.Pause_ResumePlayer();
             }
             else if (instance is Track track)

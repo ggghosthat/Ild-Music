@@ -101,9 +101,11 @@ namespace IldMusic.VLCSharp
                 CurrentMedia = new Media (_vlc, new Uri(track.Pathway));
                 _mediaPlayer = new(CurrentMedia);
             }
-            else if (CurrentEntity is Playlist)
+            else if (CurrentEntity is Playlist playlist)
             {
+                playlist.CurrentIndex = PlaylistPoint;
                 TotalTime = CurrentPlaylistPool[PlaylistPoint].Duration;
+
                 CurrentMedia = new Media (_vlc, new Uri(CurrentPlaylistPool[PlaylistPoint].Pathway));
                 _mediaPlayer = new(CurrentMedia);
             }
@@ -133,7 +135,7 @@ namespace IldMusic.VLCSharp
             if (!_mediaPlayer.IsPlaying)
             {
                 PlayerState = true;
-                notifyAction?.Invoke();
+            notifyAction?.Invoke();
                 _mediaPlayer.Play();                
                 //_mediaPlayer.Position = 0.88f;
 
@@ -156,7 +158,6 @@ namespace IldMusic.VLCSharp
 
         public async Task Pause_ResumePlayer()
         {
-            //await Task.Run(TogglePlayer);
             if (_mediaPlayer.IsPlaying)
             {
                 PlayerState = false;
@@ -168,7 +169,6 @@ namespace IldMusic.VLCSharp
                 PlayerState = true;
                 notifyAction?.Invoke();
                 await Task.Run(() => _mediaPlayer.Play());
-
             }
         }
 
