@@ -96,7 +96,7 @@ namespace Ild_Music.ViewModels
             RepeatCommand = new(RepeatPlayer, OnCanTogglePlayer);
             VolumeSliderShowCommand = new(VolumeSliderShow,null);
 
-            CurrentVM = new SettingViewModel();
+            CurrentVM = new StartViewModel();
 
             timer = new(TimeSpan.FromMilliseconds(300), DispatcherPriority.Normal, UpdateCurrentTime);
             timer.Start();
