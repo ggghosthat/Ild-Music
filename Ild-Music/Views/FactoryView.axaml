@@ -22,7 +22,7 @@
       <RowDefinition Height="*"/>
     </Grid.RowDefinitions>
 
-    <ListBox x:Name="Tabs"
+    <!--<ListBox x:Name="Tabs"
              Grid.Row="0"
              Items="{Binding SubItems}"
              SelectedItem="{Binding SubItem}"
@@ -122,7 +122,7 @@
                        FontSize="12"/>
           </DataTemplate>
         </ListBox.ItemTemplate>
-    </ListBox>
+    </ListBox>-->
 
     <Grid Grid.Row="1">
     <ContentPresenter Name="Contenter" Content="{Binding SubItem, Converter={StaticResource SubFactoryDisplayConverter}}"/>

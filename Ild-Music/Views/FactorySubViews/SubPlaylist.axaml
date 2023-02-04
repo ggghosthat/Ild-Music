@@ -117,15 +117,13 @@
 
       <ScrollViewer VerticalScrollBarVisibility="Disabled"
                     HorizontalScrollBarVisibility="Auto"
-                    HorizontalAlignment="Left"
+                    HorizontalAlignment="Stretch"
                     HorizontalContentAlignment="Left"
                     Margin="0, 2, 0, 5">
         <ListBox Items="{Binding ArtistProvider}"
                 SelectedItems="{Binding SelectedPlaylistArtists}"
                 SelectionMode="Multiple"
                 Background="#35000000"
-                Height="110"
-                Width="1130"
                 Margin="2">
 
             <ListBox.ItemsPanel>
@@ -258,15 +256,13 @@
 
       <ScrollViewer VerticalScrollBarVisibility="Disabled"
                     HorizontalScrollBarVisibility="Auto"
-                    HorizontalAlignment="Left"
+                    HorizontalAlignment="Stretch"
                     HorizontalContentAlignment="Left"
                     Margin="0, 2, 0, 5">
         <ListBox Items="{Binding TrackProvider}"
                 SelectedItems="{Binding SelectedPlaylistTracks}"
                 SelectionMode="Multiple"
                 Background="#35000000"
-                Height="110"
-                Width="1130"
                 Margin="2">
 
             <ListBox.ItemsPanel>

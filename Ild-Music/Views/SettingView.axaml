@@ -12,7 +12,7 @@
              x:Class="Ild_Music.Views.SettingView"
              x:DataType="vm:SettingViewModel">
 
-	<UserControl.Resources>
+  <UserControl.Resources>
    	<conv:ComponentsIconConverter x:Key="ComponentsIconConverter"/>
    	<conv:ComponentsNameConverter x:Key="ComponentsNameConverter"/>    
   </UserControl.Resources>
@@ -20,7 +20,7 @@
 
 	<ScrollViewer VerticalScrollBarVisibility="Auto"
                   HorizontalScrollBarVisibility="Disabled"
-                  HorizontalAlignment="Left"
+                  HorizontalAlignment="Stretch"
                   HorizontalContentAlignment="Left">
 
      <Grid>
@@ -36,13 +36,13 @@
                    Foreground="White"
                    FontSize="16"
                    FontWeight="Light"/>
-	    	
+	    
+        <Grid HorizontalAlignment="Stretch">
         <ListBox Items="{Binding Players}"
                   SelectedItem="{Binding Player}"
                   ScrollViewer.HorizontalScrollBarVisibility="Visible"
                   ScrollViewer.VerticalScrollBarVisibility="Disabled"
-                  Background="#40000000"
-                  Width="1088">
+                  Background="#40000000">
                   <ListBox.ItemsPanel>
                     <ItemsPanelTemplate>
                       <StackPanel Orientation="Horizontal"/>
@@ -150,6 +150,7 @@
                     </DataTemplate>
                   </ListBox.ItemTemplate>
         </ListBox>
+        </Grid>
 	    </StackPanel>
 
 	    <StackPanel Grid.Row="1">
@@ -158,12 +159,12 @@
                         Foreground="White"
                         FontSize="16"
                         FontWeight="Light"/>
+            <Grid HorizontalAlignment="Stretch">
 	    	<ListBox Items="{Binding Areas}"
                   SelectedItem="{Binding Area}"
                   ScrollViewer.HorizontalScrollBarVisibility="Visible"
                   ScrollViewer.VerticalScrollBarVisibility="Disabled"
-                  Background="#40000000"
-                  Width="1088">
+                  Background="#40000000">
                   <ListBox.ItemsPanel>
                     <ItemsPanelTemplate>
                       <StackPanel Orientation="Horizontal"/>
@@ -271,6 +272,7 @@
                     </DataTemplate>
                   </ListBox.ItemTemplate>
         </ListBox>
+        </Grid>
 	    </StackPanel>
 
       <StackPanel Grid.Row="2">

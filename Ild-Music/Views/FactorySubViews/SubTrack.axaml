@@ -137,15 +137,13 @@
 
       <ScrollViewer VerticalScrollBarVisibility="Disabled"
                     HorizontalScrollBarVisibility="Auto"
-                    HorizontalAlignment="Left"
+                    HorizontalAlignment="Stretch"
                     HorizontalContentAlignment="Left"
                     Margin="0, 2, 0, 5">
         <ListBox Items="{Binding ArtistProvider}"
                 SelectedItems="{Binding SelectedTrackArtists}"
                 SelectionMode="Multiple,Toggle"
                 Background="#35000000"
-                Height="110"
-                Width="1130"
                 Margin="2">
 
             <ListBox.ItemsPanel>
