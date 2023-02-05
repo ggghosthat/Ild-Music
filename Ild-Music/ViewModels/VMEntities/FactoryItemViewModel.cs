@@ -126,36 +126,24 @@ namespace Ild_Music.ViewModels
             SelectPlaylistTrackCommand = new(SelectPlaylistTrack, null);
             DeletePlaylistTrackCommand = new(DeletePlaylistTrack, null);
 
+            supporterService.OnArtistsNotifyRefresh += ArtistProviderUpdate;
+            supporterService.OnPlaylistsNotifyRefresh += PlaylistProviderUpdate;
+            supporterService.OnTracksNotifyRefresh += TrackProviderUpdate;
+
+
             Task.Run(InitArtists);
             Task.Run(InitPlaylists);
-            Task.Run(InitTracks);
-            // TempTest();            
+            Task.Run(InitTracks); 
         }
         #endregion
 
-        private void TempTest(){
-            var one = new Artist("Eminem", "rap goat");
-            var two = new Artist("Dre", "rap father");
-            var track1 = new Track("","Dust","");
-            var track2 = new Track("","Moon","");
-            var track3 = new Track("","Leya","");
-            var p1 = new Playlist("Space","");
-            var p2 = new Playlist("Electro","");
-
-            ArtistProvider.Add(one);
-            ArtistProvider.Add(two);
-
-            PlaylistProvider.Add(p1);
-            PlaylistProvider.Add(p2);
-
-            TrackProvider.Add(track1);
-            TrackProvider.Add(track2);
-            TrackProvider.Add(track3);
+        #region Private Methods
+        private void ExitFactory()
+        {
+            FieldsClear();
+            MainVM.ResolveWindowStack();
         }
 
-
-
-        #region Private Methods
         private async Task InitArtists()
         {
             ArtistProvider.ToList().Clear();
@@ -226,12 +214,13 @@ namespace Ild_Music.ViewModels
             {
                 var name = (string)values[0];
                 var description = (string)values[1];
-              
-                factoryService.CreateArtist(name, description);
-                ArtistLogLine = "Successfully created!";
-                
-                FieldsClear();
-                MainVM.ResolveWindowStack();
+             
+                if (!string.IsNullOrEmpty(name))
+                {
+                    factoryService.CreateArtist(name, description);
+                    ArtistLogLine = "Successfully created!";
+                    ExitFactory();
+                }
             }
             catch (InvalidArtistException ex)
             {
@@ -246,15 +235,15 @@ namespace Ild_Music.ViewModels
                 var name = (string)values[0];
                 var description = (string)values[1];
 
-                var editArtist = (Artist)Instance;
-                editArtist.Name = name;
-                editArtist.Description = description;
-                ArtistLogLine = "What is happened!";
-                supporterService.EditInstance(editArtist); 
+                if (!string.IsNullOrEmpty(name))
+                {
+                    var editArtist = (Artist)Instance;
+                    editArtist.Name = name;
+                    editArtist.Description = description;
+                    supporterService.EditInstance(editArtist); 
 
-                IsEditMode = false;
-                FieldsClear();
-                MainVM.ResolveWindowStack();
+                    IsEditMode = false;
+                    ExitFactory();                }
             }
             catch(Exception exm)
             {
@@ -271,11 +260,12 @@ namespace Ild_Music.ViewModels
                 var tracks = (IList<Track>)values[2];
                 var artists = (IList<Artist>)values[3];
 
-                factoryService.CreatePlaylist(name, description, tracks, artists);
-                PlaylistLogLine = "Successfully created!";
-                              
-                FieldsClear();
-                MainVM.ResolveWindowStack();
+                if (!string.IsNullOrEmpty(name))
+                {
+                    factoryService.CreatePlaylist(name, description, tracks, artists);
+                    PlaylistLogLine = "Successfully created!";
+                    ExitFactory(); 
+                }
             }
             catch (InvalidPlaylistException ex)
             {
@@ -292,26 +282,30 @@ namespace Ild_Music.ViewModels
                 var tracks = (IList<Track>)values[2];
                 var artists = (IList<Artist>)values[3];
 
-                var editPlaylist = (Playlist)Instance;
-                editPlaylist.Name = name;
-                editPlaylist.Description = description;
-
-                if(tracks != null && tracks.Count > 0)
-                    editPlaylist.Tracks = tracks;
-
-                if(artists != null && artists.Count > 0)
+                if(!string.IsNullOrEmpty(name))
                 {
-                    var clear_artists = ArtistProvider.ToList().Except(artists);
-                    clear_artists.ToList().ForEach(a => a.DeletePlaylist(editPlaylist));
-                    artists.ToList().ForEach(a => a.AddPlaylist(editPlaylist));
+                    var editPlaylist = (Playlist)Instance;
+                    editPlaylist.Name = name;
+                    editPlaylist.Description = description;
+
+                    if(tracks != null && tracks.Count > 0)
+                    {
+                        editPlaylist.Tracks = tracks;
+                    }
+
+                    if(artists != null && artists.Count > 0)
+                    {
+                        var clear_artists = ArtistProvider.ToList().Except(artists);
+                        clear_artists.ToList().ForEach(a => a.DeletePlaylist(editPlaylist));
+                        artists.ToList().ForEach(a => a.AddPlaylist(editPlaylist));
+                    }
+
+                    supporterService.EditInstance(editPlaylist);
+                    supporterService.DumpState(); 
+
+                    IsEditMode = false;
+                    ExitFactory();
                 }
-
-                supporterService.EditInstance(editPlaylist);
-                supporterService.DumpState(); 
-
-                IsEditMode = false;
-                FieldsClear();
-                MainVM.ResolveWindowStack();
             }
             catch (InvalidPlaylistException ex)
             {
@@ -328,11 +322,13 @@ namespace Ild_Music.ViewModels
                 var description = (string)values[2];
                 var artists = (IList<Artist>)values[3];
 
-                factoryService.CreateTrack(path, name, description, artists);
-                TrackLogLine = "Successfully created!";
+                if (!string.IsNullOrEmpty(name))
+                {
+                    factoryService.CreateTrack(path, name, description, artists);
+                    TrackLogLine = "Successfully created!";
                 
-                FieldsClear();
-                MainVM.ResolveWindowStack();
+                    ExitFactory();
+                }
             }
             catch(InvalidTrackException ex)
             {
@@ -349,24 +345,26 @@ namespace Ild_Music.ViewModels
                 var description = (string)values[2];
                 var artists = (IList<Artist>)values[3];
 
-                var editTrack = (Track)Instance;
-                editTrack.Pathway = path;
-                editTrack.Name = name;
-                editTrack.Description = description;
-
-                if(artists != null && artists.Count > 0)
+                if (!string.IsNullOrEmpty(name))
                 {
-                    var clear_artists = ArtistProvider.ToList().Except(artists);
-                    clear_artists.ToList().ForEach(a => a.DeleteTrack(editTrack));
-                    artists.ToList().ForEach(a => a.AddTrack(editTrack));
+                    var editTrack = (Track)Instance;
+                    editTrack.Pathway = path;
+                    editTrack.Name = name;
+                    editTrack.Description = description;
+
+                    if(artists != null && artists.Count > 0)
+                    {
+                        var clear_artists = ArtistProvider.ToList().Except(artists);
+                        clear_artists.ToList().ForEach(a => a.DeleteTrack(editTrack));
+                        artists.ToList().ForEach(a => a.AddTrack(editTrack));
+                    }
+
+                    supporterService.EditInstance(editTrack);
+                    supporterService.DumpState(); 
+
+                    IsEditMode = false;
+                    ExitFactory();   
                 }
-
-                supporterService.EditInstance(editTrack);
-                supporterService.DumpState(); 
-
-                IsEditMode = false;
-                FieldsClear();
-                MainVM.ResolveWindowStack();
             }
             catch(InvalidTrackException ex)
             {

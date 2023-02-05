@@ -249,7 +249,7 @@
                     </Style>
                   </Border.Styles>
 
-                  <DrawingPresenter Drawing="{Binding ., Converter={StaticResource InstanceIconConverter}}"
+                  <DrawingPresenter Drawing="{Binding ., Converter={StaticResource InstanceIconConverter}, ConverterParameter=col}"
                                     HorizontalAlignment="Center"
                                     VerticalAlignment="Center"
                                     Width="40"

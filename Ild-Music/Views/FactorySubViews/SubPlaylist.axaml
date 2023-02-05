@@ -230,7 +230,7 @@
                       <Setter Property="Background" Value="#60207773"/>
                     </Style>
                   </Border.Styles>
-                  <DrawingPresenter Drawing="{Binding ., Converter={StaticResource InstanceIconConverter}}"
+                  <DrawingPresenter Drawing="{Binding ., Converter={StaticResource InstanceIconConverter}, ConverterParameter=col}"
                                     HorizontalAlignment="Center"
                                     VerticalAlignment="Center"
                                     Width="40"
@@ -276,9 +276,7 @@
                 <Setter Property="BorderBrush" Value="Transparent"/>
                 <Setter Property="BorderThickness" Value="0"/>
                 <Setter Property="Padding" Value="4"/>
-                
                 <Setter Property="HorizontalContentAlignment" Value="Center"/>
-                
                 <Setter Property="Width" Value="110"/>
                 <Setter Property="Height" Value="110"/>
 
@@ -348,7 +346,7 @@
 
             <ListBox.ItemTemplate>
               <DataTemplate>
-              <Grid>
+              <Grid HorizontalAlignment="Stretch">
                 <Grid.RowDefinitions>
                   <RowDefinition Height="*"/>
                   <RowDefinition Height="auto"/>
@@ -367,7 +365,7 @@
                     </Style>
                   </Border.Styles>
 
-                  <DrawingPresenter Drawing="{Binding ., Converter={StaticResource InstanceIconConverter}}"
+                  <DrawingPresenter Drawing="{Binding ., Converter={StaticResource InstanceIconConverter}, ConverterParameter=col}"
                                     HorizontalAlignment="Center"
                                     VerticalAlignment="Center"
                                     Width="40"
