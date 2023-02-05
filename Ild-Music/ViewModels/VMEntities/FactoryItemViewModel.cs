@@ -10,6 +10,7 @@ using Ild_Music.ViewModels.Base;
 using System;
 using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Controls.Selection;
 using System.Linq;
 using System.Collections.Generic;
 using System.Threading;
@@ -65,14 +66,13 @@ namespace Ild_Music.ViewModels
         public string PlaylistDescription { get; set; }
 
 
-        public Artist CurrentSelectedPlaylistArtist { get; set; }
-        public Artist CurrentDeletePlaylistArtist { get; set; }
-        public static ObservableCollection<Artist> SelectedPlaylistArtists { get; set; } = new();
+        public static ObservableCollection<Artist> SelectedPlaylistArtists {get;set;} = new(); 
+        public SelectionModel<Artist> SelectPlaylistArtistsSelection {get;} = new();
+        public SelectionModel<Artist> DeclinePlaylistArtistsSelection {get;} = new();
 
-
-        public Track CurrentSelectedPlaylistTrack { get; set; }
-        public Track CurrentDeletePlaylistTrack { get; set; }
-        public static ObservableCollection<Track> SelectedPlaylistTracks { get; set; } = new();
+        public static ObservableCollection<Track> SelectedPlaylistTracks {get; set;} = new();
+        public SelectionModel<Track> SelectPlaylistTracksSelection {get;} = new();
+        public SelectionModel<Track> DeclinePlaylistTracksSelection {get;} = new();
         #endregion
 
         #region Track Factory Proeprties
@@ -88,7 +88,7 @@ namespace Ild_Music.ViewModels
         #endregion
 
         #region Providers        
-        public ObservableCollection<Artist> ArtistProvider { get; set; } = new();
+        public static ObservableCollection<Artist> ArtistProvider { get; set; } = new();
         public static ObservableCollection<Playlist> PlaylistProvider { get; set; } = new();
         public static ObservableCollection<Track> TrackProvider { get; set; } = new();
         #endregion
@@ -130,6 +130,9 @@ namespace Ild_Music.ViewModels
             supporterService.OnPlaylistsNotifyRefresh += PlaylistProviderUpdate;
             supporterService.OnTracksNotifyRefresh += TrackProviderUpdate;
 
+            SelectPlaylistArtistsSelection.SelectionChanged += SelectPlaylistArtist;
+            DeclinePlaylistArtistsSelection.SelectionChanged += DeclinePlaylistArtist;
+            DeclinePlaylistTracksSelection.SelectionChanged += DeclinePlaylistTrack;
 
             Task.Run(InitArtists);
             Task.Run(InitPlaylists);
@@ -138,6 +141,43 @@ namespace Ild_Music.ViewModels
         #endregion
 
         #region Private Methods
+        private void SelectPlaylistArtist(object sender, SelectionModelSelectionChangedEventArgs e)
+        {
+            var collection = e.SelectedItems.ToList();
+           
+            if (collection.Count > 0)
+            {
+                SelectedPlaylistArtists.Clear();
+                collection.ForEach(a => SelectedPlaylistArtists.Add((Artist)a));
+                OnPropertyChanged("SelectedPlaylistArtists");
+            }
+        }
+
+
+        private void DeclinePlaylistArtist(object sender, SelectionModelSelectionChangedEventArgs e)
+        {
+            var collection = e.SelectedIndexes.ToList();
+            Console.WriteLine(SelectedPlaylistArtists.Count);
+
+            if (collection.Count == 1 && SelectedPlaylistArtists.Count == 1)
+            {
+                //SelectedPlaylistArtists.Clear();
+                 OnPropertyChanged("SelectedPlaylistArtists");
+            }
+            else if (collection.Count > 0)
+            {
+                //collection.ForEach(a => SelectedPlaylistArtists.RemoveAt(a-1));
+                OnPropertyChanged("SelectedPlaylistArtists");
+            }
+
+        }
+
+        private void DeclinePlaylistTrack(object sender, SelectionModelSelectionChangedEventArgs e)
+        {
+            
+        }
+
+
         private void ExitFactory()
         {
             FieldsClear();
@@ -389,6 +429,7 @@ namespace Ild_Music.ViewModels
                 supporterService.ArtistsCollection.Where(a => a.Playlists.ToEntity(supporterService.PlaylistsCollection).Contains(playlist))
                                                   .ToList()
                                                   .ForEach(a => SelectedPlaylistArtists.Add(a));
+
                 playlist.Tracks.ToList()
                                .ForEach(t => SelectedPlaylistTracks.Add(t));
             }
@@ -398,7 +439,6 @@ namespace Ild_Music.ViewModels
                 TracktName = track.Name;
                 TrackDescription = track.Description;
 
-                //Here is critical point 
                 supporterService.ArtistsCollection.Where(a => a.Tracks.ToEntity(supporterService.TracksCollection).Contains(track))
                                                   .ToList()
                                                   .ForEach(a => SelectedPlaylistArtists.Add(a));
