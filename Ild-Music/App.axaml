@@ -104,6 +104,10 @@
         <DataTemplate DataType="{x:Type vm:TrackViewModel}">
             <v:TrackView/>
         </DataTemplate>
+
+         <DataTemplate DataType="{x:Type vm:InstanceExplorerViewModel}">
+            <v:InstanceExplorerView/>
+        </DataTemplate>
     </Application.DataTemplates>
 
     <Application.Styles>

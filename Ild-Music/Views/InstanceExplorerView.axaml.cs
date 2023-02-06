@@ -3,13 +3,12 @@ using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
 using PropertyChanged;
 
-
 namespace Ild_Music.Views
 {
     [DoNotNotifyAttribute]
-    public partial class FactoryView : UserControl
+    public partial class InstanceExplorerView : UserControl
     {
-        public FactoryView()
+        public InstanceExplorerView()
         {
             InitializeComponent();
         }
