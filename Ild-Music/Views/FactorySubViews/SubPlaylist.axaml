@@ -5,6 +5,9 @@
              
              xmlns:vm="clr-namespace:Ild_Music.ViewModels"
              xmlns:conv="using:Ild_Music.Converters"
+             xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
+             xmlns:ia="clr-namespace:Avalonia.Xaml.Interactions.Core;assembly=Avalonia.Xaml.Interactions"
+
 
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="Ild_Music.Views.FactorySubViews.SubPlaylist"
@@ -120,12 +123,17 @@
                     HorizontalAlignment="Stretch"
                     HorizontalContentAlignment="Left"
                     Margin="0, 2, 0, 5">
-        
+        <i:Interaction.Behaviors>
+            <ia:EventTriggerBehavior EventName="Tapped">
+                <ia:InvokeCommandAction Command="{Binding PlaylistArtistExplorerCommand}"/>
+            </ia:EventTriggerBehavior>  
+        </i:Interaction.Behaviors>
         <ListBox Items="{Binding SelectedPlaylistArtists}"
                 Selection="{Binding DeclinePlaylistArtistsSelection}"
                 SelectionMode="Single"
                 Background="#35000000"
-                Margin="2">
+                Margin="2"
+                Height="100">
 
             <ListBox.ItemsPanel>
                 <ItemsPanelTemplate>
@@ -219,7 +227,6 @@
                   <RowDefinition Height="auto"/>
                 </Grid.RowDefinitions>
 
-
                 <Border Grid.Row="0"
                         Width="60"
                         Height="60"
@@ -256,11 +263,18 @@
                     HorizontalAlignment="Stretch"
                     HorizontalContentAlignment="Left"
                     Margin="0, 2, 0, 5">
+
+        <i:Interaction.Behaviors>
+            <ia:EventTriggerBehavior EventName="Tapped">
+                <ia:InvokeCommandAction Command="{Binding PlaylistTrackExplorerCommand}"/>
+            </ia:EventTriggerBehavior>  
+        </i:Interaction.Behaviors>
         <ListBox Items="{Binding ArtistProvider}"
                 Selection="{Binding SelectPlaylistArtistsSelection}"
                 SelectionMode="Single"
                 Background="#35000000"
-                Margin="2">
+                Margin="2"
+                Height="100">
 
             <ListBox.ItemsPanel>
                 <ItemsPanelTemplate>

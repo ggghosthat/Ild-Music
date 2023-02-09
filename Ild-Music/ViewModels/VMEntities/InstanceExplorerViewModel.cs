@@ -28,14 +28,19 @@ namespace Ild_Music.ViewModels
 
         #region Properties
         public ObservableCollection<ICoreEntity> Source {get; private set;} = new();
-        public IList<ICoreEntity> Output {get; set;}
+        public IList<ICoreEntity> Output {get; set;} = new List<ICoreEntity>();
+
+        private MainViewModel MainVM => (MainViewModel)App.ViewModelTable[MainViewModel.nameVM];
+        #endregion
+
+        #region Commands
+        public CommandDelegator CloseExplorerCommand {get;}
         #endregion
 
         #region const
         public InstanceExplorerViewModel()
         {
-            Source.Add(new Artist("Eminem"));
-            Source.Add(new Artist("Dr. Dre"));
+            CloseExplorerCommand = new(ExitExplorer, null);
         }
         #endregion
 
@@ -43,6 +48,7 @@ namespace Ild_Music.ViewModels
         public void Arrange(int i, IList<ICoreEntity> preselected = null)
         {
             Source.Clear();
+            Output.Clear();
             if (i == 0)
             {
                 supporterService.ArtistsCollection
@@ -63,6 +69,11 @@ namespace Ild_Music.ViewModels
             {
                 Output = preselected;
             }
+        }
+
+        public void ExitExplorer(object obj)
+        {
+            MainVM.ResolveWindowStack();
         }
         #endregion
     }

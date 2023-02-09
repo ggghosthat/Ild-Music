@@ -52,6 +52,11 @@ namespace Ild_Music.ViewModels
 
         public CommandDelegator SelectPlaylistTrackCommand { get; }
         public CommandDelegator DeletePlaylistTrackCommand { get; }
+
+
+        public CommandDelegator PlaylistArtistExplorerCommand {get;}
+        public CommandDelegator PlaylistTrackExplorerCommand {get;}
+        public CommandDelegator TrackArtistExplorerCommand {get;}
         #endregion
 
         #region Artist Factory Properties
@@ -105,6 +110,7 @@ namespace Ild_Music.ViewModels
         #region Properties
         public bool IsEditMode = false;
         private MainViewModel MainVM => (MainViewModel)App.ViewModelTable[MainViewModel.nameVM];
+        private InstanceExplorerViewModel ExplorerVM => (InstanceExplorerViewModel)App.ViewModelTable[InstanceExplorerViewModel.nameVM];
         #endregion
 
         #region Const
@@ -123,6 +129,10 @@ namespace Ild_Music.ViewModels
 
             SelectPlaylistTrackCommand = new(SelectPlaylistTrack, null);
             DeletePlaylistTrackCommand = new(DeletePlaylistTrack, null);
+
+            PlaylistArtistExplorerCommand = new(OpenPlaylistArtistExplorer, null);
+            PlaylistTrackExplorerCommand = new(OpenPlaylistTrackExplorer, null);
+            TrackArtistExplorerCommand = new(OpenTrackArtistExplorer, null);
 
             supporterService.OnArtistsNotifyRefresh += ArtistProviderUpdate;
             supporterService.OnPlaylistsNotifyRefresh += PlaylistProviderUpdate;
@@ -175,6 +185,14 @@ namespace Ild_Music.ViewModels
             
         }
 
+
+        private void OpenExplorer()
+        {
+            var explorer = (InstanceExplorerViewModel)App.ViewModelTable[InstanceExplorerViewModel.nameVM];
+            
+            MainVM.PushVM(this, explorer);
+            MainVM.ResolveWindowStack();
+        }
 
         private void ExitFactory()
         {
@@ -535,6 +553,49 @@ namespace Ild_Music.ViewModels
         {
             if (obj is Track track)
                 SelectedPlaylistTracks.Remove(track);
+        }
+
+
+
+        private void OpenPlaylistArtistExplorer(object obj)
+        {
+            //var explorer = (InstanceExplorerViewModel)App.ViewModelTable[InstanceExplorerViewModel.nameVM];
+            if (obj is IList<ICoreEntity> preSelected)
+            {
+                ExplorerVM.Arrange(0, preSelected); 
+            }
+            else
+            {
+                ExplorerVM.Arrange(0); 
+            }
+
+            MainVM.PushVM(this, ExplorerVM);
+            MainVM.ResolveWindowStack();
+        }
+
+        private void OpenPlaylistTrackExplorer(object obj)
+        {
+            //var explorer = (InstanceExplorerViewModel)App.ViewModelTable[InstanceExplorerViewModel.nameVM];
+            ExplorerVM.Arrange(2); 
+
+            MainVM.PushVM(this, ExplorerVM);
+            MainVM.ResolveWindowStack();
+        }
+
+        private void OpenTrackArtistExplorer(object obj)
+        {
+            //var explorer = (InstanceExplorerViewModel)App.ViewModelTable[InstanceExplorerViewModel.nameVM];
+            if (obj is IList<ICoreEntity> preSelected)
+            {
+                ExplorerVM.Arrange(0, preSelected); 
+            }
+            else
+            {
+                ExplorerVM.Arrange(0); 
+            }
+
+            MainVM.PushVM(this, ExplorerVM);
+            MainVM.ResolveWindowStack();
         }
         #endregion
     }

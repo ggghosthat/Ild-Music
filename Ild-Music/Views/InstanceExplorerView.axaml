@@ -52,6 +52,7 @@
                                   Background="#16262e">
                                 <ListBox Items="{Binding Source}"
                                          SelectedItems="{Binding Output}"
+                                         SelectionMode="Multiple, Toggle"
                                          ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                                          ScrollViewer.VerticalScrollBarVisibility="Auto"
                                          Background="Transparent">
@@ -169,6 +170,11 @@
                             Grid.Column="0"
                             Grid.ColumnSpan="3"
                             Margin="10,2">
+                    <i:Interaction.Behaviors>
+                        <ia:EventTriggerBehavior EventName="Tapped">
+                            <ia:InvokeCommandAction Command="{Binding CloseExplorerCommand}"/>
+                        </ia:EventTriggerBehavior>  
+                    </i:Interaction.Behaviors>
                     <Border HorizontalAlignment="Left"
                             VerticalAlignment="Bottom"
                             CornerRadius="5">

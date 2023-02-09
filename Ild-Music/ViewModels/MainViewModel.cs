@@ -87,6 +87,7 @@ namespace Ild_Music.ViewModels
             App.ViewModelTable.Add(ArtistViewModel.nameVM, new ArtistViewModel());
             App.ViewModelTable.Add(PlaylistViewModel.nameVM, new PlaylistViewModel());
             App.ViewModelTable.Add(TrackViewModel.nameVM, new TrackViewModel());
+            App.ViewModelTable.Add(InstanceExplorerViewModel.nameVM, new InstanceExplorerViewModel());
             App.ViewModelTable.Add(nameVM, this);
 
             KickCommand = new(KickPlayer, OnCanTogglePlayer);
@@ -96,7 +97,7 @@ namespace Ild_Music.ViewModels
             RepeatCommand = new(RepeatPlayer, OnCanTogglePlayer);
             VolumeSliderShowCommand = new(VolumeSliderShow,null);
 
-            CurrentVM = new InstanceExplorerViewModel();
+            CurrentVM = new StartViewModel();
 
             timer = new(TimeSpan.FromMilliseconds(300), DispatcherPriority.Normal, UpdateCurrentTime);
             timer.Start();
