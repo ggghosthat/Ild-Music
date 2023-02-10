@@ -146,7 +146,8 @@
                 SelectedItems="{Binding SelectedTrackArtists}"
                 SelectionMode="Multiple,Toggle"
                 Background="#35000000"
-                Margin="2">
+                Margin="2"
+                Height="110">
 
             <ListBox.ItemsPanel>
                 <ItemsPanelTemplate>

@@ -81,7 +81,6 @@ namespace Ild_Music.ViewModels
             supporterService.OnArtistsNotifyRefresh += ArtistProviderUpdate;
             supporterService.OnTracksNotifyRefresh += TrackProviderUpdate;
            
-
             Task.Run(InitArtists);
             Task.Run(InitTracks); 
         }
@@ -103,7 +102,7 @@ namespace Ild_Music.ViewModels
         
         private async Task InitTracks()
         {
-            TrackProvider.Clear();
+            TrackProvider.ToList().Clear();
             supporterService.TracksCollection
                             .ToList().ForEach(track => TrackProvider.Add(track));
         }
@@ -222,11 +221,9 @@ namespace Ild_Music.ViewModels
 
                     if(tracks != null && tracks.Count > 0)
                     {
-                        Console.WriteLine(editPlaylist.Tracks.Count);
-                        editPlaylist.Tracks = tracks;
+                        editPlaylist.Tracks.Clear();
+                        tracks.ToList().ForEach(t => editPlaylist.Tracks.Add(t));
                     }
-
-                    //Console.WriteLine(editPlaylist.Tracks.Count);
 
                     if(artists != null && artists.Count > 0)
                     {
@@ -260,10 +257,7 @@ namespace Ild_Music.ViewModels
                 supporterService.ArtistsCollection.Where(a => a.Playlists.ToEntity(supporterService.PlaylistsCollection).Contains(playlist))
                                                   .ToList()
                                                   .ForEach(a => SelectedPlaylistArtists.Add(a));
-
-                playlist.Tracks.ToList()
-                               .ForEach(t => Console.WriteLine(t.Name));
-
+                
                 playlist.Tracks.ToList()
                                .ForEach(t => SelectedPlaylistTracks.Add(t));
             }

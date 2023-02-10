@@ -133,7 +133,7 @@
                 SelectionMode="Single"
                 Background="#35000000"
                 Margin="2"
-                Height="100">
+                Height="110">
 
             <ListBox.ItemsPanel>
                 <ItemsPanelTemplate>
@@ -276,7 +276,7 @@
                 SelectionMode="Single"
                 Background="#35000000"
                 Margin="2"
-                Height="100">
+                Height="110">
 
             <ListBox.ItemsPanel>
                 <ItemsPanelTemplate>

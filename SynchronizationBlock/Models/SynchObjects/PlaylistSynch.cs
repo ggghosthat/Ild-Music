@@ -44,12 +44,12 @@ namespace SynchronizationBlock.Models.SynchObjects
             try
             {
                 Playlist old = playlists.FirstOrDefault<Playlist>(p => p.Id.Equals(playlist_update.Id));
-                if (old != default)
-                {
+                //if (old != default)
+                //{
                     old.Name = playlist_update.Name;
                     old.Description = playlist_update.Description;
                     old.Tracks = playlist_update.Tracks;
-                }
+                //}
             }
             catch(Exception ex)
             {
