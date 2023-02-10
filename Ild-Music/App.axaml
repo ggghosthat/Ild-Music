@@ -4,6 +4,7 @@
 
              xmlns:vm="clr-namespace:Ild_Music.ViewModels"
              xmlns:v="clr-namespace:Ild_Music.Views"
+             xmlns:fv="clr-namespace:Ild_Music.Views.FactorySubViews"
 
              x:Class="Ild_Music.App">
     <Application.DataTemplates>
@@ -94,6 +95,17 @@
         <DataTemplate DataType="{x:Type vm:SettingViewModel}">
             <v:SettingView/>
         </DataTemplate>
+
+        <DataTemplate DataType="{x:Type vm:ArtistFactoryViewModel}">
+            <fv:SubArtist/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:PlaylistFactoryViewModel}">
+            <fv:SubPlaylist/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:TrackFactoryViewModel}">
+            <fv:SubTrack/>
+        </DataTemplate>
+
 
         <DataTemplate DataType="{x:Type vm:ArtistViewModel}">
             <v:ArtistView/>

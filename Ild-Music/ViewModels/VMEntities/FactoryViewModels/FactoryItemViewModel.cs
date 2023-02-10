@@ -226,7 +226,7 @@ namespace Ild_Music.ViewModels
         {
             ArtistProvider.Clear();
             supporterService.ArtistsCollection
-                            .ToList().ForEach(artist => ArtistProvider.Add(artist));            
+                            .ToList().ForEach(artist => ArtistProvider.Add(artist));        
         }
 
         private void PlaylistProviderUpdate()

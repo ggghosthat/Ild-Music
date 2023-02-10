@@ -53,7 +53,7 @@ namespace Ild_Music.ViewModels
         #endregion
 
         #region Const
-        public FactoryItemViewModel()
+        public ArtistFactoryViewModel()
         {
             CreateArtistCommand = new(CreateArtist, null);
         }

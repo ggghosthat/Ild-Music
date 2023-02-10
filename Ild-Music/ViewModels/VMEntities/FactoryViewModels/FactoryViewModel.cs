@@ -27,7 +27,11 @@ namespace Ild_Music.ViewModels
         #endregion
 
         #region Properties
-        public static FactoryItemViewModel SubContent { get; set; } = new();
+        public static ArtistFactoryViewModel SubArtistContent { get; set; } = new();
+        public static PlaylistFactoryViewModel SubPlaylistContent { get; set; } = new();
+        public static TrackFactoryViewModel SubTrackContent { get; set; } = new();
+
+
         public ObservableCollection<SubItem> SubItems { get; set; } = new();
         public static SubItem SubItem { get; set; }
         #endregion
@@ -35,9 +39,9 @@ namespace Ild_Music.ViewModels
         #region Const
         public FactoryViewModel()
         {
-            SubItems.Add(new SubItem("Artist", new SubArtist() {DataContext = SubContent} ));
-            SubItems.Add(new SubItem("Playlist", new SubPlaylist() {DataContext = SubContent} ));
-            SubItems.Add(new SubItem("Track", new SubTrack() {DataContext = SubContent} ));
+            SubItems.Add(new SubItem("Artist", new SubArtist() {DataContext = SubArtistContent} ));
+            SubItems.Add(new SubItem("Playlist", new SubPlaylist() {DataContext = SubPlaylistContent} ));
+            SubItems.Add(new SubItem("Track", new SubTrack() {DataContext = SubTrackContent} ));
             
             SubItem = SubItems[0];
         }
@@ -56,14 +60,23 @@ namespace Ild_Music.ViewModels
         public void SetEditableItem(ICoreEntity entity)
         {
             if (entity is Artist artist)
+            {
                 SubItem = SubItems[0];
+                var context = (ArtistFactoryViewModel)SubItem.Control.DataContext;
+                context.DropInstance(entity);
+            }
             else if (entity is Playlist playlist)
-                SubItem = SubItems[0];
+            {
+                SubItem = SubItems[1];
+                var context = (PlaylistFactoryViewModel)SubItem.Control.DataContext;
+                context.DropInstance(entity);
+            }
             else if (entity is Track track)
-                SubItem = SubItems[0];
-
-            var context = (FactoryItemViewModel)SubItem.Control.DataContext;
-            context.DropInstance(entity);
+            {
+                SubItem = SubItems[2];
+                var context = (TrackFactoryViewModel)SubItem.Control.DataContext;
+                context.DropInstance(entity);
+            }
         }
     }
 

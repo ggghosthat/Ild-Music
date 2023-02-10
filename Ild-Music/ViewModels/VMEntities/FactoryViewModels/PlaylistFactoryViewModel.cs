@@ -76,19 +76,12 @@ namespace Ild_Music.ViewModels
         #endregion
 
         #region Const
-        public FactoryItemViewModel()
+        public PlaylistFactoryViewModel()
         {
             CreatePlaylistCommand = new(CreatePlaylist, null);
 
-            SelectPlaylistArtistCommand = new(SelectPlaylistArtist, null);
-            DeletePlaylistArtistCommand = new(DeletePlaylistArtist, null);
-
-            SelectPlaylistTrackCommand = new(SelectPlaylistTrack, null);
-            DeletePlaylistTrackCommand = new(DeletePlaylistTrack, null);
-
             PlaylistArtistExplorerCommand = new(OpenPlaylistArtistExplorer, null);
             PlaylistTrackExplorerCommand = new(OpenPlaylistTrackExplorer, null);
-            TrackArtistExplorerCommand = new(OpenTrackArtistExplorer, null);
 
             supporterService.OnArtistsNotifyRefresh += ArtistProviderUpdate;
             supporterService.OnTracksNotifyRefresh += TrackProviderUpdate;
@@ -98,5 +91,179 @@ namespace Ild_Music.ViewModels
         }
         #endregion
 
+        #region Private Methods
+        private void OpenExplorer()
+        {
+            var explorer = (InstanceExplorerViewModel)App.ViewModelTable[InstanceExplorerViewModel.nameVM];
+            
+            MainVM.PushVM(this, explorer);
+            MainVM.ResolveWindowStack();
+        }
+
+        private void ExitFactory()
+        {
+            FieldsClear();
+            MainVM.ResolveWindowStack();
+        }
+
+        private async Task InitArtists()
+        {
+            ArtistProvider.ToList().Clear();
+            supporterService.ArtistsCollection
+                            .ToList().ForEach(artist => ArtistProvider.Add(artist));
+        }
+        
+        private async Task InitTracks()
+        {
+            TrackProvider.Clear();
+            supporterService.TracksCollection
+                            .ToList().ForEach(track => TrackProvider.Add(track));
+        }
+
+        private void ArtistProviderUpdate()
+        {
+            ArtistProvider.Clear();
+            supporterService.ArtistsCollection
+                            .ToList().ForEach(artist => ArtistProvider.Add(artist));            
+        }
+
+        private void TrackProviderUpdate()
+        {
+            TrackProvider.Clear();
+            supporterService.TracksCollection
+                            .ToList().ForEach(track => TrackProvider.Add(track));            
+        }
+
+        private async Task FieldsClear()
+        {
+            PlaylistName = default;
+            PlaylistDescription = default;  
+            SelectedPlaylistArtists.Clear();
+            SelectedPlaylistTracks.Clear();
+            PlaylistLogLine = default;
+        }
+
+        private void ResolveExplorer()
+        {}
+
+        private void OpenPlaylistArtistExplorer(object obj)
+        {
+            if (obj is IList<ICoreEntity> preSelected)
+            {
+                ExplorerVM.Arrange(0, preSelected); 
+            }
+            else
+            {
+                ExplorerVM.Arrange(0); 
+            }
+
+            MainVM.PushVM(this, ExplorerVM);
+            MainVM.ResolveWindowStack();
+        }
+
+        private void OpenPlaylistTrackExplorer(object obj)
+        {
+            ExplorerVM.Arrange(2); 
+
+            MainVM.PushVM(this, ExplorerVM);
+            MainVM.ResolveWindowStack();
+        }
+
+        #endregion
+
+        #region Public Methods
+        public void CreatePlaylistInstance(object[] values)
+        {
+            try
+            {
+                var name = (string)values[0];
+                var description = (string)values[1];
+                var tracks = (IList<Track>)values[2];
+                var artists = (IList<Artist>)values[3];
+
+                if (!string.IsNullOrEmpty(name))
+                {
+                    factoryService.CreatePlaylist(name, description, tracks, artists);
+                    PlaylistLogLine = "Successfully created!";
+                    ExitFactory(); 
+                }
+            }
+            catch (InvalidPlaylistException ex)
+            {
+                PlaylistLogLine = ex.Message;
+            }
+        }
+ 
+        public void EditPlaylistInstance(object[] values)
+        {
+            try
+            {
+                var name = (string)values[0];
+                var description = (string)values[1];
+                var tracks = (IList<Track>)values[2];
+                var artists = (IList<Artist>)values[3];
+
+                if(!string.IsNullOrEmpty(name))
+                {
+                    var editPlaylist = (Playlist)Instance;
+                    editPlaylist.Name = name;
+                    editPlaylist.Description = description;
+
+                    if(tracks != null && tracks.Count > 0)
+                    {
+                        editPlaylist.Tracks = tracks;
+                    }
+
+                    if(artists != null && artists.Count > 0)
+                    {
+                        var clear_artists = ArtistProvider.ToList().Except(artists);
+                        clear_artists.ToList().ForEach(a => a.DeletePlaylist(editPlaylist));
+                        artists.ToList().ForEach(a => a.AddPlaylist(editPlaylist));
+                    }
+
+                    supporterService.EditInstance(editPlaylist);
+                    supporterService.DumpState(); 
+
+                    IsEditMode = false;
+                    ExitFactory();
+                }
+            }
+            catch (InvalidPlaylistException ex)
+            {
+                PlaylistLogLine = ex.Message;
+            }
+        }
+
+        public void DropInstance(ICoreEntity entity) 
+        {
+            Instance = entity;
+            IsEditMode = true;
+            if (entity is Playlist playlist)
+            {
+                PlaylistName = playlist.Name;
+                PlaylistDescription = playlist.Description;
+
+                supporterService.ArtistsCollection.Where(a => a.Playlists.ToEntity(supporterService.PlaylistsCollection).Contains(playlist))
+                                                  .ToList()
+                                                  .ForEach(a => SelectedPlaylistArtists.Add(a));
+
+                playlist.Tracks.ToList()
+                               .ForEach(t => SelectedPlaylistTracks.Add(t));
+            }
+        }
+        #endregion
+
+
+        #region Command Methods
+        private void CreatePlaylist(object obj)
+        {
+            object[] value = { PlaylistName, PlaylistDescription, SelectedPlaylistTracks, SelectedPlaylistArtists };
+
+            if (IsEditMode == false)
+                CreatePlaylistInstance(value);
+            else
+                EditPlaylistInstance(value);
+        }
+        #endregion
     }
 }

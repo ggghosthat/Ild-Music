@@ -11,7 +11,7 @@
 
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="Ild_Music.Views.FactorySubViews.SubTrack"
-             x:DataType="vm:FactoryItemViewModel">
+             x:DataType="vm:TrackFactoryViewModel">
   <UserControl.Resources>
     <conv:InstanceNameConverter x:Key="InstanceNameConverter"/>
     <conv:InstanceIconConverter x:Key="InstanceIconConverter"/>

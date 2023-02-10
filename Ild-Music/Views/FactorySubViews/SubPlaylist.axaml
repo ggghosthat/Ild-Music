@@ -11,7 +11,7 @@
 
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="Ild_Music.Views.FactorySubViews.SubPlaylist"
-             x:DataType="vm:FactoryItemViewModel">
+             x:DataType="vm:PlaylistFactoryViewModel">
 
   <UserControl.Resources>
     <conv:InstanceNameConverter x:Key="InstanceNameConverter"/>
