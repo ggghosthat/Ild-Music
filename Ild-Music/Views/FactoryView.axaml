@@ -9,8 +9,7 @@
 
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="Ild_Music.Views.FactoryView"
-             x:DataType="vm:FactoryViewModel"
-             Background="#05121a">
+             x:DataType="vm:FactoryViewModel">
 
 
   <UserControl.Resources>

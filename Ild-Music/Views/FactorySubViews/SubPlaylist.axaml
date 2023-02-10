@@ -11,7 +11,8 @@
 
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="Ild_Music.Views.FactorySubViews.SubPlaylist"
-             x:DataType="vm:PlaylistFactoryViewModel">
+             x:DataType="vm:PlaylistFactoryViewModel"
+             Background="#70000000">
 
   <UserControl.Resources>
     <conv:InstanceNameConverter x:Key="InstanceNameConverter"/>
@@ -34,7 +35,7 @@
     <Style Selector="TextBox:pointerover /template/ Border#PART_BorderElement">
       <Setter Property="BorderThickness" Value="0,0,0,1"/>
       <Setter Property="BorderBrush" Value="#01877e"/>
-      <Setter Property="Background" Value="#50000000"/>
+      <Setter Property="Background" Value="#90000000"/>
     </Style>
 
     <Style Selector="TextBox:focus /template/ Border#PART_BorderElement">

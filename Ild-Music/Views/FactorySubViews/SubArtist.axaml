@@ -8,7 +8,8 @@
              
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="Ild_Music.Views.FactorySubViews.SubArtist"
-             x:DataType="vm:ArtistFactoryViewModel">
+             x:DataType="vm:ArtistFactoryViewModel"
+             Background="#70000000">
 
   <UserControl.Resources>
     <conv:ErrorMessageConverter x:Key="ErrorStateConverter"/>
@@ -41,7 +42,7 @@
     <Style Selector="TextBox:focus:pointerover /template/ Border#PART_BorderElement">
       <Setter Property="BorderThickness" Value="0,0,0,1"/>
       <Setter Property="BorderBrush" Value="#03ffdb"/>
-      <Setter Property="Background" Value="#50000000"/>
+      <Setter Property="Background" Value="#fff"/>
     </Style>
 
     <Style Selector="Button.btnApply">
