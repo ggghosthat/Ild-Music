@@ -33,8 +33,13 @@ namespace Ild_Music.ViewModels
         private MainViewModel MainVM => (MainViewModel)App.ViewModelTable[MainViewModel.nameVM];
         #endregion
 
+        
         #region Commands
         public CommandDelegator CloseExplorerCommand {get;}
+        #endregion
+
+        #region Events
+        public event Action OnSelected;
         #endregion
 
         #region const
@@ -45,6 +50,19 @@ namespace Ild_Music.ViewModels
         #endregion
 
         #region Public Methods
+        public void Supply(IList<ICoreEntity> sourceInput, IList<ICoreEntity> preselected)
+        {
+            Source.Clear();
+            Output.Clear();
+            
+            sourceInput.ToList().ForEach(i => Source.Add(i));
+
+            if(new HashSet<ICoreEntity>(Source).IsSupersetOf(preselected))
+            {
+                preselected.ToList().ForEach(i => Output.Add(i));
+            }
+        }
+
         public void Arrange(int i, IList<ICoreEntity> preselected = null)
         {
             Source.Clear();
@@ -73,6 +91,7 @@ namespace Ild_Music.ViewModels
 
         public void ExitExplorer(object obj)
         {
+            OnSelected?.Invoke();
             MainVM.ResolveWindowStack();
         }
         #endregion

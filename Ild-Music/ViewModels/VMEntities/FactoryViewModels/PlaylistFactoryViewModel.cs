@@ -53,12 +53,7 @@ namespace Ild_Music.ViewModels
         public string PlaylistDescription { get; set; }
 
         public static ObservableCollection<Artist> SelectedPlaylistArtists {get;set;} = new();
-        public SelectionModel<Artist> SelectPlaylistArtistsSelection {get;} = new();
-        public SelectionModel<Artist> DeclinePlaylistArtistsSelection {get;} = new();
-
         public static ObservableCollection<Track> SelectedPlaylistTracks {get; set;} = new();
-        public SelectionModel<Track> SelectPlaylistTracksSelection {get;} = new();
-        public SelectionModel<Track> DeclinePlaylistTracksSelection {get;} = new();
         #endregion
 
         #region Providers        
@@ -85,6 +80,7 @@ namespace Ild_Music.ViewModels
 
             supporterService.OnArtistsNotifyRefresh += ArtistProviderUpdate;
             supporterService.OnTracksNotifyRefresh += TrackProviderUpdate;
+           
 
             Task.Run(InitArtists);
             Task.Run(InitTracks); 
@@ -92,14 +88,6 @@ namespace Ild_Music.ViewModels
         #endregion
 
         #region Private Methods
-        private void OpenExplorer()
-        {
-            var explorer = (InstanceExplorerViewModel)App.ViewModelTable[InstanceExplorerViewModel.nameVM];
-            
-            MainVM.PushVM(this, explorer);
-            MainVM.ResolveWindowStack();
-        }
-
         private void ExitFactory()
         {
             FieldsClear();
@@ -143,11 +131,26 @@ namespace Ild_Music.ViewModels
             PlaylistLogLine = default;
         }
 
-        private void ResolveExplorer()
-        {}
+        private void OnItemsSelected()
+        {
+            if(ExplorerVM.Output.Count > 0)
+            {
+                if (ExplorerVM.Output[0] is Artist)
+                {
+                    SelectedPlaylistArtists.Clear();
+                    ExplorerVM.Output.ToList().ForEach(i => SelectedPlaylistArtists.Add((Artist)i)); 
+                }
+                else if(ExplorerVM.Output[0] is Track)
+                {
+                    SelectedPlaylistTracks.Clear();
+                    ExplorerVM.Output.ToList().ForEach(i => SelectedPlaylistTracks.Add((Track)i)); 
+                }
+            }
+        }
 
         private void OpenPlaylistArtistExplorer(object obj)
         {
+            ExplorerVM.OnSelected += OnItemsSelected;
             if (obj is IList<ICoreEntity> preSelected)
             {
                 ExplorerVM.Arrange(0, preSelected); 
@@ -163,7 +166,15 @@ namespace Ild_Music.ViewModels
 
         private void OpenPlaylistTrackExplorer(object obj)
         {
-            ExplorerVM.Arrange(2); 
+            ExplorerVM.OnSelected += OnItemsSelected;
+            if (obj is IList<ICoreEntity> preSelected)
+            {
+                ExplorerVM.Arrange(2, preSelected); 
+            }
+            else
+            {
+                ExplorerVM.Arrange(2); 
+            }
 
             MainVM.PushVM(this, ExplorerVM);
             MainVM.ResolveWindowStack();
@@ -211,8 +222,11 @@ namespace Ild_Music.ViewModels
 
                     if(tracks != null && tracks.Count > 0)
                     {
+                        Console.WriteLine(editPlaylist.Tracks.Count);
                         editPlaylist.Tracks = tracks;
                     }
+
+                    //Console.WriteLine(editPlaylist.Tracks.Count);
 
                     if(artists != null && artists.Count > 0)
                     {
@@ -248,6 +262,9 @@ namespace Ild_Music.ViewModels
                                                   .ForEach(a => SelectedPlaylistArtists.Add(a));
 
                 playlist.Tracks.ToList()
+                               .ForEach(t => Console.WriteLine(t.Name));
+
+                playlist.Tracks.ToList()
                                .ForEach(t => SelectedPlaylistTracks.Add(t));
             }
         }
@@ -257,12 +274,12 @@ namespace Ild_Music.ViewModels
         #region Command Methods
         private void CreatePlaylist(object obj)
         {
-            object[] value = { PlaylistName, PlaylistDescription, SelectedPlaylistTracks, SelectedPlaylistArtists };
+            object[] values = { PlaylistName, PlaylistDescription, SelectedPlaylistTracks, SelectedPlaylistArtists };
 
             if (IsEditMode == false)
-                CreatePlaylistInstance(value);
+                CreatePlaylistInstance(values);
             else
-                EditPlaylistInstance(value);
+                EditPlaylistInstance(values);
         }
         #endregion
     }

@@ -42,7 +42,7 @@
     <Style Selector="TextBox:focus:pointerover /template/ Border#PART_BorderElement">
       <Setter Property="BorderThickness" Value="0,0,0,1"/>
       <Setter Property="BorderBrush" Value="#03ffdb"/>
-      <Setter Property="Background" Value="#fff"/>
+      <Setter Property="Background" Value="#50000000"/>
     </Style>
 
     <Style Selector="Button.btnApply">
