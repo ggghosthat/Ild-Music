@@ -39,6 +39,7 @@ namespace Ild_Music.ViewModels
         #region Commands
         public CommandDelegator DefinePath { get; set; }
         public CommandDelegator CreateTrackCommand { get; }
+        public CommandDelegator CancelCommand { get; }
 
         public CommandDelegator TrackArtistExplorerCommand {get;}
         #endregion
@@ -72,8 +73,11 @@ namespace Ild_Music.ViewModels
         {
             DefinePath = new(DefineTrackPath, null);
             CreateTrackCommand = new(CreateTrack, null);
+            CancelCommand = new(Cancel,null);
+
             TrackArtistExplorerCommand = new(OpenTrackArtistExplorer, null);
             supporterService.OnArtistsNotifyRefresh += ArtistProviderUpdate;
+            
             Task.Run(InitArtists);
         }
         #endregion
@@ -192,6 +196,18 @@ namespace Ild_Music.ViewModels
                                                   .ForEach(a => SelectedTrackArtists.Add(a));
             }
         }
+
+        private void OnItemsSelected()
+        {
+            if(ExplorerVM.Output.Count > 0)
+            {
+                if (ExplorerVM.Output[0] is Artist)
+                {
+                    SelectedTrackArtists.Clear();
+                    ExplorerVM.Output.ToList().ForEach(i => SelectedTrackArtists.Add((Artist)i)); 
+                }
+            }
+        }
         #endregion
 
         #region Command Methods
@@ -200,6 +216,11 @@ namespace Ild_Music.ViewModels
             OpenFileDialog dialog = new();
             string[] result = await dialog.ShowAsync(new Window());
             TrackPath = string.Join(" ", result);
+        }
+
+        private void Cancel(object obj)
+        {
+            ExitFactory();
         }
 
         private void CreateTrack(object obj)
@@ -212,22 +233,8 @@ namespace Ild_Music.ViewModels
                 EditTrackInstance(value);
         }
         
-        private void OnItemsSelected()
-        {
-            if(ExplorerVM.Output.Count > 0)
-            {
-                if (ExplorerVM.Output[0] is Artist)
-                {
-                    SelectedTrackArtists.Clear();
-                    ExplorerVM.Output.ToList().ForEach(i => SelectedTrackArtists.Add((Artist)i)); 
-                }
-            }
-        }
-
-
         private void OpenTrackArtistExplorer(object obj)
-        {
-           
+        { 
             if (obj is IList<ICoreEntity> preSelected)
             {
                 ExplorerVM.Arrange(0, preSelected); 

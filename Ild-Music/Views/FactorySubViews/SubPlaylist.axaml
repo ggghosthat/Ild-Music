@@ -405,10 +405,21 @@
                 VerticalAlignment="Bottom"
                 Width="100"
                 Height="25"
+                Margin="3,0"
                 Background="red"
                 Content="Apply"
                 Command="{Binding CreatePlaylistCommand}"/>
         
+        <Button Classes="btnApply"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Bottom"
+                Width="100"
+                Height="25"
+                Margin="3,0"
+                Content="Cancel"
+                Command="{Binding CancelCommand}"/>
+
+
         <TextBlock  Classes="logLine"
                     Text="{Binding PlaylistLogLine}"
                     Foreground="{Binding PlaylistLogError, Converter={StaticResource ErrorStateConverter} }"

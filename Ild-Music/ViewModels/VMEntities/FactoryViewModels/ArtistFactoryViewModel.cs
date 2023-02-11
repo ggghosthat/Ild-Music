@@ -36,6 +36,7 @@ namespace Ild_Music.ViewModels
 
         #region Commands
         public CommandDelegator CreateArtistCommand { get; }
+        public CommandDelegator CancelCommand {get;}
         #endregion
 
         #region Artist Factory Properties
@@ -56,6 +57,7 @@ namespace Ild_Music.ViewModels
         public ArtistFactoryViewModel()
         {
             CreateArtistCommand = new(CreateArtist, null);
+            CancelCommand = new(Cancel, null);
         }
         #endregion
 
@@ -133,6 +135,12 @@ namespace Ild_Music.ViewModels
         #endregion
 
         #region Command Methods
+        private void Cancel(object obj)
+        {
+            ExitFactory();
+        }
+
+
         private void CreateArtist(object obj)
         {
             object[] value = { ArtistName, ArtistDescription };

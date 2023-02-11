@@ -36,6 +36,7 @@ namespace Ild_Music.ViewModels
         
         #region Commands
         public CommandDelegator CloseExplorerCommand {get;}
+        public CommandDelegator ExitExplorerCommand {get;}
         #endregion
 
         #region Events
@@ -45,7 +46,8 @@ namespace Ild_Music.ViewModels
         #region const
         public InstanceExplorerViewModel()
         {
-            CloseExplorerCommand = new(ExitExplorer, null);
+            CloseExplorerCommand = new(CloseExplorer, null);
+            ExitExplorerCommand = new(ExitExplorer, null);
         }
         #endregion
 
@@ -89,11 +91,19 @@ namespace Ild_Music.ViewModels
             }
         }
 
-        public void ExitExplorer(object obj)
+        public void CloseExplorer(object obj)
         {
             OnSelected?.Invoke();
             MainVM.ResolveWindowStack();
         }
+
+        public void ExitExplorer(object obj)
+        {
+            Source.Clear();
+            Output.Clear();           
+            MainVM.ResolveWindowStack();
+        }
+
         #endregion
     }
 }

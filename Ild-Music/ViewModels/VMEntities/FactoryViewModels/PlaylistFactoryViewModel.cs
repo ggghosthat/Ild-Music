@@ -37,6 +37,7 @@ namespace Ild_Music.ViewModels
 
         #region Commands
         public CommandDelegator CreatePlaylistCommand { get; }
+        public CommandDelegator CancelCommand { get; }
 
         public CommandDelegator SelectPlaylistArtistCommand { get; }
         public CommandDelegator DeletePlaylistArtistCommand { get; }
@@ -74,6 +75,7 @@ namespace Ild_Music.ViewModels
         public PlaylistFactoryViewModel()
         {
             CreatePlaylistCommand = new(CreatePlaylist, null);
+            CancelCommand = new(Cancel, null);
 
             PlaylistArtistExplorerCommand = new(OpenPlaylistArtistExplorer, null);
             PlaylistTrackExplorerCommand = new(OpenPlaylistTrackExplorer, null);
@@ -266,6 +268,12 @@ namespace Ild_Music.ViewModels
 
 
         #region Command Methods
+        private void Cancel(object obj)
+        {
+            ExitFactory();
+        }
+
+
         private void CreatePlaylist(object obj)
         {
             object[] values = { PlaylistName, PlaylistDescription, SelectedPlaylistTracks, SelectedPlaylistArtists };

@@ -169,7 +169,9 @@
                 <StackPanel Grid.Row="2"
                             Grid.Column="0"
                             Grid.ColumnSpan="3"
-                            Margin="10,2">
+                            Margin="10,2"
+                            Orientation="Horizontal">
+                    <StackPanel Margin="3,0">
                     <i:Interaction.Behaviors>
                         <ia:EventTriggerBehavior EventName="Tapped">
                             <ia:InvokeCommandAction Command="{Binding CloseExplorerCommand}"/>
@@ -193,6 +195,33 @@
                                    Text="Apply"
                                    Margin="5,3"/>                          
                     </Border>
+                    </StackPanel>
+
+                    <StackPanel Margin="3,0">
+                    <i:Interaction.Behaviors>
+                        <ia:EventTriggerBehavior EventName="Tapped">
+                            <ia:InvokeCommandAction Command="{Binding ExitExplorerCommand}"/>
+                        </ia:EventTriggerBehavior>  
+                    </i:Interaction.Behaviors>
+                    <Border HorizontalAlignment="Left"
+                            VerticalAlignment="Bottom"
+                            CornerRadius="5">
+                        <Border.Styles>
+                            <Style Selector="Border">
+                                <Setter Property="Background" Value="#30000000"/>
+                            </Style>
+                            <Style Selector="Border:pointerover">
+                                <Setter Property="Background" Value="#70000000"/>
+                            </Style>
+                        </Border.Styles>
+
+                        <TextBlock FontSize="16"
+                                   Foreground="white"
+                                   FontWeight="Medium"
+                                   Text="Cancel"
+                                   Margin="5,3"/>                          
+                    </Border>
+                    </StackPanel>
                 </StackPanel>
              </Grid>
 </UserControl>
