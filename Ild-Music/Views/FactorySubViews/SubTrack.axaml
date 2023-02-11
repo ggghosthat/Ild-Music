@@ -142,8 +142,12 @@
                     HorizontalAlignment="Stretch"
                     HorizontalContentAlignment="Left"
                     Margin="0, 2, 0, 5">
-        <ListBox Items="{Binding ArtistProvider}"
-                SelectedItems="{Binding SelectedTrackArtists}"
+        <i:Interaction.Behaviors>
+            <ia:EventTriggerBehavior EventName="Tapped">
+                <ia:InvokeCommandAction Command="{Binding TrackArtistExplorerCommand}"/>
+            </ia:EventTriggerBehavior>  
+        </i:Interaction.Behaviors>
+        <ListBox Items="{Binding SelectedTrackArtists}"
                 SelectionMode="Multiple,Toggle"
                 Background="#35000000"
                 Margin="2"

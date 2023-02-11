@@ -212,8 +212,22 @@ namespace Ild_Music.ViewModels
                 EditTrackInstance(value);
         }
         
+        private void OnItemsSelected()
+        {
+            if(ExplorerVM.Output.Count > 0)
+            {
+                if (ExplorerVM.Output[0] is Artist)
+                {
+                    SelectedTrackArtists.Clear();
+                    ExplorerVM.Output.ToList().ForEach(i => SelectedTrackArtists.Add((Artist)i)); 
+                }
+            }
+        }
+
+
         private void OpenTrackArtistExplorer(object obj)
         {
+           
             if (obj is IList<ICoreEntity> preSelected)
             {
                 ExplorerVM.Arrange(0, preSelected); 
@@ -222,6 +236,7 @@ namespace Ild_Music.ViewModels
             {
                 ExplorerVM.Arrange(0); 
             }
+            ExplorerVM.OnSelected += OnItemsSelected;
 
             MainVM.PushVM(this, ExplorerVM);
             MainVM.ResolveWindowStack();
