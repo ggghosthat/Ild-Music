@@ -18,8 +18,7 @@ using Avalonia.Controls.Selection;
 namespace Ild_Music.ViewModels
 {
     //Types of Lists
-    public enum ListType
-    {
+    public enum ListType {
         ARTISTS,
         PLAYLISTS,
         TRACKS
@@ -36,6 +35,7 @@ namespace Ild_Music.ViewModels
         private SupporterService supporter => (SupporterService)App.Stage.GetServiceInstance("SupporterService");
         private FactoryService factory => (FactoryService)base.GetService("FactoryService");
         private ViewModelHolder<BaseViewModel> holder => (ViewModelHolder<BaseViewModel>)base.GetService("HolderService");
+        private MainViewModel MainVM => (MainViewModel)App.ViewModelTable[MainViewModel.nameVM];
         #endregion
 
         #region Storage Scope
@@ -43,7 +43,7 @@ namespace Ild_Music.ViewModels
         public bool IsStorageEmpty => storage.Count == 0;
         #endregion
 
-        #region Properties
+        #region Commands
         public CommandDelegator AddCommand { get; }
         public CommandDelegator DeleteCommand { get; }
         public CommandDelegator EditCommand { get; }
@@ -52,7 +52,9 @@ namespace Ild_Music.ViewModels
         public CommandDelegator ItemSelectCommand { get; }
         
         public CommandDelegator DefineListTypeCommand { get; }
+        #endregion
 
+        #region Properties
         public ListType ListType {get; private set;}
         public static ObservableCollection<string> Headers { get; private set; } = new() {"Artists","Playlists","Tracks"};
         public static string Header { get; set; }
@@ -60,8 +62,6 @@ namespace Ild_Music.ViewModels
         public ICoreEntity CurrentItem { get; set; }
 
         public SelectionModel<object> HeaderSelection { get; }
-
-        private MainViewModel MainVM => (MainViewModel)App.ViewModelTable[MainViewModel.nameVM];
         #endregion
 
         #region Ctor

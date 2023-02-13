@@ -1,4 +1,5 @@
 using Ild_Music.ViewModels.Base;
+using Ild_Music.Command;
 using ShareInstances.Services.Entities;
 using ShareInstances.PlayerResources;
 
@@ -17,6 +18,7 @@ namespace Ild_Music.ViewModels
         
         #region Services
         private SupporterService supporter => (SupporterService)App.Stage.GetServiceInstance("SupporterService");
+        private MainViewModel MainVM => (MainViewModel)App.ViewModelTable[MainViewModel.nameVM];
         #endregion
 
         #region Properties
@@ -29,9 +31,19 @@ namespace Ild_Music.ViewModels
         public Track CurrentTrack { get; set; }
         #endregion
 
+        #region Commands
+        public CommandDelegator DropPlaylistCommand {get;}
+        public CommandDelegator DropTrackCommand {get;}
+        public CommandDelegator DropArtistCommand {get;}
+        #endregion
+
         #region Ctor
         public StartViewModel()
         {
+            DropPlaylistCommand = new(DropPlaylist, null);
+            DropTrackCommand = new(DropTrack, null);
+            DropArtistCommand = new(DropArtist, null);
+
             Task.Run(PopullateLists);
             supporter.OnArtistsNotifyRefresh += RefreshArtists;
             supporter.OnPlaylistsNotifyRefresh += RefreshPlaylists;
@@ -66,5 +78,15 @@ namespace Ild_Music.ViewModels
         }
         #endregion
 
+        #region Command Methods
+        private void DropPlaylist(object obj)
+        {}
+
+        private void DropTrack(object obj)
+        {}
+
+        private void DropArtist(object obj)
+        {}
+        #endregion
     }
 }
