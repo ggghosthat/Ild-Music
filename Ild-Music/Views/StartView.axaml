@@ -5,6 +5,9 @@
 
              xmlns:vm="clr-namespace:Ild_Music.ViewModels"
              xmlns:conv="using:Ild_Music.Converters"
+             xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
+             xmlns:ia="clr-namespace:Avalonia.Xaml.Interactions.Core;assembly=Avalonia.Xaml.Interactions"
+
 
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="Ild_Music.Views.StartView"
@@ -132,9 +135,15 @@
                                             <Setter Property="Background" Value="Transparent"/>
                                         </Style>
                                     </ListBox.Styles>
-                          
+                                    
+                                    <i:Interaction.Behaviors>
+                                        <ia:EventTriggerBehavior EventName="DoubleTapped">
+                                            <ia:InvokeCommandAction Command="{Binding DropPlaylistCommand}"
+                                                                        CommandParameter="{Binding CurrentPlaylist}"/>
+                                        </ia:EventTriggerBehavior> 
+                                    </i:Interaction.Behaviors>
                                     <ListBox.ItemTemplate>
-                                        <DataTemplate>
+                                        <DataTemplate> 
                                             <StackPanel>
                                                 <Border Grid.Row="0"
                                                         Margin="5"
@@ -265,11 +274,16 @@
                                                     </Style>
                                                 </ListBox.Styles>
 
-                          
+                                                <i:Interaction.Behaviors>
+                                                    <ia:EventTriggerBehavior EventName="DoubleTapped">
+                                                        <ia:InvokeCommandAction Command="{Binding DropTrackCommand}"
+                                                                                CommandParameter="{Binding CurrentTrack}"/>
+                                                    </ia:EventTriggerBehavior> 
+                                                </i:Interaction.Behaviors> 
                                                 <ListBox.ItemTemplate>
                                                     <DataTemplate>
-                                                        <StackPanel Orientation="Horizontal"
-                                                                    HorizontalAlignment="Left">
+                                                    <StackPanel Orientation="Horizontal"
+                                                                HorizontalAlignment="Left">
                                                                     <Border Width="30"
                                                                             Height="30"
                                                                             Margin="15, 0"
@@ -404,6 +418,13 @@
                             </Style>
                           </ListBox.Styles>
 
+                          
+                          <i:Interaction.Behaviors>
+                            <ia:EventTriggerBehavior EventName="DoubleTapped">
+                                <ia:InvokeCommandAction Command="{Binding DropArtistCommand}"
+                                                        CommandParameter="{Binding CurrentArtist}"/>
+                            </ia:EventTriggerBehavior>  
+                          </i:Interaction.Behaviors>
                           <ListBox.ItemTemplate>
                             <DataTemplate>
                               <Grid>

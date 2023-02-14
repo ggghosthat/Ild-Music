@@ -80,13 +80,31 @@ namespace Ild_Music.ViewModels
 
         #region Command Methods
         private void DropPlaylist(object obj)
-        {}
+        {
+            Console.WriteLine(obj);
+            if (obj is Playlist playlist)
+            {
+               MainVM.DropInstance(playlist); 
+            }
+        }
 
         private void DropTrack(object obj)
-        {}
+        {
+            Console.WriteLine(obj);
+            if (obj is Track track)
+            {
+                MainVM.DropInstance(track);
+            }
+        }
 
         private void DropArtist(object obj)
-        {}
+        {
+            Console.WriteLine(obj);
+            if (obj is Artist artist)
+            {
+                MainVM.DropInstance(artist);
+            }
+        }
         #endregion
     }
 }
