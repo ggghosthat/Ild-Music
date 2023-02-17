@@ -112,7 +112,6 @@ namespace Ild_Music.ViewModels
         private void Add(object obj)
         {
             var factory = (FactoryViewModel)App.ViewModelTable[FactoryViewModel.nameVM];
-            // var main = (MainViewModel)App.ViewModelTable[MainViewModel.nameVM];
 
             switch (Header)
             {
@@ -141,7 +140,6 @@ namespace Ild_Music.ViewModels
         {
             var factory = (FactoryViewModel)App.ViewModelTable[FactoryViewModel.nameVM];
             factory.SetEditableItem(CurrentItem);
-            // var main = (MainViewModel)App.ViewModelTable[MainViewModel.nameVM];
 
             switch (Header)
             {
@@ -162,12 +160,12 @@ namespace Ild_Music.ViewModels
 
         private void ItemSelect(object obj)
         {
-            MainVM.DropInstance(CurrentItem);    
+            MainVM.DropInstance(this, CurrentItem, true);    
         }
 
         private void ItemResolve(object obj)
         {
-            MainVM.ResolveInstance(this, CurrentItem);
+            MainVM.DropInstance(this, CurrentItem, true);
         }
         #endregion
     }

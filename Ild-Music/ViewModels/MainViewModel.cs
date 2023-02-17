@@ -137,10 +137,14 @@ namespace Ild_Music.ViewModels
         public void ResolveWindowStack()
         {
             if (WindowStack.Count > 0)
+            {
                 CurrentVM = PopVM();
+            }
 
             if (CurrentVM is ListViewModel listVM)
+            {
                 listVM.UpdateProviders();
+            }
         }
 
         public void ResolveInstance(BaseViewModel source, ICoreEntity instance)
@@ -169,16 +173,23 @@ namespace Ild_Music.ViewModels
             }
         }
 
-        public void DropInstance(ICoreEntity instance, int playlistIndex = 0)
+        public void DropInstance(BaseViewModel source, ICoreEntity instance)
         {
+            BaseViewModel instanceVM = null;
             _player.SetInstance(instance);
             OnPropertyChanged("CurrentEntity");
-            if (instance is Playlist playlist)
+
+            if (instance is Artist artist)
+            {
+                instanceVM = (ArtistViewModel)App.ViewModelTable[ArtistViewModel.nameVM];
+                ((ArtistViewModel)instanceVM).SetInstance(artist);
+            }
+            else if (instance is Playlist playlist)
             {
                 OnPropertyChanged("TotalTime");
                 OnPropertyChanged("TotalTimeDisplay");
                
-                totalTime = playlist.Tracks[playlist.CurrentIndex].Duration;
+                totalTime = playlist.Tracks[0].Duration;
                 _player.Pause_ResumePlayer();
             }
             else if (instance is Track track)
@@ -190,7 +201,63 @@ namespace Ild_Music.ViewModels
                 OnPropertyChanged("CurrentTime");
                 _player.Pause_ResumePlayer();
             }
+
+            if (instanceVM != null)
+            {
+                PushVM(source, instanceVM);
+                ResolveWindowStack();
+            }
+
         }
+
+        public void DropInstance(BaseViewModel source, ICoreEntity instance, bool isResolved = false, int playlistIndex = 0)
+        {
+            BaseViewModel instanceVM = null;
+            _player.SetInstance(instance);
+            OnPropertyChanged("CurrentEntity");
+
+            if (instance is Artist artist)
+            {
+                instanceVM = (ArtistViewModel)App.ViewModelTable[ArtistViewModel.nameVM];
+                ((ArtistViewModel)instanceVM).SetInstance(artist);
+            }
+            else if (instance is Playlist playlist)
+            {
+                if (isResolved)
+                {
+                    instanceVM = (PlaylistViewModel)App.ViewModelTable[PlaylistViewModel.nameVM];
+                    ((PlaylistViewModel)instanceVM).SetInstance(playlist); 
+                }
+
+                OnPropertyChanged("TotalTime");
+                OnPropertyChanged("TotalTimeDisplay");
+               
+                totalTime = playlist.Tracks[playlist.CurrentIndex].Duration;
+                _player.Pause_ResumePlayer();
+            }
+            else if (instance is Track track)
+            {
+                if (isResolved)
+                {
+                    instanceVM = (TrackViewModel)App.ViewModelTable[TrackViewModel.nameVM];
+                    ((TrackViewModel)instanceVM).SetInstance(track);
+                }
+
+                totalTime = track.Duration;
+                OnPropertyChanged("TotalTime");
+                OnPropertyChanged("TotalTimeDisplay");
+                OnPropertyChanged("CurrentTime");
+                _player.Pause_ResumePlayer();
+            }
+
+            if (instanceVM != null)
+            {
+                PushVM(source, instanceVM);
+                ResolveWindowStack();
+            }
+
+        }
+
         #endregion
 
         #region Predicates

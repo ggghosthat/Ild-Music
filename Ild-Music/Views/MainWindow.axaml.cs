@@ -115,8 +115,10 @@ namespace Ild_Music.Views
         {
             var vm = (BaseViewModel)App.ViewModelTable[vmName];
 
-            if (!Context.CurrentVM.NameVM.Equals(vm.NameVM))
+            if (vm != null)
+            {
                 Context.CurrentVM = vm;   
+            }
         }
         
         private void OnHomePointerPressed(object? sender, PointerPressedEventArgs e) =>
