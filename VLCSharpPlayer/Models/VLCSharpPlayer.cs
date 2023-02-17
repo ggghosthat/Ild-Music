@@ -67,15 +67,15 @@ namespace IldMusic.VLCSharp
         public void SetInstance(ICoreEntity entity, int index = 0)
         {
             _mediaPlayer.Stop();
-            CleanCurrentState();
 
             CurrentEntity = entity;
             PlaylistPoint = index;
             IsEmpty = false;
 
             if (CurrentEntity is Playlist playlist)
-            {
+            { 
                 CurrentPlaylistPool = playlist.Tracks;
+                Console.WriteLine($"{playlist.Tracks.Count} {CurrentPlaylistPool.Count}");
                 IsTrackPlaylist = false;
                 IsSwipe = true;
             }
@@ -118,7 +118,7 @@ namespace IldMusic.VLCSharp
             PlayerState = false;
             notifyAction?.Invoke();
             _mediaPlayer.Stop();
-            //_mediaPlayer.Dispose();
+            _mediaPlayer.Dispose();
 
             if (CurrentMedia != null)
             {

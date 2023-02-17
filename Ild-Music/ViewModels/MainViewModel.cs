@@ -176,6 +176,10 @@ namespace Ild_Music.ViewModels
         public void DropInstance(BaseViewModel source, ICoreEntity instance)
         {
             BaseViewModel instanceVM = null;
+
+            if(instance is Playlist pls)
+                Console.WriteLine($"xxx {pls.Tracks.Count}");
+
             _player.SetInstance(instance);
             OnPropertyChanged("CurrentEntity");
 
@@ -186,10 +190,10 @@ namespace Ild_Music.ViewModels
             }
             else if (instance is Playlist playlist)
             {
+                totalTime = playlist.Tracks[0].Duration;
                 OnPropertyChanged("TotalTime");
                 OnPropertyChanged("TotalTimeDisplay");
                
-                totalTime = playlist.Tracks[0].Duration;
                 _player.Pause_ResumePlayer();
             }
             else if (instance is Track track)
@@ -228,11 +232,11 @@ namespace Ild_Music.ViewModels
                     instanceVM = (PlaylistViewModel)App.ViewModelTable[PlaylistViewModel.nameVM];
                     ((PlaylistViewModel)instanceVM).SetInstance(playlist); 
                 }
-
+                
+                totalTime = playlist.Tracks[playlist.CurrentIndex].Duration;
                 OnPropertyChanged("TotalTime");
                 OnPropertyChanged("TotalTimeDisplay");
-               
-                totalTime = playlist.Tracks[playlist.CurrentIndex].Duration;
+                
                 _player.Pause_ResumePlayer();
             }
             else if (instance is Track track)
