@@ -81,10 +81,9 @@
 
 	    	<ScrollViewer VerticalScrollBarVisibility="Disabled"
 	                    HorizontalScrollBarVisibility="Auto"
-	                    HorizontalAlignment="Left"
+	                    HorizontalAlignment="Stretch"
 	                    HorizontalContentAlignment="Left"
                         Height="110"
-	        	        Width="1080"
 	                    Margin="2">
 	        <ListBox Items="{Binding PlaylistArtists}"
 	                SelectionMode="Single"
@@ -221,10 +220,9 @@
 
 	      <ScrollViewer VerticalScrollBarVisibility="Disabled"
 	                    HorizontalScrollBarVisibility="Auto"
-	                    HorizontalAlignment="Left"
+	                    HorizontalAlignment="Stretch"
 	                    HorizontalContentAlignment="Left"
 	                    Height="110"
-	        	        Width="1080"
 	                    Margin="2">
 	        <ListBox Items="{Binding PlaylistTracks}"
 	                SelectionMode="Single, Toggle"

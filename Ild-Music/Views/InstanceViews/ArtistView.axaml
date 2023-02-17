@@ -19,7 +19,7 @@
     <conv:ErrorMessageConverter x:Key="ErrorStateConverter"/>
   </UserControl.Resources>
 
-  <Grid >
+  <Grid>
   	<Grid.RowDefinitions>
       <RowDefinition Height="auto"/>
       <RowDefinition Height="*"/>
@@ -83,10 +83,9 @@
 
 	    	<ScrollViewer VerticalScrollBarVisibility="Disabled"
 	                    HorizontalScrollBarVisibility="Auto"
-	                    HorizontalAlignment="Left"
+	                    HorizontalAlignment="Stretch"
 	                    HorizontalContentAlignment="Left"
                         Height="110"
-	        	        Width="1080"
 	                    Margin="2">
 	        <ListBox Items="{Binding ArtistPlaylists}"
 	                SelectionMode="Single"
@@ -220,10 +219,9 @@
 
     		<ScrollViewer VerticalScrollBarVisibility="Disabled"
 	                    HorizontalScrollBarVisibility="Auto"
-	                    HorizontalAlignment="Left"
+	                    HorizontalAlignment="Stretch"
 	                    HorizontalContentAlignment="Left"
 	                    Height="110"
-	        	        Width="1080"
 	                    Margin="2">
 	        <ListBox Items="{Binding ArtistTracks}"
 	                SelectionMode="Single"
