@@ -50,7 +50,8 @@ namespace Ild_Music.ViewModels
         #endregion
 
         #region Properties
-        public bool IsEditMode = false;
+        public bool IsEditMode {get; private set;} = false;
+        public string ViewHeader {get; private set;} = "Artist";
         #endregion
 
         #region Const

@@ -98,7 +98,7 @@
                   HorizontalScrollBarVisibility="Disabled"
                   Height="490">
     <StackPanel>
-      <TextBlock Text="New Track"
+        <TextBlock Text="{Binding ViewHeader}"
                 Margin="15, 5"
                 FontSize="20"
                 FontWeight="Light"/>
