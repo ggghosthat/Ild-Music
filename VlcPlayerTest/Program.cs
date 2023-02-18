@@ -18,7 +18,7 @@ namespace VlcPlayerTest
         static void Main(string[] args)
         {
             //_player.SetTrackInstance(track1);
-            _player.SetInstance(track2);
+            _player.SetInstance(playlist);
 
             while (true)
             {

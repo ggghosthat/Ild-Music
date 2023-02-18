@@ -66,7 +66,7 @@ namespace IldMusic.VLCSharp
 
         public void SetInstance(ICoreEntity entity, int index = 0)
         {
-            _mediaPlayer.Stop();
+            CleanCurrentState();
 
             CurrentEntity = entity;
             PlaylistPoint = index;
@@ -75,7 +75,6 @@ namespace IldMusic.VLCSharp
             if (CurrentEntity is Playlist playlist)
             { 
                 CurrentPlaylistPool = playlist.Tracks;
-                Console.WriteLine($"{playlist.Tracks.Count} {CurrentPlaylistPool.Count}");
                 IsTrackPlaylist = false;
                 IsSwipe = true;
             }
@@ -154,14 +153,13 @@ namespace IldMusic.VLCSharp
             });
         }
 
-        private void TogglePlayer()
+        public Task TogglePlayer()
         {
             if (!_mediaPlayer.IsPlaying)
             {
                 PlayerState = true;
                 notifyAction?.Invoke();
-                _mediaPlayer.Play();                
-                //_mediaPlayer.Position = 0.88f;
+                _mediaPlayer.Play();
 
                 while(_mediaPlayer.Position < 0.99f);
 
@@ -169,8 +167,10 @@ namespace IldMusic.VLCSharp
                 notifyAction?.Invoke();
                 _mediaPlayer.Stop();
 
-                if (!IsTrackPlaylist) 
+                if (!IsTrackPlaylist)
+                {
                     DropMediaInstance(true);
+                }
             }
             else
             {
@@ -178,22 +178,12 @@ namespace IldMusic.VLCSharp
                 notifyAction?.Invoke();
                 _mediaPlayer.Pause();
             }
+            return null;
         }
 
         public async Task Pause_ResumePlayer()
         {
-            if (_mediaPlayer.IsPlaying)
-            {
-                PlayerState = false;
-                notifyAction?.Invoke();
-                _mediaPlayer.Pause();
-            }
-            else
-            {
-                PlayerState = true;
-                notifyAction?.Invoke();
-                _mediaPlayer.Play();
-            }
+           Task.Run(() => TogglePlayer()); 
         }
 
         public Task RepeatTrack()
