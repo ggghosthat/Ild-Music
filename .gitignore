@@ -457,3 +457,12 @@ $RECYCLE.BIN/
 !.vscode/launch.json
 !.vscode/extensions.json
 MainStage_Test/components.json
+
+##
+##Artifacts
+##
+Ild-Music/ild_music_artists.json
+Ild-Music/ild_music_playlists.json
+Ild-Music/ild_music_tracks.json
+
+
