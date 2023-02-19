@@ -20,7 +20,7 @@
     
     <Window.Resources>
         <conv:PlayerToggleButtonConverter x:Key="ToggleButtonConverter"/>
-        <conv:CurrentEntityNameConverter x:Key="CurrentEntityNameConverter"/>
+        <conv:CurrentEntityConverter x:Key="CurrentEntityConverter"/>
     </Window.Resources>
 
     <Window.Styles>
@@ -456,13 +456,20 @@
                                         <Grid>
                                             <Grid.RowDefinitions>
                                                 <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="Auto"/>
                                             </Grid.RowDefinitions>
 
                                             <Border Grid.Row="0"
                                                     Margin="3,0">
-                                                <TextBlock Text="{Binding CurrentEntity, Converter={StaticResource CurrentEntityNameConverter} }" 
+                                                <TextBlock Text="{Binding CurrentEntity, Converter={StaticResource CurrentEntityConverter}, ConverterParameter=name}" 
                                                            FontSize="14"
                                                            Foreground="#fff"/>
+                                            </Border>
+                                            <Border Grid.Row="1"
+                                                    Margin="3,0">
+                                                <TextBlock Text="{Binding CurrentEntity, Converter={StaticResource CurrentEntityConverter}, ConverterParameter=artist }" 
+                                                           FontSize="14"
+                                                           Foreground="#bebfbd"/>
                                             </Border>
                                         </Grid>
                             </StackPanel>

@@ -38,10 +38,10 @@ namespace Ild_Music.ViewModels
         private MainViewModel MainVM => (MainViewModel)App.ViewModelTable[MainViewModel.nameVM];
         #endregion
 
-        #region Storage Scope
-        private Storage storage = new(0);
-        public bool IsStorageEmpty => storage.Count == 0;
-        #endregion
+       // #region Storage Scope
+       // private Storage storage = new(0);
+       // public bool IsStorageEmpty => storage.Count == 0;
+       // #endregion
 
         #region Commands
         public CommandDelegator AddCommand { get; }
