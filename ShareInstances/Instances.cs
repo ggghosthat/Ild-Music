@@ -66,8 +66,10 @@ namespace ShareInstances
 
         public TimeSpan TotalTime { get; }
         public TimeSpan CurrentTime { get; set; }
-
  
+        public float MaxVolume {get;}
+        public float MinVolume {get;}
+        public float CurrentVolume {get; set;}
 
         public void SetInstance(ICoreEntity entity, int index=0);
 

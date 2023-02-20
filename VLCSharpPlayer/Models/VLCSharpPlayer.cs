@@ -46,6 +46,16 @@ namespace IldMusic.VLCSharp
         }
         #endregion
 
+        #region Volume Presenters
+        public float MaxVolume {get; private set;} = 100;
+        public float MinVolume {get; private set;} = 0;
+        public float CurrentVolume 
+        {
+            get => _mediaPlayer.Volume;
+            set => _mediaPlayer.Volume = (int)value;
+        }
+        #endregion
+
 
         #region Actions
         private Action notifyAction;
@@ -117,7 +127,6 @@ namespace IldMusic.VLCSharp
             PlayerState = false;
             notifyAction?.Invoke();
             _mediaPlayer.Stop();
-            _mediaPlayer.Dispose();
 
             if (CurrentMedia != null)
             {

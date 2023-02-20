@@ -105,7 +105,10 @@
                                         Classes="volumeSlider"
                                         Orientation="Vertical"
                                         HorizontalAlignment="Center"
-                                        VerticalAlignment="Bottom">
+                                        VerticalAlignment="Bottom"
+                                        Maximum="{Binding MaxVolume, Mode=OneWay}"
+                                        Minimum="{Binding MinVolume, Mode=OneWay}"
+                                        Value="{Binding CurrentVolume, Mode=TwoWay}">
                                     <Slider.Resources>
                                         <x:Double x:Key="SliderVerticalThumbWidth">10</x:Double>
                                         <x:Double x:Key="SliderVerticalThumbHeight">10</x:Double>
@@ -389,12 +392,12 @@
                                             <Slider x:Name="sldThumby"       
                                                     Grid.Row="0"                    
                                                     Width="{Binding #sliderArea.Bounds.Width}"
-                                                        Classes="thumby"                                           
-                                                        IsEnabled="{Binding PlayerState}"
-                                                        Orientation="Horizontal"
-                                                        Maximum="{Binding TotalTime, Mode=OneWay}"
-                                                        Minimum="{Binding StartTime, Mode=OneWay}"
-                                                        Value="{Binding CurrentTime, Mode=TwoWay}">
+                                                    Classes="thumby"                                           
+                                                    IsEnabled="{Binding PlayerState}"
+                                                    Orientation="Horizontal"
+                                                    Maximum="{Binding TotalTime, Mode=OneWay}"
+                                                    Minimum="{Binding StartTime, Mode=OneWay}"
+                                                    Value="{Binding CurrentTime, Mode=TwoWay}">
                                                     <Slider.Resources>
                                                         <x:Double x:Key="SliderHorizontalThumbWidth">13</x:Double>
                                                         <GridLength x:Key="SliderPreContentMargin">0</GridLength>

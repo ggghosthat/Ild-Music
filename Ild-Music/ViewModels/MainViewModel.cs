@@ -53,6 +53,15 @@ namespace Ild_Music.ViewModels
         public TimeSpan CurrentTimeDisplay => TimeSpan.FromSeconds(CurrentTime);
         public TimeSpan TotalTimeDisplay => totalTime;
 
+        public float MaxVolume => _player.MaxVolume;
+        public float MinVolume => _player.MinVolume;
+
+        public float CurrentVolume
+        {
+            get => _player.CurrentVolume;
+            set => _player.CurrentVolume = value;
+        }
+
         public string Title => CurrentEntity.Name;
         #endregion
 
@@ -79,6 +88,7 @@ namespace Ild_Music.ViewModels
         {
             _player = player.PlayerInstance;
             _player.SetNotifier(() => OnPropertyChanged("PlayerState") );
+            CurrentVolume = 40;
 
             App.ViewModelTable.Add(StartViewModel.nameVM, new StartViewModel());
             App.ViewModelTable.Add(FactoryViewModel.nameVM, new FactoryViewModel());
