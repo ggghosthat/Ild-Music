@@ -21,6 +21,8 @@ namespace NAudioPlayerCore.Models
         #region Player Resource Properties
         public ICoreEntity CurrentEntity {get; private set;}
 
+        public int PlaylistPoint {get; private set;}
+
         public Track CurrentTrack { get; private set; }
         public Playlist CurrentPlaylist { get; private set; }
         public IList<Track> Collection { get; private set; }
@@ -60,46 +62,30 @@ namespace NAudioPlayerCore.Models
 
         #region Events
         private event Action ShuffleCollection;
-        public event Action CurrentPlaybackStopped;
+        public event Action TrackStarted;
         #endregion
 
         #region ctor
         public NAudioPlayer()
-        {
-        
-        }
-
-        public void SetTrackInstance(Track track)
-        {
-            CurrentEntity = (ICoreEntity)track;            
-            InitAudioPlayer();
-            IsEmpty = false;
-        }
-
-        public void SetPlaylistInstance(Playlist playlist, int index=0)
-        {
-            CurrentEntity = playlist;
-            Collection = playlist.Tracks;
-            InitAudioPlayer(index);
-            ShuffleCollection += ShuffleCollection;
-            IsEmpty = false;
-            IsSwipe = true;
-        }
+        {}
 
         public void SetInstance(ICoreEntity entity, int index=0)
         {
+            CleanUpPlayer();
+
             if (entity is Track track)
             {
                 CurrentEntity = (ICoreEntity)track;
                 InitAudioPlayer();
+
                 IsEmpty = false;
-                Console.WriteLine("this is track");
             }
             else if(entity is Playlist playlist)
             {
                 Collection = playlist.Tracks;
-                CurrentEntity = (ICoreEntity)Collection[index];
-                InitAudioPlayer(index);
+                PlaylistPoint = index;
+                CurrentEntity = (ICoreEntity)Collection[PlaylistPoint];
+                InitAudioPlayer(PlaylistPoint);
 
                 IsEmpty = false;
                 IsSwipe = true;
@@ -131,7 +117,8 @@ namespace NAudioPlayerCore.Models
             if(Collection != null && Collection.Count > 0)
             {
                 notifyAction?.Invoke(); 
-                _audioPlayer.SetInstance(Collection[index]);
+                _audioPlayer.SetInstance(CurrentEntity);
+
                 AutoDrop();
             }
         }
@@ -160,29 +147,23 @@ namespace NAudioPlayerCore.Models
         
         public async Task Pause_ResumePlayer()
         {
-            Console.WriteLine(_audioPlayer == null);
+            TrackStarted?.Invoke();
             switch (_audioPlayer.PlaybackState)
             {
                 case NAudio.Wave.PlaybackState.Stopped:
-                    Console.WriteLine("WWWW");
                     PlayerState = true; 
                     notifyAction?.Invoke();
                     await Task.Run(() => _audioPlayer.Play());
-                    Console.WriteLine("xxx");
                     break;
                 case NAudio.Wave.PlaybackState.Paused:
-                    Console.WriteLine("III"); 
                     PlayerState = true;
                     notifyAction?.Invoke();   
                     await Task.Run(() => _audioPlayer.Pause());
-                    // _audioPlayer.Pause();
                     break;
                 case NAudio.Wave.PlaybackState.Playing:
-                    Console.WriteLine("TTT");
                     PlayerState = false;
                     notifyAction?.Invoke();    
                     await Task.Run(() => _audioPlayer.Pause());
-                    // _audioPlayer.Pause();
                     break;
             }
 
@@ -220,39 +201,89 @@ namespace NAudioPlayerCore.Models
         #endregion
 
         #region Drop Methods
-        private void AutoDrop() =>
+        private void AutoDrop() 
+        {
             _audioPlayer.TrackFinished += DropNext;
+        }
         
-        public async void DropNext() =>
+        public async void DropNext() 
+        {
             await Task.Run(() => {
                 if ((IsSwipe) && (!IsEmpty))
                     DropMediaInstance(true);
             });
+        }
 
-        public async void DropPrevious() =>
+        public async void DropPrevious() 
+        {
             await Task.Run(() => {
                 if ((IsSwipe) && (!IsEmpty))
                     DropMediaInstance(false);
             });
-        
+        }
+
         private void DropMediaInstance(bool direct)
         {
             _audioPlayer.TrackFinished -= DropNext;
 
-            if (direct)
-                CurrentEntity = (ICoreEntity)(_audioPlayer.CurrentTrack.NextTrack);
-            else
-                CurrentEntity = (ICoreEntity)(_audioPlayer.CurrentTrack.PreviousTrack);
+            _audioPlayer.Stop();
+            PlayerState = false;
+            notifyAction?.Invoke();
             
-            _audioPlayer.SetInstance(CurrentEntity);
-            AutoDrop();
+            DragPointer(direct);   
+            SetMedia();
+            notifyAction?.Invoke();
             Pause_ResumePlayer();
         }
         #endregion
 
         #region Private Methods
-        private void TrackFinishedKick()
+        private void SetMedia()
         {
+            CurrentEntity = (ICoreEntity)Collection[PlaylistPoint];
+            _audioPlayer.SetInstance(CurrentEntity);
+        }
+
+        private void DragPointer(bool direct)
+        {
+            if(direct)
+            {
+                if (PlaylistPoint == Collection.Count - 1)
+                {
+                    PlaylistPoint = 0;
+                }
+                else
+                {
+                    PlaylistPoint++; 
+                }
+            }
+            else
+            {
+                if (PlaylistPoint == 0)
+                {
+                    PlaylistPoint = Collection.Count - 1;
+                }   
+                else
+                {
+                    PlaylistPoint--; 
+                }
+            }
+        }
+
+        private void CleanUpPlayer()
+        {
+            _audioPlayer.TrackFinished -= DropNext;
+
+            PlayerState = false;
+            notifyAction?.Invoke();
+            _audioPlayer.Stop();
+            PlaylistPoint = 0;
+            CurrentEntity = null;
+
+            if(Collection != null && Collection.Count > 0)
+            {
+                Collection.Clear();
+            }
         }
         #endregion
     }

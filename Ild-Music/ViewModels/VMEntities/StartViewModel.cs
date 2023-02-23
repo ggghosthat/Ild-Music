@@ -83,7 +83,7 @@ namespace Ild_Music.ViewModels
         {
             if (obj is Playlist playlist)
             {
-               MainVM.DropInstance(this, playlist); 
+                new Task(() => MainVM.DropInstance(this, playlist)).Start(); 
             }
         }
 
@@ -91,7 +91,7 @@ namespace Ild_Music.ViewModels
         {
             if (obj is Track track)
             {
-                MainVM.DropInstance(this, track);
+                new Task(() => MainVM.DropInstance(this, track)).Start();
             }
         }
 
@@ -99,7 +99,7 @@ namespace Ild_Music.ViewModels
         {
             if (obj is Artist artist)
             {
-                MainVM.DropInstance(this, artist);
+                new Task(() => MainVM.DropInstance(this, artist));
             }
         }
         #endregion

@@ -87,7 +87,8 @@ namespace Ild_Music.ViewModels
         public MainViewModel()
         {
             _player = player.PlayerInstance;
-            _player.SetNotifier(() => OnPropertyChanged("PlayerState") );
+            _player.SetNotifier(() => OnPropertyChanged("PlayerState"));
+            _player.TrackStarted += OnTrackStarted;
             CurrentVolume = 40;
 
             App.ViewModelTable.Add(StartViewModel.nameVM, new StartViewModel());
@@ -124,6 +125,14 @@ namespace Ild_Music.ViewModels
                 OnPropertyChanged("CurrentTime");
                 OnPropertyChanged("CurrentTimeDisplay");
             }
+        }
+
+        private void OnTrackStarted()
+        {
+            totalTime = _player.TotalTime;
+            OnPropertyChanged("TotalTime");
+            OnPropertyChanged("TotalTimeDisplay");
+            OnPropertyChanged("Title");
         }
         #endregion
 
@@ -183,53 +192,11 @@ namespace Ild_Music.ViewModels
             }
         }
 
-        public void DropInstance(BaseViewModel source, ICoreEntity instance)
-        {
-            BaseViewModel instanceVM = null;
-
-            if(instance is Playlist pls)
-                Console.WriteLine($"xxx {pls.Tracks.Count}");
-
-            _player.SetInstance(instance);
-            OnPropertyChanged("CurrentEntity");
-
-            if (instance is Artist artist)
-            {
-                instanceVM = (ArtistViewModel)App.ViewModelTable[ArtistViewModel.nameVM];
-                ((ArtistViewModel)instanceVM).SetInstance(artist);
-            }
-            else if (instance is Playlist playlist)
-            {
-                totalTime = playlist.Tracks[0].Duration;
-                OnPropertyChanged("TotalTime");
-                OnPropertyChanged("TotalTimeDisplay");
-               
-                _player.Pause_ResumePlayer();
-            }
-            else if (instance is Track track)
-            {
-                Console.WriteLine("what?");
-                totalTime = track.Duration;
-                OnPropertyChanged("TotalTime");
-                OnPropertyChanged("TotalTimeDisplay");
-                OnPropertyChanged("CurrentTime");
-                _player.Pause_ResumePlayer();
-            }
-
-            if (instanceVM != null)
-            {
-                PushVM(source, instanceVM);
-                ResolveWindowStack();
-            }
-
-        }
 
         public void DropInstance(BaseViewModel source, ICoreEntity instance, bool isResolved = false, int playlistIndex = 0)
         {
             BaseViewModel instanceVM = null;
-            _player.SetInstance(instance);
-            OnPropertyChanged("CurrentEntity");
-
+            
             if (instance is Artist artist)
             {
                 instanceVM = (ArtistViewModel)App.ViewModelTable[ArtistViewModel.nameVM];
@@ -237,6 +204,10 @@ namespace Ild_Music.ViewModels
             }
             else if (instance is Playlist playlist)
             {
+                _player.StopPlayer();
+                _player.SetInstance(instance);
+                OnPropertyChanged("CurrentEntity");
+
                 if (isResolved)
                 {
                     instanceVM = (PlaylistViewModel)App.ViewModelTable[PlaylistViewModel.nameVM];
@@ -246,11 +217,16 @@ namespace Ild_Music.ViewModels
                 totalTime = playlist.Tracks[playlist.CurrentIndex].Duration;
                 OnPropertyChanged("TotalTime");
                 OnPropertyChanged("TotalTimeDisplay");
+                OnPropertyChanged("CurrentTime");
                 
                 _player.Pause_ResumePlayer();
             }
             else if (instance is Track track)
             {
+                _player.StopPlayer();
+                _player.SetInstance(instance);
+                OnPropertyChanged("CurrentEntity");
+
                 if (isResolved)
                 {
                     instanceVM = (TrackViewModel)App.ViewModelTable[TrackViewModel.nameVM];
@@ -261,6 +237,7 @@ namespace Ild_Music.ViewModels
                 OnPropertyChanged("TotalTime");
                 OnPropertyChanged("TotalTimeDisplay");
                 OnPropertyChanged("CurrentTime");
+
                 _player.Pause_ResumePlayer();
             }
 
@@ -269,7 +246,6 @@ namespace Ild_Music.ViewModels
                 PushVM(source, instanceVM);
                 ResolveWindowStack();
             }
-
         }
 
         #endregion

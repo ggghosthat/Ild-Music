@@ -59,6 +59,7 @@ namespace ShareInstances
         public string PlayerName { get; }
 
         public ICoreEntity CurrentEntity {get;}
+        public Track CurrentTrack { get; }
 
         public bool IsSwipe { get; }
         public bool IsEmpty { get; }
@@ -70,6 +71,9 @@ namespace ShareInstances
         public float MaxVolume {get;}
         public float MinVolume {get;}
         public float CurrentVolume {get; set;}
+
+        public event Action TrackStarted;
+
 
         public void SetInstance(ICoreEntity entity, int index=0);
 

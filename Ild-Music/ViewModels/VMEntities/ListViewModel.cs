@@ -50,7 +50,6 @@ namespace Ild_Music.ViewModels
         public CommandDelegator BackCommand { get; }
         public CommandDelegator ItemResolveCommand { get; }
         public CommandDelegator ItemSelectCommand { get; }
-        
         public CommandDelegator DefineListTypeCommand { get; }
         #endregion
 

@@ -49,7 +49,7 @@ namespace NAudioPlayerCore.Models
 
         public void SetInstance(ICoreEntity entity)
         {
-            if (entity is Track track )
+            if (entity is Track track)
             {
                 if (_device != null || _reader != null)
                 {
@@ -77,7 +77,6 @@ namespace NAudioPlayerCore.Models
             {
                 _device = new();
                 _device.PlaybackStopped += OnPlaybackStopped;
-                Console.WriteLine("device initialized");
             }
             if (_reader == null)
             {
@@ -86,17 +85,14 @@ namespace NAudioPlayerCore.Models
                 wc.PadWithZeroes = false;
                 _device.Init(wc);
                 _device.Volume = Volume;
-                Console.WriteLine("device initialized");
             }
             Console.WriteLine($"{CurrentTrack == null} --- {_device == null} --- {_reader == null}");
         }
 
         public void Play()
         {
-            Console.WriteLine($"{CurrentTrack == null} --- {_device == null} --- {_reader == null}");
             if (CurrentTrack != null && _device != null && _reader != null)
             {            
-                Console.WriteLine("WOW111");
                 _device?.Play();
                 Process();
             }
@@ -120,11 +116,10 @@ namespace NAudioPlayerCore.Models
         {
             while (_device.PlaybackState != PlaybackState.Stopped)
             {
-                Console.WriteLine("WOW");
-                if (!(_reader.CurrentTime.TotalSeconds <= TotalTime.TotalSeconds))
+                if ((_reader.CurrentTime.TotalMilliseconds.Equals(TotalTime.TotalMilliseconds) ) )
                     break;
             }
-            TrackFinished.Invoke();    
+            TrackFinished?.Invoke();    
         }
 
         public void Repeat()

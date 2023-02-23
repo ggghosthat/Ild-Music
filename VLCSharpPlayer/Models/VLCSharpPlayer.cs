@@ -25,6 +25,7 @@ namespace IldMusic.VLCSharp
         public Media CurrentMedia {get; private set;}
         public ICoreEntity CurrentEntity {get; private set;}
 
+        public Track CurrentTrack {get; private set;}
         public int PlaylistPoint {get; private set;}
         public IList<Track> CurrentPlaylistPool {get; private set;}
         #endregion
@@ -59,7 +60,11 @@ namespace IldMusic.VLCSharp
 
         #region Actions
         private Action notifyAction;
+        #endregion
+
+        #region Events
         private event Action ShuffleCollection;
+        public event Action TrackStarted;
         #endregion
 
         #region constructor
@@ -83,22 +88,16 @@ namespace IldMusic.VLCSharp
             IsEmpty = false;
 
             if (CurrentEntity is Playlist playlist)
-            { 
+            {    
                 CurrentPlaylistPool = playlist.Tracks;
                 IsTrackPlaylist = false;
                 IsSwipe = true;
             }
 
-            SetTrackMedia();
+            SetMedia();
         }
-
-        public void SetTrackInstance(Track track)
-        {}
-         
-        public void SetPlaylistInstance(Playlist playlist, int index = 0)
-        {}
        
-        private void SetTrackMedia()
+        private void SetMedia()
         {
             if (CurrentMedia != null)
             {
@@ -109,6 +108,7 @@ namespace IldMusic.VLCSharp
             if (CurrentEntity is Track track)
             {
                 TotalTime = track.Duration;
+                TrackStarted?.Invoke();
                 CurrentMedia = new Media (_vlc, new Uri(track.Pathway));
                 _mediaPlayer = new(CurrentMedia);
             }
@@ -116,6 +116,7 @@ namespace IldMusic.VLCSharp
             {
                 playlist.CurrentIndex = PlaylistPoint;
                 TotalTime = CurrentPlaylistPool[PlaylistPoint].Duration;
+                TrackStarted?.Invoke();
 
                 CurrentMedia = new Media (_vlc, new Uri(CurrentPlaylistPool[PlaylistPoint].Pathway));
                 _mediaPlayer = new(CurrentMedia);
@@ -233,7 +234,7 @@ namespace IldMusic.VLCSharp
         {
             _mediaPlayer.Stop();
             DragPointer(direct);
-            SetTrackMedia();
+            SetMedia();
             TogglePlayer();
         }
 
