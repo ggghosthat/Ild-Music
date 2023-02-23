@@ -208,7 +208,7 @@ namespace Ild_Music.ViewModels
             }
             else if (instance is Track track)
             {
-            
+                Console.WriteLine("what?");
                 totalTime = track.Duration;
                 OnPropertyChanged("TotalTime");
                 OnPropertyChanged("TotalTimeDisplay");

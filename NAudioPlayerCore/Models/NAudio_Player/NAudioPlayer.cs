@@ -1,12 +1,15 @@
-﻿using ShareInstances;
+using ShareInstances;
 using ShareInstances.PlayerResources;
 using ShareInstances.PlayerResources.Interfaces;
+
+using NAudio;
+using NAudio.Wave;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace NAudioPlayerCore.Models.Core.Session_Structure
+namespace NAudioPlayerCore.Models
 {
     public class NAudioPlayer : IPlayer
     {
@@ -24,7 +27,7 @@ namespace NAudioPlayerCore.Models.Core.Session_Structure
         #endregion
 
         #region Playbacker Properties
-        public NAudioPlaybacker _audioPlayer = new();
+        public static NAudioPlaybacker _audioPlayer = new();
         private float volume;
         public TimeSpan TotalTime => _audioPlayer.TotalTime;
 
@@ -39,6 +42,16 @@ namespace NAudioPlayerCore.Models.Core.Session_Structure
         public bool IsEmpty { get; private set; } = true;
         public bool IsSwipe { get; private set; } = false;
         public bool PlayerState { get; private set; } = false;
+        #endregion
+
+        #region Volume Presenters
+        public float MaxVolume {get; private set;} = 100;
+        public float MinVolume {get; private set;} = 0;
+        public float CurrentVolume 
+        {
+            get => _audioPlayer.Volume;
+            set => _audioPlayer.OnVolumeChanged(value);
+        }
         #endregion
 
         #region Actions
@@ -75,14 +88,14 @@ namespace NAudioPlayerCore.Models.Core.Session_Structure
 
         public void SetInstance(ICoreEntity entity, int index=0)
         {
-            if (CurrentEntity is Track track)
+            if (entity is Track track)
             {
-
                 CurrentEntity = (ICoreEntity)track;
                 InitAudioPlayer();
                 IsEmpty = false;
+                Console.WriteLine("this is track");
             }
-            else if(CurrentEntity is Playlist playlist)
+            else if(entity is Playlist playlist)
             {
                 Collection = playlist.Tracks;
                 CurrentEntity = (ICoreEntity)Collection[index];
@@ -96,27 +109,20 @@ namespace NAudioPlayerCore.Models.Core.Session_Structure
         #endregion
 
         #region PlayerInitialization
-        public void InitAudioPlayer(bool isTrack)
+        public void InitAudioPlayer()
         {
             if (CurrentEntity is Track track)
             {
                 PlayerState = true;
-                notifyAction.Invoke();
-                _audioPlayer.SetTrack(track, volume);
+                notifyAction?.Invoke();
+                _audioPlayer.SetInstance(track);
 
-                if (isTrack)
+                _audioPlayer.TrackFinished += () => 
                 {
-                    _audioPlayer.TrackFinished += () => 
-                    {
-                        _audioPlayer.Stop();
-                        PlayerState = false;
-                        notifyAction.Invoke();
-                    };
-                }
-                else
-                {
-                    AutoDrop();  
-                }
+                    _audioPlayer.Stop();
+                    PlayerState = false;
+                    notifyAction?.Invoke();
+                };
             }
         }
 
@@ -125,7 +131,7 @@ namespace NAudioPlayerCore.Models.Core.Session_Structure
             if(Collection != null && Collection.Count > 0)
             {
                 notifyAction?.Invoke(); 
-                _audioPlayer.SetTrack(Collection[index], volume);
+                _audioPlayer.SetInstance(Collection[index]);
                 AutoDrop();
             }
         }
@@ -150,29 +156,36 @@ namespace NAudioPlayerCore.Models.Core.Session_Structure
 
             PlayerState = false;    
             notifyAction?.Invoke(); 
-
         }
         
         public async Task Pause_ResumePlayer()
         {
+            Console.WriteLine(_audioPlayer == null);
             switch (_audioPlayer.PlaybackState)
             {
                 case NAudio.Wave.PlaybackState.Stopped:
+                    Console.WriteLine("WWWW");
                     PlayerState = true; 
-                    notifyAction.Invoke();   
+                    notifyAction?.Invoke();
                     await Task.Run(() => _audioPlayer.Play());
+                    Console.WriteLine("xxx");
                     break;
                 case NAudio.Wave.PlaybackState.Paused:
+                    Console.WriteLine("III"); 
                     PlayerState = true;
-                    notifyAction.Invoke();    
-                    await Task.Run(() => _audioPlayer.Pause()); 
+                    notifyAction?.Invoke();   
+                    await Task.Run(() => _audioPlayer.Pause());
+                    // _audioPlayer.Pause();
                     break;
                 case NAudio.Wave.PlaybackState.Playing:
+                    Console.WriteLine("TTT");
                     PlayerState = false;
-                    notifyAction.Invoke();    
+                    notifyAction?.Invoke();    
                     await Task.Run(() => _audioPlayer.Pause());
+                    // _audioPlayer.Pause();
                     break;
             }
+
         }
 
         public async Task ShuffleTrackCollection()
@@ -231,7 +244,7 @@ namespace NAudioPlayerCore.Models.Core.Session_Structure
             else
                 CurrentEntity = (ICoreEntity)(_audioPlayer.CurrentTrack.PreviousTrack);
             
-            _audioPlayer.SetInstance(CurrentEntity, volume);
+            _audioPlayer.SetInstance(CurrentEntity);
             AutoDrop();
             Pause_ResumePlayer();
         }

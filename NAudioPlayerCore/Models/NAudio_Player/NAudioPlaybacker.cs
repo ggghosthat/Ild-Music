@@ -1,11 +1,14 @@
-﻿using NAudio.Wave;
+using ShareInstances.PlayerResources;
+using ShareInstances.PlayerResources.Interfaces;
+
+
 using NAudio;
+using NAudio.Wave;
 using System;
 using System.Threading.Tasks;
-using ShareInstances.PlayerResources;
 using System.Diagnostics;
 
-namespace NAudioPlayerCore.Models.Core.Session_Structure
+namespace NAudioPlayerCore.Models
 {
     public class NAudioPlaybacker
     {
@@ -13,7 +16,7 @@ namespace NAudioPlayerCore.Models.Core.Session_Structure
         #region Player Properties
         private static WaveOutEvent _device;
         private static AudioFileReader _reader;
-        public PlaybackState PlaybackState => _device.PlaybackState;
+        public PlaybackState PlaybackState => (_device != null)?_device.PlaybackState:PlaybackState.Stopped;
         #endregion
 
         #region Current Track Properties
@@ -44,21 +47,23 @@ namespace NAudioPlayerCore.Models.Core.Session_Structure
         {
         }
 
-        public void SetTrack(Track inputTrack, float? volume)
+        public void SetInstance(ICoreEntity entity)
         {
-            if (_device != null || _reader != null)
+            if (entity is Track track )
             {
-                while(true)
+                if (_device != null || _reader != null)
                 {
-                    _device?.Stop();
-                    if (_device == null && _reader == null)
-                        break;
+                    while(true)
+                    {
+                        _device?.Stop();
+                        if (_device == null && _reader == null)
+                            break;
+                    }
                 }
+                CurrentTrack = track;
+                Volume = 0.5f;
+                BuildPlayer();
             }
-
-            CurrentTrack = inputTrack;
-            Volume = volume ?? 25f;
-            BuildPlayer();
         }       
         #endregion
 
@@ -72,6 +77,7 @@ namespace NAudioPlayerCore.Models.Core.Session_Structure
             {
                 _device = new();
                 _device.PlaybackStopped += OnPlaybackStopped;
+                Console.WriteLine("device initialized");
             }
             if (_reader == null)
             {
@@ -79,13 +85,18 @@ namespace NAudioPlayerCore.Models.Core.Session_Structure
                 var wc = new WaveChannel32(_reader);
                 wc.PadWithZeroes = false;
                 _device.Init(wc);
+                _device.Volume = Volume;
+                Console.WriteLine("device initialized");
             }
+            Console.WriteLine($"{CurrentTrack == null} --- {_device == null} --- {_reader == null}");
         }
 
         public void Play()
         {
+            Console.WriteLine($"{CurrentTrack == null} --- {_device == null} --- {_reader == null}");
             if (CurrentTrack != null && _device != null && _reader != null)
             {            
+                Console.WriteLine("WOW111");
                 _device?.Play();
                 Process();
             }
@@ -109,6 +120,7 @@ namespace NAudioPlayerCore.Models.Core.Session_Structure
         {
             while (_device.PlaybackState != PlaybackState.Stopped)
             {
+                Console.WriteLine("WOW");
                 if (!(_reader.CurrentTime.TotalSeconds <= TotalTime.TotalSeconds))
                     break;
             }
