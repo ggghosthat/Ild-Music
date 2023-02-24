@@ -45,7 +45,6 @@ namespace Ild_Music.ViewModels
         {
             ArtistInstance = artist;
 
-            //Crutcal point
             ArtistInstance.Playlists.ToEntity(supporter.PlaylistsCollection).ForEach(p => ArtistPlaylists.Add(p));
             ArtistInstance.Tracks.ToEntity(supporter.TracksCollection).ToList().ForEach(t => ArtistTracks.Add(t));
         }
@@ -54,6 +53,8 @@ namespace Ild_Music.ViewModels
         #region Provate Methods
         private void BackSwap(object obj)
         {
+            ArtistPlaylists.Clear();
+            ArtistTracks.Clear();
             MainVM.ResolveWindowStack();
         }
         #endregion

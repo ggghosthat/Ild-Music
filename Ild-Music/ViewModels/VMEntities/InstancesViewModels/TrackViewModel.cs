@@ -52,6 +52,7 @@ namespace Ild_Music.ViewModels
         #region Provate Methods
         private void BackSwap(object obj)
         {
+            TrackArtists.Clear();
             MainVM.ResolveWindowStack();            
         }
         #endregion

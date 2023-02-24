@@ -58,6 +58,8 @@ namespace Ild_Music.ViewModels
         #region Provate Methods
         private void BackSwap(object obj)
         {
+            PlaylistArtists.Clear();
+            PlaylistTracks.Clear();
             MainVM.ResolveWindowStack();
         }
         #endregion

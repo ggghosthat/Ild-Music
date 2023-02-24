@@ -31,7 +31,7 @@
 	      <ColumnDefinition Width="*"/>
 	    </Grid.ColumnDefinitions>
 	    <StackPanel Grid.Column="1">
-	    	<Grid Background="#3cd691">
+	    	<Grid Background="#603cd67c">
 	            <Grid.RowDefinitions>
 	              <RowDefinition Height="*"/>
 	              <RowDefinition Height="auto"/>
@@ -88,7 +88,6 @@
 	        <ListBox Items="{Binding PlaylistArtists}"
 	                SelectionMode="Single"
 	                Background="#35000000">
-
 	            <ListBox.ItemsPanel>
 	                <ItemsPanelTemplate>
 	                    <StackPanel Orientation="Horizontal"/>

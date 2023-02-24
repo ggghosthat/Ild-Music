@@ -26,10 +26,6 @@ namespace Ild_Music
 
         public App()
         {
-            //string playerPath = "E:/ild_music/Ild-Music/NAudioPlayerCore/bin/Debug/net6.0";
-            //string areaPath = "E:/ild_music/Ild-Music/SynchronizationBlock/bin/Debug/net6.0";
-            //Stage.Init(playerPath, areaPath);
-
             Configure = new Configure("Configuration/configuration.json");
             Stage.Init(Configure.Players, Configure.Synches);
             ViewModelTable = new Hashtable();
