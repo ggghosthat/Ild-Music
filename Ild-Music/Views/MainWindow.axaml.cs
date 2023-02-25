@@ -102,6 +102,11 @@ namespace Ild_Music.Views
             WindowState = WindowState.Minimized;
         }
 
+        private void OnExpandClick(object sender, RoutedEventArgs e)
+        {
+            WindowState = WindowState.Maximized;
+        }
+
         private void OnCloseClick(object sender, RoutedEventArgs e)
         {
             if(Application.Current.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktopLifetime)

@@ -40,4 +40,8 @@
     <ProjectReference Include="..\ShareInstances\ShareInstances.csproj" />
     <ProjectReference Include="..\SynchronizationBlock\SynchronizationBlock.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Configuration\configuration.json" />
+  </ItemGroup>
 </Project>
