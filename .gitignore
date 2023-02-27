@@ -4,8 +4,8 @@
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 
 
-#temps
-./test1
+#dependencies
+./dependencies
 
 # User-specific files
 *.rsuser
