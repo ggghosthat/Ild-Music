@@ -3,6 +3,8 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>net6.0</TargetFramework>
     <Nullable>enable</Nullable>
+    <Platforms>AnyCPU;x64;x86</Platforms>
+    <NoWarn>NU1605</NoWarn>
 	<!--Avalonia doesen't support TrimMode=link currently,but we are working on that https://github.com/AvaloniaUI/Avalonia/issues/6892 -->
 	<TrimMode>copyused</TrimMode>
 	<BuiltInComInteropSupport>true</BuiltInComInteropSupport>
@@ -36,9 +38,7 @@
 	<PackageReference Include="XamlNameReferenceGenerator" Version="1.3.4" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MainStage\MainStage.csproj" />
     <ProjectReference Include="..\ShareInstances\ShareInstances.csproj" />
-    <ProjectReference Include="..\SynchronizationBlock\SynchronizationBlock.csproj" />
   </ItemGroup>
 
   <ItemGroup>
