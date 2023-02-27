@@ -9,7 +9,12 @@ In case you will find some of them, please write in issue.
 
 # Requirements:
 
-- dotnet 6.0
+- dotnet 6.0.4
+
+# Supported operating systems: 
+
+  Windows 10 -x64 (beta release only)
+  Linux (Manjaro testing) -x64 (test mode)
 
 # Dependencies:
 
