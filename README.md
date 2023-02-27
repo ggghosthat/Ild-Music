@@ -10,7 +10,6 @@ In case you will find some of them, please write in issue.
 # Requirements:
 
 - dotnet 6.0
-- Windows OS
 
 # Dependencies:
 
