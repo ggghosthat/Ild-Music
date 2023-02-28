@@ -31,20 +31,20 @@
             <Setter Property="Height" Value="20"/>
         </Style>
 
-        <Style Selector="StackPanel.NavBarItem Path.NavIcon">
+        <Style Selector="Border.NavBarItem StackPanel Viewbox Canvas Path.NavIcon">
             <Setter Property="Fill" Value="#7b7f6b"/>
         </Style>
-        <Style Selector="StackPanel.NavBarItem:pointerover  Path.NavIcon">
+        <Style Selector="Border.NavBarItem:pointerover StackPanel Viewbox Canvas Path.NavIcon">
             <Setter Property="Fill" Value="#fff"/>
         </Style>
 
-        <Style Selector="StackPanel.PlayerButton Viewbox Canvas Path">
+        <Style Selector="Border.PlayerButton Border Viewbox Canvas Path">
             <Setter Property="Fill" Value="#7b7f6b"/>
         </Style>
-        <Style Selector="StackPanel.PlayerButton:pointerover Viewbox Canvas Path">
+        <Style Selector="Border.PlayerButton:pointerover Border Viewbox Canvas Path">
             <Setter Property="Fill" Value="#6ed48b"/>
         </Style>
-        <Style Selector="StackPanel.PlayerButton:pointerpressed Viewbox Canvas Path">
+        <Style Selector="Border.PlayerButton:pointerpressed Border Viewbox Canvas Path">
             <Setter Property="Fill" Value="#6ed48b"/>
         </Style>
 
@@ -149,65 +149,66 @@
 
                             <!--Header label-->
                             <StackPanel Orientation="Horizontal" Grid.Column="0">
-                                <StackPanel VerticalAlignment="Center"
-                                            HorizontalAlignment="Left"
-                                            Margin="9,0,0,0">
-                                        <Viewbox Classes="vb" Width="170" Height="25"             HorizontalAlignment="Left"
-                                            VerticalAlignment="Top">
-                                            <Canvas Width="170" Height="30">
-                                                <Path Fill="#27da48" Data="M 30.00,0.00
-                                                       C 30.00,0.00 40.00,0.00 40.00,0.00
-                                                         40.00,0.00 40.00,34.00 40.00,34.00
-                                                         40.00,34.00 30.00,34.00 30.00,34.00
-                                                         30.00,34.00 30.00,0.00 30.00,0.00 Z
-                                                       M 105.00,0.00
-                                                       C 105.00,0.00 115.00,0.00 115.00,0.00
-                                                         115.00,0.00 115.00,34.00 115.00,34.00
-                                                         115.00,34.00 105.00,34.00 105.00,34.00
-                                                         105.00,34.00 105.00,0.00 105.00,0.00 Z
-                                                       M 15.00,6.00
-                                                       C 15.00,6.00 25.00,6.00 25.00,6.00
-                                                         25.00,6.00 25.00,29.00 25.00,29.00
-                                                         25.00,29.00 15.00,29.00 15.00,29.00
-                                                         15.00,29.00 15.00,6.00 15.00,6.00 Z
-                                                       M 45.00,6.00
-                                                       C 45.00,6.00 55.00,6.00 55.00,6.00
-                                                         55.00,6.00 55.00,29.00 55.00,29.00
-                                                         55.00,29.00 45.00,29.00 45.00,29.00
-                                                         45.00,29.00 45.00,6.00 45.00,6.00 Z
-                                                       M 90.00,6.00
-                                                       C 90.00,6.00 100.00,6.00 100.00,6.00
-                                                         100.00,6.00 100.00,29.00 100.00,29.00
-                                                         100.00,29.00 90.00,29.00 90.00,29.00
-                                                         90.00,29.00 90.00,6.00 90.00,6.00 Z
-                                                       M 120.00,6.00
-                                                       C 120.00,6.00 130.00,6.00 130.00,6.00
-                                                         130.00,6.00 130.00,29.00 130.00,29.00
-                                                         130.00,29.00 120.00,29.00 120.00,29.00
-                                                         120.00,29.00 120.00,6.00 120.00,6.00 Z
-                                                       M 0.00,14.00
-                                                       C 0.00,14.00 10.00,14.00 10.00,14.00
-                                                         10.00,14.00 10.00,29.00 10.00,29.00
-                                                         10.00,29.00 0.00,29.00 0.00,29.00
-                                                         0.00,29.00 0.00,14.00 0.00,14.00 Z
-                                                       M 60.00,14.00
-                                                       C 60.00,14.00 70.00,14.00 70.00,14.00
-                                                         70.00,14.00 70.00,29.00 70.00,29.00
-                                                         70.00,29.00 60.00,29.00 60.00,29.00
-                                                         60.00,29.00 60.00,14.00 60.00,14.00 Z
-                                                       M 75.00,14.00
-                                                       C 75.00,14.00 85.00,14.00 85.00,14.00
-                                                         85.00,14.00 85.00,29.00 85.00,29.00
-                                                         85.00,29.00 75.00,29.00 75.00,29.00
-                                                         75.00,29.00 75.00,14.00 75.00,14.00 Z
-                                                       M 135.00,14.00
-                                                       C 135.00,14.00 145.00,14.00 145.00,14.00
-                                                         145.00,14.00 145.00,29.00 145.00,29.00
-                                                         145.00,29.00 135.00,29.00 135.00,29.00
-                                                         135.00,29.00 135.00,14.00 135.00,14.00 Z" />
-                                            </Canvas>
-                                        </Viewbox>
-                                </StackPanel>
+                                        <StackPanel VerticalAlignment="Center"
+                                                    HorizontalAlignment="Left"
+                                                    Margin="9,0,0,0">
+                                                <Viewbox Classes="vb" Width="170" Height="25"
+                                                         HorizontalAlignment="Left"
+                                                         VerticalAlignment="Top">
+                                                    <Canvas Width="170" Height="30">
+                                                        <Path Fill="#27da48" Data="M 30.00,0.00
+                                                               C 30.00,0.00 40.00,0.00 40.00,0.00
+                                                                 40.00,0.00 40.00,34.00 40.00,34.00
+                                                                 40.00,34.00 30.00,34.00 30.00,34.00
+                                                                 30.00,34.00 30.00,0.00 30.00,0.00 Z
+                                                               M 105.00,0.00
+                                                               C 105.00,0.00 115.00,0.00 115.00,0.00
+                                                                 115.00,0.00 115.00,34.00 115.00,34.00
+                                                                 115.00,34.00 105.00,34.00 105.00,34.00
+                                                                 105.00,34.00 105.00,0.00 105.00,0.00 Z
+                                                               M 15.00,6.00
+                                                               C 15.00,6.00 25.00,6.00 25.00,6.00
+                                                                 25.00,6.00 25.00,29.00 25.00,29.00
+                                                                 25.00,29.00 15.00,29.00 15.00,29.00
+                                                                 15.00,29.00 15.00,6.00 15.00,6.00 Z
+                                                               M 45.00,6.00
+                                                               C 45.00,6.00 55.00,6.00 55.00,6.00
+                                                                 55.00,6.00 55.00,29.00 55.00,29.00
+                                                                 55.00,29.00 45.00,29.00 45.00,29.00
+                                                                 45.00,29.00 45.00,6.00 45.00,6.00 Z
+                                                               M 90.00,6.00
+                                                               C 90.00,6.00 100.00,6.00 100.00,6.00
+                                                                 100.00,6.00 100.00,29.00 100.00,29.00
+                                                                 100.00,29.00 90.00,29.00 90.00,29.00
+                                                                 90.00,29.00 90.00,6.00 90.00,6.00 Z
+                                                               M 120.00,6.00
+                                                               C 120.00,6.00 130.00,6.00 130.00,6.00
+                                                                 130.00,6.00 130.00,29.00 130.00,29.00
+                                                                 130.00,29.00 120.00,29.00 120.00,29.00
+                                                                 120.00,29.00 120.00,6.00 120.00,6.00 Z
+                                                               M 0.00,14.00
+                                                               C 0.00,14.00 10.00,14.00 10.00,14.00
+                                                                 10.00,14.00 10.00,29.00 10.00,29.00
+                                                                 10.00,29.00 0.00,29.00 0.00,29.00
+                                                                 0.00,29.00 0.00,14.00 0.00,14.00 Z
+                                                               M 60.00,14.00
+                                                               C 60.00,14.00 70.00,14.00 70.00,14.00
+                                                                 70.00,14.00 70.00,29.00 70.00,29.00
+                                                                 70.00,29.00 60.00,29.00 60.00,29.00
+                                                                 60.00,29.00 60.00,14.00 60.00,14.00 Z
+                                                               M 75.00,14.00
+                                                               C 75.00,14.00 85.00,14.00 85.00,14.00
+                                                                 85.00,14.00 85.00,29.00 85.00,29.00
+                                                                 85.00,29.00 75.00,29.00 75.00,29.00
+                                                                 75.00,29.00 75.00,14.00 75.00,14.00 Z
+                                                               M 135.00,14.00
+                                                               C 135.00,14.00 145.00,14.00 145.00,14.00
+                                                                 145.00,14.00 145.00,29.00 145.00,29.00
+                                                                 145.00,29.00 135.00,29.00 135.00,29.00
+                                                                 135.00,29.00 135.00,14.00 135.00,14.00 Z" />
+                                                    </Canvas>
+                                                </Viewbox>
+                                        </StackPanel>
                             </StackPanel>      
 
                             <!--DragMove area-->                          
@@ -222,41 +223,41 @@
                                         HorizontalAlignment="Right"
                                         VerticalAlignment="Top"
                                         Grid.Column="3">
-                                <Button VerticalAlignment="Top"
-                                        Padding="0"
-                                        Click="OnHideClick">
-                                        <Border BorderThickness="2"
-                                                BorderBrush="#0be0c2"
-                                                CornerRadius="3 3 3 3">
-                                            <Panel Classes="pnlClose"
-                                                Width="30"
-                                                Background="#0be0c2"/>
-                                        </Border>
-                                </Button>
+                                        <Button VerticalAlignment="Top"
+                                                Padding="0"
+                                                Click="OnHideClick">
+                                                <Border BorderThickness="2"
+                                                        BorderBrush="#0be0c2"
+                                                        CornerRadius="3 3 3 3">
+                                                    <Panel Classes="pnlClose"
+                                                        Width="30"
+                                                        Background="#0be0c2"/>
+                                                </Border>
+                                        </Button>
 
-                                <Button VerticalAlignment="Top"
-                                        Padding="0"
-                                        Click="OnExpandClick">
-                                        <Border BorderThickness="2"
-                                                BorderBrush="#cef542"
-                                                CornerRadius="3 3 3 3">
-                                            <Panel Classes="pnlClose"
-                                                Width="30"
-                                                Background="#cef542"/>
-                                        </Border>
-                                </Button>
+                                        <Button VerticalAlignment="Top"
+                                                Padding="0"
+                                                Click="OnExpandClick">
+                                                <Border BorderThickness="2"
+                                                        BorderBrush="#cef542"
+                                                        CornerRadius="3 3 3 3">
+                                                    <Panel Classes="pnlClose"
+                                                        Width="30"
+                                                        Background="#cef542"/>
+                                                </Border>
+                                        </Button>
 
-                                <Button VerticalAlignment="Top"
-                                        Padding="0"
-                                        Click="OnCloseClick">
-                                        <Border BorderThickness="2"
-                                                BorderBrush="#e00b29"
-                                                CornerRadius="3 3 3 3">
-                                            <Panel Classes="pnlClose"
-                                                Width="30"
-                                                Background="#e00b29"/>
-                                        </Border>
-                                </Button>
+                                        <Button VerticalAlignment="Top"
+                                                Padding="0"
+                                                Click="OnCloseClick">
+                                                <Border BorderThickness="2"
+                                                        BorderBrush="#e00b29"
+                                                        CornerRadius="3 3 3 3">
+                                                    <Panel Classes="pnlClose"
+                                                        Width="30"
+                                                        Background="#e00b29"/>
+                                                </Border>
+                                        </Button>
                             </StackPanel>
                         </Grid>
                     
@@ -272,29 +273,33 @@
                                       HorizontalAlignment="Left">
                                     <!--NavBarItems-->
                                     <StackPanel Orientation="Vertical">
-                                        <StackPanel Classes="NavBarItem"
-                                                    Orientation="Vertical"
-                                                    VerticalAlignment="Top"
-                                                    HorizontalAlignment="Left"
-                                                    PointerPressed="OnHomePointerPressed">
+                                        <Border Classes="NavBarItem"
+                                                Background="#00000000"
+                                                VerticalAlignment="Top"
+                                                HorizontalAlignment="Left"
+                                                PointerPressed="OnHomePointerPressed">
+                                              <StackPanel>
                                                 <Viewbox Classes="vb" Width="30" Height="30" Margin="5,5,5,0" HorizontalAlignment="Left">
                                                     <Canvas Width="24" Height="24">
                                                         <Path Classes="NavIcon" Data="M 12 2 A 1 1 0 0 0 11.289062 2.296875 L 1.203125 11.097656 A 0.5 0.5 0 0 0 1 11.5 A 0.5 0.5 0 0 0 1.5 12 L 4 12 L 4 20 C 4 20.552 4.448 21 5 21 L 9 21 C 9.552 21 10 20.552 10 20 L 10 14 L 14 14 L 14 20 C 14 20.552 14.448 21 15 21 L 19 21 C 19.552 21 20 20.552 20 20 L 20 12 L 22.5 12 A 0.5 0.5 0 0 0 23 11.5 A 0.5 0.5 0 0 0 22.796875 11.097656 L 12.716797 2.3027344 A 1 1 0 0 0 12.710938 2.296875 A 1 1 0 0 0 12 2 z" />
                                                     </Canvas>
                                                 </Viewbox>
-                                        </StackPanel>
+                                              </StackPanel>
+                                        </Border>
 
-                                        <StackPanel Classes="NavBarItem"
-                                                    Orientation="Vertical"
-                                                    VerticalAlignment="Top"
-                                                    HorizontalAlignment="Left"
-                                                    PointerPressed="OnCollectsPointerPressed">
+                                        <Border Classes="NavBarItem"
+                                                Background="#00000000"
+                                                VerticalAlignment="Top"
+                                                HorizontalAlignment="Left"
+                                                PointerPressed="OnCollectsPointerPressed">
+                                              <StackPanel>      
                                                 <Viewbox Classes="vb" Width="30" Height="30" Margin="5,5,5,0" HorizontalAlignment="Left">
                                                     <Canvas Width="24" Height="24">
                                                         <Path Classes="NavIcon" Data="M4 20H18V22H4C2.9 22 2 21.1 2 20V6H4V20M22 4V16C22 17.1 21.1 18 20 18H8C6.9 18 6 17.1 6 16V4C6 2.9 6.9 2 8 2H20C21.1 2 22 2.9 22 4M20 4H8V16H20V4M18 6H13V13L15.5 11.5L18 13V6Z" />
                                                     </Canvas>
                                                 </Viewbox>
-                                        </StackPanel>
+                                              </StackPanel>
+                                        </Border>
 
                                         <!--Still not ready to use-->
                                         <!-- <StackPanel Classes="NavBarItem"
@@ -323,7 +328,7 @@
                         <!--Player-->
                         <Grid Grid.Row="2"
                               ColumnSpan="3"
-                              Height="45"
+                              Height="35"
                               Background="#40000000"
                               HorizontalAlignment="Stretch">
 
@@ -342,97 +347,92 @@
                                         VerticalAlignment="Top"
                                         HorizontalAlignment="Left"
                                         Margin="15,0,0,0">
-                                <Border>
+                                <Border Classes="PlayerButton"
+                                        Background="#00000000"
+                                        Margin="0,5">
                                     <i:Interaction.Behaviors>
                                         <ia:EventTriggerBehavior EventName="Tapped">
                                           <ia:InvokeCommandAction Command="{Binding PreviousCommand}"/>
                                         </ia:EventTriggerBehavior>  
                                     </i:Interaction.Behaviors>
-                                    <StackPanel Classes="PlayerButton"
-                                                VerticalAlignment="Center"
-                                                HorizontalAlignment="Left"
-                                                Margin="0,5">
-                                        <Viewbox Classes="vb" Width="30" Height="30" Margin="2,0" HorizontalAlignment="Left">
+                                    <Border>
+                                        <Viewbox Classes="vb" Width="24" Height="24" Margin="2,0" HorizontalAlignment="Left">
                                             <Canvas Width="24" Height="24">
                                                 <Path Data="M6,6H8V18H6M9.5,12L18,18V6M16,14.14L12.97,12L16,9.86V14.14Z" />
                                             </Canvas>
                                         </Viewbox>
-                                    </StackPanel>
+                                    </Border>
                                 </Border>
                                 
-                                <Border>
+                                <Border Classes="PlayerButton"
+                                        Background="#00000000"
+                                        Margin="0,5">
                                     <i:Interaction.Behaviors>
                                         <ia:EventTriggerBehavior EventName="Tapped">
                                           <ia:InvokeCommandAction Command="{Binding KickCommand}"/>
                                         </ia:EventTriggerBehavior>  
                                     </i:Interaction.Behaviors>
-                                    <StackPanel Classes="PlayerButton"
-                                                VerticalAlignment="Center"
-                                                HorizontalAlignment="Left"
-                                                Margin="0,5">
-                                        <Viewbox Classes="vb" Width="30" Height="30" Margin="2,0" HorizontalAlignment="Left">
+                                    <Border>
+                                        <Viewbox Classes="vb" Width="24" Height="24" Margin="2,0" HorizontalAlignment="Left">
                                             <Canvas Width="24" Height="24">
                                                 <Path Data="{Binding PlayerState, Converter={StaticResource ToggleButtonConverter} }" />
                                             </Canvas>
                                         </Viewbox>
-                                    </StackPanel>
+                                    </Border>
                                 </Border>
 
-                                <Border>
+                                <Border Classes="PlayerButton"
+                                            Background="#00000000"
+                                            Margin="0,5">
                                     <i:Interaction.Behaviors>
                                         <ia:EventTriggerBehavior EventName="Tapped">
                                           <ia:InvokeCommandAction Command="{Binding NextCommand}"/>
                                         </ia:EventTriggerBehavior>  
                                     </i:Interaction.Behaviors>
-                                    <StackPanel Classes="PlayerButton"
-                                                VerticalAlignment="Center"
-                                                HorizontalAlignment="Left"
-                                                Margin="0,5">
-                                        <Viewbox Classes="vb" Width="30" Height="30" Margin="2,0" HorizontalAlignment="Left">
+                                    <Border>
+                                        <Viewbox Classes="vb" Width="24" Height="24" Margin="2,0" HorizontalAlignment="Left">
                                             <Canvas Width="24" Height="24">
                                                 <Path Data="M6,18L14.5,12L6,6M8,9.86L11.03,12L8,14.14M16,6H18V18H16" />
                                             </Canvas>
                                         </Viewbox>
-                                    </StackPanel>
+                                    </Border>
                                 </Border>
 
-                                <Border>
+                                <Border Classes="PlayerButton"
+                                            Background="#00000000"
+                                            Margin="0,5">
                                     <i:Interaction.Behaviors>
                                         <ia:EventTriggerBehavior EventName="Tapped">
                                           <ia:InvokeCommandAction Command="{Binding RepeatCommand}"/>
                                         </ia:EventTriggerBehavior>  
                                     </i:Interaction.Behaviors>
-                                    <StackPanel Classes="PlayerButton"
-                                                VerticalAlignment="Center"
-                                                HorizontalAlignment="Left"
-                                                Margin="0,5">
-                                        <Viewbox Classes="vb" Width="30" Height="30" Margin="2,0" HorizontalAlignment="Left">
+                                    <Border>
+                                        <Viewbox Classes="vb" Width="24" Height="24" Margin="2,0" HorizontalAlignment="Left">
                                             <Canvas Width="24" Height="24">
                                                 <Path Data="M6,5.75L10.25,10H7V16H13.5L15.5,18H7A2,2 0 0,1 5,16V10H1.75L6,5.75M18,18.25L13.75,14H17V8H10.5L8.5,6H17A2,2 0 0,1 19,8V14H22.25L18,18.25Z" />
                                             </Canvas>
                                         </Viewbox>
-                                    </StackPanel>
+                                    </Border>
                                 </Border>
 
-                                <StackPanel x:Name="VolumeButton"
+                                <Border x:Name="VolumeButton"
                                             Classes="PlayerButton"
-                                            VerticalAlignment="Center"
-                                            HorizontalAlignment="Left"
+                                            Background="#00000000"
                                             Margin="5">
                                     <i:Interaction.Behaviors>
                                         <ia:EventTriggerBehavior EventName="Tapped">
                                           <ia:InvokeCommandAction Command="{Binding VolumeSliderShowCommand}"/>
                                         </ia:EventTriggerBehavior>  
                                     </i:Interaction.Behaviors>
-                                    <StackPanel>
-                                        <Viewbox Classes="vb" Width="30" Height="30" Margin="2,0" HorizontalAlignment="Left">
+                                    <Border>
+                                        <Viewbox Classes="vb" Width="24" Height="24" Margin="2,0" HorizontalAlignment="Left">
                                             <Canvas Width="24" Height="24">
                                                 <Path Data="M7,9V15H11L16,20V4L11,9H7Z" />
                                             </Canvas>
                                         </Viewbox>
-                                    </StackPanel>
-                                </StackPanel>
-                            </StackPanel>
+                                    </Border>
+                                </Border>
+                            </StackPanel> 
 
                             <StackPanel x:Name="sliderArea"
                                         Grid.Row="0"
@@ -440,7 +440,7 @@
                                         Orientation="Horizontal"
                                         VerticalAlignment="Top"
                                         HorizontalAlignment="Stretch"
-                                        Margin="5,0, 10,0">
+                                        Margin="5,-5,10,0">
                                         <Grid x:Name="sliderParent"
                                                 HorizontalAlignment="Stretch">
                                             <Grid.RowDefinitions>
@@ -457,7 +457,7 @@
                                             <Slider x:Name="sldThumby"       
                                                     Grid.Row="0"                    
                                                     Width="{Binding #sliderArea.Bounds.Width}"
-                                                    Classes="thumby"                                           
+                                                    Classes="thumby"                                          
                                                     IsEnabled="{Binding PlayerState}"
                                                     Orientation="Horizontal"
                                                     Maximum="{Binding TotalTime, Mode=OneWay}"
@@ -500,14 +500,14 @@
                                                         <TextBlock Grid.Column="0" 
                                                                    Text="{Binding CurrentTimeDisplay, StringFormat=\{0:mm\\:ss\}}"
                                                                    Foreground="#6ed48b" 
-                                                                   Margin="0,-8"
+                                                                   Margin="0,-10,0,0"
                                                                    FontSize="10"
                                                                    FontWeight="Light"
                                                                    HorizontalAlignment="Left"/>
                                                         <TextBlock Grid.Column="2"
                                                                    Text="{Binding TotalTimeDisplay, StringFormat=\{0:mm\\:ss\}}"
                                                                    Foreground="#6ed48b"
-                                                                   Margin="0,-8"
+                                                                   Margin="0,-10,0,0"
                                                                    FontSize="10"
                                                                    FontWeight="Light"
                                                                    HorizontalAlignment="Right"/>   

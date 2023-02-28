@@ -67,7 +67,7 @@ namespace Ild_Music.Views
             navBar = e.NameScope.Get<Grid>(PART_NAVBAR);
 
             volumePopup = (Control)e.NameScope.Get<Border>(PART_VOLUME_AREA);
-            volumeButton = (Control)e.NameScope.Get<StackPanel>(PART_VOLUME_BUTTON);
+            volumeButton = (Control)e.NameScope.Get<Border>(PART_VOLUME_BUTTON);
             mainGrid = (Control)e.NameScope.Get<Grid>(PART_MAIN_GRID);
             volumeSlider = e.NameScope.Get<Slider>(PART_VOLUME_SLIDER);
         }
