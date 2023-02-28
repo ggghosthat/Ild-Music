@@ -2,10 +2,10 @@
    "components":
    {
         "players": [
-            "../NAudioPlayerCore/bin/Debug/net6.0/Ild-Music-Core.dll"
+            "../dependencies/Ild-Music.NAudioPlayerCore/bin/Release/net6.0/Ild-Music-Core.dll"
         ],
         "synches": [
-            "../SynchronizationBlock/bin/Debug/net6.0/SynchronizationBlock.dll"
+            "../dependencies/Ild-Music.SynchronizationBlock/bin/Release/net6.0/SynchronizationBlock.dll"
         ]
    }
 }

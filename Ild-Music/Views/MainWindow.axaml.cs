@@ -104,7 +104,14 @@ namespace Ild_Music.Views
 
         private void OnExpandClick(object sender, RoutedEventArgs e)
         {
-            WindowState = WindowState.Maximized;
+            if (WindowState == WindowState.Normal)
+            {
+                WindowState = WindowState.Maximized;
+            }
+            else if (WindowState == WindowState.Maximized)
+            {
+                WindowState = WindowState.Normal;   
+            }
         }
 
         private void OnCloseClick(object sender, RoutedEventArgs e)
