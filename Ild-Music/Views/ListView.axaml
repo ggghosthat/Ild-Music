@@ -237,12 +237,6 @@
                   <ia:EventTriggerBehavior EventName="Tapped">
                     <ia:InvokeCommandAction Command="{Binding ItemResolveCommand}"/>
                   </ia:EventTriggerBehavior>
-
-                  <ia:EventTriggerBehavior EventName="DoubleTapped">
-                    <ia:InvokeCommandAction Command="{Binding ItemSelectCommand}"/>
-                  </ia:EventTriggerBehavior> 
-
-
                 </i:Interaction.Behaviors>
                 <ListBox.ItemTemplate>
                   <DataTemplate>

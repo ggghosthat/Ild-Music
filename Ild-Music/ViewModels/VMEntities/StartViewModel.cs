@@ -15,6 +15,8 @@ namespace Ild_Music.ViewModels
     {
         public static readonly string nameVM = "StartVM";
         public override string NameVM => nameVM;
+
+        private Task trackDropTask;
         
         #region Services
         private SupporterService supporter => (SupporterService)App.Stage.GetServiceInstance("SupporterService");
@@ -91,6 +93,10 @@ namespace Ild_Music.ViewModels
         {
             if (obj is Track track)
             {
+                if (trackDropTask != null)
+                {
+                    
+                }
                 new Task(() => MainVM.DropInstance(this, track)).Start();
             }
         }

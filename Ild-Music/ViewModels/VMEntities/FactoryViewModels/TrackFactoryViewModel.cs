@@ -132,7 +132,7 @@ namespace Ild_Music.ViewModels
                 var description = (string)values[2];
                 var artists = (IList<Artist>)values[3];
 
-                if (!string.IsNullOrEmpty(name))
+                if (!string.IsNullOrEmpty(path))
                 {
                     factoryService.CreateTrack(path, name, description, artists);
                     TrackLogLine = "Successfully created!";
@@ -155,7 +155,7 @@ namespace Ild_Music.ViewModels
                 var description = (string)values[2];
                 var artists = (IList<Artist>)values[3];
 
-                if (!string.IsNullOrEmpty(name))
+                if (!string.IsNullOrEmpty(path))
                 {
                     var editTrack = (Track)Instance;
                     editTrack.Pathway = path;
