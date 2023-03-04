@@ -166,7 +166,8 @@ namespace Ild_Music.ViewModels
             }
         }
 
-        public void ResolveInstance(BaseViewModel source, ICoreEntity instance)
+        public async Task ResolveInstance(BaseViewModel source,
+                                          ICoreEntity instance)
         {
             BaseViewModel instanceVM = null;
             if (instance is Artist artist)
@@ -193,10 +194,12 @@ namespace Ild_Music.ViewModels
         }
 
 
-        public void DropInstance(BaseViewModel source, ICoreEntity instance, bool isResolved = false, int playlistIndex = 0)
+        public void DropInstance(BaseViewModel source, 
+                                       ICoreEntity instance,
+                                       bool isResolved = false, 
+                                       int playlistIndex = 0)
         {
-            BaseViewModel instanceVM = null;
-            
+            BaseViewModel instanceVM = null;            
             if (instance is Artist artist)
             {
                 instanceVM = (ArtistViewModel)App.ViewModelTable[ArtistViewModel.nameVM];
@@ -249,6 +252,8 @@ namespace Ild_Music.ViewModels
         }
 
         #endregion
+
+
 
         #region Predicates
         private bool OnCanTogglePlayer(object obj) 

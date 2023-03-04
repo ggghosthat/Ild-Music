@@ -154,12 +154,12 @@ namespace Ild_Music.ViewModels
 
         private void ItemSelect(object obj)
         {
-            MainVM.DropInstance(this, CurrentItem, true);    
+            Task.Run(() => MainVM.DropInstance(this, CurrentItem, true));    
         }
 
         private void ItemResolve(object obj)
         {
-            MainVM.ResolveInstance(this, CurrentItem);
+            Task.Run(() => MainVM.ResolveInstance(this, CurrentItem));
         }
         #endregion
     }

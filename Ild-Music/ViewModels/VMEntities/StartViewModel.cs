@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Ild_Music.ViewModels
@@ -16,7 +17,11 @@ namespace Ild_Music.ViewModels
         public static readonly string nameVM = "StartVM";
         public override string NameVM => nameVM;
 
+        #region AsyncStaff
         private Task trackDropTask;
+        private CancellationTokenSource tokenSource = new CancellationTokenSource();
+        // private CancellationToken token = tokenSource.Token;
+        #endregion
         
         #region Services
         private SupporterService supporter => (SupporterService)App.Stage.GetServiceInstance("SupporterService");
@@ -85,19 +90,15 @@ namespace Ild_Music.ViewModels
         {
             if (obj is Playlist playlist)
             {
-                new Task(() => MainVM.DropInstance(this, playlist)).Start(); 
+                Task.Run(() => MainVM.DropInstance(this, playlist)).Start(); 
             }
         }
 
-        private void DropTrack(object obj)
+        private async void DropTrack(object obj)
         {
             if (obj is Track track)
             {
-                if (trackDropTask != null)
-                {
-                    
-                }
-                new Task(() => MainVM.DropInstance(this, track)).Start();
+                Task.Run(() => MainVM.DropInstance(this, track));
             }
         }
 
@@ -105,7 +106,7 @@ namespace Ild_Music.ViewModels
         {
             if (obj is Artist artist)
             {
-                new Task(() => MainVM.DropInstance(this, artist));
+                Task.Run(() => MainVM.DropInstance(this, artist));
             }
         }
         #endregion
