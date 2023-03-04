@@ -43,7 +43,6 @@ namespace Ild_Music.ViewModels
         public CommandDelegator DeleteCommand { get; }
         public CommandDelegator EditCommand { get; }
         public CommandDelegator BackCommand { get; }
-        public CommandDelegator ItemResolveCommand { get; }
         public CommandDelegator ItemSelectCommand { get; }
         public CommandDelegator DefineListTypeCommand { get; }
         #endregion
@@ -65,7 +64,6 @@ namespace Ild_Music.ViewModels
             DeleteCommand = new(Delete, null);
             EditCommand = new(Edit, null);
             ItemSelectCommand = new(ItemSelect, null);
-            ItemResolveCommand = new(ItemResolve,null);
             DefineListTypeCommand = new(InitCurrentList, null);
 
             Header = Headers.FirstOrDefault();
@@ -154,12 +152,15 @@ namespace Ild_Music.ViewModels
 
         private void ItemSelect(object obj)
         {
-            Task.Run(() => MainVM.DropInstance(this, CurrentItem, true));    
-        }
-
-        private void ItemResolve(object obj)
-        {
-            Task.Run(() => MainVM.ResolveInstance(this, CurrentItem));
+            var currentEntity = MainVM.CurrentEntity;
+            if(CurrentItem.Id.Equals(currentEntity.Id))
+            {
+                new Task(() => MainVM.ResolveInstance(this, CurrentItem)).Start();
+            }
+            else
+            {
+                Task.Run(() => MainVM.DropInstance(this, CurrentItem, true));                    
+            }
         }
         #endregion
     }
