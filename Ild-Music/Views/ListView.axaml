@@ -234,7 +234,7 @@
                 </ListBox.ItemsPanel>
 
                 <i:Interaction.Behaviors>
-                  <ia:EventTriggerBehavior EventName="Tapped">
+                  <ia:EventTriggerBehavior EventName="DoubleTapped">
                     <ia:InvokeCommandAction Command="{Binding ItemSelectCommand}"/>
                   </ia:EventTriggerBehavior>
                 </i:Interaction.Behaviors>
