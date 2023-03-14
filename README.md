@@ -7,9 +7,9 @@ In case you will find some of them, please write in issue.
 
 
 
-# Requirements:
+# From scratch build requirement:
 
-  - dotnet 6.0.4
+  - dotnet sdk 6.0.4
 
 # Supported operating systems: 
 
