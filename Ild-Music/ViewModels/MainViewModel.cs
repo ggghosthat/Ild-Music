@@ -89,7 +89,6 @@ namespace Ild_Music.ViewModels
             _player = player.PlayerInstance;
             _player.SetNotifier(() => OnPropertyChanged("PlayerState"));
             _player.TrackStarted += OnTrackStarted;
-            CurrentVolume = 40;
 
             App.ViewModelTable.Add(StartViewModel.nameVM, new StartViewModel());
             App.ViewModelTable.Add(FactoryViewModel.nameVM, new FactoryViewModel());

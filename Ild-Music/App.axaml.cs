@@ -8,6 +8,7 @@ using ShareInstances;
 using ShareInstances.Stage;
 using ShareInstances.Configure;
 
+using System;
 using System.Diagnostics;
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
@@ -27,7 +28,9 @@ namespace Ild_Music
         public App()
         {
             Configure = new Configure("Configuration/configuration.json");
-            Stage.Init(Configure.Players, Configure.Synches);
+            Console.WriteLine("xxx");
+            Stage.Init(Configure.ConfigSheet.Players, Configure.ConfigSheet.Synches);
+            Console.WriteLine(Stage.AreaInstace.AreaName);
             ViewModelTable = new Hashtable();
         }
 

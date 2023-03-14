@@ -153,7 +153,7 @@ namespace Ild_Music.ViewModels
         private void ItemSelect(object obj)
         {
             var currentEntity = MainVM.CurrentEntity;
-            if(CurrentItem.Id.Equals(currentEntity.Id))
+            if(currentEntity != null && CurrentItem.Id.Equals(currentEntity.Id))
             {
                 new Task(() => MainVM.ResolveInstance(this, CurrentItem)).Start();
             }

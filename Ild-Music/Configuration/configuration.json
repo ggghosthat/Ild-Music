@@ -1,11 +1,8 @@
 {
-   "components":
-   {
-        "players": [
-            "../dependencies/Ild-Music.NAudioPlayerCore/bin/Release/net6.0/Ild-Music-Core.dll"
-        ],
-        "synches": [
-            "../dependencies/Ild-Music.SynchronizationBlock/bin/Release/net6.0/SynchronizationBlock.dll"
-        ]
-   }
+    "Players": [
+        "../dependencies/Ild-Music.NAudioPlayerCore/bin/Release/net6.0/Ild-Music-Core.dll"
+    ],
+    "Synches": [
+        "../dependencies/Ild-Music.SynchronizationBlock/bin/Release/net6.0/SynchronizationBlock.dll"
+    ]
 }
