@@ -385,7 +385,7 @@
                 </Border>
 
                 <TextBlock Grid.Row="1"
-                           Text="{Binding . , Converter={StaticResource InstanceNameConverter}, ConverterParameter=name}"
+                           Text="{Binding . , Converter={StaticResource InstanceConverter}, ConverterParameter=name}"
                            FontSize="14"
                            Foreground="White"
                            HorizontalAlignment="Center"
