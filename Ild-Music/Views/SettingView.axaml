@@ -13,8 +13,7 @@
              x:DataType="vm:SettingViewModel">
 
   <UserControl.Resources>
-   	<conv:ComponentsIconConverter x:Key="ComponentsIconConverter"/>
-   	<conv:ComponentsNameConverter x:Key="ComponentsNameConverter"/>    
+    <conv:ComponentConverter x:Key="ComponentConverter"/>  
   </UserControl.Resources>
 
 
@@ -133,12 +132,12 @@
                                 CornerRadius="10"
                                 HorizontalAlignment="Center"
                                 VerticalAlignment="Center">
-                                <DrawingPresenter Drawing="{Binding ., Converter={StaticResource ComponentsIconConverter}, ConverterParameter=def}"
+                                <DrawingPresenter Drawing="{Binding ., Converter={StaticResource ComponentConverter}, ConverterParameter=ico}"
                                                   HorizontalAlignment="Center"
                                                   VerticalAlignment="Center"
                                                   Margin="7"/>
                         </Border>
-                        <TextBlock Text="{Binding ., Converter={StaticResource ComponentsNameConverter}, ConverterParameter=0}"
+                        <TextBlock Text="{Binding ., Converter={StaticResource ComponentConverter}, ConverterParameter=0}"
                                    Grid.Row="1"
                                    HorizontalAlignment="Center"
                                    VerticalAlignment="Bottom"
@@ -255,7 +254,7 @@
                                 CornerRadius="10"
                                 HorizontalAlignment="Center"
                                 VerticalAlignment="Center">
-                                <DrawingPresenter Drawing="{Binding ., Converter={StaticResource ComponentsIconConverter}, ConverterParameter=def}"
+                                <DrawingPresenter Drawing="{Binding ., Converter={StaticResource ComponentConverter}, ConverterParameter=ico}"
                                                   HorizontalAlignment="Center"
                                                   VerticalAlignment="Center"
                                                   Margin="7"/>

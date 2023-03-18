@@ -1,6 +1,6 @@
 using ShareInstances;
-using ShareInstances.PlayerResources;
-using ShareInstances.PlayerResources.Interfaces;
+using ShareInstances.Instances;
+using ShareInstances.Instances.Interfaces;
 using ShareInstances.Services.Entities;
 using ShareInstances.Exceptions.SynchAreaExceptions;
 using Ild_Music;
@@ -27,6 +27,7 @@ namespace Ild_Music.ViewModels
         #region Services
         private FactoryService factoryService => (FactoryService)base.GetService("FactoryService");
         private SupporterService supporterService => (SupporterService)base.GetService("SupporterService");
+        private StoreService store => (StoreService)base.GetService("StoreService");
         private MainViewModel MainVM => (MainViewModel)App.ViewModelTable[MainViewModel.nameVM];
         private InstanceExplorerViewModel ExplorerVM => (InstanceExplorerViewModel)App.ViewModelTable[InstanceExplorerViewModel.nameVM];
         #endregion
@@ -225,14 +226,14 @@ namespace Ild_Music.ViewModels
                     if(tracks != null && tracks.Count > 0)
                     {
                         editPlaylist.Tracks.Clear();
-                        tracks.ToList().ForEach(t => editPlaylist.Tracks.Add(t));
+                        tracks.ToList().ForEach(t => editPlaylist.Tracks.Add(t.Id));
                     }
 
                     if(artists != null && artists.Count > 0)
                     {
                         var clear_artists = ArtistProvider.ToList().Except(artists);
-                        clear_artists.ToList().ForEach(a => a.DeletePlaylist(editPlaylist));
-                        artists.ToList().ForEach(a => a.AddPlaylist(editPlaylist));
+                        clear_artists.ToList().ForEach(a => a.DeletePlaylist(editPlaylist.Id));
+                        artists.ToList().ForEach(a => a.AddPlaylist(editPlaylist.Id));
                     }
 
                     supporterService.EditInstance(editPlaylist);
@@ -261,7 +262,8 @@ namespace Ild_Music.ViewModels
                                                   .ToList()
                                                   .ForEach(a => SelectedPlaylistArtists.Add(a));
                 
-                playlist.Tracks.ToList()
+                store.StoreInstance.GetTracksById(playlist.Tracks)
+                               .ToList()
                                .ForEach(t => SelectedPlaylistTracks.Add(t));
             }
         }

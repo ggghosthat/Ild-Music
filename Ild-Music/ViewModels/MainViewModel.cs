@@ -4,8 +4,8 @@ using Ild_Music.ViewModels.Base;
 using ShareInstances;
 using ShareInstances.Services.Interfaces;
 using ShareInstances.Services.Entities;
-using ShareInstances.PlayerResources;
-using ShareInstances.PlayerResources.Interfaces;
+using ShareInstances.Instances;
+using ShareInstances.Instances.Interfaces;
 
 
 using System;
@@ -30,6 +30,7 @@ namespace Ild_Music.ViewModels
         
         #region Services
         private static SupporterService supporter => (SupporterService)App.Stage.GetServiceInstance("SupporterService");
+        private static StoreService store => (StoreService)App.Stage.GetServiceInstance("StoreService");
         private static PlayerService player => (PlayerService)App.Stage.GetServiceInstance("PlayerService");
         #endregion
 
@@ -215,8 +216,11 @@ namespace Ild_Music.ViewModels
                     instanceVM = (PlaylistViewModel)App.ViewModelTable[PlaylistViewModel.nameVM];
                     ((PlaylistViewModel)instanceVM).SetInstance(playlist); 
                 }
-                
-                totalTime = playlist.Tracks[playlist.CurrentIndex].Duration;
+
+                totalTime = store.StoreInstance
+                                 .GetTracksById(playlist[playlist.CurrentIndex])
+                                 .Duration;
+                                 
                 OnPropertyChanged("TotalTime");
                 OnPropertyChanged("TotalTimeDisplay");
                 OnPropertyChanged("CurrentTime");

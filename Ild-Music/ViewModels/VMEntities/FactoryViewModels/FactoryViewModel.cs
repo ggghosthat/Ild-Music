@@ -1,5 +1,5 @@
-using ShareInstances.PlayerResources;
-using ShareInstances.PlayerResources.Interfaces;
+using ShareInstances.Instances;
+using ShareInstances.Instances.Interfaces;
 using ShareInstances.Services.Entities;
 using Ild_Music;
 using Ild_Music.Command;

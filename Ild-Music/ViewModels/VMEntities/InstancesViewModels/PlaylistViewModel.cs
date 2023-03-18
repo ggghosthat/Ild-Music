@@ -1,6 +1,6 @@
 using ShareInstances;
-using ShareInstances.PlayerResources;
-using ShareInstances.PlayerResources.Interfaces;
+using ShareInstances.Instances;
+using ShareInstances.Instances.Interfaces;
 using ShareInstances.Services.Entities;
 using ShareInstances.Exceptions.SynchAreaExceptions;
 using Ild_Music;
@@ -20,6 +20,7 @@ namespace Ild_Music.ViewModels
 
         #region Services
         private SupporterService supporter => (SupporterService)base.GetService("SupporterService");
+        private StoreService store => (StoreService)base.GetService("StoreService");
         private MainViewModel MainVM => (MainViewModel)App.ViewModelTable[MainViewModel.nameVM];
         #endregion
 
@@ -49,7 +50,9 @@ namespace Ild_Music.ViewModels
             supporter.ArtistsCollection.Where(a => a.Playlists.Contains(PlaylistInstance.Id))
                                                   .ToList()
                                                   .ForEach(a => PlaylistArtists.Add(a));
-            playlist.Tracks.ToList()
+
+            store.StoreInstance.GetTracksById(playlist.Tracks)
+                               .ToList()
                                .ForEach(t => PlaylistTracks.Add(t));
 
         }

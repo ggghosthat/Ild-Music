@@ -13,9 +13,9 @@
              x:DataType="vm:InstanceExplorerViewModel">
 
             <UserControl.Resources>
-                <conv:InstanceNameConverter x:Key="InstanceNameConverter"/>
-                <conv:InstanceIconConverter x:Key="InstanceIconConverter"/>    
+                <conv:InstanceConverter x:Key="InstanceConverter"/>    
             </UserControl.Resources>
+
 
              <Grid>
                 <Grid.RowDefinitions>
@@ -138,27 +138,27 @@
                                             <DataTemplate>
                                                 <StackPanel Orientation="Horizontal"
                                                             HorizontalAlignment="Left">
-                                                            <Border Width="30"
-                                                                    Height="30"
-                                                                    Margin="15, 0"
-                                                                    Padding="0"
-                                                                    Background="#12495c"
-                                                                    HorizontalAlignment="Left"
-                                                                    CornerRadius="5"
-                                                                    VerticalAlignment="Center">
-                                                                    <DrawingPresenter Drawing="{Binding ., Converter={StaticResource InstanceIconConverter}, ConverterParameter=def}"
-                                                                                      HorizontalAlignment="Center"
-                                                                                      VerticalAlignment="Center"
-                                                                                      Width="25"
-                                                                                      Height="25"/>
-                                                            </Border>                   
-                                                            <TextBlock Text="{Binding ., Converter={StaticResource InstanceNameConverter}}"
-                                                                       VerticalAlignment="Center"
-                                                                       Margin="0"
-                                                                       FontSize="16"
-                                                                       TextAlignment="Left"
-                                                                       Foreground="White"
-                                                                       FontWeight="Light"/>
+                                                  <Border Width="30"
+                                                          Height="30"
+                                                          Margin="15, 0"
+                                                          Padding="0"
+                                                          Background="#12495c"
+                                                          HorizontalAlignment="Left"
+                                                          CornerRadius="5"
+                                                          VerticalAlignment="Center">
+                                                          <DrawingPresenter Drawing="{Binding ., Converter={StaticResource InstanceConverter}, ConverterParameter=ico_def}"
+                                                                            HorizontalAlignment="Center"
+                                                                            VerticalAlignment="Center"
+                                                                            Width="25"
+                                                                            Height="25"/>
+                                                  </Border>                   
+                                                  <TextBlock Text="{Binding ., Converter={StaticResource InstanceConverter}, ConverterParameter=name}"
+                                                             VerticalAlignment="Center"
+                                                             Margin="0"
+                                                             FontSize="16"
+                                                             TextAlignment="Left"
+                                                             Foreground="White"
+                                                             FontWeight="Light"/>
                                                 </StackPanel>
                                             </DataTemplate>
                                         </ListBox.ItemTemplate>

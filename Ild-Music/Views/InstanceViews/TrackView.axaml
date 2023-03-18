@@ -11,9 +11,7 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="Ild_Music.Views.TrackView">
     <UserControl.Resources>
-	    <conv:InstanceNameConverter x:Key="InstanceNameConverter"/>
-	    <conv:InstanceIconConverter x:Key="InstanceIconConverter"/>
-	    <conv:InstanceDescriptionConverter x:Key="InstanceDescriptionConverter"/>
+	    <conv:InstanceConverter x:Key="InstanceConverter"/>
 	    <conv:ErrorMessageConverter x:Key="ErrorStateConverter"/>
 	</UserControl.Resources>
 
@@ -53,7 +51,7 @@
 				<StackPanel Grid.Row="1"
 							Orientation="Vertical">
 		            <TextBlock Margin="0,3,0,0"
-		                       Text="{Binding TrackInstance , Converter={StaticResource InstanceNameConverter}}"
+		                       Text="{Binding TrackInstance , Converter={StaticResource InstanceConverter}, ConverterParameter=name}"
 		                       FontSize="18"
 		                       FontWeight="Light"
 		                       Foreground="White"
@@ -61,7 +59,7 @@
 		                       VerticalAlignment="Bottom"
 		                       TextAlignment="Center"/>
                     <TextBlock Margin="0,3,0,3"
-		                       Text="{Binding TrackInstance , Converter={StaticResource InstanceDescriptionConverter}}"
+		                       Text="{Binding TrackInstance , Converter={StaticResource InstanceConverter}, ConverterParameter=desc}"
 		                       FontSize="14"
 		                       FontWeight="Light"
 		                       Foreground="White"
@@ -189,7 +187,7 @@
 			                    </Style>
 			                  </Border.Styles>
 
-			                  <DrawingPresenter Drawing="{Binding ., Converter={StaticResource InstanceIconConverter}, ConverterParameter=col}"
+			                  <DrawingPresenter Drawing="{Binding ., Converter={StaticResource InstanceConverter}, ConverterParameter=ico_col}"
 			                                    HorizontalAlignment="Center"
 			                                    VerticalAlignment="Center"
 			                                    Width="45"
@@ -198,7 +196,7 @@
 
 		                <TextBlock Grid.Row="1"
 		                           Margin="0,3,0,0"
-		                           Text="{Binding . , Converter={StaticResource InstanceNameConverter}}"
+		                           Text="{Binding . , Converter={StaticResource InstanceConverter}}, ConverterParameter=name"
 		                           FontSize="14"
 		                           Foreground="White"
 		                           HorizontalAlignment="Center"

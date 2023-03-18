@@ -13,8 +13,7 @@
              x:DataType="vm:ListViewModel">
 
   <UserControl.Resources>
-    <conv:InstanceNameConverter x:Key="InstanceNameConverter"/>
-    <conv:InstanceIconConverter x:Key="InstanceIconConverter"/>    
+    <conv:InstanceConverter x:Key="InstanceConverter"/>
   </UserControl.Resources>
   <Grid>
     <Grid.RowDefinitions>
@@ -249,7 +248,7 @@
                               HorizontalAlignment="Center"
                               VerticalAlignment="Center">
 
-                              <DrawingPresenter Drawing="{Binding ., Converter={StaticResource InstanceIconConverter}, ConverterParameter=col}"
+                              <DrawingPresenter Drawing="{Binding ., Converter={StaticResource InstanceConverter}, ConverterParameter=ico_col}"
                                                 HorizontalAlignment="Center"
                                                 VerticalAlignment="Center"
                                                 Margin="10"/>
@@ -259,7 +258,7 @@
                                  VerticalAlignment="Bottom"
                                  Foreground="White"
                                  FontSize="12"
-                                 Text="{Binding ., Converter={StaticResource InstanceNameConverter}}"
+                                 Text="{Binding ., Converter={StaticResource InstanceConverter}, ConverterParameter=name}"
                                  TextAlignment="Center"/>
                     </StackPanel>
                   </Grid>

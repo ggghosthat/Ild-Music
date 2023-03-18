@@ -28,9 +28,7 @@ namespace Ild_Music
         public App()
         {
             Configure = new Configure("Configuration/configuration.json");
-            Console.WriteLine("xxx");
             Stage.Init(Configure.ConfigSheet.Players, Configure.ConfigSheet.Synches);
-            Console.WriteLine(Stage.AreaInstace.AreaName);
             ViewModelTable = new Hashtable();
         }
 

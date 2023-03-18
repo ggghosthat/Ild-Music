@@ -1,6 +1,6 @@
 using ShareInstances;
-using ShareInstances.PlayerResources;
-using ShareInstances.PlayerResources.Interfaces;
+using ShareInstances.Instances;
+using ShareInstances.Instances.Interfaces;
 using ShareInstances.Services.Entities;
 using ShareInstances.Exceptions.SynchAreaExceptions;
 using Ild_Music;
@@ -28,6 +28,7 @@ namespace Ild_Music.ViewModels
         #region Services
         private FactoryService factoryService => (FactoryService)base.GetService("FactoryService");
         private SupporterService supporterService => (SupporterService)base.GetService("SupporterService");
+        private StoreService store => (StoreService)base.GetService("StoreService");
         private MainViewModel MainVM => (MainViewModel)App.ViewModelTable[MainViewModel.nameVM];
         private InstanceExplorerViewModel ExplorerVM => (InstanceExplorerViewModel)App.ViewModelTable[InstanceExplorerViewModel.nameVM];
         #endregion
@@ -165,8 +166,8 @@ namespace Ild_Music.ViewModels
                     if(artists != null && artists.Count > 0)
                     {
                         var clear_artists = ArtistProvider.ToList().Except(artists);
-                        clear_artists.ToList().ForEach(a => a.DeleteTrack(editTrack));
-                        artists.ToList().ForEach(a => a.AddTrack(editTrack));
+                        clear_artists.ToList().ForEach(a => a.DeleteTrack(editTrack.Id));
+                        artists.ToList().ForEach(a => a.AddTrack(editTrack.Id));
                     }
 
                     supporterService.EditInstance(editTrack);

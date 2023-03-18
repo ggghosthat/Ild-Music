@@ -14,8 +14,7 @@
              x:DataType="vm:StartViewModel">
 
   <UserControl.Resources>
-    <conv:InstanceNameConverter x:Key="InstanceNameConverter"/>
-    <conv:InstanceIconConverter x:Key="InstanceIconConverter"/>    
+    <conv:InstanceConverter x:Key="InstanceConverter"/>  
   </UserControl.Resources>
 
   <Grid Background="Transparent">
@@ -153,7 +152,7 @@
                                                         CornerRadius="10"
                                                         HorizontalAlignment="Center"
                                                         VerticalAlignment="Center">
-                                                        <DrawingPresenter Drawing="{Binding ., Converter={StaticResource InstanceIconConverter}, ConverterParameter=def}"
+                                                        <DrawingPresenter Drawing="{Binding ., Converter={StaticResource InstanceConverter}, ConverterParameter=ico_def}"
                                                                           HorizontalAlignment="Center"
                                                                           VerticalAlignment="Center"
                                                                           Margin="7"/>
@@ -163,7 +162,8 @@
                                                         VerticalAlignment="Bottom"
                                                         Foreground="White"
                                                         FontSize="12"
-                                                        Text="{Binding ., Converter={StaticResource InstanceNameConverter}}"
+                                                        Text="{Binding ., Converter={StaticResource InstanceConverter},
+                                                        ConverterParameter=name}"
                                                         TextAlignment="Center"/>
                                             </StackPanel>
                                         </DataTemplate>
@@ -292,13 +292,14 @@
                                                                             HorizontalAlignment="Left"
                                                                             CornerRadius="5"
                                                                             VerticalAlignment="Center">
-                                                                            <DrawingPresenter Drawing="{Binding ., Converter={StaticResource InstanceIconConverter}, ConverterParameter=def}"
+                                                                            <DrawingPresenter Drawing="{Binding ., Converter={StaticResource InstanceConverter}, ConverterParameter=ico_def}"
                                                                                                 HorizontalAlignment="Center"
                                                                                                 VerticalAlignment="Center"
                                                                                                 Width="25"
                                                                                                 Height="25"/>
                                                                     </Border>                   
-                                                                    <TextBlock Text="{Binding ., Converter={StaticResource InstanceNameConverter}}"
+                                                                    <TextBlock Text="{Binding ., Converter={StaticResource InstanceConverter},
+                                                                    ConverterParameter=name}"
                                                                                 VerticalAlignment="Center"
                                                                                 Margin="0"
                                                                                 FontSize="16"
@@ -451,7 +452,7 @@
                                                 </Style>
                                             </Border.Styles>
 
-                                            <DrawingPresenter Drawing="{Binding ., Converter={StaticResource InstanceIconConverter}, ConverterParameter=def}"
+                                            <DrawingPresenter Drawing="{Binding ., Converter={StaticResource InstanceConverter}, ConverterParameter=ico_def}"
                                                               HorizontalAlignment="Center"
                                                               VerticalAlignment="Center"
                                                               Width="30"
@@ -463,7 +464,7 @@
                                                    Margin="5, 0"
                                                    TextWrapping="Wrap"
                                                    TextAlignment="Center"
-                                                   Text="{Binding ., Converter={StaticResource InstanceNameConverter}}"
+                                                   Text="{Binding ., Converter={StaticResource InstanceConverter}, ConverterParameter=name}"
                                                    VerticalAlignment="Center"
                                                    HorizontalAlignment="Right"
                                                    FontSize="12"

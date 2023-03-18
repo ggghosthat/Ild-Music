@@ -1,6 +1,6 @@
 using ShareInstances;
-using ShareInstances.PlayerResources;
-using ShareInstances.PlayerResources.Interfaces;
+using ShareInstances.Instances;
+using ShareInstances.Instances.Interfaces;
 using ShareInstances.Services.Entities;
 using ShareInstances.Exceptions.SynchAreaExceptions;
 using Ild_Music;
