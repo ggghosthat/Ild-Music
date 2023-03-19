@@ -240,28 +240,29 @@
                 <ListBox.ItemTemplate>
                   <DataTemplate>
                     <Grid Background="Transparent">
-                    <StackPanel>
-                      <Border Grid.Row="0"
-                              CornerRadius="10"
-                              Width="70"
-                              Height="70"
-                              HorizontalAlignment="Center"
-                              VerticalAlignment="Center">
-
-                              <DrawingPresenter Drawing="{Binding ., Converter={StaticResource InstanceConverter}, ConverterParameter=ico_col}"
-                                                HorizontalAlignment="Center"
-                                                VerticalAlignment="Center"
-                                                Margin="10"/>
-                      </Border>
-                      <TextBlock Grid.Row="1"
-                                 HorizontalAlignment="Center"
-                                 VerticalAlignment="Bottom"
-                                 Foreground="White"
-                                 FontSize="12"
-                                 Text="{Binding ., Converter={StaticResource InstanceConverter}, ConverterParameter=name}"
-                                 TextAlignment="Center"/>
-                    </StackPanel>
-                  </Grid>
+                      <StackPanel>
+                        <Border Grid.Row="0"
+                                CornerRadius="10"
+                                Width="70"
+                                Height="70"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center">
+                                <DrawingPresenter Drawing="{Binding ., Converter={StaticResource InstanceConverter}, ConverterParameter=ico_col}"
+                                                  HorizontalAlignment="Center"
+                                                  VerticalAlignment="Center"
+                                                  Margin="10"/>
+                        </Border>
+                        <TextBlock x:Name="Label"
+                                   Grid.Row="1"
+                                   Text="{Binding ., Converter={StaticResource InstanceConverter}, ConverterParameter=name}"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Bottom"
+                                   Foreground="White"
+                                   FontSize="12"
+                                   TextAlignment="Left"
+                                   Margin="0,0,0,-3"/>
+                      </StackPanel>
+                    </Grid>
                   </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
