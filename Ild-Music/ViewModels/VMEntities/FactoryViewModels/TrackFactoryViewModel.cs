@@ -16,6 +16,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Collections.ObjectModel;
+using TagLib;
 
 namespace Ild_Music.ViewModels
 {
@@ -88,7 +89,6 @@ namespace Ild_Music.ViewModels
         private void OpenExplorer()
         {
             var explorer = (InstanceExplorerViewModel)App.ViewModelTable[InstanceExplorerViewModel.nameVM];
-            
             MainVM.PushVM(this, explorer);
             MainVM.ResolveWindowStack();
         }
@@ -218,6 +218,8 @@ namespace Ild_Music.ViewModels
             OpenFileDialog dialog = new();
             string[] result = await dialog.ShowAsync(new Window());
             TrackPath = string.Join(" ", result);
+            using( var taglib = TagLib.File.Create(TrackPath))
+            TracktName = (!string.IsNullOrEmpty(taglib.Tag.Title))?taglib.Tag.Title:"Unknown";
         }
 
         private void Cancel(object obj)
