@@ -217,9 +217,12 @@ namespace Ild_Music.ViewModels
         {
             OpenFileDialog dialog = new();
             string[] result = await dialog.ShowAsync(new Window());
-            TrackPath = string.Join(" ", result);
-            using( var taglib = TagLib.File.Create(TrackPath))
-            TracktName = (!string.IsNullOrEmpty(taglib.Tag.Title))?taglib.Tag.Title:"Unknown";
+            if(result != null && result.Length > 0)
+            {
+                TrackPath = string.Join(" ", result);
+                using( var taglib = TagLib.File.Create(TrackPath))
+                TracktName = (!string.IsNullOrEmpty(taglib.Tag.Title))?taglib.Tag.Title:"Unknown";
+            }
         }
 
         private void Cancel(object obj)

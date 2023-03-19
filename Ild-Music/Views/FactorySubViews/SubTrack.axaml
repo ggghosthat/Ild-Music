@@ -104,7 +104,7 @@
 
       <StackPanel>
         <i:Interaction.Behaviors>
-          <ia:EventTriggerBehavior EventName="DoubleTapped">
+          <ia:EventTriggerBehavior EventName="PointerReleased">
             <ia:InvokeCommandAction Command="{Binding DefinePath}"/>
           </ia:EventTriggerBehavior>  
         </i:Interaction.Behaviors>
