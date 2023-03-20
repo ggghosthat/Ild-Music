@@ -66,6 +66,25 @@ public class InstanceConverter : IValueConverter
             }
             else return null;
         }
+        else if (parameter == "ico_dis")
+        {
+            // if (value is ICoreEntity entity)
+            // {
+            //     if (entity.AvatarBase64 != null)
+            //     {
+            //         return entity.GetAvatar();
+            //     }
+            //     else
+            //     {
+            //         if (value is Artist artist)
+            //             return Application.Current.FindResource("ArtistDefaultIcon");
+            //         else return null;
+            //     }
+            // }
+            // else return null;
+
+            return Application.Current.FindResource("ArtistDisplayIcon");
+        }
         else return null;
     }
 
