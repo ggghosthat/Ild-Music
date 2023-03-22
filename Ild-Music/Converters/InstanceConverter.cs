@@ -3,8 +3,10 @@ using ShareInstances.Instances.Interfaces;
 
 using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Media.Imaging;
 using Avalonia.Data.Converters;
 using System;
+using System.IO;
 using System.Globalization;
 
 namespace Ild_Music.Converters;
@@ -68,22 +70,23 @@ public class InstanceConverter : IValueConverter
         }
         else if (parameter == "ico_dis")
         {
-            // if (value is ICoreEntity entity)
-            // {
-            //     if (entity.AvatarBase64 != null)
-            //     {
-            //         return entity.GetAvatar();
-            //     }
-            //     else
-            //     {
-            //         if (value is Artist artist)
-            //             return Application.Current.FindResource("ArtistDefaultIcon");
-            //         else return null;
-            //     }
-            // }
-            // else return null;
-
-            return Application.Current.FindResource("ArtistDisplayIcon");
+            if (value is ICoreEntity entity)
+            {
+                if (entity.AvatarBase64 != null)
+                {
+                    using (var mem = new System.IO.MemoryStream(entity.GetAvatar()))
+                    {
+                        return new Image{ Source = new Bitmap(mem)};
+                    }
+                }
+                else
+                {
+                    if (value is Artist artist)
+                        return Application.Current.FindResource("ArtistDisplayIcon");
+                    else return null;
+                }
+            }
+            else return null;
         }
         else return null;
     }
