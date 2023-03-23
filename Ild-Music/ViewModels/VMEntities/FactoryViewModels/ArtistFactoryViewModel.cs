@@ -8,9 +8,11 @@ using Ild_Music.Command;
 using Ild_Music.ViewModels.Base;
 
 using System;
+using System.IO;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Selection;
+using Avalonia.Media.Imaging;
 using System.Linq;
 using System.Collections.Generic;
 using System.Threading;
@@ -34,9 +36,14 @@ namespace Ild_Music.ViewModels
         public ICoreEntity Instance { get; private set; }
         #endregion
 
+        #region AvatarRetrieve
+        public Bitmap AvatarSource => new Bitmap(new MemoryStream(Instance.GetAvatar()));
+        #endregion
+
         #region Commands
+        public CommandDelegator SelectAvatarCommand { get; }
         public CommandDelegator CreateArtistCommand { get; }
-        public CommandDelegator CancelCommand {get;}
+        public CommandDelegator CancelCommand { get; }
         #endregion
 
         #region Artist Factory Properties
@@ -57,6 +64,7 @@ namespace Ild_Music.ViewModels
         #region Const
         public ArtistFactoryViewModel()
         {
+            SelectAvatarCommand = new(SelectAvatar, null);
             CreateArtistCommand = new(CreateArtist, null);
             CancelCommand = new(Cancel, null);
         }
@@ -150,6 +158,18 @@ namespace Ild_Music.ViewModels
                 CreateArtistInstance(value);
             else 
                 EditArtistInstance(value); 
+        }
+
+        private async void SelectAvatar(object obj)
+        {
+            OpenFileDialog dialog = new();
+            string[] result = await dialog.ShowAsync(new Window());
+            if(result != null && result.Length > 0)
+            {
+                var avatarPath = string.Join(" ", result);
+                Instance.SetAvatar(avatarPath);
+                OnPropertyChanged("AvatarSource");
+            }
         }
         #endregion
     }

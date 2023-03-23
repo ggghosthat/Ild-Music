@@ -5,6 +5,9 @@
 
              xmlns:vm="clr-namespace:Ild_Music.ViewModels" 
              xmlns:conv="using:Ild_Music.Converters"
+
+             xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
+             xmlns:ia="clr-namespace:Avalonia.Xaml.Interactions.Core;assembly=Avalonia.Xaml.Interactions"
              
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="Ild_Music.Views.FactorySubViews.SubArtist"
@@ -17,7 +20,7 @@
 
     <SolidColorBrush x:Key="btnApplyColor1" Color="#4006a59b"/>
     <SolidColorBrush x:Key="btnApplyColor2" Color="#7006a59b"/>
-    <SolidColorBrush x:Key="btnApplyColor3" Color="#06a59b"/>
+    <SolidColorBrush x:Key="btnApplyColor3" Color="#06a59b"/>    
   </UserControl.Resources>
 
   <UserControl.Styles>
@@ -88,77 +91,93 @@
     <Grid.RowDefinitions>
       <RowDefinition Height="*"/>
       <RowDefinition Height="auto"/>
-      <RowDefinition Height="*"/>
+      <RowDefinition Height="auto"/>
     </Grid.RowDefinitions>
 
-    <StackPanel Grid.Row="0"
-                HorizontalAlignment="Center"
-                VerticalAlignment="Center">   
+    <Grid Grid.Row="0"
+          HorizontalAlignment="Center">   
+          <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="0.75*"/>
+            <RowDefinition Height="*"/>
+          </Grid.RowDefinitions>
 
-            <TextBlock Text="{Binding ViewHeader}"
-                        HorizontalAlignment="Center"
-                        Margin="0,0,0,10"
-                        FontSize="20"
-                        FontWeight="Light"/>
+          <Border Grid.Row="0"
+                  BorderThickness="0"
+                  BorderBrush="Transparent"
+                  Margin="10">
+              <TextBlock Text="{Binding ViewHeader}"
+                         HorizontalAlignment="Center"
+                         VerticalAlignment="Top"
+                         FontSize="20"
+                         FontWeight="Light"/>
+          </Border>        
 
-            <Border CornerRadius="5"
-                    Background="Transparent">
+           <Border Grid.Row="1"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Top">
+                    <i:Interaction.Behaviors>
+                      <ia:EventTriggerBehavior EventName="PointerReleased">
+                        <ia:InvokeCommandAction Command="{Binding SelectAvatarCommand}"/>
+                      </ia:EventTriggerBehavior>  
+                    </i:Interaction.Behaviors>
                     <Border BorderThickness="0"
-                            BorderBrush="Transparent"
-                            Width="100"
-                            Height="100"
-                            Child="{Binding Instance, Converter={StaticResource InstanceConverter}, ConverterParameter=ico_dis}">                      
+                            Padding="15">  
+                        <Viewbox  Stretch="Uniform"
+                                  StretchDirection="Both"
+                                  Child="{Binding AvatarSource, Converter={StaticResource InstanceConverter}, ConverterParameter=ico_dis}">
+                        </Viewbox>                    
                     </Border> 
-            </Border>                  
-    </StackPanel>
+          </Border>                  
 
-    <StackPanel Grid.Row="1"
-                HorizontalAlignment="Center"
-                VerticalAlignment="Center">
-      <TextBox Watermark="name"
-                Text="{Binding ArtistName, Mode=TwoWay}"
-                TextAlignment="Center"
-                HorizontalAlignment="Left"
-                FontSize="16"
-                Margin="15,0"
-                Width="500"/>
+          <StackPanel Grid.Row="2"
+                      HorizontalAlignment="Center"
+                      VerticalAlignment="Center">
+            <TextBox Watermark="name"
+                      Text="{Binding ArtistName, Mode=TwoWay}"
+                      TextAlignment="Center"
+                      HorizontalAlignment="Left"
+                      FontSize="16"
+                      Margin="15,0"
+                      Width="500"/>
 
-      <TextBox Watermark="description"
-                Text="{Binding ArtistDescription}"
-                TextAlignment="Center"
-                HorizontalAlignment="Left"
-                FontSize="16"
-                Margin="15,5,15,0"
-                Width="500"/>
+            <TextBox Watermark="description"
+                      Text="{Binding ArtistDescription}"
+                      TextAlignment="Center"
+                      HorizontalAlignment="Left"
+                      FontSize="16"
+                      Margin="15,5,15,0"
+                      Width="500"/>
 
-      <StackPanel Orientation="Horizontal"
-                  HorizontalAlignment="Center"
-                  Margin="15">
-        <Button Classes="btnApply"
-                HorizontalAlignment="Left"
-                VerticalAlignment="Bottom"
-                Width="100"
-                Height="25"
-                Margin="3,0"
-                Content="Apply"
-                Command="{Binding CreateArtistCommand}"/>
+            <StackPanel Orientation="Horizontal"
+                        HorizontalAlignment="Center"
+                        Margin="15">
+              <Button Classes="btnApply"
+                      HorizontalAlignment="Left"
+                      VerticalAlignment="Bottom"
+                      Width="100"
+                      Height="25"
+                      Margin="3,0"
+                      Content="Apply"
+                      Command="{Binding CreateArtistCommand}"/>
 
-        <Button Classes="btnApply"
-                HorizontalAlignment="Left"
-                VerticalAlignment="Bottom"
-                Width="100"
-                Height="25"
-                Margin="3,0"
-                Content="Cancel"
-                Command="{Binding CancelCommand}"/>
-      </StackPanel>
+              <Button Classes="btnApply"
+                      HorizontalAlignment="Left"
+                      VerticalAlignment="Bottom"
+                      Width="100"
+                      Height="25"
+                      Margin="3,0"
+                      Content="Cancel"
+                      Command="{Binding CancelCommand}"/>
+            </StackPanel>
 
-      <TextBlock Classes="logLine"
-                 Text="{Binding ArtistLogLine}"
-                 Foreground="{Binding ArtistLogError, Converter={StaticResource ErrorStateConverter} }"
-                 Background="Transparent"
-                 FontSize="12"
-                 Margin="5"/>
-    </StackPanel>
+            <TextBlock Classes="logLine"
+                       Text="{Binding ArtistLogLine}"
+                       Foreground="{Binding ArtistLogError, Converter={StaticResource ErrorStateConverter} }"
+                       Background="Transparent"
+                       FontSize="12"
+                       Margin="5"/>
+          </StackPanel>
+    </Grid>
   </Grid>
 </UserControl>
