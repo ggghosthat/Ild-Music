@@ -70,13 +70,13 @@ public class InstanceConverter : IValueConverter
         }
         else if (parameter == "ico_dis")
         {
-            if (value is Bitmap bitmap)
+            if (value is ICoreEntity entity)
             {
-                if (bitmap is not null)
+                if (entity is not null)
                 {
                     var resource = (Border)Application.Current.FindResource("ArtistDisplayIcon");
                     var image = (Image)resource.Child;
-                    image.Source = bitmap;
+                    image.Source = new Bitmap(new MemoryStream(entity.GetAvatar()));
                     return resource;
                 }
                 else
@@ -84,7 +84,10 @@ public class InstanceConverter : IValueConverter
                     return Application.Current.FindResource("ArtistAvatar");
                 }
             }
-            else return null;
+            else
+            {
+                return Application.Current.FindResource("ArtistAvatar");
+            }
         }
         else return null;
     }

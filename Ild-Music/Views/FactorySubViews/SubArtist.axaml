@@ -122,10 +122,10 @@
                       </ia:EventTriggerBehavior>  
                     </i:Interaction.Behaviors>
                     <Border BorderThickness="0"
-                            Padding="15">  
+                            Padding="5">  
                         <Viewbox  Stretch="Uniform"
                                   StretchDirection="Both"
-                                  Child="{Binding AvatarSource, Converter={StaticResource InstanceConverter}, ConverterParameter=ico_dis}">
+                                  Child="{Binding Instance, Converter={StaticResource InstanceConverter}, ConverterParameter=ico_dis}">
                         </Viewbox>                    
                     </Border> 
           </Border>                  

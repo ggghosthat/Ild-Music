@@ -83,6 +83,7 @@ namespace Ild_Music.ViewModels
             ArtistName = default;
             ArtistDescription = default;
             ArtistLogLine = default;
+            Instance = default;
         }
         #endregion
 
@@ -155,9 +156,13 @@ namespace Ild_Music.ViewModels
             object[] value = { ArtistName, ArtistDescription };
 
             if (IsEditMode == false)
+            {
                 CreateArtistInstance(value);
+            }
             else 
+            {
                 EditArtistInstance(value); 
+            }
         }
 
         private async void SelectAvatar(object obj)
