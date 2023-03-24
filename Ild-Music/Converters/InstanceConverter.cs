@@ -68,21 +68,46 @@ public class InstanceConverter : IValueConverter
             }
             else return null;
         }
-        else if (parameter == "ico_dis")
+        else if (parameter == "aico_dis")
+        {
+            Console.WriteLine($"Out:{value}; Null is {value is null}");
+            if (value is byte[] source)
+            {
+                if (source is not null)
+                {
+                    return ComputeAvatarIcon(ref source);
+                }
+                else
+                {
+                    Console.WriteLine("Why??");
+                    return Application.Current.FindResource("ArtistAvatar");
+                }
+            }
+            else return Application.Current.FindResource("ArtistAvatar");
+        }
+        else if (parameter == "pico_dis")
         {
             if (value is byte[] source)
             {
                 if (source is not null)
                 {
-                    var resource = (Border)Application.Current.FindResource("ArtistDisplayIcon");
-                    var image = (Image)resource.Child;
-
-                    image.Source = new Bitmap(new MemoryStream(source));
-                    return resource;
+                    return ComputeAvatarIcon(ref source);
                 }
-                else return Application.Current.FindResource("ArtistAvatar");
+                else return Application.Current.FindResource("PlaylistAvatar");
             }
-            else return Application.Current.FindResource("ArtistAvatar");
+            else return null;
+        }
+        else if (parameter == "tico_dis")
+        {
+            if (value is byte[] source)
+            {
+                if (source is not null)
+                {
+                    return ComputeAvatarIcon(ref source);
+                }
+                else return Application.Current.FindResource("TrackAvatar");
+            }
+            else return null;
         }
         else return null;
     }
@@ -90,5 +115,15 @@ public class InstanceConverter : IValueConverter
     public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
     {
         throw new NotImplementedException();
+    }
+
+
+    private object ComputeAvatarIcon(ref byte[] source)
+    {
+        var resource = (Border)Application.Current.FindResource("DisplayImage");
+        var image = (Image)resource.Child;
+
+        image.Source = new Bitmap(new MemoryStream(source));
+        return resource;
     }
 }

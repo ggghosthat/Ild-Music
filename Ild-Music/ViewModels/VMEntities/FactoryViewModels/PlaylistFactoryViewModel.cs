@@ -8,6 +8,7 @@ using Ild_Music.Command;
 using Ild_Music.ViewModels.Base;
 
 using System;
+using System.IO;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Selection;
@@ -44,6 +45,8 @@ namespace Ild_Music.ViewModels
         #region Commands
         public CommandDelegator CreatePlaylistCommand { get; }
         public CommandDelegator CancelCommand { get; }
+
+        public CommandDelegator SelectAvatarCommand { get; }
 
         public CommandDelegator SelectPlaylistArtistCommand { get; }
         public CommandDelegator DeletePlaylistArtistCommand { get; }
@@ -83,6 +86,8 @@ namespace Ild_Music.ViewModels
         {
             CreatePlaylistCommand = new(CreatePlaylist, null);
             CancelCommand = new(Cancel, null);
+
+            SelectAvatarCommand = new (SelectAvatar, null);
 
             PlaylistArtistExplorerCommand = new(OpenPlaylistArtistExplorer, null);
             PlaylistTrackExplorerCommand = new(OpenPlaylistTrackExplorer, null);

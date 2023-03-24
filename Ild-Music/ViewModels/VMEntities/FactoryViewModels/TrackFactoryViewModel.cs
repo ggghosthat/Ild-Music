@@ -8,14 +8,15 @@ using Ild_Music.Command;
 using Ild_Music.ViewModels.Base;
 
 using System;
+using System.IO;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Selection;
-using System.Linq;
-using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Collections.ObjectModel;
 using TagLib;
 
 namespace Ild_Music.ViewModels
@@ -132,7 +133,7 @@ namespace Ild_Music.ViewModels
         {
             byte[] result;
 
-            using (FileStream fileStream = File.Open(path, FileMode.Open))
+            using (FileStream fileStream = System.IO.File.Open(path, FileMode.Open))
             {
                 result = new byte[fileStream.Length];
                 await fileStream.ReadAsync(result, 0, (int)fileStream.Length);
