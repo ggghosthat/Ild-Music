@@ -38,6 +38,11 @@ namespace Ild_Music.ViewModels
         public ICoreEntity Instance { get; private set; }
         #endregion
 
+        #region Avatar Avatar
+        public byte[] AvatarSource {get; private set;}
+        public string AvatarRaw {get; private set;}
+        #endregion
+
         #region Commands
         public CommandDelegator DefinePath { get; set; }
         public CommandDelegator CreateTrackCommand { get; }
@@ -120,6 +125,20 @@ namespace Ild_Music.ViewModels
             TrackDescription = default;
             SelectedTrackArtists.Clear();
             TrackLogLine = default;
+            AvatarSource = default;
+        }
+
+        private async Task<byte[]> LoadAvatar(string path)
+        {
+            byte[] result;
+
+            using (FileStream fileStream = File.Open(path, FileMode.Open))
+            {
+                result = new byte[fileStream.Length];
+                await fileStream.ReadAsync(result, 0, (int)fileStream.Length);
+            }
+            AvatarRaw = Convert.ToBase64String(result);
+            return result;
         }
         #endregion
 
@@ -131,11 +150,12 @@ namespace Ild_Music.ViewModels
                 var path = (string)values[0];
                 var name = (string)values[1];
                 var description = (string)values[2];
-                var artists = (IList<Artist>)values[3];
+                var avatar = (string)values[3];
+                var artists = (IList<Artist>)values[4];
 
                 if (!string.IsNullOrEmpty(path))
                 {
-                    factoryService.CreateTrack(path, name, description, artists);
+                    factoryService.CreateTrack(path, name, description, avatar, artists);
                     TrackLogLine = "Successfully created!";
                 
                     ExitFactory();
@@ -154,7 +174,8 @@ namespace Ild_Music.ViewModels
                 var path = (string)values[0];
                 var name = (string)values[1];
                 var description = (string)values[2];
-                var artists = (IList<Artist>)values[3];
+                var avatar = (string)values[3];
+                var artists = (IList<Artist>)values[4];
 
                 if (!string.IsNullOrEmpty(path))
                 {
@@ -162,6 +183,7 @@ namespace Ild_Music.ViewModels
                     editTrack.Pathway = path;
                     editTrack.Name = name;
                     editTrack.Description = description;
+                    editTrack.DefineAvatar(avatar);
 
                     if(artists != null && artists.Count > 0)
                     {
@@ -192,6 +214,7 @@ namespace Ild_Music.ViewModels
                 TrackPath = track.Pathway;
                 TracktName = track.Name;
                 TrackDescription = track.Description;
+                AvatarSource = track.GetAvatar();
 
                 supporterService.ArtistsCollection.Where(a => a.Tracks.ToEntity(supporterService.TracksCollection).Contains(track))
                                                   .ToList()
@@ -232,16 +255,20 @@ namespace Ild_Music.ViewModels
 
         private void CreateTrack(object obj)
         {
-            object[] value = { TrackPath, TracktName, TrackDescription, SelectedTrackArtists };
+            object[] value = { TrackPath, TracktName, TrackDescription, AvatarSource, SelectedTrackArtists };
 
             if (IsEditMode == false)
+            {
                 CreateTrackInstance(value);
+            }
             else
+            {
                 EditTrackInstance(value);
+            }
         }
         
         private void OpenTrackArtistExplorer(object obj)
-        { 
+        {
             if (obj is IList<ICoreEntity> preSelected)
             {
                 ExplorerVM.Arrange(0, preSelected); 
@@ -254,6 +281,18 @@ namespace Ild_Music.ViewModels
 
             MainVM.PushVM(this, ExplorerVM);
             MainVM.ResolveWindowStack();
+        }
+
+        private async void SelectAvatar(object obj)
+        {
+            OpenFileDialog dialog = new();
+            string[] result = await dialog.ShowAsync(new Window());
+            if(result != null && result.Length > 0)
+            {
+                var avatarPath = string.Join(" ", result);
+                AvatarSource = await LoadAvatar(avatarPath);
+                OnPropertyChanged("AvatarSource");
+            }
         }
         #endregion
     }

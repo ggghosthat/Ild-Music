@@ -125,7 +125,7 @@
                             Padding="5">  
                         <Viewbox  Stretch="Uniform"
                                   StretchDirection="Both"
-                                  Child="{Binding Instance, Converter={StaticResource InstanceConverter}, ConverterParameter=ico_dis}">
+                                  Child="{Binding AvatarSource, Converter={StaticResource InstanceConverter}, ConverterParameter=ico_dis}">
                         </Viewbox>                    
                     </Border> 
           </Border>                  

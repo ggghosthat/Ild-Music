@@ -70,24 +70,19 @@ public class InstanceConverter : IValueConverter
         }
         else if (parameter == "ico_dis")
         {
-            if (value is ICoreEntity entity)
+            if (value is byte[] source)
             {
-                if (entity is not null)
+                if (source is not null)
                 {
                     var resource = (Border)Application.Current.FindResource("ArtistDisplayIcon");
                     var image = (Image)resource.Child;
-                    image.Source = new Bitmap(new MemoryStream(entity.GetAvatar()));
+
+                    image.Source = new Bitmap(new MemoryStream(source));
                     return resource;
                 }
-                else
-                {
-                    return Application.Current.FindResource("ArtistAvatar");
-                }
+                else return Application.Current.FindResource("ArtistAvatar");
             }
-            else
-            {
-                return Application.Current.FindResource("ArtistAvatar");
-            }
+            else return Application.Current.FindResource("ArtistAvatar");
         }
         else return null;
     }

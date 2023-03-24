@@ -36,8 +36,9 @@ namespace Ild_Music.ViewModels
         public ICoreEntity Instance { get; private set; }
         #endregion
 
-        #region AvatarRetrieve
-        public Bitmap AvatarSource => new Bitmap(new MemoryStream(Instance.GetAvatar()));
+        #region Avatar Avatar
+        public byte[] AvatarSource {get; private set;}
+        public string AvatarRaw {get; private set;}
         #endregion
 
         #region Commands
@@ -83,7 +84,20 @@ namespace Ild_Music.ViewModels
             ArtistName = default;
             ArtistDescription = default;
             ArtistLogLine = default;
-            Instance = default;
+            AvatarSource = default;
+        }
+
+        private async Task<byte[]> LoadAvatar(string path)
+        {
+            byte[] result;
+
+            using (FileStream fileStream = File.Open(path, FileMode.Open))
+            {
+                result = new byte[fileStream.Length];
+                await fileStream.ReadAsync(result, 0, (int)fileStream.Length);
+            }
+            AvatarRaw = Convert.ToBase64String(result);
+            return result;
         }
         #endregion
 
@@ -94,10 +108,11 @@ namespace Ild_Music.ViewModels
             {
                 var name = (string)values[0];
                 var description = (string)values[1];
-             
+                var avatar = (string)values[2];
+
                 if (!string.IsNullOrEmpty(name))
                 {
-                    factoryService.CreateArtist(name, description);
+                    factoryService.CreateArtist(name, description, avatar);
                     ArtistLogLine = "Successfully created!";
                     ExitFactory();
                 }
@@ -114,12 +129,14 @@ namespace Ild_Music.ViewModels
             {
                 var name = (string)values[0];
                 var description = (string)values[1];
+                var avatar = (string)values[2];
 
                 if (!string.IsNullOrEmpty(name))
                 {
                     var editArtist = (Artist)Instance;
                     editArtist.Name = name;
                     editArtist.Description = description;
+                    editArtist.DefineAvatar(avatar);
                     supporterService.EditInstance(editArtist); 
 
                     IsEditMode = false;
@@ -140,6 +157,7 @@ namespace Ild_Music.ViewModels
             {
                 ArtistName = artist.Name;
                 ArtistDescription = artist.Description;
+                AvatarSource = artist.GetAvatar();
             }
         }
         #endregion
@@ -153,8 +171,7 @@ namespace Ild_Music.ViewModels
 
         private void CreateArtist(object obj)
         {
-            object[] value = { ArtistName, ArtistDescription };
-
+            object[] value = { ArtistName, ArtistDescription, AvatarRaw };
             if (IsEditMode == false)
             {
                 CreateArtistInstance(value);
@@ -172,7 +189,7 @@ namespace Ild_Music.ViewModels
             if(result != null && result.Length > 0)
             {
                 var avatarPath = string.Join(" ", result);
-                Instance.SetAvatar(avatarPath);
+                AvatarSource = await LoadAvatar(avatarPath);
                 OnPropertyChanged("AvatarSource");
             }
         }
