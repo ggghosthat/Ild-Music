@@ -203,7 +203,6 @@ namespace Ild_Music.ViewModels
                 result = new byte[fileStream.Length];
                 await fileStream.ReadAsync(result, 0, (int)fileStream.Length);
             }
-            AvatarRaw = Convert.ToBase64String(result);
             return result;
         }
         #endregion
@@ -215,13 +214,14 @@ namespace Ild_Music.ViewModels
             {
                 var name = (string)values[0];
                 var description = (string)values[1];
-                var avatar = (string)values[2];
+                var avatar = (byte[])values[2];
                 var tracks = (IList<Track>)values[3];
                 var artists = (IList<Artist>)values[4];
 
                 if (!string.IsNullOrEmpty(name))
                 {
-                    factoryService.CreatePlaylist(name, description, avatar, tracks, artists);
+                    var avatarBase64 = (avatar is not null)?Convert.ToBase64String(avatar):null;
+                    factoryService.CreatePlaylist(name, description, avatarBase64, tracks, artists);
                     PlaylistLogLine = "Successfully created!";
                     ExitFactory(); 
                 }
@@ -238,7 +238,7 @@ namespace Ild_Music.ViewModels
             {
                 var name = (string)values[0];
                 var description = (string)values[1];
-                var avatar = (string)values[2];
+                var avatar = (byte[])values[2];
                 var tracks = (IList<Track>)values[3];
                 var artists = (IList<Artist>)values[4];
 
@@ -247,7 +247,7 @@ namespace Ild_Music.ViewModels
                     var editPlaylist = (Playlist)Instance;
                     editPlaylist.Name = name;
                     editPlaylist.Description = description;
-                    editPlaylist.DefineAvatar(avatar);
+                    editPlaylist.AvatarBase64 = (avatar is not null)?Convert.ToBase64String(avatar):null;
 
                     if(tracks != null && tracks.Count > 0)
                     {

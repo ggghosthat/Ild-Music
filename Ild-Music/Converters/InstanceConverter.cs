@@ -27,7 +27,7 @@ public class InstanceConverter : IValueConverter
             return null;
         }
         else if (parameter == "ico_def")
-        {   
+        {
             if (value is ICoreEntity entity)
             {
                 if (entity.AvatarBase64 != null)
@@ -70,18 +70,13 @@ public class InstanceConverter : IValueConverter
         }
         else if (parameter == "aico_dis")
         {
-            Console.WriteLine($"Out:{value}; Null is {value is null}");
             if (value is byte[] source)
             {
                 if (source is not null)
                 {
                     return ComputeAvatarIcon(ref source);
                 }
-                else
-                {
-                    Console.WriteLine("Why??");
-                    return Application.Current.FindResource("ArtistAvatar");
-                }
+                else return Application.Current.FindResource("ArtistAvatar");
             }
             else return Application.Current.FindResource("ArtistAvatar");
         }
@@ -95,7 +90,7 @@ public class InstanceConverter : IValueConverter
                 }
                 else return Application.Current.FindResource("PlaylistAvatar");
             }
-            else return null;
+            else return Application.Current.FindResource("PlaylistAvatar");
         }
         else if (parameter == "tico_dis")
         {
@@ -107,7 +102,7 @@ public class InstanceConverter : IValueConverter
                 }
                 else return Application.Current.FindResource("TrackAvatar");
             }
-            else return null;
+            else return Application.Current.FindResource("TrackAvatar");
         }
         else return null;
     }

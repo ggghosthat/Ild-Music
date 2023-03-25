@@ -87,6 +87,9 @@
     </Style>
   </UserControl.Styles>
 
+  <ScrollViewer HorizontalScrollBarVisibility="Disabled"
+                VerticalScrollBarVisibility="Auto"
+                VerticalAlignment="Top">
   <Grid Grid.Row="0"
         HorizontalAlignment="Center">   
         <Grid.RowDefinitions>
@@ -94,8 +97,14 @@
           <RowDefinition Height="0.75*"/>
           <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="*"/>
+          <ColumnDefinition Width="auto"/>
+          <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
 
         <Border Grid.Row="0"
+                Grid.Column="1"
                 BorderThickness="0"
                 BorderBrush="Transparent"
                 Margin="10">
@@ -107,23 +116,27 @@
         </Border>        
 
         <Border Grid.Row="1"
-                 HorizontalAlignment="Center"
-                 VerticalAlignment="Top">
+                Grid.Column="1"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Top">
                   <i:Interaction.Behaviors>
                     <ia:EventTriggerBehavior EventName="PointerReleased">
                       <ia:InvokeCommandAction Command="{Binding SelectAvatarCommand}"/>
                     </ia:EventTriggerBehavior>  
                   </i:Interaction.Behaviors>
                   <Border BorderThickness="0"
-                          Padding="5">  
+                          Padding="25">  
                       <Viewbox  Stretch="Uniform"
                                 StretchDirection="Both"
+                                MinWidth="150"
+                                MinHeight="150"
                                 Child="{Binding AvatarSource, Converter={StaticResource InstanceConverter}, ConverterParameter=aico_dis}">
                       </Viewbox>                    
                   </Border> 
         </Border>                  
 
         <StackPanel Grid.Row="2"
+                    Grid.Column="1"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center">
           <TextBox Watermark="name"
@@ -172,4 +185,5 @@
                      Margin="5"/>
         </StackPanel>
   </Grid>
+  </ScrollViewer>
 </UserControl>

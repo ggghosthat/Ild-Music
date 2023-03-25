@@ -113,7 +113,7 @@ namespace Ild_Music.ViewModels
 
                 if (!string.IsNullOrEmpty(name))
                 {
-                    var avatarBase64 = Convert.ToBase64String(avatar);
+                    var avatarBase64 = (avatar is not null)?Convert.ToBase64String(avatar):null;
                     factoryService.CreateArtist(name, description, avatarBase64);
                     ArtistLogLine = "Successfully created!";
                     ExitFactory();
@@ -138,7 +138,7 @@ namespace Ild_Music.ViewModels
                     var editArtist = (Artist)Instance;
                     editArtist.Name = name;
                     editArtist.Description = description;
-                    editArtist.AvatarBase64 = Convert.ToBase64String(avatar);
+                    editArtist.AvatarBase64 = (avatar is not null)?Convert.ToBase64String(avatar):null;
                     supporterService.EditInstance(editArtist); 
 
                     IsEditMode = false;

@@ -41,10 +41,10 @@ namespace Ild_Music.ViewModels
 
         #region Avatar Avatar
         public byte[] AvatarSource {get; private set;}
-        public string AvatarRaw {get; private set;}
         #endregion
 
         #region Commands
+        public CommandDelegator SelectAvatarCommand { get; }
         public CommandDelegator DefinePath { get; set; }
         public CommandDelegator CreateTrackCommand { get; }
         public CommandDelegator CancelCommand { get; }
@@ -80,6 +80,7 @@ namespace Ild_Music.ViewModels
         #region Const
         public TrackFactoryViewModel()
         {
+            SelectAvatarCommand = new(SelectAvatar, null);
             DefinePath = new(DefineTrackPath, null);
             CreateTrackCommand = new(CreateTrack, null);
             CancelCommand = new(Cancel,null);
@@ -138,7 +139,6 @@ namespace Ild_Music.ViewModels
                 result = new byte[fileStream.Length];
                 await fileStream.ReadAsync(result, 0, (int)fileStream.Length);
             }
-            AvatarRaw = Convert.ToBase64String(result);
             return result;
         }
         #endregion
@@ -151,12 +151,13 @@ namespace Ild_Music.ViewModels
                 var path = (string)values[0];
                 var name = (string)values[1];
                 var description = (string)values[2];
-                var avatar = (string)values[3];
+                var avatar = (byte[])values[3];
                 var artists = (IList<Artist>)values[4];
 
                 if (!string.IsNullOrEmpty(path))
                 {
-                    factoryService.CreateTrack(path, name, description, avatar, artists);
+                    var avatarBase64 = (avatar is not null)?Convert.ToBase64String(avatar):null;
+                    factoryService.CreateTrack(path, name, description, avatarBase64, artists);
                     TrackLogLine = "Successfully created!";
                 
                     ExitFactory();
@@ -175,7 +176,7 @@ namespace Ild_Music.ViewModels
                 var path = (string)values[0];
                 var name = (string)values[1];
                 var description = (string)values[2];
-                var avatar = (string)values[3];
+                var avatar = (byte[])values[3];
                 var artists = (IList<Artist>)values[4];
 
                 if (!string.IsNullOrEmpty(path))
@@ -184,7 +185,7 @@ namespace Ild_Music.ViewModels
                     editTrack.Pathway = path;
                     editTrack.Name = name;
                     editTrack.Description = description;
-                    editTrack.DefineAvatar(avatar);
+                    editTrack.AvatarBase64 = (avatar is not null)?Convert.ToBase64String(avatar):null;
 
                     if(artists != null && artists.Count > 0)
                     {
