@@ -26,11 +26,7 @@ public class InstanceConverter : IValueConverter
             if (value is ICoreEntity entity)
                 return entity.Description;
             return null;
-        }
-        else if (parameter == "ico_def")
-        {
-            return null;
-        }
+        }       
         else if (parameter == "ico_col")
         {
             if (value is ICoreEntity entity)

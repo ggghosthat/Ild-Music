@@ -153,12 +153,9 @@
                     <Setter Property="BorderBrush" Value="Transparent"/>
                     <Setter Property="BorderThickness" Value="0"/>
                     <Setter Property="Padding" Value="4"/>
-
                     <Setter Property="HorizontalContentAlignment" Value="Center"/>
-                    
                     <Setter Property="Width" Value="100"/>
                     <Setter Property="Height" Value="100"/>
-
                     <Setter Property="Template">
                       <ControlTemplate>
                         <Grid>
@@ -239,29 +236,26 @@
                 </i:Interaction.Behaviors>
                 <ListBox.ItemTemplate>
                   <DataTemplate>
-                    <Grid Background="Transparent">
-                      <StackPanel>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>                            
+
                         <Border Grid.Row="0"
-                                CornerRadius="10"
-                                Width="70"
-                                Height="70"
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Center">
-                                <DrawingPresenter Drawing="{Binding ., Converter={StaticResource InstanceConverter}, ConverterParameter=ico_col}"
-                                                  HorizontalAlignment="Center"
-                                                  VerticalAlignment="Center"
-                                                  Margin="10"/>
+                                Padding="5"
+                                Background="Transparent"
+                                Child="{Binding ., Converter={StaticResource InstanceConverter}, ConverterParameter=ico_col}">
                         </Border>
-                        <TextBlock x:Name="Label"
-                                   Grid.Row="1"
-                                   Text="{Binding ., Converter={StaticResource InstanceConverter}, ConverterParameter=name}"
-                                   HorizontalAlignment="Center"
-                                   VerticalAlignment="Bottom"
-                                   Foreground="White"
+
+                        <TextBlock Grid.Row="1"
+                                   TextWrapping="Wrap"
+                                   TextAlignment="Center"
                                    FontSize="12"
-                                   TextAlignment="Left"
-                                   Margin="0,0,0,-3"/>
-                      </StackPanel>
+                                   Foreground="White"
+                                   FontWeight="Light"
+                                   VerticalAlignment="Top"
+                                   Text="{Binding ., Converter={StaticResource InstanceConverter}, ConverterParameter=name}"/>
                     </Grid>
                   </DataTemplate>
                 </ListBox.ItemTemplate>

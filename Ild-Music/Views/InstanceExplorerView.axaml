@@ -135,32 +135,24 @@
                                         </ListBox.Styles>
  
                                         <ListBox.ItemTemplate>
-                                            <DataTemplate>
-                                                <StackPanel Orientation="Horizontal"
-                                                            HorizontalAlignment="Left">
-                                                  <Border Width="30"
-                                                          Height="30"
-                                                          Margin="15, 0"
-                                                          Padding="0"
-                                                          Background="#12495c"
-                                                          HorizontalAlignment="Left"
-                                                          CornerRadius="5"
-                                                          VerticalAlignment="Center">
-                                                          <DrawingPresenter Drawing="{Binding ., Converter={StaticResource InstanceConverter}, ConverterParameter=ico_def}"
-                                                                            HorizontalAlignment="Center"
-                                                                            VerticalAlignment="Center"
-                                                                            Width="25"
-                                                                            Height="25"/>
-                                                  </Border>                   
-                                                  <TextBlock Text="{Binding ., Converter={StaticResource InstanceConverter}, ConverterParameter=name}"
-                                                             VerticalAlignment="Center"
-                                                             Margin="0"
-                                                             FontSize="16"
-                                                             TextAlignment="Left"
-                                                             Foreground="White"
-                                                             FontWeight="Light"/>
-                                                </StackPanel>
-                                            </DataTemplate>
+                                        <DataTemplate>
+                                        <StackPanel Orientation="Horizontal"
+                                                    HorizontalAlignment="Left">
+                                                    <Border Grid.Row="0"
+                                                            Padding="5"
+                                                            Background="Transparent"
+                                                            Child="{Binding ., Converter={StaticResource InstanceConverter}, ConverterParameter=ico_col}">
+                                                    </Border>   
+                                                    <TextBlock Text="{Binding ., Converter={StaticResource InstanceConverter},
+                                                    ConverterParameter=name}"
+                                                               VerticalAlignment="Center"
+                                                               Margin="0"
+                                                               FontSize="16"
+                                                               TextAlignment="Left"
+                                                               Foreground="White"
+                                                               FontWeight="Light"/>
+                                        </StackPanel>
+                                        </DataTemplate>
                                         </ListBox.ItemTemplate>
                                 </ListBox>
                         </ScrollViewer>
