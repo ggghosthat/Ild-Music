@@ -8,6 +8,7 @@ using Ild_Music.Command;
 using Ild_Music.ViewModels.Base;
 using Ild_Music.ViewModels;
 
+using System;
 using System.Linq;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -129,36 +130,43 @@ namespace Ild_Music.ViewModels
         
         private void Edit(object obj)
         {
-            var factory = (FactoryViewModel)App.ViewModelTable[FactoryViewModel.nameVM];
-            factory.SetEditableItem(CurrentItem);
-
-            switch (Header)
+            if(CurrentItem is not null)
             {
-                case "Artists":
-                    factory.SetSubItem(index:0);
-                    break;
-                case "Playlists":
-                    factory.SetSubItem(index:1);
-                    break;
-                case "Tracks":
-                    factory.SetSubItem(index:2);
-                    break;
-            }
+                var factory = (FactoryViewModel)App.ViewModelTable[FactoryViewModel.nameVM];
+                factory.SetEditableItem(CurrentItem);
 
-            MainVM.PushVM(this, factory);
-            MainVM.ResolveWindowStack();
+                switch (Header)
+                {
+                    case "Artists":
+                        factory.SetSubItem(index:0);
+                        break;
+                    case "Playlists":
+                        factory.SetSubItem(index:1);
+                        break;
+                    case "Tracks":
+                        factory.SetSubItem(index:2);
+                        break;
+                }
+
+                MainVM.PushVM(this, factory);
+                MainVM.ResolveWindowStack();
+            }
         }
 
         private void ItemSelect(object obj)
         {
-            var currentEntity = MainVM.CurrentEntity;
-            if(currentEntity != null && CurrentItem.Id.Equals(currentEntity.Id))
+            if(CurrentItem != default)
             {
-                new Task(() => MainVM.ResolveInstance(this, CurrentItem)).Start();
-            }
-            else
-            {
-                Task.Run(() => MainVM.DropInstance(this, CurrentItem, true));                    
+                Console.WriteLine(CurrentItem);
+                var currentEntity = MainVM.CurrentEntity;
+                if(currentEntity is not null && CurrentItem.Id.Equals(currentEntity.Id))
+                {
+                    new Task(() => MainVM.ResolveInstance(this, CurrentItem)).Start();
+                }
+                else
+                {
+                    Task.Run(() => MainVM.DropInstance(this, CurrentItem, true));                    
+                }
             }
         }
         #endregion
