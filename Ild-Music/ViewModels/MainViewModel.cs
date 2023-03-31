@@ -9,6 +9,7 @@ using ShareInstances.Instances.Interfaces;
 
 
 using System;
+using System.Collections.ObjectModel;
 using Avalonia.Threading;
 using System.Collections;
 using System.Collections.Generic;
@@ -18,11 +19,6 @@ namespace Ild_Music.ViewModels
 {
     public class MainViewModel : Base.BaseViewModel
     {
-        #region Fields
-        private DispatcherTimer timer;
-        public bool VolumeSliderOpen {get; private set;} = false;
-        #endregion
-
         #region VM id
         public static readonly string nameVM = "MainVM";
         public override string NameVM => nameVM;
@@ -67,6 +63,7 @@ namespace Ild_Music.ViewModels
         #endregion
 
         #region Commands Scope
+        public CommandDelegator NavBarResolve {get;}
         public CommandDelegator PreviousCommand { get; }
         public CommandDelegator NextCommand { get; }
         public CommandDelegator KickCommand { get; }
@@ -76,10 +73,19 @@ namespace Ild_Music.ViewModels
         public CommandDelegator VolumeSliderShowCommand {get;}
         #endregion
 
+        #region Fields
+        private DispatcherTimer timer;
+        public bool VolumeSliderOpen {get; private set;} = false;
+        #endregion
+
         #region Properties
         public BaseViewModel CurrentVM { get; set; }
 
         public Stack<BaseViewModel> WindowStack {get; private set;} = new();
+
+
+        public ObservableCollection<char> NavItems {get;} = new() {'a','b','c'};
+        public char? NavItem {get; set;}
         #endregion
 
 
@@ -87,10 +93,12 @@ namespace Ild_Music.ViewModels
         #region Ctor
         public MainViewModel()
         {
+            //player preset
             _player = player.PlayerInstance;
             _player.SetNotifier(() => OnPropertyChanged("PlayerState"));
             _player.TrackStarted += OnTrackStarted;
 
+            //ViewModels preset
             App.ViewModelTable.Add(StartViewModel.nameVM, new StartViewModel());
             App.ViewModelTable.Add(FactoryViewModel.nameVM, new FactoryViewModel());
             App.ViewModelTable.Add(ListViewModel.nameVM, new ListViewModel());
@@ -101,6 +109,7 @@ namespace Ild_Music.ViewModels
             App.ViewModelTable.Add(InstanceExplorerViewModel.nameVM, new InstanceExplorerViewModel());
             App.ViewModelTable.Add(nameVM, this);
 
+            NavBarResolve = new(NavResolve, OnNavSelected);
             KickCommand = new(KickPlayer, OnCanTogglePlayer);
             StopCommand = new(StopPlayer, OnCanTogglePlayer);
             PreviousCommand = new(PreviousSwipePlayer, OnCanSwipePlayer);
@@ -108,7 +117,7 @@ namespace Ild_Music.ViewModels
             RepeatCommand = new(RepeatPlayer, OnCanTogglePlayer);
             VolumeSliderShowCommand = new(VolumeSliderShow,null);
 
-            CurrentVM = new StartViewModel();
+            CurrentVM = (BaseViewModel)App.ViewModelTable[StartViewModel.nameVM];
 
             timer = new(TimeSpan.FromMilliseconds(300), DispatcherPriority.Normal, UpdateCurrentTime);
             timer.Start();
@@ -195,9 +204,9 @@ namespace Ild_Music.ViewModels
 
 
         public void DropInstance(BaseViewModel source, 
-                                       ICoreEntity instance,
-                                       bool isResolved = false, 
-                                       int playlistIndex = 0)
+                                 ICoreEntity instance,
+                                 bool isResolved = false, 
+                                 int playlistIndex = 0)
         {
             BaseViewModel instanceVM = null;            
             if (instance is Artist artist)
@@ -259,6 +268,11 @@ namespace Ild_Music.ViewModels
 
 
         #region Predicates
+        private bool OnNavSelected(object obj)
+        {
+            return (NavItem is not null);
+        }
+
         private bool OnCanTogglePlayer(object obj) 
         {
             return _player.IsEmpty == false;
@@ -271,6 +285,24 @@ namespace Ild_Music.ViewModels
         #endregion
 
         #region Command Methods
+        private void NavResolve(object obj)
+        {
+            switch(NavItem)
+            {
+                case 'a':
+                    DefineNewPresentItem((BaseViewModel)App.ViewModelTable[StartViewModel.nameVM]);
+                    break;
+                case 'b':
+                    DefineNewPresentItem((BaseViewModel)App.ViewModelTable[ListViewModel.nameVM]);
+                    break;
+                case 'c':
+                    DefineNewPresentItem((BaseViewModel)App.ViewModelTable[SettingViewModel.nameVM]);
+                    break;
+                default:
+                    break;
+            }
+        }
+
         private void KickPlayer(object obj) 
         {
             _player.Pause_ResumePlayer();

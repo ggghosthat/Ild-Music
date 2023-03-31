@@ -1,5 +1,6 @@
 using Ild_Music;
 using Ild_Music.ViewModels;
+using Ild_Music.ViewModels.Base;
 using Ild_Music.Views;
 using ShareInstances.Services.Interfaces;
 using ShareInstances.Services.Entities;
@@ -45,6 +46,11 @@ namespace Ild_Music
             }
 
             base.OnFrameworkInitializationCompleted();
+        }
+
+        public static object? FetchViewModel(string vmName)
+        {
+            return ViewModelTable[vmName];
         }
     }
 }
