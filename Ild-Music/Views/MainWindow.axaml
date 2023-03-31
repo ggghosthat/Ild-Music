@@ -82,7 +82,6 @@
                             <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
 
-
                         <Border Grid.Row="0" 
                                 Grid.RowSpan="3"
                                 Grid.ColumnSpan="2"
@@ -139,126 +138,126 @@
 
                         <!--Header-->
                         <Grid Background="#16242b"
-                                Grid.Row="0"
-                                Grid.ColumnSpan="3">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="auto"/>
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="auto"/>
-                            </Grid.ColumnDefinitions>
+                              Grid.Row="0"
+                              Grid.ColumnSpan="3">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="auto"/>
+                                </Grid.ColumnDefinitions>
 
-                            <!--Header label-->
-                            <StackPanel Orientation="Horizontal" Grid.Column="0">
-                                        <StackPanel VerticalAlignment="Center"
-                                                    HorizontalAlignment="Left"
-                                                    Margin="9,0,0,0">
-                                                <Viewbox Classes="vb" Width="170" Height="25"
-                                                         HorizontalAlignment="Left"
-                                                         VerticalAlignment="Top">
-                                                    <Canvas Width="170" Height="30">
-                                                        <Path Fill="#27da48" Data="M 30.00,0.00
-                                                               C 30.00,0.00 40.00,0.00 40.00,0.00
-                                                                 40.00,0.00 40.00,34.00 40.00,34.00
-                                                                 40.00,34.00 30.00,34.00 30.00,34.00
-                                                                 30.00,34.00 30.00,0.00 30.00,0.00 Z
-                                                               M 105.00,0.00
-                                                               C 105.00,0.00 115.00,0.00 115.00,0.00
-                                                                 115.00,0.00 115.00,34.00 115.00,34.00
-                                                                 115.00,34.00 105.00,34.00 105.00,34.00
-                                                                 105.00,34.00 105.00,0.00 105.00,0.00 Z
-                                                               M 15.00,6.00
-                                                               C 15.00,6.00 25.00,6.00 25.00,6.00
-                                                                 25.00,6.00 25.00,29.00 25.00,29.00
-                                                                 25.00,29.00 15.00,29.00 15.00,29.00
-                                                                 15.00,29.00 15.00,6.00 15.00,6.00 Z
-                                                               M 45.00,6.00
-                                                               C 45.00,6.00 55.00,6.00 55.00,6.00
-                                                                 55.00,6.00 55.00,29.00 55.00,29.00
-                                                                 55.00,29.00 45.00,29.00 45.00,29.00
-                                                                 45.00,29.00 45.00,6.00 45.00,6.00 Z
-                                                               M 90.00,6.00
-                                                               C 90.00,6.00 100.00,6.00 100.00,6.00
-                                                                 100.00,6.00 100.00,29.00 100.00,29.00
-                                                                 100.00,29.00 90.00,29.00 90.00,29.00
-                                                                 90.00,29.00 90.00,6.00 90.00,6.00 Z
-                                                               M 120.00,6.00
-                                                               C 120.00,6.00 130.00,6.00 130.00,6.00
-                                                                 130.00,6.00 130.00,29.00 130.00,29.00
-                                                                 130.00,29.00 120.00,29.00 120.00,29.00
-                                                                 120.00,29.00 120.00,6.00 120.00,6.00 Z
-                                                               M 0.00,14.00
-                                                               C 0.00,14.00 10.00,14.00 10.00,14.00
-                                                                 10.00,14.00 10.00,29.00 10.00,29.00
-                                                                 10.00,29.00 0.00,29.00 0.00,29.00
-                                                                 0.00,29.00 0.00,14.00 0.00,14.00 Z
-                                                               M 60.00,14.00
-                                                               C 60.00,14.00 70.00,14.00 70.00,14.00
-                                                                 70.00,14.00 70.00,29.00 70.00,29.00
-                                                                 70.00,29.00 60.00,29.00 60.00,29.00
-                                                                 60.00,29.00 60.00,14.00 60.00,14.00 Z
-                                                               M 75.00,14.00
-                                                               C 75.00,14.00 85.00,14.00 85.00,14.00
-                                                                 85.00,14.00 85.00,29.00 85.00,29.00
-                                                                 85.00,29.00 75.00,29.00 75.00,29.00
-                                                                 75.00,29.00 75.00,14.00 75.00,14.00 Z
-                                                               M 135.00,14.00
-                                                               C 135.00,14.00 145.00,14.00 145.00,14.00
-                                                                 145.00,14.00 145.00,29.00 145.00,29.00
-                                                                 145.00,29.00 135.00,29.00 135.00,29.00
-                                                                 135.00,29.00 135.00,14.00 135.00,14.00 Z" />
-                                                    </Canvas>
-                                                </Viewbox>
-                                        </StackPanel>
-                            </StackPanel>      
+                                <!--Header label-->
+                                <StackPanel Orientation="Horizontal" Grid.Column="0">
+                                            <StackPanel VerticalAlignment="Center"
+                                                        HorizontalAlignment="Left"
+                                                        Margin="9,0,0,0">
+                                                    <Viewbox Classes="vb" Width="170" Height="25"
+                                                             HorizontalAlignment="Left"
+                                                             VerticalAlignment="Top">
+                                                        <Canvas Width="170" Height="30">
+                                                            <Path Fill="#27da48" Data="M 30.00,0.00
+                                                                   C 30.00,0.00 40.00,0.00 40.00,0.00
+                                                                     40.00,0.00 40.00,34.00 40.00,34.00
+                                                                     40.00,34.00 30.00,34.00 30.00,34.00
+                                                                     30.00,34.00 30.00,0.00 30.00,0.00 Z
+                                                                   M 105.00,0.00
+                                                                   C 105.00,0.00 115.00,0.00 115.00,0.00
+                                                                     115.00,0.00 115.00,34.00 115.00,34.00
+                                                                     115.00,34.00 105.00,34.00 105.00,34.00
+                                                                     105.00,34.00 105.00,0.00 105.00,0.00 Z
+                                                                   M 15.00,6.00
+                                                                   C 15.00,6.00 25.00,6.00 25.00,6.00
+                                                                     25.00,6.00 25.00,29.00 25.00,29.00
+                                                                     25.00,29.00 15.00,29.00 15.00,29.00
+                                                                     15.00,29.00 15.00,6.00 15.00,6.00 Z
+                                                                   M 45.00,6.00
+                                                                   C 45.00,6.00 55.00,6.00 55.00,6.00
+                                                                     55.00,6.00 55.00,29.00 55.00,29.00
+                                                                     55.00,29.00 45.00,29.00 45.00,29.00
+                                                                     45.00,29.00 45.00,6.00 45.00,6.00 Z
+                                                                   M 90.00,6.00
+                                                                   C 90.00,6.00 100.00,6.00 100.00,6.00
+                                                                     100.00,6.00 100.00,29.00 100.00,29.00
+                                                                     100.00,29.00 90.00,29.00 90.00,29.00
+                                                                     90.00,29.00 90.00,6.00 90.00,6.00 Z
+                                                                   M 120.00,6.00
+                                                                   C 120.00,6.00 130.00,6.00 130.00,6.00
+                                                                     130.00,6.00 130.00,29.00 130.00,29.00
+                                                                     130.00,29.00 120.00,29.00 120.00,29.00
+                                                                     120.00,29.00 120.00,6.00 120.00,6.00 Z
+                                                                   M 0.00,14.00
+                                                                   C 0.00,14.00 10.00,14.00 10.00,14.00
+                                                                     10.00,14.00 10.00,29.00 10.00,29.00
+                                                                     10.00,29.00 0.00,29.00 0.00,29.00
+                                                                     0.00,29.00 0.00,14.00 0.00,14.00 Z
+                                                                   M 60.00,14.00
+                                                                   C 60.00,14.00 70.00,14.00 70.00,14.00
+                                                                     70.00,14.00 70.00,29.00 70.00,29.00
+                                                                     70.00,29.00 60.00,29.00 60.00,29.00
+                                                                     60.00,29.00 60.00,14.00 60.00,14.00 Z
+                                                                   M 75.00,14.00
+                                                                   C 75.00,14.00 85.00,14.00 85.00,14.00
+                                                                     85.00,14.00 85.00,29.00 85.00,29.00
+                                                                     85.00,29.00 75.00,29.00 75.00,29.00
+                                                                     75.00,29.00 75.00,14.00 75.00,14.00 Z
+                                                                   M 135.00,14.00
+                                                                   C 135.00,14.00 145.00,14.00 145.00,14.00
+                                                                     145.00,14.00 145.00,29.00 145.00,29.00
+                                                                     145.00,29.00 135.00,29.00 135.00,29.00
+                                                                     135.00,29.00 135.00,14.00 135.00,14.00 Z" />
+                                                        </Canvas>
+                                                    </Viewbox>
+                                            </StackPanel>
+                                </StackPanel>      
 
-                            <!--DragMove area-->                          
-                            <Grid x:Name="DragBar"
-                                  Grid.Column="0"
-                                  Grid.Row="0"
-                                  Grid.ColumnSpan="2"
-                                  Background="Transparent"/>
+                                <!--DragMove area-->                          
+                                <Grid x:Name="DragBar"
+                                      Grid.Column="0"
+                                      Grid.Row="0"
+                                      Grid.ColumnSpan="2"
+                                      Background="Transparent"/>
 
-                            <!--Window manipulation buttons-->
-                            <StackPanel Orientation="Horizontal"
-                                        HorizontalAlignment="Right"
-                                        VerticalAlignment="Top"
-                                        Grid.Column="3">
-                                        <Button VerticalAlignment="Top"
-                                                Padding="0"
-                                                Click="OnHideClick">
-                                                <Border BorderThickness="2"
-                                                        BorderBrush="#0be0c2"
-                                                        CornerRadius="3 3 3 3">
-                                                    <Panel Classes="pnlClose"
-                                                        Width="30"
-                                                        Background="#0be0c2"/>
-                                                </Border>
-                                        </Button>
+                                <!--Window manipulation buttons-->
+                                <StackPanel Orientation="Horizontal"
+                                            HorizontalAlignment="Right"
+                                            VerticalAlignment="Top"
+                                            Grid.Column="3">
+                                            <Button VerticalAlignment="Top"
+                                                    Padding="0"
+                                                    Click="OnHideClick">
+                                                    <Border BorderThickness="2"
+                                                            BorderBrush="#0be0c2"
+                                                            CornerRadius="3 3 3 3">
+                                                        <Panel Classes="pnlClose"
+                                                            Width="30"
+                                                            Background="#0be0c2"/>
+                                                    </Border>
+                                            </Button>
 
-                                        <Button VerticalAlignment="Top"
-                                                Padding="0"
-                                                Click="OnExpandClick">
-                                                <Border BorderThickness="2"
-                                                        BorderBrush="#cef542"
-                                                        CornerRadius="3 3 3 3">
-                                                    <Panel Classes="pnlClose"
-                                                        Width="30"
-                                                        Background="#cef542"/>
-                                                </Border>
-                                        </Button>
+                                            <Button VerticalAlignment="Top"
+                                                    Padding="0"
+                                                    Click="OnExpandClick">
+                                                    <Border BorderThickness="2"
+                                                            BorderBrush="#cef542"
+                                                            CornerRadius="3 3 3 3">
+                                                        <Panel Classes="pnlClose"
+                                                            Width="30"
+                                                            Background="#cef542"/>
+                                                    </Border>
+                                            </Button>
 
-                                        <Button VerticalAlignment="Top"
-                                                Padding="0"
-                                                Click="OnCloseClick">
-                                                <Border BorderThickness="2"
-                                                        BorderBrush="#e00b29"
-                                                        CornerRadius="3 3 3 3">
-                                                    <Panel Classes="pnlClose"
-                                                        Width="30"
-                                                        Background="#e00b29"/>
-                                                </Border>
-                                        </Button>
-                            </StackPanel>
+                                            <Button VerticalAlignment="Top"
+                                                    Padding="0"
+                                                    Click="OnCloseClick">
+                                                    <Border BorderThickness="2"
+                                                            BorderBrush="#e00b29"
+                                                            CornerRadius="3 3 3 3">
+                                                        <Panel Classes="pnlClose"
+                                                            Width="30"
+                                                            Background="#e00b29"/>
+                                                    </Border>
+                                            </Button>
+                                </StackPanel>
                         </Grid>
                     
                         <!--NavBar-->
