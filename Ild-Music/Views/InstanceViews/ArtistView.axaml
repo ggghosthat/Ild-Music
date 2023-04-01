@@ -31,17 +31,12 @@
 	            </Grid.RowDefinitions>
 
 	            <Border Grid.Row="0"
-		            	BorderThickness="0">	            		
-		            <Viewbox Width="100" Height="100" Margin="0,5,0,0">
-		            	<Border BorderThickness="0"
-			            		CornerRadius="3"
-			            		Background="#40000000">
-					    <Canvas Width="24" Height="24">
-						        <Path VerticalAlignment="Top" Fill="#42f5c5" Data="M11,4A4,4 0 0,1 15,8A4,4 0 0,1 11,12A4,4 0 0,1 7,8A4,4 0 0,1 11,4M11,6A2,2 0 0,0 9,8A2,2 0 0,0 11,10A2,2 0 0,0 13,8A2,2 0 0,0 11,6M11,13C12.1,13 13.66,13.23 15.11,13.69C14.5,14.07 14,14.6 13.61,15.23C12.79,15.03 11.89,14.9 11,14.9C8.03,14.9 4.9,16.36 4.9,17V18.1H13.04C13.13,18.8 13.38,19.44 13.76,20H3V17C3,14.34 8.33,13 11,13M18.5,10H20L22,10V12H20V17.5A2.5,2.5 0 0,1 17.5,20A2.5,2.5 0 0,1    	15,17.5A2.5,2.5 0 0,1 17.5,15C17.86,15 18.19,15.07 18.5,15.21V10Z"/>
-					    </Canvas>
-			    		</Border>	
-					</Viewbox>
-				</Border>
+	            		Width="100"
+	            		Height="100"
+                        Padding="5"
+                        Background="Transparent"
+                        Child="{Binding ArtistInstance, Converter={StaticResource InstanceConverter}, ConverterParameter=ico_col}">
+                </Border>
 
 				<StackPanel Grid.Row="1"
 							Orientation="Vertical">
@@ -162,28 +157,35 @@
 	
 						          <ListBox.ItemTemplate>
 						            <DataTemplate>
-						            <Grid MaxHeight="90"
-                                    	  MaxWidth="90">
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="*"/>
-                                            <RowDefinition Height="Auto"/>
-                                        </Grid.RowDefinitions>                            
+						            <Border Grid.Row="0"
+                                            Width="70"
+                                            Height="70"
+                                            CornerRadius="5"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center">
+                                            <Grid HorizontalAlignment="Center">
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="*"/>
+                                                    <RowDefinition Height="Auto"/>
+                                                </Grid.RowDefinitions>                            
 
-                                        <Border Grid.Row="0"
-                                                Padding="5"
-                                                Background="Transparent"
-                                                Child="{Binding ., Converter={StaticResource InstanceConverter}, ConverterParameter=ico_col}">
-                                        </Border>
+                                                <Border Grid.Row="0"
+                                                        Padding="5"
+                                                        Background="Transparent"
+                                                        Child="{Binding ., Converter={StaticResource InstanceConverter}, ConverterParameter=ico_col}">
+                                                </Border>
 
-                                        <TextBlock Grid.Row="1"
-                                                   TextWrapping="Wrap"
-                                                   TextAlignment="Center"
-                                                   FontSize="12"
-                                                   Foreground="White"
-                                                   FontWeight="Light"
-                                                   VerticalAlignment="Top"
-                                                   Text="{Binding ., Converter={StaticResource InstanceConverter}, ConverterParameter=name}"/>
-	                                </Grid>
+                                                <TextBlock Grid.Row="1"
+                                                		   Width="70"
+                                                           TextWrapping="NoWrap"
+                                                           TextAlignment="Center"
+                                                           FontSize="12"
+                                                           Foreground="White"
+                                                           FontWeight="Light"
+                                                           VerticalAlignment="Top"
+                                                           Text="{Binding ., Converter={StaticResource InstanceConverter}, ConverterParameter=name}"/>
+                                            </Grid>
+                                    </Border>
 						            </DataTemplate>
 						          </ListBox.ItemTemplate>
 					      </ListBox>
@@ -285,28 +287,35 @@
 
 					            <ListBox.ItemTemplate>
 					              <DataTemplate>
-					              <Grid MaxHeight="90"
-			                            MaxWidth="90">
-				                    <Grid.RowDefinitions>
-				                        <RowDefinition Height="*"/>
-				                        <RowDefinition Height="Auto"/>
-				                    </Grid.RowDefinitions>                            
+					              <Border Grid.Row="0"
+                                          Width="70"
+                                          Height="70"
+                                          CornerRadius="5"
+                                          HorizontalAlignment="Center"
+                                          VerticalAlignment="Center">            
+		                                  <Grid HorizontalAlignment="Center">
+		                                        <Grid.RowDefinitions>
+		                                            <RowDefinition Height="*"/>
+		                                            <RowDefinition Height="Auto"/>
+		                                        </Grid.RowDefinitions>                            
 
-				                    <Border Grid.Row="0"
-				                            Padding="5"
-				                            Background="Transparent"
-				                            Child="{Binding ., Converter={StaticResource InstanceConverter}, ConverterParameter=ico_col}">
-				                    </Border>
+		                                        <Border Grid.Row="0"
+		                                                Padding="5"
+		                                                Background="Transparent"
+		                                                Child="{Binding ., Converter={StaticResource InstanceConverter}, ConverterParameter=ico_col}">
+		                                        </Border>
 
-				                    <TextBlock Grid.Row="1"
-				                               TextWrapping="Wrap"
-				                               TextAlignment="Center"
-				                               FontSize="12"
-				                               Foreground="White"
-				                               FontWeight="Light"
-				                               VerticalAlignment="Top"
-				                               Text="{Binding ., Converter={StaticResource InstanceConverter}, ConverterParameter=name}"/>
-				                  </Grid>
+		                                        <TextBlock Grid.Row="1"
+		                                        		   Width="70"
+		                                                   TextWrapping="NoWrap"
+		                                                   TextAlignment="Center"
+		                                                   FontSize="12"
+		                                                   Foreground="White"
+		                                                   FontWeight="Light"
+		                                                   VerticalAlignment="Top"
+		                                                   Text="{Binding ., Converter={StaticResource InstanceConverter}, ConverterParameter=name}"/>
+		                                  </Grid>
+                                  </Border>
 					              </DataTemplate>
 					            </ListBox.ItemTemplate>
 	        			</ListBox>
