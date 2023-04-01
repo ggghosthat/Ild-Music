@@ -157,7 +157,6 @@ namespace Ild_Music.ViewModels
         {
             if(CurrentItem != default)
             {
-                Console.WriteLine(CurrentItem);
                 var currentEntity = MainVM.CurrentEntity;
                 if(currentEntity is not null && CurrentItem.Id.Equals(currentEntity.Id))
                 {
