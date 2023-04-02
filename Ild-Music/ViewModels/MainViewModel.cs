@@ -84,7 +84,7 @@ namespace Ild_Music.ViewModels
         public Stack<BaseViewModel> WindowStack {get; private set;} = new();
 
 
-        public ObservableCollection<char> NavItems {get;} = new() {'a','b','c'};
+        public ObservableCollection<char> NavItems {get;} = new() {'a','b','c', 'd'};
         public char? NavItem {get; set;}
         #endregion
 
@@ -107,6 +107,7 @@ namespace Ild_Music.ViewModels
             App.ViewModelTable.Add(PlaylistViewModel.nameVM, new PlaylistViewModel());
             App.ViewModelTable.Add(TrackViewModel.nameVM, new TrackViewModel());
             App.ViewModelTable.Add(InstanceExplorerViewModel.nameVM, new InstanceExplorerViewModel());
+            App.ViewModelTable.Add(AboutViewModel.nameVM, new AboutViewModel());
             App.ViewModelTable.Add(nameVM, this);
 
             NavBarResolve = new(NavResolve, OnNavSelected);
@@ -297,6 +298,9 @@ namespace Ild_Music.ViewModels
                     break;
                 case 'c':
                     DefineNewPresentItem((BaseViewModel)App.ViewModelTable[SettingViewModel.nameVM]);
+                    break;
+                case 'd':
+                    DefineNewPresentItem((BaseViewModel)App.ViewModelTable[AboutViewModel.nameVM]);
                     break;
                 default:
                     break;

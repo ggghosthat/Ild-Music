@@ -33,6 +33,7 @@
   <PackageReference Include="Avalonia.Xaml.Behaviors" Version="0.10.18" />
   <PackageReference Include="Avalonia.Xaml.Interactions" Version="0.10.18" />
   <PackageReference Include="Avalonia.Xaml.Interactivity" Version="0.10.18" />
+  <PackageReference Include="Markdown.Avalonia" Version="0.10.13" />
   <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
   
   <PackageReference Include="PropertyChanged.Fody" Version="4.1.0" />

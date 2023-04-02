@@ -128,7 +128,6 @@
                                 Margin="5"
                                 Width="70"
                                 Height="70"
-                                Background="#205078"
                                 CornerRadius="10"
                                 HorizontalAlignment="Center"
                                 VerticalAlignment="Center">
@@ -250,7 +249,6 @@
                                 Margin="5"
                                 Width="70"
                                 Height="70"
-                                Background="#205078"
                                 CornerRadius="10"
                                 HorizontalAlignment="Center"
                                 VerticalAlignment="Center">
@@ -259,7 +257,7 @@
                                                   VerticalAlignment="Center"
                                                   Margin="7"/>
                         </Border>
-                        <TextBlock Text="{Binding ., Converter={StaticResource ComponentsNameConverter}, ConverterParameter=0}"
+                        <TextBlock Text="{Binding ., Converter={StaticResource ComponentConverter}, ConverterParameter=0}"
                                    Grid.Row="1"
                                    HorizontalAlignment="Center"
                                    VerticalAlignment="Bottom"
