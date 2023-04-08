@@ -360,8 +360,7 @@
                                                           <Border Classes="NavBarItem"
                                                                   Background="#00000000"
                                                                   VerticalAlignment="Top"
-                                                                  HorizontalAlignment="Stretch"
-                                                                  PointerPressed="OnHomePointerPressed">   
+                                                                  HorizontalAlignment="Stretch">   
                                                                   <Border.Styles>
                                                                     <Style Selector="Border.NavBarItem Viewbox Canvas Path.NavIcon">
                                                                         <Setter Property="Fill" Value="#7b7f6b"/>

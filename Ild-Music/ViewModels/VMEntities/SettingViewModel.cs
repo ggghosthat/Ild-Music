@@ -17,6 +17,7 @@ namespace Ild_Music.ViewModels
 	{
         public static readonly string nameVM = "SettingVM";        
         public override string NameVM => nameVM;
+        
 		#region Models
 		public static Repository Repository {get; set;} = new();
 		#endregion

@@ -144,6 +144,10 @@
             <v:InstanceExplorerView/>
         </DataTemplate>
 
+        <DataTemplate DataType="{x:Type vm:BrowseViewModel}">
+            <v:BrowseView/>
+        </DataTemplate>
+
         <DataTemplate DataType="{x:Type vm:AboutViewModel}">
             <v:AboutView/>
         </DataTemplate>

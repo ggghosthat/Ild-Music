@@ -15,95 +15,124 @@ using System.Threading.Tasks;
 using System.Collections.ObjectModel;
 using Avalonia.Controls.Selection;
 
-namespace Ild_Music.ViewModels
+namespace Ild_Music.ViewModels;
+//Types of Lists
+public enum ListType {
+    ARTISTS,
+    PLAYLISTS,
+    TRACKS
+}
+
+public class ListViewModel : BaseViewModel
 {
-    //Types of Lists
-    public enum ListType {
-        ARTISTS,
-        PLAYLISTS,
-        TRACKS
+    public static readonly string nameVM = "ListVM";        
+    public override string NameVM => nameVM;
+    
+    private static IPlayer _player;
+
+    #region Services
+    private SupporterService supporter => (SupporterService)App.Stage.GetServiceInstance("SupporterService");
+    private FactoryService factory => (FactoryService)base.GetService("FactoryService");
+    private ViewModelHolder<BaseViewModel> holder => (ViewModelHolder<BaseViewModel>)base.GetService("HolderService");
+    private MainViewModel MainVM => (MainViewModel)App.ViewModelTable[MainViewModel.nameVM];
+    #endregion
+
+    #region Commands
+    public CommandDelegator AddCommand { get; }
+    public CommandDelegator DeleteCommand { get; }
+    public CommandDelegator EditCommand { get; }
+    public CommandDelegator BackCommand { get; }
+    public CommandDelegator ItemSelectCommand { get; }
+    public CommandDelegator DefineListTypeCommand { get; }
+    #endregion
+
+    #region Properties
+    public ListType ListType {get; private set;}
+    public static ObservableCollection<string> Headers { get; private set; } = new() {"Artists","Playlists","Tracks"};
+    public static string Header { get; set; }
+    public static ObservableCollection<ICoreEntity> CurrentList { get; set; } = new();
+    public ICoreEntity CurrentItem { get; set; }
+
+    public SelectionModel<object> HeaderSelection { get; }
+    #endregion
+
+    #region Ctor
+    public ListViewModel()
+    {
+        AddCommand = new(Add, null);
+        DeleteCommand = new(Delete, null);
+        EditCommand = new(Edit, null);
+        ItemSelectCommand = new(ItemSelect, null);
+        DefineListTypeCommand = new(InitCurrentList, null);
+
+        Header = Headers.FirstOrDefault();
+        DisplayProviders();
+    }
+    #endregion
+
+    #region Public Methods
+    private void InitCurrentList(object obj)
+    {
+        DisplayProviders();
     }
 
-    public class ListViewModel : BaseViewModel
+    public void UpdateProviders()
     {
-        public static readonly string nameVM = "ListVM";        
-        public override string NameVM => nameVM;
-        
-        private static IPlayer _player;
+        DisplayProviders();
+    }
 
-        #region Services
-        private SupporterService supporter => (SupporterService)App.Stage.GetServiceInstance("SupporterService");
-        private FactoryService factory => (FactoryService)base.GetService("FactoryService");
-        private ViewModelHolder<BaseViewModel> holder => (ViewModelHolder<BaseViewModel>)base.GetService("HolderService");
-        private MainViewModel MainVM => (MainViewModel)App.ViewModelTable[MainViewModel.nameVM];
-        #endregion
-
-        #region Commands
-        public CommandDelegator AddCommand { get; }
-        public CommandDelegator DeleteCommand { get; }
-        public CommandDelegator EditCommand { get; }
-        public CommandDelegator BackCommand { get; }
-        public CommandDelegator ItemSelectCommand { get; }
-        public CommandDelegator DefineListTypeCommand { get; }
-        #endregion
-
-        #region Properties
-        public ListType ListType {get; private set;}
-        public static ObservableCollection<string> Headers { get; private set; } = new() {"Artists","Playlists","Tracks"};
-        public static string Header { get; set; }
-        public static ObservableCollection<ICoreEntity> CurrentList { get; set; } = new();
-        public ICoreEntity CurrentItem { get; set; }
-
-        public SelectionModel<object> HeaderSelection { get; }
-        #endregion
-
-        #region Ctor
-        public ListViewModel()
+    private void DisplayProviders()
+    {
+        CurrentList.Clear();
+        switch (Header)
         {
-            AddCommand = new(Add, null);
-            DeleteCommand = new(Delete, null);
-            EditCommand = new(Edit, null);
-            ItemSelectCommand = new(ItemSelect, null);
-            DefineListTypeCommand = new(InitCurrentList, null);
+            case "Artists":
+                supporter.ArtistsCollection.ToList().ForEach(a => CurrentList.Add(a));
+                break;
+            case "Playlists":
+                supporter.PlaylistsCollection.ToList().ForEach(p => CurrentList.Add(p));
+                break;
+            case "Tracks":
+                supporter.TracksCollection.ToList().ForEach(t => CurrentList.Add(t));
+                break;
+        }      
+    }
+    #endregion
 
-            Header = Headers.FirstOrDefault();
-            DisplayProviders();
-        }
-        #endregion
+    #region CommandMethods
+    private void Add(object obj)
+    {
+        var factory = (FactoryViewModel)App.ViewModelTable[FactoryViewModel.nameVM];
 
-        #region Public Methods
-        private void InitCurrentList(object obj)
+        switch (Header)
         {
-            DisplayProviders();
+            case "Artists":
+                factory.SetSubItem(index:0);
+                break;
+            case "Playlists":
+                factory.SetSubItem(index:1);
+                break;
+            case "Tracks":
+                factory.SetSubItem(index:2);
+                break;
         }
 
-        public void UpdateProviders()
-        {
-            DisplayProviders();
-        }
+        MainVM.PushVM(this, factory);
+        MainVM.ResolveWindowStack();
+    }
 
-        private void DisplayProviders()
-        {
-            CurrentList.Clear();
-            switch (Header)
-            {
-                case "Artists":
-                    supporter.ArtistsCollection.ToList().ForEach(a => CurrentList.Add(a));
-                    break;
-                case "Playlists":
-                    supporter.PlaylistsCollection.ToList().ForEach(p => CurrentList.Add(p));
-                    break;
-                case "Tracks":
-                    supporter.TracksCollection.ToList().ForEach(t => CurrentList.Add(t));
-                    break;
-            }      
-        }
-        #endregion
-
-        #region CommandMethods
-        private void Add(object obj)
+    private void Delete(object obj) 
+    {
+        supporter.DeleteInstance(CurrentItem);
+        UpdateProviders();
+    }
+    
+    private void Edit(object obj)
+    {
+        if(CurrentItem is not null)
         {
             var factory = (FactoryViewModel)App.ViewModelTable[FactoryViewModel.nameVM];
+            factory.SetEditableItem(CurrentItem);
 
             switch (Header)
             {
@@ -121,53 +150,22 @@ namespace Ild_Music.ViewModels
             MainVM.PushVM(this, factory);
             MainVM.ResolveWindowStack();
         }
-
-        private void Delete(object obj) 
-        {
-            supporter.DeleteInstance(CurrentItem);
-            UpdateProviders();
-        }
-        
-        private void Edit(object obj)
-        {
-            if(CurrentItem is not null)
-            {
-                var factory = (FactoryViewModel)App.ViewModelTable[FactoryViewModel.nameVM];
-                factory.SetEditableItem(CurrentItem);
-
-                switch (Header)
-                {
-                    case "Artists":
-                        factory.SetSubItem(index:0);
-                        break;
-                    case "Playlists":
-                        factory.SetSubItem(index:1);
-                        break;
-                    case "Tracks":
-                        factory.SetSubItem(index:2);
-                        break;
-                }
-
-                MainVM.PushVM(this, factory);
-                MainVM.ResolveWindowStack();
-            }
-        }
-
-        private void ItemSelect(object obj)
-        {
-            if(CurrentItem != default)
-            {
-                var currentEntity = MainVM.CurrentEntity;
-                if(currentEntity is not null && CurrentItem.Id.Equals(currentEntity.Id))
-                {
-                    new Task(() => MainVM.ResolveInstance(this, CurrentItem)).Start();
-                }
-                else
-                {
-                    Task.Run(() => MainVM.DropInstance(this, CurrentItem, true));                    
-                }
-            }
-        }
-        #endregion
     }
+
+    private void ItemSelect(object obj)
+    {
+        if(CurrentItem != default)
+        {
+            var currentEntity = MainVM.CurrentEntity;
+            if(currentEntity is not null && CurrentItem.Id.Equals(currentEntity.Id))
+            {
+                new Task(() => MainVM.ResolveInstance(this, CurrentItem)).Start();
+            }
+            else
+            {
+                Task.Run(() => MainVM.DropInstance(this, CurrentItem, true));                    
+            }
+        }
+    }
+    #endregion
 }

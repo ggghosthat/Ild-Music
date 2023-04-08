@@ -12,11 +12,6 @@ public class AboutViewModel : BaseViewModel
     public static readonly string nameVM = "AboutVM";
     public override string NameVM => nameVM;
 
-
-    public string FirstSection {get; private set;}
-    public string SecondSection {get; private set;}
-    public string ThirdSection {get; private set;}
-
     public AboutViewModel()
     {
     }

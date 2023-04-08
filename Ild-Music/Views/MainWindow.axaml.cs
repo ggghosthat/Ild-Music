@@ -145,8 +145,5 @@ namespace Ild_Music.Views
         private void VolumePopupDown(object? sender, PointerPressedEventArgs e) => 
             ((MainViewModel)DataContext).VolumeSliderShowCommand.Execute(null);
         #endregion
-
-
-
     }
 }
