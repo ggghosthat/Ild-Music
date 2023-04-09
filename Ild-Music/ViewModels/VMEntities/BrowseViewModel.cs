@@ -24,7 +24,7 @@ public class BrowseViewModel : BaseViewModel
 
     #region Properties
     public ObservableCollection<MusicFile> Items {get; private set;} = new();
-    public MusicFile SelectedItem {get; set;}
+    public ObservableCollection<MusicFile> SelectedItems {get; set;} = new();
     #endregion
 
     #region Commands
@@ -45,6 +45,16 @@ public class BrowseViewModel : BaseViewModel
         IList<MusicFile> musicFiles = Stage.Filer.GetMusicFiles();
         musicFiles.ToList()
                   .ForEach(mf => Items.Add(mf));
+        Stage.Filer.CleanFiler();
+    }
+
+    private async Task CancelAsync()
+    {
+        if(SelectedItems != null)
+        {
+            await Stage.Filer.RemoveMusicFile(SelectedItems);
+            await UpdateItems();
+        }
     }
     #endregion
 
@@ -64,14 +74,12 @@ public class BrowseViewModel : BaseViewModel
 
     private void Cancel(object obj)
     {
-        Console.WriteLine("xxx");
-        if(obj is MusicFile mf)
+        if(SelectedItems is not null)
         {
-            Console.WriteLine(mf.FileName);
-            Items.Remove(mf);
-            OnPropertyChanged("Items");
+            SelectedItems.ToList()
+                         .ForEach(mf => Items.Remove(mf));
         }
-    }
+    }    
     #endregion
 }
 
