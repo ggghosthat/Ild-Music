@@ -16,11 +16,170 @@
 
     <Grid>
     	<Grid.ColumnDefinitions>
-    		<ColumnDefinition Width="*"/>
     		<ColumnDefinition Width="0.5*"/>
+    		<ColumnDefinition Width="*"/>
     	</Grid.ColumnDefinitions>
     	
-    	<Border Grid.Column="0"
+    	<Grid Grid.Column="0">
+        	<Grid.RowDefinitions>
+    			<RowDefinition Height="*"/>
+    			<RowDefinition Height="auto"/>
+    			<RowDefinition Height="*"/>
+	    	</Grid.RowDefinitions>
+
+	    	<StackPanel Grid.Row="1" 
+	    				HorizontalAlignment="Stretch"
+	    				VerticalAlignment="Stretch"
+	    				MinWidth="200"
+	    				MaxWidth="500">
+	    				<i:Interaction.Behaviors>
+			              <ia:EventTriggerBehavior EventName="Tapped">
+			                <ia:InvokeCommandAction Command="{Binding BrowseFromManagerCommand}"/>
+			              </ia:EventTriggerBehavior>
+			            </i:Interaction.Behaviors>
+				        <Border x:Name="BrowseArea"
+				        		BorderThickness="2"
+				        		Margin="15,5"
+				        		Height="{Binding $parent[StackPanel].Bounds.Width}"
+				        		CornerRadius="10"
+				        		BorderBrush="#232423"
+				        		DragDrop.AllowDrop="True">
+				        		<Border.Styles>
+				        			<Style Selector="Border#BrowseArea">
+				        				<Setter Property="Background" Value="#50757373"/>
+				        			</Style>
+				        			<Style Selector="Border#BrowseArea:pointerover">
+				        				<Setter Property="Background" Value="#70757373"/>
+				        			</Style>
+				        		</Border.Styles>
+			        			<Viewbox>
+			        				<Canvas Width="24" Height="24">
+			        					<Path Fill="#40db71" Data="M9,16V10H5L12,3L19,10H15V16H9M5,20V18H19V20H5Z" />
+			        				</Canvas>
+			        			</Viewbox>
+				        </Border>
+	    	</StackPanel>
+
+	    	<StackPanel Grid.Row="2"
+	    				Orientation="Horizontal"
+	    				HorizontalAlignment="Center"
+	    				VerticalAlignment="Bottom">
+		    			<StackPanel>
+					          <i:Interaction.Behaviors>
+					            <ia:EventTriggerBehavior EventName="PointerPressed">
+					              <ia:InvokeCommandAction Command="{Binding CancelCommand}"/>
+					            </ia:EventTriggerBehavior>  
+					          </i:Interaction.Behaviors>
+					          <Border Width="30"
+					                  Height="30"
+					                  Margin="10, 2, 5, 5"
+					                  BorderThickness="0"
+					                  CornerRadius="5"
+					                  HorizontalAlignment="Center"
+					                  VerticalAlignment="Center">
+						              <Border.Styles>
+								                <Style Selector="Border">
+								                    <Setter Property="Background" Value="#30000000"/>
+								                </Style>
+
+								                <Style Selector="Border:pointerover">
+								                    <Setter Property="Background" Value="#70000000"/>
+								                </Style>
+						              </Border.Styles>
+
+						              <DrawingPresenter HorizontalAlignment="Center"
+						                                VerticalAlignment="Center"
+						                                Width="20"
+						                                Height="20"> 
+										                <DrawingPresenter.Drawing>
+										                    <DrawingGroup>
+										                      <DrawingGroup Opacity="1">
+										                          <GeometryDrawing Brush="White"
+										                                            Geometry="M9,3V4H4V6H5V19A2,2 0 0,0 7,21H17A2,2 0 0,0 19,19V6H20V4H15V3H9M7,6H17V19H7V6M9,8V17H11V8H9M13,8V17H15V8H13Z" />
+										                      </DrawingGroup>
+										                    </DrawingGroup>
+										                </DrawingPresenter.Drawing>
+						              </DrawingPresenter>
+					          </Border>
+				        </StackPanel>
+				        <StackPanel>
+					          <i:Interaction.Behaviors>
+					            <ia:EventTriggerBehavior EventName="PointerPressed">
+					            </ia:EventTriggerBehavior>  
+					          </i:Interaction.Behaviors>
+					          <Border Width="30"
+					                  Height="30"
+					                  Margin="10, 2, 5, 5"
+					                  BorderThickness="0"
+					                  CornerRadius="5"
+					                  HorizontalAlignment="Center"
+					                  VerticalAlignment="Center">
+						              <Border.Styles>
+								                <Style Selector="Border">
+								                    <Setter Property="Background" Value="#30000000"/>
+								                </Style>
+
+								                <Style Selector="Border:pointerover">
+								                    <Setter Property="Background" Value="#70000000"/>
+								                </Style>
+						              </Border.Styles>
+
+						              <DrawingPresenter HorizontalAlignment="Center"
+						                                VerticalAlignment="Center"
+						                                Width="20"
+						                                Height="20"> 
+										                <DrawingPresenter.Drawing>
+										                    <DrawingGroup>
+										                      <DrawingGroup Opacity="1">
+										                          <GeometryDrawing Brush="White"
+										                                            Geometry="M12 3V13.55C11.41 13.21 10.73 13 10 13C7.79 13 6 14.79 6 17S7.79 21 10 21 14 19.21 14 17V7H18V3H12Z" />
+										                      </DrawingGroup>
+										                    </DrawingGroup>
+										                </DrawingPresenter.Drawing>
+						              </DrawingPresenter>
+					          </Border>
+				        </StackPanel>
+				        <StackPanel>
+					          <i:Interaction.Behaviors>
+					            <ia:EventTriggerBehavior EventName="PointerPressed">
+					            </ia:EventTriggerBehavior>  
+					          </i:Interaction.Behaviors>
+					          <Border Width="30"
+					                  Height="30"
+					                  Margin="10, 2, 5, 5"
+					                  BorderThickness="0"
+					                  CornerRadius="5"
+					                  HorizontalAlignment="Center"
+					                  VerticalAlignment="Center">
+						              <Border.Styles>
+								                <Style Selector="Border">
+								                    <Setter Property="Background" Value="#30000000"/>
+								                </Style>
+
+								                <Style Selector="Border:pointerover">
+								                    <Setter Property="Background" Value="#70000000"/>
+								                </Style>
+						              </Border.Styles>
+
+						              <DrawingPresenter HorizontalAlignment="Center"
+						                                VerticalAlignment="Center"
+						                                Width="20"
+						                                Height="20"> 
+										                <DrawingPresenter.Drawing>
+										                    <DrawingGroup>
+										                      <DrawingGroup Opacity="1">
+										                          <GeometryDrawing Brush="White"
+										                                            Geometry="M3,6H21V8H3V6M3,11H21V13H3V11M3,16H21V18H3V16Z" />
+										                      </DrawingGroup>
+										                    </DrawingGroup>
+										                </DrawingPresenter.Drawing>
+						              </DrawingPresenter>
+					          </Border>
+				        </StackPanel>
+	    	</StackPanel>
+        </Grid>
+
+    	<Border Grid.Column="1"
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Stretch"
                 Background="Transparent">
@@ -164,89 +323,5 @@
 	                          </ListBox>
                 </ScrollViewer>
         </Border>
-
-        <Grid Grid.Column="1">
-        	<Grid.RowDefinitions>
-    			<RowDefinition Height="*"/>
-    			<RowDefinition Height="auto"/>
-    			<RowDefinition Height="*"/>
-	    	</Grid.RowDefinitions>
-
-	    	<StackPanel Grid.Row="1" 
-	    				HorizontalAlignment="Stretch"
-	    				VerticalAlignment="Stretch"
-	    				MinWidth="200"
-	    				MaxWidth="500">
-	    				<i:Interaction.Behaviors>
-			              <ia:EventTriggerBehavior EventName="Tapped">
-			                <ia:InvokeCommandAction Command="{Binding BrowseFromManagerCommand}"/>
-			              </ia:EventTriggerBehavior>
-			            </i:Interaction.Behaviors>
-				        <Border x:Name="BrowseArea"
-				        		BorderThickness="2"
-				        		Margin="15,5"
-				        		Height="{Binding $parent[StackPanel].Bounds.Width}"
-				        		CornerRadius="10"
-				        		BorderBrush="#232423"
-				        		DragDrop.AllowDrop="True">
-				        		<Border.Styles>
-				        			<Style Selector="Border#BrowseArea">
-				        				<Setter Property="Background" Value="#50757373"/>
-				        			</Style>
-				        			<Style Selector="Border#BrowseArea:pointerover">
-				        				<Setter Property="Background" Value="#70757373"/>
-				        			</Style>
-				        		</Border.Styles>
-			        			<Viewbox>
-			        				<Canvas Width="24" Height="24">
-			        					<Path Fill="#40db71" Data="M9,16V10H5L12,3L19,10H15V16H9M5,20V18H19V20H5Z" />
-			        				</Canvas>
-			        			</Viewbox>
-				        </Border>
-	    	</StackPanel>
-
-	    	<StackPanel Grid.Row="2"
-	    				HorizontalAlignment="Right"
-	    				VerticalAlignment="Bottom">
-		    			<StackPanel>
-					          <i:Interaction.Behaviors>
-					            <ia:EventTriggerBehavior EventName="PointerPressed">
-					              <ia:InvokeCommandAction Command="{Binding CancelCommand}"/>
-					            </ia:EventTriggerBehavior>  
-					          </i:Interaction.Behaviors>
-					          <Border Width="30"
-					                  Height="30"
-					                  Margin="10, 2, 5, 5"
-					                  BorderThickness="0"
-					                  CornerRadius="5"
-					                  HorizontalAlignment="Left"
-					                  VerticalAlignment="Center">
-						              <Border.Styles>
-								                <Style Selector="Border">
-								                    <Setter Property="Background" Value="#30000000"/>
-								                </Style>
-
-								                <Style Selector="Border:pointerover">
-								                    <Setter Property="Background" Value="#70000000"/>
-								                </Style>
-						              </Border.Styles>
-
-						              <DrawingPresenter HorizontalAlignment="Center"
-						                                VerticalAlignment="Center"
-						                                Width="20"
-						                                Height="20"> 
-										                <DrawingPresenter.Drawing>
-										                    <DrawingGroup>
-										                      <DrawingGroup Opacity="1">
-										                          <GeometryDrawing Brush="White"
-										                                            Geometry="M9,3V4H4V6H5V19A2,2 0 0,0 7,21H17A2,2 0 0,0 19,19V6H20V4H15V3H9M7,6H17V19H7V6M9,8V17H11V8H9M13,8V17H15V8H13Z" />
-										                      </DrawingGroup>
-										                    </DrawingGroup>
-										                </DrawingPresenter.Drawing>
-						              </DrawingPresenter>
-					          </Border>
-				        </StackPanel>
-	    	</StackPanel>
-        </Grid>
     </Grid>
 </UserControl>
