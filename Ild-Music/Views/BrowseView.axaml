@@ -31,7 +31,7 @@
 	                          Background="Transparent">
 	                          <ListBox Items="{Binding Items}"
                                           SelectedItems="{Binding SelectedItems}"
-	                                      SelectionMode="Multiple,Toggle"
+	                                      SelectionMode="Multiple"
 				                          HorizontalAlignment="Stretch"
 	                                      ScrollViewer.HorizontalScrollBarVisibility="Disabled"
 	                                      ScrollViewer.VerticalScrollBarVisibility="Auto"
@@ -115,7 +115,8 @@
 
 	                                      <i:Interaction.Behaviors>
 	                                          <ia:EventTriggerBehavior EventName="DoubleTapped">
-	                                              <ia:InvokeCommandAction Command="{Binding DropTrackCommand}"/>
+	                                              <ia:InvokeCommandAction Command="{Binding SelectSingleCommand}"
+	                                              						  CommandParameter="{Binding .}"/>
 	                                          </ia:EventTriggerBehavior> 
 	                                      </i:Interaction.Behaviors> 
 	                                      <ListBox.ItemTemplate>

@@ -3,6 +3,7 @@ using Ild_Music.Command;
 using Ild_Music.ViewModels.Base;
 using ShareInstances.Stage;
 using ShareInstances.Filer;
+using ShareInstances.Instances;
 
 using System;
 using System.IO;
@@ -29,12 +30,14 @@ public class BrowseViewModel : BaseViewModel
 
     #region Commands
     public CommandDelegator BrowseFromManagerCommand { get; }
+    public CommandDelegator SelectSingleCommand { get; }
     public CommandDelegator CancelCommand { get; }
     #endregion
 
     public BrowseViewModel()
     {
         BrowseFromManagerCommand = new(BrowseFromManager, null);
+        SelectSingleCommand = new(SelectSingle, null);
         CancelCommand = new(Cancel, null);
     }
 
@@ -47,15 +50,6 @@ public class BrowseViewModel : BaseViewModel
                   .ForEach(mf => Items.Add(mf));
         Stage.Filer.CleanFiler();
     }
-
-    private async Task CancelAsync()
-    {
-        if(SelectedItems != null)
-        {
-            await Stage.Filer.RemoveMusicFile(SelectedItems);
-            await UpdateItems();
-        }
-    }
     #endregion
 
     #region Public methods
@@ -67,6 +61,26 @@ public class BrowseViewModel : BaseViewModel
     #endregion
 
     #region Command Methods
+    private void SelectSingle(object obj)
+    {
+        if(SelectedItems is not null && SelectedItems.Count > 0)
+        {
+            var currentEntity = MainVM.CurrentEntity;
+            var producedTrack = SelectedItems[0].MusicFileConvertTrack();
+            SelectedItems.Clear();
+
+            if(currentEntity is not null && producedTrack.Id.Equals(currentEntity.Id))
+            {
+                new Task(() => MainVM.DropInstance(this, producedTrack)).Start();
+            }
+            else
+            {
+                Task.Run(() => MainVM.DropInstance(this, producedTrack));                    
+            }
+        }
+    }
+
+
     private void BrowseFromManager(object obj)
     {
         Console.WriteLine("Your want to browse from file system music file.");
