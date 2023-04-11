@@ -48,7 +48,6 @@ namespace Ild_Music.ViewModels
         public CommandDelegator DefinePath { get; set; }
         public CommandDelegator CreateTrackCommand { get; }
         public CommandDelegator CancelCommand { get; }
-
         public CommandDelegator TrackArtistExplorerCommand {get;}
         #endregion
 

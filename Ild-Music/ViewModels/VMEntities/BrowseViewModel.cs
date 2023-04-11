@@ -11,7 +11,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-
+using Avalonia;
+using Avalonia.Controls;
+using Avalonia.Controls.Selection;
 namespace Ild_Music.ViewModels;
 public class BrowseViewModel : BaseViewModel
 {
@@ -81,9 +83,17 @@ public class BrowseViewModel : BaseViewModel
     }
 
 
-    private void BrowseFromManager(object obj)
+    private async void BrowseFromManager(object obj)
     {
-        Console.WriteLine("Your want to browse from file system music file.");
+        OpenFileDialog dialog = new();
+        dialog.AllowMultiple = true;
+        dialog.Filters.Add(new FileDialogFilter() { Name = "Mp3", Extensions =  { "mp3" } });
+
+        string[] result = await dialog.ShowAsync(new Window());
+        if(result != null && result.Length > 0)
+        {
+            Browse(result);
+        }
     }
 
     private void Cancel(object obj)

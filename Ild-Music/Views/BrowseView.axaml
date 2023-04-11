@@ -62,8 +62,8 @@
 
 	    	<StackPanel Grid.Row="2"
 	    				Orientation="Horizontal"
-	    				HorizontalAlignment="Center"
-	    				VerticalAlignment="Bottom">
+	    				HorizontalAlignment="Left"
+	    				VerticalAlignment="Top">
 		    			<StackPanel>
 					          <i:Interaction.Behaviors>
 					            <ia:EventTriggerBehavior EventName="PointerPressed">
@@ -127,7 +127,8 @@
 						              <DrawingPresenter HorizontalAlignment="Center"
 						                                VerticalAlignment="Center"
 						                                Width="20"
-						                                Height="20"> 
+						                                Height="20"
+						                                Margin="5,0,0,0"> 
 										                <DrawingPresenter.Drawing>
 										                    <DrawingGroup>
 										                      <DrawingGroup Opacity="1">
@@ -164,7 +165,8 @@
 						              <DrawingPresenter HorizontalAlignment="Center"
 						                                VerticalAlignment="Center"
 						                                Width="20"
-						                                Height="20"> 
+						                                Height="20"
+						                                Margin="0,5,0,0"> 
 										                <DrawingPresenter.Drawing>
 										                    <DrawingGroup>
 										                      <DrawingGroup Opacity="1">
@@ -176,6 +178,49 @@
 						              </DrawingPresenter>
 					          </Border>
 				        </StackPanel>
+	    	</StackPanel>
+
+	    	<StackPanel Grid.Row="2"
+	    				Orientation="Horizontal"
+	    				HorizontalAlignment="Right"
+	    				VerticalAlignment="Top">
+		    			<i:Interaction.Behaviors>
+				            <ia:EventTriggerBehavior EventName="PointerPressed">
+				              <ia:InvokeCommandAction Command="{Binding CancelCommand}"/>
+				            </ia:EventTriggerBehavior>  
+				        </i:Interaction.Behaviors>
+			            <Border Width="30"
+			                  Height="30"
+			                  Margin="10, 2, 5, 5"
+			                  BorderThickness="0"
+			                  CornerRadius="5"
+			                  HorizontalAlignment="Center"
+			                  VerticalAlignment="Center">
+				              <Border.Styles>
+						                <Style Selector="Border">
+						                    <Setter Property="Background" Value="#30000000"/>
+						                </Style>
+
+						                <Style Selector="Border:pointerover">
+						                    <Setter Property="Background" Value="#70000000"/>
+						                </Style>
+				              </Border.Styles>
+
+				              <DrawingPresenter HorizontalAlignment="Center"
+				                                VerticalAlignment="Center"
+				                                Width="20"
+				                                Height="20"
+				                                Margin="5,0,0,0"> 
+								                <DrawingPresenter.Drawing>
+								                    <DrawingGroup>
+								                      <DrawingGroup Opacity="1">
+								                          <GeometryDrawing Brush="White"
+								                                            Geometry="M8,5.14V19.14L19,12.14L8,5.14Z" />
+								                      </DrawingGroup>
+								                    </DrawingGroup>
+								                </DrawingPresenter.Drawing>
+				              </DrawingPresenter>
+			            </Border>
 	    	</StackPanel>
         </Grid>
 
