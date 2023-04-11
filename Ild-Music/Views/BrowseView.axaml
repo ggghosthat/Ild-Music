@@ -67,7 +67,7 @@
 		    			<StackPanel>
 					          <i:Interaction.Behaviors>
 					            <ia:EventTriggerBehavior EventName="PointerPressed">
-					              <ia:InvokeCommandAction Command="{Binding CancelCommand}"/>
+					              <ia:InvokeCommandAction Command="{Binding CreateTrackCommand}"/>
 					            </ia:EventTriggerBehavior>  
 					          </i:Interaction.Behaviors>
 					          <Border Width="30"
@@ -186,7 +186,7 @@
 	    				VerticalAlignment="Top">
 		    			<i:Interaction.Behaviors>
 				            <ia:EventTriggerBehavior EventName="PointerPressed">
-				              <ia:InvokeCommandAction Command="{Binding CancelCommand}"/>
+				              <ia:InvokeCommandAction Command="{Binding CreatePlaylistCommand}"/>
 				            </ia:EventTriggerBehavior>  
 				        </i:Interaction.Behaviors>
 			            <Border Width="30"
@@ -319,7 +319,7 @@
 
 	                                      <i:Interaction.Behaviors>
 	                                          <ia:EventTriggerBehavior EventName="DoubleTapped">
-	                                              <ia:InvokeCommandAction Command="{Binding SelectSingleCommand}"
+	                                              <ia:InvokeCommandAction Command="{Binding PlaybackSingleCommand}"
 	                                              						  CommandParameter="{Binding .}"/>
 	                                          </ia:EventTriggerBehavior> 
 	                                      </i:Interaction.Behaviors> 
