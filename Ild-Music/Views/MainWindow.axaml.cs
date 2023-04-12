@@ -97,12 +97,12 @@ namespace Ild_Music.Views
                 mainGrid.Bounds.Height - position.Y );
         }
 
-        private void OnHideClick(object sender, RoutedEventArgs e)
+        private void OnHideClick(object sender, PointerPressedEventArgs e)
         {
             WindowState = WindowState.Minimized;
         }
 
-        private void OnExpandClick(object sender, RoutedEventArgs e)
+        private void OnExpandClick(object sender, PointerPressedEventArgs e)
         {
             if (WindowState == WindowState.Normal)
             {
@@ -114,7 +114,7 @@ namespace Ild_Music.Views
             }
         }
 
-        private void OnCloseClick(object sender, RoutedEventArgs e)
+        private void OnCloseClick(object sender, PointerPressedEventArgs e)
         {
             if(Application.Current.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktopLifetime)
                 desktopLifetime.Shutdown();

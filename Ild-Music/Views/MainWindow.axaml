@@ -25,12 +25,7 @@
     </Window.Resources>
 
     <Window.Styles>
-        <Style Selector="Panel.pnlClose">
-            <Setter Property="Height" Value="10"/>
-        </Style>
-        <Style Selector="Panel.pnlClose:pointerover">
-            <Setter Property="Height" Value="20"/>
-        </Style>       
+             
 
         <Style Selector="Border.PlayerButton Border Viewbox Canvas Path">
             <Setter Property="Fill" Value="#7b7f6b"/>
@@ -216,41 +211,50 @@
                                             HorizontalAlignment="Right"
                                             VerticalAlignment="Top"
                                             Grid.Column="3">
-                                            <Button VerticalAlignment="Top"
-                                                    Padding="0"
-                                                    Click="OnHideClick">
-                                                    <Border BorderThickness="2"
-                                                            BorderBrush="#0be0c2"
-                                                            CornerRadius="3 3 3 3">
-                                                        <Panel Classes="pnlClose"
-                                                            Width="30"
-                                                            Background="#0be0c2"/>
-                                                    </Border>
-                                            </Button>
+                                            <Border VerticalAlignment="Stretch"
+                                                    HorizontalAlignment="Stretch"
+                                                    Width="30"
+                                                    Height="15"
+                                                    PointerPressed="OnHideClick">
+                                                    <Border.Styles>
+                                                        <Style Selector="Border">
+                                                            <Setter Property="Background" Value="#9021d96e"/>
+                                                        </Style>
+                                                        <Style Selector="Border:pointerover">
+                                                            <Setter Property="Background" Value="#21d96e"/>
+                                                        </Style>
+                                                    </Border.Styles>
+                                            </Border>
 
-                                            <Button VerticalAlignment="Top"
-                                                    Padding="0"
-                                                    Click="OnExpandClick">
-                                                    <Border BorderThickness="2"
-                                                            BorderBrush="#cef542"
-                                                            CornerRadius="3 3 3 3">
-                                                        <Panel Classes="pnlClose"
-                                                            Width="30"
-                                                            Background="#cef542"/>
-                                                    </Border>
-                                            </Button>
+                                            <Border VerticalAlignment="Stretch"
+                                                    HorizontalAlignment="Stretch"
+                                                    Width="30"
+                                                    Height="15"
+                                                    PointerPressed="OnExpandClick">
+                                                    <Border.Styles>
+                                                        <Style Selector="Border">
+                                                            <Setter Property="Background" Value="#90e2f01f"/>
+                                                        </Style>
+                                                        <Style Selector="Border:pointerover">
+                                                            <Setter Property="Background" Value="#e2f01f"/>
+                                                        </Style>
+                                                    </Border.Styles>
+                                            </Border>
 
-                                            <Button VerticalAlignment="Top"
-                                                    Padding="0"
-                                                    Click="OnCloseClick">
-                                                    <Border BorderThickness="2"
-                                                            BorderBrush="#e00b29"
-                                                            CornerRadius="3 3 3 3">
-                                                        <Panel Classes="pnlClose"
-                                                            Width="30"
-                                                            Background="#e00b29"/>
-                                                    </Border>
-                                            </Button>
+                                            <Border VerticalAlignment="Stretch"
+                                                    HorizontalAlignment="Stretch"
+                                                    Width="30"
+                                                    Height="15"
+                                                    PointerPressed="OnCloseClick">
+                                                    <Border.Styles>
+                                                        <Style Selector="Border">
+                                                            <Setter Property="Background" Value="#90f0371f"/>
+                                                        </Style>
+                                                        <Style Selector="Border:pointerover">
+                                                            <Setter Property="Background" Value="#f0371f"/>
+                                                        </Style>
+                                                    </Border.Styles>
+                                            </Border>
                                 </StackPanel>
                         </Grid>
                     
