@@ -83,7 +83,7 @@ public class MainViewModel : Base.BaseViewModel
     public Stack<BaseViewModel> WindowStack {get; private set;} = new();
 
 
-    public ObservableCollection<char> NavItems {get;} = new() {'a','b','c', 'd'};
+    public ObservableCollection<char> NavItems {get;} = new() {'a','b','c', 'd', 'e'};
     public char? NavItem {get; set;}
     #endregion
 
@@ -116,8 +116,7 @@ public class MainViewModel : Base.BaseViewModel
         RepeatCommand = new(RepeatPlayer, OnCanTogglePlayer);
         VolumeSliderShowCommand = new(VolumeSliderShow,null);
 
-        // CurrentVM = (BaseViewModel)App.ViewModelTable[StartViewModel.nameVM];
-        CurrentVM = (BaseViewModel)App.ViewModelTable[BrowseViewModel.nameVM];
+        CurrentVM = (BaseViewModel)App.ViewModelTable[StartViewModel.nameVM];
 
         timer = new(TimeSpan.FromMilliseconds(300), DispatcherPriority.Normal, UpdateCurrentTime);
         timer.Start();
@@ -295,6 +294,9 @@ public class MainViewModel : Base.BaseViewModel
                 DefineNewPresentItem((BaseViewModel)App.ViewModelTable[SettingViewModel.nameVM]);
                 break;
             case 'd':
+                DefineNewPresentItem((BaseViewModel)App.ViewModelTable[BrowseViewModel.nameVM]);
+                break;
+            case 'e':
                 DefineNewPresentItem((BaseViewModel)App.ViewModelTable[AboutViewModel.nameVM]);
                 break;
             default:

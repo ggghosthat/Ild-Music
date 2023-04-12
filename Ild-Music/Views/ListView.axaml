@@ -238,18 +238,20 @@
                   <DataTemplate>
                     <Grid>
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="*"/>
-                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
                         </Grid.RowDefinitions>                            
 
                         <Border Grid.Row="0"
+                                MaxHeight="70"
+                                MaxWidth="70"
                                 Padding="5"
                                 Background="Transparent"
                                 Child="{Binding ., Converter={StaticResource InstanceConverter}, ConverterParameter=ico_col}">
                         </Border>
 
                         <TextBlock Grid.Row="1"
-                                   TextWrapping="Wrap"
+                                   TextWrapping="NoWrap"
                                    TextAlignment="Center"
                                    FontSize="12"
                                    Foreground="White"

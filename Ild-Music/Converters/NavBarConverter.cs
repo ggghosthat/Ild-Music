@@ -25,7 +25,8 @@ public class NavBarConverter : IValueConverter
     		'a' => Application.Current.FindResource("NavHome"),
     		'b' => Application.Current.FindResource("NavList"),
     		'c' => Application.Current.FindResource("NavSetting"),
-            'd' => Application.Current.FindResource("NavAbout"),
+            'd' => Application.Current.FindResource("NavBrowse"),
+            'e' => Application.Current.FindResource("NavAbout"),
     		_ => null
     	};
 
