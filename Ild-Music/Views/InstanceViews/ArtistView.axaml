@@ -25,38 +25,38 @@
 
 	<Grid Grid.Row="0"
 	      Background="#603cd67c">
-	            <Grid.RowDefinitions>
-	              <RowDefinition Height="*"/>
-	              <RowDefinition Height="auto"/>
-	            </Grid.RowDefinitions>
+            <Grid.RowDefinitions>
+              <RowDefinition Height="*"/>
+              <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
 
-	            <Border Grid.Row="0"
-	            		Width="100"
-	            		Height="100"
-                        Padding="5"
-                        Background="Transparent"
-                        Child="{Binding ArtistInstance, Converter={StaticResource InstanceConverter}, ConverterParameter=ico_col}">
-                </Border>
+            <Border Grid.Row="0"
+            		Width="100"
+            		Height="100"
+                    Padding="5"
+                    Background="Transparent"
+                    Child="{Binding ArtistInstance, Converter={StaticResource InstanceConverter}, ConverterParameter=ico_col}">
+            </Border>
 
-				<StackPanel Grid.Row="1"
-							Orientation="Vertical">
-		            <TextBlock Margin="0,3,0,0"
-		                       Text="{Binding ArtistInstance , Converter={StaticResource InstanceConverter}, ConverterParameter=name}"
-		                       FontSize="18"
-		                       FontWeight="Light"
-		                       Foreground="White"
-		                       HorizontalAlignment="Center"
-		                       VerticalAlignment="Bottom"
-		                       TextAlignment="Center"/>
-                    <TextBlock Margin="0,3,0,3"
-		                       Text="{Binding ArtistInstance , Converter={StaticResource InstanceConverter}, ConverterParameter=desc}"
-		                       FontSize="14"
-		                       FontWeight="Light"
-		                       Foreground="White"
-		                       HorizontalAlignment="Center"
-		                       VerticalAlignment="Bottom"
-		                       TextAlignment="Center"/>
-	            </StackPanel>
+			<StackPanel Grid.Row="1"
+						Orientation="Vertical">
+			            <TextBlock Margin="0,3,0,0"
+			                       Text="{Binding ArtistInstance , Converter={StaticResource InstanceConverter}, ConverterParameter=name}"
+			                       FontSize="18"
+			                       FontWeight="Light"
+			                       Foreground="White"
+			                       HorizontalAlignment="Center"
+			                       VerticalAlignment="Bottom"
+			                       TextAlignment="Center"/>
+	                    <TextBlock Margin="0,3,0,3"
+			                       Text="{Binding ArtistInstance , Converter={StaticResource InstanceConverter}, ConverterParameter=desc}"
+			                       FontSize="14"
+			                       FontWeight="Light"
+			                       Foreground="White"
+			                       HorizontalAlignment="Center"
+			                       VerticalAlignment="Bottom"
+			                       TextAlignment="Center"/>
+            </StackPanel>
 	</Grid>
 
     <Grid Grid.Row="1">

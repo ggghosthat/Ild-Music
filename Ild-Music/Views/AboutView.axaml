@@ -11,16 +11,40 @@
              x:DataType="vm:AboutViewModel">
 
              <md:MarkdownScrollViewer xml:space="preserve">
-             	# Heading1
+             	### History
 
-			    Hello Markdown.Avalonia!
+                  The first brick of idea to build something expressive was laid in the end of the August of 2021.
 
-			    * listitem1
-			    * listitem2
+                  So during several years in 4th March of 2023 was announced the first Beta Release of this player.
 
-			    | col1 | col2 | col3 |
-			    |------|------|------|
-			    | one  |------|------|
-			    | two  |------|------|
+                  During the developement procces there were 2 points which were being keep follow:
+
+                  * user-friendly user interface
+
+                  * component independency
+                  \n\n\n
+                  ### Components
+
+                  Player component:
+
+                  * NAudioPlayerCore - player component based on NAudio library
+                  \n\n\n
+                  Synchronization component:
+
+                  * SynchronizationBlock - synch component used for saving to file system
+
+
+
+
+
+
+                  ###Developer 
+
+                  Walla there 👋, I'm Ildar or ggghosthat. If you have some ideas to improve
+                  this project context with me:
+
+                  * e-mail ildarildar@yahoo.com
+                  * reddit r/cappy_master
+
              </md:MarkdownScrollViewer>
 </UserControl>
