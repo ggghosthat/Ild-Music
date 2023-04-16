@@ -4,11 +4,14 @@ using ShareInstances.Instances.Interfaces;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Platform;
+using Avalonia.Media;
 using Avalonia.Media.Imaging;
 using Avalonia.Data.Converters;
 using System;
 using System.IO;
 using System.Globalization;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.Processing;
 
 namespace Ild_Music.Converters;
 public class InstanceConverter : IValueConverter
@@ -31,7 +34,7 @@ public class InstanceConverter : IValueConverter
         {
             if (value is ICoreEntity entity)
             {
-                if (entity.AvatarBase64 != null)
+                if (entity.AvatarBase64 is not null)
                 {
                     return CraftImage(ref entity);
                 }
@@ -84,6 +87,18 @@ public class InstanceConverter : IValueConverter
             }
             else return Application.Current.FindResource("TrackAvatar");
         }
+        else if (parameter == "back")
+        {
+            if (value is byte[] source)
+            {
+                if (source is not null)
+                {
+                    return CreateBackImage(ref source);
+                }
+                else return null;
+            }
+            else return null;
+        }
         else return null;
     }
 
@@ -96,16 +111,41 @@ public class InstanceConverter : IValueConverter
     private object ComputeAvatarIcon(ref byte[] source)
     {
         var resource = (Border)Application.Current.FindResource("DisplayImage");
-        var image = (Image)resource.Child;
-
-        image.Source = new Bitmap(new MemoryStream(source));
+        var image = (Avalonia.Controls.Image)resource.Child;
+        
+        using(var mem = new MemoryStream(source))
+        {
+            image.Source = new Bitmap(mem);
+        }
         return resource;
     }
 
     private object CraftImage(ref ICoreEntity entity)
     {
-        var image = new Image();
-        image.Source = new Bitmap(new MemoryStream( entity.GetAvatar() ));
+        var image = new Avalonia.Controls.Image();
+        using(var mem = new MemoryStream( entity.GetAvatar() ))
+        {
+            image.Source = new Bitmap(mem);
+        }
+        return image;
+    }
+
+    private object CreateBackImage(ref byte[] source)
+    {
+        var image = new Avalonia.Controls.Image();
+
+        using(var mem = new MemoryStream())
+        using (SixLabors.ImageSharp.Image pic = SixLabors.ImageSharp.Image.Load( source ))
+        {
+            pic.Mutate(x => x.GaussianBlur(15));
+            pic.SaveAsPng(mem);
+            mem.Position = 0;
+            image.Source = new Avalonia.Media.Imaging.Bitmap(mem);
+        }
+        
+        
+        image.Stretch = Stretch.Fill;
+        image.Opacity = 0.5;
         return image;
     }
 
@@ -114,7 +154,7 @@ public class InstanceConverter : IValueConverter
         var assets = AvaloniaLocator.Current.GetService<IAssetLoader>();
         var bitmap = new Bitmap(assets.Open(new Uri(path)));
 
-        var image = new Image();
+        var image = new Avalonia.Controls.Image();
         image.Source = bitmap;
         return image;
     }

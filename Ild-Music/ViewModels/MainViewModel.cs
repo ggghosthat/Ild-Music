@@ -83,7 +83,7 @@ public class MainViewModel : Base.BaseViewModel
     public Stack<BaseViewModel> WindowStack {get; private set;} = new();
 
 
-    public ObservableCollection<char> NavItems {get;} = new() {'a','b','c', 'd', 'e'};
+    public ObservableCollection<char> NavItems {get;} = new() {'a','b','c', 'd'};
     public char? NavItem {get; set;}
     #endregion
 
@@ -105,7 +105,6 @@ public class MainViewModel : Base.BaseViewModel
         App.ViewModelTable.Add(TrackViewModel.nameVM, new TrackViewModel());
         App.ViewModelTable.Add(InstanceExplorerViewModel.nameVM, new InstanceExplorerViewModel());
         App.ViewModelTable.Add(BrowseViewModel.nameVM, new BrowseViewModel());
-        App.ViewModelTable.Add(AboutViewModel.nameVM, new AboutViewModel());
         App.ViewModelTable.Add(nameVM, this);
 
         NavBarResolve = new(NavResolve, OnNavSelected);
@@ -295,9 +294,6 @@ public class MainViewModel : Base.BaseViewModel
                 break;
             case 'd':
                 DefineNewPresentItem((BaseViewModel)App.ViewModelTable[BrowseViewModel.nameVM]);
-                break;
-            case 'e':
-                DefineNewPresentItem((BaseViewModel)App.ViewModelTable[AboutViewModel.nameVM]);
                 break;
             default:
                 break;

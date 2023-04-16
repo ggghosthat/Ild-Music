@@ -27,11 +27,19 @@
     			<RowDefinition Height="*"/>
 	    	</Grid.RowDefinitions>
 
+	    	<Border Grid.Row="0"
+	    			HorizontalAlignment="Center"
+	    			VerticalAlignment="Center">
+	    		<TextBlock Text="Browse your music"
+	    				   FontSize="30"
+	    				   FontWeight="Light"/>
+	    	</Border>
+
 	    	<StackPanel Grid.Row="1" 
 	    				HorizontalAlignment="Stretch"
 	    				VerticalAlignment="Stretch"
 	    				MinWidth="200"
-	    				MaxWidth="500">
+	    				MaxWidth="400">
 	    				<i:Interaction.Behaviors>
 			              <ia:EventTriggerBehavior EventName="Tapped">
 			                <ia:InvokeCommandAction Command="{Binding BrowseFromManagerCommand}"/>
@@ -58,12 +66,17 @@
 			        				</Canvas>
 			        			</Viewbox>
 				        </Border>
+				        <Border HorizontalAlignment="Center">
+					        <TextBlock Text="Drag mp3 file or click and browse it"
+		    						   FontSize="16"
+	    							   FontWeight="Light"/>
+	    				</Border>
 	    	</StackPanel>
 
 	    	<StackPanel Grid.Row="2"
 	    				Orientation="Horizontal"
 	    				HorizontalAlignment="Left"
-	    				VerticalAlignment="Top">
+	    				VerticalAlignment="Center">
 		    			<StackPanel>
 					          <i:Interaction.Behaviors>
 					            <ia:EventTriggerBehavior EventName="PointerPressed">
@@ -185,7 +198,7 @@
 	    	<StackPanel Grid.Row="2"
 	    				Orientation="Horizontal"
 	    				HorizontalAlignment="Right"
-	    				VerticalAlignment="Top">
+	    				VerticalAlignment="Center">
 		    			<i:Interaction.Behaviors>
 				            <ia:EventTriggerBehavior EventName="PointerPressed">
 				              <ia:InvokeCommandAction Command="{Binding CreatePlaylistCommand}"/>

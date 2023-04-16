@@ -18,6 +18,8 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Collections.ObjectModel;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.Processing;
 
 namespace Ild_Music.ViewModels
 {
@@ -36,8 +38,9 @@ namespace Ild_Music.ViewModels
         public static ICoreEntity Instance { get; private set; }
         #endregion
 
-        #region Avatar Avatar
+        #region Background_Avatar properties
         public byte[] AvatarSource {get; private set;} = null;
+        public byte[] BackgroundSource {get; private set;} = null;
         #endregion
 
         #region Commands
@@ -67,8 +70,6 @@ namespace Ild_Music.ViewModels
             SelectAvatarCommand = new(SelectAvatar, null);
             CreateArtistCommand = new(CreateArtist, null);
             CancelCommand = new(Cancel, null);
-
-            // AvatarSource = (Instance is not null)?Instance.GetAvatar():null;
         }
         #endregion
 
@@ -92,13 +93,27 @@ namespace Ild_Music.ViewModels
         private async Task<byte[]> LoadAvatar(string path)
         {
             byte[] result;
-
             using (FileStream fileStream = File.Open(path, FileMode.Open))
             {
                 result = new byte[fileStream.Length];
                 await fileStream.ReadAsync(result, 0, (int)fileStream.Length);
             }
             return result;
+        }
+
+        //depends on AvatarSource
+        private async Task LoadBackground()
+        {
+            if(AvatarSource != null)
+            {
+                using (MemoryStream ms = new MemoryStream())
+                using (SixLabors.ImageSharp.Image image = SixLabors.ImageSharp.Image.Load(AvatarSource))
+                {
+                    image.Mutate(x => x.GaussianBlur(15));
+                    image.Save(ms, image.Metadata.DecodedImageFormat);
+                    BackgroundSource = ms.ToArray();   
+                }
+            }
         }
         #endregion
 
@@ -161,6 +176,7 @@ namespace Ild_Music.ViewModels
                 ArtistDescription = artist.Description;
 
                 AvatarSource = (Instance is not null)?Instance.GetAvatar():null;
+                
                 OnPropertyChanged("AvatarSource");
             }
         }
@@ -193,8 +209,7 @@ namespace Ild_Music.ViewModels
             if(result != null && result.Length > 0)
             {
                 var avatarPath = string.Join(" ", result);
-                var avatar64 = await LoadAvatar(avatarPath);
-                AvatarSource = avatar64;
+                AvatarSource = await LoadAvatar(avatarPath);
                 OnPropertyChanged("AvatarSource");
             }
         }
