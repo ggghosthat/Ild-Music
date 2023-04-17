@@ -26,6 +26,8 @@ namespace Ild_Music.ViewModels
 
         #region Properties
     	public Playlist PlaylistInstance {get; private set;}
+        public byte[] AvatarSource => PlaylistInstance.GetAvatar();
+
         public ObservableCollection<Artist> PlaylistArtists {get; private set;} = new();
         public ObservableCollection<Track> PlaylistTracks {get; private set;} = new();      
         #endregion
@@ -45,7 +47,7 @@ namespace Ild_Music.ViewModels
         public void SetInstance(Playlist playlist)
         {
             PlaylistInstance = playlist;
-
+            OnPropertyChanged("AvatarSource");
 
             supporter.ArtistsCollection.Where(a => a.Playlists.Contains(PlaylistInstance.Id))
                                                   .ToList()

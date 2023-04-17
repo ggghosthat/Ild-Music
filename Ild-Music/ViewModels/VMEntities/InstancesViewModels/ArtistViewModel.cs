@@ -25,6 +25,8 @@ namespace Ild_Music.ViewModels
 
         #region Properties
     	public Artist ArtistInstance {get; private set;}
+        public byte[] AvatarSource => ArtistInstance.GetAvatar();
+
         public ObservableCollection<Playlist> ArtistPlaylists {get; private set;} = new();
         public ObservableCollection<Track> ArtistTracks {get; private set;} = new();      
         #endregion
@@ -44,6 +46,7 @@ namespace Ild_Music.ViewModels
         public void SetInstance(Artist artist)
         {
             ArtistInstance = artist;
+            OnPropertyChanged("AvatarSource");
 
             ArtistInstance.Playlists.ToEntity(supporter.PlaylistsCollection).ForEach(p => ArtistPlaylists.Add(p));
             ArtistInstance.Tracks.ToEntity(supporter.TracksCollection).ToList().ForEach(t => ArtistTracks.Add(t));

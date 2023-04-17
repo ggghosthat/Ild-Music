@@ -25,6 +25,8 @@ namespace Ild_Music.ViewModels
 
         #region Properties
     	public Track TrackInstance {get; private set;}
+        public byte[] AvatarSource => TrackInstance.GetAvatar();
+        
         public ObservableCollection<Artist> TrackArtists {get; private set;} = new();
         #endregion
 
@@ -43,6 +45,7 @@ namespace Ild_Music.ViewModels
         public void SetInstance(Track track)
         {
             TrackInstance = track;
+            OnPropertyChanged("AvatarSource");
 
             supporter.ArtistsCollection.ToList().Where(a => a.Tracks.Contains(TrackInstance.Id))
                      .ToList().ForEach(a => TrackArtists.Add(a));

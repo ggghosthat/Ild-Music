@@ -15,6 +15,10 @@
   <UserControl.Resources>
     <conv:InstanceConverter x:Key="InstanceConverter"/>
     <conv:ErrorMessageConverter x:Key="ErrorStateConverter"/>
+
+    <SolidColorBrush x:Key="btnApplyColor1" Color="#4006a59b"/>
+    <SolidColorBrush x:Key="btnApplyColor2" Color="#7006a59b"/>
+	<SolidColorBrush x:Key="btnApplyColor3" Color="#06a59b"/>
   </UserControl.Resources>
 
   
@@ -35,15 +39,15 @@
     	  Grid.Column="1"
     	  Grid.RowSpan="3"
     	  MinWidth="300"
-		  MaxWidth="600">
+		  MaxWidth="600"
+		  ZIndex="3">
 	  	<Grid.RowDefinitions>
 	      <RowDefinition Height="auto"/>
 	      <RowDefinition Height="*"/>
 	    </Grid.RowDefinitions>
 
 	    <!--main info-->
-		<Grid Grid.Row="0"
-			  ZIndex="3">
+		<Grid Grid.Row="0">
 	            <Grid.RowDefinitions>
 	              <RowDefinition Height="*"/>
 	              <RowDefinition Height="auto"/>
@@ -341,46 +345,71 @@
 		        			</ListBox>
 	 	        </ScrollViewer>
 
-	 	        <Border>
-		 	        <i:Interaction.Behaviors>
-				        <ia:EventTriggerBehavior EventName="Tapped">
-				          <ia:InvokeCommandAction Command="{Binding BackCommand}"/>
-			    	    </ia:EventTriggerBehavior>  
-			      	</i:Interaction.Behaviors>
-		 	        <Border Height="30"
-		 	        		Width="60"
-		                  	Margin="5"
-		                  	BorderThickness="0"
-		                  	CornerRadius="5"
-		                  	HorizontalAlignment="Center"
-		                  	VerticalAlignment="Center">
-				              <Border.Styles>
-				                <Style Selector="Border">
-				                    <Setter Property="Background" Value="#30000000"/>
-				                </Style>
+	 	        <Button Classes="btnApply"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Bottom"
+                        Width="100"
+                        Height="25"
+                        Margin="3"
+                        Content="Ok"
+                        Command="{Binding BackCommand}">
+                      	<Button.Styles>
+                    		<Style Selector="Button.btnApply">
+							      <Setter Property="Content" Value="{TemplateBinding Content}"/>
+							      <Setter Property="Background" Value="{TemplateBinding Background}"/>
+							      <Setter Property="Width" Value="{TemplateBinding Width}"/>
+							      <Setter Property="Height" Value="{TemplateBinding Height}"/>
 
-				                <Style Selector="Border:pointerover">
-				                    <Setter Property="Background" Value="#70000000"/>
-				                </Style>
-				              </Border.Styles>
-				              <TextBlock Text="Ok"
-				                  	HorizontalAlignment="Center"
-					            	Margin="5"
-					            	FontSize="16"/>
-		          	</Border>
-	          	</Border>
+							      <Setter Property="Template">
+							        <Setter.Value>
+							          <ControlTemplate>
+							            <Border Background="{TemplateBinding Background}"
+							                    Width="{TemplateBinding Width}"
+							                    Height="{TemplateBinding Height}"
+							                    BorderThickness="0"
+							                    CornerRadius="5">
+							                <Border.Styles>
+							                  <Style Selector="Button.btnApply /template/ Border">
+							                    <Setter Property="Background" Value="{StaticResource btnApplyColor1}"/>
+							                  </Style>
+							                  <Style Selector="Button.btnApply:pointerover /template/ Border">
+							                    <Setter Property="Background" Value="{StaticResource btnApplyColor2}"/>
+							                  </Style>
+							                  <Style Selector="Button.btnApply:pressed /template/ Border">
+							                    <Setter Property="Background" Value="{StaticResource btnApplyColor3}"/>
+							                  </Style>
+							                </Border.Styles>
+							                <TextBlock Text="{TemplateBinding Content}"
+							                          HorizontalAlignment="Center"
+							                          VerticalAlignment="Center"
+							                          FontSize="16"
+							                          FontWeight="Bold"
+							                          Foreground="White"/>
+							            </Border>
+							          </ControlTemplate>
+							        </Setter.Value>
+							      </Setter>
+							    </Style>
+                      	</Button.Styles>
+                </Button>
 		    </StackPanel>
 		</Grid>
 	</Grid>
 
     <!--background-->
     <Border Grid.Row="0"
-    		Grid.Column="0"
-    		Grid.ColumnSpan="3"
-    		Grid.RowSpan="3"
-    		ZIndex="-1"
-    		Child="{Binding ArtistInstance, Converter={StaticResource InstanceConverter}, ConverterParameter=back}">
-
-	</Border>
+            Grid.Column="0"
+            Grid.ColumnSpan="3"
+            Grid.RowSpan="3"
+            BorderThickness="0"
+            BorderBrush="Transparent"
+            ZIndex="-1">
+            <Border.Background>
+              <LinearGradientBrush StartPoint="50%,0%" EndPoint="50%,100%">
+                <GradientStop Color="{Binding AvatarSource, Converter={StaticResource InstanceConverter}, ConverterParameter=back}" Offset="0.0" />
+                <GradientStop Color="Black" Offset="1.0" />
+              </LinearGradientBrush>
+            </Border.Background>
+    </Border> 
   </Grid>
 </UserControl>

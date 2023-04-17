@@ -40,7 +40,6 @@ namespace Ild_Music.ViewModels
 
         #region Background_Avatar properties
         public byte[] AvatarSource {get; private set;} = null;
-        public byte[] BackgroundSource {get; private set;} = null;
         #endregion
 
         #region Commands
@@ -99,21 +98,6 @@ namespace Ild_Music.ViewModels
                 await fileStream.ReadAsync(result, 0, (int)fileStream.Length);
             }
             return result;
-        }
-
-        //depends on AvatarSource
-        private async Task LoadBackground()
-        {
-            if(AvatarSource != null)
-            {
-                using (MemoryStream ms = new MemoryStream())
-                using (SixLabors.ImageSharp.Image image = SixLabors.ImageSharp.Image.Load(AvatarSource))
-                {
-                    image.Mutate(x => x.GaussianBlur(15));
-                    image.Save(ms, image.Metadata.DecodedImageFormat);
-                    BackgroundSource = ms.ToArray();   
-                }
-            }
         }
         #endregion
 
