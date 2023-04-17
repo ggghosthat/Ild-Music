@@ -86,125 +86,116 @@
     </Style>
   </UserControl.Styles>
 
-  <ScrollViewer HorizontalScrollBarVisibility="Disabled"
-                VerticalScrollBarVisibility="Auto"
-                VerticalAlignment="Top">
-                <Grid Grid.Row="0"
-                      HorizontalAlignment="Center">   
-                      <Grid.RowDefinitions>
-                        <RowDefinition Height="auto"/>
-                        <RowDefinition Height="0.75*"/>
-                        <RowDefinition Height="*"/>
-                      </Grid.RowDefinitions>
-                      <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="auto"/>
-                        <ColumnDefinition Width="*"/>
-                      </Grid.ColumnDefinitions>
+  <Grid>
+        <Grid.RowDefinitions>
+          <RowDefinition Height="auto"/>
+          <RowDefinition Height="0.75*"/>
+          <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="*"/>
+          <ColumnDefinition Width="auto"/>
+          <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
 
-                      <Border Grid.Row="0"
-                              Grid.Column="1"
-                              BorderThickness="0"
-                              BorderBrush="Transparent"
-                              Margin="10"
-                              ZIndex="3">
-                              <TextBlock Text="{Binding ViewHeader}"
-                                     HorizontalAlignment="Center"
-                                     VerticalAlignment="Top"
-                                     FontSize="20"
-                                     FontWeight="Light"/>
-                      </Border>        
+        <Border Grid.Row="0"
+                Grid.Column="1"
+                BorderThickness="0"
+                BorderBrush="Transparent"
+                Margin="10"
+                ZIndex="3">
+                <TextBlock Text="{Binding ViewHeader}"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Top"
+                       FontSize="20"
+                       FontWeight="Light"/>
+        </Border>        
 
-                      <Border Grid.Row="1"
-                              Grid.Column="1"
-                              HorizontalAlignment="Center"
-                              VerticalAlignment="Top"
-                              ZIndex="3">
-                                <i:Interaction.Behaviors>
-                                  <ia:EventTriggerBehavior EventName="PointerReleased">
-                                    <ia:InvokeCommandAction Command="{Binding SelectAvatarCommand}"/>
-                                  </ia:EventTriggerBehavior>  
-                                </i:Interaction.Behaviors>
-                                <Border BorderThickness="0"
-                                        Padding="25">  
-                                    <Viewbox  Stretch="Uniform"
-                                              StretchDirection="Both"
-                                              MinWidth="150"
-                                              MinHeight="150"
-                                              Child="{Binding AvatarSource, Converter={StaticResource InstanceConverter}, ConverterParameter=aico_dis}">
-                                    </Viewbox>                    
-                                </Border> 
-                      </Border>                  
+        <Border Grid.Row="1"
+                Grid.Column="1"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Top"
+                ZIndex="3">
+                  <i:Interaction.Behaviors>
+                    <ia:EventTriggerBehavior EventName="PointerReleased">
+                      <ia:InvokeCommandAction Command="{Binding SelectAvatarCommand}"/>
+                    </ia:EventTriggerBehavior>  
+                  </i:Interaction.Behaviors>
+                  <Border BorderThickness="0"
+                          Padding="25">  
+                      <Viewbox  Stretch="Uniform"
+                                StretchDirection="Both"
+                                MinWidth="150"
+                                MinHeight="150"
+                                Child="{Binding AvatarSource, Converter={StaticResource InstanceConverter}, ConverterParameter=aico_dis}">
+                      </Viewbox>                    
+                  </Border> 
+        </Border>                  
 
-                      <StackPanel Grid.Row="2"
-                                  Grid.Column="1"
-                                  HorizontalAlignment="Center"
-                                  VerticalAlignment="Center"
-                                  ZIndex="3">
-                                  <TextBox Watermark="name"
-                                            Text="{Binding ArtistName, Mode=TwoWay}"
-                                            TextAlignment="Center"
-                                            HorizontalAlignment="Left"
-                                            FontSize="16"
-                                            Margin="15,0"
-                                            Width="500"/>
+        <StackPanel Grid.Row="2"
+                    Grid.Column="1"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    ZIndex="3">
+                    <TextBox Watermark="name"
+                              Text="{Binding ArtistName, Mode=TwoWay}"
+                              TextAlignment="Center"
+                              HorizontalAlignment="Left"
+                              FontSize="16"
+                              Margin="15,0"
+                              Width="500"/>
 
-                                  <TextBox Watermark="description"
-                                            Text="{Binding ArtistDescription}"
-                                            TextAlignment="Center"
-                                            HorizontalAlignment="Left"
-                                            FontSize="16"
-                                            Margin="15,5,15,0"
-                                            Width="500"/>
+                    <TextBox Watermark="description"
+                              Text="{Binding ArtistDescription}"
+                              TextAlignment="Center"
+                              HorizontalAlignment="Left"
+                              FontSize="16"
+                              Margin="15,5,15,0"
+                              Width="500"/>
 
-                                  <StackPanel Orientation="Horizontal"
-                                              HorizontalAlignment="Center"
-                                              Margin="15">
-                                    <Button Classes="btnApply"
-                                            HorizontalAlignment="Left"
-                                            VerticalAlignment="Bottom"
-                                            Width="100"
-                                            Height="25"
-                                            Margin="3,0"
-                                            Content="Apply"
-                                            Command="{Binding CreateArtistCommand}"/>
+                    <StackPanel Orientation="Horizontal"
+                                HorizontalAlignment="Center"
+                                Margin="15">
+                      <Button Classes="btnApply"
+                              HorizontalAlignment="Left"
+                              VerticalAlignment="Bottom"
+                              Width="100"
+                              Height="25"
+                              Margin="3,0"
+                              Content="Apply"
+                              Command="{Binding CreateArtistCommand}"/>
 
-                                    <Button Classes="btnApply"
-                                            HorizontalAlignment="Left"
-                                            VerticalAlignment="Bottom"
-                                            Width="100"
-                                            Height="25"
-                                            Margin="3,0"
-                                            Content="Cancel"
-                                            Command="{Binding CancelCommand}"/>
-                                  </StackPanel>
+                      <Button Classes="btnApply"
+                              HorizontalAlignment="Left"
+                              VerticalAlignment="Bottom"
+                              Width="100"
+                              Height="25"
+                              Margin="3,0"
+                              Content="Cancel"
+                              Command="{Binding CancelCommand}"/>
+                    </StackPanel>
 
-                                  <TextBlock Classes="logLine"
-                                             Text="{Binding ArtistLogLine}"
-                                             Foreground="{Binding ArtistLogError, Converter={StaticResource ErrorStateConverter} }"
-                                             Background="Transparent"
-                                             FontSize="12"
-                                             Margin="5"/>
-                      </StackPanel>
+                    <TextBlock Classes="logLine"
+                               Text="{Binding ArtistLogLine}"
+                               Foreground="{Binding ArtistLogError, Converter={StaticResource ErrorStateConverter} }"
+                               Background="Transparent"
+                               FontSize="12"
+                               Margin="5"/>
+        </StackPanel>
 
-                      <Border Grid.Row="0"
-                              Grid.Column="0"
-                              Grid.ColumnSpan="3"
-                              Grid.RowSpan="3"
-                              BorderThickness="0"
-                              Background="red"
-                              BorderBrush="Transparent"
-                              HorizontalAlignment="Stretch"
-                              VerticalAlignment="Stretch"
-                              Margin="10"
-                              ZIndex="-1">
-                              <Viewbox  Stretch="Uniform"
-                                        StretchDirection="Both"
-                                        MinWidth="150"
-                                        MinHeight="150"
-                                        Child="{Binding AvatarSource, Converter={StaticResource InstanceConverter}, ConverterParameter=back}">
-                              </Viewbox>
-                      </Border> 
-                </Grid>
-  </ScrollViewer>
+        <Border Grid.Row="0"
+                Grid.Column="0"
+                Grid.ColumnSpan="3"
+                Grid.RowSpan="3"
+                BorderThickness="0"
+                BorderBrush="Transparent"
+                ZIndex="-1">
+                <Border.Background>
+                  <LinearGradientBrush StartPoint="50%,0%" EndPoint="50%,100%">
+                    <GradientStop Color="{Binding AvatarSource, Converter={StaticResource InstanceConverter}, ConverterParameter=back}" Offset="0.0" />
+                    <GradientStop Color="Black" Offset="1.0" />
+                  </LinearGradientBrush>
+                </Border.Background>
+        </Border> 
+  </Grid>
 </UserControl>

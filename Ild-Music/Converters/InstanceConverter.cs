@@ -132,21 +132,37 @@ public class InstanceConverter : IValueConverter
 
     private object CreateBackImage(ref byte[] source)
     {
-        var image = new Avalonia.Controls.Image();
-
-        using(var mem = new MemoryStream())
-        using (SixLabors.ImageSharp.Image pic = SixLabors.ImageSharp.Image.Load( source ))
+        Avalonia.Media.Color dominantColor;
+        using (var pic = SixLabors.ImageSharp.Image.Load<SixLabors.ImageSharp.PixelFormats.Rgba32>( source ))
         {
-            pic.Mutate(x => x.GaussianBlur(15));
-            pic.SaveAsPng(mem);
-            mem.Position = 0;
-            image.Source = new Avalonia.Media.Imaging.Bitmap(mem);
+           pic.Mutate(x => x
+                .Resize(new ResizeOptions {Sampler = KnownResamplers.NearestNeighbor, Size = new SixLabors.ImageSharp.Size(100, 0)}));
+
+            int r = 0;
+            int g = 0;
+            int b = 0;
+            int totalPixels = 0;
+
+            for (int x = 0; x < pic.Width; x++)
+            {
+                for (int y = 0; y < pic.Height; y++)
+                {
+                    var pixel = pic[x, y];
+                    r += System.Convert.ToInt32(pixel.R);
+                    g += System.Convert.ToInt32(pixel.G);
+                    b += System.Convert.ToInt32(pixel.B);
+                    totalPixels++;
+                }
+            }
+
+            r /= totalPixels;
+            g /= totalPixels;
+            b /= totalPixels;
+
+            dominantColor = new Avalonia.Media.Color(255, (byte) r, (byte) g, (byte) b);
         }
-        
-        
-        image.Stretch = Stretch.Fill;
-        image.Opacity = 0.5;
-        return image;
+
+        return dominantColor;
     }
 
     private object LoadAsset(string path)
