@@ -25,8 +25,6 @@
     </Window.Resources>
 
     <Window.Styles>
-             
-
         <Style Selector="Border.PlayerButton Border Viewbox Canvas Path">
             <Setter Property="Fill" Value="#7b7f6b"/>
         </Style>
@@ -126,9 +124,9 @@
                         </Border>
 
                         <!--Header-->
-                        <Grid Background="#16242b"
-                              Grid.Row="0"
-                              Grid.ColumnSpan="3">
+                        <Grid Grid.Row="0"
+                              Grid.ColumnSpan="3"
+                              Background="#16242b">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="auto"/>
                                     <ColumnDefinition Width="*" />

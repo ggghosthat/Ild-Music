@@ -69,6 +69,7 @@
 				        <Border HorizontalAlignment="Center">
 					        <TextBlock Text="Drag mp3 file or click and browse it"
 		    						   FontSize="16"
+		    						   Foreground="#9c9c9c"
 	    							   FontWeight="Light"/>
 	    				</Border>
 	    	</StackPanel>

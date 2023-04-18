@@ -51,7 +51,7 @@ namespace Ild_Music.ViewModels
             DropTrackCommand = new(DropTrack, null);
             DropArtistCommand = new(DropArtist, null);
 
-            Task.Run(PopullateLists);
+            PopullateLists();
             supporter.OnArtistsNotifyRefresh += RefreshArtists;
             supporter.OnPlaylistsNotifyRefresh += RefreshPlaylists;
             supporter.OnTracksNotifyRefresh += RefreshTracks;
@@ -59,7 +59,7 @@ namespace Ild_Music.ViewModels
         #endregion
 
         #region  Private Methods
-        private void PopullateLists()
+        private async Task PopullateLists()
         {
             supporter.ArtistsCollection.ToList().ForEach(a => Artists.Add(a));
             supporter.PlaylistsCollection.ToList().ForEach(p => Playlists.Add(p));
@@ -90,7 +90,7 @@ namespace Ild_Music.ViewModels
         {
             if (obj is Playlist playlist)
             {
-                Task.Run(() => MainVM.DropInstance(this, playlist)).Start(); 
+                Task.Run(() => MainVM.DropInstance(this, playlist)); 
             }
         }
 
