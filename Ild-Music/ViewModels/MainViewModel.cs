@@ -93,7 +93,11 @@ public class MainViewModel : Base.BaseViewModel
     {
         //player preset
         _player = player.PlayerInstance;
-        _player.SetNotifier(() => OnPropertyChanged("PlayerState"));
+        _player.SetNotifier(() => 
+        {
+            OnPropertyChanged("CurrentEntity");
+            OnPropertyChanged("PlayerState");
+        });
         _player.TrackStarted += OnTrackStarted;
 
         //ViewModels preset
@@ -335,11 +339,13 @@ public class MainViewModel : Base.BaseViewModel
 
     private void PreviousSwipePlayer(object obj) 
     {
+        OnPropertyChanged("CurrentEntity");
         _player.DropPrevious();
     }
 
     private void NextSwipePlayer(object obj) 
     {
+        OnPropertyChanged("CurrentEntity");
         _player.DropNext();
     }
 
