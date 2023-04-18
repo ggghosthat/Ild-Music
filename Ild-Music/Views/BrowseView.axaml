@@ -201,7 +201,7 @@
 	    				VerticalAlignment="Center">
 		    			<i:Interaction.Behaviors>
 				            <ia:EventTriggerBehavior EventName="PointerPressed">
-				              <ia:InvokeCommandAction Command="{Binding CreatePlaylistCommand}"/>
+				              <ia:InvokeCommandAction Command="{Binding PlayBrowsedTracksCommand}"/>
 				            </ia:EventTriggerBehavior>  
 				        </i:Interaction.Behaviors>
 			            <Border Width="30"

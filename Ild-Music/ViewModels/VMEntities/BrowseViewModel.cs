@@ -37,6 +37,7 @@ public class BrowseViewModel : BaseViewModel
     public CommandDelegator PlaybackSingleCommand { get; }
     public CommandDelegator CreateTrackCommand { get; }
     public CommandDelegator CreatePlaylistCommand { get; }
+    public CommandDelegator PlayBrowsedTracksCommand { get; }
     public CommandDelegator CancelCommand { get; }
     #endregion
 
@@ -46,6 +47,7 @@ public class BrowseViewModel : BaseViewModel
         PlaybackSingleCommand = new(PlaybackSingle, null);
         CreateTrackCommand = new(CreateTrack, null);
         CreatePlaylistCommand = new(CreatePlaylist, null);
+        PlayBrowsedTracksCommand = new(PlayBrowsedTracks, null);
         CancelCommand = new(Cancel, null);
     }
 
@@ -88,28 +90,33 @@ public class BrowseViewModel : BaseViewModel
         }
     }
 
-    public void CreateTrack(object obj)
+    private void CreateTrack(object obj)
     {
-            Console.WriteLine("here is playlist generation");
         if(SelectedItems is not null && SelectedItems.Count > 0)
         {
-            Console.WriteLine("here is track generation");
-            var producedTrack = SelectedItems[0].MusicFileConvertTrack();
+            Track producedTrack = SelectedItems[0].MusicFileConvertTrack();
             supporterService.AddInstance(producedTrack);
             supporterService.DumpState();
         }
     }
 
-    public void CreatePlaylist(object obj)
+    private void CreatePlaylist(object obj)
     {
-            Console.WriteLine("here is playlist generation");
         if(SelectedItems is not null && SelectedItems.Count > 0)
         {
-            Console.WriteLine("here is playlist generation");
-            var producedPlaylist = SelectedItems.MusicFileConvertPlaylist(supporter:supporterService);
+            Playlist producedPlaylist = SelectedItems.MusicFileConvertPlaylist(supporter:supporterService);
             supporterService.AddInstance(producedPlaylist);
             supporterService.DumpState();
         }
+    }
+
+    private void PlayBrowsedTracks(object obj)
+    {
+        if(Items is not null && Items.Count > 0)
+        {
+            Playlist producedPlaylist = Items.MusicFileConvertPlaylist(supporter:supporterService);
+            MainVM.HitTemps(Items);
+        } 
     }
 
     private async void BrowseFromManager(object obj)

@@ -6,6 +6,7 @@ using ShareInstances.Services.Interfaces;
 using ShareInstances.Services.Entities;
 using ShareInstances.Instances;
 using ShareInstances.Instances.Interfaces;
+using ShareInstances.Filer;
 
 
 using System;
@@ -258,6 +259,27 @@ public class MainViewModel : Base.BaseViewModel
             PushVM(source, instanceVM);
             ResolveWindowStack();
         }
+    }
+
+    //Just for "Temporary playing"
+    public void HitTemps(MusicFile musicFile)
+    {
+
+    }
+
+    public void HitTemps(IEnumerable<MusicFile> musicFiles)
+    {
+        _player.StopPlayer();
+        _player.SetRoad(musicFiles);
+        OnPropertyChanged("CurrentEntity");
+
+        //getting total time from Current player instace
+        totalTime = ((Track)CurrentEntity).Duration;                             
+        OnPropertyChanged("TotalTime");
+        OnPropertyChanged("TotalTimeDisplay");
+        OnPropertyChanged("CurrentTime");
+            
+        _player.Pause_ResumePlayer();
     }
     #endregion
 
