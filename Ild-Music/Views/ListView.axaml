@@ -15,6 +15,7 @@
   <UserControl.Resources>
     <conv:InstanceConverter x:Key="InstanceConverter"/>
   </UserControl.Resources>
+
   <Grid>
     <Grid.RowDefinitions>
       <RowDefinition Height="auto"/>
@@ -23,7 +24,6 @@
     </Grid.RowDefinitions>
 
     <StackPanel Grid.Row="0">
-
       <i:Interaction.Behaviors>
         <ia:EventTriggerBehavior EventName="Tapped">
           <ia:InvokeCommandAction Command="{Binding DefineListTypeCommand}"/>
@@ -142,7 +142,8 @@
       <ScrollViewer HorizontalContentAlignment="Center"
                     HorizontalScrollBarVisibility="Disabled"
                     VerticalScrollBarVisibility="Auto"
-                    Background="#50000000">
+                    Background="#50000000"
+                    DragDrop.AllowDrop="True">
             <ListBox Items="{Binding CurrentList}"
                     SelectedItem="{Binding CurrentItem}"
                     ScrollViewer.VerticalScrollBarVisibility="Auto"

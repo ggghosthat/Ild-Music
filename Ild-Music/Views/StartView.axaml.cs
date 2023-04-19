@@ -19,10 +19,7 @@ namespace Ild_Music.Views
             InitializeComponent();
         	AddHandler(DragDrop.DropEvent, Drop);
         }
-
-        private void DragOver(object sender, DragEventArgs e)
-	    {}
-
+        
 	    private void Drop(object sender, DragEventArgs e)
 	    {
 	        if (e.Data.Contains(DataFormats.FileNames))

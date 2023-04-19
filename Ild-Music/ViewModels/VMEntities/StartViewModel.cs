@@ -4,6 +4,7 @@ using ShareInstances.Instances;
 using ShareInstances.Services.Entities;
 
 using System;
+using System.IO;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -89,10 +90,13 @@ namespace Ild_Music.ViewModels
         {
             paths.ToList().ForEach(path => 
             {
-                Track newTrack = new(pathway:path, 
-                                     name:null,
-                                     description:null);
-                supporter.AddInstance(newTrack);
+                if(Path.GetExtension(path) == ".mp3" )
+                {
+                    Track newTrack = new(pathway:path, 
+                                         name:null,
+                                         description:null);
+                    supporter.AddInstance(newTrack);
+                }
             });
         }
         #endregion

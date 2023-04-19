@@ -9,6 +9,7 @@ using Ild_Music.ViewModels.Base;
 using Ild_Music.ViewModels;
 
 using System;
+using System.IO;
 using System.Linq;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -76,7 +77,7 @@ public class ListViewModel : BaseViewModel
         DisplayProviders();
     }
 
-    public void UpdateProviders()
+    public async Task UpdateProviders()
     {
         DisplayProviders();
     }
@@ -96,6 +97,24 @@ public class ListViewModel : BaseViewModel
                 supporter.TracksCollection.ToList().ForEach(t => CurrentList.Add(t));
                 break;
         }      
+    }
+
+    public async Task BrowseTracks(IEnumerable<string> paths)
+    {
+        if(Header is "Tracks")
+        {
+            paths.ToList().ForEach(path => 
+            {
+                if(Path.GetExtension(path) == ".mp3" )
+                {
+                    Track newTrack = new(pathway:path, 
+                                         name:null,
+                                         description:null);
+                    supporter.AddInstance(newTrack);
+                    UpdateProviders();
+                }
+            });
+        }
     }
     #endregion
 

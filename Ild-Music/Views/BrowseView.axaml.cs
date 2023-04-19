@@ -20,11 +20,7 @@ public partial class BrowseView : UserControl
     {
         InitializeComponent();
         AddHandler(DragDrop.DropEvent, Drop);
-        AddHandler(DragDrop.DragOverEvent, DragOver);
     }
-
-    private void DragOver(object sender, DragEventArgs e)
-    {}
 
     private void Drop(object sender, DragEventArgs e)
     {
