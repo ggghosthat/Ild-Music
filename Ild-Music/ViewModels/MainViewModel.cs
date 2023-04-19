@@ -84,7 +84,7 @@ public class MainViewModel : Base.BaseViewModel
     public Stack<BaseViewModel> WindowStack {get; private set;} = new();
 
 
-    public ObservableCollection<char> NavItems {get;} = new() {'a','b','c', 'd'};
+    public ObservableCollection<char> NavItems {get;} = new() {'a','b','d'};
     public char? NavItem {get; set;}
     #endregion
 

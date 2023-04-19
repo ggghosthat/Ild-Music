@@ -187,14 +187,13 @@
                                     HorizontalScrollBarVisibility="Disabled"
                                     HorizontalAlignment="Stretch"
                                     HorizontalContentAlignment="Left"
-                                    Background="#16262e">
-                                    
+                                    Background="#16262e"
+                                    DragDrop.AllowDrop="True">
                                     <ListBox Items="{Binding Tracks}"
                                               SelectedItem="{Binding CurrentTrack}"
                                               ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                                               ScrollViewer.VerticalScrollBarVisibility="Auto"
                                               Background="Transparent">
-
                                               <ListBox.ItemsPanel>
                                                   <ItemsPanelTemplate>
                                                       <StackPanel Orientation="Vertical"/>

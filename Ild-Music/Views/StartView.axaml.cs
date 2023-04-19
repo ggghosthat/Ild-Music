@@ -1,4 +1,7 @@
+using Ild_Music.ViewModels;
+
 using Avalonia;
+using Avalonia.Input;
 using Avalonia.Controls;
 using Avalonia.Controls.Templates;
 using Avalonia.Markup.Xaml;
@@ -14,6 +17,19 @@ namespace Ild_Music.Views
         public StartView()
         {
             InitializeComponent();
+        	AddHandler(DragDrop.DropEvent, Drop);
         }
+
+        private void DragOver(object sender, DragEventArgs e)
+	    {}
+
+	    private void Drop(object sender, DragEventArgs e)
+	    {
+	        if (e.Data.Contains(DataFormats.FileNames))
+	    	{    		
+	    		var vm = (StartViewModel)DataContext;
+	    		vm.BrowseTracks(e.Data.GetFileNames());
+	    	}
+	    } 
     }
 }

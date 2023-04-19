@@ -20,7 +20,6 @@ namespace Ild_Music.ViewModels
         #region AsyncStaff
         private Task trackDropTask;
         private CancellationTokenSource tokenSource = new CancellationTokenSource();
-        // private CancellationToken token = tokenSource.Token;
         #endregion
         
         #region Services
@@ -82,6 +81,19 @@ namespace Ild_Music.ViewModels
         {
             Tracks.Clear();
             supporter.TracksCollection.ToList().ForEach(t => Tracks.Add(t));
+        }
+        #endregion
+
+        #region Public Methods
+        public async Task BrowseTracks(IEnumerable<string> paths)
+        {
+            paths.ToList().ForEach(path => 
+            {
+                Track newTrack = new(pathway:path, 
+                                     name:null,
+                                     description:null);
+                supporter.AddInstance(newTrack);
+            });
         }
         #endregion
 
