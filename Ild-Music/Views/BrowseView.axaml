@@ -243,7 +243,7 @@
     	<Border Grid.Column="1"
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Stretch"
-                Background="Transparent">
+                Background="#50000000">
                 <ScrollViewer VerticalScrollBarVisibility="Auto"
 	                          HorizontalScrollBarVisibility="Disabled"
 	                          HorizontalAlignment="Stretch"
