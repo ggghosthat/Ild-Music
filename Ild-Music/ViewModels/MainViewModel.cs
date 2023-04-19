@@ -8,14 +8,15 @@ using ShareInstances.Instances;
 using ShareInstances.Instances.Interfaces;
 using ShareInstances.Filer;
 
-
 using System;
 using System.Collections.ObjectModel;
-using Avalonia.Threading;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-
+using Avalonia;
+using Avalonia.Controls;
+using Avalonia.Threading;
+using Avalonia.Controls.ApplicationLifetimes;
 namespace Ild_Music.ViewModels;
 public class MainViewModel : Base.BaseViewModel
 {
@@ -70,7 +71,13 @@ public class MainViewModel : Base.BaseViewModel
     public CommandDelegator StopCommand { get; }
     public CommandDelegator RepeatCommand { get; }
 
-    public CommandDelegator VolumeSliderShowCommand {get;}
+    public CommandDelegator VolumeSliderShowCommand { get; }
+
+    public CommandDelegator ExitCommand { get; }
+
+    public CommandDelegator SwitchHomeCommand { get; }
+    public CommandDelegator SwitchListCommand { get; }
+    public CommandDelegator SwitchBrowseCommand { get; }
     #endregion
 
     #region Fields
@@ -119,6 +126,11 @@ public class MainViewModel : Base.BaseViewModel
         NextCommand = new(NextSwipePlayer, OnCanSwipePlayer);
         RepeatCommand = new(RepeatPlayer, OnCanTogglePlayer);
         VolumeSliderShowCommand = new(VolumeSliderShow,null);
+        ExitCommand = new(Exit, null);
+
+        SwitchHomeCommand = new(SwitchHome, null);
+        SwitchListCommand = new(SwitchList, null);
+        SwitchBrowseCommand = new(SwitchBrowse, null);
 
         CurrentVM = (BaseViewModel)App.ViewModelTable[StartViewModel.nameVM];
 
@@ -368,6 +380,27 @@ public class MainViewModel : Base.BaseViewModel
     private void VolumeSliderShow(object obj)
     {
         VolumeSliderOpen ^= true;
+    }
+
+    public void SwitchHome(object obj)
+    {
+        DefineNewPresentItem((BaseViewModel)App.ViewModelTable[StartViewModel.nameVM]);
+    }
+
+    public void SwitchList(object obj)
+    {
+        DefineNewPresentItem((BaseViewModel)App.ViewModelTable[ListViewModel.nameVM]);
+    }
+
+    public void SwitchBrowse(object obj)
+    {
+        DefineNewPresentItem((BaseViewModel)App.ViewModelTable[BrowseViewModel.nameVM]);
+    }
+
+    public void Exit(object obj)
+    {
+        if(Application.Current.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktopLifetime)
+                desktopLifetime.Shutdown();
     }
     #endregion
 }

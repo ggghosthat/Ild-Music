@@ -30,7 +30,7 @@
 	    	<Border Grid.Row="0"
 	    			HorizontalAlignment="Center"
 	    			VerticalAlignment="Center">
-	    		<TextBlock Text="Browse your music"
+	    			<TextBlock Text="Browse your music"
 	    				   FontSize="30"
 	    				   FontWeight="Light"/>
 	    	</Border>

@@ -69,6 +69,7 @@
                             <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
 
+                        
                         <Border Grid.Row="0" 
                                 Grid.RowSpan="3"
                                 Grid.ColumnSpan="2"
@@ -619,4 +620,18 @@
             </Setter>
         </Style>
     </Window.Styles>
+
+
+
+    <Window.KeyBindings>
+        <KeyBinding Gesture="Space" Command="{Binding KickCommand}"/>
+        <KeyBinding Gesture="Ctrl+Shift+j" Command="{Binding NextCommand}"/>
+        <KeyBinding Gesture="Ctrl+Shift+h" Command="{Binding PreviousCommand}"/>
+        <KeyBinding Gesture="Ctrl+r" Command="{Binding RepeatCommand}"/>
+        <KeyBinding Gesture="Ctrl+x" Command="{Binding ExitCommand}"/>
+
+        <KeyBinding Gesture="Alt+h" Command="{Binding SwitchHomeCommand}"/>
+        <KeyBinding Gesture="Alt+l" Command="{Binding SwitchListCommand}"/>
+        <KeyBinding Gesture="Alt+b" Command="{Binding SwitchBrowseCommand}"/>
+    </Window.KeyBindings>
 </Window>
