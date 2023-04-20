@@ -86,6 +86,21 @@
       </Setter>
     </Style>
   </UserControl.Styles>
+  <Grid>
+  <Border Grid.Row="0"
+          Grid.Column="0"
+          Grid.ColumnSpan="3"
+          Grid.RowSpan="3"
+          BorderThickness="0"
+          BorderBrush="Transparent"
+          ZIndex="-1">
+          <Border.Background>
+             <LinearGradientBrush StartPoint="50%,0%" EndPoint="50%,100%">
+                <GradientStop Color="{Binding AvatarSource, Converter={StaticResource InstanceConverter}, ConverterParameter=back}" Offset="0.0" />
+                <GradientStop Color="Black" Offset="1.0" />
+             </LinearGradientBrush>
+          </Border.Background>
+  </Border> 
 
   <ScrollViewer HorizontalScrollBarVisibility="Disabled"
                 VerticalScrollBarVisibility="Auto"
@@ -442,21 +457,7 @@
                                     Margin="5"/>
                   </StackPanel>
       </StackPanel>
-
-      <Border Grid.Row="0"
-              Grid.Column="0"
-              Grid.ColumnSpan="3"
-              Grid.RowSpan="3"
-              BorderThickness="0"
-              BorderBrush="Transparent"
-              ZIndex="-1">
-              <Border.Background>
-                <LinearGradientBrush StartPoint="50%,0%" EndPoint="50%,100%">
-                  <GradientStop Color="{Binding AvatarSource, Converter={StaticResource InstanceConverter}, ConverterParameter=back}" Offset="0.0" />
-                  <GradientStop Color="Black" Offset="1.0" />
-                </LinearGradientBrush>
-              </Border.Background>
-      </Border> 
     </Grid>
   </ScrollViewer>
+  </Grid>
 </UserControl>
