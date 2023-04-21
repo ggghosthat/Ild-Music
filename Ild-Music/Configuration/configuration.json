@@ -1,8 +1,0 @@
-{
-    "Players": [
-        "../dependencies/Ild-Music.VLCSharpPlayer/bin/Release/net6.0/VLCSharpPlayer.dll"
-    ],
-    "Synches": [
-        "../dependencies/Ild-Music.SynchronizationBlock/bin/Release/net6.0/SynchronizationBlock.dll"
-    ]
-}
