@@ -26,8 +26,7 @@ install=
 changelog=
 source=("git+$url")
 noextract=()
-md5sums=()
-validpgpkeys=()
+md5sums=("SKIP")
 
 
 build() {
@@ -37,6 +36,7 @@ build() {
 }
 
 package() {
-	cp "$pkgname/bin/Release/net6.0/arch-x64/Ild-Music alpha release arch-x64" /opt
+    printf $pkgname
+	#cp "$pkgname/bin/Release/net6.0/arch-x64/Ild-Music alpha release arch-x64" /opt
 	# make DESTDIR="$pkgdir/" install
 }
