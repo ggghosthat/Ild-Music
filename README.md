@@ -18,9 +18,9 @@ Local music player for mp3 files and my desktop player.
 1) Build and include [Ild-Music.ShareInstances](https://github.com/ggghosthat/Ild-Music.ShareInstances)
 2) Also download and build synchronization block dependency [Ild-Music.SynchronizationBlock](https://github.com/ggghosthat/Ild-Music.SynchronizationBlock),
    which perfom dile system conversations.   
-4) Define operating system (Windows or Linux) and select it's own player components. 
-    *+ [Ild-Music.NAudioCore](https://github.com/ggghosthat/Ild-Music.NAudioPlayerCore) for Windows
-    *+ [Ild-Music.VLCSharpPlayer](https://github.com/ggghosthat/Ild-Music.VLCSharpPlayer) for Linux
+4) Define operating system (Windows or Linux) and select it's own player components.\n
+    + [Ild-Music.NAudioCore](https://github.com/ggghosthat/Ild-Music.NAudioPlayerCore) for Windows\n
+    + [Ild-Music.VLCSharpPlayer](https://github.com/ggghosthat/Ild-Music.VLCSharpPlayer) for Linux
 
 # Dependencies description
 
