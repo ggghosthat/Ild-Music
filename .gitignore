@@ -4,10 +4,11 @@
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 
 
-#dependencies
+
 ./dependencies
 ./tests
 ./PKGBUILD
+./*.pkg.tar.zst
 
 # User-specific files
 *.rsuser
