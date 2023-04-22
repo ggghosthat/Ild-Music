@@ -1,6 +1,6 @@
 ![](title.jpg)
 
-Local music player for mp3 files and my desktop player. 
+Local desktop music player for Windows and Linux. 
 
 # Supported operating systems: 
 
