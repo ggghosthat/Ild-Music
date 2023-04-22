@@ -4,10 +4,6 @@
 
 Local music player for mp3 files and my desktop player. 
 
-# From scratch build requirement:
-
-  - dotnet sdk 6.0.4
-
 # Supported operating systems: 
 
   - Windows 10 -x64 (beta release only)
