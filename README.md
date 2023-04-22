@@ -1,4 +1,5 @@
 ![](title.jpg)
+
 Local music player for mp3 files and my desktop player. 
 
 # Supported operating systems: 
@@ -10,8 +11,9 @@ Local music player for mp3 files and my desktop player.
 
 ⚠️ Please before building player from source make sure that on your machin installed .NET sdk v6.0.4⚠️
 
-1) Build and include [Ild-Music.ShareInstances](https://github.com/ggghosthat/Ild-Music.ShareInstances)
-2) Also download and build synchronization block dependency [Ild-Music.SynchronizationBlock](https://github.com/ggghosthat/Ild-Music.SynchronizationBlock),
+1) Build and include [Ild-Music.ShareInstances](https://github.com/ggghosthat/Ild-Music.ShareInstances) into your project with UI client
+   (skip this step if you want to use Ild-Music player).
+3) Also download and build synchronization block dependency [Ild-Music.SynchronizationBlock](https://github.com/ggghosthat/Ild-Music.SynchronizationBlock),
    which perfom dile system conversations.   
 4) Define operating system (Windows or Linux) and select it's own player components.
 
