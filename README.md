@@ -1,3 +1,5 @@
+![](title.jpg)
+
 # Description
 
 Local music player for mp3 files and my desktop player. 
