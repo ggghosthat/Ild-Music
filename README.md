@@ -15,7 +15,9 @@ Local music player for mp3 files and my desktop player.
 
 # Dependencies:
 
-## Totally from scratch 
+## From scratch build
+
+### Before building player from source please make sure that on your machin installed **.NET sdk v6.0.4**
 
 1) Build and include [Ild-Music.ShareInstances](https://github.com/ggghosthat/Ild-Music.ShareInstances)
 2) Also download and build synchronization block dependency [Ild-Music.SynchronizationBlock](https://github.com/ggghosthat/Ild-Music.SynchronizationBlock),
