@@ -6,7 +6,7 @@
 
 
 ./dependencies
-./tests
+./Ild-Music.CLI
 ./PKGBUILD
 ./*.pkg.tar.zst
 

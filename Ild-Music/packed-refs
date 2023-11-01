@@ -1,8 +1,0 @@
-# pack-refs with: peeled fully-peeled sorted 
-7a1e22ceb9b93cfcc9124453cb4d0e5525c906fc refs/heads/main
-7a1e22ceb9b93cfcc9124453cb4d0e5525c906fc refs/heads/main-linux
-575162aee90863d3917cade445758b2b696d1b0c refs/pull/2/head
-2f01283a8a2f5bd7df18938d809cb21dc2905c80 refs/tags/alpha
-781fb5c6c9e1ff8798069b7ca70fa2f4715f039a refs/tags/beta
-df134c57bc85f301d528fc692d766fab9ebcb3fe refs/tags/ild-music
-97385eb6e8b0814e006b0224c07278e2ea0c7f43 refs/tags/win-x64
