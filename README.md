@@ -21,8 +21,7 @@ Local desktop music player for Windows and Linux.
     - [Ild-Music.VLCSharpPlayer](https://github.com/ggghosthat/Ild-Music.VLCSharpPlayer) for Linux
 
 # Dependencies
+  All dependencies are holding inside this repository.
+  Only a single dependency of player component for Windows has own repository for near time.
 
-  1) mainhold dependency [Ild-Music.ShareInstances](https://github.com/ggghosthat/Ild-Music.ShareInstances) - contain main instances, objects and interfaces
-  2) synchronization block dependency [Ild-Music.SynchronizationBlock](https://github.com/ggghosthat/Ild-Music.SynchronizationBlock) - using for file system conversations.
-  3) player instance dependency for Windows [Ild-Music.NAudioCore](https://github.com/ggghosthat/Ild-Music.NAudioPlayerCore) - player component for Windows.\n Based on [NAudio lib](https://github.com/naudio/NAudio)
-  4) player instance dependency for Linux (Manjaro tested) [Ild-Music.VLCSharpPlayer](https://github.com/ggghosthat/Ild-Music.VLCSharpPlayer) - player for Linux. \n Based on [LibVLCSharp lib](https://github.com/videolan/libvlcsharp)
+  - player instance dependency for Windows [Ild-Music.NAudioCore](https://github.com/ggghosthat/Ild-Music.NAudioPlayerCore) - player component for Windows.\n Based on [NAudio lib](https://github.com/naudio/NAudio)
