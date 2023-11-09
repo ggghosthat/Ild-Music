@@ -1,3 +1,4 @@
+using ShareInstances.Contracts;
 using ShareInstances.Services.Castle;
 using ShareInstances.Configure;
 

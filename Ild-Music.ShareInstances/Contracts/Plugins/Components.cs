@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using MediatR;
-namespace ShareInstances;
+namespace ShareInstances.Contracts;
 public interface IShare
 {        
 }

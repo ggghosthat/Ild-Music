@@ -1,6 +1,9 @@
+using ShareInstances.Contracts;
+using ShareInstances.Contracts.Services;
+
 using System.Linq;
-using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 using MediatR;
 namespace ShareInstances.Services.PluginBag;
 public class PluginBag : IPluginBag

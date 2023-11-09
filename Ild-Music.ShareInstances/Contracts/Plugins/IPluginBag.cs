@@ -1,6 +1,6 @@
 using System.Threading.Tasks;
 using System.Collections.Generic;
-namespace ShareInstances.Services.PluginBag;
+namespace ShareInstances.Contracts.Services;
 public interface IPluginBag 
 {
     public int CurrentPlayerId {get;}

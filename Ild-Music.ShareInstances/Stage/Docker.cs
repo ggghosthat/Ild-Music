@@ -1,16 +1,13 @@
+using ShareInstances.Contracts;
+using ShareInstances.Configure;
+
 using System;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Runtime.Serialization.Formatters.Binary;
 using System.Threading.Tasks;
 using System.Collections.Generic;
-
-using ShareInstances;
-using ShareInstances.Configure;
-
 namespace ShareInstances.Stage;
-
 public class Docker : IDocker, IDisposable
 {
     private IConfigure configure;

@@ -1,8 +1,9 @@
-using ShareInstances.Contracts.Services.Interfaces;
+using ShareInstances.Contracts;
 using ShareInstances.Services.Entities;
-using ShareInstances.Services.PluginBag;
-using ShareInstances.CQRS.Handlers.Delegatebag;
+using ShareInstances.Contracts.Services;
 using ShareInstances.CQRS.Notifications;
+using ShareInstances.CQRS.Handlers.Delegatebag;
+using ShareInstances.Contracts.Services.Interfaces;
 
 using System.Threading.Tasks;
 using System.Collections.Generic;

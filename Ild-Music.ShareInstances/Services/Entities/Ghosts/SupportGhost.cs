@@ -1,10 +1,10 @@
-using System.Collections.Generic;
 using ShareInstances.Instances;
+using ShareInstances.Contracts;
+using ShareInstances.Contracts.Services;
 using ShareInstances.Contracts.Services.Interfaces;
-using ShareInstances.Services.PluginBag;
 
 using System;
-
+using System.Collections.Generic;
 namespace ShareInstances.Services.Entities;
 public sealed class SupportGhost : IGhost
 {

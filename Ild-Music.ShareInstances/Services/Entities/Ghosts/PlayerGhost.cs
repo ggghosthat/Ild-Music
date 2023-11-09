@@ -1,5 +1,6 @@
+using ShareInstances.Contracts;
+using ShareInstances.Contracts.Services;
 using ShareInstances.Contracts.Services.Interfaces;
-using ShareInstances.Services.PluginBag;
 
 using System;
 namespace ShareInstances.Services.Entities;
