@@ -1,5 +1,5 @@
 using ShareInstances.Instances;
-using ShareInstances.Services.Interfaces;
+using ShareInstances.Contracts.Services.Interfaces;
 
 using System;
 using System.IO;

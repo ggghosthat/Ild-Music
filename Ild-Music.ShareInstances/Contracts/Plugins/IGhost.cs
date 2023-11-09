@@ -1,6 +1,6 @@
 using System;
 
-namespace ShareInstances.Services.Interfaces;
+namespace ShareInstances.Contracts.Services.Interfaces;
 public interface IGhost 
 {
     public ReadOnlyMemory<char> GhostName { get; init; }

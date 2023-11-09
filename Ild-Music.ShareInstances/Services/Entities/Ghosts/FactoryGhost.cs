@@ -1,7 +1,5 @@
 using ShareInstances.Instances;
-using ShareInstances.Services.Entities;
-using ShareInstances.Services.Interfaces;
-using ShareInstances.Services.InstanceProducer;
+using ShareInstances.Contracts.Services.Interfaces;
 using ShareInstances.Exceptions.SynchAreaExceptions;
 
 using System;

@@ -1,6 +1,6 @@
 using System;
 
-namespace ShareInstances.Services.Interfaces;
+namespace ShareInstances.Contracts.Services.Interfaces;
 public interface IWaiter
 {
     public Guid WaiterId {get; init;}

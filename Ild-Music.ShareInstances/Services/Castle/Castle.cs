@@ -1,4 +1,4 @@
-using ShareInstances.Services.Interfaces;
+using ShareInstances.Contracts.Services.Interfaces;
 using ShareInstances.Services.Entities;
 using ShareInstances.Services.PluginBag;
 using ShareInstances.CQRS.Handlers.Delegatebag;

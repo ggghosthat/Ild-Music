@@ -1,5 +1,5 @@
 using System.Threading.Tasks;
-namespace ShareInstances.Services.Interfaces;
+namespace ShareInstances.Contracts.Services.Interfaces;
 
 public enum Ghosts {SUPPORT, FACTORY, PLAYER}
 
