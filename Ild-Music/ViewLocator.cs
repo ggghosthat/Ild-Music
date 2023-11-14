@@ -1,30 +1,27 @@
 using System;
-using System.ComponentModel;
 using Avalonia.Controls;
 using Avalonia.Controls.Templates;
 using Ild_Music.ViewModels;
 
-namespace Ild_Music
+namespace Ild_Music;
+
+public class ViewLocator : IDataTemplate
 {
-    public class ViewLocator : IDataTemplate
+    public Control Build(object data)
     {
-        public IControl Build(object data)
-        {
-            var name = data.GetType().FullName!.Replace("ViewModel", "View");
-            var type = Type.GetType(name);
+        var name = data.GetType().FullName!.Replace("ViewModel", "View");
+        var type = Type.GetType(name);
 
-            if (type != null)
-            {
-                return (Control)Activator.CreateInstance(type)!;
-            }
-            
-            return new TextBlock { Text = "Not Found: " + name };
-        }
-
-        public bool Match(object data)
+        if (type != null)
         {
-            return false;
-            //return data is ViewModelBase;
+            return (Control)Activator.CreateInstance(type)!;
         }
+        
+        return new TextBlock { Text = "Not Found: " + name };
+    }
+
+    public bool Match(object data)
+    {
+        return data is ViewModelBase;
     }
 }

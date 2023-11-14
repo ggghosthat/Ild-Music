@@ -1,10 +1,7 @@
-using ShareInstances;
-using ShareInstances.Instances;
+using Ild_Music.Core.Instances;
 
 using System;
-using System.Threading;
 using System.Threading.Tasks;
-using LibVLCSharp;
 using LibVLCSharp.Shared;
 namespace IldMusic.VlcPlayer;
 internal class VlcPlayerService

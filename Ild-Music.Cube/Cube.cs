@@ -1,6 +1,6 @@
-using ShareInstances;
-using ShareInstances.Instances;
-using ShareInstances.Statistics;
+using Ild_Music.Core.Contracts;
+using Ild_Music.Core.Instances;
+using Ild_Music.Core.Statistics;
 using Cube.Storage;
 
 using MediatR;

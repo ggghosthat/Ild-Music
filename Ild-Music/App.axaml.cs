@@ -1,56 +1,28 @@
-using Ild_Music;
-using Ild_Music.ViewModels;
-using Ild_Music.ViewModels.Base;
-using Ild_Music.Views;
-using ShareInstances.Services.Interfaces;
-using ShareInstances.Services.Entities;
-using ShareInstances.Services.Center;
-using ShareInstances;
-using ShareInstances.Stage;
-using ShareInstances.Configure;
-
-using System;
-using System.Diagnostics;
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
-using PropertyChanged;
-using System.Collections;
+using Ild_Music.ViewModels;
+using Ild_Music.Views;
 
-namespace Ild_Music
+namespace Ild_Music;
+
+public partial class App : Application
 {
-    [DoNotNotifyAttribute]
-    public partial class App : Application
+    public override void Initialize()
     {
-        public static Hashtable ViewModelTable;
-        public static IConfigure Configure;
-        public static Stage Stage = new();
+        AvaloniaXamlLoader.Load(this);
+    }
 
-        public App()
+    public override void OnFrameworkInitializationCompleted()
+    {
+        if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
-            Configure = new Configure("Configuration/configuration.json");
-            Stage = new (Configure);
-            ViewModelTable = new Hashtable();
-        }
-
-        public override void Initialize()
-        {
-            AvaloniaXamlLoader.Load(this);
-        }
-
-        public override void OnFrameworkInitializationCompleted()
-        {
-            if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
+            desktop.MainWindow = new MainWindow
             {
-                desktop.MainWindow = new MainWindow();
-            }
-
-            base.OnFrameworkInitializationCompleted();
+                DataContext = new MainWindowViewModel(),
+            };
         }
 
-        public static object? FetchViewModel(string vmName)
-        {
-            return ViewModelTable[vmName];
-        }
+        base.OnFrameworkInitializationCompleted();
     }
 }

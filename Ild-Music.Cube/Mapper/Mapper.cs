@@ -1,9 +1,6 @@
-using ShareInstances.Instances;
+using Ild_Music.Core.Instances;
 using Cube.Mapper.Entities;
 
-using System;
-using System.Linq;
-using System.Collections;
 using System.Collections.Concurrent;
 using AutoMapper;
 

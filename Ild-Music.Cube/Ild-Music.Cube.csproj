@@ -13,7 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Ild-Music.ShareInstances\ShareInstances.csproj" />
+    <ProjectReference Include="..\Ild-Music.Core\Ild-Music.Core.csproj" />
   </ItemGroup>
 
 </Project>

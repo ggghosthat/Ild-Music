@@ -1,12 +1,7 @@
-using ShareInstances.Instances;
-using Cube.Mapper;
+using Ild_Music.Core.Instances;
 using Cube.Mapper.Entities;
 
-using System;
-using System.Linq;
-using System.Collections.Generic;
 using AutoMapper;
-
 namespace Cube.Mapper;
 public sealed class MapProfile : Profile
 {    

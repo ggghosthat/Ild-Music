@@ -1,5 +1,3 @@
-using System;
-
 namespace Cube.Mapper.Entities;
 public record ArtistMap : IMappable
 {

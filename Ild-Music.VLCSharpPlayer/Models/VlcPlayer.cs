@@ -1,5 +1,5 @@
-using ShareInstances;
-using ShareInstances.Instances;
+using Ild_Music.Core.Contracts;
+using Ild_Music.Core.Instances;
 
 using System;
 using System.Threading.Tasks;
