@@ -1,28 +1,56 @@
+using Ild_Music;
+using Ild_Music.ViewModels;
+using Ild_Music.ViewModels.Base;
+using Ild_Music.Views;
+using ShareInstances.Services.Interfaces;
+using ShareInstances.Services.Entities;
+using ShareInstances.Services.Center;
+using ShareInstances;
+using ShareInstances.Stage;
+using ShareInstances.Configure;
+
+using System;
+using System.Diagnostics;
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
-using Ild_Music.ViewModels;
-using Ild_Music.Views;
+using PropertyChanged;
+using System.Collections;
 
-namespace Ild_Music;
-
-public partial class App : Application
+namespace Ild_Music
 {
-    public override void Initialize()
+    [DoNotNotifyAttribute]
+    public partial class App : Application
     {
-        AvaloniaXamlLoader.Load(this);
-    }
+        public static Hashtable ViewModelTable;
+        public static IConfigure Configure;
+        public static Stage Stage = new();
 
-    public override void OnFrameworkInitializationCompleted()
-    {
-        if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
+        public App()
         {
-            desktop.MainWindow = new MainWindow
-            {
-                DataContext = new MainWindowViewModel(),
-            };
+            Configure = new Configure("Configuration/configuration.json");
+            Stage = new (Configure);
+            ViewModelTable = new Hashtable();
         }
 
-        base.OnFrameworkInitializationCompleted();
+        public override void Initialize()
+        {
+            AvaloniaXamlLoader.Load(this);
+        }
+
+        public override void OnFrameworkInitializationCompleted()
+        {
+            if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
+            {
+                desktop.MainWindow = new MainWindow();
+            }
+
+            base.OnFrameworkInitializationCompleted();
+        }
+
+        public static object? FetchViewModel(string vmName)
+        {
+            return ViewModelTable[vmName];
+        }
     }
 }

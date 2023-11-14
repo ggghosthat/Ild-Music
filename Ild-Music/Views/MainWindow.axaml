@@ -1,20 +1,637 @@
 <Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:vm="using:Ild_Music.ViewModels"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+
+        xmlns:v="clr-namespace:Ild_Music.Views"
+        xmlns:vm="using:Ild_Music.ViewModels"
+        xmlns:conv="clr-namespace:Ild_Music.Converters"
+        xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
+        xmlns:ia="clr-namespace:Avalonia.Xaml.Interactions.Core;assembly=Avalonia.Xaml.Interactions"
+
+
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="460"
         x:Class="Ild_Music.Views.MainWindow"
-        x:DataType="vm:MainWindowViewModel"
-        Icon="/Assets/avalonia-logo.ico"
-        Title="Ild_Music">
+        Icon="/Assets/ild-music-logo.ico"
+        Title="Ild_Music"
+        HasSystemDecorations="false"
+        Background="#1b2b33"
+        WindowStartupLocation="CenterScreen">
+    
+    <Window.Resources>
+        <conv:NavBarConverter x:Key="NavBarConverter"/>
+        <conv:PlayerToggleButtonConverter x:Key="ToggleButtonConverter"/>
+        <conv:CurrentEntityConverter x:Key="CurrentEntityConverter"/>
+    </Window.Resources>
 
-    <Design.DataContext>
-        <!-- This only sets the DataContext for the previewer in an IDE,
-             to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
-        <vm:MainWindowViewModel/>
-    </Design.DataContext>
+    <Window.Styles>
+        <Style Selector="Border.PlayerButton Border Viewbox Canvas Path">
+            <Setter Property="Fill" Value="#7b7f6b"/>
+        </Style>
+        <Style Selector="Border.PlayerButton:pointerover Border Viewbox Canvas Path">
+            <Setter Property="Fill" Value="#6ed48b"/>
+        </Style>
+        <Style Selector="Border.PlayerButton:pointerpressed Border Viewbox Canvas Path">
+            <Setter Property="Fill" Value="#6ed48b"/>
+        </Style>
 
-    <TextBlock Text="{Binding Greeting}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <Style Selector="Border.volumePopup">
+            <Setter Property="Width" Value="0"/>
+            <Setter Property="Height" Value="0"/>
+        </Style>
+        <Style Selector="Border.volumePopup Slider.volumeSlider">
+            <Setter Property="Width" Value="0"/>
+            <Setter Property="Height" Value="0"/>
+        </Style>
 
+        <Style Selector="Border.volumePopup.open">
+            <Setter Property="Width" Value="36"/>
+            <Setter Property="Height" Value="100"/>
+        </Style>
+        <Style Selector="Border.volumePopup.open Slider.volumeSlider">
+            <Setter Property="Width" Value="10"/>
+            <Setter Property="Height" Value="100"/>
+        </Style>
+
+        <Style Selector="Window">
+            <Setter Property="Template">
+                <ControlTemplate>
+                    <Grid x:Name="MainGrid"
+                          Background="#1b2b33">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="45"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="auto"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        
+                        <Border Grid.Row="0" 
+                                Grid.RowSpan="3"
+                                Grid.ColumnSpan="2"
+                                ZIndex="1"
+                                IsVisible="{Binding VolumeSliderOpen}"
+                                Background="Transparent"
+                                PointerPressed="VolumePopupDown"/>
+
+                        <Border x:Name="VolumeArea"
+                                Classes="volumePopup"
+                                Classes.open="{Binding VolumeSliderOpen}"
+                                ZIndex="3"
+                                Grid.Row="0"
+                                Grid.RowSpan="3"
+                                CornerRadius="5,5,0,0"
+                                Background="#20000000"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Bottom">
+                                <Slider x:Name="VolumeSlider"
+                                        Classes="volumeSlider"
+                                        Orientation="Vertical"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Bottom"
+                                        Maximum="{Binding MaxVolume, Mode=OneWay}"
+                                        Minimum="{Binding MinVolume, Mode=OneWay}"
+                                        Value="{Binding CurrentVolume, Mode=TwoWay}">
+                                    <Slider.Resources>
+                                        <x:Double x:Key="SliderVerticalThumbWidth">10</x:Double>
+                                        <x:Double x:Key="SliderVerticalThumbHeight">10</x:Double>
+                                        <x:Double x:Key="SliderVerticalWidth">5</x:Double>
+                                        <GridLength x:Key="SliderPreContentMargin">0</GridLength>
+                                        <GridLength x:Key="SliderPostContentMargin">0</GridLength>
+                                    </Slider.Resources>
+
+                                    <Slider.Styles>
+                                        <Style Selector="Slider.volumeSlider /template/ RepeatButton#PART_DecreaseButton">
+                                            <Setter Property="Background" Value="#34eb64"/>
+                                        </Style>
+
+                                        <Style Selector="Slider.volumeSlider /template/ RepeatButton#PART_IncreaseButton">
+                                            <Setter Property="Background" Value="#2b4532"/>
+                                        </Style>         
+
+                                        <Style Selector="Slider.volumeSlider Thumb">
+                                            <Setter Property="Template">
+                                                <ControlTemplate>
+                                                    <Ellipse Width="10" Height="10" Fill="#19e04e" />
+                                                </ControlTemplate>
+                                            </Setter>
+                                        </Style>                                     
+                                    </Slider.Styles>
+                                </Slider>
+                        </Border>
+
+                        <!--Header-->
+                        <Grid Grid.Row="0"
+                              Grid.ColumnSpan="3"
+                              Background="#16242b">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="auto"/>
+                                </Grid.ColumnDefinitions>
+
+                                <!--Header label-->
+                                <StackPanel Orientation="Horizontal" Grid.Column="0">
+                                            <StackPanel VerticalAlignment="Center"
+                                                        HorizontalAlignment="Left"
+                                                        Margin="9,0,0,0">
+                                                    <Viewbox Classes="vb" Width="170" Height="25"
+                                                             HorizontalAlignment="Left"
+                                                             VerticalAlignment="Top">
+                                                        <Canvas Width="170" Height="30">
+                                                            <Path Fill="#27da48" Data="M 30.00,0.00
+                                                                   C 30.00,0.00 40.00,0.00 40.00,0.00
+                                                                     40.00,0.00 40.00,34.00 40.00,34.00
+                                                                     40.00,34.00 30.00,34.00 30.00,34.00
+                                                                     30.00,34.00 30.00,0.00 30.00,0.00 Z
+                                                                   M 105.00,0.00
+                                                                   C 105.00,0.00 115.00,0.00 115.00,0.00
+                                                                     115.00,0.00 115.00,34.00 115.00,34.00
+                                                                     115.00,34.00 105.00,34.00 105.00,34.00
+                                                                     105.00,34.00 105.00,0.00 105.00,0.00 Z
+                                                                   M 15.00,6.00
+                                                                   C 15.00,6.00 25.00,6.00 25.00,6.00
+                                                                     25.00,6.00 25.00,29.00 25.00,29.00
+                                                                     25.00,29.00 15.00,29.00 15.00,29.00
+                                                                     15.00,29.00 15.00,6.00 15.00,6.00 Z
+                                                                   M 45.00,6.00
+                                                                   C 45.00,6.00 55.00,6.00 55.00,6.00
+                                                                     55.00,6.00 55.00,29.00 55.00,29.00
+                                                                     55.00,29.00 45.00,29.00 45.00,29.00
+                                                                     45.00,29.00 45.00,6.00 45.00,6.00 Z
+                                                                   M 90.00,6.00
+                                                                   C 90.00,6.00 100.00,6.00 100.00,6.00
+                                                                     100.00,6.00 100.00,29.00 100.00,29.00
+                                                                     100.00,29.00 90.00,29.00 90.00,29.00
+                                                                     90.00,29.00 90.00,6.00 90.00,6.00 Z
+                                                                   M 120.00,6.00
+                                                                   C 120.00,6.00 130.00,6.00 130.00,6.00
+                                                                     130.00,6.00 130.00,29.00 130.00,29.00
+                                                                     130.00,29.00 120.00,29.00 120.00,29.00
+                                                                     120.00,29.00 120.00,6.00 120.00,6.00 Z
+                                                                   M 0.00,14.00
+                                                                   C 0.00,14.00 10.00,14.00 10.00,14.00
+                                                                     10.00,14.00 10.00,29.00 10.00,29.00
+                                                                     10.00,29.00 0.00,29.00 0.00,29.00
+                                                                     0.00,29.00 0.00,14.00 0.00,14.00 Z
+                                                                   M 60.00,14.00
+                                                                   C 60.00,14.00 70.00,14.00 70.00,14.00
+                                                                     70.00,14.00 70.00,29.00 70.00,29.00
+                                                                     70.00,29.00 60.00,29.00 60.00,29.00
+                                                                     60.00,29.00 60.00,14.00 60.00,14.00 Z
+                                                                   M 75.00,14.00
+                                                                   C 75.00,14.00 85.00,14.00 85.00,14.00
+                                                                     85.00,14.00 85.00,29.00 85.00,29.00
+                                                                     85.00,29.00 75.00,29.00 75.00,29.00
+                                                                     75.00,29.00 75.00,14.00 75.00,14.00 Z
+                                                                   M 135.00,14.00
+                                                                   C 135.00,14.00 145.00,14.00 145.00,14.00
+                                                                     145.00,14.00 145.00,29.00 145.00,29.00
+                                                                     145.00,29.00 135.00,29.00 135.00,29.00
+                                                                     135.00,29.00 135.00,14.00 135.00,14.00 Z" />
+                                                        </Canvas>
+                                                    </Viewbox>
+                                            </StackPanel>
+                                </StackPanel>      
+
+                                <!--DragMove area-->                          
+                                <Grid x:Name="DragBar"
+                                      Grid.Column="0"
+                                      Grid.Row="0"
+                                      Grid.ColumnSpan="2"
+                                      Background="Transparent"/>
+
+                                <!--Window manipulation buttons-->
+                                <StackPanel Orientation="Horizontal"
+                                            HorizontalAlignment="Right"
+                                            VerticalAlignment="Top"
+                                            Grid.Column="3">
+                                            <Border VerticalAlignment="Stretch"
+                                                    HorizontalAlignment="Stretch"
+                                                    Width="30"
+                                                    Height="15"
+                                                    PointerPressed="OnHideClick">
+                                                    <Border.Styles>
+                                                        <Style Selector="Border">
+                                                            <Setter Property="Background" Value="#9021d96e"/>
+                                                        </Style>
+                                                        <Style Selector="Border:pointerover">
+                                                            <Setter Property="Background" Value="#21d96e"/>
+                                                        </Style>
+                                                    </Border.Styles>
+                                            </Border>
+
+                                            <Border VerticalAlignment="Stretch"
+                                                    HorizontalAlignment="Stretch"
+                                                    Width="30"
+                                                    Height="15"
+                                                    PointerPressed="OnExpandClick">
+                                                    <Border.Styles>
+                                                        <Style Selector="Border">
+                                                            <Setter Property="Background" Value="#90e2f01f"/>
+                                                        </Style>
+                                                        <Style Selector="Border:pointerover">
+                                                            <Setter Property="Background" Value="#e2f01f"/>
+                                                        </Style>
+                                                    </Border.Styles>
+                                            </Border>
+
+                                            <Border VerticalAlignment="Stretch"
+                                                    HorizontalAlignment="Stretch"
+                                                    Width="30"
+                                                    Height="15"
+                                                    PointerPressed="OnCloseClick">
+                                                    <Border.Styles>
+                                                        <Style Selector="Border">
+                                                            <Setter Property="Background" Value="#90f0371f"/>
+                                                        </Style>
+                                                        <Style Selector="Border:pointerover">
+                                                            <Setter Property="Background" Value="#f0371f"/>
+                                                        </Style>
+                                                    </Border.Styles>
+                                            </Border>
+                                </StackPanel>
+                        </Grid>
+                    
+                        <!--NavBar-->
+                        <Grid Grid.Row="1"
+                              Grid.ColumnSpan="2"
+                              ColumnDefinitions = "auto, *"
+                              Background="Transparent">
+                                <!--NavBar-->
+                                <Grid x:Name="NavBar"
+                                      Grid.Column="0" 
+                                      Background="#50000000"
+                                      HorizontalAlignment="Stretch">
+                                    <!--NavBarItems-->
+                                    <ScrollViewer HorizontalScrollBarVisibility="Disabled"
+                                                  VerticalScrollBarVisibility="Auto"
+                                                  HorizontalAlignment="Stretch">
+                                                  <ListBox Items="{Binding NavItems}"
+                                                         SelectedItem="{Binding NavItem}"
+                                                         HorizontalAlignment="Left"
+                                                         ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                                                         ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                                                         Background="transparent">
+                                                         <ListBox.ItemsPanel>
+                                                            <ItemsPanelTemplate>
+                                                                <StackPanel Orientation="Vertical"/>
+                                                            </ItemsPanelTemplate>
+                                                         </ListBox.ItemsPanel>
+                         
+                                                         <ListBox.Styles>
+                                                                    <Style Selector="ListBoxItem">
+                                                                        <Setter Property="BorderBrush" Value="Transparent"/>
+                                                                        <Setter Property="BorderThickness" Value="0"/>
+                                                                        <Setter Property="Margin" Value="0"/>
+                                                                        <Setter Property="Padding" Value="0"/>
+                                                                        <Setter Property="HorizontalContentAlignment" Value="Right"/>
+
+                                                                        <Setter Property="Template">
+                                                                            <ControlTemplate>
+                                                                                <Grid>
+                                                                                    <Border x:Name="Bd"
+                                                                                            Margin="{TemplateBinding Margin}"
+                                                                                            CornerRadius="10"
+                                                                                            Background="{TemplateBinding Background}"
+                                                                                            BorderThickness="{TemplateBinding BorderThickness}"
+                                                                                            BorderBrush="{TemplateBinding BorderBrush}"
+                                                                                            Padding="{TemplateBinding Padding}">
+                                                                                    <ContentPresenter Name="PART_ContentPresenter"
+                                                                                                      HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                                                                      VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                                                                                      ContentTemplate="{TemplateBinding ContentTemplate}"
+                                                                                                      Content="{TemplateBinding Content}"/>
+                                                                                    </Border>
+                                                                                </Grid>
+                                                                            </ControlTemplate>
+                                                                        </Setter>
+                                                                    </Style>
+
+                                                                    <Style Selector="ListBoxItem:pointerover /template/ Border#Bd">
+                                                                      <Setter Property="Background" Value="Transparent"/>
+                                                                    </Style>
+
+                                                                    <Style Selector="ListBoxItem:pointerover /template/ ContentPresenter">
+                                                                        <Setter Property="Background" Value="Transparent"/>
+                                                                    </Style>
+
+                                                                    <Style Selector="ListBoxItem:selected /template/ Border#Bd">
+                                                                        <Setter Property="Background" Value="Transparent"/>
+                                                                    </Style>
+
+                                                                    <Style Selector="ListBoxItem:selected /template/ ContentPresenter">
+                                                                        <Setter Property="Background" Value="Transparent"/>
+                                                                    </Style>
+                                                            
+                                                                    <Style Selector="ListBoxItem:selected:focus /template/ Border#Bd">
+                                                                        <Setter Property="Background" Value="Transparent"/>
+                                                                    </Style>
+                                    
+                                                                    <Style Selector="ListBoxItem:selected:focus /template/ ContentPresenter">
+                                                                        <Setter Property="Background" Value="Transparent"/>
+                                                                    </Style>
+
+                                                                    <Style Selector="ListBoxItem:selected:pointerover /template/ Border#Bd">
+                                                                      <Setter Property="Background" Value="Transparent"/>
+                                                                    </Style>
+
+                                                                    <Style Selector="ListBoxItem:selected:pointerover /template/ ContentPresenter">
+                                                                        <Setter Property="Background" Value="Transparent"/>
+                                                                    </Style>
+
+                                                                    <Style Selector="ListBoxItem:selected:focus:pointerover /template/ Border#Bd">
+                                                                        <Setter Property="Background" Value="Transparent"/>
+                                                                    </Style>
+
+                                                                    <Style Selector="ListBoxItem:selected:focus:pointerover /template/ ContentPresenter">
+                                                                        <Setter Property="Background" Value="Transparent"/>
+                                                                    </Style>
+                                                         </ListBox.Styles>
+                                      
+                                                         <i:Interaction.Behaviors>
+                                                              <ia:EventTriggerBehavior EventName="Tapped">
+                                                                  <ia:InvokeCommandAction Command="{Binding NavBarResolve}"/>
+                                                              </ia:EventTriggerBehavior>  
+                                                         </i:Interaction.Behaviors>
+                                                         <ListBox.ItemTemplate>
+                                                          <DataTemplate>                                     
+                                                          <Border Classes="NavBarItem"
+                                                                  Background="#00000000"
+                                                                  VerticalAlignment="Top"
+                                                                  HorizontalAlignment="Stretch">   
+                                                                  <Border.Styles>
+                                                                    <Style Selector="Border.NavBarItem Viewbox Canvas Path.NavIcon">
+                                                                        <Setter Property="Fill" Value="#7b7f6b"/>
+                                                                    </Style>
+                                                                    <Style Selector="Border.NavBarItem:pointerover Viewbox Canvas Path.NavIcon">
+                                                                        <Setter Property="Fill" Value="#42f57e"/>
+                                                                    </Style>
+                                                                  </Border.Styles>
+
+                                                                  <Viewbox Classes="vb"
+                                                                           Width="30"
+                                                                           Height="30"
+                                                                           Margin="5,5,5,0"
+                                                                           HorizontalAlignment="Left"
+                                                                           Child="{Binding ., Converter={StaticResource NavBarConverter}}">   
+                                                                  </Viewbox>
+                                                          </Border>
+                                                          </DataTemplate>
+                                                         </ListBox.ItemTemplate>
+                                                  </ListBox>
+                                    </ScrollViewer>
+                                </Grid>      
+
+                                <!--ContextArea-->
+                                <Grid Grid.Column="2"
+                                      Grid.ColumnSpan="2">
+                                    <ContentControl Grid.Row="3"
+                                                    Content="{Binding CurrentVM}"> 
+                                    </ContentControl>
+                                </Grid>
+                        </Grid>
+
+                        <!--Player-->
+                        <Grid Grid.Row="2"
+                              ColumnSpan="3"
+                              Height="35"
+                              Background="#40000000"
+                              HorizontalAlignment="Stretch">
+
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="0.25*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <StackPanel Grid.Row="0"
+                                            Grid.Column="0"
+                                            Orientation="Horizontal"
+                                            VerticalAlignment="Top"
+                                            HorizontalAlignment="Left"
+                                            Margin="15,0,0,0">
+                                            <Border Classes="PlayerButton"
+                                                    Background="#00000000"
+                                                    Margin="0,5">
+                                                    <i:Interaction.Behaviors>
+                                                        <ia:EventTriggerBehavior EventName="Tapped">
+                                                          <ia:InvokeCommandAction Command="{Binding PreviousCommand}"/>
+                                                        </ia:EventTriggerBehavior>  
+                                                    </i:Interaction.Behaviors>
+                                                    <Border>
+                                                        <Viewbox Classes="vb" Width="24" Height="24" Margin="2,0" HorizontalAlignment="Left">
+                                                            <Canvas Width="24" Height="24">
+                                                                <Path Data="M6,6H8V18H6M9.5,12L18,18V6M16,14.14L12.97,12L16,9.86V14.14Z" />
+                                                            </Canvas>
+                                                        </Viewbox>
+                                                    </Border>
+                                            </Border>
+                                            
+                                            <Border Classes="PlayerButton"
+                                                    Background="#00000000"
+                                                    Margin="0,5">
+                                                    <i:Interaction.Behaviors>
+                                                        <ia:EventTriggerBehavior EventName="Tapped">
+                                                          <ia:InvokeCommandAction Command="{Binding KickCommand}"/>
+                                                        </ia:EventTriggerBehavior>  
+                                                    </i:Interaction.Behaviors>
+                                                    <Border>
+                                                        <Viewbox Classes="vb" Width="24" Height="24" Margin="2,0" HorizontalAlignment="Left">
+                                                            <Canvas Width="24" Height="24">
+                                                                <Path Data="{Binding PlayerState, Converter={StaticResource ToggleButtonConverter} }" />
+                                                            </Canvas>
+                                                        </Viewbox>
+                                                    </Border>
+                                            </Border>
+
+                                            <Border Classes="PlayerButton"
+                                                    Background="#00000000"
+                                                    Margin="0,5">
+                                                    <i:Interaction.Behaviors>
+                                                        <ia:EventTriggerBehavior EventName="Tapped">
+                                                          <ia:InvokeCommandAction Command="{Binding NextCommand}"/>
+                                                        </ia:EventTriggerBehavior>  
+                                                    </i:Interaction.Behaviors>
+                                                    <Border>
+                                                        <Viewbox Classes="vb" Width="24" Height="24" Margin="2,0" HorizontalAlignment="Left">
+                                                            <Canvas Width="24" Height="24">
+                                                                <Path Data="M6,18L14.5,12L6,6M8,9.86L11.03,12L8,14.14M16,6H18V18H16" />
+                                                            </Canvas>
+                                                        </Viewbox>
+                                                    </Border>
+                                            </Border>
+
+                                            <Border Classes="PlayerButton"
+                                                    Background="#00000000"
+                                                    Margin="0,5">
+                                                    <i:Interaction.Behaviors>
+                                                        <ia:EventTriggerBehavior EventName="Tapped">
+                                                          <ia:InvokeCommandAction Command="{Binding RepeatCommand}"/>
+                                                        </ia:EventTriggerBehavior>  
+                                                    </i:Interaction.Behaviors>
+                                                    <Border>
+                                                        <Viewbox Classes="vb" Width="24" Height="24" Margin="2,0" HorizontalAlignment="Left">
+                                                            <Canvas Width="24" Height="24">
+                                                                <Path Data="M6,5.75L10.25,10H7V16H13.5L15.5,18H7A2,2 0 0,1 5,16V10H1.75L6,5.75M18,18.25L13.75,14H17V8H10.5L8.5,6H17A2,2 0 0,1 19,8V14H22.25L18,18.25Z" />
+                                                            </Canvas>
+                                                        </Viewbox>
+                                                    </Border>
+                                            </Border>
+
+                                            <Border x:Name="VolumeButton"
+                                                    Classes="PlayerButton"
+                                                    Background="#20000000"
+                                                    CornerRadius="5"
+                                                    Width="36"
+                                                    Margin="5">
+                                                    <i:Interaction.Behaviors>
+                                                        <ia:EventTriggerBehavior EventName="Tapped">
+                                                          <ia:InvokeCommandAction Command="{Binding VolumeSliderShowCommand}"/>
+                                                        </ia:EventTriggerBehavior>  
+                                                    </i:Interaction.Behaviors>
+                                                    <Border>
+                                                        <Viewbox Classes="vb" Width="24" Height="24" Margin="2,0" HorizontalAlignment="Center">
+                                                            <Canvas Width="24" Height="24">
+                                                                <Path Data="M7,9V15H11L16,20V4L11,9H7Z" />
+                                                            </Canvas>
+                                                        </Viewbox>
+                                                    </Border>
+                                            </Border>
+                                </StackPanel> 
+
+                                <StackPanel x:Name="sliderArea"
+                                            Grid.Row="0"
+                                            Grid.Column="1"
+                                            Orientation="Horizontal"
+                                            VerticalAlignment="Top"
+                                            HorizontalAlignment="Stretch"
+                                            Margin="5,-5,10,0">
+                                            <Grid x:Name="sliderParent"
+                                                    HorizontalAlignment="Stretch">
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="Auto"/>
+                                                    <RowDefinition Height="Auto"/>
+                                                </Grid.RowDefinitions>
+                                                
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="*"/>
+                                                </Grid.ColumnDefinitions>
+
+                                                <Slider x:Name="sldThumby"       
+                                                        Grid.Row="0"                    
+                                                        Width="{Binding #sliderArea.Bounds.Width}"
+                                                        Classes="thumby"                                          
+                                                        IsEnabled="{Binding PlayerState}"
+                                                        Orientation="Horizontal"
+                                                        Maximum="{Binding TotalTime, Mode=OneWay}"
+                                                        Minimum="{Binding StartTime, Mode=OneWay}"
+                                                        Value="{Binding CurrentTime, Mode=TwoWay}">
+                                                        <Slider.Resources>
+                                                            <x:Double x:Key="SliderHorizontalThumbWidth">13</x:Double>
+                                                            <GridLength x:Key="SliderPreContentMargin">0</GridLength>
+                                                            <GridLength x:Key="SliderPostContentMargin">0</GridLength>
+                                                        </Slider.Resources>
+                                                        <Slider.Styles>
+                                                            <Style Selector="Slider.thumby /template/ RepeatButton#PART_DecreaseButton">
+                                                                <Setter Property="Background" Value="#34eb64"/>
+                                                            </Style>
+
+                                                            <Style Selector="Slider.thumby /template/ RepeatButton#PART_IncreaseButton">
+                                                                <Setter Property="Background" Value="#2b4532"/>
+                                                            </Style>
+
+                                                            <Style Selector="Slider.thumby /template/ Thumb#thumb">
+                                                                <Setter Property="Template">
+                                                                    <ControlTemplate>
+                                                                        <Grid>
+                                                                            <Ellipse Width="13"
+                                                                                     Height="13"
+                                                                                     Fill="#34eb64"/>
+                                                                        </Grid>
+                                                                    </ControlTemplate>
+                                                                </Setter>
+                                                            </Style>
+                                                        </Slider.Styles>
+                                                </Slider>
+
+                                                <Grid Grid.Row="1">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="Auto"/>
+                                                            <ColumnDefinition Width="*"/>
+                                                            <ColumnDefinition Width="Auto"/>
+                                                        </Grid.ColumnDefinitions>
+                                                            <TextBlock Grid.Column="0" 
+                                                                       Text="{Binding CurrentTimeDisplay, StringFormat=\{0:mm\\:ss\}}"
+                                                                       Foreground="#6ed48b" 
+                                                                       Margin="0,-10,0,0"
+                                                                       FontSize="10"
+                                                                       FontWeight="Light"
+                                                                       HorizontalAlignment="Left"/>
+                                                            <TextBlock Grid.Column="2"
+                                                                       Text="{Binding TotalTimeDisplay, StringFormat=\{0:mm\\:ss\}}"
+                                                                       Foreground="#6ed48b"
+                                                                       Margin="0,-10,0,0"
+                                                                       FontSize="10"
+                                                                       FontWeight="Light"
+                                                                       HorizontalAlignment="Right"/>   
+                                                </Grid>
+                                            </Grid>
+                                </StackPanel>
+
+                                <StackPanel Grid.Row="0"
+                                            Grid.Column="2"
+                                            Orientation="Horizontal"
+                                            VerticalAlignment="Top"
+                                            HorizontalAlignment="Stretch"
+                                            Margin="3">
+                                            <Grid>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="Auto"/>
+                                                    <RowDefinition Height="Auto"/>
+                                                </Grid.RowDefinitions>
+
+                                                <Border Grid.Row="0"
+                                                        Margin="3,0">
+                                                    <TextBlock Text="{Binding CurrentEntity, Converter={StaticResource CurrentEntityConverter}, ConverterParameter=name}" 
+                                                               FontSize="14"
+                                                               Foreground="#fff"/>
+                                                </Border>
+                                                <Border Grid.Row="1"
+                                                        Margin="3,0">
+                                                    <TextBlock Text="{Binding CurrentEntity, Converter={StaticResource CurrentEntityConverter}, ConverterParameter=artist }" 
+                                                               FontSize="14"
+                                                               Foreground="#bebfbd"/>
+                                                </Border>
+                                            </Grid>
+                                </StackPanel>
+                        </Grid>
+                    </Grid>
+                </ControlTemplate>
+            </Setter>
+        </Style>
+    </Window.Styles>
+
+
+
+    <Window.KeyBindings>
+        <KeyBinding Gesture="Space" Command="{Binding KickCommand}"/>
+        <KeyBinding Gesture="Ctrl+Shift+j" Command="{Binding NextCommand}"/>
+        <KeyBinding Gesture="Ctrl+Shift+h" Command="{Binding PreviousCommand}"/>
+        <KeyBinding Gesture="Ctrl+r" Command="{Binding RepeatCommand}"/>
+        <KeyBinding Gesture="Ctrl+x" Command="{Binding ExitCommand}"/>
+
+        <KeyBinding Gesture="Alt+h" Command="{Binding SwitchHomeCommand}"/>
+        <KeyBinding Gesture="Alt+l" Command="{Binding SwitchListCommand}"/>
+        <KeyBinding Gesture="Alt+b" Command="{Binding SwitchBrowseCommand}"/>
+    </Window.KeyBindings>
 </Window>

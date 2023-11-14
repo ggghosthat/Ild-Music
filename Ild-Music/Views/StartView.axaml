@@ -1,0 +1,462 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+
+             xmlns:vm="clr-namespace:Ild_Music.ViewModels"
+             xmlns:conv="using:Ild_Music.Converters"
+             xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
+             xmlns:ia="clr-namespace:Avalonia.Xaml.Interactions.Core;assembly=Avalonia.Xaml.Interactions"
+
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="Ild_Music.Views.StartView"
+             x:DataType="vm:StartViewModel">
+
+  <UserControl.Resources>
+    <conv:InstanceConverter x:Key="InstanceConverter"/>
+  </UserControl.Resources>
+
+  <Grid Background="Transparent">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="*"/>
+          <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+
+        <Grid Grid.Column="0" 
+              Background="Transparent"
+              HorizontalAlignment="Stretch">
+              <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+              </Grid.RowDefinitions>
+
+              <Border Grid.Row="0"
+                        HorizontalAlignment="Left">
+                        <TextBlock  Text="Playlists"
+                                Margin="10,0"
+                                Foreground="White"
+                                FontSize="16"
+                                FontWeight="Bold"/>
+              </Border>
+
+              <Border Grid.Row="1"
+                        Background="#16262e"
+                        HorizontalAlignment="Stretch">
+                        <ScrollViewer VerticalScrollBarVisibility="Disabled"
+                                      HorizontalScrollBarVisibility="Auto"
+                                      HorizontalAlignment="Left"
+                                      HorizontalContentAlignment="Left"
+                                      Height="110"
+                                      Margin="0"
+                                      Background="#16262e">
+                                      <ListBox Items="{Binding Playlists}"
+                                               SelectedItem="{Binding CurrentPlaylist}"
+                                               ScrollViewer.HorizontalScrollBarVisibility="Visible"
+                                               ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                                               Background="Transparent">
+                                            <ListBox.ItemsPanel>
+                                                <ItemsPanelTemplate>
+                                                    <StackPanel Orientation="Horizontal"/>
+                                                </ItemsPanelTemplate>
+                                            </ListBox.ItemsPanel>
+
+                                            <ListBox.Styles>
+                                                <Style Selector="ListBoxItem">
+                                                    <Setter Property="BorderBrush" Value="Transparent"/>
+                                                    <Setter Property="BorderThickness" Value="0"/>
+                                                    <Setter Property="Padding" Value="2"/> 
+                                                    <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                                                    <Setter Property="Width" Value="110"/>
+                                                    <Setter Property="Height" Value="110"/>
+                                                    <Setter Property="Template">
+                                                    <ControlTemplate>
+                                                        <Grid>
+                                                            <Border x:Name="Bd"
+                                                                    Margin="0"
+                                                                    CornerRadius="10"
+                                                                    Background="{TemplateBinding Background}"
+                                                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                                                    Padding="{TemplateBinding Padding}">
+                                                                    <ContentPresenter Name="PART_ContentPresenter"
+                                                                                    HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                                                    VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                                                                    ContentTemplate="{TemplateBinding ContentTemplate}"
+                                                                                    Content="{TemplateBinding Content}"/>
+                                                            </Border>
+                                                        </Grid>
+                                                    </ControlTemplate>
+                                                    </Setter>
+                                                </Style>
+
+                                                <Style Selector="ListBoxItem:pointerover /template/ Border#Bd">
+                                                    <Setter Property="Background" Value="#297863"/>
+                                                </Style>
+
+                                                <Style Selector="ListBoxItem:pointerover /template/ ContentPresenter">
+                                                    <Setter Property="Background" Value="Transparent"/>
+                                                </Style>
+
+                                                <Style Selector="ListBoxItem:selected /template/ Border#Bd">
+                                                    <Setter Property="Background" Value="#297863"/>
+                                                </Style>
+
+                                                <Style Selector="ListBoxItem:selected /template/ ContentPresenter">
+                                                    <Setter Property="Background" Value="Transparent"/>
+                                                </Style>
+                                    
+                                                <Style Selector="ListBoxItem:selected:focus /template/ Border#Bd">
+                                                    <Setter Property="Background" Value="#297863"/>
+                                                </Style>
+
+                                                <Style Selector="ListBoxItem:selected:focus /template/ ContentPresenter">
+                                                    <Setter Property="Background" Value="Transparent"/>
+                                                </Style>
+
+                                                <Style Selector="ListBoxItem:selected:pointerover /template/ Border#Bd">
+                                                    <Setter Property="Background" Value="#297863"/>
+                                                </Style>
+
+                                                <Style Selector="ListBoxItem:selected:pointerover /template/ ContentPresenter">
+                                                    <Setter Property="Background" Value="Transparent"/>
+                                                </Style>
+
+                                                <Style Selector="ListBoxItem:selected:focus:pointerover /template/ Border#Bd">
+                                                    <Setter Property="Background" Value="#297863"/>
+                                                </Style>
+
+                                                <Style Selector="ListBoxItem:selected:focus:pointerover /template/ ContentPresenter">
+                                                    <Setter Property="Background" Value="Transparent"/>
+                                                </Style>
+                                            </ListBox.Styles>
+                                            
+                                            <i:Interaction.Behaviors>
+                                                <ia:EventTriggerBehavior EventName="DoubleTapped">
+                                                    <ia:InvokeCommandAction Command="{Binding DropPlaylistCommand}"
+                                                                            CommandParameter="{Binding CurrentPlaylist}"/>
+                                                </ia:EventTriggerBehavior> 
+                                            </i:Interaction.Behaviors>
+                                            <ListBox.ItemTemplate>
+                                                <DataTemplate> 
+                                                <Border Grid.Row="0"
+                                                        Margin="5"
+                                                        Width="90"
+                                                        Height="90"
+                                                        CornerRadius="5">
+                                                        <Grid>
+                                                            <Grid.RowDefinitions>
+                                                                <RowDefinition Height="*"/>
+                                                                <RowDefinition Height="Auto"/>
+                                                            </Grid.RowDefinitions> 
+                                                            
+                                                            <Border Grid.Row="0"
+                                                                    Child="{Binding ., Converter={StaticResource InstanceConverter}, ConverterParameter=ico_col}">
+                                                            </Border>
+
+                                                            <TextBlock Grid.Row="1"
+                                                                       HorizontalAlignment="Center"
+                                                                       VerticalAlignment="Bottom"
+                                                                       Foreground="White"
+                                                                       FontSize="12"
+                                                                       Text="{Binding ., Converter={StaticResource InstanceConverter}, ConverterParameter=name}"
+                                                                       TextAlignment="Center"/>
+                                                        </Grid>
+                                                </Border>
+                                                </DataTemplate>
+                                            </ListBox.ItemTemplate>
+                                      </ListBox>
+                        </ScrollViewer>
+              </Border>
+
+              <Border Grid.Row="2"
+                        HorizontalAlignment="Left">                        
+                        <TextBlock  Text="Tracks"
+                                    Margin="10,0"
+                                    Foreground="White"
+                                    FontSize="16"
+                                    FontWeight="Bold"/>            
+              </Border>
+                
+              <Border Grid.Row="3"
+                      HorizontalAlignment="Stretch"
+                      VerticalAlignment="Stretch"
+                      Background="#16262e">
+                      <ScrollViewer VerticalScrollBarVisibility="Auto"
+                                    HorizontalScrollBarVisibility="Disabled"
+                                    HorizontalAlignment="Stretch"
+                                    HorizontalContentAlignment="Left"
+                                    Background="#16262e"
+                                    DragDrop.AllowDrop="True">
+                                    <ListBox Items="{Binding Tracks}"
+                                              SelectedItem="{Binding CurrentTrack}"
+                                              ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                                              ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                              Background="Transparent">
+                                              <ListBox.ItemsPanel>
+                                                  <ItemsPanelTemplate>
+                                                      <StackPanel Orientation="Vertical"/>
+                                                  </ItemsPanelTemplate>
+                                              </ListBox.ItemsPanel>
+
+                                              <ListBox.Styles>
+                                                  <Style Selector="ListBoxItem">
+                                                      <Setter Property="BorderBrush" Value="Transparent"/>
+                                                      <Setter Property="BorderThickness" Value="0"/>
+                                                      <Setter Property="Margin" Value="0"/>
+                                                      <Setter Property="Padding" Value="4"/>                              
+                                                      <Setter Property="HorizontalContentAlignment" Value="Left"/> 
+                                                      <Setter Property="Height" Value="50"/>
+
+                                                      <Setter Property="Template">
+                                                          <ControlTemplate>
+                                                              <Grid HorizontalAlignment="Stretch">
+                                                                  <Border x:Name="Bd"
+                                                                          Margin="0"
+                                                                          CornerRadius="0"
+                                                                          Background="{TemplateBinding Background}"
+                                                                          BorderThickness="{TemplateBinding BorderThickness}"
+                                                                          BorderBrush="{TemplateBinding BorderBrush}"
+                                                                          Padding="{TemplateBinding Padding}">
+                                                                          <ContentPresenter Name="PART_ContentPresenter"
+                                                                                              HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                                                              VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                                                                              ContentTemplate="{TemplateBinding ContentTemplate}"
+                                                                                              Content="{TemplateBinding Content}"/>
+                                                                  </Border>
+                                                              </Grid>
+                                                          </ControlTemplate>
+                                                      </Setter>
+                                                  </Style>
+
+                                                  <Style Selector="ListBoxItem:pointerover /template/ Border#Bd">
+                                                      <Setter Property="Background" Value="#297863"/>
+                                                  </Style>
+  
+                                                  <Style Selector="ListBoxItem:pointerover /template/ ContentPresenter">
+                                                      <Setter Property="Background" Value="Transparent"/>
+                                                  </Style>
+
+                                                  <Style Selector="ListBoxItem:selected /template/ Border#Bd">
+                                                      <Setter Property="Background" Value="#297863"/>
+                                                  </Style>
+
+                                                  <Style Selector="ListBoxItem:selected /template/ ContentPresenter">
+                                                      <Setter Property="Background" Value="Transparent"/>
+                                                  </Style>
+                          
+                                                  <Style Selector="ListBoxItem:selected:focus /template/ Border#Bd">
+                                                      <Setter Property="Background" Value="#297863"/>
+                                                  </Style>
+
+                                                  <Style Selector="ListBoxItem:selected:focus /template/ ContentPresenter">
+                                                      <Setter Property="Background" Value="Transparent"/>
+                                                  </Style>
+
+                                                  <Style Selector="ListBoxItem:selected:pointerover /template/ Border#Bd">
+                                                      <Setter Property="Background" Value="#297863"/>
+                                                  </Style>
+
+                                                  <Style Selector="ListBoxItem:selected:pointerover /template/ ContentPresenter">
+                                                      <Setter Property="Background" Value="Transparent"/>
+                                                  </Style>
+
+                                                  <Style Selector="ListBoxItem:selected:focus:pointerover /template/ Border#Bd">
+                                                      <Setter Property="Background" Value="#297863"/>
+                                                  </Style>
+
+                                                  <Style Selector="ListBoxItem:selected:focus:pointerover /template/ ContentPresenter">
+                                                      <Setter Property="Background" Value="Transparent"/>
+                                                  </Style>
+                                              </ListBox.Styles>
+
+                                              <i:Interaction.Behaviors>
+                                                  <ia:EventTriggerBehavior EventName="DoubleTapped">
+                                                      <ia:InvokeCommandAction Command="{Binding DropTrackCommand}"
+                                                                              CommandParameter="{Binding CurrentTrack}"/>
+                                                  </ia:EventTriggerBehavior> 
+                                              </i:Interaction.Behaviors> 
+                                              <ListBox.ItemTemplate>
+                                                  <DataTemplate>
+                                                  <StackPanel Orientation="Horizontal"
+                                                              HorizontalAlignment="Left">
+                                                              <Border Grid.Row="0"
+                                                                      Padding="5"
+                                                                      Background="Transparent"
+                                                                      Child="{Binding ., Converter={StaticResource InstanceConverter}, ConverterParameter=ico_col}">
+                                                              </Border>   
+                                                              <TextBlock Text="{Binding ., Converter={StaticResource InstanceConverter},
+                                                              ConverterParameter=name}"
+                                                                         VerticalAlignment="Center"
+                                                                         Margin="0"
+                                                                         FontSize="16"
+                                                                         TextAlignment="Left"
+                                                                         Foreground="White"
+                                                                         FontWeight="Light"/>
+                                                  </StackPanel>
+                                                  </DataTemplate>
+                                              </ListBox.ItemTemplate>
+                                      </ListBox>
+                      </ScrollViewer>
+              </Border>
+        </Grid>
+
+        <Grid Grid.Column="1" 
+              Background="#7016262e">
+              <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="*"/>
+              </Grid.RowDefinitions>
+
+              <Border Grid.Row="0"
+                      HorizontalAlignment="Stretch">
+                      <TextBlock Text="Artists"
+                                 Margin="10,0"
+                                 Foreground="White"
+                                 FontSize="16"
+                                 FontWeight="Bold"/>
+              </Border>
+            
+              <StackPanel Grid.Row="1"
+                          HorizontalAlignment="Stretch">
+                         <ScrollViewer HorizontalScrollBarVisibility="Disabled"
+                                       VerticalScrollBarVisibility="Auto"
+                                       HorizontalAlignment="Stretch">
+                                 <ListBox Items="{Binding Artists}"
+                                         HorizontalAlignment="Stretch"
+                                         SelectedItem="{Binding CurrentArtist}"
+                                         ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                                         ScrollViewer.VerticalScrollBarVisibility="Visible"
+                                         Background="Transparent">
+                                         <ListBox.ItemsPanel>
+                                            <ItemsPanelTemplate>
+                                                <StackPanel Orientation="Vertical"/>
+                                            </ItemsPanelTemplate>
+                                         </ListBox.ItemsPanel>
+         
+                                          <ListBox.Styles>
+                                                    <Style Selector="ListBoxItem">
+                                                        <Setter Property="BorderBrush" Value="Transparent"/>
+                                                        <Setter Property="BorderThickness" Value="0"/>
+                                                        <Setter Property="Margin" Value="0"/>
+                                                        <Setter Property="Padding" Value="0"/>
+                                                        <Setter Property="HorizontalContentAlignment" Value="Right"/>
+
+                                                        <Setter Property="Template">
+                                                            <ControlTemplate>
+                                                                <Grid>
+                                                                    <Border x:Name="Bd"
+                                                                            Margin="{TemplateBinding Margin}"
+                                                                            CornerRadius="10"
+                                                                            Background="{TemplateBinding Background}"
+                                                                            BorderThickness="{TemplateBinding BorderThickness}"
+                                                                            BorderBrush="{TemplateBinding BorderBrush}"
+                                                                            Padding="{TemplateBinding Padding}">
+                                                                    <ContentPresenter Name="PART_ContentPresenter"
+                                                                                      HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                                                      VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                                                                      ContentTemplate="{TemplateBinding ContentTemplate}"
+                                                                                      Content="{TemplateBinding Content}"/>
+                                                                    </Border>
+                                                                </Grid>
+                                                            </ControlTemplate>
+                                                        </Setter>
+                                                    </Style>
+
+                                                    <Style Selector="ListBoxItem:pointerover /template/ Border#Bd">
+                                                      <Setter Property="Background" Value="Transparent"/>
+                                                    </Style>
+
+                                                    <Style Selector="ListBoxItem:pointerover /template/ ContentPresenter">
+                                                        <Setter Property="Background" Value="Transparent"/>
+                                                    </Style>
+
+                                                    <Style Selector="ListBoxItem:selected /template/ Border#Bd">
+                                                        <Setter Property="Background" Value="Transparent"/>
+                                                    </Style>
+
+                                                    <Style Selector="ListBoxItem:selected /template/ ContentPresenter">
+                                                        <Setter Property="Background" Value="Transparent"/>
+                                                    </Style>
+                                            
+                                                    <Style Selector="ListBoxItem:selected:focus /template/ Border#Bd">
+                                                        <Setter Property="Background" Value="Transparent"/>
+                                                    </Style>
+                    
+                                                    <Style Selector="ListBoxItem:selected:focus /template/ ContentPresenter">
+                                                        <Setter Property="Background" Value="Transparent"/>
+                                                    </Style>
+
+                                                    <Style Selector="ListBoxItem:selected:pointerover /template/ Border#Bd">
+                                                      <Setter Property="Background" Value="Transparent"/>
+                                                    </Style>
+
+                                                    <Style Selector="ListBoxItem:selected:pointerover /template/ ContentPresenter">
+                                                        <Setter Property="Background" Value="Transparent"/>
+                                                    </Style>
+
+                                                    <Style Selector="ListBoxItem:selected:focus:pointerover /template/ Border#Bd">
+                                                        <Setter Property="Background" Value="Transparent"/>
+                                                    </Style>
+
+                                                    <Style Selector="ListBoxItem:selected:focus:pointerover /template/ ContentPresenter">
+                                                        <Setter Property="Background" Value="Transparent"/>
+                                                    </Style>
+                                          </ListBox.Styles>
+                      
+                                           <i:Interaction.Behaviors>
+                                                <ia:EventTriggerBehavior EventName="DoubleTapped">
+                                                    <ia:InvokeCommandAction Command="{Binding DropArtistCommand}"
+                                                                            CommandParameter="{Binding CurrentArtist}"/>
+                                                </ia:EventTriggerBehavior>  
+                                           </i:Interaction.Behaviors>
+                                           <ListBox.ItemTemplate>
+                                            <DataTemplate>                                     
+                                            <Border Grid.Row="0"
+                                                    Width="70"
+                                                    Height="70"
+                                                    CornerRadius="5"
+                                                    HorizontalAlignment="Center"
+                                                    VerticalAlignment="Center">
+                                                    <Border.Styles>
+                                                        <Style Selector="Border">
+                                                            <Setter Property="Background" Value="Transparent"/>
+                                                        </Style>
+                                              
+                                                        <Style Selector="Border:pointerover">
+                                                            <Setter Property="Background" Value="#50000000"/>
+                                                        </Style>
+                                                    </Border.Styles>
+
+                                                    <Grid>
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition Height="*"/>
+                                                            <RowDefinition Height="Auto"/>
+                                                        </Grid.RowDefinitions>                            
+
+                                                        <Border Grid.Row="0"
+                                                                Padding="5"
+                                                                Background="Transparent"
+                                                                Child="{Binding ., Converter={StaticResource InstanceConverter}, ConverterParameter=ico_col}">
+                                                        </Border>
+
+                                                        <TextBlock Grid.Row="1"
+                                                                   TextWrapping="Wrap"
+                                                                   TextAlignment="Center"
+                                                                   FontSize="12"
+                                                                   Foreground="White"
+                                                                   FontWeight="Light"
+                                                                   VerticalAlignment="Top"
+                                                                   Text="{Binding ., Converter={StaticResource InstanceConverter}, ConverterParameter=name}"/>
+                                                    </Grid>
+                                            </Border>
+                                            </DataTemplate>
+                                         </ListBox.ItemTemplate>
+                                 </ListBox>
+                         </ScrollViewer>
+              </StackPanel>
+        </Grid>
+  </Grid>
+      
+</UserControl>
