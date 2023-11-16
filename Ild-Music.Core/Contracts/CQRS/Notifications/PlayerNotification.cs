@@ -4,6 +4,9 @@ using MediatR;
 namespace Ild_Music.Core.CQRS.Notifications;
 public class PlayerNotification : INotification
 {
+    public PlayerSignal PlayerSignal {get;}
+    public Guid MetaId {get;}
+
     public PlayerNotification(PlayerSignal playerSignal)
     {
         PlayerSignal = playerSignal;
@@ -15,7 +18,4 @@ public class PlayerNotification : INotification
         PlayerSignal = playerSignal;
         MetaId = metaId;
     }
-
-    public PlayerSignal PlayerSignal {get;}
-    public Guid MetaId {get;}
 }

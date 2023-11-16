@@ -85,6 +85,18 @@ public sealed class Stage
         return isCompleted;
     }
 
+    #region Instances lists retrieving
+    public IEnumerable<IPlayer> GetPlayers()
+    {
+        return castle.GetPlayersAsync().Result;
+    }
+
+    public IEnumerable<ICube> GetCubes()
+    {
+        return castle.GetCubesAsync().Result;
+    }
+    #endregion
+
     #region Current instance Switching
     public void SwitchPlayer(int index)
     {

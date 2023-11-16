@@ -1,9 +1,5 @@
-using Ild_Music;
-using ShareInstances;
-using ShareInstances.Stage;
-using ShareInstances.Services.Center;
-using ShareInstances.Services.Entities;
-using ShareInstances.Services.Interfaces;
+using Ild_Music.Core.Contracts;
+using Ild_Music.Core.Stage;
 
 using System.Linq;
 using System.Threading.Tasks;
@@ -14,10 +10,10 @@ public class Repository
 {
 	private static Stage stage => App.Stage;
 	public IList<IPlayer> Players {get; private set;} = new List<IPlayer>();
-	public IList<ISynchArea> Areas {get; private set;} = new List<ISynchArea>();
+	public IList<ICube> Cubes {get; private set;} = new List<ICube>();
 
 	public IPlayer Player {get; private set;}
-	public ISynchArea Area {get; private set;}
+	public ICube Cube {get; private set;}
 
 	public Repository()
 	{
@@ -26,8 +22,8 @@ public class Repository
 
 	public void UpdateState()
 	{
-		stage.Players.ToList().ForEach(p => Players.Add(p));
-		stage.Areas.ToList().ForEach(a => Areas.Add(a));
+		stage.GetPlayers().ToList().ForEach(p => Players.Add(p));
+		stage.GetCubes().ToList().ForEach(c => Cubes.Add(c));
 	}
 
 	public async Task SetComponents(IShare component) => 
