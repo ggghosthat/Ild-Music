@@ -1,15 +1,9 @@
-using ShareInstances;
-using ShareInstances.Instances;
-using ShareInstances.Instances.Interfaces;
-using ShareInstances.Services.Entities;
-using ShareInstances.Exceptions.SynchAreaExceptions;
-using Ild_Music;
+using Ild_Music.Core.Instances;
+using Ild_Music.Core.Services.Entities;
 using Ild_Music.Command;
 using Ild_Music.ViewModels.Base;
 
 using System.Linq;
-using System.Collections;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
 namespace Ild_Music.ViewModels
@@ -19,7 +13,7 @@ namespace Ild_Music.ViewModels
         public static readonly string nameVM = "ArtistVM";   
 
         #region Services
-        private SupporterService supporter => (SupporterService)base.GetService("SupporterService");
+        private SupportGhost supporter => (SupportGhost)base.GetService("SupporterService");
         private MainViewModel MainVM => (MainViewModel)App.ViewModelTable[MainViewModel.nameVM];
         #endregion
 

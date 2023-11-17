@@ -20,8 +20,14 @@ public sealed class PlayerGhost : IGhost
 		PlayerInstance = player;    	
     }
 
+    public IPlayer? GetPlayer()
+    {
+        return PlayerInstance;
+    }
+    
     public void SwitchPlayer(ref IPlayer player)
     {
         PlayerInstance = player;
     }
+
 }

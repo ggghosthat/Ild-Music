@@ -1,20 +1,14 @@
-using Ild_Music;
+using Ild_Music.Core.Contracts;
 using Ild_Music.Command;
 using Ild_Music.ViewModels.Base;
-using ShareInstances;
-using ShareInstances.Services.Interfaces;
-using ShareInstances.Services.Entities;
-using ShareInstances.Instances;
-using ShareInstances.Instances.Interfaces;
-using ShareInstances.Filer;
+using Ild_Music.Core.Services.Entities;
+using Ild_Music.Core.Instances;
 
 using System;
 using System.Collections.ObjectModel;
-using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Avalonia;
-using Avalonia.Controls;
 using Avalonia.Threading;
 using Avalonia.Controls.ApplicationLifetimes;
 namespace Ild_Music.ViewModels;
@@ -26,17 +20,17 @@ public class MainViewModel : Base.BaseViewModel
     #endregion
 
     #region Services
-    private static SupporterService supporter => (SupporterService)App.Stage.GetServiceInstance("SupporterService");
-    private static StoreService store => (StoreService)App.Stage.GetServiceInstance("StoreService");
-    private static PlayerService player => (PlayerService)App.Stage.GetServiceInstance("PlayerService");
+    private static SupportGhost supporter => (SupportGhost)App.Stage.GetServiceInstance("SupporterService");
+    private static PlayerGhost player => (PlayerGhost)App.Stage.GetServiceInstance("PlayerService");
     #endregion
 
     #region Player Scope
-    public static IPlayer _player;
-    public bool PlayerState => _player.PlayerState;
+    public static IPlayer? _player = null;
+    public bool PlayerState => _player.ToggleState;
     public bool PlayerEmpty => _player.IsEmpty;
 
-    public ICoreEntity CurrentEntity => _player.CurrentEntity;
+    public Track? CurrentTrack => _player?.CurrentTrack;
+    public Playlist? CurrentPlaylist => _player?.CurrentPlaylist;
 
     private TimeSpan totalTime = TimeSpan.FromSeconds(1);
     public double TotalTime => totalTime.TotalSeconds;
@@ -60,24 +54,24 @@ public class MainViewModel : Base.BaseViewModel
         set => _player.CurrentVolume = value;
     }
 
-    public string Title => CurrentEntity.Name;
+    public string Title => CurrentTrack?.Name.ToString();
     #endregion
 
     #region Commands Scope
-    public CommandDelegator NavBarResolve {get;}
-    public CommandDelegator PreviousCommand { get; }
-    public CommandDelegator NextCommand { get; }
-    public CommandDelegator KickCommand { get; }
-    public CommandDelegator StopCommand { get; }
-    public CommandDelegator RepeatCommand { get; }
+    public CommandDelegator NavBarResolve { get; private set; }
+    public CommandDelegator PreviousCommand { get; private set; }
+    public CommandDelegator NextCommand { get; private set; }
+    public CommandDelegator KickCommand { get; private set; }
+    public CommandDelegator StopCommand { get; private set; }
+    public CommandDelegator RepeatCommand { get; private set; }
 
-    public CommandDelegator VolumeSliderShowCommand { get; }
+    public CommandDelegator VolumeSliderShowCommand { get; private set; }
 
-    public CommandDelegator ExitCommand { get; }
+    public CommandDelegator ExitCommand { get; private set; }
 
-    public CommandDelegator SwitchHomeCommand { get; }
-    public CommandDelegator SwitchListCommand { get; }
-    public CommandDelegator SwitchBrowseCommand { get; }
+    public CommandDelegator SwitchHomeCommand { get; private set; }
+    public CommandDelegator SwitchListCommand { get; private set; }
+    public CommandDelegator SwitchBrowseCommand { get; private set; }
     #endregion
 
     #region Fields
@@ -98,27 +92,37 @@ public class MainViewModel : Base.BaseViewModel
     #region Ctor
     public MainViewModel()
     {
+        //1. resolve player instance
+        PresetPlayer();
+        //2. resolve commands
+        PresetCommands();
+        //3. allocate view-models
+        PresetViewModels();
+        //4 preset special details
+        PresetGlobalTimer();
+    }
+
+    #endregion
+
+    #region start-up methods
+    private void PresetPlayer()
+    {
         //player preset
-        _player = player.PlayerInstance;
+        _player = player.GetPlayer();
         _player.SetNotifier(() => 
         {
             OnPropertyChanged("CurrentEntity");
             OnPropertyChanged("PlayerState");
         });
-        _player.TrackStarted += OnTrackStarted;
 
-        //ViewModels preset
-        App.ViewModelTable.Add(StartViewModel.nameVM, new StartViewModel());
-        App.ViewModelTable.Add(FactoryViewModel.nameVM, new FactoryViewModel());
-        App.ViewModelTable.Add(ListViewModel.nameVM, new ListViewModel());
-        App.ViewModelTable.Add(SettingViewModel.nameVM, new SettingViewModel());
-        App.ViewModelTable.Add(ArtistViewModel.nameVM, new ArtistViewModel());
-        App.ViewModelTable.Add(PlaylistViewModel.nameVM, new PlaylistViewModel());
-        App.ViewModelTable.Add(TrackViewModel.nameVM, new TrackViewModel());
-        App.ViewModelTable.Add(InstanceExplorerViewModel.nameVM, new InstanceExplorerViewModel());
-        App.ViewModelTable.Add(BrowseViewModel.nameVM, new BrowseViewModel());
-        App.ViewModelTable.Add(nameVM, this);
+        //TODO: Play with MediatR
+        //_player.TrackStarted += OnTrackStarted;
 
+    }
+
+    
+    private void PresetCommands()
+    {
         NavBarResolve = new(NavResolve, OnNavSelected);
         KickCommand = new(KickPlayer, OnCanTogglePlayer);
         StopCommand = new(StopPlayer, OnCanTogglePlayer);
@@ -131,13 +135,31 @@ public class MainViewModel : Base.BaseViewModel
         SwitchHomeCommand = new(SwitchHome, null);
         SwitchListCommand = new(SwitchList, null);
         SwitchBrowseCommand = new(SwitchBrowse, null);
+    }
+
+    private void PresetViewModels()
+    {
+        //ViewModels preset
+        App.ViewModelTable.Add(StartViewModel.nameVM, new StartViewModel());
+        App.ViewModelTable.Add(FactoryViewModel.nameVM, new FactoryViewModel());
+        App.ViewModelTable.Add(ListViewModel.nameVM, new ListViewModel());
+        App.ViewModelTable.Add(SettingViewModel.nameVM, new SettingViewModel());
+        App.ViewModelTable.Add(ArtistViewModel.nameVM, new ArtistViewModel());
+        App.ViewModelTable.Add(PlaylistViewModel.nameVM, new PlaylistViewModel());
+        App.ViewModelTable.Add(TrackViewModel.nameVM, new TrackViewModel());
+        App.ViewModelTable.Add(InstanceExplorerViewModel.nameVM, new InstanceExplorerViewModel());
+        App.ViewModelTable.Add(BrowseViewModel.nameVM, new BrowseViewModel());
+        App.ViewModelTable.Add(nameVM, this);
 
         CurrentVM = (BaseViewModel)App.ViewModelTable[StartViewModel.nameVM];
+    }
 
+
+    private void PresetGlobalTimer()
+    {
         timer = new(TimeSpan.FromMilliseconds(300), DispatcherPriority.Normal, UpdateCurrentTime);
         timer.Start();
     }
-
     #endregion
 
     #region Private Methods
@@ -190,112 +212,118 @@ public class MainViewModel : Base.BaseViewModel
         }
     }
 
-    public async Task ResolveInstance(BaseViewModel source,
-                                      ICoreEntity instance)
-    {
-        BaseViewModel instanceVM = null;
-        if (instance is Artist artist)
-        {
-            instanceVM = (ArtistViewModel)App.ViewModelTable[ArtistViewModel.nameVM];
-            ((ArtistViewModel)instanceVM).SetInstance(artist);
-        }
-        else if (instance is Playlist playlist) 
-        {
-            instanceVM = (PlaylistViewModel)App.ViewModelTable[PlaylistViewModel.nameVM];
-            ((PlaylistViewModel)instanceVM).SetInstance(playlist);   
-        }
-        else if (instance is Track track)
-        {
-            instanceVM = (TrackViewModel)App.ViewModelTable[TrackViewModel.nameVM];
-            ((TrackViewModel)instanceVM).SetInstance(track);
-        }
 
-        if (instanceVM != null)
+    public async Task ResolveArtistInstance(BaseViewModel source,
+                                            Artist artist)
+    {
+        var artistVM = (ArtistViewModel)App.ViewModelTable[ArtistViewModel.nameVM];
+        artistVM?.SetInstance(artist);
+
+        if (artistVM != null)
         {
-            PushVM(source, instanceVM);
+            PushVM(source, artistVM);
+            ResolveWindowStack();
+        }
+    }   
+
+    public async Task ResolvePlaylistInstance(BaseViewModel source,
+                                              Playlist playlist)
+    {
+        var playlistVM = (PlaylistViewModel)App.ViewModelTable[PlaylistViewModel.nameVM];
+        playlistVM?.SetInstance(playlist);   
+
+        if (playlistVM != null)
+        {
+            PushVM(source, playlistVM);
             ResolveWindowStack();
         }
     }
 
-    public void DropInstance(BaseViewModel source, 
-                             ICoreEntity instance,
-                             bool isResolved = false, 
-                             int playlistIndex = 0)
+    public async Task ResolveTrackInstance(BaseViewModel source,
+                                           Track track)
     {
-        BaseViewModel instanceVM = null;            
-        if (instance is Artist artist)
+        var trackVM = (TrackViewModel)App.ViewModelTable[TrackViewModel.nameVM];
+        trackVM?.SetInstance(track);
+
+
+        if (trackVM != null)
         {
-            instanceVM = (ArtistViewModel)App.ViewModelTable[ArtistViewModel.nameVM];
-            ((ArtistViewModel)instanceVM).SetInstance(artist);
+            PushVM(source, trackVM);
+            ResolveWindowStack();
         }
-        else if (instance is Playlist playlist)
-        {
-            _player.StopPlayer();
-            _player.SetInstance(instance);
-            OnPropertyChanged("CurrentEntity");
+    }
 
-            if (isResolved)
-            {
-                instanceVM = (PlaylistViewModel)App.ViewModelTable[PlaylistViewModel.nameVM];
-                ((PlaylistViewModel)instanceVM).SetInstance(playlist); 
-            }
+    public void DropPlaylistInstance(BaseViewModel source, 
+                                     Playlist playlist,
+                                     bool isResolved = false, 
+                                     int playlistIndex = 0)
+    {
+        _player?.Stop();
+        _player?.DropPlaylist(playlist);
 
-            totalTime = store.StoreInstance
-                             .GetTracksById(playlist[playlist.CurrentIndex])
-                             .Duration;
+        
+        //totalTime = store.StoreInstance
+        //                .GetTracksById(playlist[playlist.CurrentIndex])
+        //                .Duration;
                              
-            OnPropertyChanged("TotalTime");
-            OnPropertyChanged("TotalTimeDisplay");
-            OnPropertyChanged("CurrentTime");
-            
-            _player.Pause_ResumePlayer();
-        }
-        else if (instance is Track track)
-        {
-            _player.StopPlayer();
-            _player.SetInstance(instance);
-            OnPropertyChanged("CurrentEntity");
 
-            if (isResolved)
-            {
-                instanceVM = (TrackViewModel)App.ViewModelTable[TrackViewModel.nameVM];
-                ((TrackViewModel)instanceVM).SetInstance(track);
-            }
-
-            totalTime = track.Duration;
-            OnPropertyChanged("TotalTime");
-            OnPropertyChanged("TotalTimeDisplay");
-            OnPropertyChanged("CurrentTime");
-
-            _player.Pause_ResumePlayer();
-        }
-
-        if (instanceVM != null)
-        {
-            PushVM(source, instanceVM);
-            ResolveWindowStack();
-        }
-    }
-
-    //Just for "Temporary playing"
-    public void HitTemps(MusicFile musicFile)
-    {
-
-    }
-
-    public void HitTemps(IEnumerable<MusicFile> musicFiles)
-    {
-        _player.StopPlayer();
-        _player.SetRoad(musicFiles);
-        OnPropertyChanged("CurrentEntity");
-
-        //getting total time from Current player instace
-        totalTime = ((Track)CurrentEntity).Duration;                             
+        OnPropertyChanged("CurrentPlaylist");
         OnPropertyChanged("TotalTime");
         OnPropertyChanged("TotalTimeDisplay");
         OnPropertyChanged("CurrentTime");
             
-        _player.Pause_ResumePlayer();
+        _player?.Toggle();
+
+        if (isResolved)
+        {
+            var playlistVM = (PlaylistViewModel)App.ViewModelTable[PlaylistViewModel.nameVM];
+            playlistVM?.SetInstance(playlist); 
+            
+            PushVM(source, playlistVM);
+            ResolveWindowStack();
+        }
+    }
+
+    public void DropPlaylistInstance(BaseViewModel source, 
+                                     Track track,
+                                     bool isResolved = false)
+    {
+        _player?.Stop();
+        _player?.DropTrack(track);
+
+
+        totalTime = track.Duration;
+        
+        OnPropertyChanged("CurrentTrack");
+        OnPropertyChanged("TotalTime");
+        OnPropertyChanged("TotalTimeDisplay");
+        OnPropertyChanged("CurrentTime");
+
+        _player?.Toggle();
+ 
+        if (isResolved)
+        {
+            var trackVM = (TrackViewModel)App.ViewModelTable[TrackViewModel.nameVM];
+            trackVM?.SetInstance(track);
+
+            PushVM(source, trackVM);
+            ResolveWindowStack();
+        }
+    } 
+
+    //Don't ready to use
+    public void HitTemps(IEnumerable<Track> musicFiles)
+    {
+        _player?.Stop();
+        OnPropertyChanged("CurrentEntity");
+
+        //getting total time from Current player instace
+        //totalTime = ((Track)CurrentEntity).Duration;                             
+        OnPropertyChanged("TotalTime");
+        OnPropertyChanged("TotalTimeDisplay");
+        OnPropertyChanged("CurrentTime");
+            
+        _player?.Toggle();
     }
     #endregion
 
@@ -340,48 +368,48 @@ public class MainViewModel : Base.BaseViewModel
 
     private void KickPlayer(object obj) 
     {
-        _player.Pause_ResumePlayer();
+        _player?.Toggle();
         OnPropertyChanged("PlayerState");   
     }
 
     private void StopPlayer(object obj) 
     {
-        _player.StopPlayer();
+        _player?.Stop();
     }
 
     private void PreviousSwipePlayer(object obj) 
     {
         OnPropertyChanged("CurrentEntity");
-        _player.DropPrevious();
+        _player?.SkipPrev();
     }
 
     private void NextSwipePlayer(object obj) 
     {
         OnPropertyChanged("CurrentEntity");
-        _player.DropNext();
+        _player?.SkipNext();
     }
 
     private void RepeatPlayer(object obj)
     {
-        _player.RepeatTrack();
+        _player?.Repeat();
     }
 
     private void ShuffleCollectionPlayer(object obj) 
     {
-        _player.ShuffleTrackCollection();
+        _player?.Shuffle();
     }
 
     private void ChangeVolumePlayer(object obj)
     {
-        if (obj is float volume)
-            _player.ChangeVolume(volume);
     }
 
     private void VolumeSliderShow(object obj)
     {
         VolumeSliderOpen ^= true;
     }
-
+    #endregion
+    
+    #region User interface windows switch methods
     public void SwitchHome(object obj)
     {
         DefineNewPresentItem((BaseViewModel)App.ViewModelTable[StartViewModel.nameVM]);
