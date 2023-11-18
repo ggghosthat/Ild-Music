@@ -1,4 +1,5 @@
 using Ild_Music.Core.Contracts;
+using Ild_Music.Core.Contracts.Services.Interfaces;
 using Ild_Music.Core.Services.Castle;
 //using ShareInstances.Configure;
 namespace Ild_Music.Core.Stage;
@@ -107,6 +108,19 @@ public sealed class Stage
     {
         castle.SwitchCube(index);
     }
+    #endregion
+
+    #region Service entities resolve
+    public IGhost GetGhost(Ghosts ghostTag)
+    {
+        return castle.ResolveGhost(ghostTag);
+    }
+
+    public IWaiter GetWaiter(ref string waiterName)
+    {
+        return castle.ResolveWaiter(ref waiterName);
+    }
+
     #endregion
 
     #region Clear

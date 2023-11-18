@@ -1,6 +1,7 @@
 using Ild_Music.Core.Instances;
 using Ild_Music.Core.Contracts.Services.Interfaces;
 
+using System.Collections.Generic;
 using System.Collections.Concurrent;
 
 namespace Ild_Music.Core.Services.Entities;
@@ -22,15 +23,15 @@ public class Filer : IWaiter
         factoryGhost = ghost;
     }
 
-	public async Task BrowseFiles(IEnumerable<Memory<char>> inputPaths)
+	public async Task BrowseFiles(IEnumerable<string> inputPaths)
 	{
 		Parallel.ForEach(inputPaths,
 						 new ParallelOptions { MaxDegreeOfParallelism = 4 },
-						 (Memory<char> file) =>
+						 (string file) =>
         {            
 			//containing file-format restriction.
     		//in the nearest release will be allow mp3 format only!!!
-            if(File.Exists(file.ToString()))
+            if(File.Exists(file))
 			{
 				var ext = Path.GetExtension(file.ToString());
 	    	    if (ext.Equals(".mp3"))

@@ -1,20 +1,17 @@
-using Ild_Music;
 using Ild_Music.Command;
 using Ild_Music.ViewModels.Base;
-using ShareInstances.Stage;
-using ShareInstances.Filer;
-using ShareInstances.Instances;
-using ShareInstances.Services.Entities;
+using Ild_Music.Core.Stage;
+using Ild_Music.Core.Services.Entities;
+using Ild_Music.Core.Instances;
+using Ild_Music.Core.Contracts.Services.Interfaces;
+using Ild_Music.Core.Services.Entities;
 
 using System;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using Avalonia;
 using Avalonia.Controls;
-using Avalonia.Controls.Selection;
 namespace Ild_Music.ViewModels;
 public class BrowseViewModel : BaseViewModel
 {
@@ -23,13 +20,13 @@ public class BrowseViewModel : BaseViewModel
 
     #region Services
     private MainViewModel MainVM => (MainViewModel)App.ViewModelTable[MainViewModel.nameVM];
-    private SupporterService supporterService => (SupporterService)base.GetService("SupporterService");
-    private Stage Stage => App.Stage;
+    private SupportGhost supporterService => (SupportGhost)base.GetService(Ghosts.SUPPORT);
+    private Filer filer => (Filer)GetWaiter("Filer");
     #endregion
 
     #region Properties
-    public ObservableCollection<MusicFile> Items {get; private set;} = new();
-    public ObservableCollection<MusicFile> SelectedItems {get; set;} = new();
+    public ObservableCollection<Track> Items {get; private set;} = new();
+    public ObservableCollection<Track> SelectedItems {get; set;} = new();
     #endregion
 
     #region Commands
@@ -55,17 +52,17 @@ public class BrowseViewModel : BaseViewModel
     private async Task UpdateItems()
     {
         Items.Clear();
-        IList<MusicFile> musicFiles = Stage.Filer.GetMusicFiles();
+        IList<Track> musicFiles = filer.GetTracks();
         musicFiles.ToList()
                   .ForEach(mf => Items.Add(mf));
-        Stage.Filer.CleanFiler();
+        filer.CleanFiler();
     }
     #endregion
 
     #region Public methods
     public async Task Browse(IEnumerable<string> paths)
     {
-        await Stage.Filer.BrowseFiles(paths);
+        await filer.BrowseFiles(ref paths);
         await UpdateItems();
     }
     #endregion
