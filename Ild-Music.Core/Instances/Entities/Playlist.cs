@@ -93,7 +93,7 @@ public struct Playlist
         }
     }
 
-    public void Clear()
+    public void EraseTracks()
     {
         Tracks.Value.Clear();
     }

@@ -1,9 +1,7 @@
-using ShareInstances;
-using ShareInstances.Instances;
-using ShareInstances.Instances.Interfaces;
-using ShareInstances.Services.Entities;
-using ShareInstances.Exceptions.SynchAreaExceptions;
-using Ild_Music;
+using Ild_Music.Core.Instances;
+using Ild_Music.Core.Services.Entities;
+using Ild_Music.Core.Contracts.Services.Interfaces;
+using Ild_Music.Core.Exceptions.SynchAreaExceptions;
 using Ild_Music.Command;
 using Ild_Music.ViewModels.Base;
 
@@ -22,7 +20,7 @@ public class InstanceExplorerViewModel : BaseViewModel
     public override string NameVM => nameVM;
 
     #region Services
-    private SupporterService supporterService => (SupporterService)base.GetService("SupporterService");
+    private SupportGhost supporterService => (SupportGhost)base.GetService(Ghosts.SUPPORT);
     #endregion
 
     #region Properties

@@ -24,11 +24,11 @@ public sealed class FactoryGhost : IGhost
     public void CreateArtist(string name,
                              string description,
                              int year,    
-                             string avatar = null)
+                             byte[] avatar)
     {
         try
         {
-            Memory<byte> artistAvatarSource = ExtractTrackAvatar(avatar).Result;
+            Memory<byte> artistAvatarSource = avatar;
 
             producer = new InstanceProducer.InstanceProducer(name.ToCharArray(),
                                                              description.ToCharArray(),
@@ -47,13 +47,13 @@ public sealed class FactoryGhost : IGhost
     public void CreatePlaylist(string name,
                                string description,
                                int year,
-                               string avatar = null,
+                               byte[] avatar = null,
                                IList<Track> tracks = null,
                                IList<Artist> artists = null) 
     {   
         try 
         { 
-            Memory<byte> playlistAvatarSource = ExtractTrackAvatar(avatar).Result; 
+            Memory<byte> playlistAvatarSource = avatar; 
             producer = new InstanceProducer.InstanceProducer(name.ToCharArray(), 
                                                              description.ToCharArray(),
                                                              playlistAvatarSource, 

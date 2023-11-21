@@ -1,20 +1,15 @@
-using ShareInstances;
-using ShareInstances.Instances;
-using ShareInstances.Instances.Interfaces;
-using ShareInstances.Services.Entities;
-using ShareInstances.Exceptions.SynchAreaExceptions;
-using Ild_Music;
+using Ild_Music.Core.Instances;
+using Ild_Music.Core.Services.Entities;
+using Ild_Music.Core.Contracts.Services.Interfaces;
+using Ild_Music.Core.Exceptions.SynchAreaExceptions;
 using Ild_Music.Command;
 using Ild_Music.ViewModels.Base;
 
 using System;
 using System.IO;
-using Avalonia;
 using Avalonia.Controls;
-using Avalonia.Controls.Selection;
 using System.Linq;
 using System.Collections.Generic;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Collections.ObjectModel;
 
@@ -26,20 +21,20 @@ namespace Ild_Music.ViewModels
         public override string NameVM => nameVM;
 
         #region Services
-        private FactoryService factoryService => (FactoryService)base.GetService("FactoryService");
-        private SupporterService supporterService => (SupporterService)base.GetService("SupporterService");
+        private FactoryGhost factoryService => (FactoryGhost)base.GetService(Ghosts.FACTORY);
+        private SupportGhost supporterService => (SupportGhost)base.GetService(Ghosts.SUPPORT);
         private StoreService store => (StoreService)base.GetService("StoreService");
         private MainViewModel MainVM => (MainViewModel)App.ViewModelTable[MainViewModel.nameVM];
         private InstanceExplorerViewModel ExplorerVM => (InstanceExplorerViewModel)App.ViewModelTable[InstanceExplorerViewModel.nameVM];
         #endregion
 
         #region Instance
-        public ICoreEntity Instance { get; private set; }
+        public Playlist Instance { get; private set; } = default!;
         #endregion
 
         #region Avatar Avatar
-        public byte[] AvatarSource {get; private set;}
-        public string AvatarRaw {get; private set;}
+        public byte[] AvatarSource {get; private set;} = default!;
+        public string AvatarRaw {get; private set;} = default!;
         #endregion
 
         #region Commands
@@ -59,8 +54,8 @@ namespace Ild_Music.ViewModels
         #endregion
 
         #region Playlist Factory Properties
-        public string PlaylistName { get; set; }
-        public string PlaylistDescription { get; set; }
+        public string PlaylistName { get; set; } = default!;
+        public string PlaylistDescription { get; set; } = default!;
 
         public static ObservableCollection<Artist> SelectedPlaylistArtists {get;set;} = new();
         public static ObservableCollection<Track> SelectedPlaylistTracks {get; set;} = new();
@@ -101,9 +96,9 @@ namespace Ild_Music.ViewModels
         #endregion
 
         #region Private Methods
-        private void ExitFactory()
+        private async void ExitFactory()
         {
-            FieldsClear();
+            await FieldsClear();
             MainVM.ResolveWindowStack();
         }
 
@@ -165,7 +160,7 @@ namespace Ild_Music.ViewModels
         private void OpenPlaylistArtistExplorer(object obj)
         {
             ExplorerVM.OnSelected += OnItemsSelected;
-            if (obj is IList<ICoreEntity> preSelected)
+            if (obj is IList<Artist> preSelected)
             {
                 ExplorerVM.Arrange(0, preSelected); 
             }
@@ -181,7 +176,7 @@ namespace Ild_Music.ViewModels
         private void OpenPlaylistTrackExplorer(object obj)
         {
             ExplorerVM.OnSelected += OnItemsSelected;
-            if (obj is IList<ICoreEntity> preSelected)
+            if (obj is IList<Track> preSelected)
             {
                 ExplorerVM.Arrange(2, preSelected); 
             }
@@ -214,14 +209,15 @@ namespace Ild_Music.ViewModels
             {
                 var name = (string)values[0];
                 var description = (string)values[1];
-                var avatar = (byte[])values[2];
-                var tracks = (IList<Track>)values[3];
-                var artists = (IList<Artist>)values[4];
+                var year = (int)values[2];
+                var avatar = (byte[])values[3];
+                var tracks = (IList<Track>)values[4];
+                var artists = (IList<Artist>)values[5];
 
                 if (!string.IsNullOrEmpty(name))
                 {
                     var avatarBase64 = (avatar is not null)?Convert.ToBase64String(avatar):null;
-                    factoryService.CreatePlaylist(name, description, avatarBase64, tracks, artists);
+                    factoryService.CreatePlaylist(name, description, year, avatar, tracks, artists);
                     PlaylistLogLine = "Successfully created!";
                     ExitFactory(); 
                 }
@@ -244,26 +240,25 @@ namespace Ild_Music.ViewModels
 
                 if(!string.IsNullOrEmpty(name))
                 {
-                    var editPlaylist = (Playlist)Instance;
-                    editPlaylist.Name = name;
-                    editPlaylist.Description = description;
-                    editPlaylist.AvatarBase64 = (avatar is not null)?Convert.ToBase64String(avatar):null;
+                    var editPlaylist = (Playlist)Instance; 
+                    editPlaylist.Name = name.AsMemory();
+                    editPlaylist.Description = description.AsMemory();
+                    editPlaylist.AvatarSource = (avatar is not null)? avatar:null;
 
                     if(tracks != null && tracks.Count > 0)
                     {
-                        editPlaylist.Tracks.Clear();
-                        tracks.ToList().ForEach(t => editPlaylist.Tracks.Add(t.Id));
+                        editPlaylist.EraseTracks();
+                        tracks.ToList().ForEach(t => editPlaylist.AddTrack(ref t));
                     }
 
                     if(artists != null && artists.Count > 0)
                     {
                         var clear_artists = ArtistProvider.ToList().Except(artists);
-                        clear_artists.ToList().ForEach(a => a.DeletePlaylist(editPlaylist.Id));
-                        artists.ToList().ForEach(a => a.AddPlaylist(editPlaylist.Id));
+                        clear_artists.ToList().ForEach(a => a.DeletePlaylist(ref editPlaylist));
+                        artists.ToList().ForEach(a => a.AddPlaylist(ref editPlaylist));
                     }
 
-                    supporterService.EditInstance(editPlaylist);
-                    supporterService.DumpState(); 
+                    supporterService.EditPlaylistInstance(editPlaylist);
 
                     IsEditMode = false;
                     ExitFactory();
@@ -275,24 +270,22 @@ namespace Ild_Music.ViewModels
             }
         }
 
-        public void DropInstance(ICoreEntity entity) 
+        public void DropInstance(Playlist playlist) 
         {
-            Instance = entity;
+            Instance = playlist;
             IsEditMode = true;
-            if (entity is Playlist playlist)
-            {
-                PlaylistName = playlist.Name;
-                PlaylistDescription = playlist.Description;
-                AvatarSource = playlist.GetAvatar();
+            PlaylistName = playlist.Name.ToString();
+            PlaylistDescription = playlist.Description.ToString();
+            AvatarSource = playlist.GetAvatar();
 
-                supporterService.ArtistsCollection.Where(a => a.Playlists.ToEntity(supporterService.PlaylistsCollection).Contains(playlist))
-                                                  .ToList()
-                                                  .ForEach(a => SelectedPlaylistArtists.Add(a));
+            supporterService.ArtistsCollection.Where(a => a.Playlists.ToEntity(supporterService.PlaylistsCollection)
+                                                                    .Contains(playlist))
+                                            .ToList()
+                                            .ForEach(a => SelectedPlaylistArtists.Add(a));
                 
-                store.StoreInstance.GetTracksById(playlist.Tracks)
-                               .ToList()
-                               .ForEach(t => SelectedPlaylistTracks.Add(t));
-            }
+            store.StoreInstance.GetTracksById(playlist.GetTracks())
+                            .ToList()
+                            .ForEach(t => SelectedPlaylistTracks.Add(t));
         }
         #endregion
 

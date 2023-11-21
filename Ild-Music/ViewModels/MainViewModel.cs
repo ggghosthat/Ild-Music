@@ -238,21 +238,7 @@ public class MainViewModel : Base.BaseViewModel
             ResolveWindowStack();
         }
     }
-
-    public async Task ResolveTrackInstance(BaseViewModel source,
-                                           Track track)
-    {
-        var trackVM = (TrackViewModel)App.ViewModelTable[TrackViewModel.nameVM];
-        trackVM?.SetInstance(track);
-
-
-        if (trackVM != null)
-        {
-            PushVM(source, trackVM);
-            ResolveWindowStack();
-        }
-    }
-
+    
     public void DropPlaylistInstance(BaseViewModel source, 
                                      Playlist playlist,
                                      bool isResolved = false, 
@@ -284,7 +270,23 @@ public class MainViewModel : Base.BaseViewModel
         }
     }
 
-    public void DropPlaylistInstance(BaseViewModel source, 
+
+    public async Task ResolveTrackInstance(BaseViewModel source,
+                                           Track track)
+    {
+        var trackVM = (TrackViewModel)App.ViewModelTable[TrackViewModel.nameVM];
+        trackVM?.SetInstance(track);
+
+
+        if (trackVM != null)
+        {
+            PushVM(source, trackVM);
+            ResolveWindowStack();
+        }
+    }
+
+    
+    public void DropTrackInstance(BaseViewModel source, 
                                      Track track,
                                      bool isResolved = false)
     {

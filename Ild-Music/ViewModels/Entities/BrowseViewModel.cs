@@ -1,17 +1,16 @@
 using Ild_Music.Command;
 using Ild_Music.ViewModels.Base;
-using Ild_Music.Core.Stage;
 using Ild_Music.Core.Services.Entities;
 using Ild_Music.Core.Instances;
 using Ild_Music.Core.Contracts.Services.Interfaces;
-using Ild_Music.Core.Services.Entities;
 
-using System;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Avalonia.Controls;
+using Avalonia.Platform.Storage;
+
 namespace Ild_Music.ViewModels;
 public class BrowseViewModel : BaseViewModel
 {
@@ -42,8 +41,7 @@ public class BrowseViewModel : BaseViewModel
     {
         BrowseFromManagerCommand = new(BrowseFromManager, null);
         PlaybackSingleCommand = new(PlaybackSingle, null);
-        CreateTrackCommand = new(CreateTrack, null);
-        CreatePlaylistCommand = new(CreatePlaylist, null);
+        SaveStateCommand = new(SaveState, null);
         PlayBrowsedTracksCommand = new(PlayBrowsedTracks, null);
         CancelCommand = new(Cancel, null);
     }
@@ -56,13 +54,13 @@ public class BrowseViewModel : BaseViewModel
         musicFiles.ToList()
                   .ForEach(mf => Items.Add(mf));
         filer.CleanFiler();
-    }
+    } 
     #endregion
 
     #region Public methods
     public async Task Browse(IEnumerable<string> paths)
     {
-        await filer.BrowseFiles(ref paths);
+        await filer.BrowseFiles(paths);
         await UpdateItems();
     }
     #endregion
@@ -72,49 +70,52 @@ public class BrowseViewModel : BaseViewModel
     {
         if(SelectedItems is not null && SelectedItems.Count > 0)
         {
-            var currentEntity = MainVM.CurrentEntity;
-            var producedTrack = SelectedItems[0].MusicFileConvertTrack();
+            var currentTrack = MainVM.CurrentTrack;
+            var producedTrack = SelectedItems[0];
             SelectedItems.Clear();
 
-            if(currentEntity is not null && producedTrack.Id.Equals(currentEntity.Id))
+            if(currentTrack is not null && producedTrack.Id.Equals(currentTrack?.Id))
             {
-                new Task(() => MainVM.DropInstance(this, producedTrack)).Start();
+                new Task(() => MainVM.DropTrackInstance(this, producedTrack)).Start();
             }
             else
             {
-                Task.Run(() => MainVM.DropInstance(this, producedTrack));                    
+                Task.Run(() => MainVM.DropTrackInstance(this, producedTrack));                    
             }
         }
     }
 
-    private void CreateTrack(object obj)
+    private void SaveTrack(object obj)
     {
-        if(SelectedItems is not null && SelectedItems.Count > 0)
+        if(SelectedItems.Count == 1)
         {
-            Track producedTrack = SelectedItems[0].MusicFileConvertTrack();
-            supporterService.AddInstance(producedTrack);
-            supporterService.DumpState();
+            Track producedTrack = SelectedItems[0];
+            supporterService.AddTrackInstance(producedTrack);
         }
     }
 
-    private void CreatePlaylist(object obj)
+    private void SavePlaylists(object obj)
     {
-        if(SelectedItems is not null && SelectedItems.Count > 0)
+        if(SelectedItems.Count > 1)
         {
-            Playlist producedPlaylist = SelectedItems.MusicFileConvertPlaylist(supporter:supporterService);
-            supporterService.AddInstance(producedPlaylist);
-            supporterService.DumpState();
+            Playlist producedPlaylist = SelectedItems.ToList().ComposePlaylist();
+            supporterService.AddPlaylistInstance(producedPlaylist);
         }
-    }
+        else if(SelectedItems.Count == 0 && Items.Count > 0)
+        {
+            Playlist producedPlaylist = Items.ToList().ComposePlaylist();
+            supporterService.AddPlaylistInstance(producedPlaylist);
+        }
+    } 
 
     private void PlayBrowsedTracks(object obj)
     {
         if(Items is not null && Items.Count > 0)
         {
-            Playlist producedPlaylist = Items.MusicFileConvertPlaylist(supporter:supporterService);
+            Playlist producedPlaylist = Items.ToList().ComposePlaylist();
             MainVM.HitTemps(Items);
         } 
-    }
+    } 
 
     private async void BrowseFromManager(object obj)
     {

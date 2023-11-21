@@ -1,9 +1,6 @@
-using Ild_Music.Core.Instances;
-using Ild_Music.Core.Services.Entities;
+using Ild_Music.Core.Services.InstanceProducer;
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
 namespace Ild_Music.Core.Instances;
 public static class Extesions
 {
@@ -42,4 +39,17 @@ public static class Extesions
     	return store.ToList()
                     .FindAll(delegate(Playlist item) { return guids.Contains(item.Id); });
 	}
+
+
+    public static Playlist ComposePlaylist(this IList<Track> tracks)
+    {
+        var producer = new InstanceProducer($"Playlist: { DateTime.Now.ToString("h_mm") }".ToCharArray(), 
+                                            "".ToCharArray(),
+                                            new byte[0],
+                                            2000,
+                                            tracks,
+                                            null);
+
+        return producer.PlaylistInstance;
+    }
 }

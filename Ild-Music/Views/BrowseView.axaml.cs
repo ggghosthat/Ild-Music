@@ -29,5 +29,23 @@ public partial class BrowseView : UserControl
     		var vm = (BrowseViewModel)DataContext;
     		vm.Browse(e.Data.GetFileNames());
     	}
-    }   
+    }  
+
+    private async void BrowseMusicFile(object sender, RoutedEventArgs args)
+    {
+        var topLevel = TopLevel.GetTopLevel(this);
+        
+        var files = await topLevel?.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
+        {
+            Title = "Your music file",
+            AllowMultiple = true,
+            FileTypeFilter = new("Music All") 
+            {
+                Patterns = new[] { "*.mp3" },
+                MimeTypes = new[] { "audio/*" }
+            }
+        });
+       if(files.Count >= 1)
+       {}
+    }
 }
