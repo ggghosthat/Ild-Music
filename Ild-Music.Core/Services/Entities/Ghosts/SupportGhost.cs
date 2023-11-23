@@ -1,4 +1,5 @@
 using Ild_Music.Core.Instances;
+using Ild_Music.Core.Instances.DTO;
 using Ild_Music.Core.Contracts;
 using Ild_Music.Core.Contracts.Services;
 using Ild_Music.Core.Contracts.Services.Interfaces;
@@ -14,7 +15,6 @@ public sealed class SupportGhost : IGhost
     public IEnumerable<Artist> ArtistsCollection => CubeArea.Artists;
     public IEnumerable<Playlist> PlaylistsCollection => CubeArea.Playlists;
     public IEnumerable<Track> TracksCollection => CubeArea.Tracks;
-
 
     public event Action OnArtistsNotifyRefresh = null;
     public event Action OnPlaylistsNotifyRefresh = null;
@@ -92,4 +92,15 @@ public sealed class SupportGhost : IGhost
         OnArtistsNotifyRefresh?.Invoke();
     }
        
+
+    public async Task<IEnumerable<CommonInstanceDTO>> RequireInstances(EntityTag entityTag)
+    {
+        return await CubeArea.RequireInstances(entityTag);
+    }
+
+    public async Task<IEnumerable<CommonInstanceDTO>> RequireInstances(EntityTag entityTag,
+                                                                       IEnumerable<Guid> id)
+    {
+        return await CubeArea.RequireInstances(entityTag, id);
+    }
 }

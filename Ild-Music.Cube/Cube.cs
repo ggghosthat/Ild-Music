@@ -1,5 +1,6 @@
 using Ild_Music.Core.Contracts;
 using Ild_Music.Core.Instances;
+using Ild_Music.Core.Instances.DTO;
 using Ild_Music.Core.Statistics;
 using Cube.Storage;
 
@@ -226,7 +227,7 @@ public class Cube : ICube
         return await guidoForklift.Search<T>(searchTerm);
     }
 
-    
+    //this aproach should be deprecated 
     public async Task<Artist> ExtendSingle(Artist artist)
     {
         return await guidoForklift.ExtendArtist(artist);
@@ -283,5 +284,16 @@ public class Cube : ICube
     public async Task<CounterFrame> SnapCounterFrame()
     {
         return default;
+    }
+
+    public async Task<IEnumerable<CommonInstanceDTO>> RequireInstances(EntityTag entityTag)
+    {
+        return await guidoForklift.RequireInstances(entityTag, null);
+    }
+
+    public async Task<IEnumerable<CommonInstanceDTO>> RequireInstances(EntityTag entityTag, 
+                                                                       IEnumerable<Guid> id)
+    {
+        return await guidoForklift.RequireInstances(entityTag, id);
     }
 }

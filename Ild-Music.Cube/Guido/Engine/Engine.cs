@@ -1,3 +1,4 @@
+using Ild_Music.Core.Instances;
 using Cube.Mapper.Entities;
 
 using System.Data.SQLite;
@@ -109,6 +110,14 @@ public class Engine
     public async Task<Store> BringStore(int tag, Guid id)
     {
         return await loader.BringStore(tag, id);
+    }
+
+    public async Task<IEnumerable<CommonInstanceDTOMap>> RequireInstancesRaw(EntityTag entityTag,
+                                                                             IEnumerable<Guid> ids)
+    {
+        if (ids is null)
+            return await loader.RetrieveInstanceDTO(entityTag);
+        else return await loader.RetrieveInstanceDTOById(entityTag, ids);
     }
 
     public async Task<IEnumerable<Guid>> CheckRelates(int tag, ICollection<Guid> guids)

@@ -1,3 +1,5 @@
+using Ild_Music.Core.Instances;
+using Ild_Music.Core.Instances.DTO;
 using Cube.Mapper.Entities;
 
 using System.Data.SQLite;
@@ -11,6 +13,7 @@ internal class Loader
         _connectionString = connectionString;
     }
 
+    //retrieve all type instances
     public async Task<(IEnumerable<ArtistMap>, IEnumerable<PlaylistMap>, IEnumerable<TrackMap>)> BringAll(int offset, int capacity)
     {
         IEnumerable<ArtistMap> artists = null;
@@ -35,6 +38,7 @@ internal class Loader
         return (artists, playlists, tracks);
     }
 
+    //retrieve single-type instances
     public async Task<IEnumerable<T>> Bring<T>(int offset, int capacity)
     {
         ReadOnlyMemory<char> dapperQuery;
@@ -67,6 +71,7 @@ internal class Loader
         return result;
     }
 
+    //retrieve single instance of required type
     public async Task<T> BringSingle<T>(Guid inputId)
     {
         ReadOnlyMemory<char> dapperQuery;
@@ -97,6 +102,7 @@ internal class Loader
         return result;
     }
 
+    //retrieve required type instances with predefined id
     public async Task<IEnumerable<T>> BringItemsById<T>(ICollection<Guid> ids)
     {
         ReadOnlyMemory<char> dapperQuery;
@@ -128,6 +134,7 @@ internal class Loader
         return result;
     }
 
+    //retrieve item dependent store by instance id and required case
     public async Task<Store> BringStore(int tag, Guid id)
     {
         ReadOnlyMemory<char> dapperQuery;
@@ -182,6 +189,53 @@ internal class Loader
         return store;
     }
  
+    public async Task<IEnumerable<CommonInstanceDTOMap>> RetrieveInstanceDTO(EntityTag entityTag)
+    {
+        IEnumerable<CommonInstanceDTOMap> result = default!;
+        ReadOnlyMemory<char> dapperQuery = entityTag switch
+        {
+            EntityTag.ARTIST =>
+                dapperQuery = "select AID, Name, Avatar, Year from artists;".AsMemory(),
+            EntityTag.PLAYLIST => 
+                dapperQuery = "select PID, Name, Avatar, Year from playlists;".AsMemory(),
+            EntityTag.TRACK =>
+                dapperQuery = "select TID, Name, Avatar, Year from tracks;".AsMemory()
+        };
+
+        using (var connection = new SQLiteConnection(_connectionString.ToString()))
+        {
+            await connection.OpenAsync();
+            result = await connection.QueryAsync<CommonInstanceDTOMap>(dapperQuery.ToString());
+        }
+        return result;
+    }
+
+    public async Task<IEnumerable<CommonInstanceDTOMap>> RetrieveInstanceDTOById(EntityTag entityTag,
+                                                                             IEnumerable<Guid> ids)
+    {
+        IEnumerable<CommonInstanceDTOMap> result = default!;
+        ReadOnlyMemory<char> dapperQuery = entityTag switch
+        {
+            EntityTag.ARTIST =>
+                dapperQuery = "select AID, Name, Avatar, Year from artists where AID in @ids;".AsMemory(),
+            EntityTag.PLAYLIST => 
+                dapperQuery = "select PID, Name, Avatar, Year from playlists where PID in @ids;".AsMemory(),
+            EntityTag.TRACK =>
+                dapperQuery = "select TID, Name, Avatar, Year from tracks where TID in @ids;".AsMemory()
+        };
+
+        using (var connection = new SQLiteConnection(_connectionString.ToString()))
+        {
+            await connection.OpenAsync();
+            result = await connection.QueryAsync<CommonInstanceDTOMap>(dapperQuery.ToString(),
+                                                                    new { ids=ids.Select(i => i.ToString()) });
+        }
+
+        return result;
+    }
+
+
+    //perform obtaining depended pair 
     private async Task<IEnumerable<T>> PairsObtain<T>(ReadOnlyMemory<char> dapperQuery, Guid id)
     {
         if(typeof(T) == typeof(ApPair) || typeof(T) == typeof(AtPair) || typeof(T) == typeof(PtPair))
@@ -196,5 +250,4 @@ internal class Loader
         }
         else throw new Exception("Not supported Pair type. There are only support for ap, at and pt pair type.");
     }
-
 }

@@ -1,15 +1,13 @@
 using Ild_Music.Core.Instances;
+using Ild_Music.Core.Instances.DTO;
 using Ild_Music.Core.Services.Entities;
 using Ild_Music.Core.Contracts.Services.Interfaces;
-using Ild_Music.Core.Exceptions.SynchAreaExceptions;
 using Ild_Music.Command;
 using Ild_Music.ViewModels.Base;
 
 using System;
 using System.Linq;
 using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Collections.ObjectModel;
 
 
@@ -21,13 +19,12 @@ public class InstanceExplorerViewModel : BaseViewModel
 
     #region Services
     private SupportGhost supporterService => (SupportGhost)base.GetService(Ghosts.SUPPORT);
+    private MainViewModel MainVM => (MainViewModel)App.ViewModelTable[MainViewModel.nameVM];
     #endregion
 
     #region Properties
-    public ObservableCollection<ICoreEntity> Source {get; private set;} = new();
-    public IList<ICoreEntity> Output {get; set;} = new List<ICoreEntity>();
-
-    private MainViewModel MainVM => (MainViewModel)App.ViewModelTable[MainViewModel.nameVM];
+    public ObservableCollection<CommonInstanceDTO> Source {get; private set;} = new();
+    public IList<CommonInstanceDTO> Output {get; set;} = new List<CommonInstanceDTO>();
     #endregion
 
     
@@ -49,43 +46,18 @@ public class InstanceExplorerViewModel : BaseViewModel
     #endregion
 
     #region Public Methods
-    public void Supply(IList<ICoreEntity> sourceInput, IList<ICoreEntity> preselected)
+    public async void Arrange(EntityTag entitytag,
+                        IList<CommonInstanceDTO> preselected = null)
     {
         Source.Clear();
         Output.Clear();
-        
-        sourceInput.ToList().ForEach(i => Source.Add(i));
 
-        if(new HashSet<ICoreEntity>(Source).IsSupersetOf(preselected))
-        {
-            preselected.ToList().ForEach(i => Output.Add(i));
-        }
-    }
-
-    public void Arrange(int i, IList<ICoreEntity> preselected = null)
-    {
-        Source.Clear();
-        Output.Clear();
-        if (i == 0)
-        {
-            supporterService.ArtistsCollection
-                            .ToList().ForEach(artist => Source.Add(artist));
-        }
-        else if (i == 1)
-        {
-            supporterService.PlaylistsCollection
-                            .ToList().ForEach(playlist => Source.Add(playlist));
-        }
-        else if (i == 2)
-        {
-            supporterService.TracksCollection
-                            .ToList().ForEach(track => Source.Add(track));
-        }
-        
+        var required = await supporterService.RequireInstances(EntityTag.ARTIST);
+        required.ToList()
+                .ForEach(artist => Source.Add(artist));
+       
         if (preselected != null)
-        {
             Output = preselected;
-        }
     }
 
     public void CloseExplorer(object obj)

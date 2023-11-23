@@ -1,4 +1,5 @@
 using Ild_Music.Core.Instances;
+using Ild_Music.Core.Instances.DTO;
 using Cube.Mapper.Entities;
 
 using System.Collections.Concurrent;
@@ -28,10 +29,6 @@ public sealed class Mapper : IDisposable
     public IEnumerable<Track> Tracks => trackQueue.ToList();
     public IEnumerable<Tag> Tags => tagQueue.ToList();
 
-    //public Artist Artist {get; private set;}
-    //public Playlist Playlist {get; private set;}
-    //public Track Track {get; private set;}
-    //public Tag Tag {get; private set;}
 
     public Mapper()
     {  
@@ -265,6 +262,22 @@ public sealed class Mapper : IDisposable
             tagQueue = null;
         }
     }
+
+    public async Task<IEnumerable<CommonInstanceDTO>> MapCommonInstanceDTOs (IEnumerable<CommonInstanceDTOMap> maps)
+    {
+        var resultProjections = new ConcurrentQueue<CommonInstanceDTO>(); 
+        var opt = new ParallelOptions {MaxDegreeOfParallelism=4};
+        await Parallel.ForEachAsync(maps, opt, async (map, token) => 
+        {
+            if (map is CommonInstanceDTOMap artist)
+            {
+                var artistProjection = _mapper.Map<CommonInstanceDTO>(artist);
+                resultProjections.Enqueue(artistProjection);
+            }
+        });
+        return resultProjections;
+    }
+
 
     public void Dispose() 
     {

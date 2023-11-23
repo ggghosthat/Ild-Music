@@ -1,4 +1,5 @@
 ﻿using Ild_Music.Core.Instances;
+using Ild_Music.Core.Instances.DTO;
 using Ild_Music.Core.Statistics;
 
 using MediatR;
@@ -47,13 +48,7 @@ public interface ICube : IShare
     public Task LoadItems<T>();
     public Task UnloadItems<T>();
     #endregion
-
-    #region ExtendMethods
-    public Task<Artist> ExtendSingle(Artist artist);
-    public Task<Playlist> ExtendSingle(Playlist playlist);
-    public Task<Track> ExtendSingle(Track track);
-    #endregion
-
+    
     #region InstanceRelatesChecks
     public Task<InspectFrame> CheckArtistRelates(Artist artist);
     public Task<InspectFrame> CheckPlaylistRelates(Playlist playlist);
@@ -63,6 +58,9 @@ public interface ICube : IShare
     public Task<CounterFrame> SnapCounterFrame();
 
     public Task<IEnumerable<T>> Search<T>(ReadOnlyMemory<char> searchTerm); 
+
+    public Task<IEnumerable<CommonInstanceDTO>> RequireInstances(EntityTag entityTag);
+    public Task<IEnumerable<CommonInstanceDTO>> RequireInstances(EntityTag entityTag, IEnumerable<Guid> id);
 }
 
 //Represent Player instance

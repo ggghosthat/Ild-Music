@@ -1,7 +1,9 @@
 using Ild_Music.Core.Instances;
+using Ild_Music.Core.Instances.DTO;
 using Cube.Storage.Guido.Engine;
 using Cube.Mapper.Entities;
 using Cube.Storage.Guido;
+
 namespace Cube.Storage;
 public class GuidoForklift //Cars from pixar (lol)
 {
@@ -283,6 +285,14 @@ public class GuidoForklift //Cars from pixar (lol)
         }
         return track;
     }
+
+    public async Task<IEnumerable<CommonInstanceDTO>> RequireInstances(EntityTag entitytag, 
+                                                                       IEnumerable<Guid> ids)
+    {
+        var maps = await _engine.RequireInstancesRaw(entitytag, ids);
+        return await _mapper.MapCommonInstanceDTOs(maps);
+    }
+
 
     public async Task<IEnumerable<Guid>> FilterRelates(int tag, ICollection<Guid> relates)
     {

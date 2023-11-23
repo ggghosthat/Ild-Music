@@ -1,4 +1,5 @@
 using Ild_Music.Core.Instances;
+using Ild_Music.Core.Instances.DTO;
 using Cube.Mapper.Entities;
 
 using AutoMapper;
@@ -32,6 +33,12 @@ public sealed class MapProfile : Profile
             .ForMember(dest => dest.IsValid, opt => opt.MapFrom(src => src.IsValid?1:0))
             .ForMember(dest => dest.Duration, opt => opt.MapFrom(src => src.Duration.TotalMilliseconds))
             .ForMember(dest => dest.Year, opt => opt.MapFrom(src => src.Year));
+
+        CreateMap<CommonInstanceDTOMap, CommonInstanceDTO>()
+            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => new Guid(src.ID)))
+            .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name.AsMemory()))
+            .ForMember(dest => dest.Avatar, opt => opt.MapFrom(src => src.Avatar))
+            .ForMember(dest => dest.Tag, opt => opt.MapFrom(src => src.Tag));
 
         CreateMap<Tag, TagMap>()
             .ForMember(dest => dest.Buid, opt => opt.MapFrom(src => src.Id.ToString()))
