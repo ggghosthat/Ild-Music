@@ -214,12 +214,27 @@ public sealed class Mapper : IDisposable
         return resultProjections;
     }
 
-
     public T ExtractSingle<T>(IMappable mappedEntity) 
     {      
         T result = _mapper.Map<T>(mappedEntity);
         return result;
     }    
+
+    
+    public async Task<IEnumerable<CommonInstanceDTO>> MapCommonInstanceDTOs (IEnumerable<CommonInstanceDTOMap> maps)
+    {
+        var resultProjections = new ConcurrentQueue<CommonInstanceDTO>(); 
+        var opt = new ParallelOptions {MaxDegreeOfParallelism=4};
+        await Parallel.ForEachAsync(maps, opt, async (map, token) => 
+        {
+            if (map is CommonInstanceDTOMap dtoMap)
+            {
+                var artistProjection = _mapper.Map<CommonInstanceDTO>(dtoMap);
+                resultProjections.Enqueue(artistProjection);
+            }
+        });
+        return resultProjections;
+    }
 
     public void Clean()
     {
@@ -262,22 +277,6 @@ public sealed class Mapper : IDisposable
             tagQueue = null;
         }
     }
-
-    public async Task<IEnumerable<CommonInstanceDTO>> MapCommonInstanceDTOs (IEnumerable<CommonInstanceDTOMap> maps)
-    {
-        var resultProjections = new ConcurrentQueue<CommonInstanceDTO>(); 
-        var opt = new ParallelOptions {MaxDegreeOfParallelism=4};
-        await Parallel.ForEachAsync(maps, opt, async (map, token) => 
-        {
-            if (map is CommonInstanceDTOMap artist)
-            {
-                var artistProjection = _mapper.Map<CommonInstanceDTO>(artist);
-                resultProjections.Enqueue(artistProjection);
-            }
-        });
-        return resultProjections;
-    }
-
 
     public void Dispose() 
     {

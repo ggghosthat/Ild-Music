@@ -102,7 +102,7 @@ public class Engine
         return await loader.BringSingle<T>(inputId);
     }
 
-    public async Task<IEnumerable<T>> BringItemsById<T>(ICollection<Guid> ids)
+    public async Task<IEnumerable<T>> BringItemsById<T>(IEnumerable<Guid> ids)
     {
         return await loader.BringItemsById<T>(ids);
     }

@@ -138,10 +138,30 @@ public class GuidoForklift //Cars from pixar (lol)
         else throw new Exception("Could not load entities of your type.");
     }
     
-    public async Task<IEnumerable<T>> LoadEntitiesById<T>(ICollection<Guid> idCollection)
+    public async Task<IEnumerable<T>> LoadEntitiesById<T>(IEnumerable<CommonInstanceDTO> idCollection)
     {
-       var result = await _engine.BringItemsById<T>(idCollection); 
-       return result;
+        var ids = idCollection.Select(dto => dto.Id);
+        if(typeof(T) == typeof(Artist))
+        {
+            var artistMaps = await _engine.BringItemsById<ArtistMap>(ids); 
+            return await _mapper.GetEntityProjections<ArtistMap, T>(artistMaps);
+        }
+        else if(typeof(T) == typeof(Playlist))
+        {
+            var playlistMaps = await _engine.BringItemsById<PlaylistMap>(ids); 
+            return await _mapper.GetEntityProjections<PlaylistMap, T>(playlistMaps);
+        }
+        else if(typeof(T) == typeof(Track))
+        {
+            var trackMaps = await _engine.BringItemsById<TrackMap>(ids); 
+            return await _mapper.GetEntityProjections<TrackMap, T>(trackMaps);
+        }
+        else if(typeof(T) == typeof(Tag))
+        {
+            var tagMaps = await _engine.BringItemsById<TagMap>(ids); 
+            return await _mapper.GetEntityProjections<TagMap, T>(tagMaps);
+        }
+        else throw new NotSupportedException("Required type to retrieve from storage is not supported.");
     }
 
 

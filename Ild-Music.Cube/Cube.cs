@@ -222,26 +222,38 @@ public class Cube : ICube
         }
     }
 
-    public async Task<IEnumerable<T>> Search<T>(ReadOnlyMemory<char> searchTerm)
+
+
+    #region Require-Retrieve region
+    public async Task<IEnumerable<CommonInstanceDTO>> RequireInstances(EntityTag entityTag)
     {
-        return await guidoForklift.Search<T>(searchTerm);
+        return await guidoForklift.RequireInstances(entityTag, null);
     }
 
-    //this aproach should be deprecated 
-    public async Task<Artist> ExtendSingle(Artist artist)
+    public async Task<IEnumerable<CommonInstanceDTO>> RequireInstances(EntityTag entityTag, 
+                                                                       IEnumerable<Guid> id)
     {
-        return await guidoForklift.ExtendArtist(artist);
+        return await guidoForklift.RequireInstances(entityTag, id);
     }
 
-    public async Task<Playlist> ExtendSingle(Playlist playlist)
+
+
+
+    public async Task<IEnumerable<Artist>> RetrieveArtists(IEnumerable<CommonInstanceDTO> dtos)
     {
-        return await guidoForklift.ExtendPlaylist(playlist);
+        return await guidoForklift.LoadEntitiesById<Artist>(dtos);
     }
 
-    public async Task<Track> ExtendSingle(Track track)
+    public async Task<IEnumerable<Playlist>> RetrievePlaylists(IEnumerable<CommonInstanceDTO> dtos)
     {
-        return await guidoForklift.ExtendTrack(track);
+        return await guidoForklift.LoadEntitiesById<Playlist>(dtos);
     }
+
+    public async Task<IEnumerable<Track>> RetrieveTracks(IEnumerable<CommonInstanceDTO> dtos)
+    {
+        return await guidoForklift.LoadEntitiesById<Track>(dtos);
+    }
+    #endregion
 
 
     public async Task<InspectFrame> CheckArtistRelates(Artist artist)
@@ -286,14 +298,8 @@ public class Cube : ICube
         return default;
     }
 
-    public async Task<IEnumerable<CommonInstanceDTO>> RequireInstances(EntityTag entityTag)
+    public async Task<IEnumerable<T>> Search<T>(ReadOnlyMemory<char> searchTerm)
     {
-        return await guidoForklift.RequireInstances(entityTag, null);
-    }
-
-    public async Task<IEnumerable<CommonInstanceDTO>> RequireInstances(EntityTag entityTag, 
-                                                                       IEnumerable<Guid> id)
-    {
-        return await guidoForklift.RequireInstances(entityTag, id);
+        return await guidoForklift.Search<T>(searchTerm);
     }
 }

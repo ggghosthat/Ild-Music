@@ -103,7 +103,7 @@ internal class Loader
     }
 
     //retrieve required type instances with predefined id
-    public async Task<IEnumerable<T>> BringItemsById<T>(ICollection<Guid> ids)
+    public async Task<IEnumerable<T>> BringItemsById<T>(IEnumerable<Guid> ids)
     {
         ReadOnlyMemory<char> dapperQuery;
         IEnumerable<T> result;
