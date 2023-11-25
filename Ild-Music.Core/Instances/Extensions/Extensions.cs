@@ -1,6 +1,6 @@
+using Ild_Music.Core.Instances.DTO;
 using Ild_Music.Core.Services.InstanceProducer;
 
-using System;
 namespace Ild_Music.Core.Instances;
 public static class Extesions
 {
@@ -51,5 +51,38 @@ public static class Extesions
                                             null);
 
         return producer.PlaylistInstance;
+    }
+
+    public static IEnumerable<CommonInstanceDTO> ToCommonDTO(this IEnumerable<Artist> collection)
+    {
+       foreach(var artist in collection)
+       {
+           yield return new CommonInstanceDTO(artist.Id,
+                                              artist.Name,
+                                              artist.AvatarSource,
+                                              EntityTag.ARTIST);
+       }
+    }
+
+    public static IEnumerable<CommonInstanceDTO> ToCommonDTO(this IEnumerable<Playlist> collection)
+    {
+       foreach(var playlist in collection)
+       {
+           yield return new CommonInstanceDTO(playlist.Id,
+                                              playlist.Name,
+                                              playlist.AvatarSource,
+                                              EntityTag.ARTIST);
+       }
+    }
+
+    public static IEnumerable<CommonInstanceDTO> ToCommonDTO(this IEnumerable<Track> collection)
+    {
+       foreach(var track in collection)
+       {
+           yield return new CommonInstanceDTO(track.Id,
+                                              track.Name,
+                                              track.AvatarSource,
+                                              EntityTag.ARTIST);
+       }
     }
 }

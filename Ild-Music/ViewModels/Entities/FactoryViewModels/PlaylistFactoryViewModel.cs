@@ -95,7 +95,7 @@ namespace Ild_Music.ViewModels
         }
         #endregion
 
-        #region Private Methods
+        #region Service scoped methods
         private async void ExitFactory()
         {
             await FieldsClear();
@@ -139,7 +139,7 @@ namespace Ild_Music.ViewModels
             PlaylistLogLine = default;
             AvatarSource = default;
         }
-
+    
         private void OnItemsSelected()
         {
             if(ExplorerVM.Output.Count > 0)
@@ -147,46 +147,24 @@ namespace Ild_Music.ViewModels
                 if (ExplorerVM.Output[0] is Artist)
                 {
                     SelectedPlaylistArtists.Clear();
-                    ExplorerVM.Output.ToList().ForEach(i => SelectedPlaylistArtists.Add((Artist)i)); 
+                    var outIds = ExplorerVM.Output.Select(o => o.Id);
+                                     
+                    supporterService.ArtistsCollection
+                                    .Where(a => outIds.Contains(a.Id))
+                                    .ToList()
+                                    .ForEach(i => SelectedPlaylistArtists.Add(i));
                 }
                 else if(ExplorerVM.Output[0] is Track)
                 {
                     SelectedPlaylistTracks.Clear();
-                    ExplorerVM.Output.ToList().ForEach(i => SelectedPlaylistTracks.Add((Track)i)); 
+                    var outIds = ExplorerVM.Output.Select(o => o.Id);
+                                     
+                    supporterService.TracksCollection
+                                    .Where(a => outIds.Contains(a.Id))
+                                    .ToList()
+                                    .ForEach(i => SelectedPlaylistTracks.Add(i));
                 }
             }
-        }
-
-        private void OpenPlaylistArtistExplorer(object obj)
-        {
-            ExplorerVM.OnSelected += OnItemsSelected;
-            if (obj is IList<Artist> preSelected)
-            {
-                ExplorerVM.Arrange(0, preSelected); 
-            }
-            else
-            {
-                ExplorerVM.Arrange(0); 
-            }
-
-            MainVM.PushVM(this, ExplorerVM);
-            MainVM.ResolveWindowStack();
-        }
-
-        private void OpenPlaylistTrackExplorer(object obj)
-        {
-            ExplorerVM.OnSelected += OnItemsSelected;
-            if (obj is IList<Track> preSelected)
-            {
-                ExplorerVM.Arrange(2, preSelected); 
-            }
-            else
-            {
-                ExplorerVM.Arrange(2); 
-            }
-
-            MainVM.PushVM(this, ExplorerVM);
-            MainVM.ResolveWindowStack();
         }
 
         private async Task<byte[]> LoadAvatar(string path)
@@ -200,6 +178,42 @@ namespace Ild_Music.ViewModels
             }
             return result;
         }
+        #endregion
+
+        #region Playlist factory scoped methods
+        private void OpenPlaylistArtistExplorer(object obj)
+        {
+            ExplorerVM.OnSelected += OnItemsSelected;
+            if (obj is IList<Artist> preSelected)
+            {
+                ExplorerVM.Arrange(EntityTag.ARTIST,
+                                   preSelected.ToCommonDTO()); 
+            }
+            else
+            {
+                ExplorerVM.Arrange(EntityTag.ARTIST); 
+            }
+
+            MainVM.PushVM(this, ExplorerVM);
+            MainVM.ResolveWindowStack();
+        }
+
+        private void OpenPlaylistTrackExplorer(object obj)
+        {
+            ExplorerVM.OnSelected += OnItemsSelected;
+            if (obj is IList<Track> preSelected)
+            {
+                ExplorerVM.Arrange(EntityTag.TRACK,
+                                   preSelected.ToCommonDTO()); 
+            }
+            else
+            {
+                ExplorerVM.Arrange(EntityTag.TRACK); 
+            }
+
+            MainVM.PushVM(this, ExplorerVM);
+            MainVM.ResolveWindowStack();
+        } 
         #endregion
 
         #region Public Methods
@@ -278,14 +292,15 @@ namespace Ild_Music.ViewModels
             PlaylistDescription = playlist.Description.ToString();
             AvatarSource = playlist.GetAvatar();
 
-            supporterService.ArtistsCollection.Where(a => a.Playlists.ToEntity(supporterService.PlaylistsCollection)
-                                                                    .Contains(playlist))
-                                            .ToList()
-                                            .ForEach(a => SelectedPlaylistArtists.Add(a));
-                
-            store.StoreInstance.GetTracksById(playlist.GetTracks())
+            supporterService.ArtistsCollection
+                            .Where(a => playlist.Artists.Contains(a.Id))
                             .ToList()
-                            .ForEach(t => SelectedPlaylistTracks.Add(t));
+                            .ForEach(a => SelectedPlaylistArtists.Add(a));
+            
+            supporterService.TracksCollection
+                            .Where(t => playlist.Tracky.Contains(t.Id))
+                            .ToList()
+                            .ForEach(a => SelectedPlaylistTracks.Add(a));
         }
         #endregion
 
@@ -295,7 +310,6 @@ namespace Ild_Music.ViewModels
         {
             ExitFactory();
         }
-
 
         private void CreatePlaylist(object obj)
         {

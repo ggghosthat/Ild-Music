@@ -47,7 +47,7 @@ public class InstanceExplorerViewModel : BaseViewModel
 
     #region Public Methods
     public async void Arrange(EntityTag entitytag,
-                        IList<CommonInstanceDTO> preselected = null)
+                        IEnumerable<CommonInstanceDTO> preselected = null)
     {
         Source.Clear();
         Output.Clear();

@@ -9,7 +9,7 @@ using Avalonia.Controls;
 using System.Collections.ObjectModel;
 
 namespace Ild_Music.ViewModels;
-public class FactoryViewModel : BaseViewModel
+public class FactoryContainerViewModel : BaseViewModel
 {
     public static readonly string nameVM = "FactoryVM";
     public override string NameVM => nameVM;
@@ -30,7 +30,7 @@ public class FactoryViewModel : BaseViewModel
     #endregion
         
     #region Const
-    public FactoryViewModel()
+    public FactoryContainerViewModel()
     {
         SubItems.Add(new SubItem("Artist", new SubArtist() {DataContext = SubArtistContent} ));
         SubItems.Add(new SubItem("Playlist", new SubPlaylist() {DataContext = SubPlaylistContent} ));
