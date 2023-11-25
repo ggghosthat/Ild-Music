@@ -1,23 +1,17 @@
-using ShareInstances;
-using ShareInstances.Instances;
-using ShareInstances.Instances.Interfaces;
-using ShareInstances.Services.Entities;
-using ShareInstances.Exceptions.SynchAreaExceptions;
-using Ild_Music;
+using Ild_Music.Core.Instances;
+using Ild_Music.Core.Services.Entities;
+using Ild_Music.Core.Contracts.Services.Interfaces;
+using Ild_Music.Core.Exceptions.SynchAreaExceptions;
 using Ild_Music.Command;
 using Ild_Music.ViewModels.Base;
 
 using System;
 using System.IO;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using Avalonia;
 using Avalonia.Controls;
-using Avalonia.Controls.Selection;
-using TagLib;
 
 namespace Ild_Music.ViewModels
 {
@@ -28,15 +22,14 @@ namespace Ild_Music.ViewModels
 
 
         #region Services
-        private FactoryService factoryService => (FactoryService)base.GetService("FactoryService");
-        private SupporterService supporterService => (SupporterService)base.GetService("SupporterService");
-        private StoreService store => (StoreService)base.GetService("StoreService");
+        private FactoryGhost factoryService => (FactoryGhost)base.GetService(Ghosts.FACTORY);
+        private SupportGhost supporterService => (SupportGhost)base.GetService(Ghosts.SUPPORT);
         private MainViewModel MainVM => (MainViewModel)App.ViewModelTable[MainViewModel.nameVM];
         private InstanceExplorerViewModel ExplorerVM => (InstanceExplorerViewModel)App.ViewModelTable[InstanceExplorerViewModel.nameVM];
         #endregion
 
         #region Instance
-        public ICoreEntity Instance { get; private set; }
+        public Track Instance { get; private set; }
         #endregion
 
         #region Avatar Avatar
@@ -181,20 +174,19 @@ namespace Ild_Music.ViewModels
                 if (!string.IsNullOrEmpty(path))
                 {
                     var editTrack = (Track)Instance;
-                    editTrack.Pathway = path;
-                    editTrack.Name = name;
-                    editTrack.Description = description;
-                    editTrack.AvatarBase64 = (avatar is not null)?Convert.ToBase64String(avatar):null;
+                    editTrack.Pathway = path.AsMemory();
+                    editTrack.Name = name.AsMemory();
+                    editTrack.Description = description.AsMemory();
+                    editTrack.AvatarSource = (avatar is not null)?avatar:null;
 
                     if(artists != null && artists.Count > 0)
                     {
                         var clear_artists = ArtistProvider.ToList().Except(artists);
-                        clear_artists.ToList().ForEach(a => a.DeleteTrack(editTrack.Id));
-                        artists.ToList().ForEach(a => a.AddTrack(editTrack.Id));
+                        clear_artists.ToList().ForEach(a => a.DeleteTrack(ref editTrack));
+                        artists.ToList().ForEach(a => a.AddTrack(ref editTrack));
                     }
 
-                    supporterService.EditInstance(editTrack);
-                    supporterService.DumpState(); 
+                    supporterService.EditTrackInstance(editTrack);
 
                     IsEditMode = false;
                     ExitFactory();   
@@ -206,20 +198,21 @@ namespace Ild_Music.ViewModels
             }
         }
 
-        public void DropInstance(ICoreEntity entity) 
+        public void DropInstance(Track entity) 
         {
             Instance = entity;
             IsEditMode = true;
             if (entity is Track track)
             {
-                TrackPath = track.Pathway;
-                TracktName = track.Name;
-                TrackDescription = track.Description;
+                TrackPath = track.Pathway.ToString();
+                TracktName = track.Name.ToString();
+                TrackDescription = track.Description.ToString();
                 AvatarSource = track.GetAvatar();
 
-                supporterService.ArtistsCollection.Where(a => a.Tracks.ToEntity(supporterService.TracksCollection).Contains(track))
-                                                  .ToList()
-                                                  .ForEach(a => SelectedTrackArtists.Add(a));
+                supporterService.ArtistsCollection
+                                .Where(a => track.Artists.Contains(a.Id))
+                                .ToList()
+                                .ForEach(a => SelectedTrackArtists.Add(a));
             }
         }
 
@@ -230,9 +223,32 @@ namespace Ild_Music.ViewModels
                 if (ExplorerVM.Output[0] is Artist)
                 {
                     SelectedTrackArtists.Clear();
-                    ExplorerVM.Output.ToList().ForEach(i => SelectedTrackArtists.Add((Artist)i)); 
+                    var outIds = ExplorerVM.Output.Select(o => o.Id);
+                                     
+                    supporterService.ArtistsCollection
+                                    .Where(a => outIds.Contains(a.Id))
+                                    .ToList()
+                                    .ForEach(i => SelectedTrackArtists.Add(i));
                 }
             }
+        }
+
+        private void OpenTrackArtistExplorer(object obj)
+        {
+            ExplorerVM.OnSelected += OnItemsSelected;
+            if (obj is IList<Artist> preSelected)
+            {
+                ExplorerVM.Arrange(EntityTag.ARTIST,
+                                   preSelected.ToCommonDTO()); 
+            }
+            else
+            {
+                ExplorerVM.Arrange(EntityTag.ARTIST); 
+            }
+            ExplorerVM.OnSelected += OnItemsSelected;
+
+            MainVM.PushVM(this, ExplorerVM);
+            MainVM.ResolveWindowStack();
         }
         #endregion
 
@@ -249,10 +265,7 @@ namespace Ild_Music.ViewModels
             }
         }
 
-        private void Cancel(object obj)
-        {
-            ExitFactory();
-        }
+        
 
         private void CreateTrack(object obj)
         {
@@ -268,32 +281,14 @@ namespace Ild_Music.ViewModels
             }
         }
         
-        private void OpenTrackArtistExplorer(object obj)
+        private void Cancel(object obj)
         {
-            if (obj is IList<ICoreEntity> preSelected)
-            {
-                ExplorerVM.Arrange(0, preSelected); 
-            }
-            else
-            {
-                ExplorerVM.Arrange(0); 
-            }
-            ExplorerVM.OnSelected += OnItemsSelected;
-
-            MainVM.PushVM(this, ExplorerVM);
-            MainVM.ResolveWindowStack();
+            ExitFactory();
         }
 
         private async void SelectAvatar(object obj)
         {
-            OpenFileDialog dialog = new();
-            string[] result = await dialog.ShowAsync(new Window());
-            if(result != null && result.Length > 0)
-            {
-                var avatarPath = string.Join(" ", result);
-                AvatarSource = await LoadAvatar(avatarPath);
-                OnPropertyChanged("AvatarSource");
-            }
+            //AvatarSource = await LoadAvatar(avatarPath);
         }
         #endregion
     }

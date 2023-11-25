@@ -1,16 +1,10 @@
 using Ild_Music.ViewModels;
 
-using Avalonia;
 using Avalonia.Interactivity;
 using Avalonia.Controls;
-using Avalonia.Markup.Xaml;
 using Avalonia.Input;
-using Avalonia.Input.Raw;
-using Avalonia.VisualTree;
+using Avalonia.Platform.Storage;
 using PropertyChanged;
-using System;
-using System.IO;
-using System.Linq;
 
 namespace Ild_Music.Views;
 [DoNotNotifyAttribute]
@@ -24,7 +18,7 @@ public partial class BrowseView : UserControl
 
     private void Drop(object sender, DragEventArgs e)
     {
-        if (e.Data.Contains(DataFormats.FileNames))
+        if (e.Data.Contains(DataFormats.Files))
     	{    		
     		var vm = (BrowseViewModel)DataContext;
     		vm.Browse(e.Data.GetFileNames());
@@ -39,13 +33,15 @@ public partial class BrowseView : UserControl
         {
             Title = "Your music file",
             AllowMultiple = true,
-            FileTypeFilter = new("Music All") 
-            {
-                Patterns = new[] { "*.mp3" },
-                MimeTypes = new[] { "audio/*" }
-            }
+            FileTypeFilter = new[] { MusicAll }
         });
        if(files.Count >= 1)
        {}
     }
+    
+    private static FilePickerFileType MusicAll {get;} = new("Music all")
+    {
+        Patterns = new[] { "*.mp3" },
+        MimeTypes = new[] { "audio/*" }
+    };
 }

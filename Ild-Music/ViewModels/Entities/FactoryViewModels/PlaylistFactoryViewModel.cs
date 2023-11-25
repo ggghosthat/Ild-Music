@@ -7,7 +7,6 @@ using Ild_Music.ViewModels.Base;
 
 using System;
 using System.IO;
-using Avalonia.Controls;
 using System.Linq;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -23,7 +22,6 @@ namespace Ild_Music.ViewModels
         #region Services
         private FactoryGhost factoryService => (FactoryGhost)base.GetService(Ghosts.FACTORY);
         private SupportGhost supporterService => (SupportGhost)base.GetService(Ghosts.SUPPORT);
-//        private StoreService store => (StoreService)base.GetService("StoreService");
         private MainViewModel MainVM => (MainViewModel)App.ViewModelTable[MainViewModel.nameVM];
         private InstanceExplorerViewModel ExplorerVM => (InstanceExplorerViewModel)App.ViewModelTable[InstanceExplorerViewModel.nameVM];
         #endregion
@@ -323,14 +321,8 @@ namespace Ild_Music.ViewModels
 
         private async void SelectAvatar(object obj)
         {
-            OpenFileDialog dialog = new();
-            string[] result = await dialog.ShowAsync(new Window());
-            if(result != null && result.Length > 0)
-            {
-                var avatarPath = string.Join(" ", result);
-                AvatarSource = await LoadAvatar(avatarPath);
-                OnPropertyChanged("AvatarSource");
-            }
+            //AvatarSource = await LoadAvatar(avatarPath);
+            OnPropertyChanged("AvatarSource");
         }
         #endregion        
     }
