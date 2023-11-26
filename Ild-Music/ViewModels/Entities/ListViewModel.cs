@@ -48,7 +48,7 @@ public class ListViewModel : BaseViewModel
     public static ObservableCollection<string> Headers { get; private set; } = new() {"Artists","Playlists","Tracks"};
     public static string Header { get; set; }
     public static ObservableCollection<CommonInstanceDTO> CurrentList { get; set; } = new();
-    public CommonInstanceDTO CurrentItem { get; set; }
+    public CommonInstanceDTO? CurrentItem { get; set; } = null;
 
     public SelectionModel<object> HeaderSelection { get; }
     #endregion
@@ -130,16 +130,20 @@ public class ListViewModel : BaseViewModel
 
     private void Delete(object obj) 
     {
+        if(CurrentItem is null)
+            return;
+
+        var id = (Guid)CurrentItem?.Id;
         switch (Header)
         {
             case "Artists":
-                supporter.DeleteArtistInstance(CurrentItem.Id);
+                supporter.DeleteArtistInstance(id);
                 break;
             case "Playlists": 
-                supporter.DeletePlaylistInstance(CurrentItem.Id);
+                supporter.DeletePlaylistInstance(id);
                 break;
             case "Tracks":
-                supporter.DeleteTrackInstance(CurrentItem.Id);
+                supporter.DeleteTrackInstance(id);
                 break;
         };
 
@@ -148,27 +152,24 @@ public class ListViewModel : BaseViewModel
     
     private void Edit(object obj)
     {
-        if(CurrentItem != default!)
+        if(CurrentItem is null)
+            return;
+        
+        var factory = (FactoryContainerViewModel)App.ViewModelTable[FactoryContainerViewModel.nameVM];
+        factory.SetEditableItem(CurrentItem);
+
+        
+        EntityTag entityTag = Header switch
         {
-            var factory = (FactoryContainerViewModel)App.ViewModelTable[FactoryContainerViewModel.nameVM];
-            factory.SetEditableItem(CurrentItem);
+            "Artists" => EntityTag.ARTIST,
+            "Playlists" => EntityTag.PLAYLIST,
+            "Tracks" => EntityTag.TRACK
+        };
 
-            switch (Header)
-            {
-                case "Artists":
-                    factory.SetSubItem(index:0);
-                    break;
-                case "Playlists":
-                    factory.SetSubItem(index:1);
-                    break;
-                case "Tracks":
-                    factory.SetSubItem(index:2);
-                    break;
-            }
+        factory.SetSubItem(entityTag);
 
-            MainVM.PushVM(this, factory);
-            MainVM.ResolveWindowStack();
-        }
+        MainVM.PushVM(this, factory);
+        MainVM.ResolveWindowStack();
     }
 
     private void ItemSelect(object obj)

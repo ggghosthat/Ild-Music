@@ -4,7 +4,7 @@ using Ild_Music.Core.Services.Entities;
 using Ild_Music.ViewModels.Base;
 using Ild_Music.Views.FactorySubViews;
 
-
+using System;
 using Avalonia.Controls;
 using System.Collections.ObjectModel;
 
@@ -48,6 +48,18 @@ public class FactoryContainerViewModel : BaseViewModel
             EntityTag.PLAYLIST => SubItems[1],
             EntityTag.TRACK => SubItems[2]
         };
+    }
+
+    public void SetEditableItem(EntityTag entityTag,
+                                Guid entityId)
+    {
+        SubItem = entityTag switch
+        {
+            EntityTag.ARTIST => SubItems[0],
+            EntityTag.PLAYLIST => SubItems[1],
+            EntityTag.TRACK => SubItems[2]
+        };
+
     }
 
     public void SetEditableItem(Artist artist)

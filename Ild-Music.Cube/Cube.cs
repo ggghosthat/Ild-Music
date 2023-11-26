@@ -237,6 +237,20 @@ public class Cube : ICube
     }
 
 
+    public async Task<Artist> FetchArtist(Guid artistId)
+    {
+        return await guidoForklift.FetchArtist(artistId);
+    }
+
+    public async Task<Playlist> FetchPlaylist(Guid playlistId)
+    {
+        return await guidoForklift.FetchPlaylist(playlistId);
+    }
+
+    public async Task<Track> RetrieveSingleTrack(Guid trackId)
+    {
+        return await guidoForklift.FetchTrack(trackId);
+    }
 
     public async Task<IEnumerable<Artist>> RetrieveArtists(IEnumerable<CommonInstanceDTO> dtos)
     {
