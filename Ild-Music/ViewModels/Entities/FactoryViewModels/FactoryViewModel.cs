@@ -40,14 +40,14 @@ public class FactoryContainerViewModel : BaseViewModel
     }
     #endregion
 
-    public void SetSubItem(int index)
+    public void SetSubItem(EntityTag entityTag)
     {
-        if(index <= 0)
-            SubItem = SubItems[0];
-        else if(index == 1)
-            SubItem = SubItems[1];
-        else if(index >= 2)
-            SubItem = SubItems[2];            
+        SubItem = entityTag switch
+        {
+            EntityTag.ARTIST => SubItems[0],
+            EntityTag.PLAYLIST => SubItems[1],
+            EntityTag.TRACK => SubItems[2]
+        };
     }
 
     public void SetEditableItem(Artist artist)

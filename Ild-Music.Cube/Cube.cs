@@ -132,36 +132,36 @@ public class Cube : ICube
     }
 
 
-    public async Task RemoveArtistObj(Artist artist) 
+    public async Task RemoveArtistObj(Guid artistId) 
     {
         if(guidoForklift is null)
             throw new NullReferenceException("Could not load up Guido forklift");
 
-        await guidoForklift.DeleteEntity(artist);
+        await guidoForklift.DeleteEntity(EntityTag.ARTIST, artistId);
         if((Artists?.Count() - 1) < (artistOffset * CubePage))
         {
            Artists = await guidoForklift.LoadEntities<Artist>(artistOffset); 
         }
     }
 
-    public async Task RemovePlaylistObj(Playlist playlist)
+    public async Task RemovePlaylistObj(Guid playlistId)
     {
         if(guidoForklift is null)
             throw new NullReferenceException("Could not load up Guido forklift");
 
-        await guidoForklift.DeleteEntity(playlist);
+        await guidoForklift.DeleteEntity(EntityTag.PLAYLIST, playlistId);
         if((Playlists?.Count() - 1) < (playlistOffset * CubePage))
         {
            Playlists = await guidoForklift.LoadEntities<Playlist>(playlistOffset); 
         }
     }
 
-    public async Task RemoveTrackObj(Track track) 
+    public async Task RemoveTrackObj(Guid trackId) 
     {
         if(guidoForklift is null)
             throw new NullReferenceException("Could not load up Guido forklift");
   
-        await guidoForklift.DeleteEntity(track);
+        await guidoForklift.DeleteEntity(EntityTag.TRACK, trackId);
         if((Tracks?.Count() - 1) < (trackOffset * CubePage))
         {
            Tracks = await guidoForklift.LoadEntities<Track>(trackOffset); 
@@ -235,7 +235,6 @@ public class Cube : ICube
     {
         return await guidoForklift.RequireInstances(entityTag, id);
     }
-
 
 
 

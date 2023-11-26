@@ -39,9 +39,9 @@ public interface ICube : IShare
     #endregion
 
     #region RemoveMethods
-    public Task RemoveArtistObj(Artist artist);
-    public Task RemoveTrackObj(Track artist);
-    public Task RemovePlaylistObj(Playlist artist);
+    public Task RemoveArtistObj(Guid artistId);
+    public Task RemoveTrackObj(Guid trackId);
+    public Task RemovePlaylistObj(Guid playlistId);
     #endregion 
 
     #region LoadMethods

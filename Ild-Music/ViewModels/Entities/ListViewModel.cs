@@ -1,9 +1,7 @@
-using ShareInstances;
-using ShareInstances.Instances;
-using ShareInstances.Instances.Interfaces;
-using ShareInstances.Services.Entities;
-using ShareInstances.Services.Entities;
-using Ild_Music;
+using Ild_Music.Core.Instances;
+using Ild_Music.Core.Instances.DTO;
+using Ild_Music.Core.Services.Entities;
+using Ild_Music.Core.Contracts.Services.Interfaces;
 using Ild_Music.Command;
 using Ild_Music.ViewModels.Base;
 using Ild_Music.ViewModels;
@@ -29,12 +27,10 @@ public class ListViewModel : BaseViewModel
     public static readonly string nameVM = "ListVM";        
     public override string NameVM => nameVM;
     
-    private static IPlayer _player;
-
     #region Services
-    private SupporterService supporter => (SupporterService)App.Stage.GetServiceInstance("SupporterService");
-    private FactoryService factory => (FactoryService)base.GetService("FactoryService");
-    private ViewModelHolder<BaseViewModel> holder => (ViewModelHolder<BaseViewModel>)base.GetService("HolderService");
+    private SupportGhost supporter => (SupportGhost)App.Stage.GetServiceInstance(Ghosts.SUPPORT);
+    private FactoryGhost factory => (FactoryGhost)base.GetService(Ghosts.FACTORY);
+    //private ViewModelHolder<BaseViewModel> holder => (ViewModelHolder<BaseViewModel>)base.GetService("HolderService");
     private MainViewModel MainVM => (MainViewModel)App.ViewModelTable[MainViewModel.nameVM];
     #endregion
 
@@ -51,8 +47,8 @@ public class ListViewModel : BaseViewModel
     public ListType ListType {get; private set;}
     public static ObservableCollection<string> Headers { get; private set; } = new() {"Artists","Playlists","Tracks"};
     public static string Header { get; set; }
-    public static ObservableCollection<ICoreEntity> CurrentList { get; set; } = new();
-    public ICoreEntity CurrentItem { get; set; }
+    public static ObservableCollection<CommonInstanceDTO> CurrentList { get; set; } = new();
+    public CommonInstanceDTO CurrentItem { get; set; }
 
     public SelectionModel<object> HeaderSelection { get; }
     #endregion
@@ -74,27 +70,30 @@ public class ListViewModel : BaseViewModel
     #region Public Methods
     private void InitCurrentList(object obj)
     {
-        DisplayProviders();
+        Task.Run(async () => await DisplayProviders());
     }
 
     public async Task UpdateProviders()
     {
-        DisplayProviders();
+        await DisplayProviders();
     }
 
-    private void DisplayProviders()
+    private async Task DisplayProviders()
     {
         CurrentList.Clear();
         switch (Header)
         {
             case "Artists":
-                supporter.ArtistsCollection.ToList().ForEach(a => CurrentList.Add(a));
+                var artistDTO = await supporter.RequireInstances(EntityTag.ARTIST);
+                artistDTO.ToList().ForEach(a => CurrentList.Add(a));
                 break;
             case "Playlists":
-                supporter.PlaylistsCollection.ToList().ForEach(p => CurrentList.Add(p));
+                var playlistDTO = await supporter.RequireInstances(EntityTag.PLAYLIST);
+                playlistDTO.ToList().ForEach(p => CurrentList.Add(p));
                 break;
             case "Tracks":
-                supporter.TracksCollection.ToList().ForEach(t => CurrentList.Add(t));
+                var trackDTO = await supporter.RequireInstances(EntityTag.TRACK);
+                trackDTO.ToList().ForEach(t => CurrentList.Add(t));
                 break;
         }      
     }
@@ -103,17 +102,10 @@ public class ListViewModel : BaseViewModel
     {
         if(Header is "Tracks")
         {
-            paths.ToList().ForEach(path => 
-            {
-                if(Path.GetExtension(path) == ".mp3" )
-                {
-                    Track newTrack = new(pathway:path, 
-                                         name:null,
-                                         description:null);
-                    supporter.AddInstance(newTrack);
-                    UpdateProviders();
-                }
-            });
+            paths.ToList()
+                 .ForEach(path => factory.CreateTrack(path));
+
+            await UpdateProviders();
         }
     }
     #endregion
@@ -121,20 +113,16 @@ public class ListViewModel : BaseViewModel
     #region CommandMethods
     private void Add(object obj)
     {
-        var factory = (FactoryViewModel)App.ViewModelTable[FactoryViewModel.nameVM];
+        var factory = (FactoryContainerViewModel)App.ViewModelTable[FactoryContainerViewModel.nameVM];
 
-        switch (Header)
+        EntityTag entityTag = Header switch
         {
-            case "Artists":
-                factory.SetSubItem(index:0);
-                break;
-            case "Playlists":
-                factory.SetSubItem(index:1);
-                break;
-            case "Tracks":
-                factory.SetSubItem(index:2);
-                break;
-        }
+            "Artists" => EntityTag.ARTIST,
+            "Playlists" => EntityTag.PLAYLIST,
+            "Tracks" => EntityTag.TRACK
+        };
+
+        factory.SetSubItem(entityTag);
 
         MainVM.PushVM(this, factory);
         MainVM.ResolveWindowStack();
@@ -142,15 +130,27 @@ public class ListViewModel : BaseViewModel
 
     private void Delete(object obj) 
     {
-        supporter.DeleteInstance(CurrentItem);
-        UpdateProviders();
+        switch (Header)
+        {
+            case "Artists":
+                supporter.DeleteArtistInstance(CurrentItem.Id);
+                break;
+            case "Playlists": 
+                supporter.DeletePlaylistInstance(CurrentItem.Id);
+                break;
+            case "Tracks":
+                supporter.DeleteTrackInstance(CurrentItem.Id);
+                break;
+        };
+
+        Task.Run( async () => await UpdateProviders());
     }
     
     private void Edit(object obj)
     {
-        if(CurrentItem is not null)
+        if(CurrentItem != default!)
         {
-            var factory = (FactoryViewModel)App.ViewModelTable[FactoryViewModel.nameVM];
+            var factory = (FactoryContainerViewModel)App.ViewModelTable[FactoryContainerViewModel.nameVM];
             factory.SetEditableItem(CurrentItem);
 
             switch (Header)

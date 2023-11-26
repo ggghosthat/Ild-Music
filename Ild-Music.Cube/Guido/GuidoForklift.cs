@@ -84,21 +84,10 @@ public class GuidoForklift //Cars from pixar (lol)
     }
 
     //delete specific entity by it own id
-    public async Task DeleteEntity<T>(T entity)
+    public async Task DeleteEntity(EntityTag entityTag,
+                                    Guid entityId)
     {
-        if (entity is Artist artist)
-        {
-          await _engine.Delete<Artist>(artist); 
-        }
-        else if(entity is Playlist playlist)
-        {
-          await _engine.Delete<Playlist>(playlist); 
-        }
-        else if(entity is Track track)
-        {
-          await _engine.Delete<Track>(track); 
-        }
-
+        await _engine.Delete(entityTag, entityId);
     }
 
     public async Task<(IEnumerable<Artist>, IEnumerable<Playlist>, IEnumerable<Track>)> StartLoad(int offset=0)

@@ -81,9 +81,10 @@ public class Engine
         await fork.EditStores(stores);
     }
 
-    public async Task Delete<T>(T entity)
+    public async Task Delete(EntityTag entityTag,
+                                Guid entityId)
     {
-       await fork.Delete<T>(entity); 
+       await fork.Delete(entityTag, entityId); 
     }
 
 

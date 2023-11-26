@@ -38,7 +38,7 @@ internal class Loader
         return (artists, playlists, tracks);
     }
 
-    //retrieve single-type instances
+    //retrieve typed instances with offset and capacity
     public async Task<IEnumerable<T>> Bring<T>(int offset, int capacity)
     {
         ReadOnlyMemory<char> dapperQuery;

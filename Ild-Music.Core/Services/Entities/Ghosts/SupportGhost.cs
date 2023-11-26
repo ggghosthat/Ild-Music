@@ -74,25 +74,25 @@ public sealed class SupportGhost : IGhost
     }
 
 
-    public void DeleteArtistInstance(Artist artist) 
+    public void DeleteArtistInstance(Guid artistId) 
     {
-        CubeArea.RemoveArtistObj(artist);
+        CubeArea.RemoveArtistObj(artistId);
         OnTracksNotifyRefresh?.Invoke();
     }
     
-    public void DeletePlaylistInstance(Playlist playlist) 
+    public void DeletePlaylistInstance(Guid playlistId) 
     {
-        CubeArea.RemovePlaylistObj(playlist);
+        CubeArea.RemovePlaylistObj(playlistId);
         OnPlaylistsNotifyRefresh?.Invoke();
     }
 
-    public void DeleteTrackInstance(Track track)
+    public void DeleteTrackInstance(Guid trackId)
     {
-        CubeArea.RemoveTrackObj(track);
+        CubeArea.RemoveTrackObj(trackId);
         OnArtistsNotifyRefresh?.Invoke();
     }
        
-
+    //these methods get dto notations about requred instances
     public async Task<IEnumerable<CommonInstanceDTO>> RequireInstances(EntityTag entityTag)
     {
         return await CubeArea.RequireInstances(entityTag);
@@ -103,4 +103,5 @@ public sealed class SupportGhost : IGhost
     {
         return await CubeArea.RequireInstances(entityTag, id);
     }
+
 }

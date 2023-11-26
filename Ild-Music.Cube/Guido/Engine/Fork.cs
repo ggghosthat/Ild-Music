@@ -279,10 +279,11 @@ internal class Fork
         }); 
     }
 
-    public async Task Delete<T>(T entity)
+    public async Task Delete(EntityTag entityTag, 
+                             Guid entityId)
     {
         ReadOnlyMemory<char> dapperQuery;
-        if(entity is Artist artist)
+        if(entityTag == EntityTag.ARTIST)
         {
             dapperQuery = @"delete from artists where AID = @aid;
                         delete from artists_playlists where AID = @aid;
@@ -291,10 +292,10 @@ internal class Fork
             using (var connection = new SQLiteConnection(_connectionString.ToString()))
             {
                 await connection.OpenAsync();
-                await connection.QueryMultipleAsync(dapperQuery.ToString(), new {aid=artist.Id.ToString()});
+                await connection.QueryMultipleAsync(dapperQuery.ToString(), new {aid=entityId.ToString()});
             }
         }
-        else if(entity is Playlist playlist)
+        else if(entityTag == EntityTag.PLAYLIST)
         {
             dapperQuery = @"delete from playlists where PID = @pid;
                             delete from artists_playlists where PID = @pid;
@@ -303,10 +304,10 @@ internal class Fork
             using (var connection = new SQLiteConnection(_connectionString.ToString()))
             {
                 await connection.OpenAsync();
-                await connection.QueryMultipleAsync(dapperQuery.ToString(), new {pid=playlist.Id.ToString()});
+                await connection.QueryMultipleAsync(dapperQuery.ToString(), new {pid=entityId.ToString()});
             }
         }
-        else if(entity is Track track)
+        else if(entityTag == EntityTag.TRACK)
         {
             dapperQuery = @"delete from tracks where TID = @tid;
                             delete from playlists_tracks where TID = @tid;
@@ -315,7 +316,7 @@ internal class Fork
             using (var connection = new SQLiteConnection(_connectionString.ToString()))
             {
                 await connection.OpenAsync();
-                await connection.QueryMultipleAsync(dapperQuery.ToString(), new {tid=track.Id.ToString()});
+                await connection.QueryMultipleAsync(dapperQuery.ToString(), new {tid=entityId.ToString()});
             }
 
         }
