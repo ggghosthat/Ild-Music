@@ -57,7 +57,7 @@ public class InstanceExplorerViewModel : BaseViewModel
                 .ForEach(artist => Source.Add(artist));
        
         if (preselected != null)
-            Output = preselected;
+            Output = (IList<CommonInstanceDTO>)preselected;
     }
 
     public void CloseExplorer(object obj)

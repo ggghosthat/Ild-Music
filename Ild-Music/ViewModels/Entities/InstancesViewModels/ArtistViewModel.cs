@@ -1,4 +1,6 @@
 using Ild_Music.Core.Instances;
+using Ild_Music.Core.Instances.DTO;
+using Ild_Music.Core.Contracts.Services.Interfaces;
 using Ild_Music.Core.Services.Entities;
 using Ild_Music.Command;
 using Ild_Music.ViewModels.Base;
@@ -13,7 +15,7 @@ namespace Ild_Music.ViewModels
         public static readonly string nameVM = "ArtistVM";   
 
         #region Services
-        private SupportGhost supporter => (SupportGhost)base.GetService("SupporterService");
+        private SupportGhost supporter => (SupportGhost)base.GetService(Ghosts.SUPPORT);
         private MainViewModel MainVM => (MainViewModel)App.ViewModelTable[MainViewModel.nameVM];
         #endregion
 
@@ -21,8 +23,8 @@ namespace Ild_Music.ViewModels
     	public Artist ArtistInstance {get; private set;}
         public byte[] AvatarSource => ArtistInstance.GetAvatar();
 
-        public ObservableCollection<Playlist> ArtistPlaylists {get; private set;} = new();
-        public ObservableCollection<Track> ArtistTracks {get; private set;} = new();      
+        public ObservableCollection<CommonInstanceDTO> ArtistPlaylists {get; private set;} = new();
+        public ObservableCollection<CommonInstanceDTO> ArtistTracks {get; private set;} = new();      
         #endregion
         
         #region Commands
@@ -37,17 +39,24 @@ namespace Ild_Music.ViewModels
     	#endregion
 
         #region Public Methods
-        public void SetInstance(Artist artist)
+        public async void SetInstance(Artist artist)
         {
             ArtistInstance = artist;
             OnPropertyChanged("AvatarSource");
 
-            ArtistInstance.Playlists.ToEntity(supporter.PlaylistsCollection).ForEach(p => ArtistPlaylists.Add(p));
-            ArtistInstance.Tracks.ToEntity(supporter.TracksCollection).ToList().ForEach(t => ArtistTracks.Add(t));
+            var artistPlaylists = await supporter.RequireInstances(EntityTag.PLAYLIST,
+                                                                   ArtistInstance.Playlists);
+            artistPlaylists.ToList()
+                           .ForEach(p => ArtistPlaylists.Add(p));
+
+            var artistTracks = await supporter.RequireInstances(EntityTag.TRACK,
+                                                                ArtistInstance.Tracks);
+            artistTracks.ToList()
+                        .ForEach(t => ArtistTracks.Add(t));
         }
         #endregion
 
-        #region Provate Methods
+        #region Private Methods
         private void BackSwap(object obj)
         {
             ArtistPlaylists.Clear();

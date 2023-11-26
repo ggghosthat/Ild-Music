@@ -1,4 +1,6 @@
 using Ild_Music.Core.Instances;
+using Ild_Music.Core.Instances.DTO;
+using Ild_Music.Core.Contracts.Services.Interfaces;
 using Ild_Music.Core.Services.Entities;
 using Ild_Music.Command;
 using Ild_Music.ViewModels.Base;
@@ -13,7 +15,7 @@ namespace Ild_Music.ViewModels
         public static readonly string nameVM = "TrackVM";   
 
         #region Services
-        private SupportGhost supporter => (SupportGhost)base.GetService("SupporterService");
+        private SupportGhost supporter => (SupportGhost)base.GetService(Ghosts.SUPPORT);
         private MainViewModel MainVM => (MainViewModel)App.ViewModelTable[MainViewModel.nameVM];
         #endregion
 
@@ -21,7 +23,7 @@ namespace Ild_Music.ViewModels
     	public Track TrackInstance {get; private set;}
         public byte[] AvatarSource => TrackInstance.GetAvatar();
         
-        public ObservableCollection<Artist> TrackArtists {get; private set;} = new();
+        public ObservableCollection<CommonInstanceDTO> TrackArtists {get; private set;} = new();
         #endregion
 
         #region Commands
@@ -36,13 +38,16 @@ namespace Ild_Music.ViewModels
     	#endregion
 
         #region Public Methods
-        public void SetInstance(Track track)
+        public async void SetInstance(Track track)
         {
             TrackInstance = track;
             OnPropertyChanged("AvatarSource");
+            
+            var trackArtists = await supporter.RequireInstances(EntityTag.ARTIST, 
+                                                                TrackInstance.Artists);
 
-            supporter.ArtistsCollection.ToList().Where(a => a.Tracks.Contains(TrackInstance.Id))
-                     .ToList().ForEach(a => TrackArtists.Add(a));
+            trackArtists.ToList()
+                        .ForEach(a => TrackArtists.Add(a));
         }
         #endregion
 

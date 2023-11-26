@@ -143,13 +143,18 @@ namespace Ild_Music.ViewModels
                 var path = (string)values[0];
                 var name = (string)values[1];
                 var description = (string)values[2];
-                var avatar = (byte[])values[3];
-                var artists = (IList<Artist>)values[4];
+                var year = (int)values[3];
+                var avatar = (byte[])values[4];
+                var artists = (IList<Artist>)values[5];
 
                 if (!string.IsNullOrEmpty(path))
                 {
-                    var avatarBase64 = (avatar is not null)?Convert.ToBase64String(avatar):null;
-                    factoryService.CreateTrack(path, name, description, avatarBase64, artists);
+                    factoryService.CreateTrack(path,
+                                               name,
+                                               description,
+                                               year,
+                                               avatar,
+                                               artists);
                     TrackLogLine = "Successfully created!";
                 
                     ExitFactory();

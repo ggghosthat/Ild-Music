@@ -69,10 +69,10 @@ public sealed class FactoryGhost : IGhost
         } 
     }
     public void CreateTrack(string pathway, 
-                            int year,
                             string name=null, 
                             string description=null,
-                            string avatarPath = null,
+                            int year = 0,
+                            byte[] avatar = null,
                             IList<Artist> artists = null) 
     {      
         try 
@@ -81,8 +81,10 @@ public sealed class FactoryGhost : IGhost
             { 
                 Memory<char> trackName; 
                 Memory<char> trackDescription; 
-                Memory<byte> trackAvatarSource = default!; 
-                
+                Memory<byte> trackAvatarSource; 
+
+                int trackYear = (year != 0)? year: DateTime.Now.Year;
+
                 if(name is null) 
                     trackName = taglib.Tag.Title.ToCharArray() ?? Path.GetFileName(pathway).ToCharArray(); 
                 else 
@@ -90,21 +92,17 @@ public sealed class FactoryGhost : IGhost
                 
                 trackDescription = description.ToCharArray(); 
                 
-                if (string.IsNullOrEmpty(avatarPath)) 
-                { 
-                    if(taglib.Tag.Pictures.Length > 0) 
-                    { trackAvatarSource = taglib.Tag.Pictures[0].Data.Data; 
-                    } 
-                } 
+                if (avatar is null && taglib.Tag.Pictures.Length > 0)  
+                    trackAvatarSource = taglib.Tag.Pictures[0].Data.Data; 
                 else 
-                    trackAvatarSource = ExtractTrackAvatar(avatarPath).Result; 
+                    trackAvatarSource = avatar; 
                 
                 producer = new InstanceProducer.InstanceProducer(pathway.ToCharArray(), 
                                                                  trackName, 
                                                                  trackDescription, 
                                                                  trackAvatarSource,
                                                                  taglib.Properties.Duration,
-                                                                 year,
+                                                                 trackYear,
                                                                  artists); 
                 SupportGhost.AddTrackInstance(producer.TrackInstance); 
                 producer.Dispose(); 
