@@ -203,22 +203,19 @@ namespace Ild_Music.ViewModels
             }
         }
 
-        public void DropInstance(Track entity) 
+        public async void DropInstance(Guid trackId) 
         {
-            Instance = entity;
+            Instance = await supporterService.FetchTrack(trackId);
             IsEditMode = true;
-            if (entity is Track track)
-            {
-                TrackPath = track.Pathway.ToString();
-                TracktName = track.Name.ToString();
-                TrackDescription = track.Description.ToString();
-                AvatarSource = track.GetAvatar();
+            TrackPath = Instance.Pathway.ToString();
+            TracktName = Instance.Name.ToString();
+            TrackDescription = Instance.Description.ToString();
+            AvatarSource = Instance.GetAvatar();
 
-                supporterService.ArtistsCollection
-                                .Where(a => track.Artists.Contains(a.Id))
-                                .ToList()
-                                .ForEach(a => SelectedTrackArtists.Add(a));
-            }
+            supporterService.ArtistsCollection
+                            .Where(a => Instance.Artists.Contains(a.Id))
+                            .ToList()
+                            .ForEach(a => SelectedTrackArtists.Add(a));
         }
 
         private void OnItemsSelected()

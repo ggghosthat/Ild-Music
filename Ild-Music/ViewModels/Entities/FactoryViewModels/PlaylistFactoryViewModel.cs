@@ -282,21 +282,22 @@ namespace Ild_Music.ViewModels
             }
         }
 
-        public void DropInstance(Playlist playlist) 
+        public async void DropInstance(Guid playlistId) 
         {
-            Instance = playlist;
+            Instance = await supporterService.FetchPlaylist(playlistId);
             IsEditMode = true;
-            PlaylistName = playlist.Name.ToString();
-            PlaylistDescription = playlist.Description.ToString();
-            AvatarSource = playlist.GetAvatar();
+
+            PlaylistName = Instance.Name.ToString();
+            PlaylistDescription = Instance.Description.ToString();
+            AvatarSource = Instance.GetAvatar();
 
             supporterService.ArtistsCollection
-                            .Where(a => playlist.Artists.Contains(a.Id))
+                            .Where(a => Instance.Artists.Contains(a.Id))
                             .ToList()
                             .ForEach(a => SelectedPlaylistArtists.Add(a));
             
             supporterService.TracksCollection
-                            .Where(t => playlist.Tracky.Contains(t.Id))
+                            .Where(t => Instance.Tracky.Contains(t.Id))
                             .ToList()
                             .ForEach(a => SelectedPlaylistTracks.Add(a));
         }

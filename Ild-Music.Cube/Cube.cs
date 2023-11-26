@@ -247,7 +247,8 @@ public class Cube : ICube
         return await guidoForklift.FetchPlaylist(playlistId);
     }
 
-    public async Task<Track> RetrieveSingleTrack(Guid trackId)
+
+    public async Task<Track> FetchTrack(Guid trackId)
     {
         return await guidoForklift.FetchTrack(trackId);
     }

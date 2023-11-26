@@ -52,35 +52,26 @@ public class FactoryContainerViewModel : BaseViewModel
 
     public void SetEditableItem(EntityTag entityTag,
                                 Guid entityId)
-    {
-        SubItem = entityTag switch
+    { 
+        switch(entityTag)
         {
-            EntityTag.ARTIST => SubItems[0],
-            EntityTag.PLAYLIST => SubItems[1],
-            EntityTag.TRACK => SubItems[2]
-        };
+            case EntityTag.ARTIST:
+                SubItem = SubItems[0];
+                var artistContext = (ArtistFactoryViewModel)SubItem.Control.DataContext;
+                artistContext?.DropInstance(entityId);
+                break;
+            case EntityTag.PLAYLIST:
+                SubItem = SubItems[1];
+                var playlistContext = (PlaylistFactoryViewModel)SubItem.Control.DataContext;
+                playlistContext?.DropInstance(entityId);
+                break;
+            case EntityTag.TRACK:
+                SubItem = SubItems[1];
+                var trackContext = (PlaylistFactoryViewModel)SubItem.Control.DataContext;
+                trackContext?.DropInstance(entityId);
+                break;
 
-    }
-
-    public void SetEditableItem(Artist artist)
-    {
-        SubItem = SubItems[0];
-        var context = (ArtistFactoryViewModel)SubItem.Control.DataContext;
-        context?.DropInstance(artist);
-    }
-
-    public void SetEditableItem(Playlist playlist)
-    {
-        SubItem = SubItems[1];
-        var context = (PlaylistFactoryViewModel)SubItem.Control.DataContext;
-        context?.DropInstance(playlist);
-    }
-
-    public void SetEditableItem(Track track)
-    {
-        SubItem = SubItems[2];
-        var context = (TrackFactoryViewModel)SubItem.Control.DataContext;
-        context?.DropInstance(track);
+        }
     }
 }
 

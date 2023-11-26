@@ -67,7 +67,7 @@ public class ListViewModel : BaseViewModel
     }
     #endregion
 
-    #region Public Methods
+    #region List view model scoped methods
     private void InitCurrentList(object obj)
     {
         Task.Run(async () => await DisplayProviders());
@@ -154,10 +154,9 @@ public class ListViewModel : BaseViewModel
     {
         if(CurrentItem is null)
             return;
-        
+       
+        var entityId = (Guid)CurrentItem?.Id;
         var factory = (FactoryContainerViewModel)App.ViewModelTable[FactoryContainerViewModel.nameVM];
-        factory.SetEditableItem(CurrentItem);
-
         
         EntityTag entityTag = Header switch
         {
@@ -166,26 +165,55 @@ public class ListViewModel : BaseViewModel
             "Tracks" => EntityTag.TRACK
         };
 
-        factory.SetSubItem(entityTag);
+        factory.SetEditableItem(entityTag, entityId);
 
         MainVM.PushVM(this, factory);
         MainVM.ResolveWindowStack();
     }
 
-    private void ItemSelect(object obj)
+    private async void ItemSelect(object obj)
     {
-        if(CurrentItem != default)
+        if(CurrentItem is not null)
         {
-            var currentEntity = MainVM.CurrentEntity;
-            if(currentEntity is not null && CurrentItem.Id.Equals(currentEntity.Id))
+            var id = (Guid)CurrentItem?.Id;
+            
+            if(Header.Equals("Artists"))
             {
-                new Task(() => MainVM.ResolveInstance(this, CurrentItem)).Start();
+                var artist = await supporter.FetchArtist(id);
+                MainVM.ResolveArtistInstance(this, artist).Start(); 
             }
-            else
+            else if(Header.Equals("Playlists"))
             {
-                Task.Run(() => MainVM.DropInstance(this, CurrentItem, true));                    
+                var playlist = await supporter.FetchPlaylist(id);
+                PassPlaylistEntity(playlist);
+
+            }
+            else if(Header.Equals("Tracks"))
+            {
+                var track = await supporter.FetchTrack(id);
+                PassTrackEntity(track);
             }
         }
+    }
+    #endregion
+
+    #region Entity pass methods
+    private void PassPlaylistEntity(Playlist playlist)
+    {
+        var mainPlaylistId = MainVM.CurrentPlaylist?.Id ?? Guid.Empty;
+        if(mainPlaylistId.Equals(playlist.Id))
+            MainVM.ResolvePlaylistInstance(this, playlist).Start();
+        else
+            Task.Run(() => MainVM.DropPlaylistInstance(this, playlist));
+    }
+
+    private void PassTrackEntity(Track track)
+    {
+       var mainPlaylistId = MainVM.CurrentTrack?.Id ?? Guid.Empty;
+        if(mainPlaylistId.Equals(track.Id))
+            MainVM.ResolveTrackInstance(this, track).Start();
+        else
+            Task.Run(() => MainVM.DropTrackInstance(this, track));
     }
     #endregion
 }

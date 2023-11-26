@@ -23,7 +23,7 @@ public class ArtistFactoryViewModel : BaseViewModel
     #endregion
 
     #region Instance
-    public static Artist? Instance { get; private set; } = default;
+    public static Artist Instance { get; private set; } = default;
     #endregion
 
     #region Background_Avatar properties
@@ -142,18 +142,15 @@ public class ArtistFactoryViewModel : BaseViewModel
         }
     }
 
-    public void DropInstance(Artist entity) 
+    public async Task DropInstance(Guid artistId) 
     {
-        Instance = entity;
+        Instance = await supporterService.FetchArtist(artistId);
         IsEditMode = true;
-        if (entity is Artist artist)
-        {
-            ArtistName = artist.Name.ToString();
-            ArtistDescription = artist.Description.ToString();
+        ArtistName = Instance.Name.ToString();
+        ArtistDescription = Instance.Description.ToString();
 
-            AvatarSource = (Instance is not null)? artist.AvatarSource.ToArray():default!; 
-            OnPropertyChanged("AvatarSource");
-        }
+        AvatarSource = Instance.GetAvatar(); 
+        OnPropertyChanged("AvatarSource");
     }
     #endregion
 

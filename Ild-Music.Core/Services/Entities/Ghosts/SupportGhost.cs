@@ -104,4 +104,19 @@ public sealed class SupportGhost : IGhost
         return await CubeArea.RequireInstances(entityTag, id);
     }
 
+    public async Task<Artist> FetchArtist(Guid artistId)
+    {
+        return await CubeArea.FetchArtist(artistId);
+    }
+
+    public async Task<Playlist> FetchPlaylist(Guid playlistId)
+    {
+        return await CubeArea.FetchPlaylist(playlistId);
+    }
+
+    public async Task<Track> FetchTrack(Guid trackId)
+    {
+        return await CubeArea.FetchTrack(trackId);
+    }
+
 }

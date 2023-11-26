@@ -60,6 +60,10 @@ public interface ICube : IShare
     public Task<IEnumerable<CommonInstanceDTO>> RequireInstances(EntityTag entityTag);
     public Task<IEnumerable<CommonInstanceDTO>> RequireInstances(EntityTag entityTag, IEnumerable<Guid> id);
 
+    public Task<Artist> FetchArtist(Guid artistId);
+    public Task<Playlist> FetchPlaylist(Guid playlistId);
+    public Task<Track> FetchTrack(Guid trackId);
+
     public Task<IEnumerable<Artist>> RetrieveArtists (IEnumerable<CommonInstanceDTO> dtos);
     public Task<IEnumerable<Playlist>> RetrievePlaylists (IEnumerable<CommonInstanceDTO> dtos);
     public Task<IEnumerable<Track>> RetrieveTracks (IEnumerable<CommonInstanceDTO> dtos);
