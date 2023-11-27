@@ -1,10 +1,9 @@
 using Ild_Music.ViewModels.Base;
 using Ild_Music.Command;
-using ShareInstances.Instances;
-using ShareInstances.Services.Entities;
+using Ild_Music.Core.Instances;
+using Ild_Music.Core.Services.Entities;
+using Ild_Music.Core.Contracts.Services.Interfaces;
 
-using System;
-using System.IO;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -24,7 +23,8 @@ namespace Ild_Music.ViewModels
         #endregion
         
         #region Services
-        private SupporterService supporter => (SupporterService)App.Stage.GetServiceInstance("SupporterService");
+        private SupportGhost supporter => (SupportGhost)App.Stage.GetServiceInstance(Ghosts.SUPPORT);
+        private FactoryGhost factory => (FactoryGhost)App.Stage.GetService(Ghosts.FACTORY);
         private MainViewModel MainVM => (MainViewModel)App.ViewModelTable[MainViewModel.nameVM];
         #endregion
 
@@ -88,42 +88,29 @@ namespace Ild_Music.ViewModels
         #region Public Methods
         public async Task BrowseTracks(IEnumerable<string> paths)
         {
-            paths.ToList().ForEach(path => 
-            {
-                if(Path.GetExtension(path) == ".mp3" )
-                {
-                    Track newTrack = new(pathway:path, 
-                                         name:null,
-                                         description:null);
-                    supporter.AddInstance(newTrack);
-                }
-            });
+            paths.ToList()
+                 .ForEach(path => factory.CreateTrack(path));
+            RefreshTracks();
         }
         #endregion
 
-        #region Command Methods
-        private void DropPlaylist(object obj)
-        {
-            if (obj is Playlist playlist)
-            {
-                Task.Run(() => MainVM.DropInstance(this, playlist)); 
-            }
-        }
-
-        private async void DropTrack(object obj)
-        {
-            if (obj is Track track)
-            {
-                Task.Run(() => MainVM.DropInstance(this, track));
-            }
-        }
-
+        #region Command Methods        
         private void DropArtist(object obj)
         {
             if (obj is Artist artist)
-            {
-                Task.Run(() => MainVM.DropInstance(this, artist));
-            }
+                Task.Run(() => MainVM.ResolveArtistInstance(this, artist));
+        }
+
+        private void DropPlaylist(object obj)
+        {
+            if (obj is Playlist playlist)
+                Task.Run(() => MainVM.DropPlaylistInstance(this, playlist)); 
+        }
+
+        private void DropTrack(object obj)
+        {
+            if (obj is Track track)
+                Task.Run(() => MainVM.DropTrackInstance(this, track));
         }
         #endregion
     }

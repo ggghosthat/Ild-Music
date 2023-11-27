@@ -1,11 +1,11 @@
 using Ild_Music.ViewModels.Base;
 using Ild_Music.Models;
 using Ild_Music.Command;
-using ShareInstances;
-using ShareInstances.Stage;
-using ShareInstances.Services.Center;
-using ShareInstances.Services.Entities;
-using ShareInstances.Services.Interfaces;
+using Ild_Music.Core.Contracts;
+using Ild_Music.Core.Stage;
+using Ild_Music.Core.Services;
+using Ild_Music.Core.Services.Entities;
+using Ild_Music.Core.Services.Castle;
 
 using System.Linq;
 using System.Threading.Tasks;
@@ -24,9 +24,9 @@ namespace Ild_Music.ViewModels
 
 		#region Properties
 		public ObservableCollection<IPlayer> Players {get; set;}  = new();
-		public ObservableCollection<ISynchArea> Areas {get; set;} = new();
+		public ObservableCollection<ICube> Areas {get; set;} = new();
 		public IPlayer Player {get; set;}
-		public ISynchArea Area {get; set;}
+		public ICube Area {get; set;}
 		#endregion
 
 		#region Commands
@@ -50,11 +50,11 @@ namespace Ild_Music.ViewModels
 			await Task.Run(() => 
 			{
 				Repository.Players.ToList().ForEach(p => Players.Add(p));
-				Repository.Areas.ToList().ForEach(p => Areas.Add(p)); 
+				Repository.Cubes.ToList().ForEach(p => Areas.Add(p)); 
 			});
 
 			Player = Repository.Player;
-			Area = Repository.Area;
+			Area = Repository.Cube;
 		}
 		#endregion
 
