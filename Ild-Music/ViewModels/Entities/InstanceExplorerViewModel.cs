@@ -18,7 +18,7 @@ public class InstanceExplorerViewModel : BaseViewModel
     public override string NameVM => nameVM;
 
     #region Services
-    private SupportGhost supporterService => (SupportGhost)base.GetService(Ghosts.SUPPORT);
+    private static SupportGhost supporterService => (SupportGhost)App.Stage.GetGhost(Ghosts.SUPPORT);
     private MainViewModel MainVM => (MainViewModel)App.ViewModelTable[MainViewModel.nameVM];
     #endregion
 

@@ -18,7 +18,7 @@ public class BaseViewModel : INotifyPropertyChanged
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     
 
-    protected IGhost GetService(Ghosts ghostTag)
+    protected IGhost GetGhost(Ghosts ghostTag)
     {
         return App.Stage.GetGhost(ghostTag);
     }

@@ -3,6 +3,7 @@ using Ild_Music.Command;
 using Ild_Music.ViewModels.Base;
 using Ild_Music.Core.Services.Entities;
 using Ild_Music.Core.Instances;
+using Ild_Music.Core.Contracts.Services.Interfaces;
 
 using System;
 using System.Collections.ObjectModel;
@@ -11,6 +12,7 @@ using System.Threading.Tasks;
 using Avalonia;
 using Avalonia.Threading;
 using Avalonia.Controls.ApplicationLifetimes;
+
 namespace Ild_Music.ViewModels;
 public class MainViewModel : Base.BaseViewModel
 {
@@ -20,8 +22,8 @@ public class MainViewModel : Base.BaseViewModel
     #endregion
 
     #region Services
-    private static SupportGhost supporter => (SupportGhost)App.Stage.GetServiceInstance("SupporterService");
-    private static PlayerGhost player => (PlayerGhost)App.Stage.GetServiceInstance("PlayerService");
+    private static SupportGhost supporter => (SupportGhost)App.Stage.GetGhost(Ghosts.SUPPORT);
+    private static PlayerGhost player => (PlayerGhost)App.Stage.GetGhost(Ghosts.PLAYER);
     #endregion
 
     #region Player Scope
@@ -117,7 +119,6 @@ public class MainViewModel : Base.BaseViewModel
 
         //TODO: Play with MediatR
         //_player.TrackStarted += OnTrackStarted;
-
     }
 
     
@@ -141,7 +142,7 @@ public class MainViewModel : Base.BaseViewModel
     {
         //ViewModels preset
         App.ViewModelTable.Add(StartViewModel.nameVM, new StartViewModel());
-        App.ViewModelTable.Add(FactoryViewModel.nameVM, new FactoryViewModel());
+        App.ViewModelTable.Add(FactoryContainerViewModel.nameVM, new FactoryContainerViewModel());
         App.ViewModelTable.Add(ListViewModel.nameVM, new ListViewModel());
         App.ViewModelTable.Add(SettingViewModel.nameVM, new SettingViewModel());
         App.ViewModelTable.Add(ArtistViewModel.nameVM, new ArtistViewModel());
@@ -153,7 +154,6 @@ public class MainViewModel : Base.BaseViewModel
 
         CurrentVM = (BaseViewModel)App.ViewModelTable[StartViewModel.nameVM];
     }
-
 
     private void PresetGlobalTimer()
     {

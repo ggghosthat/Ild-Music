@@ -15,7 +15,7 @@ namespace Ild_Music.ViewModels
         public static readonly string nameVM = "TrackVM";   
 
         #region Services
-        private SupportGhost supporter => (SupportGhost)base.GetService(Ghosts.SUPPORT);
+        private static SupportGhost supporter => (SupportGhost)App.Stage.GetGhost(Ghosts.SUPPORT);
         private MainViewModel MainVM => (MainViewModel)App.ViewModelTable[MainViewModel.nameVM];
         #endregion
 

@@ -17,8 +17,8 @@ public class ArtistFactoryViewModel : BaseViewModel
     public override string NameVM => nameVM;
         
     #region Services
-    private FactoryGhost factoryService => (FactoryGhost)base.GetService(Ghosts.FACTORY);
-    private SupportGhost supporterService => (SupportGhost)base.GetService(Ghosts.SUPPORT);
+    private static FactoryGhost factoryService => (FactoryGhost)App.Stage.GetGhost(Ghosts.FACTORY);
+    private static SupportGhost supporterService => (SupportGhost)App.Stage.GetGhost(Ghosts.SUPPORT);
     private MainViewModel MainVM => (MainViewModel)App.ViewModelTable[MainViewModel.nameVM];
     #endregion
 

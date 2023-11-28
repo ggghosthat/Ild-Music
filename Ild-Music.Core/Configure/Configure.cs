@@ -1,7 +1,8 @@
 using Ild_Music.Core.Contracts;
 
 using System.Text.Json;
-namespace ShareInstances.Configure;
+
+namespace Ild_Musis.Core.Configure;
 public class Configure:IConfigure
 {
     public ReadOnlyMemory<char> ComponentsFile {get; init;}
@@ -11,9 +12,9 @@ public class Configure:IConfigure
     public Configure()
     {}
 
-    public Configure(ReadOnlyMemory<char> componentsFile)
+    public Configure(string componentsFile)
     {
-        ComponentsFile = componentsFile;
+        ComponentsFile = componentsFile.AsMemory();
         ParseAsync().Wait();
     }
 

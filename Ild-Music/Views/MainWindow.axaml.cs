@@ -1,6 +1,5 @@
 using Ild_Music.ViewModels;
 using Ild_Music.ViewModels.Base;
-using ShareInstances;
 
 using System;
 using System.Diagnostics;
@@ -59,9 +58,9 @@ namespace Ild_Music.Views
             AvaloniaXamlLoader.Load(this);
         }
 
-        protected override void OnTemplateApplied(TemplateAppliedEventArgs e)
+        protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
         {
-            base.OnTemplateApplied(e);
+            base.OnApplyTemplate(e);
 
             titleBar = e.NameScope.Get<Grid>(PART_TITLEBAR);
             navBar = e.NameScope.Get<Grid>(PART_NAVBAR);
@@ -70,8 +69,8 @@ namespace Ild_Music.Views
             volumeButton = (Control)e.NameScope.Get<Border>(PART_VOLUME_BUTTON);
             mainGrid = (Control)e.NameScope.Get<Grid>(PART_MAIN_GRID);
             volumeSlider = e.NameScope.Get<Slider>(PART_VOLUME_SLIDER);
-        }
 
+        }
 
         protected override void OnPointerPressed(PointerPressedEventArgs e)
         {

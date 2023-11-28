@@ -1,16 +1,8 @@
-using Ild_Music;
-using Ild_Music.ViewModels;
-using Ild_Music.ViewModels.Base;
 using Ild_Music.Views;
-using ShareInstances.Services.Interfaces;
-using ShareInstances.Services.Entities;
-using ShareInstances.Services.Center;
-using ShareInstances;
-using ShareInstances.Stage;
-using ShareInstances.Configure;
+using Ild_Music.Core.Contracts;
+using Ild_Musis.Core.Configure;
+using Ild_Music.Core.Stage;
 
-using System;
-using System.Diagnostics;
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
@@ -29,7 +21,7 @@ namespace Ild_Music
         public App()
         {
             Configure = new Configure("Configuration/configuration.json");
-            Stage = new (Configure);
+            Stage = new (ref Configure);
             ViewModelTable = new Hashtable();
         }
 

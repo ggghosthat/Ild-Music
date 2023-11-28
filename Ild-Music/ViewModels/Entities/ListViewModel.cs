@@ -28,8 +28,8 @@ public class ListViewModel : BaseViewModel
     public override string NameVM => nameVM;
     
     #region Services
-    private SupportGhost supporter => (SupportGhost)App.Stage.GetServiceInstance(Ghosts.SUPPORT);
-    private FactoryGhost factory => (FactoryGhost)base.GetService(Ghosts.FACTORY);
+    private static SupportGhost supporter => (SupportGhost)App.Stage.GetGhost(Ghosts.SUPPORT);
+    private static FactoryGhost factory => (FactoryGhost)App.Stage.GetGhost(Ghosts.FACTORY);
     //private ViewModelHolder<BaseViewModel> holder => (ViewModelHolder<BaseViewModel>)base.GetService("HolderService");
     private MainViewModel MainVM => (MainViewModel)App.ViewModelTable[MainViewModel.nameVM];
     #endregion

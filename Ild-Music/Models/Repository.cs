@@ -2,7 +2,6 @@ using Ild_Music.Core.Contracts;
 using Ild_Music.Core.Stage;
 
 using System.Linq;
-using System.Threading.Tasks;
 using System.Collections.Generic;
 
 namespace Ild_Music.Models;
@@ -26,6 +25,10 @@ public class Repository
 		stage.GetCubes().ToList().ForEach(c => Cubes.Add(c));
 	}
 
-	public async Task SetComponents(IShare component) => 
-		await App.Stage.ChangeComponentAsync(component);
+	public void SwitchPlayerComponent(int index) => 
+		App.Stage.SwitchPlayer(index);
+
+    public void SwitchCubeComponent(int index) => 
+		App.Stage.SwitchCube(index);
+
 }

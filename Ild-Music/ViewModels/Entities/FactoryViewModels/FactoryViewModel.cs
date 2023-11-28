@@ -14,11 +14,6 @@ public class FactoryContainerViewModel : BaseViewModel
     public static readonly string nameVM = "FactoryVM";
     public override string NameVM => nameVM;
 
-    #region Services
-    private FactoryGhost factoryService => (FactoryGhost)base.GetService(Ghosts.FACTORY);
-    private SupportGhost supporterService => (SupportGhost)base.GetService(Ghosts.SUPPORT);
-    #endregion
-
     #region Properties
     public static ArtistFactoryViewModel SubArtistContent { get; set; } = new();
     public static PlaylistFactoryViewModel SubPlaylistContent { get; set; } = new();

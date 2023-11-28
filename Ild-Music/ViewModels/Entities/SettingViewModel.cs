@@ -2,10 +2,6 @@ using Ild_Music.ViewModels.Base;
 using Ild_Music.Models;
 using Ild_Music.Command;
 using Ild_Music.Core.Contracts;
-using Ild_Music.Core.Stage;
-using Ild_Music.Core.Services;
-using Ild_Music.Core.Services.Entities;
-using Ild_Music.Core.Services.Castle;
 
 using System.Linq;
 using System.Threading.Tasks;
@@ -24,9 +20,9 @@ namespace Ild_Music.ViewModels
 
 		#region Properties
 		public ObservableCollection<IPlayer> Players {get; set;}  = new();
-		public ObservableCollection<ICube> Areas {get; set;} = new();
+		public ObservableCollection<ICube> Cubes {get; set;} = new();
 		public IPlayer Player {get; set;}
-		public ICube Area {get; set;}
+		public ICube Cube {get; set;}
 		#endregion
 
 		#region Commands
@@ -45,26 +41,28 @@ namespace Ild_Music.ViewModels
 		private async void CheckModel()
 		{
 			Players.Clear();
-			Areas.Clear();
+			Cubes.Clear();
 
 			await Task.Run(() => 
 			{
 				Repository.Players.ToList().ForEach(p => Players.Add(p));
-				Repository.Cubes.ToList().ForEach(p => Areas.Add(p)); 
+				Repository.Cubes.ToList().ForEach(p => Cubes.Add(p)); 
 			});
 
 			Player = Repository.Player;
-			Area = Repository.Cube;
+			Cube = Repository.Cube;
 		}
 		#endregion
 
 		#region Command Methods
 		private void Apply(object obj)
 		{
-			Task.Run(async () => 
+            var playerId = Players.IndexOf(Player);
+            var cubeId = Cubes.IndexOf(Cube);
+			Task.Run(() => 
 			{
-				await Repository.SetComponents(Player);
-				await Repository.SetComponents(Area);
+				Repository.SwitchPlayerComponent(playerId);
+				Repository.SwitchCubeComponent(cubeId);
 			});
 		}
 		#endregion 

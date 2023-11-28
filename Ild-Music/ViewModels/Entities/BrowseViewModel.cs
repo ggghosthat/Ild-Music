@@ -17,9 +17,9 @@ public class BrowseViewModel : BaseViewModel
     public override string NameVM => nameVM;
 
     #region Services
-    private MainViewModel MainVM => (MainViewModel)App.ViewModelTable[MainViewModel.nameVM];
-    private SupportGhost supporterService => (SupportGhost)base.GetService(Ghosts.SUPPORT);
-    private Filer filer => (Filer)GetWaiter("Filer");
+    private static MainViewModel MainVM => (MainViewModel)App.ViewModelTable[MainViewModel.nameVM];
+    private static SupportGhost supporterService => (SupportGhost)App.Stage.GetGhost(Ghosts.SUPPORT);
+    private static Filer filer;
     #endregion
 
     #region Properties
@@ -33,14 +33,20 @@ public class BrowseViewModel : BaseViewModel
     public CommandDelegator CreateTrackCommand { get; }
     public CommandDelegator CreatePlaylistCommand { get; }
     public CommandDelegator PlayBrowsedTracksCommand { get; }
+    public CommandDelegator SaveTrackCommand { get; }
+    public CommandDelegator SavePlaylistCommand { get; }
     public CommandDelegator CancelCommand { get; }
     #endregion
 
     public BrowseViewModel()
     {
+        string filer_tag = "Filer";
+        filer = (Filer)App.Stage.GetWaiter(ref filer_tag);
+
         BrowseFromManagerCommand = new(BrowseFromManager, null);
         PlaybackSingleCommand = new(PlaybackSingle, null);
-        SaveStateCommand = new(SaveState, null);
+        SaveTrackCommand = new(SaveTrack, null);
+        SavePlaylistCommand = new(SavePlaylists, null);
         PlayBrowsedTracksCommand = new(PlayBrowsedTracks, null);
         CancelCommand = new(Cancel, null);
     }
