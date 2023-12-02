@@ -1,7 +1,7 @@
 using System;
 using Avalonia.Controls;
 using Avalonia.Controls.Templates;
-using Ild_Music.ViewModels;
+using Ild_Music.ViewModels.Base;
 
 namespace Ild_Music;
 
@@ -22,6 +22,6 @@ public class ViewLocator : IDataTemplate
 
     public bool Match(object data)
     {
-        return data is ViewModelBase;
+        return data is BaseViewModel;
     }
 }
