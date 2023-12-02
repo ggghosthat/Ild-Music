@@ -355,11 +355,15 @@
                                                             Padding="5"
                                                             Background="Transparent"
                                                             HorizontalAlignment="Left"
-                                                            Child="{Binding ., Converter={StaticResource MusicFileConverter}, ConverterParameter=ico}">
+                                                            Child="{Binding .,
+                                                                    Converter={StaticResource MusicFileConverter},
+                                                                    ConverterParameter=ico}">
                                                   	</Border>
 
                                                   	<TextBlock	Grid.Column="1"
-                                                  				Text="{Binding ., Converter={StaticResource MusicFileConverter}, ConverterParameter=name}"
+                                                                Text="{Binding .,
+                                                                       Converter={StaticResource MusicFileConverter},
+                                                                       ConverterParameter=name}"
 	                                                            HorizontalAlignment="Left"
 		                                                        VerticalAlignment="Center"
                                                                 Margin="0"
@@ -370,8 +374,9 @@
 
                                                   	<TextBlock	Grid.Column="3"
                                                   				Text="{Binding ., 
-                                                  				StringFormat=\{0:mm\\:ss\},
-                                                  				Converter={StaticResource MusicFileConverter}, ConverterParameter=duration}"
+                                                  				       StringFormat=\{0:mm\\:ss\},
+                                                  				       Converter={StaticResource MusicFileConverter},
+                                                                       ConverterParameter=duration}"
 	                                                            HorizontalAlignment="Right"
 		                                                        VerticalAlignment="Center"
                                                                 Margin="0"
