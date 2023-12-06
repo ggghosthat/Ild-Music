@@ -127,7 +127,9 @@
                                 StretchDirection="Both"
                                 MinWidth="150"
                                 MinHeight="150"
-                                Child="{Binding AvatarSource, Converter={StaticResource InstanceConverter}, ConverterParameter=aico_dis}">
+                                Child="{Binding AvatarSource,
+                                        Converter={StaticResource InstanceConverter},
+                                        ConverterParameter=aico_dis}">
                       </Viewbox>                    
                   </Border> 
         </Border>                  
@@ -177,7 +179,8 @@
 
                     <TextBlock Classes="logLine"
                                Text="{Binding ArtistLogLine}"
-                               Foreground="{Binding ArtistLogError, Converter={StaticResource ErrorStateConverter} }"
+                               Foreground="{Binding ArtistLogError,
+                                            Converter={StaticResource ErrorStateConverter} }"
                                Background="Transparent"
                                FontSize="12"
                                Margin="5"/>
@@ -192,7 +195,9 @@
                 ZIndex="-1">
                 <Border.Background>
                   <LinearGradientBrush StartPoint="50%,0%" EndPoint="50%,100%">
-                    <GradientStop Color="{Binding AvatarSource, Converter={StaticResource InstanceConverter}, ConverterParameter=back}" Offset="0.0" />
+                    <GradientStop Color="{Binding AvatarSource,
+                                          Converter={StaticResource InstanceConverter}, 
+                                          ConverterParameter=back}" Offset="0.0" />
                     <GradientStop Color="Black" Offset="1.0" />
                   </LinearGradientBrush>
                 </Border.Background>

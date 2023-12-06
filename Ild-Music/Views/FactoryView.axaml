@@ -13,7 +13,7 @@
 
 
   <UserControl.Resources>
-    <conv:SubFactoryDisplayConverter x:Key="SubFactoryDisplayConverter"/>
+    <conv:SubFactoryConverter x:Key="SubFactoryConverter"/>
   </UserControl.Resources>
   <Grid>
     <Grid.RowDefinitions>
@@ -23,7 +23,8 @@
 
     <Grid Grid.Row="1">
         <ContentPresenter Name="Contenter" 
-                          Content="{Binding SubItem, Converter={StaticResource SubFactoryDisplayConverter}}"/>
+                          Content="{Binding SubItem,
+                                    Converter={StaticResource SubFactoryConverter}}"/>
     </Grid>
   </Grid>
 </UserControl>

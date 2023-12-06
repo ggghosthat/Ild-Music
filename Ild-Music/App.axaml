@@ -6,7 +6,8 @@
              xmlns:v="clr-namespace:Ild_Music.Views"
              xmlns:fv="clr-namespace:Ild_Music.Views.FactorySubViews"
 
-             x:Class="Ild_Music.App">
+             x:Class="Ild_Music.App"
+             RequestedThemeVariant="Dark">
     <Application.DataTemplates>
         <local:ViewLocator/>
     </Application.DataTemplates>
@@ -112,7 +113,7 @@
         <DataTemplate DataType="{x:Type vm:ListViewModel}">
             <v:ListView/>
         </DataTemplate>
-        <DataTemplate DataType="{x:Type vm:FactoryViewModel}">
+        <DataTemplate DataType="{x:Type vm:FactoryContainerViewModel}">
             <v:FactoryView/>
         </DataTemplate>
         <DataTemplate DataType="{x:Type vm:SettingViewModel}">
@@ -152,7 +153,7 @@
     <Application.Styles>
         
         <!--Avalonia Theme setup-->
-        <FluentTheme Mode="Dark"/>
+        <FluentTheme/>
 
         <!--ScrollViewer sttyles-->
         <Style Selector="ScrollViewer /template/ ScrollBar#PART_HorizontalScrollBar[IsExpanded=true] Grid Border#HorizontalRoot">

@@ -11,7 +11,7 @@
              x:Class="Ild_Music.Views.BrowseView">
 
     <UserControl.Resources>
-    	<conv:MusicFileConverter x:Key="MusicFileConverter"/>
+    	<conv:InstanceConverter x:Key="MusicFileConverter"/>
   	</UserControl.Resources>
 
     <Grid>
@@ -42,7 +42,7 @@
 	    				MaxWidth="400">
 	    				<i:Interaction.Behaviors>
 			              <ia:EventTriggerBehavior EventName="Tapped">
-			                <ia:InvokeCommandAction Command="{Binding BrowseFromManagerCommand}"/>
+			                /*<ia:InvokeCommandAction Command="{Binding BrowseFromManagerCommand}"/>*/
 			              </ia:EventTriggerBehavior>
 			            </i:Interaction.Behaviors>
 				        <Border x:Name="BrowseArea"
@@ -100,23 +100,20 @@
 								                    <Setter Property="Background" Value="#70000000"/>
 								                </Style>
 						              </Border.Styles>
+                                        
+                                      <PathIcon HorizontalAlignment="Center"
+						                        VerticalAlignment="Center"
+						                        Width="20"
+						                        Height="20"
+						                        Margin="5,0,0,0"
+                                                Background="Transparent"
+                                                Foreground="White"
+										        Data="M9,3V4H4V6H5V19A2,2 0 0,0 7,21H17A2,2 0 0,0 19,19V6H20V4H15V3H9M7,6H17V19H7V6M9,8V17H11V8H9M13,8V17H">
+						              </PathIcon>
+						    </Border>
+                        </StackPanel>
 
-						              <DrawingPresenter HorizontalAlignment="Center"
-						                                VerticalAlignment="Center"
-						                                Width="20"
-						                                Height="20"> 
-										                <DrawingPresenter.Drawing>
-										                    <DrawingGroup>
-										                      <DrawingGroup Opacity="1">
-										                          <GeometryDrawing Brush="White"
-										                                            Geometry="M9,3V4H4V6H5V19A2,2 0 0,0 7,21H17A2,2 0 0,0 19,19V6H20V4H15V3H9M7,6H17V19H7V6M9,8V17H11V8H9M13,8V17H15V8H13Z" />
-										                      </DrawingGroup>
-										                    </DrawingGroup>
-										                </DrawingPresenter.Drawing>
-						              </DrawingPresenter>
-					          </Border>
-				        </StackPanel>
-				        <StackPanel>
+                        <StackPanel>
 					          <i:Interaction.Behaviors>
 					            <ia:EventTriggerBehavior EventName="PointerPressed">
 					              <ia:InvokeCommandAction Command="{Binding CreateTrackCommand}"/>
@@ -139,20 +136,15 @@
 								                </Style>
 						              </Border.Styles>
 
-						              <DrawingPresenter HorizontalAlignment="Center"
-						                                VerticalAlignment="Center"
-						                                Width="20"
-						                                Height="20"
-						                                Margin="5,0,0,0"> 
-										                <DrawingPresenter.Drawing>
-										                    <DrawingGroup>
-										                      <DrawingGroup Opacity="1">
-										                          <GeometryDrawing Brush="White"
-										                                            Geometry="M12 3V13.55C11.41 13.21 10.73 13 10 13C7.79 13 6 14.79 6 17S7.79 21 10 21 14 19.21 14 17V7H18V3H12Z" />
-										                      </DrawingGroup>
-										                    </DrawingGroup>
-										                </DrawingPresenter.Drawing>
-						              </DrawingPresenter>
+						              <PathIcon HorizontalAlignment="Center"
+						                        VerticalAlignment="Center"
+						                        Width="20"
+						                        Height="20"
+						                        Margin="5,0,0,0"
+                                                Background="Transparent"
+                                                Foreground="White"
+										        Data="M12 3V13.55C11.41 13.21 10.73 13 10 13C7.79 13 6 14.79 6 17S7.79 21 10 21 14 19.21 14 17V7H18V3H12Z">
+						              </PathIcon>
 					          </Border>
 				        </StackPanel>
 				        <StackPanel>
@@ -177,21 +169,15 @@
 								                    <Setter Property="Background" Value="#70000000"/>
 								                </Style>
 						              </Border.Styles>
-
-						              <DrawingPresenter HorizontalAlignment="Center"
-						                                VerticalAlignment="Center"
-						                                Width="20"
-						                                Height="20"
-						                                Margin="0,5,0,0"> 
-										                <DrawingPresenter.Drawing>
-										                    <DrawingGroup>
-										                      <DrawingGroup Opacity="1">
-										                          <GeometryDrawing Brush="White"
-										                                            Geometry="M3,6H21V8H3V6M3,11H21V13H3V11M3,16H21V18H3V16Z" />
-										                      </DrawingGroup>
-										                    </DrawingGroup>
-										                </DrawingPresenter.Drawing>
-						              </DrawingPresenter>
+                                      <PathIcon HorizontalAlignment="Center"
+						                        VerticalAlignment="Center"
+						                        Width="20"
+						                        Height="20"
+						                        Margin="0,5,0,0" 
+                                                Data="M3,6H21V8H3V6M3,11H21V13H3V11M3,16H21V18H3V16Z"
+                                                Background="Transparent"
+                                                Foreground="White">
+						              </PathIcon>
 					          </Border>
 				        </StackPanel>
 	    	</StackPanel>
@@ -222,20 +208,14 @@
 						                </Style>
 				              </Border.Styles>
 
-				              <DrawingPresenter HorizontalAlignment="Center"
-				                                VerticalAlignment="Center"
-				                                Width="20"
-				                                Height="20"
-				                                Margin="5,0,0,0"> 
-								                <DrawingPresenter.Drawing>
-								                    <DrawingGroup>
-								                      <DrawingGroup Opacity="1">
-								                          <GeometryDrawing Brush="White"
-								                                            Geometry="M8,5.14V19.14L19,12.14L8,5.14Z" />
-								                      </DrawingGroup>
-								                    </DrawingGroup>
-								                </DrawingPresenter.Drawing>
-				              </DrawingPresenter>
+                              <PathIcon HorizontalAlignment="Center"
+						                VerticalAlignment="Center"
+						                Width="20"
+						                Height="20"
+                                        Data="M8,5.14V19.14L19,12.14L8,5.14Z"
+                                        Background="Transparent"
+                                        Foreground="White">
+						      </PathIcon>
 			            </Border>
 	    	</StackPanel>
         </Grid>
@@ -249,7 +229,7 @@
 	                          HorizontalAlignment="Stretch"
 	                          HorizontalContentAlignment="Stretch"
 	                          Background="Transparent">
-	                          <ListBox Items="{Binding Items}"
+	                          <ListBox ItemsSource="{Binding Items}"
                                           SelectedItems="{Binding SelectedItems}"
 	                                      SelectionMode="Multiple"
 				                          HorizontalAlignment="Stretch"
@@ -357,8 +337,21 @@
                                                             HorizontalAlignment="Left"
                                                             Child="{Binding .,
                                                                     Converter={StaticResource MusicFileConverter},
-                                                                    ConverterParameter=ico}">
+                                                                    ConverterParameter=ico_col}">
                                                   	</Border>
+
+                                                  	<TextBlock	Grid.Column="1"
+                                                                Text="{Binding .,
+                                                                       Converter={StaticResource MusicFileConverter},
+                                                                       ConverterParameter=name}"
+	                                                            HorizontalAlignment="Left"
+		                                                        VerticalAlignment="Center"
+                                                                Margin="0"
+                                                                FontSize="16"
+                                                                TextAlignment="Left"
+                                                                Foreground="White"
+                                                                FontWeight="Light"/>
+
 
                                                   	<TextBlock	Grid.Column="1"
                                                                 Text="{Binding .,
