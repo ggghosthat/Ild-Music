@@ -9,7 +9,9 @@
              xmlns:ia="clr-namespace:Avalonia.Xaml.Interactions.Core;assembly=Avalonia.Xaml.Interactions"
 
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="Ild_Music.Views.TrackView">
+             x:Class="Ild_Music.Views.TrackView"
+             x:DataType="vm:TrackViewModel">
+
     <UserControl.Resources>
 	    <conv:InstanceConverter x:Key="InstanceConverter"/>
 	    <conv:ErrorMessageConverter x:Key="ErrorStateConverter"/>
@@ -53,7 +55,9 @@
 		    	        		Height="100"
 		        	            Padding="5"
 		            	        Background="Transparent"
-		                	    Child="{Binding TrackInstance, Converter={StaticResource InstanceConverter}, ConverterParameter=ico_col}">
+		                	    Child="{Binding TrackInstance, 
+                                        Converter={StaticResource InstanceConverter},
+                                        ConverterParameter=ico_col}">
 			            </Border>
 
 						<StackPanel Grid.Row="1"
@@ -89,7 +93,7 @@
 				                    HorizontalContentAlignment="Left"
 			                        Height="110"
 				                    Margin="2">
-							        <ListBox Items="{Binding TrackArtists}"
+							        <ListBox ItemsSource="{Binding TrackArtists}"
 							                SelectionMode="Single"
 							                Background="#35000000">
 								            <ListBox.ItemsPanel>

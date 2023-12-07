@@ -95,7 +95,7 @@
 			                  HorizontalContentAlignment="Left"
 		                      Height="110"
 			                  Margin="2">
-	  				          <ListBox Items="{Binding ArtistPlaylists}"
+	  				          <ListBox ItemsSource="{Binding ArtistPlaylists}"
 						              SelectionMode="Single"
 						              Background="#35000000">
 							          <ListBox.ItemsPanel>
@@ -225,7 +225,7 @@
 		                    HorizontalContentAlignment="Left"
 		                    Height="110"
 		                    Margin="2">
-		        			<ListBox Items="{Binding ArtistTracks}"
+		        			<ListBox ItemsSource="{Binding ArtistTracks}"
 					                SelectionMode="Single"
 					                Background="#35000000">
 						            <ListBox.ItemsPanel>

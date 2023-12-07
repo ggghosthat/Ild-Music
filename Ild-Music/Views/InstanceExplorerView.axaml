@@ -50,7 +50,7 @@
                                   HorizontalAlignment="Stretch"
                                   HorizontalContentAlignment="Left"
                                   Background="#16262e">
-                                <ListBox Items="{Binding Source}"
+                                <ListBox ItemsSource="{Binding Source}"
                                          SelectedItems="{Binding Output}"
                                          SelectionMode="Multiple, Toggle"
                                          ScrollViewer.HorizontalScrollBarVisibility="Disabled"

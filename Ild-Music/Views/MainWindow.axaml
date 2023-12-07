@@ -9,12 +9,11 @@
         xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
         xmlns:ia="clr-namespace:Avalonia.Xaml.Interactions.Core;assembly=Avalonia.Xaml.Interactions"
 
-
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="460"
         x:Class="Ild_Music.Views.MainWindow"
+        x:DataType="vm:MainViewModel"
         Icon="/Assets/ild-music-logo.ico"
-        Title="Ild_Music"
-        HasSystemDecorations="false"
+        Title="Ild-Music"
         Background="#1b2b33"
         WindowStartupLocation="CenterScreen">
     
@@ -271,7 +270,7 @@
                                     <ScrollViewer HorizontalScrollBarVisibility="Disabled"
                                                   VerticalScrollBarVisibility="Auto"
                                                   HorizontalAlignment="Stretch">
-                                                  <ListBox Items="{Binding NavItems}"
+                                                  <ListBox ItemsSource="{Binding NavItems}"
                                                          SelectedItem="{Binding NavItem}"
                                                          HorizontalAlignment="Left"
                                                          ScrollViewer.HorizontalScrollBarVisibility="Disabled"
@@ -602,13 +601,17 @@
 
                                                 <Border Grid.Row="0"
                                                         Margin="3,0">
-                                                    <TextBlock Text="{Binding CurrentEntity, Converter={StaticResource CurrentEntityConverter}, ConverterParameter=name}" 
+                                                    <TextBlock Text="{Binding CurrentTrack,
+                                                                      Converter={StaticResource CurrentEntityConverter},
+                                                                      ConverterParameter=name}" 
                                                                FontSize="14"
                                                                Foreground="#fff"/>
                                                 </Border>
                                                 <Border Grid.Row="1"
                                                         Margin="3,0">
-                                                    <TextBlock Text="{Binding CurrentEntity, Converter={StaticResource CurrentEntityConverter}, ConverterParameter=artist }" 
+                                                    <TextBlock Text="{Binding CurrentTrack,
+                                                                      Converter={StaticResource CurrentEntityConverter}, 
+                                                                      ConverterParameter=artist }" 
                                                                FontSize="14"
                                                                Foreground="#bebfbd"/>
                                                 </Border>

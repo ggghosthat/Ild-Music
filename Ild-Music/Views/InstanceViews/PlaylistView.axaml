@@ -91,7 +91,7 @@
 						                    HorizontalAlignment="Stretch"
 						                    HorizontalContentAlignment="Left"
 						                    Height="110">
-									        <ListBox Items="{Binding PlaylistArtists}"
+									        <ListBox ItemsSource="{Binding PlaylistArtists}"
 									                SelectionMode="Single"
 									                Background="#35000000">
 										            <ListBox.ItemsPanel>
@@ -221,7 +221,7 @@
 						                    HorizontalAlignment="Stretch"
 						                    HorizontalContentAlignment="Left"
 						                    Height="110">
-									        <ListBox Items="{Binding PlaylistTracks}"
+									        <ListBox ItemsSource="{Binding PlaylistTracks}"
 									                SelectionMode="Single, Toggle"
 									                Background="#35000000">
 

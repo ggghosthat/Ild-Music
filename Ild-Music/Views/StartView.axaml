@@ -51,7 +51,7 @@
                                       Height="110"
                                       Margin="0"
                                       Background="#16262e">
-                                      <ListBox Items="{Binding Playlists}"
+                                      <ListBox ItemsSource="{Binding Playlists}"
                                                SelectedItem="{Binding CurrentPlaylist}"
                                                ScrollViewer.HorizontalScrollBarVisibility="Visible"
                                                ScrollViewer.VerticalScrollBarVisibility="Disabled"
@@ -152,7 +152,9 @@
                                                             </Grid.RowDefinitions> 
                                                             
                                                             <Border Grid.Row="0"
-                                                                    Child="{Binding ., Converter={StaticResource InstanceConverter}, ConverterParameter=ico_col}">
+                                                                    Child="{Binding .,
+                                                                            Converter={StaticResource InstanceConverter},
+                                                                            ConverterParameter=ico_col}">
                                                             </Border>
 
                                                             <TextBlock Grid.Row="1"
@@ -189,7 +191,7 @@
                                     HorizontalContentAlignment="Left"
                                     Background="#16262e"
                                     DragDrop.AllowDrop="True">
-                                    <ListBox Items="{Binding Tracks}"
+                                    <ListBox ItemsSource="{Binding Tracks}"
                                               SelectedItem="{Binding CurrentTrack}"
                                               ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                                               ScrollViewer.VerticalScrollBarVisibility="Auto"
@@ -323,9 +325,9 @@
                          <ScrollViewer HorizontalScrollBarVisibility="Disabled"
                                        VerticalScrollBarVisibility="Auto"
                                        HorizontalAlignment="Stretch">
-                                 <ListBox Items="{Binding Artists}"
-                                         HorizontalAlignment="Stretch"
+                                 <ListBox ItemsSource="{Binding Artists}"
                                          SelectedItem="{Binding CurrentArtist}"
+                                         HorizontalAlignment="Stretch"
                                          ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                                          ScrollViewer.VerticalScrollBarVisibility="Visible"
                                          Background="Transparent">

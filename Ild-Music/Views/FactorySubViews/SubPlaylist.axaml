@@ -183,7 +183,7 @@
                                         <ia:InvokeCommandAction Command="{Binding PlaylistArtistExplorerCommand}"/>
                                     </ia:EventTriggerBehavior>  
                                 </i:Interaction.Behaviors>
-                                <ListBox Items="{Binding SelectedPlaylistArtists}"
+                                <ListBox ItemsSource="{Binding SelectedPlaylistArtists}"
                                         SelectionMode="Single"
                                         Background="#35000000"
                                         Margin="2"
@@ -312,7 +312,7 @@
                                         <ia:InvokeCommandAction Command="{Binding PlaylistTrackExplorerCommand}"/>
                                     </ia:EventTriggerBehavior>  
                                 </i:Interaction.Behaviors>
-                                <ListBox Items="{Binding SelectedPlaylistTracks}"
+                                <ListBox ItemsSource="{Binding SelectedPlaylistTracks}"
                                         SelectionMode="Single"
                                         Background="#35000000"
                                         Margin="2"

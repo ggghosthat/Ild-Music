@@ -194,7 +194,7 @@
                                               <ia:InvokeCommandAction Command="{Binding TrackArtistExplorerCommand}"/>
                                           </ia:EventTriggerBehavior>  
                                       </i:Interaction.Behaviors>
-                                      <ListBox Items="{Binding SelectedTrackArtists}"
+                                      <ListBox ItemsSource="{Binding SelectedTrackArtists}"
                                               SelectionMode="Multiple,Toggle"
                                               Background="#35000000"
                                               Margin="2"

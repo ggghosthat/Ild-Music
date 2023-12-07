@@ -37,7 +37,7 @@
                    FontWeight="Light"/>
 	    
         <Grid HorizontalAlignment="Stretch">
-        <ListBox Items="{Binding Players}"
+        <ListBox ItemsSource="{Binding Players}"
                   SelectedItem="{Binding Player}"
                   ScrollViewer.HorizontalScrollBarVisibility="Visible"
                   ScrollViewer.VerticalScrollBarVisibility="Disabled"
@@ -130,11 +130,10 @@
                                 Height="70"
                                 CornerRadius="10"
                                 HorizontalAlignment="Center"
-                                VerticalAlignment="Center">
-                                <DrawingPresenter Drawing="{Binding ., Converter={StaticResource ComponentConverter}, ConverterParameter=ico}"
-                                                  HorizontalAlignment="Center"
-                                                  VerticalAlignment="Center"
-                                                  Margin="7"/>
+                                VerticalAlignment="Center"
+                                Child="{Binding .,
+                                        Converter={StaticResource CompanentConverter},
+                                        ConverterParameter=ico}">
                         </Border>
                         <TextBlock Text="{Binding ., Converter={StaticResource ComponentConverter}, ConverterParameter=0}"
                                    Grid.Row="1"
@@ -158,8 +157,8 @@
                         FontSize="16"
                         FontWeight="Light"/>
             <Grid HorizontalAlignment="Stretch">
-	    	<ListBox Items="{Binding Areas}"
-                  SelectedItem="{Binding Area}"
+	    	<ListBox ItemsSource="{Binding Cubes}"
+                  SelectedItem="{Binding Cube}"
                   ScrollViewer.HorizontalScrollBarVisibility="Visible"
                   ScrollViewer.VerticalScrollBarVisibility="Disabled"
                   Background="#40000000">
@@ -251,11 +250,10 @@
                                 Height="70"
                                 CornerRadius="10"
                                 HorizontalAlignment="Center"
-                                VerticalAlignment="Center">
-                                <DrawingPresenter Drawing="{Binding ., Converter={StaticResource ComponentConverter}, ConverterParameter=ico}"
-                                                  HorizontalAlignment="Center"
-                                                  VerticalAlignment="Center"
-                                                  Margin="7"/>
+                                VerticalAlignment="Center"
+                                Child="{Binding .,
+                                        Converter={StaticResource CompanentConverter},
+                                        ConverterParameter=ico}">
                         </Border>
                         <TextBlock Text="{Binding ., Converter={StaticResource ComponentConverter}, ConverterParameter=0}"
                                    Grid.Row="1"

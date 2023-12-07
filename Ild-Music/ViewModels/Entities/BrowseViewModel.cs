@@ -8,7 +8,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using Avalonia.Controls;
 
 namespace Ild_Music.ViewModels;
 public class BrowseViewModel : BaseViewModel
@@ -28,7 +27,7 @@ public class BrowseViewModel : BaseViewModel
     #endregion
 
     #region Commands
-    public CommandDelegator BrowseFromManagerCommand { get; }
+    public CommandDelegator BrowseCommand { get; }
     public CommandDelegator PlaybackSingleCommand { get; }
     public CommandDelegator CreateTrackCommand { get; }
     public CommandDelegator CreatePlaylistCommand { get; }
@@ -43,7 +42,7 @@ public class BrowseViewModel : BaseViewModel
         string filer_tag = "Filer";
         filer = (Filer)App.Stage.GetWaiter(ref filer_tag);
 
-        BrowseFromManagerCommand = new(BrowseFromManager, null);
+        BrowseCommand = new(BrowseFromManager, null);
         PlaybackSingleCommand = new(PlaybackSingle, null);
         SaveTrackCommand = new(SaveTrack, null);
         SavePlaylistCommand = new(SavePlaylists, null);
@@ -122,17 +121,8 @@ public class BrowseViewModel : BaseViewModel
         } 
     } 
 
-    private async void BrowseFromManager(object obj)
+    private void BrowseFromManager(object obj)
     {
-        OpenFileDialog dialog = new();
-        dialog.AllowMultiple = true;
-        dialog.Filters.Add(new FileDialogFilter() { Name = "Mp3", Extensions =  { "mp3" } });
-
-        string[] result = await dialog.ShowAsync(new Window());
-        if(result != null && result.Length > 0)
-        {
-            Browse(result);
-        }
     }
 
     private void Cancel(object obj)

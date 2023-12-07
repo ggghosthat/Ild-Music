@@ -16,7 +16,7 @@ internal class ComponentConverter : IValueConverter
             if (value is IPlayer player)
                 return Application.Current.FindResource("PlayerDefaultIcon");
             else if (value is ICube area)
-                return Application.Current.FindResource("AreaDefaultIcon");
+                return Application.Current.FindResource("CubeDefaultIcon");
             return null;
         }
         if (parameter == "0")

@@ -3,12 +3,14 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 
+             xmlns:vm="using:Ild_Music.ViewModels"
              xmlns:conv="using:Ild_Music.Converters"
              xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
              xmlns:ia="clr-namespace:Avalonia.Xaml.Interactions.Core;assembly=Avalonia.Xaml.Interactions"
 
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-             x:Class="Ild_Music.Views.BrowseView">
+             x:Class="Ild_Music.Views.BrowseView"
+             x:DataType="vm:BrowseViewModel">
 
     <UserControl.Resources>
     	<conv:InstanceConverter x:Key="MusicFileConverter"/>
@@ -42,7 +44,7 @@
 	    				MaxWidth="400">
 	    				<i:Interaction.Behaviors>
 			              <ia:EventTriggerBehavior EventName="Tapped">
-			                /*<ia:InvokeCommandAction Command="{Binding BrowseFromManagerCommand}"/>*/
+                              <ia:InvokeCommandAction Command="{Binding BrowseCommand}"/>
 			              </ia:EventTriggerBehavior>
 			            </i:Interaction.Behaviors>
 				        <Border x:Name="BrowseArea"
