@@ -39,9 +39,19 @@ public class Castle : ICastle
         
             builder.RegisterMediatR(configuration);
 
-            builder.RegisterType<SupportGhost>().As<IGhost>().SingleInstance().Keyed<IGhost>(Ghosts.SUPPORT);
+            builder.Register((c,p) => 
+                    new SupportGhost(_pluginBag))
+                    .As<IGhost>()
+                    .SingleInstance()
+                    .Keyed<IGhost>(Ghosts.SUPPORT);
+
+            builder.Register((c,p) => 
+                    new PlayerGhost(_pluginBag))
+                    .As<IGhost>()
+                    .SingleInstance()
+                    .Keyed<IGhost>(Ghosts.PLAYER);
+
             builder.RegisterType<FactoryGhost>().As<IGhost>().SingleInstance().Keyed<IGhost>(Ghosts.FACTORY);
-            builder.RegisterType<PlayerGhost>().As<IGhost>().SingleInstance().Keyed<IGhost>(Ghosts.PLAYER);
        
     
             builder.RegisterType<Filer>().As<IWaiter>().Named<IWaiter>("Filer");      
