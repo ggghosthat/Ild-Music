@@ -16,12 +16,13 @@ namespace Ild_Music
     {
         public static Hashtable ViewModelTable;
         public static IConfigure Configure;
-        public static Stage Stage = new();
+        public static Stage Stage;
 
         public App()
         {
-            Configure = new Configure("Configuration/configuration.json");
+            Configure = new Configure("./config.json");
             Stage = new (ref Configure);
+            Stage.Build().Wait();
             ViewModelTable = new Hashtable();
         }
 

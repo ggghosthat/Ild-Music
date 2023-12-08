@@ -34,8 +34,9 @@ public class Docker : IDocker, IDisposable
                                             ref configure.ConfigSheet._cubes);
             return Task.FromResult(0);
         }
-        catch
+        catch(Exception ex)
         {
+            Console.WriteLine($"Happened: {ex.Message}");
             return Task.FromResult(-1);
         } 
     }

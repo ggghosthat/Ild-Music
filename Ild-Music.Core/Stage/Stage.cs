@@ -45,12 +45,14 @@ public sealed class Stage
     {
         try 
         {
+            Console.WriteLine(castle is null);
             castle.Pack();
             CompletionResult = await DockComponents();
             OnInitialized?.Invoke();
         }
         catch(Exception ex)
         {
+            Console.WriteLine(ex.Message);
             throw ex;
         }
     }       
@@ -67,6 +69,8 @@ public sealed class Stage
 
                 if(dock == 0)
                 {
+                    Console.WriteLine(docker.Players.Count());
+
                     await castle.RegisterPlayers(docker.Players);
                     await castle.RegisterCubes(docker.Cubes);
                 }
@@ -80,6 +84,7 @@ public sealed class Stage
         }
         catch(Exception ex)
         {
+            Console.WriteLine(ex);
             throw ex;
         }
        

@@ -24,35 +24,42 @@ public class Castle : ICastle
 
     public void Pack()
     {
-        var builder = new ContainerBuilder();
-        
-        var configuration = MediatRConfigurationBuilder
-            .Create(typeof(PlayerNotification).Assembly)
-            .WithAllOpenGenericHandlerTypesRegistered()
-            .WithRegistrationScope(RegistrationScope.Scoped) 
-            .Build();
-
-        builder.RegisterType<DelegateBag>().SingleInstance();
-        
-        
-        builder.RegisterMediatR(configuration);
-
-        builder.RegisterType<SupportGhost>().As<IGhost>().SingleInstance().Keyed<IGhost>(Ghosts.SUPPORT);
-        builder.RegisterType<FactoryGhost>().As<IGhost>().SingleInstance().Keyed<IGhost>(Ghosts.FACTORY);
-        builder.RegisterType<PlayerGhost>().As<IGhost>().SingleInstance().Keyed<IGhost>(Ghosts.PLAYER);
-       
-
-        builder.RegisterType<Filer>().As<IWaiter>().Named<IWaiter>("Filer");      
-        
-        container = builder.Build();
-
-        using (var preScope = container.BeginLifetimeScope())
+        try
         {
-            var mediator = preScope.Resolve<IMediator>();
-            _pluginBag = new PluginBag.PluginBag(mediator);
-        }
+            var builder = new ContainerBuilder();
+        
+            var configuration = MediatRConfigurationBuilder
+                .Create(typeof(PlayerNotification).Assembly)
+                .WithAllOpenGenericHandlerTypesRegistered()
+                .WithRegistrationScope(RegistrationScope.Scoped) 
+                .Build();
 
-        IsCenterActive = true;
+            builder.RegisterType<DelegateBag>().SingleInstance();
+        
+        
+            builder.RegisterMediatR(configuration);
+
+            builder.RegisterType<SupportGhost>().As<IGhost>().SingleInstance().Keyed<IGhost>(Ghosts.SUPPORT);
+            builder.RegisterType<FactoryGhost>().As<IGhost>().SingleInstance().Keyed<IGhost>(Ghosts.FACTORY);
+            builder.RegisterType<PlayerGhost>().As<IGhost>().SingleInstance().Keyed<IGhost>(Ghosts.PLAYER);
+       
+    
+            builder.RegisterType<Filer>().As<IWaiter>().Named<IWaiter>("Filer");      
+        
+            container = builder.Build();
+
+            using (var preScope = container.BeginLifetimeScope())
+            {
+                var mediator = preScope.Resolve<IMediator>();
+                _pluginBag = new PluginBag.PluginBag(mediator);
+            }
+
+            IsCenterActive = true;
+        }
+        catch(Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+        }
     }
 
 
@@ -68,7 +75,6 @@ public class Castle : ICastle
         IGhost ghost;
         using (var scope = container.BeginLifetimeScope()) 
         {
-            var _pluginBag = scope.Resolve<IPluginBag>();
             ghost = scope.ResolveKeyed<IGhost>(ghostTag);
         }
         return ghost;
