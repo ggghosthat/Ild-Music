@@ -2,7 +2,8 @@ using Ild_Music.Core.Contracts;
 
 using System.Text.Json;
 
-namespace Ild_Musis.Core.Configure;
+namespace Ild_Music.Core.Configure;
+
 public class Configure:IConfigure
 {
     public ReadOnlyMemory<char> ComponentsFile {get; init;}

@@ -1,4 +1,5 @@
 using Ild_Music.Core.Instances;
+using Ild_Music.Core.Contracts;
 using Ild_Music.Core.Contracts.Services.Interfaces;
 using Ild_Music.Core.Exceptions.SynchAreaExceptions;
 
@@ -7,17 +8,15 @@ public sealed class FactoryGhost : IGhost
 {
     public ReadOnlyMemory<char> GhostName {get; init;} = "FactoryGhost".AsMemory(); 
 
-    public static SupportGhost SupportGhost {get; private set;}
+    private static ICube cube;
     private static InstanceProducer.InstanceProducer producer = default;
     
-    public FactoryGhost(SupportGhost supportGhost)
-    {
-        SupportGhost = supportGhost;
-    }
+    public FactoryGhost()
+    {}
 
-    public void Init(ref SupportGhost supportGhost)
+    public void Init(ICube cube)
     {
-        SupportGhost = supportGhost;
+       cube = cube; 
     }
 
     #region Instance Creation Methods
@@ -34,7 +33,8 @@ public sealed class FactoryGhost : IGhost
                                                              description.ToCharArray(),
                                                              artistAvatarSource, 
                                                              year);
-            SupportGhost.AddArtistInstance(producer.ArtistInstance);
+
+            cube.AddArtistObj(producer.ArtistInstance); 
             producer.Dispose();
         }
         catch (InvalidArtistException ex)
@@ -60,7 +60,8 @@ public sealed class FactoryGhost : IGhost
                                                              year,
                                                              tracks,
                                                              artists); 
-            SupportGhost.AddPlaylistInstance(producer.PlaylistInstance); 
+
+            cube.AddPlaylistObj(producer.PlaylistInstance);
             producer.Dispose(); 
         } 
         catch (InvalidPlaylistException ex) 
@@ -104,7 +105,8 @@ public sealed class FactoryGhost : IGhost
                                                                  taglib.Properties.Duration,
                                                                  trackYear,
                                                                  artists); 
-                SupportGhost.AddTrackInstance(producer.TrackInstance); 
+
+                cube.AddTrackObj(producer.TrackInstance);
                 producer.Dispose(); 
             } 
         } 
@@ -141,7 +143,8 @@ public sealed class FactoryGhost : IGhost
                                                                  taglib.Properties.Duration,
                                                                  year,
                                                                  null); 
-                SupportGhost.AddTrackInstance(producer.TrackInstance);
+                
+                cube.AddTrackObj(producer.TrackInstance);
                 trackResult = producer.TrackInstance; 
                 producer.Dispose(); 
             }

@@ -18,8 +18,8 @@ public sealed class Stage
     #endregion
     
     #region Current Components
-    public IPlayer PlayerInstance => castle.ResolvePluginBag().GetCurrentPlayer() ?? null;
-    public ICube CubeInstance => castle.ResolvePluginBag().GetCurrentCube() ?? null;
+    public IPlayer PlayerInstance => null; //castle.ResolvePluginBag().GetCurrentPlayer() ?? null;
+    public ICube CubeInstance => null; //castle.ResolvePluginBag().GetCurrentCube() ?? null;
     #endregion
         
     #region Tagging result
@@ -104,14 +104,14 @@ public sealed class Stage
     #endregion
 
     #region Current instance Switching
-    public void SwitchPlayer(int index)
+    public void SwitchPlayer(Guid playerId)
     {
-        castle.SwitchPlayer(index);
+        castle.SwitchPlayer(playerId);
     }
 
-    public void SwitchCube(int index)
+    public void SwitchCube(Guid cubeId)
     {
-        castle.SwitchCube(index);
+        castle.SwitchCube(cubeId);
     }
     #endregion
 

@@ -1,7 +1,7 @@
 namespace Ild_Music.Core.Instances;
 public struct Artist
 {
-	public Guid Id {get; init;} = Guid.NewGuid();
+	public Guid Id {get; set;}
 	public ReadOnlyMemory<char> Name {get; set;}
 	public ReadOnlyMemory<char> Description {get; set;}
 	public ReadOnlyMemory<byte> AvatarSource {get; set;}
@@ -13,11 +13,13 @@ public struct Artist
 	public ICollection<Tag> Tags {get; set;} = new List<Tag>();
 
 
-	public Artist (ReadOnlyMemory<char> name,
+	public Artist (Guid id,
+                   ReadOnlyMemory<char> name,
 				   ReadOnlyMemory<char> description,
 				   ReadOnlyMemory<byte> avatarSource,
                    int year)
 	{
+        Id = id;
 		Name = name;
 		Description = description;
         AvatarSource = avatarSource;

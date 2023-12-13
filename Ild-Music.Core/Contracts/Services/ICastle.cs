@@ -4,7 +4,7 @@ public enum Ghosts {SUPPORT, FACTORY, PLAYER}
 
 public interface ICastle
 {
-    public bool IsCenterActive {get; set;}
+    public bool IsActive {get; set;}
 
     public void Pack();
     

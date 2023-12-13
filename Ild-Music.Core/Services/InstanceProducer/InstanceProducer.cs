@@ -12,7 +12,8 @@ internal struct InstanceProducer : IDisposable
                             Memory<byte> avatar,
                             int year)
     {
-        ArtistInstance = new Artist(name: name,
+        ArtistInstance = new Artist(id: Guid.NewGuid(),
+                                    name: name,
                                     description: description,
                                     avatarSource: avatar,
                                     year: year);
@@ -25,7 +26,8 @@ internal struct InstanceProducer : IDisposable
                             IList<Track> tracks,
                             IList<Artist> artists)
     {
-        var playlist  = new Playlist(name: name,
+        var playlist  = new Playlist(id: Guid.NewGuid(),
+                                     name: name,
                                      description: description,
                                      avatarSource: avatar,
                                      year: year);
@@ -55,7 +57,8 @@ internal struct InstanceProducer : IDisposable
                             int year,
                             IList<Artist> artists = null)
     {
-        TrackInstance = new Track(pathway: pathway,
+        TrackInstance = new Track(id: Guid.NewGuid(),
+                                  pathway: pathway,
                                   name: name,
                                   description: description,
                                   avatarSource: avatar,

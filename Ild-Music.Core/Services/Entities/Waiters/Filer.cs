@@ -1,7 +1,6 @@
 using Ild_Music.Core.Instances;
 using Ild_Music.Core.Contracts.Services.Interfaces;
 
-using System.Collections.Generic;
 using System.Collections.Concurrent;
 
 namespace Ild_Music.Core.Services.Entities;
@@ -18,10 +17,14 @@ public class Filer : IWaiter
 
     private static Memory<byte> buffer;
 
-	public Filer(FactoryGhost ghost)
+    public Filer()
+    {}
+
+	public void WakeUp(FactoryGhost ghost)
 	{
         factoryGhost = ghost;
     }
+
 
 	public async Task BrowseFiles(IEnumerable<string> inputPaths)
 	{

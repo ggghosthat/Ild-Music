@@ -1,7 +1,6 @@
 using Ild_Music.Core.Instances;
 using Ild_Music.Core.Instances.DTO;
 using Ild_Music.Core.Contracts;
-using Ild_Music.Core.Contracts.Services;
 using Ild_Music.Core.Contracts.Services.Interfaces;
 
 namespace Ild_Music.Core.Services.Entities;
@@ -21,16 +20,14 @@ public sealed class SupportGhost : IGhost
     public event Action OnTracksNotifyRefresh = null;
 
 
-    public SupportGhost(IPluginBag pluginBag)
-    {
-        CubeArea = pluginBag.GetCurrentCube();
-        CubeArea.Init();
-    }
+    public SupportGhost()
+    {}
+
 
     //Initialize and start Synch Area instance 
-    public void Init(ref ICube syncCube) 
+    public void Init(ICube cube) 
     {
-        CubeArea = syncCube;
+        CubeArea = cube;
         CubeArea.Init();
     }
     

@@ -1,7 +1,7 @@
 namespace Ild_Music.Core.Instances;
 public struct Track
 {
-	public Guid Id {get; init;} = Guid.NewGuid();
+	public Guid Id {get; set;}
 
 	public ReadOnlyMemory<char> Pathway {get; set;} = string.Empty.AsMemory();
 	public ReadOnlyMemory<char> Name {get; set;} = string.Empty.AsMemory();
@@ -18,13 +18,16 @@ public struct Track
 	public ICollection<Tag> Tags {get; set;} = new List<Tag>();
 
     #region Const
-    public Track(ReadOnlyMemory<char> pathway,
+    public Track(Guid id,
+                 ReadOnlyMemory<char> pathway,
                  ReadOnlyMemory<char> name,
                  ReadOnlyMemory<char> description,
                  ReadOnlyMemory<byte> avatarSource,
                  TimeSpan duration,
                  int year)
     {
+
+        Id = id;
         if(System.IO.File.Exists(pathway.ToString()))
         { 
             Pathway = pathway;

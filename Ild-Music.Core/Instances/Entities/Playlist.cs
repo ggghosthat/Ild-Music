@@ -1,7 +1,7 @@
 namespace Ild_Music.Core.Instances;
 public struct Playlist
 {
-	public Guid Id {get; init;} = Guid.NewGuid();
+	public Guid Id {get; set;}
 
 	public ReadOnlyMemory<char> Name {get; set;} = string.Empty.AsMemory(); 
 	public ReadOnlyMemory<char> Description {get; set;} = string.Empty.AsMemory();
@@ -29,11 +29,13 @@ public struct Playlist
         }
     }
 
-    public Playlist(ReadOnlyMemory<char> name, 
+    public Playlist(Guid id,
+                    ReadOnlyMemory<char> name, 
                     ReadOnlyMemory<char> description,
                     ReadOnlyMemory<byte> avatarSource,
                     int year)
     {
+        Id = id;
         Name = name;
         Description = description;
         AvatarSource = avatarSource;
