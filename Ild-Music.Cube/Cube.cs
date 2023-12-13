@@ -8,7 +8,7 @@ using MediatR;
 namespace Cube;
 public class Cube : ICube
 {
-    public Guid CubeId => Guid.NewGuid();
+    public Guid CubeId {get; private set;} = Guid.Empty;
 
     public string CubeName => "Genezis Cube";
 
@@ -28,6 +28,11 @@ public class Cube : ICube
     public IEnumerable<Playlist>? Playlists {get; private set;} = default;
     public IEnumerable<Track>? Tracks {get; private set;} = default;
 
+    public Cube()
+    {
+        if(CubeId == Guid.Empty)
+            CubeId = Guid.NewGuid();
+    }
 
     public void Init()
     {

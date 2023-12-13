@@ -12,7 +12,7 @@ using MediatR.Extensions.Autofac.DependencyInjection.Builder;
 
 namespace Ild_Music.Core.Services.Castle;
 
-public sealed class Castle : ICastle
+public sealed class Castle : ICastle, IDisposable
 {
     //live state indicator
     public bool IsActive { get; set; } = false;
@@ -24,9 +24,9 @@ public sealed class Castle : ICastle
     private static IEnumerable<IPlayer> availlablePlayers;
     private static IEnumerable<ICube> availlableCubes;
     //current components
-    private static Guid currentPlayerId;
+    private static int currentPlayerId;
     
-    private static Guid currentCubeId;
+    private static int currentCubeId;
 
     public Castle()
     {}
@@ -36,7 +36,6 @@ public sealed class Castle : ICastle
         try
         {
 
-            Console.WriteLine(1);
             builder.RegisterType<DelegateBag>()
                    .SingleInstance();
 
@@ -47,25 +46,21 @@ public sealed class Castle : ICastle
                 .WithRegistrationScope(RegistrationScope.Scoped) 
                 .Build();
         
-            Console.WriteLine(2);
             builder.RegisterMediatR(configuration);
 
 
-            Console.WriteLine(3);
             builder.Register((c,p) => 
                     new SupportGhost())
                     .As<IGhost>()
                     .SingleInstance()
                     .Keyed<IGhost>(Ghosts.SUPPORT);
 
-            Console.WriteLine(4);
             builder.Register((c,p) => 
                     new PlayerGhost())
                     .As<IGhost>()
                     .SingleInstance()
                     .Keyed<IGhost>(Ghosts.PLAYER);
 
-            Console.WriteLine(5);
             builder.Register((c, p) =>
                     new FactoryGhost())
                    .As<IGhost>()
@@ -73,34 +68,20 @@ public sealed class Castle : ICastle
                    .Keyed<IGhost>(Ghosts.FACTORY);
        
     
-            Console.WriteLine(6);
             builder.RegisterType<Filer>()
                    .As<IWaiter>()
                    .SingleInstance()
                    .Named<IWaiter>("Filer");      
         
 
-            //if(availlablePlayers is not null && 
-            //    availlablePlayers.Count() > 0)
-            //{
-            //    foreach(var player in availlablePlayers)
-            //    {
-            //        builder.RegisterInstance<IPlayer>(player)
-            //    }
-            //}
-
-
-            Console.WriteLine(7);
             container = builder.Build();
 
-            Console.WriteLine(8);
             using (var preScope = container.BeginLifetimeScope())
             {
                 var mediator = preScope.Resolve<IMediator>();
                 //_pluginBag = new PluginBag.PluginBag(mediator);
             }
 
-            Console.WriteLine(9);
             IsActive = true;
         }
         catch(Exception ex)
@@ -115,11 +96,11 @@ public sealed class Castle : ICastle
     {
         if(!IsActive)
         {
-            currentPlayerId = player.PlayerId;
+            currentPlayerId = player.GetHashCode();
 
             builder.RegisterInstance<IPlayer>(player)
                    .SingleInstance()
-                   .Keyed<IPlayer>(player.PlayerId);
+                   .Keyed<IPlayer>(player.GetHashCode());
         }
     }
 
@@ -127,11 +108,11 @@ public sealed class Castle : ICastle
     {
         if(!IsActive)
         {
-            currentCubeId = cube.CubeId;
+            currentCubeId = cube.GetHashCode();
 
             builder.RegisterInstance<ICube>(cube)
                    .SingleInstance()
-                   .Keyed<ICube>(cube.CubeId);
+                   .Keyed<ICube>(cube.GetHashCode());
         }
     }
 
@@ -140,13 +121,13 @@ public sealed class Castle : ICastle
     {
         if(!IsActive)
         {
-            currentPlayerId = players.Last().PlayerId;
+            currentPlayerId = players.Last().GetHashCode();
 
             foreach (var player in players)
             {
                 builder.RegisterInstance<IPlayer>(player)
                        .SingleInstance()
-                       .Keyed<IPlayer>(player.PlayerId);
+                       .Keyed<IPlayer>(player.GetHashCode());
             }
 
         }
@@ -156,18 +137,15 @@ public sealed class Castle : ICastle
     {
         if(!IsActive)
         {
-            currentCubeId = cubes.Last().CubeId;
+            currentCubeId = cubes.Last().GetHashCode();
 
             foreach (var cube in cubes)
             {
                 builder.RegisterInstance<ICube>(cube)
                        .SingleInstance()
-                       .Keyed<ICube>(cube.CubeId);
+                       .Keyed<ICube>(cube.GetHashCode());
 
-                Console.WriteLine(cube.CubeId);
             }
-
-            Console.WriteLine($"Id: {currentCubeId}");
         }    
     }
     #endregion
@@ -179,13 +157,10 @@ public sealed class Castle : ICastle
     public IGhost ResolveGhost(Ghosts ghostTag)
     {
         IGhost? resultGhost = null;
-        Console.WriteLine(container is null);
         using (var scope = container.BeginLifetimeScope()) 
         {
             var rawGhost = scope.ResolveKeyed<IGhost>(ghostTag);
             
-            //!!!remove!!!
-            Console.WriteLine(scope.IsRegistered<ICube>());
 
             if(rawGhost is SupportGhost supportGhost)
             {
@@ -250,14 +225,22 @@ public sealed class Castle : ICastle
 
 
     #region Switch region
-    public void SwitchPlayer(Guid newPlayerId)
+    public void SwitchPlayer(int newPlayerId)
     {
-       currentPlayerId = newPlayerId; 
+
+        if(container.IsRegisteredWithKey<int>(newPlayerId))
+            currentPlayerId = newPlayerId; 
     }
 
-    public void SwitchCube(Guid newCubeId)
+    public void SwitchCube(int newCubeId)
     {
-        currentCubeId = newCubeId;
+        if(container.IsRegisteredWithKey<int>(newCubeId))
+            currentCubeId = newCubeId;
     }
     #endregion
+
+    public void Dispose()
+    {
+        Task.Run(() => container.DisposeAsync()) ;
+    }
 }

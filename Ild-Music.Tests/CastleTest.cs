@@ -9,24 +9,50 @@ using Xunit;
 using System.Threading.Tasks;
 namespace Ild_Music.Tests;
 
-public class CastleTest
+public class CastleTest : IClassFixture<Castle>, IDisposable
 {
-    Configure configure = new("./config.json");
-    Castle castle = new();
+    private readonly Configure configure = new("./config.json");
+    private readonly Castle castle;
+
+    public CastleTest(Castle inputCastle)
+    {
+        castle = inputCastle;
+        Init().Wait();
+        castle.Pack();
+    }
 
     [Fact]
-    public void Test()
+    public void ResolveSupportGhostTest()
     {
-        Init().Wait();
-
-        castle.Pack();
-
-        Console.WriteLine(castle.GetCubesAsync().Result.Count());
         var ghost = castle.ResolveGhost(Ghosts.SUPPORT);
 
-        Assert.Null(ghost);
+        var ghost1 = castle.ResolveGhost(Ghosts.FACTORY);
+
+        Assert.NotNull(ghost);
+        Assert.NotNull(ghost1);
+
         Assert.IsType<SupportGhost>(ghost);
+        Assert.IsType<FactoryGhost>(ghost1);
     }
+ 
+    [Fact]
+    public void ResolveFactoryGhostTest()
+    {
+        var ghost = castle.ResolveGhost(Ghosts.FACTORY);
+
+        Assert.NotNull(ghost);
+        Assert.IsType<FactoryGhost>(ghost);
+    }
+
+    [Fact]
+    public void ResolvePlayerGhostTest()
+    {
+        var ghost = castle.ResolveGhost(Ghosts.PLAYER);
+
+        Assert.NotNull(ghost);
+        Assert.IsType<PlayerGhost>(ghost);
+    }
+
 
     #region pre-init methods
     private async Task Init()
@@ -51,4 +77,9 @@ public class CastleTest
 
     }
     #endregion
+
+    public void Dispose()
+    {
+        castle.Dispose();
+    }
 }

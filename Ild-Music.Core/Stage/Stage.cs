@@ -104,12 +104,12 @@ public sealed class Stage
     #endregion
 
     #region Current instance Switching
-    public void SwitchPlayer(Guid playerId)
+    public void SwitchPlayer(int playerId)
     {
         castle.SwitchPlayer(playerId);
     }
 
-    public void SwitchCube(Guid cubeId)
+    public void SwitchCube(int cubeId)
     {
         castle.SwitchCube(cubeId);
     }
