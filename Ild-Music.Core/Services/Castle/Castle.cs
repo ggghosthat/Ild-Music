@@ -35,10 +35,9 @@ public sealed class Castle : ICastle, IDisposable
     {
         try
         {
-
+            //CQRS mediator registration
             builder.RegisterType<DelegateBag>()
                    .SingleInstance();
-
 
             var configuration = MediatRConfigurationBuilder
                 .Create(typeof(PlayerNotification).Assembly)
@@ -48,7 +47,7 @@ public sealed class Castle : ICastle, IDisposable
         
             builder.RegisterMediatR(configuration);
 
-
+            //Ghosts registration
             builder.Register((c,p) => 
                     new SupportGhost())
                     .As<IGhost>()
@@ -73,21 +72,37 @@ public sealed class Castle : ICastle, IDisposable
                    .SingleInstance()
                    .Named<IWaiter>("Filer");      
         
-
+            //Building container
             container = builder.Build();
-
-            using (var preScope = container.BeginLifetimeScope())
-            {
-                var mediator = preScope.Resolve<IMediator>();
-                //_pluginBag = new PluginBag.PluginBag(mediator);
-            }
-
+           
+            //supplying mediator to components for CQRS
+            SupplyMediatR<IPlayer>();
+            SupplyMediatR<ICube>();
+            
             IsActive = true;
         }
         catch(Exception ex)
         {
             throw ex;
         }
+    }
+
+    //Resolve Mediaor dependecy for component objects (mean IPlayer, ICube, etc
+    //Desired type must contain "ConnectMediator" method with single "IMediator" param
+    private void SupplyMediatR<T>() where T : IShare
+    {
+       if(container.IsRegistered<T>())
+       {
+           using (var preScope = container.BeginLifetimeScope())
+           {
+               var mediator = preScope.Resolve<IMediator>();
+               var desiredObjects = preScope.Resolve<IEnumerable<T>>();
+
+               foreach (var obj in desiredObjects)
+                   obj.ConnectMediator(mediator);
+           }
+       }
+ 
     }
 
     #region Components registration region

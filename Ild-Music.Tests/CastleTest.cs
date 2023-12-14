@@ -6,51 +6,65 @@ using Ild_Music.Core.Contracts.Services.Interfaces;
 using Ild_Music.Core.Services.Entities;
 
 using Xunit;
+using Xunit.Abstractions;
 using System.Threading.Tasks;
 namespace Ild_Music.Tests;
 
 public class CastleTest : IClassFixture<Castle>, IDisposable
 {
     private readonly Configure configure = new("./config.json");
-    private readonly Castle castle;
+    private readonly Castle castle = new();
+    
+    private readonly ITestOutputHelper _output;
 
-    public CastleTest(Castle inputCastle)
+    public CastleTest(ITestOutputHelper output)
     {
-        castle = inputCastle;
+        //castle = inputCastle;
+        _output = output;
         Init().Wait();
         castle.Pack();
     }
 
     [Fact]
-    public void ResolveSupportGhostTest()
+    public void GhostResolvingTest()
     {
         var ghost = castle.ResolveGhost(Ghosts.SUPPORT);
-
         var ghost1 = castle.ResolveGhost(Ghosts.FACTORY);
+        var ghost2 = castle.ResolveGhost(Ghosts.PLAYER);
 
         Assert.NotNull(ghost);
         Assert.NotNull(ghost1);
+        Assert.NotNull(ghost2);
 
         Assert.IsType<SupportGhost>(ghost);
         Assert.IsType<FactoryGhost>(ghost1);
+        Assert.IsType<PlayerGhost>(ghost2);
     }
  
     [Fact]
-    public void ResolveFactoryGhostTest()
+    public void CubesResolvingTest()
     {
-        var ghost = castle.ResolveGhost(Ghosts.FACTORY);
+        var cubes = castle.GetCubesAsync().Result;
 
-        Assert.NotNull(ghost);
-        Assert.IsType<FactoryGhost>(ghost);
+        foreach (var cube in cubes)
+        {
+            Assert.NotNull(cube);
+            Assert.IsType<ICube>(cube);
+            Console.WriteLine($"Current cube: {cube.CubeId}  {cube.CubeName}");
+        }
     }
-
-    [Fact]
-    public void ResolvePlayerGhostTest()
+    
+    //[Fact]
+    public void PlayersResolvingTest()
     {
-        var ghost = castle.ResolveGhost(Ghosts.PLAYER);
+        var players = castle.GetPlayersAsync().Result;
 
-        Assert.NotNull(ghost);
-        Assert.IsType<PlayerGhost>(ghost);
+        foreach (var player in players)
+        {
+            Assert.NotNull(player);
+            Assert.IsType<ICube>(player);
+            Console.WriteLine($"Current player: {player.PlayerId}  {player.PlayerName}");
+        }
     }
 
 
