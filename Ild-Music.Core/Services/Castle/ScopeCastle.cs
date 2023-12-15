@@ -267,7 +267,7 @@ public sealed class ScopeCastle : ICastle, IDisposable
 
    
     //return current component instances
-    public IPlayer? GetCurrentPlayer()
+   public IPlayer? GetCurrentPlayer()
     {
         if(!IsActive) 
             throw new Exception();

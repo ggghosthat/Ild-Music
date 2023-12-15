@@ -10,16 +10,15 @@ using Xunit.Abstractions;
 using System.Threading.Tasks;
 namespace Ild_Music.Tests;
 
-public class CastleTest : IClassFixture<Castle>, IDisposable
+public class CastleTest : IClassFixture<ScopeCastle>, IDisposable
 {
     private readonly Configure configure = new("./config.json");
-    private readonly Castle castle = new();
+    private readonly ScopeCastle castle = new();
     
     private readonly ITestOutputHelper _output;
 
     public CastleTest(ITestOutputHelper output)
     {
-        //castle = inputCastle;
         _output = output;
         Init().Wait();
         castle.Pack();
@@ -31,42 +30,27 @@ public class CastleTest : IClassFixture<Castle>, IDisposable
         var ghost = castle.ResolveGhost(Ghosts.SUPPORT);
         var ghost1 = castle.ResolveGhost(Ghosts.FACTORY);
         var ghost2 = castle.ResolveGhost(Ghosts.PLAYER);
+            
+        var cube = castle.GetCurrentCube();
+        var player = castle.GetCurrentPlayer();
 
         Assert.NotNull(ghost);
         Assert.NotNull(ghost1);
         Assert.NotNull(ghost2);
 
+        Assert.NotNull(cube);
+        Assert.NotNull(player);
+
         Assert.IsType<SupportGhost>(ghost);
         Assert.IsType<FactoryGhost>(ghost1);
         Assert.IsType<PlayerGhost>(ghost2);
+
+        _output.WriteLine(cube.ToString());
+        Assert.IsAssignableFrom<ICube>(cube);
+        Assert.IsAssignableFrom<IPlayer>(player);
     }
  
-    [Fact]
-    public void CubesResolvingTest()
-    {
-        var cubes = castle.GetCubesAsync().Result;
-
-        foreach (var cube in cubes)
-        {
-            Assert.NotNull(cube);
-            Assert.IsType<ICube>(cube);
-            Console.WriteLine($"Current cube: {cube.CubeId}  {cube.CubeName}");
-        }
-    }
     
-    //[Fact]
-    public void PlayersResolvingTest()
-    {
-        var players = castle.GetPlayersAsync().Result;
-
-        foreach (var player in players)
-        {
-            Assert.NotNull(player);
-            Assert.IsType<ICube>(player);
-            Console.WriteLine($"Current player: {player.PlayerId}  {player.PlayerName}");
-        }
-    }
-
 
     #region pre-init methods
     private async Task Init()
