@@ -6,7 +6,7 @@ namespace Ild_Music.Core.Stage;
 public sealed class Stage 
 {
     #region Castle
-    private Castle castle = new();
+    private ScopeCastle castle = new();
     #endregion
 
     #region Configuration Region

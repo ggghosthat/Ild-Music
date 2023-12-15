@@ -12,7 +12,7 @@ using MediatR.Extensions.Autofac.DependencyInjection.Builder;
 
 namespace Ild_Music.Core.Services.Castle;
 
-public sealed class Castle : ICastle, IDisposable
+public sealed class ScopeCastle : ICastle, IDisposable
 {
     //live state indicator
     public bool IsActive { get; set; } = false;
@@ -29,7 +29,7 @@ public sealed class Castle : ICastle, IDisposable
     private static int currentPlayerId;    
     private static int currentCubeId;
 
-    public Castle()
+    public ScopeCastle()
     {}
 
     public void Pack()
