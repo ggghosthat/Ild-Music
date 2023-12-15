@@ -18,8 +18,8 @@ public sealed class Stage
     #endregion
     
     #region Current Components
-    public IPlayer PlayerInstance => null; //castle.ResolvePluginBag().GetCurrentPlayer() ?? null;
-    public ICube CubeInstance => null; //castle.ResolvePluginBag().GetCurrentCube() ?? null;
+    public IPlayer PlayerInstance => castle.GetCurrentPlayer(); //castle.ResolvePluginBag().GetCurrentPlayer() ?? null;
+    public ICube CubeInstance => castle.GetCurrentCube(); //castle.ResolvePluginBag().GetCurrentCube() ?? null;
     #endregion
         
     #region Tagging result
@@ -45,9 +45,8 @@ public sealed class Stage
     {
         try 
         {
-            Console.WriteLine(castle is null);
-            castle.Pack();
             CompletionResult = await DockComponents();
+            castle.Pack();
             OnInitialized?.Invoke();
         }
         catch(Exception ex)

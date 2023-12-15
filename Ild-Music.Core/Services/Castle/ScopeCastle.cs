@@ -52,25 +52,25 @@ public sealed class ScopeCastle : ICastle, IDisposable
             builder.Register((c,p) => 
                     new SupportGhost())
                     .As<IGhost>()
-                    .SingleInstance()
+                    //.SingleInstance()
                     .Keyed<IGhost>(Ghosts.SUPPORT);
 
             builder.Register((c,p) => 
                     new PlayerGhost())
                     .As<IGhost>()
-                    .SingleInstance()
+                    //.SingleInstance()
                     .Keyed<IGhost>(Ghosts.PLAYER);
 
             builder.Register((c, p) =>
                     new FactoryGhost())
                    .As<IGhost>()
-                   .SingleInstance()
+                   //.SingleInstance()
                    .Keyed<IGhost>(Ghosts.FACTORY);
        
     
             builder.RegisterType<Filer>()
                    .As<IWaiter>()
-                   .SingleInstance()
+                   //.SingleInstance()
                    .Named<IWaiter>("Filer");      
         
             //Building container
@@ -185,6 +185,7 @@ public sealed class ScopeCastle : ICastle, IDisposable
             else if (rawGhost is PlayerGhost playerGhost)
             {
                 var player = scope.ResolveKeyed<IPlayer>(currentPlayerId);
+                Console.WriteLine(player.PlayerName);
                 playerGhost.Init(player);
                 resultGhost = playerGhost;
             }

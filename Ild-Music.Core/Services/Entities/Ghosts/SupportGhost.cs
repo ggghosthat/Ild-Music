@@ -11,13 +11,13 @@ public sealed class SupportGhost : IGhost
     //temp solution
     public static ICube CubeArea;
 
-    public IEnumerable<Artist> ArtistsCollection => CubeArea.Artists;
-    public IEnumerable<Playlist> PlaylistsCollection => CubeArea.Playlists;
-    public IEnumerable<Track> TracksCollection => CubeArea.Tracks;
+    public IEnumerable<Artist> ArtistsCollection => CubeArea.Artists ?? null;
+    public IEnumerable<Playlist> PlaylistsCollection => CubeArea.Playlists??null;
+    public IEnumerable<Track> TracksCollection => CubeArea.Tracks?? null;
 
-    public event Action OnArtistsNotifyRefresh = null;
-    public event Action OnPlaylistsNotifyRefresh = null;
-    public event Action OnTracksNotifyRefresh = null;
+    public event Action OnArtistsNotifyRefresh;
+    public event Action OnPlaylistsNotifyRefresh;
+    public event Action OnTracksNotifyRefresh;
 
 
     public SupportGhost()
