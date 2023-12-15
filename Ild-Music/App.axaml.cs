@@ -1,6 +1,6 @@
 using Ild_Music.Views;
 using Ild_Music.Core.Contracts;
-using Ild_Musis.Core.Configure;
+using Ild_Music.Core.Configure;
 using Ild_Music.Core.Stage;
 
 using Avalonia;

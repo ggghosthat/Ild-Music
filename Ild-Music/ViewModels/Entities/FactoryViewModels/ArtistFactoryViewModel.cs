@@ -3,7 +3,7 @@ using Ild_Music.Core.Services.Entities;
 using Ild_Music.Core.Contracts.Services.Interfaces;
 using Ild_Music.Command;
 using Ild_Music.ViewModels.Base;
-using Ild_Music.Core.Exceptions.SynchAreaExceptions;
+using Ild_Music.Core.Exceptions.CubeExceptions;
 
 using System;
 using System.Threading.Tasks;
