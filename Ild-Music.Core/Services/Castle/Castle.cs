@@ -21,11 +21,12 @@ public sealed class Castle : ICastle, IDisposable
     private static ContainerBuilder builder = new ContainerBuilder();
     private static IContainer container;
 
+    //available components
     private static IEnumerable<IPlayer> availlablePlayers;
     private static IEnumerable<ICube> availlableCubes;
+
     //current components
-    private static int currentPlayerId;
-    
+    private static int currentPlayerId;    
     private static int currentCubeId;
 
     public Castle()
@@ -101,76 +102,74 @@ public sealed class Castle : ICastle, IDisposable
                foreach (var obj in desiredObjects)
                    obj.ConnectMediator(mediator);
            }
-       }
- 
+       } 
     }
 
     #region Components registration region
-
     public void RegisterPlayer(IPlayer player)
     {
-        if(!IsActive)
-        {
-            currentPlayerId = player.GetHashCode();
+        if(IsActive) 
+            throw new Exception();        
 
-            builder.RegisterInstance<IPlayer>(player)
-                   .SingleInstance()
-                   .Keyed<IPlayer>(player.GetHashCode());
-        }
+        currentPlayerId = player.GetHashCode();
+
+        builder.RegisterInstance<IPlayer>(player)
+                .SingleInstance()
+                .Keyed<IPlayer>(player.GetHashCode());
     }
 
     public void RegisterCube(ICube cube)
     {
-        if(!IsActive)
-        {
-            currentCubeId = cube.GetHashCode();
+        if(IsActive) 
+            throw new Exception();
 
-            builder.RegisterInstance<ICube>(cube)
-                   .SingleInstance()
-                   .Keyed<ICube>(cube.GetHashCode());
-        }
+        currentCubeId = cube.GetHashCode();
+
+        builder.RegisterInstance<ICube>(cube)
+                .SingleInstance()
+                .Keyed<ICube>(cube.GetHashCode()); 
     }
 
 
     public async Task RegisterPlayers(ICollection<IPlayer> players)
     {
-        if(!IsActive)
+        if(IsActive) 
+            throw new Exception();
+
+        currentPlayerId = players.Last().GetHashCode();
+
+        foreach (var player in players)
         {
-            currentPlayerId = players.Last().GetHashCode();
-
-            foreach (var player in players)
-            {
-                builder.RegisterInstance<IPlayer>(player)
-                       .SingleInstance()
-                       .Keyed<IPlayer>(player.GetHashCode());
-            }
-
+            builder.RegisterInstance<IPlayer>(player)
+                    .SingleInstance()
+                    .Keyed<IPlayer>(player.GetHashCode());
         }
     }
 
     public async Task RegisterCubes(ICollection<ICube> cubes)
     {
-        if(!IsActive)
+        if(IsActive) 
+            throw new Exception();
+
+        currentCubeId = cubes.Last().GetHashCode();
+
+        foreach (var cube in cubes)
         {
-            currentCubeId = cubes.Last().GetHashCode();
-
-            foreach (var cube in cubes)
-            {
-                builder.RegisterInstance<ICube>(cube)
-                       .SingleInstance()
-                       .Keyed<ICube>(cube.GetHashCode());
-
-            }
+            builder.RegisterInstance<ICube>(cube)
+                    .SingleInstance()
+                    .Keyed<ICube>(cube.GetHashCode());
         }    
     }
     #endregion
 
 
-    #region resolve region
-    //syncronous way to resolve ghost or waiter from IoC
-
-    public IGhost ResolveGhost(Ghosts ghostTag)
+    #region resolve region    
+    //resolve ghosts sychronously and asynchronously
+    public IGhost? ResolveGhost(Ghosts ghostTag)
     {
+        if(!IsActive) 
+            throw new Exception();
+
         IGhost? resultGhost = null;
         using (var scope = container.BeginLifetimeScope()) 
         {
@@ -200,40 +199,119 @@ public sealed class Castle : ICastle, IDisposable
         return resultGhost;
     }
 
-    public IWaiter ResolveWaiter(ref string waiterTag)
+
+    public Task<IGhost?> ResolveGhostAsync(Ghosts ghostTag)
     {
-        return container.ResolveNamed<IWaiter>(waiterTag);
+        if(!IsActive) 
+            throw new Exception();
+
+        IGhost? resultGhost = null;
+        using (var scope = container.BeginLifetimeScope()) 
+        {
+            var rawGhost = scope.ResolveKeyed<IGhost>(ghostTag);
+            
+
+            if(rawGhost is SupportGhost supportGhost)
+            {
+                var cube = scope.ResolveKeyed<ICube>(currentCubeId);
+                supportGhost.Init(cube);
+                resultGhost = supportGhost;
+            }
+            else if (rawGhost is PlayerGhost playerGhost)
+            {
+                var player = scope.ResolveKeyed<IPlayer>(currentPlayerId);
+                playerGhost.Init(player);
+                resultGhost = playerGhost;
+            }
+            else if(rawGhost is FactoryGhost factoryGhost)
+            {
+                var cube = scope.ResolveKeyed<ICube>(currentCubeId);
+                factoryGhost.Init(cube);
+                resultGhost = factoryGhost;
+            }
+            
+        }
+       return Task.FromResult(resultGhost);
     }
 
-    //asyncronous way to resolve ghost or waiter from castle IoC
-    public Task<IGhost> ResolveGhostAsync(Ghosts ghostTag)
+
+    //waiter resolve methods (synchronously and asynchronously)
+    public IWaiter ResolveWaiter(ref string waiterTag)
     {
-       var ghost = container.ResolveKeyed<IGhost>(ghostTag);
-       return Task.FromResult(ghost);
+        if(!IsActive) 
+            throw new Exception();
+
+        IWaiter waiter;
+        using (var scope = container.BeginLifetimeScope())
+        {
+            waiter = scope.ResolveNamed<IWaiter>(waiterTag);
+        }
+
+        return waiter;
     }
 
     public Task<IWaiter> ResolveWaiterAsync(ref string waiterTag)
     {
-        var waiter = container.ResolveNamed<IWaiter>(waiterTag);
-        return Task.FromResult(waiter);
+        if(!IsActive) 
+            throw new Exception();
+
+        IWaiter waiter;
+        using (var scope = container.BeginLifetimeScope())
+        {
+            waiter = scope.ResolveNamed<IWaiter>(waiterTag);
+        }
+
+       return Task.FromResult(waiter);
     }
-    
+
+
+   
+    //return current component instances
+    public IPlayer? GetCurrentPlayer()
+    {
+        if(!IsActive) 
+            throw new Exception();
+
+        IPlayer player;
+        using (var scope = container.BeginLifetimeScope())
+        {
+            player = scope.ResolveKeyed<IPlayer>(currentPlayerId);
+        }
+
+        return player;
+    }
+
+    public ICube GetCurrentCube()
+    {
+        if(!IsActive) 
+            throw new Exception();
+
+        ICube cube;
+        using (var scope = container.BeginLifetimeScope())
+        {
+            cube = scope.ResolveKeyed<ICube>(currentCubeId);
+        }
+
+        return cube;
+    }
+
+
     //reolve all players from IoC
     public Task<IEnumerable<IPlayer>> GetPlayersAsync()
     {
-        if(IsActive)
-            return Task.FromResult(container.Resolve<IEnumerable<IPlayer>>());
-        
-        return Task.FromResult(Enumerable.Empty<IPlayer>());
+        if(!IsActive) 
+            throw new Exception();
+
+        return Task.FromResult(container.Resolve<IEnumerable<IPlayer>>());
     }
 
     //resolve all cube from IoC
     public Task<IEnumerable<ICube>> GetCubesAsync()
     {
-        if(IsActive)
-            return Task.FromResult(container.Resolve<IEnumerable<ICube>>());
-        
-        return Task.FromResult(Enumerable.Empty<ICube>());
+       if(!IsActive)
+            throw new Exception();
+
+        return Task.FromResult(container.Resolve<IEnumerable<ICube>>());
     }
     #endregion
 
@@ -242,6 +320,8 @@ public sealed class Castle : ICastle, IDisposable
     #region Switch region
     public void SwitchPlayer(int newPlayerId)
     {
+        if(!IsActive)
+            throw new Exception();
 
         if(container.IsRegisteredWithKey<int>(newPlayerId))
             currentPlayerId = newPlayerId; 
@@ -249,6 +329,9 @@ public sealed class Castle : ICastle, IDisposable
 
     public void SwitchCube(int newCubeId)
     {
+        if(!IsActive)
+            throw new Exception();
+
         if(container.IsRegisteredWithKey<int>(newCubeId))
             currentCubeId = newCubeId;
     }
@@ -256,6 +339,11 @@ public sealed class Castle : ICastle, IDisposable
 
     public void Dispose()
     {
-        Task.Run(() => container.DisposeAsync()) ;
+        IsActive = false;
+        currentPlayerId = 0;
+        currentCubeId = 0;
+        availlableCubes = null;
+        availlablePlayers = null;
+        Task.Run(() => container.DisposeAsync());
     }
 }

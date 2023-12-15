@@ -1,7 +1,7 @@
 using Ild_Music.Core.Instances;
 using Ild_Music.Core.Contracts;
 using Ild_Music.Core.Contracts.Services.Interfaces;
-using Ild_Music.Core.Exceptions.SynchAreaExceptions;
+using Ild_Music.Core.Exceptions.CubeExceptions;
 
 namespace Ild_Music.Core.Services.Entities;
 public sealed class FactoryGhost : IGhost

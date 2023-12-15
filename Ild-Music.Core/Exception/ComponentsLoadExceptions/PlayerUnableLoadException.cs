@@ -1,4 +1,4 @@
-namespace Ild_Music.Core.Exceptions.SynchAreaExceptions;
+namespace Ild_Music.Core.Exceptions.ComponentLoadExceptions;
 public class PlayerUnableLoadException : System.Exception
 {
     public PlayerUnableLoadException()

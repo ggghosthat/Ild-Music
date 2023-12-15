@@ -1,4 +1,4 @@
-namespace Ild_Music.Core.Exceptions.SynchAreaExceptions;
+namespace Ild_Music.Core.Exceptions.CubeExceptions;
 public class InvalidPlaylistException : System.Exception
 {
     public InvalidPlaylistException()
