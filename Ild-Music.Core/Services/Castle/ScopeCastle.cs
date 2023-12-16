@@ -21,6 +21,9 @@ public sealed class ScopeCastle : ICastle, IDisposable
     private static ContainerBuilder builder = new ContainerBuilder();
     private static IContainer container;
 
+    private static IDictionary<Ghosts, IGhost> ghosts = new Dictionary<Ghosts, IGhost>();
+    private static IDictionary<string, IWaiter> waiters = new Dictionary<string, IWaiter>();
+
     //available components
     private static IEnumerable<IPlayer> availlablePlayers;
     private static IEnumerable<ICube> availlableCubes;
@@ -30,7 +33,13 @@ public sealed class ScopeCastle : ICastle, IDisposable
     private static int currentCubeId;
 
     public ScopeCastle()
-    {}
+    {
+        ghosts[Ghosts.SUPPORT] = new SupportGhost();
+        ghosts[Ghosts.PLAYER] = new PlayerGhost();
+        ghosts[Ghosts.FACTORY] = new FactoryGhost();
+
+        waiters["Filer"] = new Filer();
+    }
 
     public void Pack()
     {
@@ -47,31 +56,6 @@ public sealed class ScopeCastle : ICastle, IDisposable
                 .Build();
         
             builder.RegisterMediatR(configuration);
-
-            //Ghosts registration
-            builder.Register((c,p) => 
-                    new SupportGhost())
-                    .As<IGhost>()
-                    //.SingleInstance()
-                    .Keyed<IGhost>(Ghosts.SUPPORT);
-
-            builder.Register((c,p) => 
-                    new PlayerGhost())
-                    .As<IGhost>()
-                    //.SingleInstance()
-                    .Keyed<IGhost>(Ghosts.PLAYER);
-
-            builder.Register((c, p) =>
-                    new FactoryGhost())
-                   .As<IGhost>()
-                   //.SingleInstance()
-                   .Keyed<IGhost>(Ghosts.FACTORY);
-       
-    
-            builder.RegisterType<Filer>()
-                   .As<IWaiter>()
-                   //.SingleInstance()
-                   .Named<IWaiter>("Filer");      
         
             //Building container
             container = builder.Build();
@@ -79,13 +63,45 @@ public sealed class ScopeCastle : ICastle, IDisposable
             //supplying mediator to components for CQRS
             SupplyMediatR<IPlayer>();
             SupplyMediatR<ICube>();
-            
+          
+            //supplying components for ghosts
+            SupplyCube();
+            SupplyPlayer();
+
             IsActive = true;
         }
         catch(Exception ex)
         {
             throw ex;
         }
+    }
+
+    private void SupplyCube()
+    {
+       if(container.IsRegisteredWithKey<ICube>(currentCubeId))
+       {
+           using (var preScope = container.BeginLifetimeScope())
+           {
+               var currentCube = preScope.ResolveKeyed<ICube>(currentCubeId);
+               var supportGhost = (SupportGhost)ghosts[Ghosts.SUPPORT];
+               var factoryGhost = (FactoryGhost)ghosts[Ghosts.FACTORY];
+               supportGhost.Init(currentCube);
+               factoryGhost.Init(currentCube);
+           }
+       } 
+    }
+
+    private void SupplyPlayer()
+    {
+       if(container.IsRegisteredWithKey<IPlayer>(currentPlayerId))
+       {
+           using (var preScope = container.BeginLifetimeScope())
+           {
+               var currentPlayer = preScope.ResolveKeyed<IPlayer>(currentPlayerId);
+               var playerGhost = (PlayerGhost)ghosts[Ghosts.PLAYER];
+               playerGhost.Init(currentPlayer);
+           }
+       } 
     }
 
     //Resolve Mediaor dependecy for component objects (mean IPlayer, ICube, etc
@@ -170,33 +186,7 @@ public sealed class ScopeCastle : ICastle, IDisposable
         if(!IsActive) 
             throw new Exception();
 
-        IGhost? resultGhost = null;
-        using (var scope = container.BeginLifetimeScope()) 
-        {
-            var rawGhost = scope.ResolveKeyed<IGhost>(ghostTag);
-            
-
-            if(rawGhost is SupportGhost supportGhost)
-            {
-                var cube = scope.ResolveKeyed<ICube>(currentCubeId);
-                supportGhost.Init(cube);
-                resultGhost = supportGhost;
-            }
-            else if (rawGhost is PlayerGhost playerGhost)
-            {
-                var player = scope.ResolveKeyed<IPlayer>(currentPlayerId);
-                Console.WriteLine(player.PlayerName);
-                playerGhost.Init(player);
-                resultGhost = playerGhost;
-            }
-            else if(rawGhost is FactoryGhost factoryGhost)
-            {
-                var cube = scope.ResolveKeyed<ICube>(currentCubeId);
-                factoryGhost.Init(cube);
-                resultGhost = factoryGhost;
-            }
-            
-        }
+        IGhost? resultGhost = ghosts[ghostTag];
         return resultGhost;
     }
 
@@ -206,33 +196,8 @@ public sealed class ScopeCastle : ICastle, IDisposable
         if(!IsActive) 
             throw new Exception();
 
-        IGhost? resultGhost = null;
-        using (var scope = container.BeginLifetimeScope()) 
-        {
-            var rawGhost = scope.ResolveKeyed<IGhost>(ghostTag);
-            
-
-            if(rawGhost is SupportGhost supportGhost)
-            {
-                var cube = scope.ResolveKeyed<ICube>(currentCubeId);
-                supportGhost.Init(cube);
-                resultGhost = supportGhost;
-            }
-            else if (rawGhost is PlayerGhost playerGhost)
-            {
-                var player = scope.ResolveKeyed<IPlayer>(currentPlayerId);
-                playerGhost.Init(player);
-                resultGhost = playerGhost;
-            }
-            else if(rawGhost is FactoryGhost factoryGhost)
-            {
-                var cube = scope.ResolveKeyed<ICube>(currentCubeId);
-                factoryGhost.Init(cube);
-                resultGhost = factoryGhost;
-            }
-            
-        }
-       return Task.FromResult(resultGhost);
+        IGhost? resultGhost = ghosts[ghostTag];
+        return Task.FromResult(resultGhost);
     }
 
 
@@ -242,12 +207,7 @@ public sealed class ScopeCastle : ICastle, IDisposable
         if(!IsActive) 
             throw new Exception();
 
-        IWaiter waiter;
-        using (var scope = container.BeginLifetimeScope())
-        {
-            waiter = scope.ResolveNamed<IWaiter>(waiterTag);
-        }
-
+        IWaiter waiter = waiters[waiterTag];
         return waiter;
     }
 
@@ -256,13 +216,8 @@ public sealed class ScopeCastle : ICastle, IDisposable
         if(!IsActive) 
             throw new Exception();
 
-        IWaiter waiter;
-        using (var scope = container.BeginLifetimeScope())
-        {
-            waiter = scope.ResolveNamed<IWaiter>(waiterTag);
-        }
-
-       return Task.FromResult(waiter);
+        IWaiter waiter = waiters[waiterTag];
+        return Task.FromResult(waiter);
     }
 
 
