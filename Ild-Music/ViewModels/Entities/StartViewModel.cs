@@ -48,22 +48,16 @@ namespace Ild_Music.ViewModels
         #region Ctor
         public StartViewModel()
         {
-            Console.WriteLine("start.const");
             DropPlaylistCommand = new(DropPlaylist, null);
             DropTrackCommand = new(DropTrack, null);
             DropArtistCommand = new(DropArtist, null);
         
             
             supporter.OnArtistsNotifyRefresh += RefreshArtists;
-            Console.WriteLine("start.sign_event_refresh_artist");
             supporter.OnPlaylistsNotifyRefresh += RefreshPlaylists;
-            Console.WriteLine("start.sign_event_refresh_artist");
             supporter.OnTracksNotifyRefresh += RefreshTracks;
-            Console.WriteLine("start.sign_event_refresh_artist");
 
-            Console.WriteLine("start.point1");
             Task.Run(PopullateLists);
-            Console.WriteLine("start.point2");
         }
         #endregion
 
@@ -77,21 +71,18 @@ namespace Ild_Music.ViewModels
 
         private void RefreshArtists()
         {
-            Console.WriteLine("start.refresh_artist");
             Artists.Clear();
             supporter.ArtistsCollection.ToList().ForEach(a => Artists.Add(a));
         }
 
         private void RefreshPlaylists()
         {
-            Console.WriteLine("start.refresh_playlist");
             Playlists.Clear();
             supporter.PlaylistsCollection.ToList().ForEach(p => Playlists.Add(p));
         }
 
         private void RefreshTracks()
         {
-            Console.WriteLine("start.refresh_track");
             Tracks.Clear();
             supporter.TracksCollection.ToList().ForEach(t => Tracks.Add(t));
         }

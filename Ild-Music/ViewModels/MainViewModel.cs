@@ -96,16 +96,12 @@ public class MainViewModel : Base.BaseViewModel
     {
         //1. resolve player instance
         PresetPlayer();
-        Console.WriteLine("1");
         //2. resolve commands
         PresetCommands();
-        Console.WriteLine("2");
         //3. allocate view-models
         PresetViewModels();
-        Console.WriteLine("3");
         //4 preset special details
         PresetGlobalTimer();
-        Console.WriteLine("4");
     }
 
     #endregion
@@ -145,27 +141,16 @@ public class MainViewModel : Base.BaseViewModel
     private void PresetViewModels()
     {
         //ViewModels preset
-        Console.WriteLine("start");
         App.ViewModelTable.Add(StartViewModel.nameVM, new StartViewModel());
-        Console.WriteLine("factory container");
         App.ViewModelTable.Add(FactoryContainerViewModel.nameVM, new FactoryContainerViewModel());
-        Console.WriteLine("list");
         App.ViewModelTable.Add(ListViewModel.nameVM, new ListViewModel());
-        Console.WriteLine("setting");
         App.ViewModelTable.Add(SettingViewModel.nameVM, new SettingViewModel());
-        Console.WriteLine("artistvm");
         App.ViewModelTable.Add(ArtistViewModel.nameVM, new ArtistViewModel());
-        Console.WriteLine("playlistvm");
         App.ViewModelTable.Add(PlaylistViewModel.nameVM, new PlaylistViewModel());
-        Console.WriteLine("trackvm");
         App.ViewModelTable.Add(TrackViewModel.nameVM, new TrackViewModel());
-        Console.WriteLine("explorer");
         App.ViewModelTable.Add(InstanceExplorerViewModel.nameVM, new InstanceExplorerViewModel());
-        Console.WriteLine("browse");
         App.ViewModelTable.Add(BrowseViewModel.nameVM, new BrowseViewModel());
-        Console.WriteLine("main");
         App.ViewModelTable.Add(nameVM, this);
-        Console.WriteLine("finished!");
 
         CurrentVM = (BaseViewModel)App.ViewModelTable[StartViewModel.nameVM];
     }

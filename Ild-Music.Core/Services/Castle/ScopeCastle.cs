@@ -80,14 +80,14 @@ public sealed class ScopeCastle : ICastle, IDisposable
     {
        if(container.IsRegisteredWithKey<ICube>(currentCubeId))
        {
-           using (var preScope = container.BeginLifetimeScope())
-           {
-               var currentCube = preScope.ResolveKeyed<ICube>(currentCubeId);
+           //using (var preScope = container.BeginLifetimeScope())
+           //{
+               var currentCube = container.ResolveKeyed<ICube>(currentCubeId);
                var supportGhost = (SupportGhost)ghosts[Ghosts.SUPPORT];
                var factoryGhost = (FactoryGhost)ghosts[Ghosts.FACTORY];
                supportGhost.Init(currentCube);
                factoryGhost.Init(currentCube);
-           }
+           //}
        } 
     }
 

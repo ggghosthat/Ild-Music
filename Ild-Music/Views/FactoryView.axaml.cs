@@ -5,9 +5,9 @@ using PropertyChanged;
 
 namespace Ild_Music.Views;
 [DoNotNotifyAttribute]
-public partial class FactoryView : UserControl
+public partial class FactoryContainerView : UserControl
 {
-    public FactoryView()
+    public FactoryContainerView()
     {
         InitializeComponent();
     }

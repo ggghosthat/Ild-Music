@@ -21,16 +21,22 @@ public sealed class FactoryGhost : IGhost
 
     #region Instance Creation Methods
     public void CreateArtist(string name,
-                             string description,
-                             int year,    
-                             byte[] avatar)
+                             string description = null,
+                             int year = 0,    
+                             byte[] avatar = null)
     {
         try
         {
             Memory<byte> artistAvatarSource = avatar;
+            Memory<char> artistDescription;
+
+            if(description is null)
+                artistDescription = string.Empty.ToCharArray();
+            else 
+                artistDescription = description.ToCharArray();
 
             producer = new InstanceProducer.InstanceProducer(name.ToCharArray(),
-                                                             description.ToCharArray(),
+                                                             description?.ToCharArray(),
                                                              artistAvatarSource, 
                                                              year);
 
@@ -45,17 +51,23 @@ public sealed class FactoryGhost : IGhost
         
 
     public void CreatePlaylist(string name,
-                               string description,
-                               int year,
+                               string description = null,
+                               int year = 0,
                                byte[] avatar = null,
                                IList<Track> tracks = null,
                                IList<Artist> artists = null) 
     {   
         try 
         { 
-            Memory<byte> playlistAvatarSource = avatar; 
+            Memory<byte> playlistAvatarSource = avatar;
+            Memory<char> playlistDescription;
+            
+            if(description is null)
+                playlistDescription = string.Empty.ToCharArray();
+            else 
+                playlistDescription = description.ToCharArray();
             producer = new InstanceProducer.InstanceProducer(name.ToCharArray(), 
-                                                             description.ToCharArray(),
+                                                             description?.ToCharArray(),
                                                              playlistAvatarSource, 
                                                              year,
                                                              tracks,
@@ -90,13 +102,16 @@ public sealed class FactoryGhost : IGhost
                     trackName = taglib.Tag.Title.ToCharArray() ?? Path.GetFileName(pathway).ToCharArray(); 
                 else 
                     trackName = name.ToCharArray(); 
-                
-                trackDescription = description.ToCharArray(); 
+               
+                if(description is null)
+                    trackDescription = string.Empty.ToCharArray();
+                else 
+                    trackDescription = description.ToCharArray();
                 
                 if (avatar is null && taglib.Tag.Pictures.Length > 0)  
                     trackAvatarSource = taglib.Tag.Pictures[0].Data.Data; 
                 else 
-                    trackAvatarSource = avatar; 
+                    trackAvatarSource = avatar ?? new byte[0]; 
                 
                 producer = new InstanceProducer.InstanceProducer(pathway.ToCharArray(), 
                                                                  trackName, 
@@ -106,6 +121,7 @@ public sealed class FactoryGhost : IGhost
                                                                  trackYear,
                                                                  artists); 
 
+                Console.WriteLine(producer.TrackInstance.Name);
                 cube.AddTrackObj(producer.TrackInstance);
                 producer.Dispose(); 
             } 

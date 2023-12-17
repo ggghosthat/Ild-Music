@@ -117,7 +117,7 @@
             <v:ListView/>
         </DataTemplate>
         <DataTemplate DataType="{x:Type vm:FactoryContainerViewModel}">
-            <v:FactoryView/>
+            <v:FactoryContainerView/>
         </DataTemplate>
         <DataTemplate DataType="{x:Type vm:SettingViewModel}">
             <v:SettingView/>

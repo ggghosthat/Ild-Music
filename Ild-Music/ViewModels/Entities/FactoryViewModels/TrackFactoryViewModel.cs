@@ -48,6 +48,7 @@ namespace Ild_Music.ViewModels
         public string TrackPath { get; set; }
         public string TracktName { get; set; }
         public string TrackDescription { get; set; }
+        public int TrackYear {get; set;}
 
         public Artist CurrentSelectedTrackArtist { get; set; }
         public Artist CurrentDeleteTrackArtist { get; set; }
@@ -143,7 +144,7 @@ namespace Ild_Music.ViewModels
                 var path = (string)values[0];
                 var name = (string)values[1];
                 var description = (string)values[2];
-                var year = (int)values[3];
+                var year = (int)(values[3] ?? DateTime.Now.Year);
                 var avatar = (byte[])values[4];
                 var artists = (IList<Artist>)values[5];
 
@@ -173,6 +174,7 @@ namespace Ild_Music.ViewModels
                 var path = (string)values[0];
                 var name = (string)values[1];
                 var description = (string)values[2];
+                var year = (int)(values[3] ?? DateTime.Now.Year);
                 var avatar = (byte[])values[3];
                 var artists = (IList<Artist>)values[4];
 
@@ -271,16 +273,12 @@ namespace Ild_Music.ViewModels
 
         private void CreateTrack(object obj)
         {
-            object[] value = { TrackPath, TracktName, TrackDescription, AvatarSource, SelectedTrackArtists };
+            object[] value = { TrackPath, TracktName, TrackDescription, TrackYear, AvatarSource, SelectedTrackArtists };
 
-            if (IsEditMode == false)
-            {
-                CreateTrackInstance(value);
-            }
-            else
-            {
+            if (IsEditMode)
                 EditTrackInstance(value);
-            }
+            else
+                CreateTrackInstance(value);
         }
         
         private void Cancel(object obj)

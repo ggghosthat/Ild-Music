@@ -27,13 +27,11 @@ public class FactoryContainerViewModel : BaseViewModel
     #region Const
     public FactoryContainerViewModel()
     {
-        Console.WriteLine("Factory.const.start");
         SubItems.Add(new SubItem("Artist", new SubArtist() {DataContext = SubArtistContent} ));
         SubItems.Add(new SubItem("Playlist", new SubPlaylist() {DataContext = SubPlaylistContent} ));
         SubItems.Add(new SubItem("Track", new SubTrack() {DataContext = SubTrackContent} ));
             
         SubItem = SubItems[0];
-        Console.WriteLine("Factory.const.finish");
     }
     #endregion
 
