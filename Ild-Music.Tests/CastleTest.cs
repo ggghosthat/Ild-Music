@@ -28,11 +28,11 @@ public class CastleTest : IClassFixture<ScopeCastle>, IDisposable
     public void GhostResolvingTest()
     {
         var ghost = castle.ResolveGhost(Ghosts.SUPPORT);
+        var ghost1 = castle.ResolveGhost(Ghosts.FACTORY);
         var ghost2 = castle.ResolveGhost(Ghosts.PLAYER);
             
         var cube = castle.GetCurrentCube();
         var player = castle.GetCurrentPlayer();
-
 
         Assert.NotNull(ghost);
         Assert.NotNull(ghost2);
@@ -43,18 +43,14 @@ public class CastleTest : IClassFixture<ScopeCastle>, IDisposable
         Assert.IsAssignableFrom<ICube>(cube);
         Assert.IsAssignableFrom<IPlayer>(player);
 
-        var newCube = castle.GetCurrentCube();
         var support = (SupportGhost)ghost;
+        var factory = (FactoryGhost)ghost1;
 
-        Console.WriteLine("Start");
-        var factory = new FactoryGhost();
-        factory.Init(newCube);
-        
-        //support.AddArtistInstance(new Core.Instances.Artist(Guid.NewGuid(),
-        //                                                     "Eminem".AsMemory(),
-        //                                                    "".AsMemory(),
-        //                                                    new byte[0],
-        //                                                    0));
+        support.AddArtistInstance(new Core.Instances.Artist(Guid.NewGuid(),
+                                                             "Artist 123".AsMemory(),
+                                                            "".AsMemory(),
+                                                            new byte[0],
+                                                            0));
         factory.CreateArtist("Dr. DRE", "Do you need a doctor?", 2000, new byte[0]);
     }
  

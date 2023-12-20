@@ -53,19 +53,19 @@ public class InstanceConverter : IValueConverter
             if(value is Artist artist)
             {
                 if(artist.AvatarSource.Length is 0)
-                    return LoadAsset(@"avares://Ild_Music/Assets/DefaultIcons/artist.png");
+                    return LoadAsset(@"avares://Ild-Music/Assets/DefaultIcons/artist.png");
                 return CraftImage(artist.AvatarSource);
             }
             else if(value is Playlist playlist)
             {
                 if(playlist.AvatarSource.Length is 0)
-                    return LoadAsset(@"avares://Ild_Music/Assets/DefaultIcons/playlist.png");
+                    return LoadAsset(@"avares://Ild-Music/Assets/DefaultIcons/playlist.png");
                 return CraftImage(playlist.AvatarSource);
             }
             else if(value is Track track)
             {
                 if(track.AvatarSource.Length is 0)
-                    return LoadAsset(@"avares://Ild_Music/Assets/DefaultIcons/track.png");
+                    return LoadAsset(@"avares://Ild-Music/Assets/DefaultIcons/track.png");
                 return CraftImage(track.AvatarSource);
             }
             else return null;

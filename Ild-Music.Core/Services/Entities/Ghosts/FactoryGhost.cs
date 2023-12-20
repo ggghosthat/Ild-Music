@@ -42,9 +42,10 @@ public sealed class FactoryGhost : IGhost
                                                              description?.ToCharArray(),
                                                              artistAvatarSource, 
                                                              year);
-
+            
+            Console.WriteLine(producer.ArtistInstance.Name);
             cube.AddArtistObj(producer.ArtistInstance); 
-            producer.Dispose();
+            //producer.Dispose();
         }
         catch (InvalidArtistException ex)
         {

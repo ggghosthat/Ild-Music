@@ -75,10 +75,10 @@ public sealed class ScopeCastle : ICastle, IDisposable
     {
        if(container.IsRegisteredWithKey<ICube>(currentCubeId))
        {
-           //using (var preScope = container.BeginLifetimeScope())
-           //{
+           using (var preScope = container.BeginLifetimeScope())
+           {
                var currentCube = container.ResolveKeyed<ICube>(currentCubeId);
-
+               currentCube.Init();
                var supportGhost = new SupportGhost();
                var factoryGhost = new FactoryGhost();
 
@@ -89,7 +89,7 @@ public sealed class ScopeCastle : ICastle, IDisposable
                ghosts[Ghosts.FACTORY] = factoryGhost;
 
                waiters["Filer"] = new Filer();
-           //}
+           }
        } 
     }
 
@@ -134,7 +134,7 @@ public sealed class ScopeCastle : ICastle, IDisposable
         currentPlayerId = player.GetHashCode();
 
         builder.RegisterInstance<IPlayer>(player)
-                //.SingleInstance()
+                .SingleInstance()
                 .Keyed<IPlayer>(player.GetHashCode());
     }
 
@@ -146,7 +146,7 @@ public sealed class ScopeCastle : ICastle, IDisposable
         currentCubeId = cube.GetHashCode();
 
         builder.RegisterInstance<ICube>(cube)
-                //.SingleInstance()
+                .SingleInstance()
                 .Keyed<ICube>(cube.GetHashCode()); 
     }
 
@@ -161,7 +161,7 @@ public sealed class ScopeCastle : ICastle, IDisposable
         foreach (var player in players)
         {
             builder.RegisterInstance<IPlayer>(player)
-                    //.SingleInstance()
+                    .SingleInstance()
                     .Keyed<IPlayer>(player.GetHashCode());
         }
     }
@@ -176,7 +176,7 @@ public sealed class ScopeCastle : ICastle, IDisposable
         foreach (var cube in cubes)
         {
             builder.RegisterInstance<ICube>(cube)
-                    //.SingleInstance()
+                    .SingleInstance()
                     .Keyed<ICube>(cube.GetHashCode());
         }    
     }
