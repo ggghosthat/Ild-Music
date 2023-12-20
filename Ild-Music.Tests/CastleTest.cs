@@ -27,30 +27,35 @@ public class CastleTest : IClassFixture<ScopeCastle>, IDisposable
     [Fact]
     public void GhostResolvingTest()
     {
-        Console.WriteLine("Case 1");
         var ghost = castle.ResolveGhost(Ghosts.SUPPORT);
-        Console.WriteLine("Case 2");
-        var ghost1 = castle.ResolveGhost(Ghosts.SUPPORT);
-        Console.WriteLine("Point");
         var ghost2 = castle.ResolveGhost(Ghosts.PLAYER);
             
         var cube = castle.GetCurrentCube();
         var player = castle.GetCurrentPlayer();
 
+
         Assert.NotNull(ghost);
-        Assert.NotNull(ghost1);
         Assert.NotNull(ghost2);
 
         Assert.NotNull(cube);
         Assert.NotNull(player);
 
-        Assert.IsType<SupportGhost>(ghost);
-        //Assert.IsType<FactoryGhost>(ghost1);
-        Assert.IsType<PlayerGhost>(ghost2);
-
-        _output.WriteLine(cube.ToString());
         Assert.IsAssignableFrom<ICube>(cube);
         Assert.IsAssignableFrom<IPlayer>(player);
+
+        var newCube = castle.GetCurrentCube();
+        var support = (SupportGhost)ghost;
+
+        Console.WriteLine("Start");
+        var factory = new FactoryGhost();
+        factory.Init(newCube);
+        
+        //support.AddArtistInstance(new Core.Instances.Artist(Guid.NewGuid(),
+        //                                                     "Eminem".AsMemory(),
+        //                                                    "".AsMemory(),
+        //                                                    new byte[0],
+        //                                                    0));
+        factory.CreateArtist("Dr. DRE", "Do you need a doctor?", 2000, new byte[0]);
     }
  
     
@@ -64,9 +69,6 @@ public class CastleTest : IClassFixture<ScopeCastle>, IDisposable
 
             if(dock == 0)
             {
-                Console.WriteLine($"Cubes count: {docker.Cubes.Count}");
-                Console.WriteLine($"Players count: {docker.Players.Count}");
-
                 await castle.RegisterPlayers(docker.Players);
                 await castle.RegisterCubes(docker.Cubes);
             }

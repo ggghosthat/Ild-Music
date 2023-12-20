@@ -14,9 +14,9 @@ public sealed class FactoryGhost : IGhost
     public FactoryGhost()
     {}
 
-    public void Init(ICube cube)
+    public void Init(ICube inputCube)
     {
-       cube = cube; 
+       cube = inputCube;
     }
 
     #region Instance Creation Methods
@@ -25,6 +25,9 @@ public sealed class FactoryGhost : IGhost
                              int year = 0,    
                              byte[] avatar = null)
     {
+
+
+        Console.WriteLine($"Factory.Cube is null: {cube is null}");
         try
         {
             Memory<byte> artistAvatarSource = avatar;
@@ -81,6 +84,7 @@ public sealed class FactoryGhost : IGhost
             throw ex;
         } 
     }
+
     public void CreateTrack(string pathway, 
                             string name=null, 
                             string description=null,
@@ -121,7 +125,6 @@ public sealed class FactoryGhost : IGhost
                                                                  trackYear,
                                                                  artists); 
 
-                Console.WriteLine(producer.TrackInstance.Name);
                 cube.AddTrackObj(producer.TrackInstance);
                 producer.Dispose(); 
             } 

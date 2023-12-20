@@ -34,11 +34,6 @@ public sealed class ScopeCastle : ICastle, IDisposable
 
     public ScopeCastle()
     {
-        ghosts[Ghosts.SUPPORT] = new SupportGhost();
-        ghosts[Ghosts.PLAYER] = new PlayerGhost();
-        ghosts[Ghosts.FACTORY] = new FactoryGhost();
-
-        waiters["Filer"] = new Filer();
     }
 
     public void Pack()
@@ -83,10 +78,17 @@ public sealed class ScopeCastle : ICastle, IDisposable
            //using (var preScope = container.BeginLifetimeScope())
            //{
                var currentCube = container.ResolveKeyed<ICube>(currentCubeId);
-               var supportGhost = (SupportGhost)ghosts[Ghosts.SUPPORT];
-               var factoryGhost = (FactoryGhost)ghosts[Ghosts.FACTORY];
+
+               var supportGhost = new SupportGhost();
+               var factoryGhost = new FactoryGhost();
+
                supportGhost.Init(currentCube);
                factoryGhost.Init(currentCube);
+
+               ghosts[Ghosts.SUPPORT] = supportGhost;
+               ghosts[Ghosts.FACTORY] = factoryGhost;
+
+               waiters["Filer"] = new Filer();
            //}
        } 
     }
@@ -98,8 +100,10 @@ public sealed class ScopeCastle : ICastle, IDisposable
            using (var preScope = container.BeginLifetimeScope())
            {
                var currentPlayer = preScope.ResolveKeyed<IPlayer>(currentPlayerId);
-               var playerGhost = (PlayerGhost)ghosts[Ghosts.PLAYER];
+               var playerGhost = new PlayerGhost();
                playerGhost.Init(currentPlayer);
+
+               ghosts[Ghosts.PLAYER] = playerGhost;
            }
        } 
     }
@@ -130,7 +134,7 @@ public sealed class ScopeCastle : ICastle, IDisposable
         currentPlayerId = player.GetHashCode();
 
         builder.RegisterInstance<IPlayer>(player)
-                .SingleInstance()
+                //.SingleInstance()
                 .Keyed<IPlayer>(player.GetHashCode());
     }
 
@@ -142,7 +146,7 @@ public sealed class ScopeCastle : ICastle, IDisposable
         currentCubeId = cube.GetHashCode();
 
         builder.RegisterInstance<ICube>(cube)
-                .SingleInstance()
+                //.SingleInstance()
                 .Keyed<ICube>(cube.GetHashCode()); 
     }
 
@@ -157,7 +161,7 @@ public sealed class ScopeCastle : ICastle, IDisposable
         foreach (var player in players)
         {
             builder.RegisterInstance<IPlayer>(player)
-                    .SingleInstance()
+                    //.SingleInstance()
                     .Keyed<IPlayer>(player.GetHashCode());
         }
     }
@@ -172,7 +176,7 @@ public sealed class ScopeCastle : ICastle, IDisposable
         foreach (var cube in cubes)
         {
             builder.RegisterInstance<ICube>(cube)
-                    .SingleInstance()
+                    //.SingleInstance()
                     .Keyed<ICube>(cube.GetHashCode());
         }    
     }

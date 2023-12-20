@@ -8,12 +8,11 @@ public sealed class SupportGhost : IGhost
 {
     public ReadOnlyMemory<char> GhostName {get; init;} = "SupporterService".AsMemory();
 
-    //temp solution
-    public static ICube CubeArea;
+    private static ICube cube;
 
-    public IEnumerable<Artist> ArtistsCollection => CubeArea.Artists ?? null;
-    public IEnumerable<Playlist> PlaylistsCollection => CubeArea.Playlists??null;
-    public IEnumerable<Track> TracksCollection => CubeArea.Tracks?? null;
+    public IEnumerable<Artist> ArtistsCollection => cube.Artists ?? null;
+    public IEnumerable<Playlist> PlaylistsCollection => cube.Playlists??null;
+    public IEnumerable<Track> TracksCollection => cube.Tracks?? null;
 
     public event Action OnArtistsNotifyRefresh;
     public event Action OnPlaylistsNotifyRefresh;
@@ -25,95 +24,93 @@ public sealed class SupportGhost : IGhost
 
 
     //Initialize and start Synch Area instance 
-    public void Init(ICube cube) 
+    //make sure that you initialized your cube instance
+    public void Init(ICube inputCube) 
     {
-        CubeArea = cube;
-        CubeArea.Init();
-    }
-    
-    
+        cube = inputCube;
+    } 
 
     public void AddArtistInstance(Artist artist)
     {
-        CubeArea.AddArtistObj(artist);
+        cube.AddArtistObj(artist);
         OnArtistsNotifyRefresh?.Invoke();
     }
 
     public void AddPlaylistInstance(Playlist playlist)
     {
-        CubeArea.AddPlaylistObj(playlist);
+        cube.AddPlaylistObj(playlist);
         OnPlaylistsNotifyRefresh?.Invoke();
     }
 
     public void AddTrackInstance(Track track)
     {
-        CubeArea.AddTrackObj(track);
+        cube.AddTrackObj(track);
         OnTracksNotifyRefresh?.Invoke();
     }
 
 
     public void EditArtistInstance(Artist artist)
     {
-        CubeArea.EditArtistObj(artist);
+        cube.EditArtistObj(artist);
         OnArtistsNotifyRefresh?.Invoke();
     }
     
     public void EditPlaylistInstance(Playlist playlist)
     {
-        CubeArea.EditPlaylistObj(playlist);
+        cube.EditPlaylistObj(playlist);
         OnPlaylistsNotifyRefresh?.Invoke();
     }
     
     public void EditTrackInstance(Track track)
     {
-        CubeArea.EditTrackObj(track);
+        cube.EditTrackObj(track);
         OnTracksNotifyRefresh?.Invoke();  
     }
 
 
     public void DeleteArtistInstance(Guid artistId) 
     {
-        CubeArea.RemoveArtistObj(artistId);
+        cube.RemoveArtistObj(artistId);
         OnTracksNotifyRefresh?.Invoke();
     }
     
     public void DeletePlaylistInstance(Guid playlistId) 
     {
-        CubeArea.RemovePlaylistObj(playlistId);
+        cube.RemovePlaylistObj(playlistId);
         OnPlaylistsNotifyRefresh?.Invoke();
     }
 
     public void DeleteTrackInstance(Guid trackId)
     {
-        CubeArea.RemoveTrackObj(trackId);
+        cube.RemoveTrackObj(trackId);
         OnArtistsNotifyRefresh?.Invoke();
     }
        
     //these methods get dto notations about requred instances
     public async Task<IEnumerable<CommonInstanceDTO>> RequireInstances(EntityTag entityTag)
     {
-        return await CubeArea.RequireInstances(entityTag);
+        return await cube.RequireInstances(entityTag);
     }
 
     public async Task<IEnumerable<CommonInstanceDTO>> RequireInstances(EntityTag entityTag,
                                                                        IEnumerable<Guid> id)
     {
-        return await CubeArea.RequireInstances(entityTag, id);
+        return await cube.RequireInstances(entityTag, id);
     }
 
     public async Task<Artist> FetchArtist(Guid artistId)
     {
-        return await CubeArea.FetchArtist(artistId);
+        return await cube.FetchArtist(artistId);
     }
 
     public async Task<Playlist> FetchPlaylist(Guid playlistId)
     {
-        return await CubeArea.FetchPlaylist(playlistId);
+        return await cube.FetchPlaylist(playlistId);
     }
 
     public async Task<Track> FetchTrack(Guid trackId)
     {
-        return await CubeArea.FetchTrack(trackId);
+        return await cube.FetchTrack(trackId);
     }
 
 }

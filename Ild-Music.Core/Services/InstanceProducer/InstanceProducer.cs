@@ -57,7 +57,6 @@ internal struct InstanceProducer : IDisposable
                             int year,
                             IList<Artist> artists = null)
     {
-        Console.WriteLine("preparing track instance");
         TrackInstance = new Track(id: Guid.NewGuid(),
                                   pathway: pathway,
                                   name: name,

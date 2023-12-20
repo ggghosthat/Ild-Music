@@ -1,5 +1,4 @@
 using Ild_Music.Core.Contracts;
-//using Ild_Music.Core.Configure;
 
 using System.Reflection;
 namespace Ild_Music.Core.Stage;

@@ -6,7 +6,7 @@ namespace Ild_Music.Core.Stage;
 public sealed class Stage 
 {
     #region Castle
-    private ScopeCastle castle = new();
+    private static ScopeCastle castle = new();
     #endregion
 
     #region Configuration Region
@@ -68,8 +68,6 @@ public sealed class Stage
 
                 if(dock == 0)
                 {
-                    Console.WriteLine(docker.Players.Count());
-
                     await castle.RegisterPlayers(docker.Players);
                     await castle.RegisterCubes(docker.Cubes);
                 }
