@@ -1,4 +1,4 @@
-namespace Ild_Music.Core.CQRS.Signals;
+namespace Ild_Music.Core.Events.Signals;
 public enum CubeSignal 
 {
     CUBE_ADD_ARTIST,

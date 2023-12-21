@@ -3,18 +3,17 @@ using Ild_Music.Core.Events.Notifications;
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
-
 namespace Ild_Music.CQRS.Handlers;
-public class PlayerNotificationHandler<T> : INotificationHandler<PlayerNotification>
+public class CubeNotificationHandler<T> : INotificationHandler<CubeNotification>
 {  
 
-    public PlayerNotificationHandler()
+    public CubeNotificationHandler()
     {}
 
-    public Task Handle(PlayerNotification playerNotification, CancellationToken token)
+    public Task Handle(CubeNotification cubeNotification, CancellationToken token)
     {
         DelegateSwitch
-            .ResolvePlayerDelegate(playerNotification.PlayerSignal)?
+            .ResolveCubeDelegate(cubeNotification.CubeSignal)?
             .DynamicInvoke();
 
         //TODO:dont forget add logging here

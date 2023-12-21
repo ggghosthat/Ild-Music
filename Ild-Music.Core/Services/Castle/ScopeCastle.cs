@@ -1,8 +1,6 @@
 using Ild_Music.Core.Contracts;
 using Ild_Music.Core.Services.Entities;
-using Ild_Music.Core.Contracts.Services;
-using Ild_Music.Core.CQRS.Notifications;
-using Ild_Music.Core.CQRS.Handlers.Delegatebag;
+using Ild_Music.Core.Events.Notifications;
 using Ild_Music.Core.Contracts.Services.Interfaces;
 
 using Autofac;
@@ -33,17 +31,14 @@ public sealed class ScopeCastle : ICastle, IDisposable
     private static int currentCubeId;
 
     public ScopeCastle()
-    {
-    }
+    {}
+
 
     public void Pack()
     {
         try
         {
             //CQRS mediator registration
-            builder.RegisterType<DelegateBag>()
-                   .SingleInstance();
-
             var configuration = MediatRConfigurationBuilder
                 .Create(typeof(PlayerNotification).Assembly)
                 .WithAllOpenGenericHandlerTypesRegistered()

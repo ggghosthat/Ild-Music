@@ -1,7 +1,9 @@
-using Ild_Music.Core.CQRS.Signals;
+using Ild_Music.Core.Events.Signals;
 
 using MediatR;
-namespace Ild_Music.Core.CQRS.Notifications;
+
+namespace Ild_Music.Core.Events.Notifications;
+
 public class CubeNotification : INotification
 {
     public CubeSignal CubeSignal {get;}

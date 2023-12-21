@@ -111,11 +111,13 @@ public class MainViewModel : Base.BaseViewModel
     {
         //player preset
         _player = player.GetPlayer();
-        _player.SetNotifier(() => 
-        {
-            OnPropertyChanged("CurrentEntity");
-            OnPropertyChanged("PlayerState");
-        });
+
+        //ing ui when switching track
+        //_player.SetNotifier(() => 
+        //{
+        //    OnPropertyChanged("CurrentEntity");
+        //    OnPropertyChanged("PlayerState");
+        //});
 
         //TODO: Play with MediatR
         //_player.TrackStarted += OnTrackStarted;
