@@ -27,7 +27,6 @@ public sealed class FactoryGhost : IGhost
     {
 
 
-        Console.WriteLine($"Factory.Cube is null: {cube is null}");
         try
         {
             Memory<byte> artistAvatarSource = avatar;
@@ -45,7 +44,7 @@ public sealed class FactoryGhost : IGhost
             
             Console.WriteLine(producer.ArtistInstance.Name);
             cube.AddArtistObj(producer.ArtistInstance); 
-            //producer.Dispose();
+            producer.Dispose();
         }
         catch (InvalidArtistException ex)
         {

@@ -12,7 +12,7 @@ public class Cube : ICube
 
     public string CubeName => "Genezis Cube";
 
-    private IMediator? _mediator = default;
+    private IMediator _mediator = default;
 
     private int artistOffset = 0;
     private int playlistOffset = 0;

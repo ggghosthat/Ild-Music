@@ -104,8 +104,6 @@ public interface IPlayer : IShare
 
     public Task DropNetworkStream(ReadOnlyMemory<char> uri);
 
-    public void SetNotifier(Action callBack);
-
 
     public void Stop();
 

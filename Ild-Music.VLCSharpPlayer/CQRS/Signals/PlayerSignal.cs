@@ -1,4 +1,4 @@
-namespace Ild_Music.Core.CQRS.Signals;
+namespace Ild_Music.VlcPlayer.CQRS.Signals;
 public enum PlayerSignal 
 {
     PLAYER_ON,

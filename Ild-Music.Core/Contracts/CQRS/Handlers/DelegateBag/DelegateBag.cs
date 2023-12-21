@@ -1,11 +1,9 @@
-using Ild_Music.Core.CQRS.Signals;
-
-namespace Ild_Music.Core.CQRS.Handlers.Delegatebag;
+namespace Ild_Music.Core.CQRS.Delegatebag;
 public sealed class DelegateBag
 {
-    private static IDictionary<PlayerSignal, Func<int>> _playerBag = new Dictionary<PlayerSignal, Func<int>>();
+    private static IDictionary<Enum, Func<int>> _playerBag = new Dictionary<PlayerSignal, Func<int>>();
 
-    private static IDictionary<CubeSignal, Func<int>> _cubeBag = new Dictionary<CubeSignal, Func<int>>();
+    private static IDictionary<Enum, Func<int>> _cubeBag = new Dictionary<CubeSignal, Func<int>>();
 
 
     public void Allocate(PlayerSignal signal, Func<int> action) =>

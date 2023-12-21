@@ -1,8 +1,10 @@
-using Ild_Music.Core.CQRS.Notifications;
-using Ild_Music.Core.CQRS.Handlers.Delegatebag;
 
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 using MediatR;
-namespace Ild_Music.Core.CQRS.Handlers;
+
+namespace Ild_Music.VlcPlayer.CQRS.Handlers;
 public class PlayerNotificationHandler<T> : INotificationHandler<PlayerNotification>
 {  
     private readonly DelegateBag _delegateBag;

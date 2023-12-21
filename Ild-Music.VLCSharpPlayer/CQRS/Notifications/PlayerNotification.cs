@@ -1,7 +1,8 @@
-using Ild_Music.Core.CQRS.Signals;
+using Ild_Music.VlcPlayer.CQRS.Signals;
 
+using System;
 using MediatR;
-namespace Ild_Music.Core.CQRS.Notifications;
+namespace Ild_Music.VlcPlayer.CQRS.Notifications;
 public class PlayerNotification : INotification
 {
     public PlayerSignal PlayerSignal {get;}

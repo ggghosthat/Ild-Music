@@ -4,7 +4,7 @@ using Ild_Music.Core.Instances;
 using System;
 using System.Threading.Tasks;
 using MediatR;
-namespace IldMusic.VlcPlayer;
+namespace Ild_Music.VlcPlayer;
 public class VlcPlayer : IPlayer
 {
     private static readonly VlcPlayerService _playerService = new();
@@ -63,9 +63,6 @@ public class VlcPlayer : IPlayer
         _mediator = mediator;
     }
 
-    //NOTE: this method should deprecated, because according a new contract 
-    //MediatR CQRS package using instead of callback method resolution
-    public void SetNotifier(Action callback) {}
 
     public async Task DropTrack(Track track)
     {            
