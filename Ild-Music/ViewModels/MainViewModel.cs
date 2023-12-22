@@ -1,8 +1,10 @@
 using Ild_Music.Core.Contracts;
 using Ild_Music.Command;
+using Ild_Music.CQRS;
 using Ild_Music.ViewModels.Base;
 using Ild_Music.Core.Services.Entities;
 using Ild_Music.Core.Instances;
+using Ild_Music.Core.Events.Signals;
 using Ild_Music.Core.Contracts.Services.Interfaces;
 
 using System;
@@ -23,7 +25,7 @@ public class MainViewModel : Base.BaseViewModel
 
     #region Services
     private static SupportGhost supporter => (SupportGhost)App.Stage.GetGhost(Ghosts.SUPPORT);
-    private static PlayerGhost player => (PlayerGhost)App.Stage.GetGhost(Ghosts.PLAYER);
+    private static PlayerGhost playerGhost => (PlayerGhost)App.Stage.GetGhost(Ghosts.PLAYER);
     #endregion
 
     #region Player Scope
@@ -35,7 +37,7 @@ public class MainViewModel : Base.BaseViewModel
     public Playlist? CurrentPlaylist => _player?.CurrentPlaylist;
 
     private TimeSpan totalTime = TimeSpan.FromSeconds(1);
-    public double TotalTime => totalTime.TotalSeconds;
+    public double TotalTime => _player.TotalTime.TotalSeconds;
     public double StartTime => TimeSpan.Zero.TotalSeconds;
 
     public double CurrentTime 
@@ -109,20 +111,25 @@ public class MainViewModel : Base.BaseViewModel
     #region start-up methods
     private void PresetPlayer()
     {
-        //player preset
-        _player = player.GetPlayer();
+        _player = playerGhost.GetPlayer();
+        var entityUpdateDelegate = () =>{
+                OnPropertyChanged("CurrentEntity");
+                OnPropertyChanged("PlayerState");
 
-        //ing ui when switching track
-        //_player.SetNotifier(() => 
-        //{
-        //    OnPropertyChanged("CurrentEntity");
-        //    OnPropertyChanged("PlayerState");
-        //});
+                OnPropertyChanged("TotalTime");
+                OnPropertyChanged("TotalTimeDisplay");
+                OnPropertyChanged("Title");
+            };
 
-        //TODO: Play with MediatR
-        //_player.TrackStarted += OnTrackStarted;
+        DelegateSwitch
+            .RegisterPlayerDelegate(PlayerSignal.PLAYER_SET_TRACK,
+                                    entityUpdateDelegate);
+       
+        DelegateSwitch
+            .RegisterPlayerDelegate(PlayerSignal.PLAYER_SET_PLAYLIST,
+                                    entityUpdateDelegate);
+
     }
-
     
     private void PresetCommands()
     {
@@ -173,14 +180,6 @@ public class MainViewModel : Base.BaseViewModel
             OnPropertyChanged("CurrentTime");
             OnPropertyChanged("CurrentTimeDisplay");
         }
-    }
-
-    private void OnTrackStarted()
-    {
-        totalTime = _player.TotalTime;
-        OnPropertyChanged("TotalTime");
-        OnPropertyChanged("TotalTimeDisplay");
-        OnPropertyChanged("Title");
     }
     #endregion
 

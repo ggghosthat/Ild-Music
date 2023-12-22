@@ -1,5 +1,6 @@
 using Ild_Music.Core.Contracts;
 using Ild_Music.Core.Instances;
+using Ild_Music.Core.Events.Signals;
 
 using System;
 using System.Threading.Tasks;
@@ -68,21 +69,27 @@ public class VlcPlayer : IPlayer
     {            
         CurrentTrack = track;
         await _playerService.SetTrack(track);
-        //mediator tag for a toogle event
+        await _mediator.Publish(PlayerSignal.PLAYER_SET_TRACK);
     }
        
+
     public async Task DropPlaylist(Playlist playlist, int index=0)
     { 
+        //main playlist params initialization
         PlaylistPoint = index;
-        var startTrack = playlist[index];
-        CurrentTrack = startTrack;
         CurrentPlaylist = playlist;
-        _playerService.TrackFinished += async () => await SetNewMediaInstance(true);
+        var startTrack = playlist[PlaylistPoint];
+        CurrentTrack = startTrack;
+
+        //side plalist params initialization
+        PlaylistCount = playlist.Count;
         IsSwipe = true;
         IsPlaylist = true;
-        PlaylistCount = playlist.Count;
+
+        //player service setting
+        _playerService.TrackFinished += async () => await SetNewMediaInstance(true); 
         await _playerService.SetTrack(startTrack);
-        
+        await _mediator.Publish(PlayerSignal.PLAYER_SET_PLAYLIST);
     }
 
     public async Task DropNetworkStream(ReadOnlyMemory<char> uri)
@@ -99,6 +106,7 @@ public class VlcPlayer : IPlayer
         IsSwipe = false;
         IsPlaylist = false;
         Task.Run(async () => await _playerService.Stop());
+        _mediator.Publish(PlayerSignal.PLAYER_OFF);
     }
 
     public async Task Repeat()
@@ -111,37 +119,38 @@ public class VlcPlayer : IPlayer
     public void SkipPrev()
     {
         if (IsPlaylist)
+        {
             Task.Run(async () => 
             {
                 await SetNewMediaInstance(false);
                 await _playerService.Toggle();
+                await _mediator.Publish(PlayerSignal.PLAYER_SHIFT_LEFT);
             });
+        }
     }
 
     public void SkipNext()
     {
         if(IsPlaylist)
+        {
             Task.Run(async () =>
             {
                 await SetNewMediaInstance(true);
                 await _playerService.Toggle();
+                await _mediator.Publish(PlayerSignal.PLAYER_SHIFT_RIGHT);
             });
+        }
     }
 
     private async Task SetNewMediaInstance(bool direct)
     {
-        if(CurrentPlaylist is not null)
+        if(IsSwipe && CurrentPlaylist is not null)
         {
             DragPointer(direct);
    
-            if(IsSwipe)
-            {
-                var newTrack = (Track)CurrentPlaylist?[PlaylistPoint];
-                CurrentTrack = newTrack;
-                await _playerService.SetTrack(newTrack);
-
-                //mediator for toogle event
-            }
+            var newTrack = (Track)CurrentPlaylist?[PlaylistPoint];
+            CurrentTrack = newTrack;
+            await _playerService.SetTrack(newTrack);
         }
     }
 

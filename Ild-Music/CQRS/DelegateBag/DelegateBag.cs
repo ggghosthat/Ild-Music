@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace Ild_Music.CQRS;
 
-public static class DelegateSwitch
+internal static class DelegateSwitch
 {
     //dictionary storage for delegates by cqrs signals
     private static IDictionary<PlayerSignal, Delegate> playerSwitch =
