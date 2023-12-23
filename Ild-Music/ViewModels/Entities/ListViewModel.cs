@@ -15,7 +15,6 @@ using System.Collections.ObjectModel;
 using Avalonia.Controls.Selection;
 
 namespace Ild_Music.ViewModels;
-//Types of Lists
 public enum ListType {
     ARTISTS,
     PLAYLISTS,
@@ -30,7 +29,6 @@ public class ListViewModel : BaseViewModel
     #region Services
     private static SupportGhost supporter => (SupportGhost)App.Stage.GetGhost(Ghosts.SUPPORT);
     private static FactoryGhost factory => (FactoryGhost)App.Stage.GetGhost(Ghosts.FACTORY);
-    //private ViewModelHolder<BaseViewModel> holder => (ViewModelHolder<BaseViewModel>)base.GetService("HolderService");
     private MainViewModel MainVM => (MainViewModel)App.ViewModelTable[MainViewModel.nameVM];
     #endregion
 
@@ -84,16 +82,19 @@ public class ListViewModel : BaseViewModel
         switch (Header)
         {
             case "Artists":
-                var artistDTO = await supporter.RequireInstances(EntityTag.ARTIST);
-                artistDTO.ToList().ForEach(a => CurrentList.Add(a));
+                var artistDTOs = await supporter.RequireInstances(EntityTag.ARTIST);
+                Console.WriteLine(artistDTOs.Count());
+                artistDTOs.ToList().ForEach(a => CurrentList.Add(a));
                 break;
             case "Playlists":
-                var playlistDTO = await supporter.RequireInstances(EntityTag.PLAYLIST);
-                playlistDTO.ToList().ForEach(p => CurrentList.Add(p));
+                var playlistDTOs = await supporter.RequireInstances(EntityTag.PLAYLIST);
+                Console.WriteLine(playlistDTOs.Count());
+                playlistDTOs.ToList().ForEach(p => CurrentList.Add(p));
                 break;
             case "Tracks":
-                var trackDTO = await supporter.RequireInstances(EntityTag.TRACK);
-                trackDTO.ToList().ForEach(t => CurrentList.Add(t));
+                var trackDTOs = await supporter.RequireInstances(EntityTag.TRACK);
+                Console.WriteLine(trackDTOs.Count());
+                trackDTOs.ToList().ForEach(t => CurrentList.Add(t));
                 break;
         }      
     }

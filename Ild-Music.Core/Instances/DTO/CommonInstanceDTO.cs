@@ -1,5 +1,5 @@
 namespace Ild_Music.Core.Instances.DTO;
-public readonly struct CommonInstanceDTO
+public struct CommonInstanceDTO
 {
     public Guid Id { get; }
     public ReadOnlyMemory<char> Name { get; }
@@ -17,15 +17,15 @@ public readonly struct CommonInstanceDTO
         Tag = tag;
     }
 
-    public CommonInstanceDTO(Guid id,
-                             string name,
-                             byte[] avatar, 
-                             EntityTag tag)
-    {
-        Id = id;
-        Name = name.AsMemory();
-        Avatar = avatar;
-        Tag = tag;
-    }
+    //public CommonInstanceDTO(Guid id,
+    //                         string name,
+    //                         byte[] avatar, 
+    //                         EntityTag tag)
+    //{
+    //    Id = id;
+    //    Name = name.AsMemory();
+    //    Avatar = avatar;
+    //    Tag = tag;
+    //}
 
 }

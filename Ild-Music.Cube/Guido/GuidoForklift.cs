@@ -299,7 +299,10 @@ public class GuidoForklift //Cars from pixar (lol)
                                                                        IEnumerable<Guid> ids)
     {
         var maps = await _engine.RequireInstancesRaw(entitytag, ids);
-        return await _mapper.MapCommonInstanceDTOs(maps);
+        Console.WriteLine($"Guido.RequireFunc: {maps.Count()}");
+        var mapped = await _mapper.MapCommonInstanceDTOs(maps);
+        Console.WriteLine($"Guido.RequireMapedFunc: {mapped.Count()}");
+        return mapped;
     }
 
 

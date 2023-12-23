@@ -223,14 +223,21 @@ public sealed class Mapper : IDisposable
     
     public async Task<IEnumerable<CommonInstanceDTO>> MapCommonInstanceDTOs (IEnumerable<CommonInstanceDTOMap> maps)
     {
-        var resultProjections = new ConcurrentQueue<CommonInstanceDTO>(); 
+        var resultProjections = new ConcurrentQueue<CommonInstanceDTO>();
         var opt = new ParallelOptions {MaxDegreeOfParallelism=4};
         await Parallel.ForEachAsync(maps, opt, async (map, token) => 
         {
             if (map is CommonInstanceDTOMap dtoMap)
             {
-                var artistProjection = _mapper.Map<CommonInstanceDTO>(dtoMap);
-                resultProjections.Enqueue(artistProjection);
+                try{
+                var projection = _mapper.Map<CommonInstanceDTO>(dtoMap);
+                Console.WriteLine($"Mapper common inst factory: {projection.Name}");
+                resultProjections.Enqueue(projection);
+                } catch(Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+                
             }
         });
         return resultProjections;
