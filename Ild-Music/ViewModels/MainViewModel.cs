@@ -36,7 +36,7 @@ public class MainViewModel : Base.BaseViewModel
     public Track? CurrentTrack => _player?.CurrentTrack;
     public Playlist? CurrentPlaylist => _player?.CurrentPlaylist;
 
-    private TimeSpan totalTime = TimeSpan.FromSeconds(1);
+    //private TimeSpan totalTime = TimeSpan.FromSeconds(1);
     public double TotalTime => _player.TotalTime.TotalSeconds;
     public double StartTime => TimeSpan.Zero.TotalSeconds;
 
@@ -47,7 +47,7 @@ public class MainViewModel : Base.BaseViewModel
     }
 
     public TimeSpan CurrentTimeDisplay => TimeSpan.FromSeconds(CurrentTime);
-    public TimeSpan TotalTimeDisplay => totalTime;
+    public TimeSpan TotalTimeDisplay => _player.TotalTime;
 
     public float MaxVolume => _player.MaxVolume;
     public float MinVolume => _player.MinVolume;
@@ -112,6 +112,7 @@ public class MainViewModel : Base.BaseViewModel
     private void PresetPlayer()
     {
         _player = playerGhost.GetPlayer();
+
         var entityUpdateDelegate = () =>{
                 OnPropertyChanged("CurrentEntity");
                 OnPropertyChanged("PlayerState");
@@ -217,7 +218,8 @@ public class MainViewModel : Base.BaseViewModel
     public async Task ResolveArtistInstance(BaseViewModel source,
                                             Artist artist)
     {
-        var artistVM = (ArtistViewModel)App.ViewModelTable[ArtistViewModel.nameVM];
+        var artistVM = (ArtistViewModel)App 
+                                        .ViewModelTable[ArtistViewModel.nameVM];
         artistVM?.SetInstance(artist);
 
         if (artistVM != null)
@@ -230,7 +232,8 @@ public class MainViewModel : Base.BaseViewModel
     public async Task ResolvePlaylistInstance(BaseViewModel source,
                                               Playlist playlist)
     {
-        var playlistVM = (PlaylistViewModel)App.ViewModelTable[PlaylistViewModel.nameVM];
+        var playlistVM = (PlaylistViewModel)App
+                                            .ViewModelTable[PlaylistViewModel.nameVM];
         playlistVM?.SetInstance(playlist);   
 
         if (playlistVM != null)
@@ -248,12 +251,7 @@ public class MainViewModel : Base.BaseViewModel
         _player?.Stop();
         _player?.DropPlaylist(playlist);
 
-        
-        //totalTime = store.StoreInstance
-        //                .GetTracksById(playlist[playlist.CurrentIndex])
-        //                .Duration;
-                             
-
+        OnPropertyChanged("CurrentTrack");
         OnPropertyChanged("CurrentPlaylist");
         OnPropertyChanged("TotalTime");
         OnPropertyChanged("TotalTimeDisplay");
@@ -294,9 +292,6 @@ public class MainViewModel : Base.BaseViewModel
         _player?.Stop();
         _player?.DropTrack(track);
 
-
-        totalTime = track.Duration;
-        
         OnPropertyChanged("CurrentTrack");
         OnPropertyChanged("TotalTime");
         OnPropertyChanged("TotalTimeDisplay");
@@ -318,10 +313,8 @@ public class MainViewModel : Base.BaseViewModel
     public void HitTemps(IEnumerable<Track> musicFiles)
     {
         _player?.Stop();
-        OnPropertyChanged("CurrentEntity");
 
-        //getting total time from Current player instace
-        //totalTime = ((Track)CurrentEntity).Duration;                             
+        OnPropertyChanged("CurrentTrack");
         OnPropertyChanged("TotalTime");
         OnPropertyChanged("TotalTimeDisplay");
         OnPropertyChanged("CurrentTime");
