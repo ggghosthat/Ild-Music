@@ -229,15 +229,8 @@ public sealed class Mapper : IDisposable
         {
             if (map is CommonInstanceDTOMap dtoMap)
             {
-                try{
                 var projection = _mapper.Map<CommonInstanceDTO>(dtoMap);
-                Console.WriteLine($"Mapper common inst factory: {projection.Name}");
                 resultProjections.Enqueue(projection);
-                } catch(Exception ex)
-                {
-                    Console.WriteLine(ex.Message);
-                }
-                
             }
         });
         return resultProjections;

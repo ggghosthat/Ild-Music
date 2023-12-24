@@ -83,17 +83,14 @@ public class ListViewModel : BaseViewModel
         {
             case "Artists":
                 var artistDTOs = await supporter.RequireInstances(EntityTag.ARTIST);
-                Console.WriteLine(artistDTOs.Count());
                 artistDTOs.ToList().ForEach(a => CurrentList.Add(a));
                 break;
             case "Playlists":
                 var playlistDTOs = await supporter.RequireInstances(EntityTag.PLAYLIST);
-                Console.WriteLine(playlistDTOs.Count());
                 playlistDTOs.ToList().ForEach(p => CurrentList.Add(p));
                 break;
             case "Tracks":
                 var trackDTOs = await supporter.RequireInstances(EntityTag.TRACK);
-                Console.WriteLine(trackDTOs.Count());
                 trackDTOs.ToList().ForEach(t => CurrentList.Add(t));
                 break;
         }      
