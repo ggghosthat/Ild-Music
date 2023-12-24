@@ -35,10 +35,10 @@ public sealed class MapProfile : Profile
             .ForMember(dest => dest.Year, opt => opt.MapFrom(src => src.Year));
 
         CreateMap<CommonInstanceDTOMap, CommonInstanceDTO>()
-            .ForMember(dest => dest.Id, opt => opt.MapFrom(src => new Guid(src.ID)))
-            .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name.AsMemory()))
-            .ForMember(dest => dest.Avatar, opt => opt.MapFrom(src => src.Avatar.AsMemory()))
-            .ForMember(dest => dest.Tag, opt => opt.MapFrom(src => src.Tag));
+            .ForCtorParam("id", opt => opt.MapFrom(src => new Guid(src.ID)))
+            .ForCtorParam("name", opt => opt.MapFrom(src => src.Name.AsMemory()))
+            .ForCtorParam("avatar", opt => opt.MapFrom(src => src.Avatar.AsMemory()))
+            .ForCtorParam("tag", opt => opt.MapFrom(src => src.Tag));
 
         CreateMap<Tag, TagMap>()
             .ForMember(dest => dest.Buid, opt => opt.MapFrom(src => src.Id.ToString()))
