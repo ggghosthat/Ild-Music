@@ -24,6 +24,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Ild-Music.Core\Ild-Music.Core.csproj" />
+    <ProjectReference Include="..\Ild-Music.Cube\Ild-Music.Cube.csproj" />
   </ItemGroup>
 
 </Project>

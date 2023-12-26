@@ -174,7 +174,7 @@ public class ListViewModel : BaseViewModel
         if(CurrentItem is not null)
         {
             var id = (Guid)CurrentItem?.Id;
-            
+            Console.WriteLine(CurrentItem?.Name);
             if(Header.Equals("Artists"))
             {
                 var artist = await supporter.FetchArtist(id);

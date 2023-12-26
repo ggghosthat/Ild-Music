@@ -1,0 +1,55 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.002.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ild-Music", "Ild-Music\Ild-Music.csproj", "{8AB67610-5C99-4A2D-A4E9-B3006E6B1D17}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VLCSharpPlayer", "Ild-Music.VLCSharpPlayer\VLCSharpPlayer.csproj", "{B565E66C-C6D8-4DE6-9B65-4BA2D1F80D3E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ild_Music", "legacy\Ild_Music.csproj", "{38DDC854-A4FD-4811-BD95-35358A3A0B89}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ild-Music.Tests", "Ild-Music.Tests\Ild-Music.Tests.csproj", "{707D9B0D-5A6E-42B7-A69A-560BA90E15E5}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ild-Music.Core", "Ild-Music.Core\Ild-Music.Core.csproj", "{4D7EE5AD-3C11-4B5F-A2A9-11BE03AD158A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ild-Music.Cube", "Ild-Music.Cube\Ild-Music.Cube.csproj", "{8AC4661B-E60E-49F1-9436-5559CBE8BA36}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8AB67610-5C99-4A2D-A4E9-B3006E6B1D17}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8AB67610-5C99-4A2D-A4E9-B3006E6B1D17}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8AB67610-5C99-4A2D-A4E9-B3006E6B1D17}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8AB67610-5C99-4A2D-A4E9-B3006E6B1D17}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B565E66C-C6D8-4DE6-9B65-4BA2D1F80D3E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B565E66C-C6D8-4DE6-9B65-4BA2D1F80D3E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B565E66C-C6D8-4DE6-9B65-4BA2D1F80D3E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B565E66C-C6D8-4DE6-9B65-4BA2D1F80D3E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{38DDC854-A4FD-4811-BD95-35358A3A0B89}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{38DDC854-A4FD-4811-BD95-35358A3A0B89}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{38DDC854-A4FD-4811-BD95-35358A3A0B89}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{38DDC854-A4FD-4811-BD95-35358A3A0B89}.Release|Any CPU.Build.0 = Release|Any CPU
+		{707D9B0D-5A6E-42B7-A69A-560BA90E15E5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{707D9B0D-5A6E-42B7-A69A-560BA90E15E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{707D9B0D-5A6E-42B7-A69A-560BA90E15E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{707D9B0D-5A6E-42B7-A69A-560BA90E15E5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4D7EE5AD-3C11-4B5F-A2A9-11BE03AD158A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4D7EE5AD-3C11-4B5F-A2A9-11BE03AD158A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4D7EE5AD-3C11-4B5F-A2A9-11BE03AD158A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4D7EE5AD-3C11-4B5F-A2A9-11BE03AD158A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8AC4661B-E60E-49F1-9436-5559CBE8BA36}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8AC4661B-E60E-49F1-9436-5559CBE8BA36}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8AC4661B-E60E-49F1-9436-5559CBE8BA36}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8AC4661B-E60E-49F1-9436-5559CBE8BA36}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {9268A65B-6FA3-4AFF-BD52-C2D50EA7EAED}
+	EndGlobalSection
+EndGlobal

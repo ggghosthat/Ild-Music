@@ -1,10 +1,11 @@
 using Ild_Music.Core.Instances;
-using Ild_Music.Core.Instances.DTO;
 using Cube.Mapper.Entities;
 
 using System.Data.SQLite;
 using Dapper;
-namespace Cube.Storage.Guido.Engine;
+
+namespace Cube.Guido.Engine;
+
 internal class Loader
 {
     private string _connectionString;
@@ -97,10 +98,13 @@ internal class Loader
         using (var connection = new SQLiteConnection(_connectionString.ToString()))
         {
             await connection.OpenAsync();
-            result = await connection.QuerySingleAsync<T>(dapperQuery.ToString(), new {id=inputId.ToString()});
+            result = await connection
+                            .QueryFirstAsync<T>(dapperQuery.ToString(), 
+                                                 new {id=inputId.ToString()});
+            Console.WriteLine(result);
         }
         return result;
-    }
+    } 
 
     //retrieve required type instances with predefined id
     public async Task<IEnumerable<T>> BringItemsById<T>(IEnumerable<Guid> ids)
@@ -134,60 +138,7 @@ internal class Loader
         return result;
     }
 
-    //retrieve item dependent store by instance id and required case
-    public async Task<Store> BringStore(int tag, Guid id)
-    {
-        ReadOnlyMemory<char> dapperQuery;
-        Store store = new Store(tag:tag);
-        switch(tag)
-        {
-            case (1):
-                dapperQuery = @"select AID, PID from artists_playlists where AID = @id;".AsMemory();
-                var apPairs = await PairsObtain<ApPair>(dapperQuery, id);
-                store.Holder = new Guid(apPairs.First().AID);
-                store.Relates = apPairs.Select(x => new Guid(x.PID)).ToList();
-                break;
-            case (2):
-                dapperQuery = @"select PID, AID from artists_playlists where PID = @id;".AsMemory();
-                var paPairs = await PairsObtain<ApPair>(dapperQuery, id);
-                store.Holder = new Guid(paPairs.First().PID);
-                store.Relates = paPairs.Select(x => new Guid(x.AID)).ToList();
-                break;
-            case (3):
-                dapperQuery = @"select AID, TID from artists_tracks where AID = @id;".AsMemory();
-                var atPairs = await PairsObtain<AtPair>(dapperQuery, id);
-                store.Holder = new Guid(atPairs.First().AID);
-                store.Relates = atPairs.Select(x => new Guid(x.TID)).ToList();
-                break;
-            case (4):
-                dapperQuery = @"select TID, AID from artists_tracks where TID = @id;".AsMemory();
-                var taPairs = await PairsObtain<AtPair>(dapperQuery, id);
-                store.Holder = new Guid(taPairs.First().TID);
-                store.Relates = taPairs.Select(x => new Guid(x.AID)).ToList();
-                break;
-            case (5):
-                dapperQuery = @"select PID, TID from playlists_tracks where PID = @id;".AsMemory();
-                var ptPairs = await PairsObtain<PtPair>(dapperQuery, id);
-                store.Holder = new Guid(ptPairs.First().PID);
-                store.Relates = ptPairs.Select(x => new Guid(x.TID)).ToList();
-                break;
-            case (6):
-                dapperQuery = @"select TID, PID from playlists_tracks where TID = @id;".AsMemory();
-                var tpPairs = await PairsObtain<PtPair>(dapperQuery, id);
-                store.Holder = new Guid(tpPairs.First().TID);
-                store.Relates = tpPairs.Select(x => new Guid(x.PID)).ToList();
-                break;
-            case (7):
-                dapperQuery = "select TagID, IID from tags_instances where TagID = @id;".AsMemory();
-                var tagPairs = await PairsObtain<TagPair>(dapperQuery, id);
-                store.Holder = new Guid(tagPairs.First().TagId);
-                store.Relates = tagPairs.Select(x => new Guid(x.IID)).ToList();
-                break;
-            default: break;
-        }
-
-        return store;
-    }
+    
  
     public async Task<IEnumerable<CommonInstanceDTOMap>> RetrieveInstanceDTO(EntityTag entityTag)
     {
@@ -204,9 +155,18 @@ internal class Loader
 
         using (var connection = new SQLiteConnection(_connectionString.ToString()))
         {
+            Console.WriteLine(dapperQuery.ToString());
+            try
+            {
             await connection.OpenAsync();
             result = await connection.QueryAsync<CommonInstanceDTOMap>(dapperQuery.ToString());
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
         }
+        Console.WriteLine(result.First());
         return result;
     }
 
@@ -235,11 +195,65 @@ internal class Loader
     }
 
 
-    //perform obtaining depended pair 
-    private async Task<IEnumerable<T>> PairsObtain<T>(ReadOnlyMemory<char> dapperQuery, Guid id)
+    //retrieve item dependent store by instance id and required case
+    public async Task<Store> BringStore(int tag, Guid id)
     {
-        if(typeof(T) == typeof(ApPair) || typeof(T) == typeof(AtPair) || typeof(T) == typeof(PtPair))
+        ReadOnlyMemory<char> dapperQuery;
+        Store store = new Store(tag:tag);
+        switch(tag)
         {
+            case (1):
+                dapperQuery = @"select AID, PID from artists_playlists where AID = @id;".AsMemory();
+                var apPairs = await PairsObtain<ApPair>(dapperQuery, id);
+                store.Holder = new Guid(apPairs.FirstOrDefault().AID);
+                store.Relates = apPairs.Select(x => new Guid(x.PID)).ToList();
+                break;
+            case (2):
+                dapperQuery = @"select PID, AID from artists_playlists where PID = @id;".AsMemory();
+                var paPairs = await PairsObtain<ApPair>(dapperQuery, id);
+                store.Holder = new Guid(paPairs.FirstOrDefault().PID);
+                store.Relates = paPairs.Select(x => new Guid(x.AID)).ToList();
+                break;
+            case (3):
+                dapperQuery = @"select AID, TID from artists_tracks where AID = @id;".AsMemory();
+                var atPairs = await PairsObtain<AtPair>(dapperQuery, id);
+                store.Holder = new Guid(atPairs.FirstOrDefault().AID);
+                store.Relates = atPairs.Select(x => new Guid(x.TID)).ToList();
+                break;
+            case (4):
+                dapperQuery = @"select TID, AID from artists_tracks where TID = @id;".AsMemory();
+                var taPairs = await PairsObtain<AtPair>(dapperQuery, id);
+                store.Holder = new Guid(taPairs.FirstOrDefault().TID);
+                store.Relates = taPairs.Select(x => new Guid(x.AID)).ToList();
+                break;
+            case (5):
+                dapperQuery = @"select PID, TID from playlists_tracks where PID = @id;".AsMemory();
+                var ptPairs = await PairsObtain<PtPair>(dapperQuery, id);
+                store.Holder = new Guid(ptPairs.FirstOrDefault().PID);
+                store.Relates = ptPairs.Select(x => new Guid(x.TID)).ToList();
+                break;
+            case (6):
+                dapperQuery = @"select TID, PID from playlists_tracks where TID = @id;".AsMemory();
+                var tpPairs = await PairsObtain<PtPair>(dapperQuery, id);
+                store.Holder = new Guid(tpPairs.FirstOrDefault().TID);
+                store.Relates = tpPairs.Select(x => new Guid(x.PID)).ToList();
+                break;
+            case (7):
+                dapperQuery = "select TagID, IID from tags_instances where TagID = @id;".AsMemory();
+                var tagPairs = await PairsObtain<TagPair>(dapperQuery, id);
+                store.Holder = new Guid(tagPairs.FirstOrDefault().TagId);
+                store.Relates = tagPairs.Select(x => new Guid(x.IID)).ToList();
+                break;
+            default: break;
+        }
+
+        return store;
+    }
+
+    //perform obtaining depended pair 
+    private async Task<IEnumerable<T>> PairsObtain<T>(ReadOnlyMemory<char> dapperQuery, 
+                                                      Guid id)
+    {
             IEnumerable<T> obtained;
             using (var connection = new SQLiteConnection(_connectionString.ToString()))
             {
@@ -247,7 +261,5 @@ internal class Loader
             }
             
             return obtained;
-        }
-        else throw new Exception("Not supported Pair type. There are only support for ap, at and pt pair type.");
     }
 }

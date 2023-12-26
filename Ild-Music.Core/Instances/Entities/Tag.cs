@@ -1,2 +1,18 @@
 namespace Ild_Music.Core.Instances;
-public record struct Tag(Guid Id, ReadOnlyMemory<char> Name);
+
+public struct Tag
+{
+    public Guid Id { get; set; }
+    public ReadOnlyMemory<char> Name { get; set; }
+    public ReadOnlyMemory<char> Color { get; set; }
+
+    public Tag (Guid id,
+                   ReadOnlyMemory<char> name,
+				   ReadOnlyMemory<char> color)
+	{
+        Id = id;
+		Name = name;
+        Color = color;
+	}
+ 
+}

@@ -1,10 +1,10 @@
 using Ild_Music.Core.Instances;
 using Ild_Music.Core.Instances.DTO;
-using Cube.Storage.Guido.Engine;
+using Cube.Guido.Engine;
 using Cube.Mapper.Entities;
-using Cube.Storage.Guido;
+using Cube.Guido;
 
-namespace Cube.Storage;
+namespace Cube;
 public class GuidoForklift //Cars from pixar (lol)
 {
     private int capacity;
@@ -222,6 +222,7 @@ public class GuidoForklift //Cars from pixar (lol)
 
     public async Task<Track> FetchTrack(Guid trackId)
     {
+        try{
        var trackMap = await _engine.BringSingle<TrackMap>(trackId);
        var track = _mapper.ExtractSingle<Track>(trackMap);
 
@@ -238,6 +239,12 @@ public class GuidoForklift //Cars from pixar (lol)
             tpStore.Relates.ToList().ForEach(r => track.Playlists.Add(r));
         }
         return track;
+        }
+        catch(Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+            throw ex;
+        }
     }
 
     //use extend methods when you fetched a bare instance without any dependencies
@@ -299,6 +306,7 @@ public class GuidoForklift //Cars from pixar (lol)
                                                                        IEnumerable<Guid> ids)
     {
         var maps = await _engine.RequireInstancesRaw(entitytag, ids);
+        Console.WriteLine(maps.First());
         return await _mapper.MapCommonInstanceDTOs(maps);
     }
 

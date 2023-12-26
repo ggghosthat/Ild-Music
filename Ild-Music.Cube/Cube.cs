@@ -2,7 +2,7 @@ using Ild_Music.Core.Contracts;
 using Ild_Music.Core.Instances;
 using Ild_Music.Core.Instances.DTO;
 using Ild_Music.Core.Statistics;
-using Cube.Storage;
+using Cube;
 
 using MediatR;
 namespace Cube;
@@ -34,6 +34,11 @@ public class Cube : ICube
             CubeId = Guid.NewGuid();
     }
 
+    public void SetPath(ref string inputPath)
+    {
+        dbPath = inputPath;
+    }
+
     public void Init()
     {
         guidoForklift = new (in dbPath, CubePage);       
@@ -56,11 +61,7 @@ public class Cube : ICube
         Playlists = load.Item2;
         Tracks = load.Item3;
     }
-
-    public void SetPath(ref string inputPath)
-    {
-        dbPath = inputPath;
-    }
+    
 
     public async Task AddArtistObj(Artist artist) 
     {
@@ -80,7 +81,6 @@ public class Cube : ICube
             throw new NullReferenceException("Could not load up Guido forklift");
 
         await guidoForklift.AddEntity(playlist);
-        Console.WriteLine(Playlists is null);
         if((Playlists?.Count() + 1) < (playlistOffset * CubePage))
         {
            Playlists = await guidoForklift.LoadEntities<Playlist>(playlistOffset); 

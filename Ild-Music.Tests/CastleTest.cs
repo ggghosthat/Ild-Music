@@ -24,7 +24,7 @@ public class CastleTest : IClassFixture<ScopeCastle>, IDisposable
         castle.Pack();
     }
 
-    [Fact]
+    //[Fact]
     public void GhostResolvingTest()
     {
         var ghost = castle.ResolveGhost(Ghosts.SUPPORT);

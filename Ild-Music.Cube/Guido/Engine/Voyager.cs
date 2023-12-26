@@ -2,7 +2,9 @@ using Cube.Mapper.Entities;
 
 using System.Data.SQLite;
 using Dapper;
-namespace Cube.Storage.Guido;
+
+namespace Cube.Guido;
+
 internal class Voyager
 {
     private string _connectionString;

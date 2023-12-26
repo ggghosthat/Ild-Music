@@ -1,6 +1,8 @@
 using System.Data.SQLite;
 using Dapper;
-namespace Cube.Storage.Guido.Engine;
+
+namespace Cube.Guido.Engine;
+
 internal class Validator
 {
     private string _connectionString;

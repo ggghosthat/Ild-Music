@@ -1,4 +1,5 @@
 namespace Ild_Music.Core.Instances;
+
 public struct Artist
 {
 	public Guid Id {get; set;}
