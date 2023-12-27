@@ -1,6 +1,6 @@
 using Ild_Music.Core.Instances;
+using Ild_Music.Core.Instances.DTO;
 using Cube.Guido.Engine.Handlers;
-using Cube.Mapper.Entities;
 
 using System.Data.SQLite;
 using System.Data;
@@ -26,9 +26,10 @@ public class Engine
         var connectionString = $"Data Source = {path}";
         _connection = new SQLiteConnection(connectionString);
         _commandHandler = new(_connection);
+
     }
 
-    public void StartEngine()
+    public void Start()
     {
         try
         {
@@ -69,7 +70,7 @@ public class Engine
             await _commandHandler.AddArtist(artist);
     }
 
-    public async Task AddStores(ICollection<Store> stores)
+    public async Task AddStores(ICollection<object> stores)
     {
        //await fork.AddStores(stores); 
     }
@@ -79,7 +80,7 @@ public class Engine
         //await fork.Edit<T>(entity);
     }
 
-    public async Task EditStores(ICollection<Store> stores)
+    public async Task EditStores(ICollection<object> stores)
     {
         //await fork.EditStores(stores);
     }
@@ -91,7 +92,7 @@ public class Engine
     }
 
 
-    public async Task<(IEnumerable<ArtistMap>, IEnumerable<PlaylistMap>, IEnumerable<TrackMap>)> BringAll(int offset, int inputCapacity)
+    public async Task<(IEnumerable<object>, IEnumerable<object>, IEnumerable<object>)> BringAll(int offset, int inputCapacity)
     {
         //return await loader.BringAll(offset, inputCapacity);
         return default;
@@ -115,13 +116,13 @@ public class Engine
         return null;
     }
 
-    public async Task<Store> BringStore(int tag, Guid id)
+    public async Task<object> BringStore(int tag, Guid id)
     {
         //return await loader.BringStore(tag, id);
         return default;
     }
 
-    public async Task<IEnumerable<CommonInstanceDTOMap>> RequireInstancesRaw(EntityTag entityTag,
+    public async Task<IEnumerable<CommonInstanceDTO>> RequireInstancesRaw(EntityTag entityTag,
                                                                              IEnumerable<Guid> ids)
     {
         return null;

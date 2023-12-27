@@ -6,6 +6,7 @@ using Cube;
 
 using MediatR;
 namespace Cube;
+
 public class Cube : ICube
 {
     public Guid CubeId {get; private set;} = Guid.Empty;
@@ -97,134 +98,42 @@ public class Cube : ICube
         {
            Tracks = await guidoForklift.LoadEntities<Track>(trackOffset); 
         }
+
     }
 
 
     public async Task EditArtistObj(Artist artist) 
     {
-        if(guidoForklift is null)
-            throw new NullReferenceException("Could not load up Guido forklift");
-
-        await guidoForklift.EditEntity(artist);
-        if(Artists.Any(artist => artist.Id == artist.Id))
-        {
-           Artists = await guidoForklift.LoadEntities<Artist>(artistOffset); 
-        }
     }    
 
     public async Task EditPlaylistObj(Playlist playlist)
     {
-        if(guidoForklift is null)
-            throw new NullReferenceException("Could not load up Guido forklift");
-
-        await guidoForklift.EditEntity(playlist);
-        if(Playlists.Any(playlist => playlist.Id == playlist.Id))
-        {
-           Playlists = await guidoForklift.LoadEntities<Playlist>(playlistOffset); 
-        }
     }
 
     public async Task EditTrackObj(Track track)
     {
-        if(guidoForklift is null)
-            throw new NullReferenceException("Could not load up Guido forklift");
-
-        await guidoForklift.EditEntity(track);
-        if(Tracks.Any(track => track.Id == track.Id))
-        {
-           Tracks = await guidoForklift.LoadEntities<Track>(trackOffset); 
-        }
     }
 
 
     public async Task RemoveArtistObj(Guid artistId) 
-    {
-        if(guidoForklift is null)
-            throw new NullReferenceException("Could not load up Guido forklift");
-
-        await guidoForklift.DeleteEntity(EntityTag.ARTIST, artistId);
-        if((Artists?.Count() - 1) < (artistOffset * CubePage))
-        {
-           Artists = await guidoForklift.LoadEntities<Artist>(artistOffset); 
-        }
+    {    
     }
 
     public async Task RemovePlaylistObj(Guid playlistId)
     {
-        if(guidoForklift is null)
-            throw new NullReferenceException("Could not load up Guido forklift");
-
-        await guidoForklift.DeleteEntity(EntityTag.PLAYLIST, playlistId);
-        if((Playlists?.Count() - 1) < (playlistOffset * CubePage))
-        {
-           Playlists = await guidoForklift.LoadEntities<Playlist>(playlistOffset); 
-        }
     }
 
     public async Task RemoveTrackObj(Guid trackId) 
     {
-        if(guidoForklift is null)
-            throw new NullReferenceException("Could not load up Guido forklift");
-  
-        await guidoForklift.DeleteEntity(EntityTag.TRACK, trackId);
-        if((Tracks?.Count() - 1) < (trackOffset * CubePage))
-        {
-           Tracks = await guidoForklift.LoadEntities<Track>(trackOffset); 
-        }
     }
 
 
     public async Task LoadItems<T>()
     {
-        if(guidoForklift is null)
-            throw new NullReferenceException("Could not load up Guido forklift");
-
-        if(typeof(T) == typeof(Artist))
-        {
-            artistOffset++;
-            Artists = await guidoForklift.LoadEntities<Artist>(artistOffset);
-        }
-        else if(typeof(T) == typeof(Playlist))
-        {
-            playlistOffset++;
-            Playlists = await guidoForklift.LoadEntities<Playlist>(playlistOffset);
-        }
-        else if(typeof(T) == typeof(Track))
-        {
-            trackOffset++;
-            Tracks = await guidoForklift.LoadEntities<Track>(trackOffset);
-        }
     }
 
     public async Task UnloadItems<T>()
     {   
-        if(guidoForklift is null)
-            throw new NullReferenceException("Could not load up Guido forklift");
-
-        if(typeof(T) == typeof(Artist))
-        {
-            artistOffset--;
-            var artistsList = Artists?.ToList();
-            int start = Artists.Count() - CubePage;
-            artistsList?.RemoveRange(start, CubePage);
-            Artists = artistsList;
-        }
-        else if(typeof(T) == typeof(Playlist))
-        {
-            playlistOffset--;
-            var playlistList = Playlists?.ToList();
-            int start = Playlists.Count() - CubePage;
-            playlistList?.RemoveRange(start, CubePage);
-            Playlists = playlistList;
-        }
-        else if(typeof(T) == typeof(Track))
-        {
-            playlistOffset--;
-            var trackList = Tracks?.ToList();
-            int start = Tracks.Count() - CubePage;
-            trackList?.RemoveRange(start, CubePage);
-            Tracks = trackList;
-        }
     }
 
 
@@ -232,84 +141,62 @@ public class Cube : ICube
     #region Require-Retrieve region
     public async Task<IEnumerable<CommonInstanceDTO>> RequireInstances(EntityTag entityTag)
     {
-        return await guidoForklift.RequireInstances(entityTag, null);
+        return default;
     }
 
     public async Task<IEnumerable<CommonInstanceDTO>> RequireInstances(EntityTag entityTag, 
                                                                        IEnumerable<Guid> id)
     {
-        return await guidoForklift.RequireInstances(entityTag, id);
+        return default;
     }
 
 
     public async Task<Artist> FetchArtist(Guid artistId)
     {
-        return await guidoForklift.FetchArtist(artistId);
+        return default;
     }
 
     public async Task<Playlist> FetchPlaylist(Guid playlistId)
     {
-        return await guidoForklift.FetchPlaylist(playlistId);
+        return default;
     }
 
 
     public async Task<Track> FetchTrack(Guid trackId)
     {
-        return await guidoForklift.FetchTrack(trackId);
+        return default;
     }
 
     public async Task<IEnumerable<Artist>> RetrieveArtists(IEnumerable<CommonInstanceDTO> dtos)
     {
-        return await guidoForklift.LoadEntitiesById<Artist>(dtos);
+        return default;
     }
 
     public async Task<IEnumerable<Playlist>> RetrievePlaylists(IEnumerable<CommonInstanceDTO> dtos)
     {
-        return await guidoForklift.LoadEntitiesById<Playlist>(dtos);
+        return default;
     }
 
     public async Task<IEnumerable<Track>> RetrieveTracks(IEnumerable<CommonInstanceDTO> dtos)
     {
-        return await guidoForklift.LoadEntitiesById<Track>(dtos);
+        return default;
     }
     #endregion
 
 
     public async Task<InspectFrame> CheckArtistRelates(Artist artist)
     {              
-        var factPlaylistRelates = await guidoForklift.FilterRelates(1, artist.Playlists);
-        var factTrackRelates = await guidoForklift.FilterRelates(2, artist.Tracks);
-        
-        var diffPlaylists = artist.Playlists.Except(factTrackRelates);
-        var diffTracks = artist.Tracks.Except(factTrackRelates);
-        
-        return new InspectFrame(tag:0, 
-                                factPlaylistRelates.Count(),
-                                factTrackRelates.Count(),
-                                artist.Playlists.Count(),
-                                artist.Tracks.Count());
+        return default;
     }
 
     public async Task<InspectFrame> CheckPlaylistRelates(Playlist playlist)
     {
-        var factArtistRelates = await guidoForklift.FilterRelates(0, playlist.Artists);
-        var factTrackRelates = await guidoForklift.FilterRelates(2, playlist.Tracky);
-        
-        return new InspectFrame(tag:1, 
-                                factArtistRelates.Count(),
-                                factTrackRelates.Count(),
-                                playlist.Artists.Count(),
-                                playlist.Tracky.Count());
+        return default;
     }
-
+    
     public async Task<InspectFrame> CheckTrackRelates(Track track)
     {
-        var factArtistRelates = await guidoForklift.FilterTrackRelates(track.Id, true);
-        var factPlaylistRelates = await guidoForklift.FilterTrackRelates(track.Id, false);
-   
-        return new InspectFrame(tag:2, 
-                                factArtistRelates.Count(),
-                                factPlaylistRelates.Count());
+        return default;
     }
 
     public async Task<CounterFrame> SnapCounterFrame()
@@ -319,6 +206,6 @@ public class Cube : ICube
 
     public async Task<IEnumerable<T>> Search<T>(ReadOnlyMemory<char> searchTerm)
     {
-        return await guidoForklift.Search<T>(searchTerm);
+        return default;
     }
 }

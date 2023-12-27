@@ -1,8 +1,8 @@
 namespace Ild_Music.Core.Instances;
 //This enumeration shows all available instance types along a whole Core
-public enum EntityTag
+public enum EntityTag : int
 {
-    ARTIST,
-    PLAYLIST,
-    TRACK
+    ARTIST = 1,
+    PLAYLIST = 2,
+    TRACK = 3
 }

@@ -72,7 +72,17 @@ public class CubeTest : IClassFixture<Cube.Cube>, IDisposable
         playlist2.AddTrack(ref track3);
         playlist3.AddTrack(ref track3);
 
-        cube.AddArtistObj(artist1);
+        cube.AddArtistObj(artist1).Wait();
+        cube.AddArtistObj(artist1).Wait();
+        cube.AddArtistObj(artist1).Wait();
+
+        cube.AddPlaylistObj(playlist1).Wait();
+        cube.AddPlaylistObj(playlist2).Wait();
+        cube.AddPlaylistObj(playlist3).Wait();
+        
+        cube.AddTrackObj(track1).Wait();
+        cube.AddTrackObj(track2).Wait();
+        cube.AddTrackObj(track3).Wait();
     }
     
 
