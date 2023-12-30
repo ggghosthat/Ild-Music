@@ -14,7 +14,6 @@ public class Engine
     private int capacity;
     private ReadOnlyMemory<char> _connectionString;
 
-    private IDbConnection _connection;
     private CommandHandler _commandHandler; 
 
 
@@ -23,9 +22,8 @@ public class Engine
         this.path = path;
         this.capacity = capacity;
 
-        var connectionString = $"Data Source = {path}";
-        _connection = new SQLiteConnection(connectionString);
-        _commandHandler = new(_connection);
+        _connectionString = $"Data Source = {path}".AsMemory();
+        _commandHandler = new(_connectionString);
 
     }
 
@@ -37,7 +35,7 @@ public class Engine
             {
                 SQLiteConnection.CreateFile(path);
             }
-            using (var connection = _connection)
+            using (var connection = new SQLiteConnection(_connectionString.ToString()))
             {
                 connection.Execute("create table if not exists artists(Id integer primary key, AID, Name varchar, Description varchar, Year integer, Avatar blob)");
                 connection.Execute("create table if not exists playlists(Id integer primary key, PID varchar, Name varchar, Description varchar, Year integer, Avatar blob)");
