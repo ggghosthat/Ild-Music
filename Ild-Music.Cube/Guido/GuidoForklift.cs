@@ -27,12 +27,8 @@ public class GuidoForklift //Cars from pixar (lol)
 
     #region CRUD
     //insert new entity
-    public async Task AddEntity<T>(T entity)
-    {
-        if(entity is Artist or Playlist or Track)
-            await _engine.Add<T>(entity);
-
-    }
+    public async Task AddEntity<T>(T entity) =>
+        await _engine.Add<T>(entity);
 
     //update(edit) existed entity
     public async Task EditEntity<T>(T entity)

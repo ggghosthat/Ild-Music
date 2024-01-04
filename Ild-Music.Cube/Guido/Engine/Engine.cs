@@ -63,9 +63,14 @@ public class Engine
 
     public async Task Add<T>(T entity)
     {
-        //await fork.Add<T>(entity); 
         if(entity is Artist artist)
             await _commandHandler.AddArtist(artist);
+        else if(entity is Playlist playlist)
+                await _commandHandler.AddPlaylist(playlist);
+        else if(entity is Track track)
+            await _commandHandler.AddTrack(track);
+        else if(entity is Tag tag)
+            await _commandHandler.AddTag(tag);
     }
 
     public async Task AddStores(ICollection<object> stores)

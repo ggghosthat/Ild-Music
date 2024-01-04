@@ -78,7 +78,7 @@ internal sealed class CommandHandler
 
             using(var transaction = connection.BeginTransaction())
             {
-                var playlistBodyQuery = "insert or ignore into playlists(PID, Name, Description, Year, Avatar) values (@PID, @Name, @Description, @Year, @Avatar";
+                var playlistBodyQuery = "insert or ignore into playlists(PID, Name, Description, Year, Avatar) values (@PID, @Name, @Description, @Year, @Avatar)";
 
                 var playlistArtistQuery = "insert into artists_playlists(AID, PID) select @aid, @pid where not EXISTS(SELECT 1 from artists_playlists where AID = @aid and PID = @pid)";
                 
@@ -91,7 +91,7 @@ internal sealed class CommandHandler
                                         Description = playlist.Description.ToString(),
                                         Year = playlist.Year,
                                         Avatar = playlist.AvatarSource.ToArray()
-                                        },
+                                    },
                                     transaction);
 
                 foreach(var playlistArtistRelate in playlist.Artists)
@@ -133,7 +133,7 @@ internal sealed class CommandHandler
 
                 var trackArtistQuery = "insert into artists_tracks(AID, TID) select @aid, @tid where not EXISTS(SELECT 1 from artists_tracks where AID = @aid and TID = @tid)";
 
-                var trackPlaylistQuery = "insert into artists_playlists(AID, PID) select @aid, @pid where not EXISTS(SELECT 1 from artists_playlists where AID = @aid and PID = @pid)";
+                var trackPlaylistQuery = "insert into playlists_tracks(PID, TID) select @pid, @tid where not EXISTS(SELECT 1 from playlists_tracks where PID = @pid and TID = @tid)";
 
                 connection.Execute(trackBodyQuery,
                                     new{
@@ -142,7 +142,9 @@ internal sealed class CommandHandler
                                         Name = track.Name.ToString(),
                                         Description = track.Description.ToString(),
                                         Year = track.Year,
-                                        Avatar = track.AvatarSource.ToArray()
+                                        Avatar = track.AvatarSource.ToArray(),
+                                        IsValid = track.IsValid,
+                                        Duration = track.Duration
                                     },
                                     transaction);
 
