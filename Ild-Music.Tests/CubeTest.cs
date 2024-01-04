@@ -37,6 +37,7 @@ public class CubeTest : IClassFixture<Cube.Cube>, IDisposable
         var guidT1 = Guid.NewGuid();
         var guidT2 = Guid.NewGuid();
         var guidT3 = Guid.NewGuid();
+        var guidTag1 = Guid.NewGuid();
 
         Console.WriteLine("Generating entities...");
 
@@ -51,6 +52,8 @@ public class CubeTest : IClassFixture<Cube.Cube>, IDisposable
         var track1 = new Track(guidT1, "/home/jake/Music/a_lot.mp3".AsMemory(), "Track 1".AsMemory(), "t1".AsMemory(), new byte[0], TimeSpan.Zero, 2021); 
         var track2 = new Track(guidT2, "/home/jake/Music/a_lot.mp3".AsMemory(), "Track 2".AsMemory(), "t2".AsMemory(), new byte[0], TimeSpan.Zero, 2022); 
         var track3 = new Track(guidT3, "/home/jake/Music/a_lot.mp3".AsMemory(), "Track 3".AsMemory(), "t3".AsMemory(), new byte[0], TimeSpan.Zero, 2023); 
+
+        var tag1 = new Tag(guidTag1, "Favor".AsMemory(), "red".AsMemory());
 
         Console.WriteLine("Defining relationships...");
 
@@ -72,6 +75,14 @@ public class CubeTest : IClassFixture<Cube.Cube>, IDisposable
         playlist2.AddTrack(ref track3);
         playlist3.AddTrack(ref track3);
 
+        artist1.Tags.Add(tag1);
+        playlist1.Tags.Add(tag1);
+        track1.Tags.Add(tag1);
+
+        Console.WriteLine("Keeping save into database...");
+
+        cube.AddTagObj(tag1).Wait();
+
         cube.AddArtistObj(artist1).Wait();
         cube.AddArtistObj(artist1).Wait();
         cube.AddArtistObj(artist1).Wait();
@@ -83,6 +94,7 @@ public class CubeTest : IClassFixture<Cube.Cube>, IDisposable
         cube.AddTrackObj(track1).Wait();
         cube.AddTrackObj(track2).Wait();
         cube.AddTrackObj(track3).Wait();
+        
     }
     
 

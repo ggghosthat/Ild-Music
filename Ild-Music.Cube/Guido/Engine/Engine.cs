@@ -48,11 +48,12 @@ public class Engine
 
 
                 connection.Execute("create table if not exists tags(Id integer primary key, TagID varchar, Name varchar, Color varchar)");
-                connection.Execute("create table if not exists tags_instances(Id integer primary key, TagID varchar, IID varchar)");
+                connection.Execute("create table if not exists tags_instances(Id integer primary key, TagID varchar, IID varchar, EntityType integer)");
 
                 connection.Execute("create index if not exists artists_index on artists(AID, lower(Name), Year)");
                 connection.Execute("create index if not exists playlists_index on playlists(PID, lower(Name), Year)");
                 connection.Execute("create index if not exists tracks_index on tracks(TID, Path, lower(Name), Year)");
+                connection.Execute("create index if not exists tracks_index on tags(TagID, lower(Name), EntityType)");
             }
         }
         catch(Exception ex)
@@ -73,19 +74,9 @@ public class Engine
             await _commandHandler.AddTag(tag);
     }
 
-    public async Task AddStores(ICollection<object> stores)
-    {
-       //await fork.AddStores(stores); 
-    }
-
     public async Task Edit<T>(T entity)
     {
         //await fork.Edit<T>(entity);
-    }
-
-    public async Task EditStores(ICollection<object> stores)
-    {
-        //await fork.EditStores(stores);
     }
 
     public async Task Delete(EntityTag entityTag,
@@ -95,7 +86,10 @@ public class Engine
     }
 
 
-    public async Task<(IEnumerable<object>, IEnumerable<object>, IEnumerable<object>)> BringAll(int offset, int inputCapacity)
+
+    public async Task<(IEnumerable<object>,
+                       IEnumerable<object>,
+                       IEnumerable<object>)> BringAll(int offset, int inputCapacity)
     {
         //return await loader.BringAll(offset, inputCapacity);
         return default;

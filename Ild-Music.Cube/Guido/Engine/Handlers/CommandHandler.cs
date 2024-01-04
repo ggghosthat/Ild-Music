@@ -33,6 +33,9 @@ internal sealed class CommandHandler
                 
                 var artistTrackQuery = "insert into artists_tracks(AID, TID) select @aid, @tid where not EXISTS(SELECT 1 from artists_tracks where AID = @aid and TID = @tid)";
 
+                var tagArtistQuery = "insert into tags_instances(TagID, IID, EntityType) select @tag_id, @iid, @entity_type where not EXISTS(SELECT 1 from tags_instances where TagID = @tag_id and IID = @iid and EntityType=@entity_type)";
+
+
                 connection.Execute(artistBodyQuery,
                                     new{
                                         AID = artist.Id,
@@ -63,6 +66,17 @@ internal sealed class CommandHandler
                                         transaction);
                 }
 
+                foreach(var artistTag in artist.Tags)
+                {
+                    connection.Execute(tagArtistQuery,
+                                       new{
+                                            tag_id = artistTag.Id,
+                                            iid = artist.Id,
+                                            entity_type = (int)EntityTag.ARTIST
+                                        },
+                                        transaction);
+                }
+
                 transaction.Commit();
             }
         }
@@ -83,6 +97,8 @@ internal sealed class CommandHandler
                 var playlistArtistQuery = "insert into artists_playlists(AID, PID) select @aid, @pid where not EXISTS(SELECT 1 from artists_playlists where AID = @aid and PID = @pid)";
                 
                 var playlistTrackQuery = "insert into playlists_tracks(PID, TID) select @tid, @tid where not EXISTS(SELECT 1 from playlists_tracks where PID = @pid and TID = @tid)";
+
+                var tagPlaylistQuery = "insert into tags_instances(TagID, IID, EntityType) select @tag_id, @iid, @entity_type where not EXISTS(SELECT 1 from tags_instances where TagID = @tag_id and IID = @iid and EntityType=@entity_type)";
 
                 connection.Execute(playlistBodyQuery,
                                     new{
@@ -114,6 +130,17 @@ internal sealed class CommandHandler
                                         transaction);
                 }
 
+                foreach(var playlistTag in playlist.Tags)
+                {
+                    connection.Execute(tagPlaylistQuery,
+                                       new{
+                                            tag_id = playlistTag.Id,
+                                            iid = playlist.Id,
+                                            entity_type = (int)EntityTag.PLAYLIST
+                                        },
+                                        transaction);
+                }
+
                 transaction.Commit();
             }
         }
@@ -134,6 +161,8 @@ internal sealed class CommandHandler
                 var trackArtistQuery = "insert into artists_tracks(AID, TID) select @aid, @tid where not EXISTS(SELECT 1 from artists_tracks where AID = @aid and TID = @tid)";
 
                 var trackPlaylistQuery = "insert into playlists_tracks(PID, TID) select @pid, @tid where not EXISTS(SELECT 1 from playlists_tracks where PID = @pid and TID = @tid)";
+
+                var tagTrackQuery = "insert into tags_instances(TagID, IID, EntityType) select @tag_id, @iid, @entity_type where not EXISTS(SELECT 1 from tags_instances where TagID = @tag_id and IID = @iid and EntityType=@entity_type)";
 
                 connection.Execute(trackBodyQuery,
                                     new{
@@ -168,6 +197,16 @@ internal sealed class CommandHandler
                                         transaction);
                 }
 
+                foreach(var trackTag in track.Tags)
+                {
+                    connection.Execute(tagTrackQuery,
+                                       new{
+                                            tag_id = trackTag.Id,
+                                            iid = track.Id,
+                                            entity_type = (int)EntityTag.TRACK
+                                        },
+                                        transaction);
+                }
                 transaction.Commit();
             }
         }
@@ -184,7 +223,7 @@ internal sealed class CommandHandler
 
             using(var transaction = connection.BeginTransaction())
             {
-                var tagBodyQuery = "insert or ignore into tags(TagID, Name, Color, EntityType) values (@tag_id, @name, @color, @entity_type)";
+                var tagBodyQuery = "insert or ignore into tags(TagID, Name, Color) values (@tag_id, @name, @color)";
 
                 var tagInstanceQuery = "insert into tags_instances(TagID, IID, EntityType) select @tag_id, @iid, @entity_type where not EXISTS(SELECT 1 from tags_instances where TagID = @tag_id and IID = @iid and EntityType=@entity_type)";
 

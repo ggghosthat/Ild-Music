@@ -101,6 +101,13 @@ public class Cube : ICube
 
     }
 
+    public async Task AddTagObj(Tag tag)
+    {
+        if(guidoForklift is null)
+            throw new NullReferenceException("Could not load up Guido forklift");
+        
+        await guidoForklift.AddEntity(tag);
+    }
 
     public async Task EditArtistObj(Artist artist) 
     {
