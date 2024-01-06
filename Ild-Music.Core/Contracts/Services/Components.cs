@@ -35,9 +35,9 @@ public interface ICube : IShare
     #endregion
 
     #region EditMethods
-    public Task EditArtistObj(Artist artist);
-    public Task EditTrackObj(Track artist);
-    public Task EditPlaylistObj(Playlist artist);
+    public Task EditArtistObj(Artist newArtist);
+    public Task EditPlaylistObj(Playlist newPlaylist);
+    public Task EditTrackObj(Track newTrack);
     #endregion
 
     #region RemoveMethods

@@ -2,7 +2,6 @@ using Ild_Music.Core.Contracts;
 using Ild_Music.Core.Instances;
 using Ild_Music.Core.Instances.DTO;
 using Ild_Music.Core.Statistics;
-using Cube;
 
 using MediatR;
 namespace Cube;
@@ -109,16 +108,28 @@ public class Cube : ICube
         await guidoForklift.AddEntity(tag);
     }
 
-    public async Task EditArtistObj(Artist artist) 
+    public async Task EditArtistObj(Artist newArtist) 
     {
+        if(guidoForklift is null)
+            throw new NullReferenceException("Could not load up Guido forklift");
+  
+        await guidoForklift.EditEntity(newArtist);
     }    
 
-    public async Task EditPlaylistObj(Playlist playlist)
+    public async Task EditPlaylistObj(Playlist newPlaylist)
     {
+        if(guidoForklift is null)
+            throw new NullReferenceException("Could not load up Guido forklift");
+  
+        await guidoForklift.EditEntity(newPlaylist);
     }
 
-    public async Task EditTrackObj(Track track)
+    public async Task EditTrackObj(Track newTrack)
     {
+        if(guidoForklift is null)
+            throw new NullReferenceException("Could not load up Guido forklift");
+  
+        await guidoForklift.EditEntity(newTrack);
     }
 
 

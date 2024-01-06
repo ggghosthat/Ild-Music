@@ -49,21 +49,21 @@ public sealed class SupportGhost : IGhost
     }
 
 
-    public void EditArtistInstance(Artist artist)
+    public void EditArtistInstance(Artist newArtist)
     {
-        cube.EditArtistObj(artist);
+        cube.EditArtistObj(newArtist);
         OnArtistsNotifyRefresh?.Invoke();
     }
     
-    public void EditPlaylistInstance(Playlist playlist)
+    public void EditPlaylistInstance(Playlist newPlaylist)
     {
-        cube.EditPlaylistObj(playlist);
+        cube.EditPlaylistObj(newPlaylist);
         OnPlaylistsNotifyRefresh?.Invoke();
     }
     
-    public void EditTrackInstance(Track track)
+    public void EditTrackInstance(Track newTrack)
     {
-        cube.EditTrackObj(track);
+        cube.EditTrackObj(newTrack);
         OnTracksNotifyRefresh?.Invoke();  
     }
 

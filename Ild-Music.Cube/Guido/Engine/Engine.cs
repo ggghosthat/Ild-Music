@@ -76,7 +76,14 @@ public class Engine
 
     public async Task Edit<T>(T entity)
     {
-        //await fork.Edit<T>(entity);
+        if(entity is Artist artist)
+            await _commandHandler.EditArtist(artist);
+        else if(entity is Playlist playlist)
+            await _commandHandler.EditPlaylist(playlist);
+        else if(entity is Track track)
+            await _commandHandler.EditTrack(track);
+        else if(entity is Tag tag)
+            await _commandHandler.EditTag(tag);
     }
 
     public async Task Delete(EntityTag entityTag,

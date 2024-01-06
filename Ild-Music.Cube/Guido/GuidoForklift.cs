@@ -33,6 +33,7 @@ public class GuidoForklift //Cars from pixar (lol)
     //update(edit) existed entity
     public async Task EditEntity<T>(T entity)
     {
+        await _engine.Edit<T>(entity);
     }
 
     //delete specific entity by it own id

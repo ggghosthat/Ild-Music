@@ -94,7 +94,17 @@ public class CubeTest : IClassFixture<Cube.Cube>, IDisposable
         cube.AddTrackObj(track1).Wait();
         cube.AddTrackObj(track2).Wait();
         cube.AddTrackObj(track3).Wait();
-        
+       
+        artist1.Name = "Viber XZ".AsMemory();
+        cube.EditArtistObj(artist1);
+
+        playlist1.Name = "Beach Theme".AsMemory();
+        playlist1.AddTrack(ref track3);
+        cube.EditPlaylistObj(playlist1);
+
+        Console.WriteLine("Hello Mars");
+        track3.Name = "Hello Mars".AsMemory();
+        cube.EditTrackObj(track3);
     }
     
 

@@ -1,8 +1,8 @@
 using Ild_Music.Core.Instances;
+using Ild_Music.Core.Instances.DTO;
 
 using System.Data;
 using System.Data.SQLite;
-using System.Threading.Tasks;
 using Dapper;
 
 namespace Cube.Guido.Engine.Handlers;
@@ -29,13 +29,6 @@ internal sealed class CommandHandler
             {
                 var artistBodyQuery = "insert or ignore into artists(AID, Name, Description, Year, Avatar) values (@AID, @Name, @Description, @Year, @Avatar)";
 
-                var artistPlaylistQuery = "insert into artists_playlists(AID, PID) select @aid, @pid where not EXISTS(SELECT 1 from artists_playlists where AID = @aid and PID = @pid)";
-                
-                var artistTrackQuery = "insert into artists_tracks(AID, TID) select @aid, @tid where not EXISTS(SELECT 1 from artists_tracks where AID = @aid and TID = @tid)";
-
-                var tagArtistQuery = "insert into tags_instances(TagID, IID, EntityType) select @tag_id, @iid, @entity_type where not EXISTS(SELECT 1 from tags_instances where TagID = @tag_id and IID = @iid and EntityType=@entity_type)";
-
-
                 connection.Execute(artistBodyQuery,
                                     new{
                                         AID = artist.Id,
@@ -46,35 +39,52 @@ internal sealed class CommandHandler
                                     },
                                     transaction);
 
-                foreach(var artistPlaylistRelate in artist.Playlists)
+
+                if(artist.Playlists is not null && artist.Playlists.Count > 0)
                 {
-                    connection.Execute(artistPlaylistQuery,
-                                        new{
-                                            aid = artist.Id,
-                                            pid = artistPlaylistRelate
-                                        },
-                                        transaction);
+                    var artistPlaylistQuery = "insert into artists_playlists(AID, PID) select @aid, @pid where not EXISTS(SELECT 1 from artists_playlists where AID = @aid and PID = @pid)";
+                 
+                    foreach(var artistPlaylistRelate in artist.Playlists)
+                    {
+                        connection.Execute(artistPlaylistQuery,
+                                            new{
+                                                aid = artist.Id,
+                                                pid = artistPlaylistRelate
+                                            },
+                                            transaction);
+                    }
                 }
 
-                foreach(var artistTrackRelate in artist.Playlists)
+
+                if(artist.Tracks is not null && artist.Tracks.Count > 0)
                 {
-                    connection.Execute(artistTrackQuery,
-                                        new{
-                                            aid = artist.Id,
-                                            tid = artistTrackRelate
-                                        },
-                                        transaction);
+                    var artistTrackQuery = "insert into artists_tracks(AID, TID) select @aid, @tid where not EXISTS(SELECT 1 from artists_tracks where AID = @aid and TID = @tid)";
+                 
+                    foreach(var artistTrackRelate in artist.Tracks)
+                    {
+                        connection.Execute(artistTrackQuery,
+                                            new{
+                                                aid = artist.Id,
+                                                tid = artistTrackRelate
+                                            },
+                                            transaction);
+                    }
                 }
 
-                foreach(var artistTag in artist.Tags)
+                if(artist.Tags is not null && artist.Tags.Count > 0)
                 {
-                    connection.Execute(tagArtistQuery,
-                                       new{
-                                            tag_id = artistTag.Id,
-                                            iid = artist.Id,
-                                            entity_type = (int)EntityTag.ARTIST
-                                        },
-                                        transaction);
+                    var tagArtistQuery = "insert into tags_instances(TagID, IID, EntityType) select @tag_id, @iid, @entity_type where not EXISTS(SELECT 1 from tags_instances where TagID = @tag_id and IID = @iid and EntityType=@entity_type)";
+                    
+                    foreach(var artistTag in artist.Tags)
+                    {
+                        connection.Execute(tagArtistQuery,
+                                           new{
+                                                tag_id = artistTag.Id,
+                                                iid = artist.Id,
+                                                entity_type = (int)EntityTag.ARTIST
+                                            },
+                                            transaction);
+                    }
                 }
 
                 transaction.Commit();
@@ -94,12 +104,6 @@ internal sealed class CommandHandler
             {
                 var playlistBodyQuery = "insert or ignore into playlists(PID, Name, Description, Year, Avatar) values (@PID, @Name, @Description, @Year, @Avatar)";
 
-                var playlistArtistQuery = "insert into artists_playlists(AID, PID) select @aid, @pid where not EXISTS(SELECT 1 from artists_playlists where AID = @aid and PID = @pid)";
-                
-                var playlistTrackQuery = "insert into playlists_tracks(PID, TID) select @tid, @tid where not EXISTS(SELECT 1 from playlists_tracks where PID = @pid and TID = @tid)";
-
-                var tagPlaylistQuery = "insert into tags_instances(TagID, IID, EntityType) select @tag_id, @iid, @entity_type where not EXISTS(SELECT 1 from tags_instances where TagID = @tag_id and IID = @iid and EntityType=@entity_type)";
-
                 connection.Execute(playlistBodyQuery,
                                     new{
                                         PID = playlist.Id,
@@ -110,35 +114,51 @@ internal sealed class CommandHandler
                                     },
                                     transaction);
 
-                foreach(var playlistArtistRelate in playlist.Artists)
+
+                if(playlist.Artists is not null && playlist.Artists.Count > 0)
                 {
-                    connection.Execute(playlistArtistQuery,
-                                        new{
-                                            aid = playlistArtistRelate,
-                                            pid = playlist.Id
-                                        },
-                                        transaction);
+                    var playlistArtistQuery = "insert into artists_playlists(AID, PID) select @aid, @pid where not EXISTS(SELECT 1 from artists_playlists where AID = @aid and PID = @pid)";
+                 
+                    foreach(var playlistArtistRelate in playlist.Artists)
+                    {
+                        connection.Execute(playlistArtistQuery,
+                                            new{
+                                                aid = playlistArtistRelate,
+                                                pid = playlist.Id
+                                            },
+                                            transaction);
+                    }
                 }
 
-                foreach(var playlistTrackRelate in playlist.Tracky)
+                if(playlist.Tracky is not null && playlist.Tracky.Count > 0)
                 {
-                    connection.Execute(playlistTrackQuery,
-                                        new{
-                                            pid = playlist.Id,
-                                            tid = playlistTrackRelate
-                                        },
-                                        transaction);
+                    var playlistTrackQuery = "insert into playlists_tracks(PID, TID) select @tid, @tid where not EXISTS(SELECT 1 from playlists_tracks where PID = @pid and TID = @tid)";
+                    
+                    foreach(var playlistTrackRelate in playlist.Tracky)
+                    {
+                        connection.Execute(playlistTrackQuery,
+                                            new{
+                                                pid = playlist.Id,
+                                                tid = playlistTrackRelate
+                                            },
+                                            transaction);
+                    }
                 }
 
-                foreach(var playlistTag in playlist.Tags)
+                if(playlist.Tags is not null && playlist.Tags.Count > 0)
                 {
-                    connection.Execute(tagPlaylistQuery,
-                                       new{
-                                            tag_id = playlistTag.Id,
-                                            iid = playlist.Id,
-                                            entity_type = (int)EntityTag.PLAYLIST
-                                        },
-                                        transaction);
+                    var tagPlaylistQuery = "insert into tags_instances(TagID, IID, EntityType) select @tag_id, @iid, @entity_type where not EXISTS(SELECT 1 from tags_instances where TagID = @tag_id and IID = @iid and EntityType=@entity_type)";
+                 
+                    foreach(var playlistTag in playlist.Tags)
+                    {
+                        connection.Execute(tagPlaylistQuery,
+                                           new{
+                                                tag_id = playlistTag.Id,
+                                                iid = playlist.Id,
+                                                entity_type = (int)EntityTag.PLAYLIST
+                                            },
+                                            transaction);
+                    }
                 }
 
                 transaction.Commit();
@@ -158,12 +178,6 @@ internal sealed class CommandHandler
             {
                 var trackBodyQuery = "insert or ignore into tracks(TID, Path, Name, Description, Year, Avatar, Valid, Duration) values (@TID, @Path, @Name, @Description, @Year, @Avatar, @IsValid, @Duration)";
 
-                var trackArtistQuery = "insert into artists_tracks(AID, TID) select @aid, @tid where not EXISTS(SELECT 1 from artists_tracks where AID = @aid and TID = @tid)";
-
-                var trackPlaylistQuery = "insert into playlists_tracks(PID, TID) select @pid, @tid where not EXISTS(SELECT 1 from playlists_tracks where PID = @pid and TID = @tid)";
-
-                var tagTrackQuery = "insert into tags_instances(TagID, IID, EntityType) select @tag_id, @iid, @entity_type where not EXISTS(SELECT 1 from tags_instances where TagID = @tag_id and IID = @iid and EntityType=@entity_type)";
-
                 connection.Execute(trackBodyQuery,
                                     new{
                                         TID = track.Id,
@@ -177,36 +191,53 @@ internal sealed class CommandHandler
                                     },
                                     transaction);
 
-                foreach(var trackArtistRelate in track.Artists)
+
+                if(track.Artists is not null && track.Artists.Count > 0)
                 {
-                    connection.Execute(trackArtistQuery,
-                                       new{
-                                            aid = trackArtistRelate,
-                                            tid = track.Id
-                                        },
-                                        transaction);
+                    var trackArtistQuery = "insert into artists_tracks(AID, TID) select @aid, @tid where not EXISTS(SELECT 1 from artists_tracks where AID = @aid and TID = @tid)";
+
+                    foreach(var trackArtistRelate in track.Artists)
+                    {
+                        connection.Execute(trackArtistQuery,
+                                           new{
+                                                aid = trackArtistRelate,
+                                                tid = track.Id
+                                            },
+                                            transaction);
+                    }
                 }
 
-                foreach(var trackPlaylistRelate in track.Playlists)
+                if(track.Playlists is not null && track.Playlists.Count > 0)
                 {
-                    connection.Execute(trackPlaylistQuery,
-                                        new{
-                                            pid = trackPlaylistRelate,
-                                            tid = track.Id
-                                        },
-                                        transaction);
+                    var trackPlaylistQuery = "insert into playlists_tracks(PID, TID) select @pid, @tid where not EXISTS(SELECT 1 from playlists_tracks where PID = @pid and TID = @tid)";
+
+                    foreach(var trackPlaylistRelate in track.Playlists)
+                    {
+                        connection.Execute(trackPlaylistQuery,
+                                            new{
+                                                pid = trackPlaylistRelate,
+                                                tid = track.Id
+                                            },
+                                            transaction);
+                    }
                 }
 
-                foreach(var trackTag in track.Tags)
+                if(track.Tags is not null && track.Tags.Count > 0)
                 {
-                    connection.Execute(tagTrackQuery,
-                                       new{
-                                            tag_id = trackTag.Id,
-                                            iid = track.Id,
-                                            entity_type = (int)EntityTag.TRACK
-                                        },
-                                        transaction);
+                    var tagTrackQuery = "insert into tags_instances(TagID, IID, EntityType) select @tag_id, @iid, @entity_type where not EXISTS(SELECT 1 from tags_instances where TagID = @tag_id and IID = @iid and EntityType=@entity_type)";
+
+                    foreach(var trackTag in track.Tags)
+                    {
+                        connection.Execute(tagTrackQuery,
+                                           new{
+                                                tag_id = trackTag.Id,
+                                                iid = track.Id,
+                                                entity_type = (int)EntityTag.TRACK
+                                            },
+                                            transaction);
+                    }
                 }
+
                 transaction.Commit();
             }
         }
@@ -214,7 +245,6 @@ internal sealed class CommandHandler
         return Task.CompletedTask;
     }
 
-    //TODO: correct tag table structure.
     public Task AddTag(Tag tag) 
     {
         using (IDbConnection connection = new SQLiteConnection(_connectionString.ToString()))
@@ -224,9 +254,6 @@ internal sealed class CommandHandler
             using(var transaction = connection.BeginTransaction())
             {
                 var tagBodyQuery = "insert or ignore into tags(TagID, Name, Color) values (@tag_id, @name, @color)";
-
-                var tagInstanceQuery = "insert into tags_instances(TagID, IID, EntityType) select @tag_id, @iid, @entity_type where not EXISTS(SELECT 1 from tags_instances where TagID = @tag_id and IID = @iid and EntityType=@entity_type)";
-
             
                 connection.Execute(tagBodyQuery,
                                     new{
@@ -235,38 +262,54 @@ internal sealed class CommandHandler
                                         color = tag.Color.ToString(),
                                     },
                                     transaction);
+                
 
-                foreach(var tagArtistRelate in tag.Artists)
+                if(tag.Artists is not null && tag.Artists.Count > 0)
                 {
-                    connection.Execute(tagInstanceQuery,
-                                       new{
-                                            tag_id = tag.Id,
-                                            iid = tagArtistRelate,
-                                            entity_tag = (int)EntityTag.ARTIST
-                                        },
-                                        transaction);
+                    var tagInstanceQuery = "insert into tags_instances(TagID, IID, EntityType) select @tag_id, @iid, @entity_type where not EXISTS(SELECT 1 from tags_instances where TagID = @tag_id and IID = @iid and EntityType=@entity_type)";
+                    
+                    foreach(var tagArtistRelate in tag.Artists)
+                    {
+                        connection.Execute(tagInstanceQuery,
+                                           new{
+                                                tag_id = tag.Id,
+                                                iid = tagArtistRelate,
+                                                entity_tag = (int)EntityTag.ARTIST
+                                            },
+                                            transaction);
+                    }
                 }
 
-                foreach(var tagPlaylistRelate in tag.Playlists)
+                if(tag.Playlists is not null && tag.Playlists.Count > 0)
                 {
-                    connection.Execute(tagInstanceQuery,
-                                       new{
-                                            tag_id = tag.Id,
-                                            iid = tagPlaylistRelate,
-                                            entity_tag = (int)EntityTag.PLAYLIST
-                                        },
-                                        transaction);
+                    var tagInstanceQuery = "insert into tags_instances(TagID, IID, EntityType) select @tag_id, @iid, @entity_type where not EXISTS(SELECT 1 from tags_instances where TagID = @tag_id and IID = @iid and EntityType=@entity_type)";
+                
+                    foreach(var tagPlaylistRelate in tag.Playlists)
+                    {
+                        connection.Execute(tagInstanceQuery,
+                                           new{
+                                                tag_id = tag.Id,
+                                                iid = tagPlaylistRelate,
+                                                entity_tag = (int)EntityTag.PLAYLIST
+                                            },
+                                            transaction);
+                    }
                 }
- 
-                foreach(var tagTrackRelate in tag.Tracks)
+
+                if(tag.Tracks is not null && tag.Tracks.Count > 0)
                 {
-                    connection.Execute(tagInstanceQuery,
-                                       new{
-                                            tag_id = tag.Id,
-                                            iid = tagTrackRelate,
-                                            entity_tag = (int)EntityTag.TRACK
-                                        },
-                                        transaction);
+                    var tagInstanceQuery = "insert into tags_instances(TagID, IID, EntityType) select @tag_id, @iid, @entity_type where not EXISTS(SELECT 1 from tags_instances where TagID = @tag_id and IID = @iid and EntityType=@entity_type)";
+                
+                    foreach(var tagTrackRelate in tag.Tracks)
+                    {
+                        connection.Execute(tagInstanceQuery,
+                                           new{
+                                                tag_id = tag.Id,
+                                                iid = tagTrackRelate,
+                                                entity_tag = (int)EntityTag.TRACK
+                                            },
+                                            transaction);
+                    }
                 }
 
                 transaction.Commit();
@@ -279,17 +322,314 @@ internal sealed class CommandHandler
 
 
     //these methods editting instances and their relationships
-    public async Task EditArtist()
-    {}
+    public Task EditArtist(Artist newArtist)
+    {
+        using (IDbConnection connection = new SQLiteConnection(_connectionString.ToString()) ) 
+        {
+           connection.Open(); 
+           using (var transaction = connection.BeginTransaction())
+           {
+                var updateArtistQuery = "update artists set Name = @Name, Description = @Description, Year = @Year, Avatar = @Avatar where AID = @AID";
+                
+                connection.Execute(updateArtistQuery,
+                                    new{                            
+                                        AID = newArtist.Id,
+                                        Name = newArtist.Name.ToString(),
+                                        Description = newArtist.Description.ToString(),
+                                        Avatar = newArtist.AvatarSource.ToArray(),
+                                        Year = newArtist.Year.ToString()
+                                    },
+                                    transaction);
 
-    public async Task EditPlaylist() 
-    {}
+                if(newArtist.Playlists is not null && newArtist.Playlists.Count > 0)
+                {
+                    var updateArtistPlaylistQuery = @"delete from artists_playlists where AID = @aid;
+                                                      insert into artists_playlists(AID, PID) select @aid, @pid where not EXISTS(SELECT 1 from artists_playlists where AID = @aid and PID = @pid)";
+                 
+                    foreach(var artistPlaylistRelate in newArtist.Playlists)
+                    {
+                        connection.Execute(updateArtistPlaylistQuery,
+                                            new{
+                                                aid = newArtist.Id,
+                                                pid = artistPlaylistRelate
+                                            },
+                                            transaction);
+                    }
+                }
 
-    public async Task EditTrack() 
-    {}
 
-    public async Task EditTag() 
-    {}
+                if(newArtist.Tracks is not null && newArtist.Tracks.Count > 0)
+                {
+                    var updateArtistTrackQuery = @"delete from artists_tracks where AID = @aid;
+                                                   insert into artists_tracks(AID, TID) select @aid, @tid where not EXISTS(SELECT 1 from artists_tracks where AID = @aid and TID = @tid)";
+                 
+                    foreach(var artistTrackRelate in newArtist.Tracks)
+                    {
+                        connection.Execute(updateArtistTrackQuery,
+                                            new{
+                                                aid = newArtist.Id,
+                                                tid = artistTrackRelate
+                                            },
+                                            transaction);
+                    }
+                }
+
+                if(newArtist.Tags is not null && newArtist.Tags.Count > 0)
+                {
+                    var updateTagArtistQuery = @"delete from tags_instances where IID = @iid and EntityType = @entity_type;
+                                                 insert into tags_instances(TagID, IID, EntityType) select @tag_id, @iid, @entity_type where not EXISTS(SELECT 1 from tags_instances where TagID = @tag_id and IID = @iid and EntityType=@entity_type)";
+                    
+                    foreach(var artistTag in newArtist.Tags)
+                    {
+                        connection.Execute(updateTagArtistQuery,
+                                           new{
+                                                tag_id = artistTag.Id,
+                                                iid = newArtist.Id,
+                                                entity_type = (int)EntityTag.ARTIST
+                                            },
+                                            transaction);
+                    }
+                }
+
+                transaction.Commit(); 
+           }
+        }
+
+        return Task.CompletedTask;
+    }
+
+    public Task EditPlaylist(Playlist newPlaylist) 
+    {
+        using (IDbConnection connection = new SQLiteConnection(_connectionString.ToString()) ) 
+        {
+           connection.Open(); 
+           using (var transaction = connection.BeginTransaction())
+           {
+                var updatePlaylistQuery = "update playlists set Name = @Name, Description = @Description, Year = @Year, Avatar = @Avatar where PID = @PID";
+                
+                connection.Execute(updatePlaylistQuery,
+                                    new{                            
+                                        PID = newPlaylist.Id,
+                                        Name = newPlaylist.Name.ToString(),
+                                        Description = newPlaylist.Description.ToString(),
+                                        Avatar = newPlaylist.AvatarSource.ToArray(),
+                                        Year = newPlaylist.Year.ToString()
+                                    },
+                                    transaction);
+
+                if(newPlaylist.Artists is not null && newPlaylist.Artists.Count > 0)
+                {
+                    var updatePlaylistArtistsQuery = @"delete from artists_playlists where PID = @pid;
+                                                       insert into artists_playlists(AID, PID) select @aid, @pid where not EXISTS(SELECT 1 from artists_playlists where AID = @aid and PID = @pid);";
+                 
+                    foreach(var playlistArtistRelate in newPlaylist.Artists)
+                    {
+                        connection.Execute(updatePlaylistArtistsQuery,
+                                            new{
+                                                aid = playlistArtistRelate,
+                                                pid = newPlaylist.Id
+                                            },
+                                            transaction);
+                    }
+                }
+
+
+                if(newPlaylist.Tracky is not null && newPlaylist.Tracky.Count > 0)
+                {
+                    var updateArtistTrackQuery = @"delete from playlists_tracks where PID = @pid;
+                                                   insert into playlists_tracks(PID, TID) select @pid, @tid where not EXISTS(SELECT 1 from playlists_tracks where PID = @pid and TID = @tid);";
+                 
+                    foreach(var playlistTrackRelate in newPlaylist.Tracky)
+                    {
+                        connection.Execute(updateArtistTrackQuery,
+                                            new{
+                                                pid = newPlaylist.Id,
+                                                tid = playlistTrackRelate
+                                            },
+                                            transaction);
+                    }
+                }
+
+                if(newPlaylist.Tags is not null && newPlaylist.Tags.Count > 0)
+                {
+                    var updateTagPlaylistQuery = @"delete from tags_instances where IID = @iid and EntityType = @entity_type;
+                                                   insert into tags_instances(TagID, IID, EntityType) select @tag_id, @iid, @entity_type where not EXISTS(SELECT 1 from tags_instances where TagID = @tag_id and IID = @iid and EntityType=@entity_type)";
+                    
+                    foreach(var playlistTag in newPlaylist.Tags)
+                    {
+                        connection.Execute(updateTagPlaylistQuery,
+                                           new{
+                                                tag_id = playlistTag.Id,
+                                                iid = newPlaylist.Id,
+                                                entity_type = (int)EntityTag.PLAYLIST
+                                            },
+                                            transaction);
+                    }
+                }
+
+                transaction.Commit(); 
+           }
+        }
+
+        return Task.CompletedTask;
+    }
+
+    public Task EditTrack(Track newTrack)
+    {
+        using (IDbConnection connection = new SQLiteConnection(_connectionString.ToString()) ) 
+        {
+           connection.Open(); 
+           using (var transaction = connection.BeginTransaction())
+           {
+                var updateTrackQuery = "update tracks set Path = @Pathway, Name = @Name, Description = @Description, Avatar = @Avatar, Year = @Year, Valid = @IsValid, Duration = @Duration where TID = @TID";
+                Console.WriteLine(updateTrackQuery);
+                connection.Execute(updateTrackQuery,
+                                    new{                            
+                                        TID = newTrack.Id,
+                                        Pathway = newTrack.Pathway.ToString(),
+                                        Name = newTrack.Name.ToString(),
+                                        Description = newTrack.Description.ToString(),
+                                        Avatar = newTrack.AvatarSource.ToArray(),
+                                        Year = newTrack.Year.ToString(),
+                                        IsValid = newTrack.IsValid?1:0,
+                                        Duration = newTrack.Duration.ToString()
+                                    },
+                                    transaction);
+
+                if(newTrack.Artists is not null && newTrack.Artists.Count > 0)
+                {
+                    var updatePlaylistArtistsQuery = @"delete from artists_tracks where TID = @tid;
+                                                      insert into artists_tracks(AID, TID) select @aid, @tid where not EXISTS(SELECT 1 from artists_tracks where AID = @aid and TID = @tid);";
+                 
+                    foreach(var trackArtistRelate in newTrack.Artists)
+                    {
+                        connection.Execute(updatePlaylistArtistsQuery,
+                                            new{
+                                                aid = trackArtistRelate,
+                                                tid = newTrack.Id
+                                            },
+                                            transaction);
+                    }
+                }
+
+
+                if(newTrack.Playlists is not null && newTrack.Playlists.Count > 0)
+                {
+                    var updateTrackPlaylistQuery = @"delete from playlists_tracks where TID = @tid;
+                                                   insert into playlists_tracks(PID, TID) select @pid, @tid where not EXISTS(SELECT 1 from playlists_tracks where PID = @pid and TID = @tid);";
+                 
+                    foreach(var trackPlaylistRelate in newTrack.Playlists)
+                    {
+                        connection.Execute(updateTrackPlaylistQuery,
+                                            new{
+                                                tid = newTrack.Id,
+                                                pid = trackPlaylistRelate
+                                            },
+                                            transaction);
+                    }
+                }
+
+                if(newTrack.Tags is not null && newTrack.Tags.Count > 0)
+                {
+                    var updateTagPlaylistQuery = @"delete from tags_instances where IID = @iid and EntityType = @entity_type;
+                                                   insert into tags_instances(TagID, IID, EntityType) select @tag_id, @iid, @entity_type where not EXISTS(SELECT 1 from tags_instances where TagID = @tag_id and IID = @iid and EntityType=@entity_type)";
+                    
+                    foreach(var trackTag in newTrack.Tags)
+                    {
+                        connection.Execute(updateTagPlaylistQuery,
+                                           new{
+                                                tag_id = trackTag.Id,
+                                                iid = newTrack.Id,
+                                                entity_type = (int)EntityTag.TRACK
+                                            },
+                                            transaction);
+                    }
+                }
+
+                transaction.Commit(); 
+           }
+        }
+
+        return Task.CompletedTask;
+    }
+
+    public Task EditTag(Tag newTag)
+    {
+        using (IDbConnection connection = new SQLiteConnection(_connectionString.ToString()))
+        {
+            connection.Open();
+
+            using(var transaction = connection.BeginTransaction())
+            {
+                var updateTagQuery = "update tags set Name = @name, Color = @color where TagID = @tag_id,";
+            
+                connection.Execute(updateTagQuery,
+                                    new{
+                                        tag_id = newTag.Id,
+                                        name = newTag.Name.ToString(),
+                                        color = newTag.Color.ToString(),
+                                    },
+                                    transaction);
+                
+
+                if(newTag.Artists is not null && newTag.Artists.Count > 0)
+                {
+                    var tagInstanceQuery = @"delete from tags_instances where IID = @iid and EntityType = @entity_type;
+                                             insert into tags_instances(TagID, IID, EntityType) select @tag_id, @iid, @entity_type where not EXISTS(SELECT 1 from tags_instances where TagID = @tag_id and IID = @iid and EntityType=@entity_type)";
+                    
+                    foreach(var tagArtistRelate in newTag.Artists)
+                    {
+                        connection.Execute(tagInstanceQuery,
+                                           new{
+                                                tag_id = newTag.Id,
+                                                iid = tagArtistRelate,
+                                                entity_tag = (int)EntityTag.ARTIST
+                                            },
+                                            transaction);
+                    }
+                }
+
+                if(newTag.Playlists is not null && newTag.Playlists.Count > 0)
+                {
+                    var tagInstanceQuery = @"delete from tags_instances where IID = @iid and EntityType = @entity_type;
+                                             insert into tags_instances(TagID, IID, EntityType) select @tag_id, @iid, @entity_type where not EXISTS(SELECT 1 from tags_instances where TagID = @tag_id and IID = @iid and EntityType=@entity_type)";
+                
+                    foreach(var tagPlaylistRelate in newTag.Playlists)
+                    {
+                        connection.Execute(tagInstanceQuery,
+                                           new{
+                                                tag_id = newTag.Id,
+                                                iid = tagPlaylistRelate,
+                                                entity_tag = (int)EntityTag.PLAYLIST
+                                           },
+                                           transaction);
+                    }
+                }
+
+                if(newTag.Tracks is not null && newTag.Tracks.Count > 0)
+                {
+                    var tagInstanceQuery = @"delete from tags_instances where IID = @iid and EntityType = @entity_type;
+                                             insert into tags_instances(TagID, IID, EntityType) select @tag_id, @iid, @entity_type where not EXISTS(SELECT 1 from tags_instances where TagID = @tag_id and IID = @iid and EntityType=@entity_type)";
+                
+                    foreach(var tagTrackRelate in newTag.Tracks)
+                    {
+                        connection.Execute(tagInstanceQuery,
+                                           new{
+                                                tag_id = newTag.Id,
+                                                iid = tagTrackRelate,
+                                                entity_tag = (int)EntityTag.TRACK
+                                            },
+                                            transaction);
+                    }
+                }
+
+                transaction.Commit();
+            }
+        }
+        
+        return Task.CompletedTask;
+
+    }
 
 
 
