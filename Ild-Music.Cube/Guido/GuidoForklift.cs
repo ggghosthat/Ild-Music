@@ -31,16 +31,15 @@ public class GuidoForklift //Cars from pixar (lol)
         await _engine.Add<T>(entity);
 
     //update(edit) existed entity
-    public async Task EditEntity<T>(T entity)
-    {
+    public async Task EditEntity<T>(T entity) =>
         await _engine.Edit<T>(entity);
-    }
 
     //delete specific entity by it own id
-    public async Task DeleteEntity(EntityTag entityTag,
-                                    Guid entityId)
-    {
-    }
+    public async Task DeleteEntity(Guid entityId,
+                                   EntityTag entityTag) =>
+        await _engine.Delete(entityId, entityTag);
+
+
 
     public async Task<(IEnumerable<Artist>, IEnumerable<Playlist>, IEnumerable<Track>)> StartLoad(int offset=0)
     {

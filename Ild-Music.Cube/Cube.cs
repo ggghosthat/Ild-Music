@@ -108,6 +108,8 @@ public class Cube : ICube
         await guidoForklift.AddEntity(tag);
     }
 
+
+
     public async Task EditArtistObj(Artist newArtist) 
     {
         if(guidoForklift is null)
@@ -132,17 +134,46 @@ public class Cube : ICube
         await guidoForklift.EditEntity(newTrack);
     }
 
+    public async Task EditTagObj(Tag newTag)
+    {
+        if(guidoForklift is null)
+            throw new NullReferenceException("Could not load up Guido forklift");
+        
+        await guidoForklift.EditEntity(newTag);
+    }
+
 
     public async Task RemoveArtistObj(Guid artistId) 
-    {    
+    {   
+        if(guidoForklift is null)
+            throw new NullReferenceException("Could not load up Guido forklift");
+        
+        await guidoForklift.DeleteEntity(artistId, EntityTag.ARTIST);
     }
 
     public async Task RemovePlaylistObj(Guid playlistId)
     {
+        if(guidoForklift is null)
+            throw new NullReferenceException("Could not load up Guido forklift");
+        
+        await guidoForklift.DeleteEntity(playlistId, EntityTag.PLAYLIST);
     }
 
     public async Task RemoveTrackObj(Guid trackId) 
     {
+        if(guidoForklift is null)
+            throw new NullReferenceException("Could not load up Guido forklift");
+        
+        await guidoForklift.DeleteEntity(trackId, EntityTag.TRACK);
+
+    }
+
+    private async Task RemoveTagObj(Guid tagId)
+    {
+        if(guidoForklift is null)
+            throw new NullReferenceException("Could not load up Guido forklift");
+        
+        await guidoForklift.DeleteEntity(tagId, EntityTag.TAG); 
     }
 
 

@@ -482,7 +482,6 @@ internal sealed class CommandHandler
            using (var transaction = connection.BeginTransaction())
            {
                 var updateTrackQuery = "update tracks set Path = @Pathway, Name = @Name, Description = @Description, Avatar = @Avatar, Year = @Year, Valid = @IsValid, Duration = @Duration where TID = @TID";
-                Console.WriteLine(updateTrackQuery);
                 connection.Execute(updateTrackQuery,
                                     new{                            
                                         TID = newTrack.Id,
@@ -634,16 +633,95 @@ internal sealed class CommandHandler
 
 
     //these methods delleting instances and their relationships 
-    public async Task DeleteArtist()
-    {}
+    public Task DeleteArtist(Guid artistId)
+    {
+        using (IDbConnection connection = new SQLiteConnection(_connectionString.ToString()))
+        {
+            connection.Open();
+        
+            using (var transaction = connection.BeginTransaction())
+            {
+                var deleteArtistQuery = @"delete from artists where AID = @aid;
+                                          delete from artists_tracks where AID = @aid;
+                                          delete from artists_playlists where AID = @aid;";
+    
+                connection.Execute(deleteArtistQuery,
+                                   new {aid = artistId},
+                                   transaction);
 
-    public async Task DeletePlaylist() 
-    {}
+                transaction.Commit();
+            }
+        }
 
-    public async Task DeleteTrack() 
-    {}
+        return Task.CompletedTask;
+    }
 
-    public async Task DeleteTag() 
-    {}
+    public Task DeletePlaylist(Guid playlistId) 
+    {
+        using (IDbConnection connection = new SQLiteConnection(_connectionString.ToString()))
+        {
+            connection.Open();
+        
+            using (var transaction = connection.BeginTransaction())
+            {
+                var deletePlaylistQuery = @"delete from playlists where PID = @pid;
+                                          delete from artists_playlists where PID = @pid;                                          
+                                          delete from playlists_tracks where PID = @pid;";
+    
+                connection.Execute(deletePlaylistQuery,
+                                   new {pid = playlistId},
+                                   transaction);
 
+                transaction.Commit();
+            }
+        }
+
+        return Task.CompletedTask;
+    }
+
+    public Task DeleteTrack(Guid trackId) 
+    {
+        using (IDbConnection connection = new SQLiteConnection(_connectionString.ToString()))
+        {
+            connection.Open();
+        
+            using (var transaction = connection.BeginTransaction())
+            {
+                var deleteTrackQuery = @"delete from tracks where TID = @tid;
+                                          delete from artists_tracks where TID = @tid;                                          
+                                          delete from playlists_tracks where TID = @tid;";
+    
+                connection.Execute(deleteTrackQuery,
+                                   new {tid = trackId},
+                                   transaction);
+
+                transaction.Commit();
+            }
+        }
+
+        return Task.CompletedTask;
+
+    }
+
+    public Task DeleteTag(Guid tagId) 
+    {
+        using (IDbConnection connection = new SQLiteConnection(_connectionString.ToString()))
+        {
+            connection.Open();
+        
+            using (var transaction = connection.BeginTransaction())
+            {
+                var deleteTagQuery = @"delete from tags where TagID = @tag_id;
+                                          delete from tags_instances where TagID = @tag_id;";
+    
+                connection.Execute(deleteTagQuery,
+                                   new {tag_id = tagId},
+                                   transaction);
+
+                transaction.Commit();
+            }
+        }
+
+        return Task.CompletedTask;
+    }
 }

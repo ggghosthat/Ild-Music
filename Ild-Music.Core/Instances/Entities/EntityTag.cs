@@ -4,5 +4,6 @@ public enum EntityTag : int
 {
     ARTIST = 1,
     PLAYLIST = 2,
-    TRACK = 3
+    TRACK = 3,
+    TAG = 4
 }

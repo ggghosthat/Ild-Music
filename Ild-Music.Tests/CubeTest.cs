@@ -38,6 +38,7 @@ public class CubeTest : IClassFixture<Cube.Cube>, IDisposable
         var guidT2 = Guid.NewGuid();
         var guidT3 = Guid.NewGuid();
         var guidTag1 = Guid.NewGuid();
+        var guidTag2 = Guid.NewGuid();
 
         Console.WriteLine("Generating entities...");
 
@@ -54,6 +55,7 @@ public class CubeTest : IClassFixture<Cube.Cube>, IDisposable
         var track3 = new Track(guidT3, "/home/jake/Music/a_lot.mp3".AsMemory(), "Track 3".AsMemory(), "t3".AsMemory(), new byte[0], TimeSpan.Zero, 2023); 
 
         var tag1 = new Tag(guidTag1, "Favor".AsMemory(), "red".AsMemory());
+        var tag2 = new Tag(guidTag2, "Deletion".AsMemory(), "yellow".AsMemory());
 
         Console.WriteLine("Defining relationships...");
 
@@ -105,6 +107,8 @@ public class CubeTest : IClassFixture<Cube.Cube>, IDisposable
         Console.WriteLine("Hello Mars");
         track3.Name = "Hello Mars".AsMemory();
         cube.EditTrackObj(track3);
+
+        cube.RemoveTrackObj(track3.Id);
     }
     
 

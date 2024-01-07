@@ -86,10 +86,24 @@ public class Engine
             await _commandHandler.EditTag(tag);
     }
 
-    public async Task Delete(EntityTag entityTag,
-                                Guid entityId)
+    public async Task Delete(Guid entityId,
+                             EntityTag entityTag)
     {
-       //await fork.Delete(entityTag, entityId); 
+        switch(entityTag)
+        {
+            case (EntityTag.ARTIST) :
+                await _commandHandler.DeleteArtist(entityId);
+                break;                
+            case (EntityTag.PLAYLIST) :
+                await _commandHandler.DeletePlaylist(entityId);
+                break;
+            case (EntityTag.TRACK) : 
+                await _commandHandler.DeleteTrack(entityId);
+                break; 
+            case (EntityTag.TAG) :
+                await _commandHandler.DeleteTag(entityId);
+                break;
+        };
     }
 
 
