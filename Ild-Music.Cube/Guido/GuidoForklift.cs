@@ -1,44 +1,81 @@
 using Ild_Music.Core.Instances;
 using Ild_Music.Core.Instances.DTO;
-using Cube.Guido.Engine;
-using Cube.Guido;
+using Cube.Guido.Engine.Agents;
+using Cube.Guido.Engine.Handlers;
 
 namespace Cube;
 public class GuidoForklift //Cars from pixar (lol)
 {
-    private int capacity;
+    private readonly int capacity;
 
-    private static Engine _engine;
+    private readonly CommandHandler _commandHandler;
 
-    public GuidoForklift(in string dbPath,
-                        int capacity = 300)
-    {
-        _engine = new (dbPath, capacity);
-
+    public GuidoForklift(string dbPath,
+                         int capacity = 300)
+    { 
         this.capacity = capacity;
+
+        ConnectionAgent.ConfigAgent(dbPath);
+        ConnectionAgent.ConfigConnection(); 
+        
+        _commandHandler = new ();
     }
 
     //check database and table existance
     //in negative case it creates from scratch
     public void ForkliftUp()
     {
-        _engine.Start();
+        //init database if not exists from start handler
     }
 
     #region CRUD
     //insert new entity
-    public async Task AddEntity<T>(T entity) =>
-        await _engine.Add<T>(entity);
+    public async Task AddEntity<T>(T entity)
+    {
+        if(entity is Artist artist)
+            await _commandHandler.AddArtist(artist);
+        else if(entity is Playlist playlist)
+                await _commandHandler.AddPlaylist(playlist);
+        else if(entity is Track track)
+            await _commandHandler.AddTrack(track);
+        else if(entity is Tag tag)
+            await _commandHandler.AddTag(tag);
+    }
 
     //update(edit) existed entity
-    public async Task EditEntity<T>(T entity) =>
-        await _engine.Edit<T>(entity);
+    public async Task EditEntity<T>(T entity)
+    {
+        if(entity is Artist artist)
+            await _commandHandler.EditArtist(artist);
+        else if(entity is Playlist playlist)
+            await _commandHandler.EditPlaylist(playlist);
+        else if(entity is Track track)
+            await _commandHandler.EditTrack(track);
+        else if(entity is Tag tag)
+            await _commandHandler.EditTag(tag);
+    }
 
     //delete specific entity by it own id
     public async Task DeleteEntity(Guid entityId,
-                                   EntityTag entityTag) =>
-        await _engine.Delete(entityId, entityTag);
+                                   EntityTag entityTag)
+    {
+        switch(entityTag)
+        {
+            case (EntityTag.ARTIST) :
+                await _commandHandler.DeleteArtist(entityId);
+                break;                
+            case (EntityTag.PLAYLIST) :
+                await _commandHandler.DeletePlaylist(entityId);
+                break;
+            case (EntityTag.TRACK) : 
+                await _commandHandler.DeleteTrack(entityId);
+                break; 
+            case (EntityTag.TAG) :
+                await _commandHandler.DeleteTag(entityId);
+                break;
+        };
 
+    }
 
 
     public async Task<(IEnumerable<Artist>, IEnumerable<Playlist>, IEnumerable<Track>)> StartLoad(int offset=0)

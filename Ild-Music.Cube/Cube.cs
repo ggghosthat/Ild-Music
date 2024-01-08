@@ -41,7 +41,7 @@ public class Cube : ICube
 
     public void Init()
     {
-        guidoForklift = new (in dbPath, CubePage);       
+        guidoForklift = new (dbPath, CubePage);       
         guidoForklift.ForkliftUp();
         LoadUp().Wait();
     }

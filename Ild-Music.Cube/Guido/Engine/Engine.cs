@@ -23,7 +23,7 @@ public class Engine
         this.capacity = capacity;
 
         _connectionString = $"Data Source = {path}".AsMemory();
-        _commandHandler = new(_connectionString);
+        //_commandHandler = new(_connectionString);
 
     }
 
