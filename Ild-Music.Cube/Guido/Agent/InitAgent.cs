@@ -2,7 +2,7 @@ using System.Data;
 using System.Data.SQLite;
 using Dapper;
 
-namespace Cube.Guido.Engine.Agents;
+namespace Cube.Guido.Agents;
 
 //this class was being delegated SQLite database 
 internal static class ConnectionAgent

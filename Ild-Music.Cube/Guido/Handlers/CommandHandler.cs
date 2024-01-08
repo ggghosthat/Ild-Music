@@ -5,7 +5,7 @@ using System.Data;
 using System.Data.SQLite;
 using Dapper;
 
-namespace Cube.Guido.Engine.Handlers;
+namespace Cube.Guido.Handlers;
 
 internal sealed class CommandHandler 
 {
