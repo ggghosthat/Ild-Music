@@ -9,10 +9,15 @@ internal static class ConnectionAgent
 {
     private static string path;
     private static string connectionString;
+    private static int queryLimit;
 
-    public static void ConfigAgent(string dbPath)
+    public static int QueryLimit => queryLimit;
+
+    public static void ConfigAgent(string dbPath,
+                                   int pageLimit = 100)
     {
         path = dbPath;
+        queryLimit = pageLimit;
         connectionString = $"Data Source = {path}";
 
         CheckFacilityIntegrity();
@@ -38,17 +43,17 @@ internal static class ConnectionAgent
             using (IDbConnection connection = GetDbConnection())
             {
                 connection.Execute("create table if not exists artists(Id integer primary key, AID, Name varchar, Description varchar, Year integer, Avatar blob)");
-                connection.Execute("create table if not exists playlists(Id integer primary key, PID varchar, Name varchar, Description varchar, Year integer, Avatar blob)");
-                connection.Execute("create table if not exists tracks(Id integer primary key, TID varchar, Path varchar, Name varchar, Description varchar, Year integer, Avatar blob, Valid integer, Duration integer)");
+                connection.Execute("create table if not exists playlists(Id integer primary key, PID, Name varchar, Description varchar, Year integer, Avatar blob)");
+                connection.Execute("create table if not exists tracks(Id integer primary key, TID, Path varchar, Name varchar, Description varchar, Year integer, Avatar blob, Valid integer, Duration integer)");
                 
 
                 connection.Execute("create table if not exists artists_playlists(Id integer primary key, AID, PID)");
                 connection.Execute("create table if not exists artists_tracks(Id integer primary key, AID, TID)");
-                connection.Execute("create table if not exists playlists_tracks(Id integer primary key, PID varchar, TID varchar)");
+                connection.Execute("create table if not exists playlists_tracks(Id integer primary key, PID, TID)");
 
 
-                connection.Execute("create table if not exists tags(Id integer primary key, TagID varchar, Name varchar, Color varchar)");
-                connection.Execute("create table if not exists tags_instances(Id integer primary key, TagID varchar, IID varchar, EntityType integer)");
+                connection.Execute("create table if not exists tags(Id integer primary key, TagID, Name varchar, Color varchar)");
+                connection.Execute("create table if not exists tags_instances(Id integer primary key, TagID, IID, EntityType integer)");
 
                 connection.Execute("create index if not exists artists_index on artists(AID, lower(Name), Year)");
                 connection.Execute("create index if not exists playlists_index on playlists(PID, lower(Name), Year)");

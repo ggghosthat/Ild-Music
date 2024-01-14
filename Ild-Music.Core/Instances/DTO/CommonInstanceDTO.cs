@@ -3,7 +3,7 @@ public struct CommonInstanceDTO
 {
     public Guid Id { get; }
     public ReadOnlyMemory<char> Name { get; }
-    public ReadOnlyMemory<byte> Avatar { get; }
+    public ReadOnlyMemory<byte> Avatar { get; } 
     public EntityTag Tag { get; }
 
     public CommonInstanceDTO(Guid id,

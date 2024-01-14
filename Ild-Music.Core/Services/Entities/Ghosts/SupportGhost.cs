@@ -10,9 +10,9 @@ public sealed class SupportGhost : IGhost
 
     private static ICube cube;
 
-    public IEnumerable<Artist> ArtistsCollection => cube.Artists ?? null;
-    public IEnumerable<Playlist> PlaylistsCollection => cube.Playlists??null;
-    public IEnumerable<Track> TracksCollection => cube.Tracks?? null;
+    public IEnumerable<CommonInstanceDTO>? ArtistsCollection => cube.Artists ?? null;
+    public IEnumerable<CommonInstanceDTO>? PlaylistsCollection => cube.Playlists??null;
+    public IEnumerable<CommonInstanceDTO>? TracksCollection => cube.Tracks?? null;
 
     public event Action OnArtistsNotifyRefresh;
     public event Action OnPlaylistsNotifyRefresh;

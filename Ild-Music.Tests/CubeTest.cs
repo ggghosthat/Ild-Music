@@ -109,6 +109,10 @@ public class CubeTest : IClassFixture<Cube.Cube>, IDisposable
         cube.EditTrackObj(track3);
 
         cube.RemoveTrackObj(track3.Id);
+
+        cube.LoadUp();
+
+        Console.WriteLine(cube.Artists.FirstOrDefault().Id);
     }
     
 

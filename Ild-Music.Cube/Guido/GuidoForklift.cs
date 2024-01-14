@@ -9,6 +9,7 @@ public class GuidoForklift //Cars from pixar (lol)
     private readonly int capacity;
 
     private readonly CommandHandler _commandHandler;
+    private readonly QueryHandler _queryHandler;
 
     public GuidoForklift(string dbPath,
                          int capacity = 300)
@@ -19,6 +20,7 @@ public class GuidoForklift //Cars from pixar (lol)
         ConnectionAgent.ConfigConnection(); 
         
         _commandHandler = new ();
+        _queryHandler = new ();
     }
 
     //check database and table existance
@@ -78,9 +80,9 @@ public class GuidoForklift //Cars from pixar (lol)
     }
 
 
-    public async Task<(IEnumerable<Artist>, IEnumerable<Playlist>, IEnumerable<Track>)> StartLoad(int offset=0)
+    public async Task<QueryPool> StartLoad()
     {
-        return default;
+        return await _queryHandler.QueryTopPool();
     }
 
     public async Task<IEnumerable<T>> LoadEntities<T>(int offset)

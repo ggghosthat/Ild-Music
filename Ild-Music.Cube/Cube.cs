@@ -24,9 +24,9 @@ public class Cube : ICube
     private string dbPath = Path.Combine(Environment.CurrentDirectory, "storage.db");
     private GuidoForklift? guidoForklift = default;
 
-    public IEnumerable<Artist>? Artists {get; private set;} = default;
-    public IEnumerable<Playlist>? Playlists {get; private set;} = default;
-    public IEnumerable<Track>? Tracks {get; private set;} = default;
+    public IEnumerable<CommonInstanceDTO>? Artists {get; private set;} = default;
+    public IEnumerable<CommonInstanceDTO>? Playlists {get; private set;} = default;
+    public IEnumerable<CommonInstanceDTO>? Tracks {get; private set;} = default;
 
     public Cube()
     {
@@ -42,7 +42,6 @@ public class Cube : ICube
     public void Init()
     {
         guidoForklift = new (dbPath, CubePage);       
-        guidoForklift.ForkliftUp();
         LoadUp().Wait();
     }
 
@@ -57,9 +56,9 @@ public class Cube : ICube
             throw new NullReferenceException("Could not load up Guido forklift");
 
         var load = await guidoForklift.StartLoad();
-        Artists = load.Item1;
-        Playlists = load.Item2;
-        Tracks = load.Item3;
+        Artists = load.ArtistsDTOs;
+        Playlists = load.PlaylistsDTOs;
+        Tracks = load.TracksDTOs;
     }
     
 
@@ -71,7 +70,7 @@ public class Cube : ICube
         await guidoForklift.AddEntity(artist);
         if((Artists?.Count() + 1) < (artistOffset * CubePage))
         {
-           Artists = await guidoForklift.LoadEntities<Artist>(artistOffset); 
+           //Artists = await guidoForklift.LoadEntities<Artist>(artistOffset); 
         }
     }
 
@@ -83,7 +82,7 @@ public class Cube : ICube
         await guidoForklift.AddEntity(playlist);
         if((Playlists?.Count() + 1) < (playlistOffset * CubePage))
         {
-           Playlists = await guidoForklift.LoadEntities<Playlist>(playlistOffset); 
+           //Playlists = await guidoForklift.LoadEntities<Playlist>(playlistOffset); 
         }
     }
 
@@ -95,7 +94,7 @@ public class Cube : ICube
         await guidoForklift.AddEntity(track);
         if((Tracks?.Count() + 1) < (trackOffset * CubePage))
         {
-           Tracks = await guidoForklift.LoadEntities<Track>(trackOffset); 
+           //Tracks = await guidoForklift.LoadEntities<Track>(trackOffset); 
         }
 
     }

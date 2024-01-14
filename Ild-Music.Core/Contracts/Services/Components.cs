@@ -23,9 +23,9 @@ public interface ICube : IShare
     #endregion
 
     #region ResourceCollections
-    public IEnumerable<Artist>? Artists {get;}
-    public IEnumerable<Playlist>? Playlists { get; }
-    public IEnumerable<Track>? Tracks { get; }        
+    public IEnumerable<CommonInstanceDTO>? Artists {get;}
+    public IEnumerable<CommonInstanceDTO>? Playlists { get; }
+    public IEnumerable<CommonInstanceDTO>? Tracks { get; }        
     #endregion
 
     #region AddMethods
