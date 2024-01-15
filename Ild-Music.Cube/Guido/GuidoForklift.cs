@@ -23,12 +23,7 @@ public class GuidoForklift //Cars from pixar (lol)
         _queryHandler = new ();
     }
 
-    //check database and table existance
-    //in negative case it creates from scratch
-    public void ForkliftUp()
-    {
-        //init database if not exists from start handler
-    }
+    
 
     #region CRUD
     //insert new entity
@@ -85,9 +80,17 @@ public class GuidoForklift //Cars from pixar (lol)
         return await _queryHandler.QueryTopPool();
     }
 
-    public async Task<IEnumerable<T>> LoadEntities<T>(int offset)
+    public async Task<IEnumerable<CommonInstanceDTO>> LoadEntities(EntityTag entityTag, 
+                                                                   int offset)
     {
-        return default;
+        IEnumerable<CommonInstanceDTO> result = entityTag switch
+        {
+            EntityTag.ARTIST => await _queryHandler.QueryArtists(offset),
+            EntityTag.PLAYLIST => await _queryHandler.QueryArtists(offset),
+            EntityTag.TRACK => await _queryHandler.QueryArtists(offset)
+        };
+    
+        return result;
     }
     
     public async Task<IEnumerable<T>> LoadEntitiesById<T>(IEnumerable<CommonInstanceDTO> idCollection)
@@ -102,42 +105,7 @@ public class GuidoForklift //Cars from pixar (lol)
          return default;
     }
 
-    
-
-    //here instead of using generic T have been implemented methods for each type
-    //reason is imposibility of implicit casting with T generic type.
-    public async Task<Artist> FetchArtist(Guid artistId)
-    {
-        return default;
-    }
-
-    public async Task<Playlist> FetchPlaylist(Guid playlistId)
-    {
-        return default;
-    }
-
-    public async Task<Track> FetchTrack(Guid trackId)
-    {
-        return default;
-    }
-
-    //use extend methods when you fetched a bare instance without any dependencies
-    //for example playlist without tracks or track without artists. 
-    //In this case expend methods will come handy.
-    public async Task<Artist> ExtendArtist(Artist artist)
-    {
-        return default;
-    }
-   
-    public async Task<Playlist> ExtendPlaylist(Playlist playlist)
-    {
-        return default;
-    }
-
-    public async Task<Track> ExtendTrack(Track track)
-    {
-        return default;
-    }
+     
 
     public async Task<IEnumerable<CommonInstanceDTO>> RequireInstances(EntityTag entitytag, 
                                                                        IEnumerable<Guid> ids)

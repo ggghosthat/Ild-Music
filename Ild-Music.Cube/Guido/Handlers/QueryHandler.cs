@@ -60,11 +60,98 @@ internal sealed class QueryHandler
 
         return Task.FromResult<QueryPool>(resultPool);
     }
-    //1. QueryAllDto(Paged)
-    //
-    //2. QueryArtistsDto(Paged)
-    //3. QueryPlaylistsDto(Paged)
-    //4. QueryTrackDto(Paged)
+
+    public Task<IEnumerable<CommonInstanceDTO>> QueryArtists(int offset)
+    {
+        IEnumerable<CommonInstanceDTO> artistsDTOs;
+        using (IDbConnection connection = ConnectionAgent.GetDbConnection())
+        {
+            connection.Open();
+
+            using (var transaction = connection.BeginTransaction())
+            {
+                var artistsPageQuery = @"SELECT AID, Name, Avatar FROM artists
+                                         WHERE Id > @offset AND Id < @pageLimit;";
+                
+                artistsDTOs = connection.Query(artistsPageQuery,
+                                                   new 
+                                                   {
+                                                        offset = offset,
+                                                        pageLimit = ConnectionAgent.QueryLimit
+                                                   },
+                                                   transaction)
+                                            .Select(a => new CommonInstanceDTO( id: new Guid(a.AID),
+                                                                                name: ((string)a.Name).AsMemory(),
+                                                                                avatar: a.Avatar,
+                                                                                tag: EntityTag.ARTIST)).ToList(); 
+            }
+        }
+
+        return Task.FromResult<IEnumerable<CommonInstanceDTO>>(artistsDTOs);
+
+    }
+
+    public Task<IEnumerable<CommonInstanceDTO>> QueryPlaylists(int offset)
+    {
+        IEnumerable<CommonInstanceDTO> playlistsDTOs;
+        using (IDbConnection connection = ConnectionAgent.GetDbConnection())
+        {
+            connection.Open();
+
+            using (var transaction = connection.BeginTransaction())
+            {
+                var playlistsPageQuery = @"SELECT PID, Name, Avatar FROM playlists
+                                         WHERE Id > @offset AND Id < @pageLimit;";
+                
+                playlistsDTOs = connection.Query(playlistsPageQuery,
+                                                   new 
+                                                   {
+                                                        offset = offset,
+                                                        pageLimit = ConnectionAgent.QueryLimit
+                                                   },
+                                                   transaction)
+                                            .Select(a => new CommonInstanceDTO( id: new Guid(a.PID),
+                                                                                name: ((string)a.Name).AsMemory(),
+                                                                                avatar: a.Avatar,
+                                                                                tag: EntityTag.ARTIST)).ToList(); 
+            }
+        }
+
+        return Task.FromResult<IEnumerable<CommonInstanceDTO>>(playlistsDTOs);
+
+    }
+
+    public Task<IEnumerable<CommonInstanceDTO>> QueryTracks(int offset)
+    {
+        IEnumerable<CommonInstanceDTO> tracksDTOs;
+        using (IDbConnection connection = ConnectionAgent.GetDbConnection())
+        {
+            connection.Open();
+
+            using (var transaction = connection.BeginTransaction())
+            {
+                var tracksPageQuery = @"SELECT TID, Name, Avatar FROM tracks
+                                         WHERE Id > @offset AND Id < @pageLimit;";
+                
+                tracksDTOs = connection.Query(tracksPageQuery,
+                                                   new 
+                                                   {
+                                                        offset = offset,
+                                                        pageLimit = ConnectionAgent.QueryLimit
+                                                   },
+                                                   transaction)
+                                            .Select(a => new CommonInstanceDTO( id: new Guid(a.TID),
+                                                                                name: ((string)a.Name).AsMemory(),
+                                                                                avatar: a.Avatar,
+                                                                                tag: EntityTag.ARTIST)).ToList(); 
+            }
+        }
+
+        return Task.FromResult<IEnumerable<CommonInstanceDTO>>(tracksDTOs);
+
+    }
+
+
     //5. QueryTagDto(Paged)
     //
     //6. QueryArtistInstance(Single)
