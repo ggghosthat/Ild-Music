@@ -93,9 +93,9 @@ public class GuidoForklift //Cars from pixar (lol)
         return result;
     }
     
-    public async Task<IEnumerable<T>> LoadEntitiesById<T>(IEnumerable<CommonInstanceDTO> idCollection)
+    public async Task<IEnumerable<Tag>> LoadTags (int offset)
     {
-        return default;
+        return await _queryHandler.QueryTags(offset);
     }
 
 
