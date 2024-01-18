@@ -89,28 +89,12 @@ public sealed class SupportGhost : IGhost
     //these methods get dto notations about requred instances
     public async Task<IEnumerable<CommonInstanceDTO>> RequireInstances(EntityTag entityTag)
     {
-        return await cube.RequireInstances(entityTag);
+        return null;
     }
 
     public async Task<IEnumerable<CommonInstanceDTO>> RequireInstances(EntityTag entityTag,
                                                                        IEnumerable<Guid> id)
     {
-        return await cube.RequireInstances(entityTag, id);
-    }
-
-    public async Task<Artist> FetchArtist(Guid artistId)
-    {
-        return await cube.FetchArtist(artistId);
-    }
-
-    public async Task<Playlist> FetchPlaylist(Guid playlistId)
-    {
-        return await cube.FetchPlaylist(playlistId);
-    }
-
-    public async Task<Track> FetchTrack(Guid trackId)
-    {
-        return await cube.FetchTrack(trackId);
-    }
-
+        return null;
+    } 
 }

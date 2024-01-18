@@ -28,83 +28,75 @@ public interface ICube : IShare
     public IEnumerable<CommonInstanceDTO>? Tracks { get; }        
     #endregion
 
-    #region AddMethods
+    #region Command methods
     public Task AddArtistObj(Artist artist);
     public Task AddTrackObj(Track artist);
     public Task AddPlaylistObj(Playlist artist);
-    #endregion
 
-    #region EditMethods
     public Task EditArtistObj(Artist newArtist);
     public Task EditPlaylistObj(Playlist newPlaylist);
     public Task EditTrackObj(Track newTrack);
-    #endregion
 
-    #region RemoveMethods
     public Task RemoveArtistObj(Guid artistId);
     public Task RemoveTrackObj(Guid trackId);
     public Task RemovePlaylistObj(Guid playlistId);
     #endregion 
 
-    #region LoadMethods
-    public Task LoadItems<T>();
-    public Task UnloadItems<T>();
+    #region Query methods
+    public Task LoadUp();
+    public Task<IEnumerable<CommonInstanceDTO>> LoadEntities(EntityTag entityTag, int offset);
+    public Task<IEnumerable<Tag>> LoadTags(int offset);
     #endregion
-    
-    #region InstanceRelatesChecks
-    public Task<InspectFrame> CheckArtistRelates(Artist artist);
-    public Task<InspectFrame> CheckPlaylistRelates(Playlist playlist);
-    public Task<InspectFrame> CheckTrackRelates(Track track);
-    #endregion
-
-
-    #region Instance Request-Retrieve region
-    public Task<IEnumerable<CommonInstanceDTO>> RequireInstances(EntityTag entityTag);
-    public Task<IEnumerable<CommonInstanceDTO>> RequireInstances(EntityTag entityTag, IEnumerable<Guid> id);
-
-    public Task<Artist> FetchArtist(Guid artistId);
-    public Task<Playlist> FetchPlaylist(Guid playlistId);
-    public Task<Track> FetchTrack(Guid trackId);
-
-    public Task<IEnumerable<Artist>> RetrieveArtists (IEnumerable<CommonInstanceDTO> dtos);
-    public Task<IEnumerable<Playlist>> RetrievePlaylists (IEnumerable<CommonInstanceDTO> dtos);
-    public Task<IEnumerable<Track>> RetrieveTracks (IEnumerable<CommonInstanceDTO> dtos);
-    #endregion
-    
+       
+    #region Statistic data
     public Task<CounterFrame> SnapCounterFrame();
+    #endregion
 
-    public Task<IEnumerable<T>> Search<T>(ReadOnlyMemory<char> searchTerm); 
+    #region Search
+    public Task<IEnumerable<T>> Search<T>(ReadOnlyMemory<char> searchTerm);
+    #endregion
 }
 
 //Represent Player instance
 public interface IPlayer : IShare
 {
+    #region Identifiers
     public Guid PlayerId { get; }
     public string PlayerName { get; }
+    #endregion
 
+    #region Current entity
     public Track? CurrentTrack { get; }
     public Playlist? CurrentPlaylist {get;}
+    #endregion
 
+    #region State attributes
     public bool IsSwipe { get; }
     public bool IsEmpty { get; }
     public bool ToggleState { get; }
     public int PlaylistPoint {get;}
+    #endregion
 
+    #region Time attributes
     public TimeSpan TotalTime { get; }
     public TimeSpan CurrentTime { get; set; }
+    #endregion
 
+    #region Volume attributes
     public float MaxVolume {get;}
     public float MinVolume {get;}
     public float CurrentVolume {get; set;}
+    #endregion
 
-
+    #region Set entities methods
     public Task DropTrack(Track track);
 
     public Task DropPlaylist(Playlist playlist, int index=0);
 
     public Task DropNetworkStream(ReadOnlyMemory<char> uri);
+    #endregion
 
-
+    #region main functionallity
     public void Stop();
 
     public void Toggle();
@@ -116,5 +108,5 @@ public interface IPlayer : IShare
     public void SkipNext();
 
     public Task Shuffle();
-
+    #endregion
 }

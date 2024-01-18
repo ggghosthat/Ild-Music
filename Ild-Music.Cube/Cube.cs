@@ -50,18 +50,9 @@ public class Cube : ICube
         _mediator = mediator;
     }
 
-    public async Task LoadUp()
-    {
-        if(guidoForklift is null)
-            throw new NullReferenceException("Could not load up Guido forklift");
-
-        var load = await guidoForklift.StartLoad();
-        Artists = load.ArtistsDTOs;
-        Playlists = load.PlaylistsDTOs;
-        Tracks = load.TracksDTOs;
-    }
     
-
+    
+    #region Command region
     public async Task AddArtistObj(Artist artist) 
     {
         if(guidoForklift is null)
@@ -70,7 +61,7 @@ public class Cube : ICube
         await guidoForklift.AddEntity(artist);
         if((Artists?.Count() + 1) < (artistOffset * CubePage))
         {
-           //Artists = await guidoForklift.LoadEntities<Artist>(artistOffset); 
+           Artists = await guidoForklift.LoadEntities(EntityTag.ARTIST, artistOffset); 
         }
     }
 
@@ -82,7 +73,7 @@ public class Cube : ICube
         await guidoForklift.AddEntity(playlist);
         if((Playlists?.Count() + 1) < (playlistOffset * CubePage))
         {
-           //Playlists = await guidoForklift.LoadEntities<Playlist>(playlistOffset); 
+           Playlists = await guidoForklift.LoadEntities(EntityTag.PLAYLIST, playlistOffset); 
         }
     }
 
@@ -94,7 +85,7 @@ public class Cube : ICube
         await guidoForklift.AddEntity(track);
         if((Tracks?.Count() + 1) < (trackOffset * CubePage))
         {
-           //Tracks = await guidoForklift.LoadEntities<Track>(trackOffset); 
+           Tracks = await guidoForklift.LoadEntities(EntityTag.TRACK, trackOffset); 
         }
 
     }
@@ -174,79 +165,39 @@ public class Cube : ICube
         
         await guidoForklift.DeleteEntity(tagId, EntityTag.TAG); 
     }
+    #endregion
 
-
-    public async Task LoadItems<T>()
+    #region Query region region
+    public async Task LoadUp()
     {
+        if(guidoForklift is null)
+            throw new NullReferenceException("Could not load up Guido forklift");
+
+        var load = await guidoForklift.StartLoad();
+        Artists = load.ArtistsDTOs;
+        Playlists = load.PlaylistsDTOs;
+        Tracks = load.TracksDTOs;
     }
 
-    public async Task UnloadItems<T>()
-    {   
+    public async Task<IEnumerable<CommonInstanceDTO>> LoadEntities(EntityTag entityTag,
+                                                                       int offset)
+    {
+        if(guidoForklift is null)
+            throw new NullReferenceException("Could not load up Guido forklift");
+
+        return await guidoForklift.LoadEntities(entityTag, offset);
     }
 
-
-
-    #region Require-Retrieve region
-    public async Task<IEnumerable<CommonInstanceDTO>> RequireInstances(EntityTag entityTag)
+    public async Task<IEnumerable<Tag>> LoadTags(int offset)
     {
-        return default;
-    }
+        if(guidoForklift is null)
+            throw new NullReferenceException("Could not load up Guido forklift");
 
-    public async Task<IEnumerable<CommonInstanceDTO>> RequireInstances(EntityTag entityTag, 
-                                                                       IEnumerable<Guid> id)
-    {
-        return default;
-    }
-
-
-    public async Task<Artist> FetchArtist(Guid artistId)
-    {
-        return default;
-    }
-
-    public async Task<Playlist> FetchPlaylist(Guid playlistId)
-    {
-        return default;
-    }
-
-
-    public async Task<Track> FetchTrack(Guid trackId)
-    {
-        return default;
-    }
-
-    public async Task<IEnumerable<Artist>> RetrieveArtists(IEnumerable<CommonInstanceDTO> dtos)
-    {
-        return default;
-    }
-
-    public async Task<IEnumerable<Playlist>> RetrievePlaylists(IEnumerable<CommonInstanceDTO> dtos)
-    {
-        return default;
-    }
-
-    public async Task<IEnumerable<Track>> RetrieveTracks(IEnumerable<CommonInstanceDTO> dtos)
-    {
-        return default;
+        return await guidoForklift.LoadTags(offset);
     }
     #endregion
 
-
-    public async Task<InspectFrame> CheckArtistRelates(Artist artist)
-    {              
-        return default;
-    }
-
-    public async Task<InspectFrame> CheckPlaylistRelates(Playlist playlist)
-    {
-        return default;
-    }
-    
-    public async Task<InspectFrame> CheckTrackRelates(Track track)
-    {
-        return default;
-    }
-
+   
     public async Task<CounterFrame> SnapCounterFrame()
     {
         return default;
