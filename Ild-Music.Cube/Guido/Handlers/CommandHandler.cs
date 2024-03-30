@@ -19,7 +19,6 @@ internal sealed class CommandHandler
     //these methods needs to add instance and their relationships
     public Task AddArtist(Artist artist) 
     {
-        //using (IDbConnection connection = new SQLiteConnection(_connectionString.ToString()))
         using (IDbConnection connection = ConnectionAgent.GetDbConnection())
         {
             connection.Open();
@@ -95,7 +94,6 @@ internal sealed class CommandHandler
 
     public Task AddPlaylist(Playlist playlist) 
     {
-        //using (IDbConnection connection = new SQLiteConnection(_connectionString.ToString()))
         using (IDbConnection connection = ConnectionAgent.GetDbConnection())
         {
             connection.Open();
@@ -170,7 +168,6 @@ internal sealed class CommandHandler
     
     public Task AddTrack(Track track)
     {
-        //using (IDbConnection connection = new SQLiteConnection(_connectionString.ToString()))
         using (IDbConnection connection = ConnectionAgent.GetDbConnection())
         {
             connection.Open();
@@ -248,7 +245,6 @@ internal sealed class CommandHandler
 
     public Task AddTag(Tag tag) 
     {
-        //using (IDbConnection connection = new SQLiteConnection(_connectionString.ToString()))
         using (IDbConnection connection = ConnectionAgent.GetDbConnection())
         {
             connection.Open();
@@ -326,7 +322,6 @@ internal sealed class CommandHandler
     //these methods editting instances and their relationships
     public Task EditArtist(Artist newArtist)
     {
-        //using (IDbConnection connection = new SQLiteConnection(_connectionString.ToString()) )  
         using (IDbConnection connection = ConnectionAgent.GetDbConnection())
         {
            connection.Open(); 
@@ -403,7 +398,6 @@ internal sealed class CommandHandler
 
     public Task EditPlaylist(Playlist newPlaylist) 
     {
-        //using (IDbConnection connection = new SQLiteConnection(_connectionString.ToString()) ) 
         using (IDbConnection connection = ConnectionAgent.GetDbConnection())
         {
            connection.Open(); 
@@ -480,7 +474,6 @@ internal sealed class CommandHandler
 
     public Task EditTrack(Track newTrack)
     {
-        //using (IDbConnection connection = new SQLiteConnection(_connectionString.ToString()) ) 
         using (IDbConnection connection = ConnectionAgent.GetDbConnection())
         {
            connection.Open(); 
@@ -559,7 +552,6 @@ internal sealed class CommandHandler
 
     public Task EditTag(Tag newTag)
     {
-        //using (IDbConnection connection = new SQLiteConnection(_connectionString.ToString()))   
         using (IDbConnection connection = ConnectionAgent.GetDbConnection())
         {
             connection.Open();
@@ -641,7 +633,6 @@ internal sealed class CommandHandler
     //these methods delleting instances and their relationships 
     public Task DeleteArtist(Guid artistId)
     {
-        //using (IDbConnection connection = new SQLiteConnection(_connectionString.ToString()))
         using (IDbConnection connection = ConnectionAgent.GetDbConnection())
         {
             connection.Open();
@@ -665,7 +656,6 @@ internal sealed class CommandHandler
 
     public Task DeletePlaylist(Guid playlistId) 
     {
-        //using (IDbConnection connection = new SQLiteConnection(_connectionString.ToString())) 
         using (IDbConnection connection = ConnectionAgent.GetDbConnection())
         {
             connection.Open();
@@ -689,7 +679,6 @@ internal sealed class CommandHandler
 
     public Task DeleteTrack(Guid trackId) 
     {
-        //using (IDbConnection connection = new SQLiteConnection(_connectionString.ToString()))
         using (IDbConnection connection = ConnectionAgent.GetDbConnection())
         {
             connection.Open();
@@ -697,8 +686,8 @@ internal sealed class CommandHandler
             using (var transaction = connection.BeginTransaction())
             {
                 var deleteTrackQuery = @"delete from tracks where TID = @tid;
-                                          delete from artists_tracks where TID = @tid;                                          
-                                          delete from playlists_tracks where TID = @tid;";
+                                         delete from artists_tracks where TID = @tid;                                          
+                                         delete from playlists_tracks where TID = @tid;";
     
                 connection.Execute(deleteTrackQuery,
                                    new {tid = trackId},
@@ -714,7 +703,6 @@ internal sealed class CommandHandler
 
     public Task DeleteTag(Guid tagId) 
     {
-        //using (IDbConnection connection = new SQLiteConnection(_connectionString.ToString()))
         using (IDbConnection connection = ConnectionAgent.GetDbConnection())
         {
             connection.Open();
@@ -722,7 +710,7 @@ internal sealed class CommandHandler
             using (var transaction = connection.BeginTransaction())
             {
                 var deleteTagQuery = @"delete from tags where TagID = @tag_id;
-                                          delete from tags_instances where TagID = @tag_id;";
+                                       delete from tags_instances where TagID = @tag_id;";
     
                 connection.Execute(deleteTagQuery,
                                    new {tag_id = tagId},
