@@ -11,7 +11,7 @@ internal sealed class QueryHandler
 {
     public QueryHandler()
     {
-    }
+    } 
 
     //This method require top items for each type with a predefined count.
     //Please, use this method just for initialization puprose.
@@ -269,6 +269,226 @@ internal sealed class QueryHandler
     }
 
     //7. QueryPlaylistInstance(Single)
+    public Task<Playlist> QuerySinglePlaylist(ref CommonInstanceDTO instanceDTO)
+    {
+        Playlist playlist;
+        using (IDbConnection connection = ConnectionAgent.GetDbConnection())
+        {
+            connection .Open();
+
+            using (var transaction = connection.BeginTransaction())
+            {
+
+                var playlistId = instanceDTO.Id.ToString();
+
+                //setting up main and extra properties for artist body
+                var artistExtraPropsQuery = @"SELECT Description, Year FROM playlists
+                                              WHERE PID = @pid";
+                
+                var extraProps = connection.QueryFirst(artistExtraPropsQuery,
+                                                       new
+                                                       {
+                                                           pid = playlistId
+                                                       },
+                                                       transaction);
+
+                playlist = new Playlist(instanceDTO.Id, 
+                                      instanceDTO.Name,
+                                      extraProps.Description.AsMemory(),
+                                      instanceDTO.Avatar,
+                                      extraProps .Year);
+
+
+                var playlistArtistsQuery = @"SELECT AID FROM artists_playlists
+                                              WHERE PID = @pid";
+
+                var playlistTracksQuery = @"SELECT TID FROM playlists_tracks
+                                           WHERE PID = @pid";
+
+                var playlistTagsQuery = @"SELECT t.TagID, t.Name, t.Color, ti.IID 
+                                        FROM tags_instances as ti
+                                        INNER JOIN tags as t
+                                        ON t.TagID = ti.TagID
+                                         WHERE ti.IID = @pid";
+
+
+                
+
+                playlist.Artists  = connection.Query(playlistArtistsQuery,
+                                                       new
+                                                       {
+                                                           pid = playlistId
+                                                       },
+                                                       transaction)
+                                                .Select(pid => new Guid(pid))
+                                                .ToList();
+
+
+                playlist.Tracky = connection.Query(playlistTracksQuery,
+                                                    new
+                                                    {
+                                                        pid = playlistId
+                                                    },
+                                                    transaction)
+                                                .Select(tid => new Guid(tid))
+                                                .ToList();
+
+                playlist.Tags = connection.Query<Tag>(playlistTagsQuery,
+                                                       new
+                                                       {
+                                                           pid = playlistId
+                                                       },
+                                                       transaction)
+                                                .Select(tag => tag)
+                                                .ToList();               
+            }
+        }
+
+        return Task.FromResult<Playlist>(playlist);
+    }
+
     //8. QueryTrackInstance(Single)
+    public Task<Track> QuerySingleTrack(ref CommonInstanceDTO instanceDTO)
+    {
+        Track track;
+        using (IDbConnection connection = ConnectionAgent.GetDbConnection())
+        {
+            connection .Open();
+
+            using (var transaction = connection.BeginTransaction())
+            {
+
+                var trackId = instanceDTO.Id.ToString();
+
+                //setting up main and extra properties for artist body
+                var artistExtraPropsQuery = @"SELECT Path, Description, Year, Valid, Duration FROM tracks
+                                              WHERE TID = @tid";
+                
+                var extraProps = connection.QueryFirst(artistExtraPropsQuery,
+                                                       new
+                                                       {
+                                                           pid = trackId
+                                                       },
+                                                       transaction);
+                if(!extraProps.Valid)
+                    return default;
+
+                track = new Track(instanceDTO.Id,
+                                  extraProps .Path,
+                                  instanceDTO.Name,
+                                  extraProps.Description.AsMemory(),
+                                  instanceDTO.Avatar,
+                                  extraProps.Duration,
+                                  extraProps .Year);
+
+
+                var trackArtistsQuery = @"SELECT AID FROM artists_tracks
+                                              WHERE TID = @tid";
+
+                var trackPlaylistsQuery = @"SELECT PID FROM playlists_tracks
+                                           WHERE TID = @tid";
+
+                var trackTagsQuery = @"SELECT t.TagID, t.Name, t.Color, ti.IID 
+                                        FROM tags_instances as ti
+                                        INNER JOIN tags as t
+                                        ON t.TagID = ti.TagID
+                                         WHERE ti.IID = @tid";
+                
+
+                track.Artists  = connection.Query(trackArtistsQuery,
+                                                  new
+                                                  {
+                                                    tid = trackId 
+                                                  },
+                                                  transaction)
+                                                .Select(aid => new Guid(aid))
+                                                .ToList();
+
+
+                track.Playlists = connection.Query(trackPlaylistsQuery,
+                                                 new
+                                                 {
+                                                    tid = trackId
+                                                 },
+                                                 transaction)
+                                            .Select(tid => new Guid(tid))
+                                            .ToList();
+
+                track.Tags = connection.Query<Tag>(trackTagsQuery,
+                                                   new
+                                                   {
+                                                      tid = trackId
+                                                   },
+                                                   transaction)
+                                                .Select(tag => tag)
+                                                .ToList();               
+            }
+        }
+
+        return Task.FromResult<Track>(track);
+    }
+
     //9. QueryTagInstance(Single)
+    public Task<Tag> QuerySingleTag(Guid tagId)
+    {
+        Tag tag;
+        using (IDbConnection connection = ConnectionAgent.GetDbConnection())
+        {
+            connection .Open();
+
+            using (var transaction = connection.BeginTransaction())
+            {
+                var tagIdString = tagId.ToString();
+
+                //setting up main and extra properties for artist body
+                var tagQuery = @"SELECT t.TagId as Id, t.Name, t.Color, ti.IID 
+                                FROM tags AS t
+                                WHERE t.TagID = @tagIdStr";
+                
+                var tagEntitiesQuery = @"SELECT ti.IID
+                                       FROM tags_instances AS ti
+                                       WHERE ti.TagId = @tagIdStr AND ti.EntityType = @entityType";
+
+                tag = connection.QueryFirst<Tag>(tagQuery,
+                                            new
+                                            {
+                                                tagIdStr = tagIdString
+                                            },
+                                            transaction);
+
+                tag.Artists = connection.Query(tagEntitiesQuery,
+                                               new
+                                               {
+                                                    tagIdStr = tagIdString,
+                                                    entityType = 1
+                                                },
+                                                transaction)
+                                            .Select(aid => new Guid(aid))
+                                            .ToList();
+
+                tag.Playlists = connection.Query(tagEntitiesQuery,
+                                               new
+                                               {
+                                                    tagIdStr = tagIdString,
+                                                    entityType = 2
+                                                },
+                                                transaction)
+                                            .Select(pid => new Guid(pid))
+                                            .ToList();
+
+                tag.Tracks = connection.Query(tagEntitiesQuery,
+                                               new
+                                               {
+                                                    tagIdStr = tagIdString,
+                                                    entityType = 3
+                                                },
+                                                transaction)
+                                            .Select(tid => new Guid(tid))
+                                            .ToList();
+            }
+        }
+
+        return Task.FromResult<Tag>(tag);
+    }
+
 }
