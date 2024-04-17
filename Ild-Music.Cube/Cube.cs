@@ -195,6 +195,38 @@ public class Cube : ICube
 
         return await guidoForklift.LoadTags(offset);
     }
+
+    public async Task<Artist> QueryArtist(CommonInstanceDTO instanceDTO)
+    {
+        if(guidoForklift is null)
+            throw new NullReferenceException("Could not load up Guido forklift");
+
+        return await guidoForklift.QueryArtist(instanceDTO);
+    }
+
+    public async Task<Playlist> QueryPlaylist(CommonInstanceDTO instanceDTO)
+    {
+        if(guidoForklift is null)
+            throw new NullReferenceException("Could not load up Guido forklift");
+
+        return await guidoForklift.QueryPlaylist(instanceDTO);
+    }
+
+    public async Task<Track> QueryTrack(CommonInstanceDTO instanceDTO)
+    {
+        if(guidoForklift is null)
+            throw new NullReferenceException("Could not load up Guido forklift");
+
+        return await guidoForklift.QueryTrack(instanceDTO);
+    }
+
+    public async Task<Tag> QueryTag(Guid tagId)
+    {
+        if(guidoForklift is null)
+            throw new NullReferenceException("Could not load up Guido forklift");
+
+        return await guidoForklift.QueryTag(tagId);
+    }
     #endregion
 
    

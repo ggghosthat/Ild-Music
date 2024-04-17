@@ -1,5 +1,6 @@
 using Ild_Music.Core.Instances;
 using Ild_Music.Core.Instances.DTO;
+using Ild_Music.Core.Instances.Querying;
 using Cube.Guido.Agents;
 using Cube.Guido.Handlers;
 
@@ -73,8 +74,9 @@ public class GuidoForklift //Cars from pixar (lol)
         };
 
     }
+    #endregion 
 
-
+    #region Querying
     public async Task<QueryPool> StartLoad()
     {
         return await _queryHandler.QueryTopPool();
@@ -98,6 +100,25 @@ public class GuidoForklift //Cars from pixar (lol)
         return await _queryHandler.QueryTags(offset);
     }
 
+    public async Task<Artist> QueryArtist(CommonInstanceDTO instanceDTO)
+    {
+        return await _queryHandler.QuerySingleArtist(ref instanceDTO);
+    }
+
+    public async Task<Playlist> QueryPlaylist(CommonInstanceDTO instanceDTO)
+    {
+        return await _queryHandler.QuerySinglePlaylist(ref instanceDTO);
+    }
+
+    public async Task<Track> QueryTrack(CommonInstanceDTO instanceDTO)
+    {
+        return await _queryHandler.QuerySingleTrack(ref instanceDTO);
+    }
+
+    public async Task<Tag> QueryTag(Guid tagId)
+    {
+        return await _queryHandler.QuerySingleTag(tagId); 
+    }
 
 
     public async Task<IEnumerable<T>> Search<T>(ReadOnlyMemory<char> searchTerm)

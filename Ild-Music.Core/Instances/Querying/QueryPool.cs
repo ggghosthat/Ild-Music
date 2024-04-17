@@ -1,4 +1,6 @@
-namespace Ild_Music.Core.Instances.DTO;
+using Ild_Music.Core.Instances.DTO;
+
+namespace Ild_Music.Core.Instances.Querying;
 
 public class QueryPool : IDisposable
 {
