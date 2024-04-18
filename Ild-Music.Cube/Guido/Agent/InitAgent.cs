@@ -6,7 +6,7 @@ namespace Cube.Guido.Agents;
 
 //this class was being delegated SQLite database 
 internal static class ConnectionAgent
-{
+{ 
     private static string path;
     private static string connectionString;
     private static int queryLimit;
@@ -16,6 +16,8 @@ internal static class ConnectionAgent
     public static void ConfigAgent(string dbPath,
                                    int pageLimit = 100)
     {
+
+        SQLitePCL.raw.SetProvider(new SQLitePCL.SQLite3Provider_e_sqlite3());
         path = dbPath;
         queryLimit = pageLimit;
         connectionString = $"Data Source = {path}";
@@ -36,7 +38,7 @@ internal static class ConnectionAgent
         new SQLiteConnection(connectionString);
 
     //initialize database tables in SQLite db
-    public static void ConfigConnection()
+    public static void SpreadDatabase()
     {
         try
         { 
@@ -51,14 +53,21 @@ internal static class ConnectionAgent
                 connection.Execute("create table if not exists artists_tracks(Id integer primary key, AID, TID)");
                 connection.Execute("create table if not exists playlists_tracks(Id integer primary key, PID, TID)");
 
-
                 connection.Execute("create table if not exists tags(Id integer primary key, TagID, Name varchar, Color varchar)");
                 connection.Execute("create table if not exists tags_instances(Id integer primary key, TagID, IID, EntityType integer)");
 
-                connection.Execute("create index if not exists artists_index on artists(AID, lower(Name), Year)");
-                connection.Execute("create index if not exists playlists_index on playlists(PID, lower(Name), Year)");
-                connection.Execute("create index if not exists tracks_index on tracks(TID, Path, lower(Name), Year)");
-                connection.Execute("create index if not exists tracks_index on tags(TagID, lower(Name), EntityType)");
+                connection.Execute("create virtual table if not exists artists_index using fts5 (Name, Description, Year)");
+                connection.Execute("create virtual table if not exists playlists_index using fts5 (Name, Description, Year)");
+                connection.Execute("create virtual table if not exists tracks_index using fts5 (Name, Description, Year)");
+                connection.Execute("create virtual table if not exists tags_index using fts5 (Name)");
+            
+                connection.Execute("create trigger if not exists insert_artist after insert on artists begin insert into artists_index (Name, Description, Year) values(NEW.Name, New.Description, New.Year); end;");
+                connection.Execute("create trigger if not exists insert_playlist after insert on playlists begin insert into playlists_index (Name, Description, Year) values(NEW.Name, New.Description, New.Year); end;");
+                connection.Execute("create trigger if not exists insert_track after insert on tracks begin insert into tracks_index (Name, Description, Year) values(NEW.Name, New.Description, New.Year); end;");
+
+                connection.Execute("create trigger if not exists update_artist after update on artists begin update artists_index set Name=New.Name, Description=New.Description, Year=New.Year where AID=New.AID; end;");
+                connection.Execute("create trigger if not exists update_playlist after update on playlists begin update playlists_index set Name=New.Name, Description=New.Description, Year=New.Year where PID=New.PID; end;");
+                connection.Execute("create trigger if not exists update_track after update on tracks  begin update tracks_index set Name=New.Name, Description=New.Description, Year=New.Year where TID=New.TID; end;");
             }
         }
         catch(Exception ex)

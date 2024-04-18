@@ -18,7 +18,7 @@ public class GuidoForklift //Cars from pixar (lol)
         this.capacity = capacity;
 
         ConnectionAgent.ConfigAgent(dbPath);
-        ConnectionAgent.ConfigConnection(); 
+        ConnectionAgent.SpreadDatabase(); 
         
         _commandHandler = new ();
         _queryHandler = new ();
