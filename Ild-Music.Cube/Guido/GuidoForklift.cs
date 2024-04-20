@@ -11,9 +11,11 @@ namespace Cube;
 public class GuidoForklift : ICube //Cars from pixar (lol)
 { 
     public string CubeName => "Guido Forklift";
+    public Guid CubeId {get; private set;} = Guid.Empty;
+
     private static IMediator _mediator = default;
-    private static readonly CommandHandler _commandHandler = new ();
-    private static readonly QueryHandler _queryHandler = new ();
+    private readonly static CommandHandler _commandHandler = new ();
+    private readonly static QueryHandler _queryHandler = new ();
 
     private static string _dbPath;
     private static int _capacity;
@@ -42,7 +44,6 @@ public class GuidoForklift : ICube //Cars from pixar (lol)
         _mediator = mediator;
 
 
-    public Guid CubeId {get; private set;} = Guid.Empty;
     public int CubePage => _capacity;
     public IEnumerable<CommonInstanceDTO>? Artists {get; private set;} = default;
     public IEnumerable<CommonInstanceDTO>? Playlists {get; private set;} = default;
@@ -194,9 +195,4 @@ public class GuidoForklift : ICube //Cars from pixar (lol)
     {
         return default;
     }
-
-    public async Task<IEnumerable<T>> Search<T>(ReadOnlyMemory<char> searchTerm)
-    {
-        return default;
-    } 
 }
