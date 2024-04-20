@@ -30,6 +30,10 @@ public sealed class ScopeCastle : ICastle, IDisposable
     private static int currentPlayerId;    
     private static int currentCubeId;
 
+    //cube literals (damn!!!, trash 'em out ＼(｀0´)／)
+    private readonly static string cubeStoragePath = Path.Combine(Environment.CurrentDirectory, "storage.db");
+    private readonly int cubeCapacity = 300;
+
     public ScopeCastle()
     {}
 
@@ -44,7 +48,8 @@ public sealed class ScopeCastle : ICastle, IDisposable
                 .WithAllOpenGenericHandlerTypesRegistered()
                 .WithRegistrationScope(RegistrationScope.Scoped) 
                 .Build();
-        
+            
+            //add mediator for CQRS things
             builder.RegisterMediatR(configuration);
         
             //Building container
@@ -73,7 +78,7 @@ public sealed class ScopeCastle : ICastle, IDisposable
            using (var preScope = container.BeginLifetimeScope())
            {
                var currentCube = container.ResolveKeyed<ICube>(currentCubeId);
-               currentCube.Init();
+               currentCube.Init(cubeStoragePath, cubeCapacity);
                var supportGhost = new SupportGhost();
                var factoryGhost = new FactoryGhost();
 
@@ -120,7 +125,6 @@ public sealed class ScopeCastle : ICastle, IDisposable
        } 
     }
 
-    #region Components registration region
     public void RegisterPlayer(IPlayer player)
     {
         if(IsActive) 
@@ -175,10 +179,7 @@ public sealed class ScopeCastle : ICastle, IDisposable
                     .Keyed<ICube>(cube.GetHashCode());
         }    
     }
-    #endregion
 
-
-    #region resolve region    
     //resolve ghosts sychronously and asynchronously
     public IGhost? ResolveGhost(Ghosts ghostTag)
     {
@@ -218,11 +219,9 @@ public sealed class ScopeCastle : ICastle, IDisposable
         IWaiter waiter = waiters[waiterTag];
         return Task.FromResult(waiter);
     }
-
-
    
     //return current component instances
-   public IPlayer? GetCurrentPlayer()
+    public IPlayer? GetCurrentPlayer()
     {
         if(!IsActive) 
             throw new Exception();
@@ -250,7 +249,6 @@ public sealed class ScopeCastle : ICastle, IDisposable
         return cube;
     }
 
-
     //reolve all players from IoC
     public Task<IEnumerable<IPlayer>> GetPlayersAsync()
     {
@@ -268,11 +266,7 @@ public sealed class ScopeCastle : ICastle, IDisposable
 
         return Task.FromResult(container.Resolve<IEnumerable<ICube>>());
     }
-    #endregion
 
-
-
-    #region Switch region
     public void SwitchPlayer(int newPlayerId)
     {
         if(!IsActive)
@@ -290,7 +284,6 @@ public sealed class ScopeCastle : ICastle, IDisposable
         if(container.IsRegisteredWithKey<int>(newCubeId))
             currentCubeId = newCubeId;
     }
-    #endregion
 
     public void Dispose()
     {

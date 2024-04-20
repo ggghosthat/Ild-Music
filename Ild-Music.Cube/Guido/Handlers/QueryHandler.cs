@@ -158,7 +158,6 @@ internal sealed class QueryHandler
 
     }
 
-
     public Task<IEnumerable<Tag>> QueryTags(int offset)
     {
         IEnumerable<Tag> tags;
@@ -190,7 +189,6 @@ internal sealed class QueryHandler
         return Task.FromResult<IEnumerable<Tag>>(tags);
     }
 
-    //6. QueryArtistInstance(Single)
     public Task<Artist> QuerySingleArtist(ref CommonInstanceDTO instanceDTO)
     {
         Artist artist;
@@ -220,7 +218,6 @@ internal sealed class QueryHandler
                                         instanceDTO.Avatar,
                                         extraProps .Year);
 
-
                 var arttistPlaylistsQuery = @"SELECT PID FROM artists_playlists
                                               WHERE AID = @aid";
 
@@ -233,9 +230,6 @@ internal sealed class QueryHandler
                                         ON t.TagID = ti.TagID
                                          WHERE ti.IID = @aid";
 
-
-                
-
                 artist.Playlists = connection.Query(arttistPlaylistsQuery,
                                                        new
                                                        {
@@ -244,7 +238,6 @@ internal sealed class QueryHandler
                                                        transaction)
                                                 .Select(pid => new Guid(pid))
                                                 .ToList();
-
 
                 artist.Tracks = connection.Query(arttistTracksQuery,
                                                  new
@@ -269,7 +262,6 @@ internal sealed class QueryHandler
         return Task.FromResult<Artist>(artist);
     }
 
-    //7. QueryPlaylistInstance(Single)
     public Task<Playlist> QuerySinglePlaylist(ref CommonInstanceDTO instanceDTO)
     {
         Playlist playlist;
@@ -279,7 +271,6 @@ internal sealed class QueryHandler
 
             using (var transaction = connection.BeginTransaction())
             {
-
                 var playlistId = instanceDTO.Id.ToString();
 
                 //setting up main and extra properties for artist body
@@ -299,7 +290,6 @@ internal sealed class QueryHandler
                                       instanceDTO.Avatar,
                                       extraProps .Year);
 
-
                 var playlistArtistsQuery = @"SELECT AID FROM artists_playlists
                                               WHERE PID = @pid";
 
@@ -312,9 +302,6 @@ internal sealed class QueryHandler
                                         ON t.TagID = ti.TagID
                                          WHERE ti.IID = @pid";
 
-
-                
-
                 playlist.Artists  = connection.Query(playlistArtistsQuery,
                                                        new
                                                        {
@@ -323,7 +310,6 @@ internal sealed class QueryHandler
                                                        transaction)
                                                 .Select(pid => new Guid(pid))
                                                 .ToList();
-
 
                 playlist.Tracky = connection.Query(playlistTracksQuery,
                                                     new
@@ -358,11 +344,10 @@ internal sealed class QueryHandler
 
             using (var transaction = connection.BeginTransaction())
             {
-
                 var trackId = instanceDTO.Id.ToString();
 
                 //setting up main and extra properties for artist body
-                var artistExtraPropsQuery = @"SELECT Path, Description, Year, Valid, Duration FROM tracks
+                var artistExtraPropsQuery = @"SELECT Description, Year, Valid, Duration FROM tracks
                                               WHERE TID = @tid";
                 
                 var extraProps = connection.QueryFirst(artistExtraPropsQuery,
@@ -382,7 +367,6 @@ internal sealed class QueryHandler
                                   extraProps.Duration,
                                   extraProps .Year);
 
-
                 var trackArtistsQuery = @"SELECT AID FROM artists_tracks
                                               WHERE TID = @tid";
 
@@ -394,7 +378,6 @@ internal sealed class QueryHandler
                                         INNER JOIN tags as t
                                         ON t.TagID = ti.TagID
                                          WHERE ti.IID = @tid";
-                
 
                 track.Artists  = connection.Query(trackArtistsQuery,
                                                   new
@@ -404,7 +387,6 @@ internal sealed class QueryHandler
                                                   transaction)
                                                 .Select(aid => new Guid(aid))
                                                 .ToList();
-
 
                 track.Playlists = connection.Query(trackPlaylistsQuery,
                                                  new
@@ -491,5 +473,4 @@ internal sealed class QueryHandler
 
         return Task.FromResult<Tag>(tag);
     }
-
 }

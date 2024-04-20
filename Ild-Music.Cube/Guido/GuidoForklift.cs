@@ -1,98 +1,162 @@
+using Ild_Music.Core.Contracts;
 using Ild_Music.Core.Instances;
+using Ild_Music.Core.Statistics;
 using Ild_Music.Core.Instances.DTO;
 using Ild_Music.Core.Instances.Querying;
 using Cube.Guido.Agents;
 using Cube.Guido.Handlers;
 
+using MediatR;
 namespace Cube;
-public class GuidoForklift //Cars from pixar (lol)
-{
-    private readonly int capacity;
+public class GuidoForklift : ICube //Cars from pixar (lol)
+{ 
+    public string CubeName => "Guido Forklift";
+    private static IMediator _mediator = default;
+    private static readonly CommandHandler _commandHandler = new ();
+    private static readonly QueryHandler _queryHandler = new ();
 
-    private readonly CommandHandler _commandHandler;
-    private readonly QueryHandler _queryHandler;
+    private static string _dbPath;
+    private static int _capacity;
 
-    public GuidoForklift(string dbPath,
-                         int capacity = 300)
+    private int artistOffset = 0;
+    private int playlistOffset = 0;
+    private int trackOffset = 0;
+  
+
+    public GuidoForklift()
     { 
-        this.capacity = capacity;
+        if (CubeId == Guid.Empty)
+            CubeId = Guid.NewGuid();
+    }
+
+    public void Init(string dbPath, int capacity)
+    {
+        _dbPath = dbPath;
+        _capacity = capacity;
 
         ConnectionAgent.ConfigAgent(dbPath);
         ConnectionAgent.SpreadDatabase(); 
-        
-        _commandHandler = new ();
-        _queryHandler = new ();
     }
+    
+    public void ConnectMediator(IMediator mediator) =>
+        _mediator = mediator;
+
+
+    public Guid CubeId {get; private set;} = Guid.Empty;
+    public int CubePage => _capacity;
+    public IEnumerable<CommonInstanceDTO>? Artists {get; private set;} = default;
+    public IEnumerable<CommonInstanceDTO>? Playlists {get; private set;} = default;
+    public IEnumerable<CommonInstanceDTO>? Tracks {get; private set;} = default;
+    public IEnumerable<Tag>? Tags {get; set;} = default;
 
     
-
-    #region CRUD
-    //insert new entity
-    public async Task AddEntity<T>(T entity)
+    //insert new entity 
+    public async Task AddArtistObj(Artist artist) 
     {
-        if(entity is Artist artist)
-            await _commandHandler.AddArtist(artist);
-        else if(entity is Playlist playlist)
-                await _commandHandler.AddPlaylist(playlist);
-        else if(entity is Track track)
-            await _commandHandler.AddTrack(track);
-        else if(entity is Tag tag)
-            await _commandHandler.AddTag(tag);
+        await _commandHandler.AddArtist(artist);
+     
+        if((Artists?.Count() + 1) < (artistOffset * CubePage))
+           Artists = await LoadEntities(EntityTag.ARTIST, artistOffset);
     }
 
-    //update(edit) existed entity
-    public async Task EditEntity<T>(T entity)
+    public async Task AddPlaylistObj(Playlist playlist) 
     {
-        if(entity is Artist artist)
-            await _commandHandler.EditArtist(artist);
-        else if(entity is Playlist playlist)
-            await _commandHandler.EditPlaylist(playlist);
-        else if(entity is Track track)
-            await _commandHandler.EditTrack(track);
-        else if(entity is Tag tag)
-            await _commandHandler.EditTag(tag);
+        await _commandHandler.AddPlaylist(playlist);
+
+        if((Playlists?.Count() + 1) < (playlistOffset * CubePage))
+           Playlists = await LoadEntities(EntityTag.PLAYLIST, playlistOffset); 
     }
 
-    //delete specific entity by it own id
-    public async Task DeleteEntity(Guid entityId,
-                                   EntityTag entityTag)
+    public async Task AddTrackObj(Track track) 
     {
-        switch(entityTag)
-        {
-            case (EntityTag.ARTIST) :
-                await _commandHandler.DeleteArtist(entityId);
-                break;                
-            case (EntityTag.PLAYLIST) :
-                await _commandHandler.DeletePlaylist(entityId);
-                break;
-            case (EntityTag.TRACK) : 
-                await _commandHandler.DeleteTrack(entityId);
-                break; 
-            case (EntityTag.TAG) :
-                await _commandHandler.DeleteTag(entityId);
-                break;
-        };
+        await _commandHandler.AddTrack(track);
 
-    }
-    #endregion 
-
-    #region Querying
-    public async Task<QueryPool> StartLoad()
-    {
-        return await _queryHandler.QueryTopPool();
+        if((Tracks?.Count() + 1) < (trackOffset * CubePage))
+           Tracks = await LoadEntities(EntityTag.TRACK, trackOffset); 
     }
 
-    public async Task<IEnumerable<CommonInstanceDTO>> LoadEntities(EntityTag entityTag, 
-                                                                   int offset)
+    public async Task AddTagObj(Tag tag)
     {
-        IEnumerable<CommonInstanceDTO> result = entityTag switch
+        await _commandHandler.AddTag(tag);
+    }
+
+
+    public async Task EditArtistObj(Artist newArtist) 
+    {
+        await _commandHandler.EditArtist(newArtist);
+
+        if((Artists?.Count() + 1) < (artistOffset * CubePage))
+           Artists = await LoadEntities(EntityTag.ARTIST, artistOffset);
+    }    
+
+    public async Task EditPlaylistObj(Playlist newPlaylist)
+    {
+        await _commandHandler.EditPlaylist(newPlaylist);
+
+        if((Playlists?.Count() + 1) < (playlistOffset * CubePage))
+           Playlists = await LoadEntities(EntityTag.PLAYLIST, playlistOffset);
+    }
+
+    public async Task EditTrackObj(Track newTrack)
+    {
+        await _commandHandler.EditTrack(newTrack);
+
+        if((Tracks?.Count() + 1) < (trackOffset * CubePage))
+           Tracks = await LoadEntities(EntityTag.TRACK, trackOffset);
+    }
+
+    public async Task EditTagObj(Tag newTag)
+    {
+        await _commandHandler.EditTag(newTag);
+    }
+
+
+    public async Task RemoveArtistObj(Guid artistId) 
+    {   
+        await _commandHandler.DeleteArtist(artistId);
+
+        if((Artists?.Count() + 1) < (artistOffset * CubePage))
+           Artists = await LoadEntities(EntityTag.ARTIST, artistOffset); 
+    }
+
+    public async Task RemovePlaylistObj(Guid playlistId)
+    {
+        await _commandHandler.DeletePlaylist(playlistId);
+
+        if((Playlists?.Count() + 1) < (playlistOffset * CubePage))
+           Playlists = await LoadEntities(EntityTag.PLAYLIST, playlistOffset);
+    }
+
+    public async Task RemoveTrackObj(Guid trackId) 
+    {
+        await _commandHandler.DeleteTrack(trackId);
+
+        if((Tracks?.Count() + 1) < (trackOffset * CubePage))
+           Tracks = await LoadEntities(EntityTag.TRACK, trackOffset);
+    }
+
+    private async Task RemoveTagObj(Guid tagId)
+    {
+        await _commandHandler.DeleteTag(tagId); 
+    } 
+
+
+    public async Task LoadUp()
+    {
+        QueryPool pool = await _queryHandler.QueryTopPool();
+        Artists = pool.ArtistsDTOs;
+        Playlists = pool.PlaylistsDTOs;
+        Tracks = pool.TracksDTOs;
+    }
+
+    public async Task<IEnumerable<CommonInstanceDTO>> LoadEntities(EntityTag entityTag, int offset)
+    {
+        return entityTag switch
         {
             EntityTag.ARTIST => await _queryHandler.QueryArtists(offset),
             EntityTag.PLAYLIST => await _queryHandler.QueryArtists(offset),
             EntityTag.TRACK => await _queryHandler.QueryArtists(offset)
         };
-    
-        return result;
     }
     
     public async Task<IEnumerable<Tag>> LoadTags (int offset)
@@ -126,23 +190,13 @@ public class GuidoForklift //Cars from pixar (lol)
          return default;
     }
 
-     
-
-    public async Task<IEnumerable<CommonInstanceDTO>> RequireInstances(EntityTag entitytag, 
-                                                                       IEnumerable<Guid> ids)
-    {
-         return default;
-    }
-
-
-    public async Task<IEnumerable<Guid>> FilterRelates(int tag, ICollection<Guid> relates)
+    public async Task<CounterFrame> SnapCounterFrame()
     {
         return default;
     }
 
-    public async Task<IEnumerable<Guid>> FilterTrackRelates(Guid trackId, bool isArtist)
+    public async Task<IEnumerable<T>> Search<T>(ReadOnlyMemory<char> searchTerm)
     {
         return default;
-    }
-    #endregion
+    } 
 }

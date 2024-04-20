@@ -174,12 +174,11 @@ internal sealed class CommandHandler
 
             using(var transaction = connection.BeginTransaction())
             {
-                var trackBodyQuery = "insert or ignore into tracks(TID, Path, Name, Description, Year, Avatar, Valid, Duration) values (@TID, @Path, @Name, @Description, @Year, @Avatar, @IsValid, @Duration)";
+                var trackBodyQuery = "insert or ignore into tracks(TID, Name, Description, Year, Avatar, Valid, Duration) values (@TID, @Name, @Description, @Year, @Avatar, @IsValid, @Duration)";
 
                 connection.Execute(trackBodyQuery,
                                     new{
                                         TID = track.Id,
-                                        Path = track.Pathway.ToString(),
                                         Name = track.Name.ToString(),
                                         Description = track.Description.ToString(),
                                         Year = track.Year,
@@ -479,11 +478,10 @@ internal sealed class CommandHandler
            connection.Open(); 
            using (var transaction = connection.BeginTransaction())
            {
-                var updateTrackQuery = "update tracks set Path = @Pathway, Name = @Name, Description = @Description, Avatar = @Avatar, Year = @Year, Valid = @IsValid, Duration = @Duration where TID = @TID";
+                var updateTrackQuery = "update tracks set Name = @Name, Description = @Description, Avatar = @Avatar, Year = @Year, Valid = @IsValid, Duration = @Duration where TID = @TID";
                 connection.Execute(updateTrackQuery,
                                     new{                            
                                         TID = newTrack.Id,
-                                        Pathway = newTrack.Pathway.ToString(),
                                         Name = newTrack.Name.ToString(),
                                         Description = newTrack.Description.ToString(),
                                         Avatar = newTrack.AvatarSource.ToArray(),

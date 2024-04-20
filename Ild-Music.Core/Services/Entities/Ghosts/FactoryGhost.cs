@@ -98,7 +98,7 @@ public sealed class FactoryGhost : IGhost
             { 
                 Memory<char> trackName; 
                 Memory<char> trackDescription; 
-                Memory<byte> trackAvatarSource; 
+                Memory<byte> trackAvatarSource;
 
                 int trackYear = (year != 0)? year: DateTime.Now.Year;
 
@@ -117,6 +117,7 @@ public sealed class FactoryGhost : IGhost
                 else 
                     trackAvatarSource = avatar ?? new byte[0]; 
                 
+
                 producer = new InstanceProducer.InstanceProducer(pathway.ToCharArray(), 
                                                                  trackName, 
                                                                  trackDescription, 
@@ -143,7 +144,7 @@ public sealed class FactoryGhost : IGhost
         {        
             Track trackResult = default!;
             using(var taglib = TagLib.File.Create(pathway.ToString())) 
-            { 
+            {
                 Memory<char> trackName; 
                 Memory<char> trackDescription = default!; 
                 Memory<byte> trackAvatarSource = default!; 
@@ -175,6 +176,7 @@ public sealed class FactoryGhost : IGhost
         } 
     } 
     #endregion 
+
     #region Accessory Methods 
     private async ValueTask<Memory<byte>> ExtractTrackAvatar(string pathway) 
     { 
