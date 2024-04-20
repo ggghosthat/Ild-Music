@@ -4,8 +4,8 @@ Local desktop music player for Windows and Linux.
 
 # Supported operating systems: 
 
-  - Windows 10 -x64 (beta release only)
-  - Linux-x64 (test mode)
+  - Windows 10 -x64
+  - Linux-x64
 
 # From scratch build
 
