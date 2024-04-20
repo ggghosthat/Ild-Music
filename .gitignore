@@ -6,10 +6,20 @@
 
 
 ./dependencies
-./Ild-Music.CLI
 ./PKGBUILD
 ./*.pkg.tar.zst
-
+./Ild-Music/bin
+./Ild-Music/obj
+./Ild-Music.Core/bin
+./Ild-Music.Core/obj
+./Ild-Music.Cube/bin
+./Ild-Music.Cube/obj
+./Ild-Music.Tests/bin
+./Ild-Music.Tests/obj
+./Ild-Music.VLCSharpPlayer/bin
+./Ild-Music.VLCSharpPlayer/obj
+./legacy/bin
+./legacy/obj
 # User-specific files
 *.rsuser
 *.suo
