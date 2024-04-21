@@ -1,17 +1,45 @@
 using Ild_Music.Core.Instances;
 
-using System.IO;
-using System.Threading.Tasks;
-
 namespace Cube.Guido.Agents;
 
 internal static class WearhouseAgent
 {
-    private readonly static string _wearhousePath;
+    private static string _wearhousePath;
 
     private static bool IsMove = false;
 
-    public async static void PlaceTrack(Track track)
+    public static void ConfigureAgent(string wearhousePath, bool isMove)
+    {
+        _wearhousePath = wearhousePath;
+        IsMove = isMove;
+    }
+
+    public static string GetTrackPathFromId(Guid trackId)
+    {
+        string trckIdString = trackId.ToString();
+        string path = Path.Combine(_wearhousePath, trckIdString);
+
+        if (File.Exists(path))
+            return path;
+        else 
+            return String.Empty;
+    }
+
+    public static IEnumerable<string> GetTrackPathsFromId(IEnumerable<Guid> trackIds)
+    {
+        return trackIds.Select(trackId => 
+        {
+            string trckIdString = trackId.ToString();
+            string path = Path.Combine(_wearhousePath, trckIdString);
+
+            if (File.Exists(path))
+                return path;
+            else 
+                return String.Empty;
+        });
+    }
+
+    public async static void PlaceTrackFile(Track track)
     {
         string path = track.Pathway.ToString();
         if (!File.Exists(path))
@@ -26,7 +54,7 @@ internal static class WearhouseAgent
             await CopyFromInputToOutputAsync(allocationPath, path); 
     }
 
-    public async static void PlaceTracks(IEnumerable<Track> tracks)
+    public async static void PlaceTrackFiles(IEnumerable<Track> tracks)
     {
         var parallelOptions = new ParallelOptions()
         {

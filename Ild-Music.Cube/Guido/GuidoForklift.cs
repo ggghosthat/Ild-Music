@@ -17,7 +17,6 @@ public class GuidoForklift : ICube //Cars from pixar (lol)
     private readonly static CommandHandler _commandHandler = new ();
     private readonly static QueryHandler _queryHandler = new ();
 
-    private static string _dbPath;
     private static int _capacity;
 
     private int artistOffset = 0;
@@ -31,12 +30,12 @@ public class GuidoForklift : ICube //Cars from pixar (lol)
             CubeId = Guid.NewGuid();
     }
 
-    public void Init(string dbPath, int capacity)
+    public void Init(string allocationPlace, int capacity, bool isMoveTrackFiles)
     {
-        _dbPath = dbPath;
         _capacity = capacity;
-
-        ConnectionAgent.ConfigAgent(dbPath);
+        
+        WearhouseAgent.ConfigureAgent(allocationPlace, isMoveTrackFiles); 
+        ConnectionAgent.ConfigureAgent(allocationPlace);
         ConnectionAgent.SpreadDatabase(); 
     }
     

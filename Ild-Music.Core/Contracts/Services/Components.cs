@@ -25,7 +25,7 @@ public interface ICube : IShare
     public IEnumerable<CommonInstanceDTO>? Tracks { get; }        
 
     //intialize method
-    public void Init(string dbPath, int capacity);
+    public void Init(string alloationPlace, int capacity, bool isMoveTrackFiles);
 
     //command methods
     public Task AddArtistObj(Artist artist);

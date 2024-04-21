@@ -31,8 +31,9 @@ public sealed class ScopeCastle : ICastle, IDisposable
     private static int currentCubeId;
 
     //cube literals (damn!!!, trash 'em out ＼(｀0´)／)
-    private readonly static string cubeStoragePath = Path.Combine(Environment.CurrentDirectory, "storage.db");
+    private readonly static string cubeStoragePath = Environment.CurrentDirectory;
     private readonly int cubeCapacity = 300;
+    private readonly bool cubeIsMoveTrackFiles = true;
 
     public ScopeCastle()
     {}
@@ -78,7 +79,7 @@ public sealed class ScopeCastle : ICastle, IDisposable
            using (var preScope = container.BeginLifetimeScope())
            {
                var currentCube = container.ResolveKeyed<ICube>(currentCubeId);
-               currentCube.Init(cubeStoragePath, cubeCapacity);
+               currentCube.Init(cubeStoragePath, cubeCapacity, cubeIsMoveTrackFiles);
                var supportGhost = new SupportGhost();
                var factoryGhost = new FactoryGhost();
 
