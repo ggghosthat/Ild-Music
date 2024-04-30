@@ -1,6 +1,5 @@
 ﻿using Ild_Music.Core.Instances;
 using Ild_Music.Core.Instances.DTO;
-using Ild_Music.Core.Statistics;
 
 using MediatR;
 namespace Ild_Music.Core.Contracts;
@@ -45,11 +44,10 @@ public interface ICube : IShare
     public Task<IEnumerable<CommonInstanceDTO>> LoadEntities(EntityTag entityTag, int offset);
     public Task<IEnumerable<Tag>> LoadTags(int offset);
 
-    //statistic methods
-    public Task<CounterFrame> SnapCounterFrame();
-
     //searching methods
-    public Task<IEnumerable<T>> Search<T>(ReadOnlyMemory<char> searchTerm);
+    public Task<IEnumerable<CommonInstanceDTO>> Search(string searchTerm);
+    public Task<IEnumerable<CommonInstanceDTO>> SearchInstance(string searchTerm, EntityTag entityTag);
+    public Task<IEnumerable<Tag>> SearchTag(string searchTerm);
 }
 
 //Represent Player instance

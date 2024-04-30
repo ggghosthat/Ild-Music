@@ -1,6 +1,5 @@
 using Ild_Music.Core.Contracts;
 using Ild_Music.Core.Instances;
-using Ild_Music.Core.Statistics;
 using Ild_Music.Core.Instances.DTO;
 using Ild_Music.Core.Instances.Querying;
 using Cube.Guido.Agents;
@@ -16,6 +15,7 @@ public class GuidoForklift : ICube //Cars from pixar (lol)
     private static IMediator _mediator = default;
     private readonly static CommandHandler _commandHandler = new ();
     private readonly static QueryHandler _queryHandler = new ();
+    private readonly static SearchHandler _searchHandler = new ();
 
     private static int _capacity;
 
@@ -185,13 +185,24 @@ public class GuidoForklift : ICube //Cars from pixar (lol)
     }
 
 
-    public async Task<IEnumerable<T>> Search<T>(ReadOnlyMemory<char> searchTerm)
+    public async Task<IEnumerable<CommonInstanceDTO>> Search(string searchTerm)
     {
-         return default;
+        return await _searchHandler.Search(searchTerm.ToString());
     }
 
-    public async Task<CounterFrame> SnapCounterFrame()
+    public async Task<IEnumerable<CommonInstanceDTO>> SearchInstance(string searchTerm, EntityTag entityTag)
     {
-        return default;
+        return entityTag switch
+        {
+            EntityTag.ARTIST => await _searchHandler.SearchArtists(searchTerm),
+            EntityTag.PLAYLIST => await _searchHandler.SearchPlaylists(searchTerm),
+            EntityTag.TRACK => await _searchHandler.SearchTracks(searchTerm),
+            _ => await Task.FromResult<IEnumerable<CommonInstanceDTO>>(Enumerable.Empty<CommonInstanceDTO>())
+        };
+    }
+
+    public async Task<IEnumerable<Tag>> SearchTag(string searchTerm)
+    {
+        return await _searchHandler.SearchTags(searchTerm);
     }
 }

@@ -1,5 +1,4 @@
 using Ild_Music.Core.Instances.DTO;
-using Ild_Music.Core.Instances.Querying;
 using Cube.Guido.Agents;
 using Ild_Music.Core.Instances;
 
