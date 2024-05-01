@@ -16,7 +16,6 @@ public interface ICube : IShare
     //identifiers
     public Guid CubeId { get; }
     public string CubeName { get; }
-    public int CubePage {get;}
     
     //main attributes
     public IEnumerable<CommonInstanceDTO>? Artists {get;}
