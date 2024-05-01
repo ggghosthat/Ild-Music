@@ -2,7 +2,7 @@ using Ild_Music.Core.Instances.DTO;
 using Ild_Music.Core.Services.InstanceProducer;
 
 namespace Ild_Music.Core.Instances;
-public static class Extesions
+public static class Extenssions
 {
     //Search for the single item
 	public static Track ToTrackEntity(this Guid guid, IList<Track> store)
@@ -52,6 +52,33 @@ public static class Extesions
             2000);
 
         return producer.PlaylistInstance;
+    }
+
+    public static CommonInstanceDTO ToCommonDTO(this Artist artist)
+    {       
+        return new CommonInstanceDTO(
+            artist.Id,
+            artist.Name,
+            artist.AvatarSource,
+            EntityTag.ARTIST);
+    }
+
+    public static CommonInstanceDTO ToCommonDTO(this Playlist playlist)
+    {
+        return new CommonInstanceDTO(
+            playlist.Id,
+            playlist.Name,
+            playlist.AvatarSource,
+            EntityTag.PLAYLIST);
+    }
+
+    public static CommonInstanceDTO ToCommonDTO(this Track track)
+    {
+        return new CommonInstanceDTO(
+            track.Id,
+            track.Name,
+            track.AvatarSource,
+            EntityTag.TRACK);
     }
 
     public static IEnumerable<CommonInstanceDTO> ToCommonDTO(this IEnumerable<Artist> collection)

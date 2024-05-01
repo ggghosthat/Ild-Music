@@ -9,6 +9,7 @@ using System;
 using System.Threading.Tasks;
 using System.IO;
 using Avalonia.Controls;
+using Ild_Music.Core.Instances.DTO;
 
 namespace Ild_Music.ViewModels;
 public class ArtistFactoryViewModel : BaseViewModel
@@ -142,9 +143,9 @@ public class ArtistFactoryViewModel : BaseViewModel
         }
     }
 
-    public async Task DropInstance(Guid artistId) 
+    public async Task DropInstance(CommonInstanceDTO instanceDTO) 
     {
-        Instance = await supporterService.FetchArtist(artistId);
+        Instance = await supporterService.GetArtistAsync(instanceDTO);
         IsEditMode = true;
         ArtistName = Instance.Name.ToString();
         ArtistDescription = Instance.Description.ToString();
@@ -164,10 +165,10 @@ public class ArtistFactoryViewModel : BaseViewModel
     private void CreateArtist(object obj)
     {
         object[] value = { ArtistName, ArtistDescription, AvatarSource };
-        if (IsEditMode == false)
+        if (IsEditMode)
+            EditArtistInstance(value);
+        else
             CreateArtistInstance(value);
-        else 
-            EditArtistInstance(value); 
     }
 
     private async void SelectAvatar(object obj)

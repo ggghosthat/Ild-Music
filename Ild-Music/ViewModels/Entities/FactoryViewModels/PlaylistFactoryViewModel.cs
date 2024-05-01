@@ -11,6 +11,8 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Collections.ObjectModel;
+using Ild_Music.Core.Instances.DTO;
+using Ild_Music.Core.Instances;
 
 namespace Ild_Music.ViewModels
 {
@@ -60,8 +62,8 @@ namespace Ild_Music.ViewModels
         #endregion
 
         #region Providers        
-        public static ObservableCollection<Artist> ArtistProvider { get; set; } = new();
-        public static ObservableCollection<Track> TrackProvider { get; set; } = new();
+        public static ObservableCollection<CommonInstanceDTO> ArtistProvider { get; set; } = new();
+        public static ObservableCollection<CommonInstanceDTO> TrackProvider { get; set; } = new();
         #endregion
     
         #region Log Reply Properties
@@ -150,7 +152,7 @@ namespace Ild_Music.ViewModels
                     supporterService.ArtistsCollection
                                     .Where(a => outIds.Contains(a.Id))
                                     .ToList()
-                                    .ForEach(i => SelectedPlaylistArtists.Add(i));
+                                    .ForEach(i => SelectedPlaylistArtists.Add(i.ToCommonDTO()));
                 }
                 else if(ExplorerVM.Output[0] is Track)
                 {

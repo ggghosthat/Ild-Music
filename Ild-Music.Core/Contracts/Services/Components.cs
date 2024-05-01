@@ -40,6 +40,13 @@ public interface ICube : IShare
 
     //loading (querying) methods
     public Task LoadUp();
+    public Task QueryNextChunk(EntityTag entityTag);
+
+    public Task<Artist> QueryArtist(CommonInstanceDTO instanceDTO);
+    public Task<Playlist> QueryPlaylist(CommonInstanceDTO instanceDTO);
+    public Task<Track> QueryTrack(CommonInstanceDTO instanceDTO);
+    public Task<Tag> QueryTag(Guid tagId);
+
     public Task<IEnumerable<CommonInstanceDTO>> LoadEntities(EntityTag entityTag);
     public Task<IEnumerable<Tag>> LoadTags();
 

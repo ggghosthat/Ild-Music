@@ -38,13 +38,12 @@ namespace Ild_Music.ViewModels
     	#endregion
 
         #region Public Methods
-        public async void SetInstance(Track track)
+        public async void SetInstance(CommonInstanceDTO instanceDto)
         {
             TrackInstance = track;
             OnPropertyChanged("AvatarSource");
             
-            var trackArtists = await supporter.RequireInstances(EntityTag.ARTIST, 
-                                                                TrackInstance.Artists);
+            var trackArtists = await supporter.GetTrackAsyn(instanceDto);
 
             trackArtists.ToList()
                         .ForEach(a => TrackArtists.Add(a));
