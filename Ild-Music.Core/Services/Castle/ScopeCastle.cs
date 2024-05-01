@@ -38,7 +38,6 @@ public sealed class ScopeCastle : ICastle, IDisposable
     public ScopeCastle()
     {}
 
-
     public void Pack()
     {
         try
@@ -79,7 +78,7 @@ public sealed class ScopeCastle : ICastle, IDisposable
            using (var preScope = container.BeginLifetimeScope())
            {
                var currentCube = container.ResolveKeyed<ICube>(currentCubeId);
-               currentCube.Init(cubeStoragePath, cubeCapacity, cubeIsMoveTrackFiles);
+               currentCube.Init(cubeStoragePath, cubeIsMoveTrackFiles);
                var supportGhost = new SupportGhost();
                var factoryGhost = new FactoryGhost();
 
@@ -134,8 +133,8 @@ public sealed class ScopeCastle : ICastle, IDisposable
         currentPlayerId = player.GetHashCode();
 
         builder.RegisterInstance<IPlayer>(player)
-                .SingleInstance()
-                .Keyed<IPlayer>(player.GetHashCode());
+            .SingleInstance()
+            .Keyed<IPlayer>(player.GetHashCode());
     }
 
     public void RegisterCube(ICube cube)
@@ -146,8 +145,8 @@ public sealed class ScopeCastle : ICastle, IDisposable
         currentCubeId = cube.GetHashCode();
 
         builder.RegisterInstance<ICube>(cube)
-                .SingleInstance()
-                .Keyed<ICube>(cube.GetHashCode()); 
+            .SingleInstance()
+            .Keyed<ICube>(cube.GetHashCode()); 
     }
 
 
@@ -161,8 +160,8 @@ public sealed class ScopeCastle : ICastle, IDisposable
         foreach (var player in players)
         {
             builder.RegisterInstance<IPlayer>(player)
-                    .SingleInstance()
-                    .Keyed<IPlayer>(player.GetHashCode());
+                .SingleInstance()
+                .Keyed<IPlayer>(player.GetHashCode());
         }
     }
 
@@ -176,8 +175,8 @@ public sealed class ScopeCastle : ICastle, IDisposable
         foreach (var cube in cubes)
         {
             builder.RegisterInstance<ICube>(cube)
-                    .SingleInstance()
-                    .Keyed<ICube>(cube.GetHashCode());
+                .SingleInstance()
+                .Keyed<ICube>(cube.GetHashCode());
         }    
     }
 
@@ -187,8 +186,7 @@ public sealed class ScopeCastle : ICastle, IDisposable
         if(!IsActive) 
             throw new Exception();
 
-        IGhost? resultGhost = ghosts[ghostTag];
-        return resultGhost;
+        return ghosts[ghostTag];
     }
 
 
@@ -197,8 +195,7 @@ public sealed class ScopeCastle : ICastle, IDisposable
         if(!IsActive) 
             throw new Exception();
 
-        IGhost? resultGhost = ghosts[ghostTag];
-        return Task.FromResult(resultGhost);
+        return Task.FromResult(ghosts[ghostTag]);
     }
 
 
@@ -208,8 +205,7 @@ public sealed class ScopeCastle : ICastle, IDisposable
         if(!IsActive) 
             throw new Exception();
 
-        IWaiter waiter = waiters[waiterTag];
-        return waiter;
+        return waiters[waiterTag];
     }
 
     public Task<IWaiter> ResolveWaiterAsync(ref string waiterTag)
@@ -217,8 +213,7 @@ public sealed class ScopeCastle : ICastle, IDisposable
         if(!IsActive) 
             throw new Exception();
 
-        IWaiter waiter = waiters[waiterTag];
-        return Task.FromResult(waiter);
+        return Task.FromResult(waiters[waiterTag]);
     }
    
     //return current component instances
@@ -229,9 +224,7 @@ public sealed class ScopeCastle : ICastle, IDisposable
 
         IPlayer player;
         using (var scope = container.BeginLifetimeScope())
-        {
             player = scope.ResolveKeyed<IPlayer>(currentPlayerId);
-        }
 
         return player;
     }
@@ -243,9 +236,7 @@ public sealed class ScopeCastle : ICastle, IDisposable
 
         ICube cube;
         using (var scope = container.BeginLifetimeScope())
-        {
             cube = scope.ResolveKeyed<ICube>(currentCubeId);
-        }
 
         return cube;
     }

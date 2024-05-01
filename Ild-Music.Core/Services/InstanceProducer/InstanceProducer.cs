@@ -7,30 +7,34 @@ internal struct InstanceProducer : IDisposable
     public Playlist PlaylistInstance { get; private set; } = default!;
     public Track TrackInstance { get; private set; } = default!;
 
-    public InstanceProducer(Memory<char> name,
-                            Memory<char> description, 
-                            Memory<byte> avatar,
-                            int year)
+    public InstanceProducer(
+        Memory<char> name,
+        Memory<char> description, 
+        Memory<byte> avatar,
+        int year)
     {
-        ArtistInstance = new Artist(id: Guid.NewGuid(),
-                                    name: name,
-                                    description: description,
-                                    avatarSource: avatar,
-                                    year: year);
+        ArtistInstance = new (
+            id: Guid.NewGuid(),
+            name: name,
+            description: description,
+            avatarSource: avatar,
+            year: year);
     }
 
-    public InstanceProducer(Memory<char> name,
-                            Memory<char> description,
-                            Memory<byte> avatar,
-                            int year,
-                            IList<Track> tracks,
-                            IList<Artist> artists)
+    public InstanceProducer(
+        Memory<char> name,
+        Memory<char> description,
+        Memory<byte> avatar,
+        IList<Track> tracks,
+        IList<Artist> artists,
+        int year)
     {
-        var playlist  = new Playlist(id: Guid.NewGuid(),
-                                     name: name,
-                                     description: description,
-                                     avatarSource: avatar,
-                                     year: year);
+        var playlist  = new Playlist(
+            id: Guid.NewGuid(),
+            name: name,
+            description: description,
+            avatarSource: avatar,
+            year: year);
 
         if (tracks != null && tracks.Count > 0)
         {
@@ -49,21 +53,23 @@ internal struct InstanceProducer : IDisposable
         PlaylistInstance = playlist;
     }
 
-    public InstanceProducer(Memory<char> pathway,
-                            Memory<char> name,
-                            Memory<char> description,
-                            Memory<byte> avatar,
-                            TimeSpan duration,
-                            int year,
-                            IList<Artist> artists = null)
+    public InstanceProducer(
+        Memory<char> pathway,
+        Memory<char> name,
+        Memory<char> description,
+        Memory<byte> avatar,
+        IList<Artist> artists,
+        TimeSpan duration,
+        int year)
     {
-        TrackInstance = new Track(id: Guid.NewGuid(),
-                                  pathway: pathway,
-                                  name: name,
-                                  description: description,
-                                  avatarSource: avatar,
-                                  duration: duration,
-                                  year: year);
+        TrackInstance = new Track(
+            id: Guid.NewGuid(),
+            pathway: pathway,
+            name: name,
+            description: description,
+            avatarSource: avatar,
+            duration: duration,
+            year: year);
         var track = TrackInstance;
 
         if (artists != null && artists.Count > 0)

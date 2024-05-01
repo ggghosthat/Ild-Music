@@ -24,7 +24,7 @@ public interface ICube : IShare
     public IEnumerable<CommonInstanceDTO>? Tracks { get; }        
 
     //intialize method
-    public void Init(string alloationPlace, int capacity, bool isMoveTrackFiles);
+    public void Init(string alloationPlace, bool isMoveTrackFiles);
 
     //command methods
     public Task AddArtistObj(Artist artist);
@@ -41,8 +41,8 @@ public interface ICube : IShare
 
     //loading (querying) methods
     public Task LoadUp();
-    public Task<IEnumerable<CommonInstanceDTO>> LoadEntities(EntityTag entityTag, int offset);
-    public Task<IEnumerable<Tag>> LoadTags(int offset);
+    public Task<IEnumerable<CommonInstanceDTO>> LoadEntities(EntityTag entityTag);
+    public Task<IEnumerable<Tag>> LoadTags();
 
     //searching methods
     public Task<IEnumerable<CommonInstanceDTO>> Search(string searchTerm);

@@ -12,9 +12,14 @@ internal static class ConnectionAgent
     private static int queryLimit;
 
     public static int QueryLimit => queryLimit;
+    public static int ArtistOffset {get; set;} = 0;
+    public static int PlaylistOffset {get; set;} = 0;
+    public static int TrackOffset {get; set;} = 0;
+    public static int TagOffset {get; set;} = 0;
 
-    public static void ConfigureAgent(string allocationPath,
-                                      int pageLimit = 100)
+    public static void ConfigureAgent(
+        string allocationPath,
+        int pageLimit = 100)
     {
 
         SQLitePCL.raw.SetProvider(new SQLitePCL.SQLite3Provider_e_sqlite3());

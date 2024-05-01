@@ -18,10 +18,8 @@ public sealed class SupportGhost : IGhost
     public event Action OnPlaylistsNotifyRefresh;
     public event Action OnTracksNotifyRefresh;
 
-
     public SupportGhost()
     {}
-
 
     //Initialize and start Synch Area instance 
     //make sure that you initialized your cube instance
@@ -92,8 +90,7 @@ public sealed class SupportGhost : IGhost
         return null;
     }
 
-    public async Task<IEnumerable<CommonInstanceDTO>> RequireInstances(EntityTag entityTag,
-                                                                       IEnumerable<Guid> id)
+    public async Task<IEnumerable<CommonInstanceDTO>> RequireInstances(EntityTag entityTag, IEnumerable<Guid> id)
     {
         return null;
     } 

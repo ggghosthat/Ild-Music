@@ -17,22 +17,14 @@ public class GuidoForklift : ICube //Cars from pixar (lol)
     private readonly static QueryHandler _queryHandler = new ();
     private readonly static SearchHandler _searchHandler = new ();
 
-    private static int _capacity;
-
-    private int artistOffset = 0;
-    private int playlistOffset = 0;
-    private int trackOffset = 0;
-  
-
     public GuidoForklift()
     { 
         if (CubeId == Guid.Empty)
             CubeId = Guid.NewGuid();
     }
 
-    public void Init(string allocationPlace, int capacity, bool isMoveTrackFiles)
+    public void Init(string allocationPlace, bool isMoveTrackFiles)
     {
-        _capacity = capacity;
         
         WearhouseAgent.ConfigureAgent(allocationPlace, isMoveTrackFiles); 
         ConnectionAgent.ConfigureAgent(allocationPlace);
@@ -43,7 +35,7 @@ public class GuidoForklift : ICube //Cars from pixar (lol)
         _mediator = mediator;
 
 
-    public int CubePage => _capacity;
+    public int CubePage => 300;
     public IEnumerable<CommonInstanceDTO>? Artists {get; private set;} = default;
     public IEnumerable<CommonInstanceDTO>? Playlists {get; private set;} = default;
     public IEnumerable<CommonInstanceDTO>? Tracks {get; private set;} = default;
@@ -55,91 +47,97 @@ public class GuidoForklift : ICube //Cars from pixar (lol)
     {
         await _commandHandler.AddArtist(artist);
      
-        if((Artists?.Count() + 1) < (artistOffset * CubePage))
-           Artists = await LoadEntities(EntityTag.ARTIST, artistOffset);
+        if((Artists?.Count() + 1) < (ConnectionAgent.ArtistOffset * CubePage))
+           Artists = await LoadEntities(EntityTag.ARTIST);
     }
 
     public async Task AddPlaylistObj(Playlist playlist) 
     {
         await _commandHandler.AddPlaylist(playlist);
 
-        if((Playlists?.Count() + 1) < (playlistOffset * CubePage))
-           Playlists = await LoadEntities(EntityTag.PLAYLIST, playlistOffset); 
+        if((Playlists?.Count() + 1) < (ConnectionAgent.PlaylistOffset * CubePage))
+           Playlists = await LoadEntities(EntityTag.PLAYLIST); 
     }
 
     public async Task AddTrackObj(Track track) 
     {
         await _commandHandler.AddTrack(track);
 
-        if((Tracks?.Count() + 1) < (trackOffset * CubePage))
-           Tracks = await LoadEntities(EntityTag.TRACK, trackOffset); 
+        if((Tracks?.Count() + 1) < (ConnectionAgent.TrackOffset * CubePage))
+           Tracks = await LoadEntities(EntityTag.TRACK); 
     }
 
     public async Task AddTagObj(Tag tag)
     {
         await _commandHandler.AddTag(tag);
-    }
 
+        if((Tags?.Count() + 1) < (ConnectionAgent.TagOffset * CubePage))
+           Tags = await LoadTags(); 
+    }
 
     public async Task EditArtistObj(Artist newArtist) 
     {
         await _commandHandler.EditArtist(newArtist);
 
-        if((Artists?.Count() + 1) < (artistOffset * CubePage))
-           Artists = await LoadEntities(EntityTag.ARTIST, artistOffset);
+        if((Artists?.Count() + 1) < (ConnectionAgent.ArtistOffset * CubePage))
+           Artists = await LoadEntities(EntityTag.ARTIST);
     }    
 
     public async Task EditPlaylistObj(Playlist newPlaylist)
     {
         await _commandHandler.EditPlaylist(newPlaylist);
 
-        if((Playlists?.Count() + 1) < (playlistOffset * CubePage))
-           Playlists = await LoadEntities(EntityTag.PLAYLIST, playlistOffset);
+        if((Playlists?.Count() + 1) < (ConnectionAgent.PlaylistOffset * CubePage))
+           Playlists = await LoadEntities(EntityTag.PLAYLIST);
     }
 
     public async Task EditTrackObj(Track newTrack)
     {
         await _commandHandler.EditTrack(newTrack);
 
-        if((Tracks?.Count() + 1) < (trackOffset * CubePage))
-           Tracks = await LoadEntities(EntityTag.TRACK, trackOffset);
+        if((Tracks?.Count() + 1) < (ConnectionAgent.TrackOffset * CubePage))
+           Tracks = await LoadEntities(EntityTag.TRACK);
     }
 
     public async Task EditTagObj(Tag newTag)
     {
         await _commandHandler.EditTag(newTag);
-    }
 
+        if((Tags?.Count() + 1) < (ConnectionAgent.TagOffset * CubePage))
+           Tags = await LoadTags(); 
+    }
 
     public async Task RemoveArtistObj(Guid artistId) 
     {   
         await _commandHandler.DeleteArtist(artistId);
 
-        if((Artists?.Count() + 1) < (artistOffset * CubePage))
-           Artists = await LoadEntities(EntityTag.ARTIST, artistOffset); 
+        if((Artists?.Count() + 1) < (ConnectionAgent.ArtistOffset * CubePage))
+           Artists = await LoadEntities(EntityTag.ARTIST); 
     }
 
     public async Task RemovePlaylistObj(Guid playlistId)
     {
         await _commandHandler.DeletePlaylist(playlistId);
 
-        if((Playlists?.Count() + 1) < (playlistOffset * CubePage))
-           Playlists = await LoadEntities(EntityTag.PLAYLIST, playlistOffset);
+        if((Playlists?.Count() + 1) < (ConnectionAgent.PlaylistOffset * CubePage))
+           Playlists = await LoadEntities(EntityTag.PLAYLIST);
     }
 
     public async Task RemoveTrackObj(Guid trackId) 
     {
         await _commandHandler.DeleteTrack(trackId);
 
-        if((Tracks?.Count() + 1) < (trackOffset * CubePage))
-           Tracks = await LoadEntities(EntityTag.TRACK, trackOffset);
+        if((Tracks?.Count() + 1) < (ConnectionAgent.TrackOffset * CubePage))
+           Tracks = await LoadEntities(EntityTag.TRACK);
     }
 
     private async Task RemoveTagObj(Guid tagId)
     {
-        await _commandHandler.DeleteTag(tagId); 
-    } 
+        await _commandHandler.DeleteTag(tagId);
 
+        if((Tags?.Count() + 1) < (ConnectionAgent.TagOffset * CubePage))
+           Tags = await LoadTags(); 
+    } 
 
     public async Task LoadUp()
     {
@@ -149,19 +147,19 @@ public class GuidoForklift : ICube //Cars from pixar (lol)
         Tracks = pool.TracksDTOs;
     }
 
-    public async Task<IEnumerable<CommonInstanceDTO>> LoadEntities(EntityTag entityTag, int offset)
+    public async Task<IEnumerable<CommonInstanceDTO>> LoadEntities(EntityTag entityTag)
     {
         return entityTag switch
         {
-            EntityTag.ARTIST => await _queryHandler.QueryArtists(offset),
-            EntityTag.PLAYLIST => await _queryHandler.QueryArtists(offset),
-            EntityTag.TRACK => await _queryHandler.QueryArtists(offset)
+            EntityTag.ARTIST => await _queryHandler.QueryArtists(),
+            EntityTag.PLAYLIST => await _queryHandler.QueryArtists(),
+            EntityTag.TRACK => await _queryHandler.QueryArtists()
         };
     }
     
-    public async Task<IEnumerable<Tag>> LoadTags (int offset)
+    public async Task<IEnumerable<Tag>> LoadTags ()
     {
-        return await _queryHandler.QueryTags(offset);
+        return await _queryHandler.QueryTags();
     }
 
     public async Task<Artist> QueryArtist(CommonInstanceDTO instanceDTO)
@@ -183,7 +181,6 @@ public class GuidoForklift : ICube //Cars from pixar (lol)
     {
         return await _queryHandler.QuerySingleTag(tagId); 
     }
-
 
     public async Task<IEnumerable<CommonInstanceDTO>> Search(string searchTerm)
     {

@@ -25,30 +25,31 @@ public static class Extesions
     public static List<Track> ToTrackEntities(this IList<Guid> guids, IList<Track> store)
 	{
     	return store.ToList()
-                    .FindAll(delegate(Track item) { return guids.Contains(item.Id); });
+            .FindAll(delegate(Track item) { return guids.Contains(item.Id); });
 	}
 
     public static List<Artist> ToTrackEntities(this IList<Guid> guids, IList<Artist> store)
 	{
     	return store.ToList()
-                    .FindAll(delegate(Artist item) { return guids.Contains(item.Id); });
+            .FindAll(delegate(Artist item) { return guids.Contains(item.Id); });
 	}
 
     public static List<Playlist> ToTrackEntities(this IList<Guid> guids, IList<Playlist> store)
 	{
     	return store.ToList()
-                    .FindAll(delegate(Playlist item) { return guids.Contains(item.Id); });
+            .FindAll(delegate(Playlist item) { return guids.Contains(item.Id); });
 	}
 
 
     public static Playlist ComposePlaylist(this IList<Track> tracks)
     {
-        var producer = new InstanceProducer($"Playlist: { DateTime.Now.ToString("h_mm") }".ToCharArray(), 
-                                            "".ToCharArray(),
-                                            new byte[0],
-                                            2000,
-                                            tracks,
-                                            null);
+        var producer = new InstanceProducer(
+            $"Playlist: { DateTime.Now.ToString("h_mm") }".ToCharArray(), 
+            String.Empty.ToCharArray(),
+            new byte[0],
+            tracks,
+            null,
+            2000);
 
         return producer.PlaylistInstance;
     }
@@ -57,10 +58,11 @@ public static class Extesions
     {
        foreach(var artist in collection)
        {
-           yield return new CommonInstanceDTO(artist.Id,
-                                              artist.Name,
-                                              artist.AvatarSource,
-                                              EntityTag.ARTIST);
+           yield return new CommonInstanceDTO(
+                artist.Id,
+                artist.Name,
+                artist.AvatarSource,
+                EntityTag.ARTIST);
        }
     }
 
@@ -68,10 +70,11 @@ public static class Extesions
     {
        foreach(var playlist in collection)
        {
-           yield return new CommonInstanceDTO(playlist.Id,
-                                              playlist.Name,
-                                              playlist.AvatarSource,
-                                              EntityTag.ARTIST);
+           yield return new CommonInstanceDTO(
+               playlist.Id,
+               playlist.Name,
+               playlist.AvatarSource,
+               EntityTag.PLAYLIST);
        }
     }
 
@@ -79,10 +82,11 @@ public static class Extesions
     {
        foreach(var track in collection)
        {
-           yield return new CommonInstanceDTO(track.Id,
-                                              track.Name,
-                                              track.AvatarSource,
-                                              EntityTag.ARTIST);
+           yield return new CommonInstanceDTO(
+               track.Id,
+               track.Name,
+               track.AvatarSource,
+               EntityTag.TRACK);
        }
     }
 }
