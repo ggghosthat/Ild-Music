@@ -1,26 +1,22 @@
 using System;
 using System.Globalization;
-using Avalonia;
 using Avalonia.Media;
-using Avalonia.Controls;
 using Avalonia.Data.Converters;
 
 namespace Ild_Music.Converters;
-public class PlayerToggleButtonConverter : IValueConverter
+
+internal class ErrorMessageConverter : IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
-        if (value is bool state)
+        if (value is bool errorState)
         {
-            if (state)
-                return (Geometry)Application.Current.FindResource("PlayerActive");
-            else
-                return (Geometry)Application.Current.FindResource("PlayerInactive");
+            if (errorState)
+                return (Brush)new BrushConverter().ConvertFrom("#a83240");
+            else 
+                return (Brush)new BrushConverter().ConvertFrom("#32a852");
         }
-        else
-        { 
-            return null;
-        }
+        return (Brush)new BrushConverter().ConvertFrom("#32a852");
     }
 
     public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

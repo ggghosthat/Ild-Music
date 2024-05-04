@@ -3,11 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.002.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ild-Music", "Ild-Music\Ild-Music.csproj", "{8AB67610-5C99-4A2D-A4E9-B3006E6B1D17}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "legacy/Ild-Music", "Ild-Music\Ild-Music.csproj", "{8AB67610-5C99-4A2D-A4E9-B3006E6B1D17}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VLCSharpPlayer", "Ild-Music.VLCSharpPlayer\VLCSharpPlayer.csproj", "{B565E66C-C6D8-4DE6-9B65-4BA2D1F80D3E}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ild_Music", "legacy\Ild_Music.csproj", "{38DDC854-A4FD-4811-BD95-35358A3A0B89}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ild-Music.Tests", "Ild-Music.Tests\Ild-Music.Tests.csproj", "{707D9B0D-5A6E-42B7-A69A-560BA90E15E5}"
 EndProject
@@ -29,10 +27,6 @@ Global
 		{B565E66C-C6D8-4DE6-9B65-4BA2D1F80D3E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B565E66C-C6D8-4DE6-9B65-4BA2D1F80D3E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B565E66C-C6D8-4DE6-9B65-4BA2D1F80D3E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{38DDC854-A4FD-4811-BD95-35358A3A0B89}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{38DDC854-A4FD-4811-BD95-35358A3A0B89}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{38DDC854-A4FD-4811-BD95-35358A3A0B89}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{38DDC854-A4FD-4811-BD95-35358A3A0B89}.Release|Any CPU.Build.0 = Release|Any CPU
 		{707D9B0D-5A6E-42B7-A69A-560BA90E15E5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{707D9B0D-5A6E-42B7-A69A-560BA90E15E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{707D9B0D-5A6E-42B7-A69A-560BA90E15E5}.Release|Any CPU.ActiveCfg = Release|Any CPU

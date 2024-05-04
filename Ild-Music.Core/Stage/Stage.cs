@@ -73,7 +73,7 @@ public sealed class Stage
                 }
                 else if(dock == -1)
                 {
-                    throw new Exception("Could not load all defined components");
+                    throw new Exception("Could not load defined components");
                 }
             }
 
@@ -81,7 +81,6 @@ public sealed class Stage
         }
         catch(Exception ex)
         {
-            Console.WriteLine(ex);
             throw ex;
         }
        

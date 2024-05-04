@@ -1,27 +1,26 @@
 <Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:vm="using:Ild_Music.ViewModels"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 
-        xmlns:conv="clr-namespace:Ild_Music.Converters"
         xmlns:v="clr-namespace:Ild_Music.Views"
+        xmlns:vm="using:Ild_Music.ViewModels"
+        xmlns:conv="clr-namespace:Ild_Music.Converters"
         xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
         xmlns:ia="clr-namespace:Avalonia.Xaml.Interactions.Core;assembly=Avalonia.Xaml.Interactions"
 
-        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="460"
         x:Class="Ild_Music.Views.MainWindow"
-        x:DataType="vm:MainWindowViewModel"
-        Icon="/Assets/avalonia-logo.ico"
+        x:DataType="vm:MainViewModel"
+        Icon="/Assets/ild-music-logo.ico"
+        Title="Ild-Music"
         Background="#1b2b33"
-        SystemDecorations="None"
         WindowStartupLocation="CenterScreen">
-
+    
     <Window.Resources>
         <conv:NavBarConverter x:Key="NavBarConverter"/>
-        <conv:PlayerToggleButtonConverter x:Key="PlayerToggleButtonConverter"/>
+        <conv:PlayerToggleButtonConverter x:Key="ToggleButtonConverter"/>
         <conv:CurrentEntityConverter x:Key="CurrentEntityConverter"/>
-        
     </Window.Resources>
 
     <Window.Styles>
@@ -436,6 +435,7 @@
                                             </Border>
                                             
                                             <Border Classes="PlayerButton"
+                                                    Background="#00000000"
                                                     Margin="0,5">
                                                     <i:Interaction.Behaviors>
                                                         <ia:EventTriggerBehavior EventName="Tapped">
@@ -443,15 +443,11 @@
                                                         </ia:EventTriggerBehavior>  
                                                     </i:Interaction.Behaviors>
                                                     <Border>
-                                                        <Viewbox Classes="vb" 
-                                                                 Width="24"
-                                                                 Height="24"
-                                                                 Margin="2,0" 
-                                                                 HorizontalAlignment="Left">
+                                                        <Viewbox Classes="vb" Width="24" Height="24" Margin="2,0" HorizontalAlignment="Left">
                                                             <Canvas Width="24" Height="24">
-                                                                <Path Data="{Binding PlayerState, Converter={StaticResource PlayerToggleButtonConverter}}"/>
+                                                                <Path Data="{Binding PlayerState, Converter={StaticResource ToggleButtonConverter} }" />
                                                             </Canvas>
-                                                        </Viewbox>
+                                                        </Viewbox>l
                                                     </Border>
                                             </Border>
 
@@ -639,5 +635,4 @@
         <KeyBinding Gesture="Alt+l" Command="{Binding SwitchListCommand}"/>
         <KeyBinding Gesture="Alt+b" Command="{Binding SwitchBrowseCommand}"/>
     </Window.KeyBindings>
-
 </Window>

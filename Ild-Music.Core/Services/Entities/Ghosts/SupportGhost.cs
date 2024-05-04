@@ -9,7 +9,7 @@ public sealed class SupportGhost : IGhost
     public ReadOnlyMemory<char> GhostName {get; init;} = "SupporterService".AsMemory();
 
     private static ICube cube;
-
+    
     public IEnumerable<CommonInstanceDTO>? ArtistsCollection => cube.Artists ?? null;
     public IEnumerable<CommonInstanceDTO>? PlaylistsCollection => cube.Playlists??null;
     public IEnumerable<CommonInstanceDTO>? TracksCollection => cube.Tracks?? null;

@@ -27,21 +27,17 @@ public class Docker : IDocker, IDisposable
     {
         try
         {
-            Players = DefaultDockProcess<IPlayer>(ref configure.ConfigSheet._playerSource,
-                                             ref configure.ConfigSheet._players);
-            Cubes = DefaultDockProcess<ICube>(ref configure.ConfigSheet._cubeSource,
-                                            ref configure.ConfigSheet._cubes);
+            Players = DefaultDockProcess<IPlayer>(ref configure.ConfigSheet._players);
+            Cubes = DefaultDockProcess<ICube>(ref configure.ConfigSheet._cubes);
             return Task.FromResult(0);
         }
         catch(Exception ex)
         {
-            Console.WriteLine($"Happened: {ex.Message}");
             return Task.FromResult(-1);
         } 
     }
     
-    private IList<T>? DefaultDockProcess<T>(ref string source,
-                                          ref IEnumerable<string> assembliesPaths)
+    private IList<T>? DefaultDockProcess<T>(ref IEnumerable<string> assembliesPaths)
     {
         List<T> result;
         (bool, List<T>) components = LoadFromAssembly<T>(ref assembliesPaths);
@@ -65,14 +61,15 @@ public class Docker : IDocker, IDisposable
                 {
                     var assembly = Assembly.LoadFrom(path);
                     var exportedTypes = assembly.ExportedTypes;
-                    exportedTypes.Where(t => t.IsClass && t.GetInterfaces().Contains(typeof(T)))
-                                .Select(t => t)
-                                .ToList()
-                                .ForEach(t => 
-                                {
-                                    T instance = (T)Activator.CreateInstance(t);
-                                    list.Add(instance);
-                                });
+                    exportedTypes
+                        .Where(t => t.IsClass && t.GetInterfaces().Contains(typeof(T)))
+                        .Select(t => t)
+                        .ToList()
+                        .ForEach(t => 
+                        {
+                            T instance = (T)Activator.CreateInstance(t);
+                            list.Add(instance);
+                        });
                     dllsPath.ToList().Remove(path);
                 }
             }

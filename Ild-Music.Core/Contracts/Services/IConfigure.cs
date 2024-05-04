@@ -1,8 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks; 
-
 namespace Ild_Music.Core.Contracts;
 public interface IConfigure
 {

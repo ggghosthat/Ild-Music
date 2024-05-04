@@ -5,12 +5,12 @@ using System;
 using System.Globalization;
 
 namespace Ild_Music.Converters;
-public class SubFactoryConverter : IValueConverter
+internal class SubFactoryConverter : IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
-        // if (value is SubItem subItem)
-        //     return subItem.Control;
+        if (value is SubItem subItem)
+            return subItem.Control;
         return null;
     }
 

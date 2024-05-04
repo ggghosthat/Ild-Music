@@ -152,7 +152,10 @@ public sealed class ScopeCastle : ICastle, IDisposable
 
     public async Task RegisterPlayers(ICollection<IPlayer> players)
     {
-        if(IsActive) 
+        if ((players is null) || (players.Count == 0))
+            return;
+
+        if (IsActive) 
             throw new Exception();
 
         currentPlayerId = players.Last().GetHashCode();
@@ -167,7 +170,10 @@ public sealed class ScopeCastle : ICastle, IDisposable
 
     public async Task RegisterCubes(ICollection<ICube> cubes)
     {
-        if(IsActive) 
+        if ((cubes is null) || (cubes.Count == 0))
+            return;
+
+        if (IsActive) 
             throw new Exception();
 
         currentCubeId = cubes.Last().GetHashCode();

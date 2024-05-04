@@ -15,6 +15,7 @@ namespace Ild_Music.Converters;
 
 public class NavBarConverter : IValueConverter
 {
+	private Hashtable ViewModelsTable => App.ViewModelTable;
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
     	//return icons from app resource
