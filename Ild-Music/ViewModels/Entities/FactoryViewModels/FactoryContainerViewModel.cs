@@ -1,4 +1,5 @@
 using Ild_Music.Core.Instances;
+using Ild_Music.Core.Instances.DTO;
 using Ild_Music.Core.Contracts.Services.Interfaces;
 using Ild_Music.Core.Services.Entities;
 using Ild_Music.ViewModels.Base;
@@ -46,24 +47,24 @@ public class FactoryContainerViewModel : BaseViewModel
     }
 
     public void SetEditableItem(EntityTag entityTag,
-                                Guid entityId)
+                                CommonInstanceDTO instanceDTO)
     { 
         switch(entityTag)
         {
             case EntityTag.ARTIST:
                 SubItem = SubItems[0];
                 var artistContext = (ArtistFactoryViewModel)SubItem.Control.DataContext;
-                artistContext?.DropInstance(entityId);
+                artistContext?.DropInstance(instanceDTO);
                 break;
             case EntityTag.PLAYLIST:
                 SubItem = SubItems[1];
                 var playlistContext = (PlaylistFactoryViewModel)SubItem.Control.DataContext;
-                playlistContext?.DropInstance(entityId);
+                playlistContext?.DropInstance(instanceDTO);
                 break;
             case EntityTag.TRACK:
                 SubItem = SubItems[1];
                 var trackContext = (PlaylistFactoryViewModel)SubItem.Control.DataContext;
-                trackContext?.DropInstance(entityId);
+                trackContext?.DropInstance(instanceDTO);
                 break;
 
         }

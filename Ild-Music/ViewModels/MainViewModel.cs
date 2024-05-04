@@ -4,6 +4,7 @@ using Ild_Music.CQRS;
 using Ild_Music.ViewModels.Base;
 using Ild_Music.Core.Services.Entities;
 using Ild_Music.Core.Instances;
+using Ild_Music.Core.Instances.DTO;
 using Ild_Music.Core.Events.Signals;
 using Ild_Music.Core.Contracts.Services.Interfaces;
 
@@ -204,22 +205,17 @@ public class MainViewModel : Base.BaseViewModel
     public void ResolveWindowStack()
     {
         if (WindowStack.Count > 0)
-        {
             CurrentVM = PopVM();
-        }
 
         if (CurrentVM is ListViewModel listVM)
-        {
             listVM.UpdateProviders();
-        }
     }
 
 
     public async Task ResolveArtistInstance(BaseViewModel source,
                                             Artist artist)
     {
-        var artistVM = (ArtistViewModel)App 
-                                        .ViewModelTable[ArtistViewModel.nameVM];
+        var artistVM = (ArtistViewModel)App.ViewModelTable[ArtistViewModel.nameVM];
         artistVM?.SetInstance(artist);
 
         if (artistVM != null)
@@ -271,8 +267,11 @@ public class MainViewModel : Base.BaseViewModel
 
 
     public async Task ResolveTrackInstance(BaseViewModel source,
-                                           Track track)
+                                           CommonInstanceDTO track)
     {
+        if(track.EntityType != EntityType.TRACK)
+            return;
+
         var trackVM = (TrackViewModel)App.ViewModelTable[TrackViewModel.nameVM];
         trackVM?.SetInstance(track);
 
