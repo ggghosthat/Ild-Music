@@ -436,6 +436,7 @@
                                             </Border>
                                             
                                             <Border Classes="PlayerButton"
+                                                    Background="#00000000"
                                                     Margin="0,5">
                                                     <i:Interaction.Behaviors>
                                                         <ia:EventTriggerBehavior EventName="Tapped">

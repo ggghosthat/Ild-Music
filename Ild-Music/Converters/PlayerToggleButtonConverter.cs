@@ -13,9 +13,9 @@ public class PlayerToggleButtonConverter : IValueConverter
         if (value is bool state)
         {
             if (state)
-                return (Geometry)Application.Current.FindResource("PlayerActive");
+                return Application.Current.FindResource("PlayerActive");
             else
-                return (Geometry)Application.Current.FindResource("PlayerInactive");
+                return Application.Current.FindResource("PlayerInactive");
         }
         else
         { 

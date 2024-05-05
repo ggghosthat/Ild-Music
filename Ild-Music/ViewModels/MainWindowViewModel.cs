@@ -29,8 +29,8 @@ public class MainWindowViewModel : Base.BaseViewModel
 
     #region Player Scope
     public static IPlayer? _player = null;
-    public bool PlayerState => _player.ToggleState;
-    public bool PlayerEmpty => _player.IsEmpty;
+    public bool PlayerState => _player?.ToggleState ?? false;
+    public bool PlayerEmpty => _player?.IsEmpty ?? true;
 
     public Track? CurrentTrack => _player?.CurrentTrack;
     public Playlist? CurrentPlaylist => _player?.CurrentPlaylist;

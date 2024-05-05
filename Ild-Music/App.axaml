@@ -111,8 +111,8 @@
         </Canvas>
 
        
-        <GeometryImpl x:Key="PlayerActive">M14,19H18V5H14M6,19H10V5H6V19Z</GeometryImpl>
-        <GeometryImpl x:Key="PlayerInactive">M8.5,8.64L13.77,12L8.5,15.36V8.64M6.5,5V19L17.5,12</GeometryImpl>
+        <Geometry x:Key="PlayerActive">M14,19H18V5H14M6,19H10V5H6V19Z</Geometry>
+        <Geometry x:Key="PlayerInactive">M8.5,8.64L13.77,12L8.5,15.36V8.64M6.5,5V19L17.5,12</Geometry>
     </Application.Resources>
 
     <Application.Styles>
