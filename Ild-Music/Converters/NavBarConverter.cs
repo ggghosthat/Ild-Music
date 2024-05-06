@@ -20,11 +20,11 @@ public class NavBarConverter : IValueConverter
     	//return icons from app resource
     	var result = value switch
     	{
-    		'a' => Application.Current.FindResource("NavHome"),
-    		'b' => Application.Current.FindResource("NavList"),
-    		'c' => Application.Current.FindResource("NavSetting"),
-            'd' => Application.Current.FindResource("NavBrowse"),
-            'e' => Application.Current.FindResource("NavAbout"),
+    		"Home" => Application.Current.FindResource("NavHome"),
+    		"Collection" => Application.Current.FindResource("NavList"),
+    		"Settings" => Application.Current.FindResource("NavSetting"),
+            "Browse" => Application.Current.FindResource("NavBrowse"),
+            "About" => Application.Current.FindResource("NavAbout"),
     		_ => null
     	};
 
