@@ -24,6 +24,13 @@
     </Window.Resources>
 
     <Window.Styles>
+        <Style Selector="Border.WindowButton Canvas Path">
+            <Setter Property="Fill" Value="#7b7f6b"/>
+        </Style>
+        <Style Selector="Border.WindowButton:pointerover Canvas Path">
+            <Setter Property="Fill" Value="#6ed48b"/>
+        </Style>
+
         <Style Selector="Border.NavBarItem">
             <Setter Property="Background" Value="Transparent"/>
         </Style>
@@ -204,7 +211,7 @@
                                                         HorizontalAlignment="Center">
                                                 <ListBox ItemsSource="{Binding NavItems}"
                                                         SelectedItem="{Binding NavItem}"
-                                                        HorizontalAlignment="Center"
+                                                        HorizontalAlignment="Left"
                                                         ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                                                         ScrollViewer.VerticalScrollBarVisibility="Disabled"
                                                         Background="transparent">
@@ -220,7 +227,7 @@
                                                                     <Setter Property="BorderThickness" Value="0"/>
                                                                     <Setter Property="Margin" Value="0"/>
                                                                     <Setter Property="Padding" Value="0"/>
-                                                                    <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                                                                    <Setter Property="HorizontalContentAlignment" Value="Left"/>
 
                                                                     <Setter Property="Template">
                                                                         <ControlTemplate>
@@ -304,11 +311,11 @@
                                                                 </Border.Styles>
 
                                                                 <StackPanel Orientation="Horizontal"
-                                                                            HorizontalAlignment="Center">
+                                                                            HorizontalAlignment="Left">
                                                                 <Viewbox Classes="vb"
                                                                         Width="25"
                                                                         Height="25"
-                                                                        Margin="5"
+                                                                        Margin="10, 5"
                                                                         HorizontalAlignment="Left"
                                                                         Child="{Binding ., Converter={StaticResource NavBarConverter}}">   
                                                                 </Viewbox>                                                        
@@ -328,7 +335,36 @@
                                 <!--ContextArea-->
                                 <Grid Grid.Column="2"
                                       Grid.ColumnSpan="2">
-                                    <ContentControl Grid.Row="3"
+                                    <Grid.RowDefinitions>                                        
+                                        <RowDefinition Height="50"/>
+                                        <RowDefinition Height="*"/>
+                                    </Grid.RowDefinitions>
+
+                                    <StackPanel Grid.Row="0"
+                                                HorizontalAlignment="Right"
+                                                Orientation="Horizontal">
+                                        
+                                        <Border Classes="WindowButton"
+                                                Width="30"
+                                                Height="30"
+                                                Background="Transparent"
+                                                Child="{StaticResource MinimizeHead}"
+                                                PointerPressed="OnHideClick"/>
+                                        <Border Classes="WindowButton"
+                                                Width="30"
+                                                Height="30"
+                                                Background="Transparent"
+                                                Child="{StaticResource MaximizeHead}"
+                                                PointerPressed="OnExpandClick"/>
+                                        <Border Classes="WindowButton"
+                                                Width="30"
+                                                Height="30"
+                                                Background="Transparent"
+                                                Child="{StaticResource CloseHead}"
+                                                PointerPressed="OnCloseClick"/>
+                                    </StackPanel>
+
+                                    <ContentControl Grid.Row="1"
                                                     Content="{Binding CurrentVM}"> 
                                     </ContentControl>
                                 </Grid>
@@ -364,97 +400,94 @@
                                         VerticalAlignment="Top"
                                         HorizontalAlignment="Left"
                                         Margin="15,0,0,0">
-                                        <Border Classes="PlayerButton"
-                                                Background="#00000000"
-                                                Margin="0,5">
-                                                <i:Interaction.Behaviors>
-                                                    <ia:EventTriggerBehavior EventName="Tapped">
-                                                        <ia:InvokeCommandAction Command="{Binding PreviousCommand}"/>
-                                                    </ia:EventTriggerBehavior>  
-                                                </i:Interaction.Behaviors>
-                                                <Border>
-                                                    <Viewbox Classes="vb" Width="24" Height="24" Margin="2,0" HorizontalAlignment="Left">
-                                                        <Canvas Width="24" Height="24">
-                                                            <Path Data="M6,6H8V18H6M9.5,12L18,18V6M16,14.14L12.97,12L16,9.86V14.14Z" />
-                                                        </Canvas>
-                                                    </Viewbox>
-                                                </Border>
-                                        </Border>
-                                        
-                                        <Border Classes="PlayerButton"
-                                                Background="#00000000"
-                                                Margin="0,5">
-                                                <i:Interaction.Behaviors>
-                                                    <ia:EventTriggerBehavior EventName="Tapped">
-                                                        <ia:InvokeCommandAction Command="{Binding KickCommand}"/>
-                                                    </ia:EventTriggerBehavior>  
-                                                </i:Interaction.Behaviors>
-                                                <Border>
-                                                    <Viewbox Classes="vb" 
-                                                                Width="24"
-                                                                Height="24"
-                                                                Margin="2,0" 
-                                                                HorizontalAlignment="Left">
-                                                        <Canvas Width="24" Height="24">
-                                                            <Path Data="{Binding PlayerState, Converter={StaticResource PlayerToggleButtonConverter}}"/>
-                                                        </Canvas>
-                                                    </Viewbox>
-                                                </Border>
-                                        </Border>
+                                    <Border Classes="PlayerButton"
+                                            Background="#00000000"
+                                            Margin="0,5">
+                                            <i:Interaction.Behaviors>
+                                                <ia:EventTriggerBehavior EventName="Tapped">
+                                                    <ia:InvokeCommandAction Command="{Binding PreviousCommand}"/>
+                                                </ia:EventTriggerBehavior>  
+                                            </i:Interaction.Behaviors>
+                                            <Border>
+                                                <Viewbox Classes="vb" Margin="2,0" HorizontalAlignment="Left">
+                                                    <Canvas Width="30" Height="30">
+                                                        <Path Data="M6,6H8V18H6M9.5,12L18,18V6M16,14.14L12.97,12L16,9.86V14.14Z" />
+                                                    </Canvas>
+                                                </Viewbox>
+                                            </Border>
+                                    </Border>
+                                    
+                                    <Border Classes="PlayerButton"
+                                            Background="#00000000"
+                                            Margin="0,5">
+                                            <i:Interaction.Behaviors>
+                                                <ia:EventTriggerBehavior EventName="Tapped">
+                                                    <ia:InvokeCommandAction Command="{Binding KickCommand}"/>
+                                                </ia:EventTriggerBehavior>  
+                                            </i:Interaction.Behaviors>
+                                            <Border>
+                                                <Viewbox Classes="vb"
+                                                            Margin="2,0" 
+                                                            HorizontalAlignment="Left">
+                                                    <Canvas Width="30" Height="30">
+                                                        <Path Data="{Binding PlayerState, Converter={StaticResource PlayerToggleButtonConverter}}"/>
+                                                    </Canvas>
+                                                </Viewbox>
+                                            </Border>
+                                    </Border>
 
-                                        <Border Classes="PlayerButton"
-                                                Background="#00000000"
-                                                Margin="0,5">
-                                                <i:Interaction.Behaviors>
-                                                    <ia:EventTriggerBehavior EventName="Tapped">
-                                                        <ia:InvokeCommandAction Command="{Binding NextCommand}"/>
-                                                    </ia:EventTriggerBehavior>  
-                                                </i:Interaction.Behaviors>
-                                                <Border>
-                                                    <Viewbox Classes="vb" Width="24" Height="24" Margin="2,0" HorizontalAlignment="Left">
-                                                        <Canvas Width="24" Height="24">
-                                                            <Path Data="M6,18L14.5,12L6,6M8,9.86L11.03,12L8,14.14M16,6H18V18H16" />
-                                                        </Canvas>
-                                                    </Viewbox>
-                                                </Border>
-                                        </Border>
+                                    <Border Classes="PlayerButton"
+                                            Background="#00000000"
+                                            Margin="0,5">
+                                            <i:Interaction.Behaviors>
+                                                <ia:EventTriggerBehavior EventName="Tapped">
+                                                    <ia:InvokeCommandAction Command="{Binding NextCommand}"/>
+                                                </ia:EventTriggerBehavior>  
+                                            </i:Interaction.Behaviors>
+                                            <Border>
+                                                <Viewbox Classes="vb" Margin="2,0" HorizontalAlignment="Left">
+                                                    <Canvas Width="30" Height="30">
+                                                        <Path Data="M6,18L14.5,12L6,6M8,9.86L11.03,12L8,14.14M16,6H18V18H16" />
+                                                    </Canvas>
+                                                </Viewbox>
+                                            </Border>
+                                    </Border>
 
-                                        <Border Classes="PlayerButton"
-                                                Background="#00000000"
-                                                Margin="0,5">
-                                                <i:Interaction.Behaviors>
-                                                    <ia:EventTriggerBehavior EventName="Tapped">
-                                                        <ia:InvokeCommandAction Command="{Binding RepeatCommand}"/>
-                                                    </ia:EventTriggerBehavior>  
-                                                </i:Interaction.Behaviors>
-                                                <Border>
-                                                    <Viewbox Classes="vb" Width="24" Height="24" Margin="2,0" HorizontalAlignment="Left">
-                                                        <Canvas Width="24" Height="24">
-                                                            <Path Data="M6,5.75L10.25,10H7V16H13.5L15.5,18H7A2,2 0 0,1 5,16V10H1.75L6,5.75M18,18.25L13.75,14H17V8H10.5L8.5,6H17A2,2 0 0,1 19,8V14H22.25L18,18.25Z" />
-                                                        </Canvas>
-                                                    </Viewbox>
-                                                </Border>
-                                        </Border>
+                                    <Border Classes="PlayerButton"
+                                            Background="#00000000"
+                                            Margin="0,5">
+                                            <i:Interaction.Behaviors>
+                                                <ia:EventTriggerBehavior EventName="Tapped">
+                                                    <ia:InvokeCommandAction Command="{Binding RepeatCommand}"/>
+                                                </ia:EventTriggerBehavior>  
+                                            </i:Interaction.Behaviors>
+                                            <Border>
+                                                <Viewbox Classes="vb" Margin="2,0" HorizontalAlignment="Left">
+                                                    <Canvas Width="30" Height="30">
+                                                        <Path Data="M6,5.75L10.25,10H7V16H13.5L15.5,18H7A2,2 0 0,1 5,16V10H1.75L6,5.75M18,18.25L13.75,14H17V8H10.5L8.5,6H17A2,2 0 0,1 19,8V14H22.25L18,18.25Z" />
+                                                    </Canvas>
+                                                </Viewbox>
+                                            </Border>
+                                    </Border>
 
-                                        <Border x:Name="VolumeButton"
-                                                Classes="PlayerButton"
-                                                Background="#20000000"
-                                                CornerRadius="5"
-                                                Width="36"
-                                                Margin="5">
-                                                <i:Interaction.Behaviors>
-                                                    <ia:EventTriggerBehavior EventName="Tapped">
-                                                        <ia:InvokeCommandAction Command="{Binding VolumeSliderShowCommand}"/>
-                                                    </ia:EventTriggerBehavior>  
-                                                </i:Interaction.Behaviors>
-                                                <Border>
-                                                    <Viewbox Classes="vb" Width="24" Height="24" Margin="2,0" HorizontalAlignment="Center">
-                                                        <Canvas Width="24" Height="24">
-                                                            <Path Data="M7,9V15H11L16,20V4L11,9H7Z" />
-                                                        </Canvas>
-                                                    </Viewbox>
-                                                </Border>
-                                        </Border>
+                                    <Border x:Name="VolumeButton"
+                                            Classes="PlayerButton"
+                                            CornerRadius="5"
+                                            Width="36"
+                                            Margin="5">
+                                            <i:Interaction.Behaviors>
+                                                <ia:EventTriggerBehavior EventName="Tapped">
+                                                    <ia:InvokeCommandAction Command="{Binding VolumeSliderShowCommand}"/>
+                                                </ia:EventTriggerBehavior>  
+                                            </i:Interaction.Behaviors>
+                                            <Border>
+                                                <Viewbox Classes="vb" Margin="2,0" HorizontalAlignment="Center">
+                                                    <Canvas Width="30" Height="30">
+                                                        <Path Data="M7,9V15H11L16,20V4L11,9H7Z" />
+                                                    </Canvas>
+                                                </Viewbox>
+                                            </Border>
+                                    </Border>
                             </StackPanel> 
 
                             <!-- Slider Area -->

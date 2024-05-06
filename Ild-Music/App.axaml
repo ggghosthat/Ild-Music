@@ -109,8 +109,22 @@
                 Width="24" Height="24">
             <Path Classes="NavIcon" Data="M9,16V10H5L12,3L19,10H15V16H9M5,20V18H19V20H5Z" />
         </Canvas>
+        
+        <Canvas x:Key="CloseHead"
+                Width="30" Height="30">
+            <Path Data="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z" />
+        </Canvas>
 
-       
+        <Canvas x:Key="MaximizeHead"
+                Width="30" Height="30">
+            <Path Data="M4,4H20V20H4V4M6,8V18H18V8H6Z" />
+        </Canvas>
+
+        <Canvas x:Key="MinimizeHead"
+                Width="30" Height="30">
+            <Path Data="M20,14H4V10H20" />
+        </Canvas>
+
         <Geometry x:Key="PlayerActive">M14,19H18V5H14M6,19H10V5H6V19Z</Geometry>
         <Geometry x:Key="PlayerInactive">M8.5,8.64L13.77,12L8.5,15.36V8.64M6.5,5V19L17.5,12</Geometry>
     </Application.Resources>

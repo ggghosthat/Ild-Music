@@ -21,7 +21,7 @@ public class NavBarConverter : IValueConverter
     	var result = value switch
     	{
     		"Home" => Application.Current.FindResource("NavHome"),
-    		"Collection" => Application.Current.FindResource("NavList"),
+    		"Collections" => Application.Current.FindResource("NavList"),
     		"Settings" => Application.Current.FindResource("NavSetting"),
             "Browse" => Application.Current.FindResource("NavBrowse"),
             "About" => Application.Current.FindResource("NavAbout"),
