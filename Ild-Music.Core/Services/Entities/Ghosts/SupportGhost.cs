@@ -85,7 +85,7 @@ public sealed class SupportGhost : IGhost
     }
        
     //these methods get dto notations about requred instances
-    public async Task AppendNext(EntityTag entityTag)
+    public async Task QueryNext(EntityTag entityTag)
     {
         await cube.QueryNextChunk(entityTag);
     }

@@ -121,7 +121,6 @@ public class MainViewModel : Base.BaseViewModel
 
         DelegateSwitch.RegisterPlayerDelegate(PlayerSignal.PLAYER_SET_TRACK, entityUpdateDelegate);
         DelegateSwitch.RegisterPlayerDelegate(PlayerSignal.PLAYER_SET_PLAYLIST,entityUpdateDelegate);
-
     }
     
     private void PresetCommands()

@@ -56,7 +56,7 @@ public partial class MainWindow : Window
     {
         base.OnApplyTemplate(e);
 
-        // titleBar = e.NameScope.Get<Grid>(PART_TITLEBAR);
+        titleBar = e.NameScope.Get<Grid>(PART_TITLEBAR);
         navBar = e.NameScope.Get<Grid>(PART_NAVBAR);
 
         volumePopup = (Control)e.NameScope.Get<Border>(PART_VOLUME_AREA);
@@ -70,8 +70,8 @@ public partial class MainWindow : Window
     {
         base.OnPointerPressed(e);
 
-        // if (Equals(e.Source, titleBar))
-        //     BeginMoveDrag(e);
+        if (Equals(e.Source, titleBar))
+            BeginMoveDrag(e);
     }
 
     public override void Render(DrawingContext context)

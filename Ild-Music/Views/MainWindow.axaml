@@ -81,7 +81,6 @@
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
-
                         
                         <Border Grid.Row="0" 
                                 Grid.RowSpan="3"
@@ -336,33 +335,45 @@
                                 <Grid Grid.Column="2"
                                       Grid.ColumnSpan="2">
                                     <Grid.RowDefinitions>                                        
-                                        <RowDefinition Height="50"/>
+                                        <RowDefinition Height="auto"/>
                                         <RowDefinition Height="*"/>
                                     </Grid.RowDefinitions>
 
-                                    <StackPanel Grid.Row="0"
-                                                HorizontalAlignment="Right"
-                                                Orientation="Horizontal">
+                                    <Grid Grid.Row="0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="auto"/>
+                                        </Grid.ColumnDefinitions>
                                         
-                                        <Border Classes="WindowButton"
-                                                Width="30"
-                                                Height="30"
-                                                Background="Transparent"
-                                                Child="{StaticResource MinimizeHead}"
-                                                PointerPressed="OnHideClick"/>
-                                        <Border Classes="WindowButton"
-                                                Width="30"
-                                                Height="30"
-                                                Background="Transparent"
-                                                Child="{StaticResource MaximizeHead}"
-                                                PointerPressed="OnExpandClick"/>
-                                        <Border Classes="WindowButton"
-                                                Width="30"
-                                                Height="30"
-                                                Background="Transparent"
-                                                Child="{StaticResource CloseHead}"
-                                                PointerPressed="OnCloseClick"/>
-                                    </StackPanel>
+                                        <!--DragMove area-->                          
+                                        <Grid x:Name="DragBar"
+                                            Grid.Column="0"
+                                            Background="Transparent"/>
+
+                                        <StackPanel Grid.Column="1"
+                                                HorizontalAlignment="Right"
+                                                Orientation="Horizontal">                                                                             
+                                            <Border Classes="WindowButton"
+                                                    Width="40"
+                                                    Height="40"
+                                                    Background="Transparent"
+                                                    Child="{StaticResource MinimizeHead}"
+                                                    PointerPressed="OnHideClick"/>
+                                            <Border Classes="WindowButton"
+                                                    Width="40"
+                                                    Height="40"
+                                                    Background="Transparent"
+                                                    Child="{StaticResource MaximizeHead}"
+                                                    PointerPressed="OnExpandClick"/>
+                                            <Border Classes="WindowButton"
+                                                    Width="40"
+                                                    Height="40"
+                                                    Background="Transparent"
+                                                    Child="{StaticResource CloseHead}"
+                                                    PointerPressed="OnCloseClick"/>
+                                        </StackPanel>
+                                    </Grid>
+                                   
 
                                     <ContentControl Grid.Row="1"
                                                     Content="{Binding CurrentVM}"> 
