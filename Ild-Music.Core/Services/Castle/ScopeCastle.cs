@@ -189,8 +189,11 @@ public sealed class ScopeCastle : ICastle, IDisposable
     //resolve ghosts sychronously and asynchronously
     public IGhost? ResolveGhost(Ghosts ghostTag)
     {
-        if(!IsActive) 
+        if (!IsActive) 
             throw new Exception();
+
+        if (!ghosts.ContainsKey(ghostTag))
+            return null;
 
         return ghosts[ghostTag];
     }

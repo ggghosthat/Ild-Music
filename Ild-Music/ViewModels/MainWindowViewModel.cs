@@ -107,7 +107,7 @@ public class MainWindowViewModel : Base.BaseViewModel
     #region start-up methods
     private void PresetPlayer()
     {
-        _player = playerGhost.GetPlayer();
+        _player = playerGhost?.GetPlayer();
 
         var entityUpdateDelegate = () =>{
             OnPropertyChanged("CurrentEntity");

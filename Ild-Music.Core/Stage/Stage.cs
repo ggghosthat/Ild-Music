@@ -29,8 +29,6 @@ public sealed class Stage
     public event Action OnComponentMuted;
     #endregion
 
-       
-
     #region Constructors
     public Stage(){}
     
