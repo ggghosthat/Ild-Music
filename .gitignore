@@ -20,7 +20,7 @@
 ./Ild-Music.VLCSharpPlayer/obj
 ./legacy/bin
 ./legacy/obj
-./Test
+./Test/*
 # User-specific files
 *.rsuser
 *.suo
