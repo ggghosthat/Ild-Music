@@ -6,7 +6,6 @@ using Cube.Guido.Agents;
 using Cube.Guido.Handlers;
 
 using MediatR;
-using System.Linq;
 
 namespace Cube;
 public class GuidoForklift : ICube //Cars from pixar (lol)
@@ -204,6 +203,12 @@ public class GuidoForklift : ICube //Cars from pixar (lol)
     public async Task<Tag> QueryTag(Guid tagId)
     {
         return await _queryHandler.QuerySingleTag(tagId); 
+    }
+
+
+    public async Task<IEnumerable<CommonInstanceDTO>> QueryInstanceDtosFromIds (IEnumerable<Guid> ids, EntityTag entityTag)
+    {
+        return await _queryHandler.QueryInstanceDtosFromIds(ids, entityTag);
     }
 
     public async Task<IEnumerable<CommonInstanceDTO>> Search(string searchTerm)

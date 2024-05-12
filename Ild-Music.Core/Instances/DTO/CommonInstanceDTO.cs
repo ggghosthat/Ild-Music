@@ -16,16 +16,4 @@ public struct CommonInstanceDTO
         Avatar = avatar;
         Tag = tag;
     }
-
-    //public CommonInstanceDTO(Guid id,
-    //                         string name,
-    //                         byte[] avatar, 
-    //                         EntityTag tag)
-    //{
-    //    Id = id;
-    //    Name = name.AsMemory();
-    //    Avatar = avatar;
-    //    Tag = tag;
-    //}
-
 }

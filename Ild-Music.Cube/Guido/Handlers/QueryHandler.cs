@@ -250,8 +250,6 @@ internal sealed class QueryHandler
                     instanceDTO.Avatar,
                     extraProps .Year);
 
-                
-
                 artist.Playlists = connection.Query(
                     arttistPlaylistsQuery,
                     new { aid = artistId },
@@ -321,7 +319,6 @@ internal sealed class QueryHandler
                     extraProps.Description.AsMemory(),
                     instanceDTO.Avatar,
                     extraProps .Year);
-
                 
                 playlist.Artists  = connection.Query(
                     playlistArtistsQuery,
@@ -349,7 +346,6 @@ internal sealed class QueryHandler
         return Task.FromResult<Playlist>(playlist);
     }
 
-    //8. QueryTrackInstance(Single)
     public Task<Track> QuerySingleTrack(ref CommonInstanceDTO instanceDTO)
     {
         Track track;
@@ -424,13 +420,12 @@ internal sealed class QueryHandler
         return Task.FromResult<Track>(track);
     }
 
-    //9. QueryTagInstance(Single)
     public Task<Tag> QuerySingleTag(Guid tagId)
     {
         Tag tag;
         using (IDbConnection connection = ConnectionAgent.GetDbConnection())
         {
-            connection .Open();
+            connection.Open();
 
             using (var transaction = connection.BeginTransaction())
             {
@@ -476,5 +471,54 @@ internal sealed class QueryHandler
         }
 
         return Task.FromResult<Tag>(tag);
+    }
+
+    public Task<IEnumerable<CommonInstanceDTO>> QueryInstanceDtosFromIds(IEnumerable<Guid> inputIds, EntityTag entityTag)
+    {
+       IEnumerable<CommonInstanceDTO> resultDtos;
+
+       using (IDbConnection connection = ConnectionAgent.GetDbConnection())
+       {
+           connection.Open();
+
+           using (var transaction = connection.BeginTransaction())
+           {
+               var table = entityTag switch
+               {
+                   EntityTag.ARTIST => "artists",
+                   EntityTag.PLAYLIST => "playlists",
+                   EntityTag.TRACK => "tracks",
+                   _ => default
+               };
+
+               var header = entityTag switch
+               {
+                   EntityTag.ARTIST => "AID",
+                   EntityTag.PLAYLIST => "PID",
+                   EntityTag.TRACK => "TID",
+                   _ => default
+               };
+
+               //var ids = inputIds.Select(i => i.ToString());
+               var query = $@"SELECT {header} as Id, Name, Avatar FROM {table} WHERE {header} IN @ids";
+
+               resultDtos = connection.Query(
+                   query,
+                   new 
+                   {
+                       ids = inputIds
+                   }, 
+                   transaction)
+                   .Select( i => 
+                        new CommonInstanceDTO(
+                            id: new Guid(i.Id),
+                            name: ((string)i.Name).AsMemory(),
+                            avatar: i.Avatar,
+                            tag: entityTag));
+
+           }
+
+           return Task.FromResult<IEnumerable<CommonInstanceDTO>>(resultDtos);
+       }
     }
 }

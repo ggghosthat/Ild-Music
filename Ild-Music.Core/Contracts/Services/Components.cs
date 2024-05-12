@@ -50,6 +50,8 @@ public interface ICube : IShare
     public Task<IEnumerable<CommonInstanceDTO>> LoadEntities(EntityTag entityTag);
     public Task<IEnumerable<Tag>> LoadTags();
 
+    public Task<IEnumerable<CommonInstanceDTO>> QueryInstanceDtosFromIds(IEnumerable<Guid> ids, EntityTag entityTag);
+
     //searching methods
     public Task<IEnumerable<CommonInstanceDTO>> Search(string searchTerm);
     public Task<IEnumerable<CommonInstanceDTO>> SearchInstance(string searchTerm, EntityTag entityTag);
