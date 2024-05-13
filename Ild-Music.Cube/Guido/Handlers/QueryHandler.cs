@@ -499,24 +499,19 @@ internal sealed class QueryHandler
                    _ => default
                };
 
-               //var ids = inputIds.Select(i => i.ToString());
                var query = $@"SELECT {header} as Id, Name, Avatar FROM {table} WHERE {header} IN @ids";
 
                resultDtos = connection.Query(
                    query,
-                   new 
-                   {
-                       ids = inputIds
-                   }, 
+                   new {ids = inputIds}, 
                    transaction)
-                   .Select( i => 
-                        new CommonInstanceDTO(
-                            id: new Guid(i.Id),
-                            name: ((string)i.Name).AsMemory(),
-                            avatar: i.Avatar,
-                            tag: entityTag));
+               .Select( i => new CommonInstanceDTO(
+                   id: new Guid(i.Id),
+                   name: ((string)i.Name).AsMemory(),
+                   avatar: i.Avatar,
+                   tag: entityTag));
 
-           }
+           } 
 
            return Task.FromResult<IEnumerable<CommonInstanceDTO>>(resultDtos);
        }

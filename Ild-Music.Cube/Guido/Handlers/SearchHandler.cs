@@ -22,46 +22,20 @@ internal sealed class SearchHandler
 
             using (var transaction = connection.BeginTransaction())
             {
-                IEnumerable<string> artistsId = null;
-                IEnumerable<string> playlistsId = null;
-                IEnumerable<string> tracksId = null;
-                IEnumerable<string> tagsId = null;
-
-                var commonSearchQuery = @"
-                    SELECT AID FROM artists_index MATCH @query;
-                    SELECT PID FROM playlists_index MATCH @query;
-                    SELECT TID FROM tracks_index MATCH @query;
-                    SELECT TagId FROM tags_index MATCH @query;";
-                
+                var inputParam = $"%{searchQuery}%";
                 var commonQuery = @"
                     SELECT AID, Name, Avatar FROM artists
-                    WHERE AID IN @aids;
+                    WHERE Name LIKE @searchWord ;
 
 			        SELECT PID, Name, Avatar FROM playlists
-			        WHERE PID IN @pids;			
+			        WHERE Name LIKE @searchWord ;			
 			    
                     SELECT TID, Name, Avatar FROM tracks
-			        WHERE TID IN @tids;                                    
-                    
-                    SELECT TagID, Name, Color FROM tags
-                    WHERE TagID IN @tagids;";
-
-                using (var multiple = connection
-                           .QueryMultiple(commonSearchQuery,
-                           new {query=searchQuery}))
-                {
-                    artistsId = multiple.Read<string>();
-                    playlistsId = multiple.Read<string>();
-                    tracksId = multiple.Read<string>();
-                    tagsId = multiple.Read<string>();
-                }
+			        WHERE Name LIKE @searchWord ;"; 
                                
                 using(var multiQuery = connection
                           .QueryMultiple(commonQuery, 
-                          new {aids = artistsId,
-                               pids = playlistsId,
-                               tids = tracksId,
-                               tagids = tagsId}))
+                          new {searchWord = inputParam}) )
                 {
                     var artistsDTO = multiQuery.Read()
                         .Select(a => new CommonInstanceDTO( 
@@ -108,17 +82,14 @@ internal sealed class SearchHandler
 
             using (var transaction = connection.BeginTransaction())
             {
-                var commonSearchQuery = @"SELECT AID FROM artists_index MATCH @query;";                
-                var commonQuery = @"SELECT AID, Name, Avatar FROM artists WHERE AID IN @aids;";
+                var inputParam = $"%{searchQuery}%";
+                var commonQuery = @"
+                    SELECT AID, Name, Avatar FROM artists 
+                    WHERE Name LIKE @searchWord ;";
 
-                var artistsId = connection.Query<string>(
-                    commonSearchQuery,
-                    new {query=searchQuery},
-                    transaction);
-                               
                 var artistsDTO = connection.Query(
                     commonQuery,
-                    new {aids = artistsId},
+                    new {searchWord = inputParam},
                     transaction)
                 .Select(a => new CommonInstanceDTO( 
                     id: new Guid(a.AID),
@@ -142,18 +113,14 @@ internal sealed class SearchHandler
 
             using (var transaction = connection.BeginTransaction())
             {
+                var inputParam = $"%{searchQuery}%";
+                var commonQuery = @"
+                    SELECT PID, Name, Avatar FROM playlists	
+                    WHERE Name LIKE @searchWord ;";
 
-                var commonSearchQuery = @"SELECT PID FROM playlists_index MATCH @query;";                
-                var commonQuery = @"SELECT PID, Name, Avatar FROM playlists	WHERE PID IN @pids;	";
-
-                var playlistsId = connection.Query<string>(
-                    commonSearchQuery,
-                    new {query=searchQuery},
-                    transaction);
-                               
                 var playlistsDTO = connection.Query(
                     commonQuery,
-                    new {pids = playlistsId},
+                    new {searchWord = inputParam},
                     transaction)                
                 .Select(p => new CommonInstanceDTO( 
                     id: new Guid(p.PID),
@@ -178,18 +145,14 @@ internal sealed class SearchHandler
 
             using (var transaction = connection.BeginTransaction())
             {
+                var inputParam = $"%{searchQuery}%";
+                var commonQuery = @"
+                    SELECT TID, Name, Avatar FROM tracks 
+                    WHERE Name LIKE @searchWord ;";
 
-                var commonSearchQuery = @"SELECT TID FROM tracks_index MATCH @query;";                
-                var commonQuery = @"SELECT TID, Name, Avatar FROM tracks WHERE TID IN @tids;";
-
-                var tracksId = connection.Query<string>(
-                    commonSearchQuery,
-                    new {query=searchQuery},
-                    transaction);
-                               
                 var tracksDTO = connection.Query(
                     commonQuery,
-                    new {tids = tracksId},
+                    new {searchWord = inputParam},
                     transaction) 
                 .Select(t => new CommonInstanceDTO( 
                     id: new Guid(t.TID),
@@ -214,17 +177,14 @@ internal sealed class SearchHandler
 
             using (var transaction = connection.BeginTransaction())
             {
-                var commonSearchQuery = @"SELECT AID FROM artists_index MATCH @query;";                
-                var commonQuery = @"SELECT TagID, Name, Color FROM tags WHERE TagID IN @tagids;";
+                var inputParam = $"%{searchQuery}%";
+                var commonQuery = @"
+                    SELECT TagID, Name, Color FROM tags 
+                    WHERE Name LIKE @searchWord ;";
 
-                var tagsId = connection.Query<string>(
-                    commonSearchQuery,
-                    new {query=searchQuery},
-                    transaction);
-                               
                 var tagsDTO = connection.Query(
                     commonQuery,
-                    new {tagids = tagsId},
+                    new {searchWord = inputParam},
                     transaction)
                 .Select(tag => new Tag(
                     id: new Guid(tag.Id),

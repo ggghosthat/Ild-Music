@@ -31,3 +31,8 @@ var i = guido.QueryInstanceDtosFromIds(guidArr, EntityTag.ARTIST).Result;
 Console.WriteLine(i.Count());
 foreach (var j in i)
     Console.WriteLine(j.Name);
+
+var k = guido.SearchInstance("Artist", EntityTag.ARTIST).Result;
+Console.WriteLine(k.Count());
+foreach (var h in k)
+    Console.WriteLine(h.Name);
