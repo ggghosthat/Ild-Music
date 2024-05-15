@@ -109,4 +109,9 @@ public sealed class SupportGhost : IGhost
     {
         return await cube.QueryTag(tagId);
     }
+
+    public async Task<IEnumerable<CommonInstanceDTO>> GetInstanceDTOsFromIds(IEnumerable<Guid> ids, EntityTag entityTag)
+    {
+        return await cube.QueryInstanceDtosFromIds(ids, entityTag);
+    }
 }

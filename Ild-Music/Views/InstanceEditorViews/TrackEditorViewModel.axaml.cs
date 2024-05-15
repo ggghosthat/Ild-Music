@@ -6,9 +6,9 @@ using PropertyChanged;
 namespace Ild_Music.Views;
 
 [DoNotNotifyAttribute]
-public partial class ListView : UserControl
+public partial class TrackEditorView : UserControl
 {
-    public ListView()
+    public TrackEditorView()
     {
         InitializeComponent();
     }

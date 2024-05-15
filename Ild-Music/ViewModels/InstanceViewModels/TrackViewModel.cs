@@ -16,14 +16,15 @@ namespace Ild_Music.ViewModels
 
         #region Services
         private static SupportGhost supporter => (SupportGhost)App.Stage.GetGhost(Ghosts.SUPPORT);
-        private MainViewModel MainVM => (MainViewModel)App.ViewModelTable[MainViewModel.nameVM];
+        private MainWindowViewModel MainVM => (MainWindowViewModel)App.ViewModelTable[MainWindowViewModel.nameVM];
         #endregion
 
         #region Properties
     	public Track TrackInstance {get; private set;}
-        public byte[] AvatarSource => TrackInstance.GetAvatar();
+        public byte[] AvatarSource => TrackInstance.AvatarSource.ToArray();
         
         public ObservableCollection<CommonInstanceDTO> TrackArtists {get; private set;} = new();
+        public ObservableCollection<CommonInstanceDTO> TrackPlaylists {get; private set;} = new();
         #endregion
 
         #region Commands
@@ -40,13 +41,18 @@ namespace Ild_Music.ViewModels
         #region Public Methods
         public async void SetInstance(CommonInstanceDTO instanceDto)
         {
-            TrackInstance = track;
+            TrackInstance = await supporter.GetTrackAsync(instanceDto);
             OnPropertyChanged("AvatarSource");
             
-            var trackArtists = await supporter.GetTrackAsyn(instanceDto);
+            supporter.GetInstanceDTOsFromIds(TrackInstance.Artists, EntityTag.ARTIST)
+                .Result
+                .ToList()
+                .ForEach(a => TrackArtists.Add(a));
 
-            trackArtists.ToList()
-                        .ForEach(a => TrackArtists.Add(a));
+            supporter.GetInstanceDTOsFromIds(TrackInstance.Playlists, EntityTag.PLAYLIST)
+                .Result
+                .ToList()
+                .ForEach(p => TrackPlaylists.Add(p));
         }
         #endregion
 

@@ -151,6 +151,7 @@ public class MainWindowViewModel : Base.BaseViewModel
         // App.ViewModelTable.Add(nameVM, this);
 
         // CurrentVM = (BaseViewModel)App.ViewModelTable[StartViewModel.nameVM];
+        CurrentVM = new TrackViewModel();
     }
 
     private void PresetGlobalTimer()

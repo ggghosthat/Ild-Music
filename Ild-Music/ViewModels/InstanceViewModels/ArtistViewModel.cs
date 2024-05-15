@@ -21,7 +21,7 @@ namespace Ild_Music.ViewModels
 
         #region Properties
     	public Artist ArtistInstance {get; private set;}
-        public byte[] AvatarSource => ArtistInstance.GetAvatar();
+        public byte[] AvatarSource => ArtistInstance.AvatarSource.ToArray();
 
         public ObservableCollection<CommonInstanceDTO> ArtistPlaylists {get; private set;} = new();
         public ObservableCollection<CommonInstanceDTO> ArtistTracks {get; private set;} = new();      
@@ -41,19 +41,18 @@ namespace Ild_Music.ViewModels
         #region Public Methods
         public async void SetInstance(CommonInstanceDTO artistInstanceDto)
         {
-            ArtistInstance = artist;
+            ArtistInstance = await supporter.GetArtistAsync(artistInstanceDto);
             OnPropertyChanged("AvatarSource");
 
-            supporter.
-            var artistPlaylists = await supporter.RequireInstances(EntityTag.PLAYLIST,
-                                                                   ArtistInstance.Playlists);
-            artistPlaylists.ToList()
-                           .ForEach(p => ArtistPlaylists.Add(p));
+            supporter.GetInstanceDTOsFromIds(ArtistInstance.Playlists, EntityTag.PLAYLIST)
+                .Result
+                .ToList()
+                .ForEach(p => ArtistPlaylists.Add(p));
 
-            var artistTracks = await supporter.RequireInstances(EntityTag.TRACK,
-                                                                ArtistInstance.Tracks);
-            artistTracks.ToList()
-                        .ForEach(t => ArtistTracks.Add(t));
+            supporter.GetInstanceDTOsFromIds(ArtistInstance.Tracks, EntityTag.TRACK)
+                .Result
+                .ToList()
+                .ForEach(t => ArtistTracks.Add(t));
         }
         #endregion
 

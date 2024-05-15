@@ -189,4 +189,26 @@
             </Setter>
         </Style>
     </Application.Styles>
+
+    <Application.DataTemplates>
+        <DataTemplate DataType="{x:Type vm:ArtistViewModel}">
+            <v:ArtistView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:PlaylistViewModel}">
+            <v:PlaylistView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:TrackViewModel}">
+            <v:TrackView/>
+        </DataTemplate>
+        
+        <DataTemplate DataType="{x:Type vm:ArtistEditorViewModel}">
+            <v:ArtistEditorView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:PlaylistEditorViewModel}">
+            <v:PlaylistEditorView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:TrackEditorViewModel}">
+            <v:TrackEditorView/>
+        </DataTemplate>
+    </Application.DataTemplates>
 </Application>

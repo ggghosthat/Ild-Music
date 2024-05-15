@@ -16,7 +16,7 @@ namespace Ild_Music.ViewModels
 
         #region Services
         private static SupportGhost supporter => (SupportGhost)App.Stage.GetGhost(Ghosts.SUPPORT);
-        private MainViewModel MainVM => (MainViewModel)App.ViewModelTable[MainViewModel.nameVM];
+        private MainWindowViewModel MainVM => (MainWindowViewModel)App.ViewModelTable[MainWindowViewModel.nameVM];
         #endregion
 
         #region Properties
@@ -39,20 +39,20 @@ namespace Ild_Music.ViewModels
     	#endregion
 
         #region Public Methods
-        public async void SetInstance(Playlist playlist)
+        public async void SetInstance(CommonInstanceDTO instanceDTO)
         {
-            PlaylistInstance = playlist;
+            PlaylistInstance = await supporter.GetPlaylistAsync(instanceDTO);
             OnPropertyChanged("AvatarSource");
 
-            var artistPlaylists = await supporter.RequireInstances(EntityTag.PLAYLIST,
-                                                                   PlaylistInstance.Artists);
-            artistPlaylists.ToList()
-                           .ForEach(p => PlaylistArtists.Add(p));
+            supporter.GetInstanceDTOsFromIds(PlaylistInstance.Artists, EntityTag.ARTIST)
+                .Result
+                .ToList()
+                .ForEach(p => PlaylistArtists.Add(p));
 
-            var artistTracks = await supporter.RequireInstances(EntityTag.TRACK,
-                                                                PlaylistInstance.Tracky);
-            artistTracks.ToList()
-                        .ForEach(t => PlaylistTracks.Add(t)); 
+            supporter.GetInstanceDTOsFromIds(PlaylistInstance.Tracky, EntityTag.TRACK)
+                .Result
+                .ToList()
+                .ForEach(t => PlaylistTracks.Add(t)); 
         }
         #endregion
 
