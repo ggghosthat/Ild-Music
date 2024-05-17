@@ -1,4 +1,4 @@
-namespace Ild_Music.Core.Services.PagedList;
+namespace Ild_Music.Core.Instances.Pagging;
 
 public class MetaData
 {

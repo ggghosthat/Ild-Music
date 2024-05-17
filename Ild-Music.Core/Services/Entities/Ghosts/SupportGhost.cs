@@ -1,8 +1,8 @@
 using Ild_Music.Core.Instances;
 using Ild_Music.Core.Instances.DTO;
+using Ild_Music.Core.Instances.Pagging;
 using Ild_Music.Core.Contracts;
 using Ild_Music.Core.Contracts.Services.Interfaces;
-using Ild_Music.Core.Services.PagedList;
 
 namespace Ild_Music.Core.Services.Entities;
 
@@ -111,15 +111,26 @@ public sealed class SupportGhost : IGhost
         return await _cube.QueryInstanceDtosFromIds(ids, entityTag);
     }
 
-    public async Task<IEnumerable<CommonInstanceDTO>> PageBack(EntityTag entityTag)
+    public void SetMetaData(int startPage, int pageSize, EntityTag entityTag)
     {
+        const int emptyCollection = 0;
+
+        _metaData.CurrentPage = startPage;
+        _metaData.PageSize = pageSize;
         _metaData.TotalCount = entityTag switch
         {
-            EntityTag.ARTIST => ArtistsCollection?.Count(),
-            EntityTag.PLAYLIST => PlaylistsCollection?.Count(),
-            EntityTag.TRACK => TracksCollection?.Count(),
-            EntityTag.TAG => TagsCollection?.Count()
-        } ?? 0;
+            EntityTag.ARTIST => ArtistsCollection?.Count() ?? emptyCollection,
+            EntityTag.PLAYLIST => PlaylistsCollection?.Count() ?? emptyCollection,
+            EntityTag.TRACK => TracksCollection?.Count() ?? emptyCollection,
+            EntityTag.TAG => TagsCollection?.Count() ?? emptyCollection,
+            _ => 0
+        };
+    }
+    
+    public async Task<IEnumerable<CommonInstanceDTO>> PageBack(EntityTag entityTag)
+    {
+        if (_metaData.TotalCount == 0)
+            return null;
 
         if (_metaData.HasPrevious)
             _metaData.CurrentPage--;
@@ -130,13 +141,8 @@ public sealed class SupportGhost : IGhost
 
     public async Task<IEnumerable<CommonInstanceDTO>> PageForward(EntityTag entityTag)
     {
-        _metaData.TotalCount = entityTag switch
-        {
-            EntityTag.ARTIST => ArtistsCollection?.Count(),
-            EntityTag.PLAYLIST => PlaylistsCollection?.Count(),
-            EntityTag.TRACK => TracksCollection?.Count(),
-            EntityTag.TAG => TagsCollection?.Count()
-        } ?? 0;
+        if (_metaData.TotalCount == 0) 
+            return null;
 
         if (_metaData.HasNext)
             _metaData.CurrentPage++;
@@ -144,4 +150,6 @@ public sealed class SupportGhost : IGhost
         int offset = (_metaData.CurrentPage * _metaData.PageSize);
         return await _cube.LoadFramedEntities(entityTag, offset, _metaData.PageSize);
     }
+
+    
 }
