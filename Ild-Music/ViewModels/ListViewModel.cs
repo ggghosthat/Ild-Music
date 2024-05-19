@@ -65,24 +65,17 @@ public class ListViewModel : BaseViewModel
     private async Task DisplayProviders()
     {
         CurrentList.Clear();
-        switch (Header)
+
+        var instancesDto = Header switch
         {
-            case "Artists":
-                await supporter.QueryNext(EntityTag.ARTIST);
-                var artistDTOs = supporter.ArtistsCollection;
-                artistDTOs.ToList().ForEach(a => CurrentList.Add(a));
-                break;
-            case "Playlists":
-                await supporter.QueryNext(EntityTag.PLAYLIST);
-                var playlistDTOs = supporter.PlaylistsCollection;
-                playlistDTOs.ToList().ForEach(p => CurrentList.Add(p));
-                break;
-            case "Tracks":
-                await supporter.QueryNext(EntityTag.PLAYLIST);
-                var trackDTOs = supporter.TracksCollection;
-                trackDTOs.ToList().ForEach(t => CurrentList.Add(t));
-                break;
-        }      
+            "Artists" => supporter.ArtistsCollection,
+            "Playlists" => supporter.PlaylistsCollection,
+            "Tracks" => supporter.TracksCollection,
+        };
+
+        instancesDto
+            .ToList()
+            .ForEach(i => CurrentList.Add(i));
     }
 
     public async Task BrowseTracks(IEnumerable<string> paths)

@@ -111,12 +111,18 @@ public sealed class SupportGhost : IGhost
         return await _cube.QueryInstanceDtosFromIds(ids, entityTag);
     }
 
-    public void SetMetaData(int startPage, int pageSize, EntityTag entityTag)
+    public MetaData GetPageMetaData()
+    {
+        return _metaData;
+    }
+
+    public void ResolveMetaData(int startPage, int pageSize, EntityTag entityTag)
     {
         const int emptyCollection = 0;
 
         _metaData.CurrentPage = startPage;
         _metaData.PageSize = pageSize;
+        _metaData.EntityTag = entityTag;
         _metaData.TotalCount = entityTag switch
         {
             EntityTag.ARTIST => ArtistsCollection?.Count() ?? emptyCollection,
@@ -127,29 +133,36 @@ public sealed class SupportGhost : IGhost
         };
     }
     
-    public async Task<IEnumerable<CommonInstanceDTO>> PageBack(EntityTag entityTag)
+    public void PageBack()
     {
         if (_metaData.TotalCount == 0)
-            return null;
+            return;
 
         if (_metaData.HasPrevious)
             _metaData.CurrentPage--;
-
-        int offset = (_metaData.CurrentPage * _metaData.PageSize);
-        return await _cube.LoadFramedEntities(entityTag, offset, _metaData.PageSize);
     }
 
-    public async Task<IEnumerable<CommonInstanceDTO>> PageForward(EntityTag entityTag)
+    public void PageForward()
     {
         if (_metaData.TotalCount == 0) 
-            return null;
+            return;
 
         if (_metaData.HasNext)
             _metaData.CurrentPage++;
-
-        int offset = (_metaData.CurrentPage * _metaData.PageSize);
-        return await _cube.LoadFramedEntities(entityTag, offset, _metaData.PageSize);
     }
-
     
+    public async Task<IEnumerable<CommonInstanceDTO>> GetCurrentPage()
+    {
+        int offset = (_metaData.CurrentPage * _metaData.PageSize);
+        return await _cube.LoadFramedEntities(_metaData.EntityTag, offset, _metaData.PageSize);
+    }
+    
+    public async Task<IEnumerable<CommonInstanceDTO>> GetPage(int inputPage)
+    {
+        if (inputPage < 0 && inputPage > _metaData.TotalPages)
+            return null;
+
+        int offset = (inputPage * _metaData.PageSize); 
+        return await _cube.LoadFramedEntities(_metaData.EntityTag, offset, _metaData.PageSize);
+    }
 }
