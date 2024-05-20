@@ -115,7 +115,7 @@ public class ArtistEditorViewModel : BaseViewModel
         {
             if (!String.IsNullOrEmpty(Name))
             {
-                var editArtist = (Artist)ArtistInstance;
+                var editArtist = ArtistInstance;
                 editArtist.Name = Name.AsMemory();
                 editArtist.Description = Description.AsMemory();
                 editArtist.Year = Year;
