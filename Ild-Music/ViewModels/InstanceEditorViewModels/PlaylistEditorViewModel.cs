@@ -167,15 +167,15 @@ public class PlaylistEditorViewModel : BaseViewModel
     {
         try
         {
-            if (!String.IsNullOrEmpty(Name))
-            {
-                var artists = SelectedPlaylistArtists.Select(a => supporter.GetArtistAsync(a).Result).ToList();
-                var tracks = SelectedPlaylistTracks.Select(t => supporter.GetTrackAsync(t).Result).ToList();
+            if (String.IsNullOrEmpty(Name))
+                throw new InvalidPlaylistException();
+            
+            var artists = SelectedPlaylistArtists.Select(a => supporter.GetArtistAsync(a).Result).ToList();
+            var tracks = SelectedPlaylistTracks.Select(t => supporter.GetTrackAsync(t).Result).ToList();
 
-                factory?.CreatePlaylist(Name, Description, Year, Avatar, tracks, artists);
-                PlaylistLogLine = "Successfully created!";
-                ExitFactory(); 
-            }
+            factory?.CreatePlaylist(Name, Description, Year, Avatar, tracks, artists);
+            PlaylistLogLine = "Successfully created!";
+            ExitFactory(); 
         }
         catch (InvalidPlaylistException ex)
         {
@@ -187,49 +187,49 @@ public class PlaylistEditorViewModel : BaseViewModel
     {
         try
         {
-            if(!String.IsNullOrEmpty(Name))
+            if (String.IsNullOrEmpty(Name))
+                throw new InvalidPlaylistException();
+            
+            var editPlaylist = PlaylistInstance; 
+            editPlaylist.Name = Name.AsMemory();
+            editPlaylist.Description = Description.AsMemory();
+            editPlaylist.Year = Year;
+            editPlaylist.AvatarSource = (Avatar is not null)? Avatar:null;
+
+            if(SelectedPlaylistTracks != null && SelectedPlaylistTracks.Count > 0)
             {
-                var editPlaylist = PlaylistInstance; 
-                editPlaylist.Name = Name.AsMemory();
-                editPlaylist.Description = Description.AsMemory();
-                editPlaylist.Year = Year;
-                editPlaylist.AvatarSource = (Avatar is not null)? Avatar:null;
-
-                if(SelectedPlaylistTracks != null && SelectedPlaylistTracks.Count > 0)
-                {
-                    editPlaylist.EraseTracks();
-                    SelectedPlaylistTracks.ToList()
-                        .ForEach(async t =>
-                        {
-                            var trackInstance = await supporter.GetTrackAsync(t);
-                            editPlaylist.AddTrack(ref trackInstance);
-                        });
-                }
-
-                if(SelectedPlaylistArtists != null && SelectedPlaylistArtists.Count > 0)
-                {
-                    //remove playlist from no-needed artists
-                    ArtistsProvider.ToList()
-                        .Except(SelectedPlaylistArtists).ToList()
-                        .ForEach(async a => 
-                        {
-                            var artistInstance = await supporter.GetArtistAsync(a);
-                            artistInstance.DeletePlaylist(ref editPlaylist);
-                        });
-                    //add playlist to needed artists
-                    SelectedPlaylistArtists.ToList()
-                        .ForEach(async a =>
-                        {
-                            var artistInstance = await supporter.GetArtistAsync(a);
-                            artistInstance.AddPlaylist(ref editPlaylist);
-                        });
-                }
-
-                supporter?.EditPlaylistInstance(editPlaylist);
-
-                IsEditMode = false;
-                ExitFactory();
+                editPlaylist.EraseTracks();
+                SelectedPlaylistTracks.ToList()
+                    .ForEach(async t =>
+                    {
+                        var trackInstance = await supporter.GetTrackAsync(t);
+                        editPlaylist.AddTrack(ref trackInstance);
+                    });
             }
+
+            if(SelectedPlaylistArtists != null && SelectedPlaylistArtists.Count > 0)
+            {
+                //remove playlist from no-needed artists
+                ArtistsProvider.ToList()
+                    .Except(SelectedPlaylistArtists).ToList()
+                    .ForEach(async a => 
+                    {
+                        var artistInstance = await supporter.GetArtistAsync(a);
+                        artistInstance.DeletePlaylist(ref editPlaylist);
+                    });
+                //add playlist to needed artists
+                SelectedPlaylistArtists.ToList()
+                    .ForEach(async a =>
+                    {
+                        var artistInstance = await supporter.GetArtistAsync(a);
+                        artistInstance.AddPlaylist(ref editPlaylist);
+                    });
+            }
+
+            supporter?.EditPlaylistInstance(editPlaylist);
+
+            IsEditMode = false;
+            ExitFactory();
         }
         catch (InvalidPlaylistException ex)
         {

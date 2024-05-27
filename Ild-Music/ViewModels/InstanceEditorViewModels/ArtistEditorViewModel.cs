@@ -96,12 +96,12 @@ public class ArtistEditorViewModel : BaseViewModel
     {
         try
         {
-            if (!String.IsNullOrEmpty(Name))
-            {
-                factory.CreateArtist(Name, Description, Year, Avatar);
-                ArtistLogLine = "Successfully created!";
-                ExitFactory();
-            }
+            if (String.IsNullOrEmpty(Name))
+                throw new InvalidArtistException();
+
+            factory.CreateArtist(Name, Description, Year, Avatar);
+            ArtistLogLine = "Successfully created!";
+            ExitFactory();
         }
         catch (InvalidArtistException ex)
         {
@@ -113,19 +113,19 @@ public class ArtistEditorViewModel : BaseViewModel
     {
         try
         {
-            if (!String.IsNullOrEmpty(Name))
-            {
-                var editArtist = ArtistInstance;
-                editArtist.Name = Name.AsMemory();
-                editArtist.Description = Description.AsMemory();
-                editArtist.Year = Year;
-                editArtist.AvatarSource = (Avatar is not null)? Avatar:default!;
+            if (String.IsNullOrEmpty(Name))
+                throw new InvalidArtistException();
 
-                supporter.EditArtistInstance(editArtist); 
+            var editArtist = ArtistInstance;
+            editArtist.Name = Name.AsMemory();
+            editArtist.Description = Description.AsMemory();
+            editArtist.Year = Year;
+            editArtist.AvatarSource = (Avatar is not null)? Avatar:default!;
 
-                IsEditMode = false;
-                ExitFactory();                
-            }
+            supporter.EditArtistInstance(editArtist); 
+
+            IsEditMode = false;
+            ExitFactory();                
         }
         catch(Exception exm)
         {

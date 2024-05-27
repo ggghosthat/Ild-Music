@@ -100,13 +100,13 @@ public class TrackEditorViewModel : BaseViewModel
     {
         try
         {
-            if (!String.IsNullOrEmpty(Path))
-            {
-                var artists = SelectedTrackArtists.Select(a => supporter.GetArtistAsync(a).Result).ToList();
-                factory.CreateTrack(Path, Name, Description, Year, Avatar, artists);
-                TrackLogLine = "Successfully created!"; 
-                ExitFactory();
-            }
+            if (String.IsNullOrEmpty(Path))
+                throw new InvalidTrackException();
+            
+            var artists = SelectedTrackArtists.Select(a => supporter.GetArtistAsync(a).Result).ToList();
+            factory.CreateTrack(Path, Name, Description, Year, Avatar, artists);
+            TrackLogLine = "Successfully created!"; 
+            ExitFactory();
         }
         catch(InvalidTrackException ex)
         {
@@ -118,36 +118,36 @@ public class TrackEditorViewModel : BaseViewModel
     {
         try
         {
-            if (!String.IsNullOrEmpty(Path))
+            if (String.IsNullOrEmpty(Path))
+                throw new InvalidTrackException();
+
+            var editTrack = TrackInstance;
+            editTrack.Pathway = Path.AsMemory();
+            editTrack.Name = Name.AsMemory();
+            editTrack.Description = Description.AsMemory();
+            editTrack.AvatarSource = (Avatar is not null)?Avatar:null;
+
+            if(SelectedTrackArtists != null && SelectedTrackArtists.Count > 0)
             {
-                var editTrack = TrackInstance;
-                editTrack.Pathway = Path.AsMemory();
-                editTrack.Name = Name.AsMemory();
-                editTrack.Description = Description.AsMemory();
-                editTrack.AvatarSource = (Avatar is not null)?Avatar:null;
-
-                if(SelectedTrackArtists != null && SelectedTrackArtists.Count > 0)
-                {
-                    ArtistsProvider.ToList()
-                        .Except(SelectedTrackArtists).ToList()
-                        .ForEach(async a => 
-                        {
-                            var artistInstance = await supporter.GetArtistAsync(a);
-                            artistInstance.DeleteTrack(ref editTrack);
-                        });
-                    SelectedTrackArtists.ToList()
-                        .ForEach(async a => 
-                        {
-                            var artistInstance = await supporter.GetArtistAsync(a);
-                            artistInstance.AddTrack(ref editTrack);
-                        });
-                }
-
-                supporter.EditTrackInstance(editTrack);
-
-                IsEditMode = false;
-                ExitFactory();   
+                ArtistsProvider.ToList()
+                    .Except(SelectedTrackArtists).ToList()
+                    .ForEach(async a => 
+                    {
+                        var artistInstance = await supporter.GetArtistAsync(a);
+                        artistInstance.DeleteTrack(ref editTrack);
+                    });
+                SelectedTrackArtists.ToList()
+                    .ForEach(async a => 
+                    {
+                        var artistInstance = await supporter.GetArtistAsync(a);
+                        artistInstance.AddTrack(ref editTrack);
+                    });
             }
+
+            supporter.EditTrackInstance(editTrack);
+
+            IsEditMode = false;
+            ExitFactory();
         }
         catch(InvalidTrackException ex)
         {
