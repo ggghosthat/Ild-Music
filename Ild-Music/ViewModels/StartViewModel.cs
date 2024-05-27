@@ -91,8 +91,7 @@ public class StartViewModel : BaseViewModel
         #region Public Methods
         public async Task BrowseTracks(IEnumerable<string> paths)
         {
-            paths.ToList()
-                 .ForEach(path => factory.CreateTrack(path));
+            paths.ToList().ForEach(path => factory.CreateTrack(path));
             RefreshTracks();
         }
         #endregion
@@ -101,10 +100,7 @@ public class StartViewModel : BaseViewModel
         private void DropArtist(object obj)
         {
             if (obj is CommonInstanceDTO instanceDTO && instanceDTO.Tag is EntityTag.ARTIST)
-            {
-                var artist = supporter.GetArtistAsync(instanceDTO).Result;
-                Task.Run(() => MainVM.ResolveArtistInstance(this, artist));
-            }
+                Task.Run(() => MainVM.ResolveInstance(this, instanceDTO));
         }
 
         private void DropPlaylist(object obj)

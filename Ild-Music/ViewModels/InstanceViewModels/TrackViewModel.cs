@@ -14,31 +14,22 @@ namespace Ild_Music.ViewModels
     {
         public static readonly string nameVM = "TrackVM";   
 
-        #region Services
+        public TrackViewModel()
+    	{    		
+            BackCommand = new(BackSwap, null);
+    	}
+
         private static SupportGhost supporter => (SupportGhost)App.Stage.GetGhost(Ghosts.SUPPORT);
         private static MainWindowViewModel MainVM => (MainWindowViewModel)App.ViewModelTable[MainWindowViewModel.nameVM];
-        #endregion
 
-        #region Properties
     	public Track TrackInstance {get; private set;}
         public byte[] AvatarSource => TrackInstance.AvatarSource.ToArray();
         
         public ObservableCollection<CommonInstanceDTO> TrackArtists {get; private set;} = new();
         public ObservableCollection<CommonInstanceDTO> TrackPlaylists {get; private set;} = new();
-        #endregion
 
-        #region Commands
         public CommandDelegator BackCommand { get; }
-        #endregion
 
-    	#region Ctor
-    	public TrackViewModel()
-    	{    		
-            BackCommand = new(BackSwap, null);
-    	}
-    	#endregion
-
-        #region Public Methods
         public async void SetInstance(CommonInstanceDTO instanceDto)
         {
             TrackInstance = await supporter.GetTrackAsync(instanceDto);
@@ -54,14 +45,27 @@ namespace Ild_Music.ViewModels
                 .ToList()
                 .ForEach(p => TrackPlaylists.Add(p));
         }
-        #endregion
 
-        #region Provate Methods
+        public async void SetInstance(Track track)
+        {
+            TrackInstance = track;
+            OnPropertyChanged("AvatarSource");
+            
+            supporter.GetInstanceDTOsFromIds(TrackInstance.Artists, EntityTag.ARTIST)
+                .Result
+                .ToList()
+                .ForEach(a => TrackArtists.Add(a));
+
+            supporter.GetInstanceDTOsFromIds(TrackInstance.Playlists, EntityTag.PLAYLIST)
+                .Result
+                .ToList()
+                .ForEach(p => TrackPlaylists.Add(p));
+        }
+
         private void BackSwap(object obj)
         {
             TrackArtists.Clear();
             MainVM.ResolveWindowStack();            
         }
-        #endregion
     }
 }

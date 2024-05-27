@@ -25,6 +25,7 @@ public partial class App : Application
         Stage = new (ref Configure);
         Stage.Build().Wait();
         ViewModelTable = new Hashtable();
+        PopullateViewModelTable();
     }
     public override void Initialize()
     {
@@ -42,5 +43,19 @@ public partial class App : Application
         }
 
         base.OnFrameworkInitializationCompleted();
+    }
+
+    private void PopullateViewModelTable()
+    {
+        App.ViewModelTable.Add(ArtistViewModel.nameVM, new ArtistViewModel());
+        App.ViewModelTable.Add(PlaylistViewModel.nameVM, new PlaylistViewModel());
+        App.ViewModelTable.Add(TrackViewModel.nameVM, new TrackViewModel());
+        App.ViewModelTable.Add(ArtistEditorViewModel.nameVM, new ArtistEditorViewModel());
+        App.ViewModelTable.Add(PlaylistEditorViewModel.nameVM, new PlaylistEditorViewModel());
+        App.ViewModelTable.Add(TrackEditorViewModel.nameVM, new TrackEditorViewModel());
+        App.ViewModelTable.Add(InstanceExplorerViewModel.nameVM, new InstanceExplorerViewModel());
+        App.ViewModelTable.Add(StartViewModel.nameVM, new StartViewModel());
+        App.ViewModelTable.Add(ListViewModel.nameVM, new ListViewModel());
+        App.ViewModelTable.Add(MainWindowViewModel.nameVM, new MainWindowViewModel());
     }
 }

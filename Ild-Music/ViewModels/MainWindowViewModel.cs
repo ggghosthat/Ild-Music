@@ -20,50 +20,66 @@ namespace Ild_Music.ViewModels;
 
 public class MainWindowViewModel : Base.BaseViewModel
 {
-    #region VM id
     public static readonly string nameVM = "MainVM";
     public override string NameVM => nameVM;
-    #endregion
 
-    #region Services
+    private DispatcherTimer timer;
+    private static Dictionary<string, BaseViewModel> _viewModelStore = new(); 
+    private static Stack<BaseViewModel> _windowStack = new();
+
+    public MainWindowViewModel()
+    {
+        //1. resolve player instance
+        PresetPlayer();
+        //2. resolve commands
+        PresetCommands();
+        //3. allocate view-models
+        PresetViewModel();
+        //4 preset special details
+        PresetGlobalTimer();
+    }
+    
     private static SupportGhost supporter => (SupportGhost)App.Stage.GetGhost(Ghosts.SUPPORT);
     private static PlayerGhost playerGhost => (PlayerGhost)App.Stage.GetGhost(Ghosts.PLAYER);
-    #endregion
 
-    #region Player Scope
     public static IPlayer? _player = null;
     public bool PlayerState => _player?.ToggleState ?? false;
     public bool PlayerEmpty => _player?.IsEmpty ?? true;
 
     public Track? CurrentTrack => _player?.CurrentTrack;
+    public string Title => CurrentTrack?.Name.ToString();
     public Playlist? CurrentPlaylist => _player?.CurrentPlaylist;
 
     //private TimeSpan totalTime = TimeSpan.FromSeconds(1);
-    public double TotalTime => _player.TotalTime.TotalSeconds;
+    public double TotalTime => _player?.TotalTime.TotalSeconds ?? 1d;
     public double StartTime => TimeSpan.Zero.TotalSeconds;
-
-    public double CurrentTime 
-    {
-        get => (double)(_player.CurrentTime.TotalSeconds);
-        set => _player.CurrentTime = TimeSpan.FromSeconds(value);
-    }
-
+   
     public TimeSpan CurrentTimeDisplay => TimeSpan.FromSeconds(CurrentTime);
-    public TimeSpan TotalTimeDisplay => _player.TotalTime;
+    public TimeSpan TotalTimeDisplay => _player?.TotalTime ?? TimeSpan.Zero;
 
     public float MaxVolume => _player.MaxVolume;
     public float MinVolume => _player.MinVolume;
 
-    public float CurrentVolume
+    public double CurrentTime 
     {
-        get => _player.CurrentVolume;
-        set => _player.CurrentVolume = value;
+        get => (double)(_player?.CurrentTime.TotalSeconds ?? 0);
+        set
+        {
+            if (_player is not null)
+                _player.CurrentTime = TimeSpan.FromSeconds(value);
+        }
     }
 
-    public string Title => CurrentTrack?.Name.ToString();
-    #endregion
+    public float CurrentVolume
+    {
+        get => _player?.CurrentVolume ?? 0;
+        set
+        {
+            if (_player is not null)
+                _player.CurrentVolume = value;
+        }
+    }
 
-    #region Commands Scope
     public CommandDelegator NavBarResolve { get; private set; }
     public CommandDelegator PreviousCommand { get; private set; }
     public CommandDelegator NextCommand { get; private set; }
@@ -75,36 +91,14 @@ public class MainWindowViewModel : Base.BaseViewModel
     public CommandDelegator SwitchHomeCommand { get; private set; }
     public CommandDelegator SwitchListCommand { get; private set; }
     public CommandDelegator SwitchBrowseCommand { get; private set; }
-    #endregion
-
-    #region Fields
-    private DispatcherTimer timer;
-    public bool VolumeSliderOpen {get; private set;} = false;
-    #endregion
-
-    #region Properties
+    
     public BaseViewModel CurrentVM { get; set; }
+    public bool VolumeSliderOpen { get; private set; } = false;
 
-    public Stack<BaseViewModel> WindowStack {get; private set;} = new();
+    public ObservableCollection<string> NavItems =>
+        new() {"Home","Collections", "Browse"};
+    public char? NavItem { get; set; }
 
-
-    public ObservableCollection<string> NavItems {get;} = new() {"Home","Collections", "Browse"};
-    public char? NavItem {get; set;}
-    #endregion
-
-    public MainWindowViewModel()
-    {
-        //1. resolve player instance
-        PresetPlayer();
-        //2. resolve commands
-        PresetCommands();
-        //3. allocate view-models
-        PresetViewModels();
-        //4 preset special details
-        PresetGlobalTimer();
-    }
-
-    #region start-up methods
     private void PresetPlayer()
     {
         _player = playerGhost?.GetPlayer();
@@ -137,19 +131,8 @@ public class MainWindowViewModel : Base.BaseViewModel
         SwitchBrowseCommand = new(SwitchBrowse, null);
     }
 
-    private void PresetViewModels()
-    {
-        // App.ViewModelTable.Add(StartViewModel.nameVM, new StartViewModel());
-        // App.ViewModelTable.Add(FactoryContainerViewModel.nameVM, new FactoryContainerViewModel());
-        // App.ViewModelTable.Add(ListViewModel.nameVM, new ListViewModel());
-        // App.ViewModelTable.Add(SettingViewModel.nameVM, new SettingViewModel());
-        // App.ViewModelTable.Add(ArtistViewModel.nameVM, new ArtistViewModel());
-        // App.ViewModelTable.Add(PlaylistViewModel.nameVM, new PlaylistViewModel());
-        // App.ViewModelTable.Add(TrackViewModel.nameVM, new TrackViewModel());
-        // App.ViewModelTable.Add(InstanceExplorerViewModel.nameVM, new InstanceExplorerViewModel());
-        // App.ViewModelTable.Add(BrowseViewModel.nameVM, new BrowseViewModel());
-        // App.ViewModelTable.Add(nameVM, this);
-
+    private void PresetViewModel()
+    {        
         // CurrentVM = (BaseViewModel)App.ViewModelTable[StartViewModel.nameVM];
         CurrentVM = new TrackViewModel();
     }
@@ -159,9 +142,7 @@ public class MainWindowViewModel : Base.BaseViewModel
         timer = new(TimeSpan.FromMilliseconds(300), DispatcherPriority.Normal, UpdateCurrentTime);
         timer.Start();
     }
-    #endregion
 
-    #region Private Methods
     private void UpdateCurrentTime(object sender, EventArgs e)
     {
         OnPropertyChanged("PlayerState");
@@ -171,131 +152,113 @@ public class MainWindowViewModel : Base.BaseViewModel
             OnPropertyChanged("CurrentTimeDisplay");
         }
     }
-    #endregion
 
-    #region MainViewModel API Methods
-    public void DefineNewPresentItem(BaseViewModel newItem)
+    public void DefineNewPresentItem(string nameVM)
     {
-        CurrentVM = newItem;
+        CurrentVM = (BaseViewModel)App.ViewModelTable[nameVM];
     }
 
     public void PushVM(BaseViewModel prev, BaseViewModel next)
     {
-        WindowStack.Push(prev);
-        WindowStack.Push(next);
+        _windowStack.Push(prev);
+        _windowStack.Push(next);
     }
 
     public BaseViewModel PopVM()
     {
-        return WindowStack.Pop();
+        return _windowStack.Pop();
     }
 
     public void ResolveWindowStack()
     {
-        if (WindowStack.Count > 0)
+        if (_windowStack.Count > 0)
             CurrentVM = PopVM();
 
-        // if (CurrentVM is ListViewModel listVM)
-        //     listVM.UpdateProviders();
+        if (CurrentVM is ListViewModel listVM)
+             listVM.UpdateProviders();
     }
 
-    public async Task ResolveArtistInstance(
+    public async Task ResolveInstance(
         BaseViewModel source,
-        Artist artist)
+        CommonInstanceDTO instanceDto)
     {
-        // var artistVM = (ArtistViewModel)App.ViewModelTable[ArtistViewModel.nameVM];
-        // artistVM?.SetInstance(artist);
+        var viewModel = instanceDto.Tag switch 
+        {
+           EntityTag.ARTIST  => (BaseViewModel)App.ViewModelTable[ArtistViewModel.nameVM],
+           EntityTag.PLAYLIST => (BaseViewModel)App.ViewModelTable[PlaylistViewModel.nameVM],
+           EntityTag.TRACK => (BaseViewModel)App.ViewModelTable[TrackViewModel.nameVM],
+           EntityTag.TAG => null,
+           _ => null
+        };
 
-        // if (artistVM != null)
-        // {
-        //     PushVM(source, artistVM);
-        //     ResolveWindowStack();
-        // }
+        SetInstanceToViewModel(viewModel, instanceDto);
+        PushVM(source, viewModel);
+        ResolveWindowStack();
     }   
 
-    public async Task ResolvePlaylistInstance(
-        BaseViewModel source,
-        Playlist playlist)
+    private void SetInstanceToViewModel(
+        BaseViewModel viewModel,
+        CommonInstanceDTO instanceDTO)
     {
-        // var playlistVM = (PlaylistViewModel)App.ViewModelTable[PlaylistViewModel.nameVM];
-        // playlistVM?.SetInstance(playlist);   
-
-        // if (playlistVM != null)
-        // {
-        //     PushVM(source, playlistVM);
-        //     ResolveWindowStack();
-        // }
+        if (viewModel is ArtistViewModel artistVM)
+            artistVM.SetInstance(instanceDTO);
+        else if (viewModel is PlaylistViewModel playlistVM)
+            playlistVM.SetInstance(instanceDTO);
+        else if (viewModel is TrackViewModel trackVM)
+            trackVM.SetInstance(instanceDTO);
     }
-    
+
     public void DropPlaylistInstance(
         BaseViewModel source, 
         Playlist playlist,
-        bool isResolved = false, 
+        bool isResolved = true, 
         int playlistIndex = 0)
     {
-        // _player?.Stop();
-        // _player?.DropPlaylist(playlist);
+        _player?.Stop();
+        _player?.DropPlaylist(playlist);
 
-        // OnPropertyChanged("CurrentTrack");
-        // OnPropertyChanged("CurrentPlaylist");
-        // OnPropertyChanged("TotalTime");
-        // OnPropertyChanged("TotalTimeDisplay");
-        // OnPropertyChanged("CurrentTime");
+        OnPropertyChanged("CurrentTrack");
+        OnPropertyChanged("CurrentPlaylist");
+        OnPropertyChanged("TotalTime");
+        OnPropertyChanged("TotalTimeDisplay");
+        OnPropertyChanged("CurrentTime");
             
-        // _player?.Toggle();
+        _player?.Toggle();
 
-        // if (isResolved)
-        // {
-        //     var playlistVM = (PlaylistViewModel)App.ViewModelTable[PlaylistViewModel.nameVM];
-        //     playlistVM?.SetInstance(playlist); 
-            
-        //     PushVM(source, playlistVM);
-        //     ResolveWindowStack();
-        // }
-    }
-
-    public async Task ResolveTrackInstance(
-        BaseViewModel source,
-        CommonInstanceDTO track)
-    {
-        // if(track.Tag != EntityTag.TRACK)
-        //     return;
-
-        // var trackVM = (TrackViewModel)App.ViewModelTable[TrackViewModel.nameVM];
-        // trackVM?.SetInstance(track);
-
-
-        // if (trackVM != null)
-        // {
-        //     PushVM(source, trackVM);
-        //     ResolveWindowStack();
-        // }
+        if (!isResolved)
+        {
+            var playlistVM = (PlaylistViewModel)App.ViewModelTable[PlaylistViewModel.nameVM];
+            playlistVM?.SetInstance(playlist); 
+           
+            PushVM(source, playlistVM);
+            ResolveWindowStack();
+        }
     }
 
     public void DropTrackInstance(
         BaseViewModel source, 
         Track track,
-        bool isResolved = false)
+        bool isResolved = true)
     {
         
-        // _player?.Stop();
-        // _player?.DropTrack(track);
+        _player?.Stop();
+        _player?.DropTrack(track);
 
-        // OnPropertyChanged("CurrentTrack");
-        // OnPropertyChanged("TotalTime");
-        // OnPropertyChanged("TotalTimeDisplay");
-        // OnPropertyChanged("CurrentTime");
+        OnPropertyChanged("CurrentTrack");
+        OnPropertyChanged("TotalTime");
+        OnPropertyChanged("TotalTimeDisplay");
+        OnPropertyChanged("CurrentTime");
 
-        // _player?.Toggle();
+        _player?.Toggle();
  
-        // if (isResolved)
-        // {
-        //     var trackVM = (TrackViewModel)App.ViewModelTable[TrackViewModel.nameVM];
-        //     trackVM?.SetInstance(track);
+        if (!isResolved)
+        {
+            var trackVM = (TrackViewModel)App.ViewModelTable[TrackViewModel.nameVM];
+            trackVM?.SetInstance(track);
 
-        //     PushVM(source, trackVM);
-        //     ResolveWindowStack();
-        // }
+            PushVM(source, trackVM);
+            ResolveWindowStack();
+        }
     } 
 
     //Don't ready to use
@@ -310,9 +273,7 @@ public class MainWindowViewModel : Base.BaseViewModel
             
         _player?.Toggle();
     }
-    #endregion
 
-    #region Predicates
     private bool OnNavSelected(object obj)
     {
         return (NavItem is not null);
@@ -327,25 +288,23 @@ public class MainWindowViewModel : Base.BaseViewModel
     {
         return (_player.IsEmpty == false) && (_player.IsSwipe == true);
     }
-    #endregion
 
-    #region Command Methods
     private void NavResolve(object obj)
     {
         switch(NavItem)
         {
-            // case 'a':
-            //     DefineNewPresentItem((BaseViewModel)App.ViewModelTable[StartViewModel.nameVM]);
-            //     break;
-            // case 'b':
-            //     DefineNewPresentItem((BaseViewModel)App.ViewModelTable[ListViewModel.nameVM]);
-            //     break;
-            // case 'c':
-            //     DefineNewPresentItem((BaseViewModel)App.ViewModelTable[SettingViewModel.nameVM]);
-            //     break;
-            // case 'd':
-            //     DefineNewPresentItem((BaseViewModel)App.ViewModelTable[BrowseViewModel.nameVM]);
-            //     break;
+            case 'a':
+                DefineNewPresentItem(StartViewModel.nameVM);
+                break;
+            case 'b':
+                DefineNewPresentItem(ListViewModel.nameVM);
+                break;
+            case 'c':
+                //DefineNewPresentItem((BaseViewModel)App.ViewModelTable[SettingViewModel.nameVM]);
+                break;
+            case 'd':
+                //DefineNewPresentItem((BaseViewModel)App.ViewModelTable[BrowseViewModel.nameVM]);
+                break;
             default:
                 break;
         }
@@ -388,22 +347,20 @@ public class MainWindowViewModel : Base.BaseViewModel
     {
         VolumeSliderOpen ^= true;
     }
-    #endregion
     
-    #region User interface windows switch methods
     public void SwitchHome(object obj)
     {
-        // DefineNewPresentItem((BaseViewModel)App.ViewModelTable[StartViewModel.nameVM]);
+        DefineNewPresentItem(StartViewModel.nameVM);
     }
 
     public void SwitchList(object obj)
     {
-        // DefineNewPresentItem((BaseViewModel)App.ViewModelTable[ListViewModel.nameVM]);
+        DefineNewPresentItem(ListViewModel.nameVM);
     }
 
     public void SwitchBrowse(object obj)
     {
-        // DefineNewPresentItem((BaseViewModel)App.ViewModelTable[BrowseViewModel.nameVM]);
+        //DefineNewPresentItem(BrowseViewModel.nameVM);
     }
 
     public void Exit(object obj)
@@ -411,5 +368,4 @@ public class MainWindowViewModel : Base.BaseViewModel
         if(Application.Current.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktopLifetime)
             desktopLifetime.Shutdown();
     }
-    #endregion
 }
