@@ -18,15 +18,14 @@ using Avalonia.Controls.ApplicationLifetimes;
 
 namespace Ild_Music.ViewModels;
 
-public class ArtistEditorViewModel : BaseViewModel
+public class TagEditorViewModel : BaseViewModel
 {
-    public static readonly string nameVM = "ListVM";        
+    public static readonly string nameVM = "TagEditorVM";        
     public override string NameVM => nameVM;
-    
-    public ArtistEditorViewModel()
+
+    public TagEditorViewModel()
     {
         CreateArtistCommand = new(HandleChanges, null);
-        SelectAvatarCommand = new(SelectAvatar, null);
         CancelCommand = new(Cancel, null);
     }
     
@@ -34,21 +33,18 @@ public class ArtistEditorViewModel : BaseViewModel
     private static FactoryGhost factory => (FactoryGhost)App.Stage.GetGhost(Ghosts.FACTORY);
     private MainWindowViewModel MainVM => (MainWindowViewModel)App.ViewModelTable[MainWindowViewModel.nameVM];
     
-    public CommandDelegator SelectAvatarCommand { get; }
     public CommandDelegator CreateArtistCommand { get; }
     public CommandDelegator CancelCommand { get; }
 
-    public static Artist ArtistInstance { get; private set; } = default!;
+    public static Tag TagInstance { get; private set; } = default!;
     public string Name {get; set; } = default!;
-    public string Description { get; set; } = default!;
-    public int Year { get; set; } = default!;
-    public byte[] Avatar { get; private set; } = default!;
+    public string Color { get; set; } = default!;
 
-    public string ArtistLogLine { get; set; } = default!;
-    public bool ArtistLogError { get; set; } = default!;
+    public string TagLogLine { get; set; } = default!;
+    public bool TagLogError { get; set; } = default!;
 
     public bool IsEditMode {get; private set;} = false;
-    public string ViewHeader {get; private set;} = "Artist";
+    public string ViewHeader {get; private set;} = "Tag";
 
     private async void ExitFactory()
     {
@@ -59,21 +55,7 @@ public class ArtistEditorViewModel : BaseViewModel
     private async Task FieldsClear()
     {
         Name = default!;
-        Description = default!;
-        ArtistLogLine = default!;
-        Avatar = default!;
-        ArtistInstance = default;
-    }
-
-    private async Task<byte[]> LoadAvatar(string path)
-    {
-        byte[] result;
-        using (FileStream fileStream = File.Open(path, FileMode.Open))
-        {
-            result = new byte[fileStream.Length];
-            await fileStream.ReadAsync(result, 0, (int)fileStream.Length);
-        }
-        return result;
+        Color = default!;
     }
 
     public void CreateArtistInstance()
@@ -83,13 +65,13 @@ public class ArtistEditorViewModel : BaseViewModel
             if (String.IsNullOrEmpty(Name))
                 throw new InvalidArtistException();
 
-            factory.CreateArtist(Name, Description, Year, Avatar);
-            ArtistLogLine = "Successfully created!";
+            factory.CreateTag(Name, Color);
+            TagLogLine = "Successfully created!";
             ExitFactory();
         }
         catch (InvalidArtistException ex)
         {
-            ArtistLogLine = ex.Message;
+            TagLogLine = ex.Message;
         }
     }
 
@@ -100,32 +82,26 @@ public class ArtistEditorViewModel : BaseViewModel
             if (String.IsNullOrEmpty(Name))
                 throw new InvalidArtistException();
 
-            var editArtist = ArtistInstance;
-            editArtist.Name = Name.AsMemory();
-            editArtist.Description = Description.AsMemory();
-            editArtist.Year = Year;
-            editArtist.AvatarSource = (Avatar is not null)? Avatar:default!;
+            var editTag = TagInstance;
+            editTag.Name = Name.AsMemory();
+            editTag.Color = Color.AsMemory();
 
-            supporter.EditArtistInstance(editArtist); 
-
+            supporter.EditTagInstance(editTag);
             IsEditMode = false;
             ExitFactory();                
         }
         catch(Exception exm)
         {
-            ArtistLogLine = exm.Message;
+            TagLogLine = exm.Message;
         }
     }
 
-    public async Task DropInstance(CommonInstanceDTO instanceDTO) 
+    public async Task DropInstance(Tag tag) 
     {
-        ArtistInstance = await supporter.GetArtistAsync(instanceDTO);
+        TagInstance = tag;
         IsEditMode = true;
-        Name = ArtistInstance.Name.ToString();
-        Description = ArtistInstance.Description.ToString();
-
-        Avatar = ArtistInstance.GetAvatar(); 
-        OnPropertyChanged("AvatarSource");
+        Name = TagInstance.Name.ToString();
+        Color = TagInstance.Color.ToString();
     }
 
     private void Cancel(object obj)
@@ -147,16 +123,4 @@ public class ArtistEditorViewModel : BaseViewModel
 
     public Window? FindWindowByViewModel(INotifyPropertyChanged viewModel) =>
         Windows.FirstOrDefault(x => ReferenceEquals(viewModel, x.DataContext));
-
-    private async void SelectAvatar(object obj)
-    {
-        OpenFileDialog dialog = new();
-        string[] result = await dialog.ShowAsync(FindWindowByViewModel(this));
-        if(result != null && result.Length > 0)
-        {
-            var avatarPath = string.Join(" ", result);
-            Avatar = await LoadAvatar(avatarPath);
-            OnPropertyChanged("AvatarSource");
-        }
-    }
 }

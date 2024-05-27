@@ -19,7 +19,6 @@ public sealed class FactoryGhost : IGhost
        cube = inputCube;
     }
 
-    #region Instance Creation Methods
     public void CreateArtist(
         string name,
         string description = null,
@@ -139,9 +138,19 @@ public sealed class FactoryGhost : IGhost
             throw ex;
         } 
     }
-    #endregion 
+
+    public void CreateTag(
+        string name,
+        string color)
+    {
+        Memory<char> tagName = name.ToArray();
+        Memory<char> tagColor = name.ToArray();
+
+        producer = new InstanceProducer.InstanceProducer(tagName, tagColor, null, null, null); 
+        cube.AddTagObj(producer.TagInstance);
+        producer.Dispose();
+    }
     
-    #region Filer Methods 
     public Track CreateTrackBrowsed(string pathway) 
     {      
         try 
@@ -180,9 +189,7 @@ public sealed class FactoryGhost : IGhost
             throw ex; 
         } 
     } 
-    #endregion 
 
-    #region Accessory Methods 
     private async ValueTask<Memory<byte>> ExtractTrackAvatar(string pathway) 
     { 
         Memory<byte> buffer; 
@@ -198,5 +205,4 @@ public sealed class FactoryGhost : IGhost
 
         throw new FileNotFoundException($"Could not find file: {pathway}");
     }
-    #endregion
 }

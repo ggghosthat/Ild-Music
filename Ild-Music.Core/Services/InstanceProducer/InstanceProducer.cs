@@ -6,6 +6,7 @@ internal struct InstanceProducer : IDisposable
     public Artist ArtistInstance { get; private set; } = default!;
     public Playlist PlaylistInstance { get; private set; } = default!;
     public Track TrackInstance { get; private set; } = default!;
+    public Tag TagInstance { get; private set; } = default!;
 
     public InstanceProducer(
         Memory<char> name,
@@ -70,6 +71,7 @@ internal struct InstanceProducer : IDisposable
             avatarSource: avatar,
             duration: duration,
             year: year);
+
         var track = TrackInstance;
 
         if (artists != null && artists.Count > 0)
@@ -79,7 +81,43 @@ internal struct InstanceProducer : IDisposable
                 a.AddTrack(ref track);
                 track.Artists.Add(a.Id);
             });
+        }
+    }
 
+    public InstanceProducer(
+        Memory<char> name,
+        Memory<char> color,
+        IList<Artist> artists,
+        IList<Playlist> playlists,
+        IList<Track> tracks)
+    {
+        TagInstance = new Tag( Guid.NewGuid(), name, color);
+        
+        var tag = TagInstance;
+
+        if (artists != null && artists.Count > 0)
+        {
+            artists.ToList().ForEach(a => 
+            {
+                a.Tags.Add(tag);
+                tag.Artists.Add(a.Id);
+            });
+        }
+        if (playlists != null && playlists.Count > 0)
+        {
+            playlists.ToList().ForEach(p => 
+            {
+                p.Tags.Add(tag);
+                tag.Playlists.Add(p.Id);
+            });
+        }
+        if (tracks != null && tracks.Count > 0)
+        {
+            tracks.ToList().ForEach(t => 
+            {
+                t.Tags.Add(tag);
+                tag.Tracks.Add(t.Id);
+            });
         }
     }
 
@@ -88,5 +126,6 @@ internal struct InstanceProducer : IDisposable
         ArtistInstance = default!;
         PlaylistInstance = default!; 
         TrackInstance = default!;
+        TagInstance = default!;
     }
 }

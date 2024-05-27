@@ -10,7 +10,6 @@ public struct Tag
     public IList<Guid> Playlists { get; set; } = new List<Guid>();
     public IList<Guid> Tracks { get; set; } = new List<Guid>();
 
-
     public Tag (Guid id,
                 ReadOnlyMemory<char> name,
 				ReadOnlyMemory<char> color)

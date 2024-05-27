@@ -29,14 +29,17 @@ public interface ICube : IShare
     public Task AddArtistObj(Artist artist);
     public Task AddTrackObj(Track artist);
     public Task AddPlaylistObj(Playlist artist);
+    public Task AddTagObj(Tag tag);
 
     public Task EditArtistObj(Artist newArtist);
     public Task EditPlaylistObj(Playlist newPlaylist);
     public Task EditTrackObj(Track newTrack);
+    public Task EditTagObj(Tag tag);
 
     public Task RemoveArtistObj(Guid artistId);
     public Task RemoveTrackObj(Guid trackId);
     public Task RemovePlaylistObj(Guid playlistId);
+    public Task RemoveTagObj(Guid tagId);
 
     //loading (querying) methods
     public Task<Artist> QueryArtist(CommonInstanceDTO instanceDTO);

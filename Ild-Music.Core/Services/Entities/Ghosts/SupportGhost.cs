@@ -50,6 +50,12 @@ public sealed class SupportGhost : IGhost
         OnTracksNotifyRefresh?.Invoke();
     }
 
+    public void AddTagInstance(Tag tag)
+    {
+        _cube.AddTagObj(tag);
+        OnTagsNotifyRefresh?.Invoke();
+    }
+
     public void EditArtistInstance(Artist newArtist)
     {
         _cube.EditArtistObj(newArtist);
@@ -67,7 +73,13 @@ public sealed class SupportGhost : IGhost
         _cube.EditTrackObj(newTrack);
         OnTracksNotifyRefresh?.Invoke();  
     }
-
+    
+    public void EditTagInstance(Tag tag)
+    {
+        _cube.EditTagObj(tag);
+        OnTagsNotifyRefresh?.Invoke();
+    }
+    
     public void DeleteArtistInstance(Guid artistId) 
     {
         _cube.RemoveArtistObj(artistId);
@@ -86,6 +98,12 @@ public sealed class SupportGhost : IGhost
         OnArtistsNotifyRefresh?.Invoke();
     }
        
+    public void DeleteTagInstance(Guid tagId)
+    {
+        _cube.RemoveTagObj(tagId);
+        OnTagsNotifyRefresh?.Invoke();
+    }
+
     public async Task<Artist> GetArtistAsync(CommonInstanceDTO instanceDTO)
     {
         return await _cube.QueryArtist(instanceDTO);
