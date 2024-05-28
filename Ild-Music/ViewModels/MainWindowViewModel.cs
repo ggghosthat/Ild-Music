@@ -29,13 +29,9 @@ public class MainWindowViewModel : Base.BaseViewModel
 
     public MainWindowViewModel()
     {
-        //1. resolve player instance
         PresetPlayer();
-        //2. resolve commands
         PresetCommands();
-        //3. allocate view-models
         PresetViewModel();
-        //4 preset special details
         PresetGlobalTimer();
     }
     

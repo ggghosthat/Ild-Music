@@ -81,14 +81,14 @@ public class ListViewModel : BaseViewModel
 
     private void Add(object obj)
     {
-        BaseViewModel entityEditor = Header switch
+        BaseViewModel editor = Header switch
         {
              "Artists" => (BaseViewModel)App.ViewModelTable[ArtistEditorViewModel.nameVM],
              "Playlists" => (BaseViewModel)App.ViewModelTable[ArtistEditorViewModel.nameVM],
              "Tracks" =>  (BaseViewModel)App.ViewModelTable[ArtistEditorViewModel.nameVM]
         };
         
-        MainVM.PushVM(this, factory);
+        MainVM.PushVM(this, editor);
         MainVM.ResolveWindowStack();
     }
 
