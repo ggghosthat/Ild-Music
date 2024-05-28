@@ -46,7 +46,6 @@ public class ArtistEditorViewModel : BaseViewModel
 
     public string ArtistLogLine { get; set; } = default!;
     public bool ArtistLogError { get; set; } = default!;
-
     public bool IsEditMode {get; private set;} = false;
     public string ViewHeader {get; private set;} = "Artist";
 
@@ -83,7 +82,10 @@ public class ArtistEditorViewModel : BaseViewModel
             if (String.IsNullOrEmpty(Name))
                 throw new InvalidArtistException();
 
-            factory.CreateArtist(Name, Description, Year, Avatar);
+            Artist artist;
+
+            factory.CreateArtist(Name, Description, Year, Avatar, out artist);
+            ArtistInstance = artist;
             ArtistLogLine = "Successfully created!";
             ExitFactory();
         }

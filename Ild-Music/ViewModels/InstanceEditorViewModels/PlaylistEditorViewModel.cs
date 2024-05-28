@@ -12,6 +12,10 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
+using System.ComponentModel;
+using Avalonia;
+using Avalonia.Controls;
+using Avalonia.Controls.ApplicationLifetimes;
 
 namespace Ild_Music.ViewModels;
 
@@ -19,6 +23,15 @@ public class PlaylistEditorViewModel : BaseViewModel
 {
     public static readonly string nameVM = "PlaylistEditorVM";        
     public override string NameVM => nameVM;
+    
+    public PlaylistEditorViewModel()
+    {
+        CreatePlaylistCommand = new(HandleChanges, null);
+        SelectAvatarCommand = new(SelectAvatar, null);
+        CancelCommand = new(Cancel, null);
+        PlaylistArtistExplorerCommand = new(OpenPlaylistArtistExplorer, null);
+        PlaylistTrackExplorerCommand = new(OpenPlaylistTrackExplorer, null);
+    }
     
     private static SupportGhost supporter => (SupportGhost)App.Stage.GetGhost(Ghosts.SUPPORT);
     private static FactoryGhost factory => (FactoryGhost)App.Stage.GetGhost(Ghosts.FACTORY);
@@ -31,29 +44,21 @@ public class PlaylistEditorViewModel : BaseViewModel
     public int Year { get; set; } = default!;
     public byte[] Avatar { get; set; } = default!;
 
-    public static ObservableCollection<CommonInstanceDTO> ArtistsProvider {get;set;} = new();
-    public static ObservableCollection<CommonInstanceDTO> TracksProvider {get; set;} = new();
-    public static ObservableCollection<CommonInstanceDTO> SelectedPlaylistArtists {get;set;} = new();
-    public static ObservableCollection<CommonInstanceDTO> SelectedPlaylistTracks {get; set;} = new();
+    public ObservableCollection<CommonInstanceDTO> ArtistsProvider {get;set;} = new();
+    public ObservableCollection<CommonInstanceDTO> TracksProvider {get; set;} = new();
+    public ObservableCollection<CommonInstanceDTO> SelectedPlaylistArtists {get;set;} = new();
+    public ObservableCollection<CommonInstanceDTO> SelectedPlaylistTracks {get; set;} = new();
 
     public string PlaylistLogLine { get; set; }
-    public bool PlaylistLogError { get; set; }
-    
+    public bool PlaylistLogError { get; set; } 
     public bool IsEditMode {get; private set;} = false;
     public string ViewHeader {get; private set;} = "Playlist";
 
     public CommandDelegator CreatePlaylistCommand { get; }
     public CommandDelegator CancelCommand { get; }
     public CommandDelegator SelectAvatarCommand { get; }
-    public CommandDelegator SelectPlaylistArtistCommand { get; }
-    public CommandDelegator DeletePlaylistArtistCommand { get; }
-    public CommandDelegator SelectPlaylistTrackCommand { get; }
-    public CommandDelegator DeletePlaylistTrackCommand { get; }
     public CommandDelegator PlaylistArtistExplorerCommand {get;}
     public CommandDelegator PlaylistTrackExplorerCommand {get;}
-
-    public PlaylistEditorViewModel()
-    {}
 
     private void ExitFactory()
     {
@@ -170,10 +175,12 @@ public class PlaylistEditorViewModel : BaseViewModel
             if (String.IsNullOrEmpty(Name))
                 throw new InvalidPlaylistException();
             
+            Playlist playlist = default;  
             var artists = SelectedPlaylistArtists.Select(a => supporter.GetArtistAsync(a).Result).ToList();
             var tracks = SelectedPlaylistTracks.Select(t => supporter.GetTrackAsync(t).Result).ToList();
-
-            factory?.CreatePlaylist(Name, Description, Year, Avatar, tracks, artists);
+            
+            factory?.CreatePlaylist(Name, Description, Year, Avatar, tracks, artists, out playlist);
+            PlaylistInstance = playlist;
             PlaylistLogLine = "Successfully created!";
             ExitFactory(); 
         }
@@ -263,7 +270,7 @@ public class PlaylistEditorViewModel : BaseViewModel
         ExitFactory();
     }
 
-    private void CreatePlaylist(object obj)
+    private void HandleChanges(object obj)
     {
         if (IsEditMode)
             EditPlaylistInstance();
@@ -271,8 +278,21 @@ public class PlaylistEditorViewModel : BaseViewModel
             CreatePlaylistInstance();
     }
 
-    private void SelectAvatar(object obj)
+    private static IEnumerable<Window> Windows =>
+        (Application.Current?.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime)?.Windows ?? Array.Empty<Window>();
+
+    public Window? FindWindowByViewModel(INotifyPropertyChanged viewModel) =>
+        Windows.FirstOrDefault(x => ReferenceEquals(viewModel, x.DataContext));
+
+    private async void SelectAvatar(object obj)
     {
-        OnPropertyChanged("AvatarSource");
+        OpenFileDialog dialog = new();
+        string[] result = await dialog.ShowAsync(FindWindowByViewModel(this));
+        if(result != null && result.Length > 0)
+        {
+            var avatarPath = string.Join(" ", result);
+            Avatar = await LoadAvatar(avatarPath);
+            OnPropertyChanged("AvatarSource");
+        }
     }
 }

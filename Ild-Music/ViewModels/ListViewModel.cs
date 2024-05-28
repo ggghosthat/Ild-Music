@@ -20,22 +20,21 @@ public class ListViewModel : BaseViewModel
     public static readonly string nameVM = "ListVM";        
     public override string NameVM => nameVM;
     
-    #region Services
+    public ListViewModel()
+    {
+    }
+
     private static SupportGhost supporter => (SupportGhost)App.Stage.GetGhost(Ghosts.SUPPORT);
     private static FactoryGhost factory => (FactoryGhost)App.Stage.GetGhost(Ghosts.FACTORY);
     private MainWindowViewModel MainVM => (MainWindowViewModel)App.ViewModelTable[MainWindowViewModel.nameVM];
-    #endregion
 
-    #region Commands
     public CommandDelegator AddCommand { get; }
     public CommandDelegator DeleteCommand { get; }
     public CommandDelegator EditCommand { get; }
     public CommandDelegator BackCommand { get; }
     public CommandDelegator ItemSelectCommand { get; }
     public CommandDelegator DefineListTypeCommand { get; }
-    #endregion
 
-    #region Properties
     // public ListType ListType {get; private set;}
     public static ObservableCollection<string> Headers { get; private set; } = new() {"Artists","Playlists","Tracks"};
     public static string Header { get; set; }
@@ -43,15 +42,8 @@ public class ListViewModel : BaseViewModel
     public CommonInstanceDTO? CurrentItem { get; set; } = null;
 
     public SelectionModel<object> HeaderSelection { get; }
-    #endregion
 
-    #region Ctor
-    public ListViewModel()
-    {
-    }
-    #endregion
-
-     #region List view model scoped methods
+    
     private void InitCurrentList(object obj)
     {
         Task.Run(async () => await DisplayProviders());
@@ -86,9 +78,7 @@ public class ListViewModel : BaseViewModel
             await UpdateProviders();
         }
     }
-    #endregion
 
-    #region CommandMethods
     private void Add(object obj)
     {
         // var factory = (FactoryContainerViewModel)App.ViewModelTable[FactoryContainerViewModel.nameVM];
@@ -173,9 +163,7 @@ public class ListViewModel : BaseViewModel
         //     }
         // }
     }
-    #endregion
 
-    #region Entity pass methods
     private void PassPlaylistEntity(Playlist playlist)
     {
         // var mainPlaylistId = MainVM.CurrentPlaylist?.Id ?? Guid.Empty;
@@ -193,5 +181,4 @@ public class ListViewModel : BaseViewModel
     //     else
     //         Task.Run(() => MainVM.DropTrackInstance(this, track));
     }
-    #endregion
 }

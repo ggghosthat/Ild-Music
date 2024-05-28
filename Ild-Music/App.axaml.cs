@@ -50,9 +50,11 @@ public partial class App : Application
         App.ViewModelTable.Add(ArtistViewModel.nameVM, new ArtistViewModel());
         App.ViewModelTable.Add(PlaylistViewModel.nameVM, new PlaylistViewModel());
         App.ViewModelTable.Add(TrackViewModel.nameVM, new TrackViewModel());
+        App.ViewModelTable.Add(TagViewModel.nameVM, new TagViewModel());
         App.ViewModelTable.Add(ArtistEditorViewModel.nameVM, new ArtistEditorViewModel());
         App.ViewModelTable.Add(PlaylistEditorViewModel.nameVM, new PlaylistEditorViewModel());
         App.ViewModelTable.Add(TrackEditorViewModel.nameVM, new TrackEditorViewModel());
+        App.ViewModelTable.Add(TagEditorViewModel.nameVM, new TagEditorViewModel());
         App.ViewModelTable.Add(InstanceExplorerViewModel.nameVM, new InstanceExplorerViewModel());
         App.ViewModelTable.Add(StartViewModel.nameVM, new StartViewModel());
         App.ViewModelTable.Add(ListViewModel.nameVM, new ListViewModel());

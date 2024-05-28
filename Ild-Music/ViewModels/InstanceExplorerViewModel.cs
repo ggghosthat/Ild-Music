@@ -18,32 +18,22 @@ public class InstanceExplorerViewModel : BaseViewModel
     public static readonly string nameVM = "InstanceExplorerVM";
     public override string NameVM => nameVM;
 
-    #region Services
     private static SupportGhost supporterService => (SupportGhost)App.Stage.GetGhost(Ghosts.SUPPORT);
     private MainWindowViewModel MainVM => (MainWindowViewModel)App.ViewModelTable[MainWindowViewModel.nameVM];
-    #endregion
 
-    #region Properties
     public ObservableCollection<CommonInstanceDTO> Source {get; private set;} = new();
     public IList<CommonInstanceDTO> Output {get; set;} = new List<CommonInstanceDTO>();
     public int PageNumber { get; set; }
     public MetaData MetaData => supporterService.GetPageMetaData(); 
-    #endregion
-
     
-    #region Commands
     public CommandDelegator CloseExplorerCommand {get;}
     public CommandDelegator ExitExplorerCommand {get;}
     public CommandDelegator ForwardCommand { get; }
     public CommandDelegator BackCommand { get; }
     public CommandDelegator IndexCommand { get; }
-    #endregion
 
-    #region Events
     public event Action OnSelected;
-    #endregion
 
-    #region const
     public InstanceExplorerViewModel()
     {
         CloseExplorerCommand = new (CloseExplorer, null);
@@ -52,9 +42,7 @@ public class InstanceExplorerViewModel : BaseViewModel
         BackCommand = new (Back, null);
         IndexCommand = new (Index, null);
     }
-    #endregion
 
-    #region Public Methods
     public async void Arrange(EntityTag entitytag, IEnumerable<CommonInstanceDTO> preselected = null)
     {
         Source.Clear();
@@ -118,6 +106,4 @@ public class InstanceExplorerViewModel : BaseViewModel
         Output.Clear();           
         MainVM.ResolveWindowStack();
     }
-
-    #endregion
 }
