@@ -135,7 +135,7 @@ public class GuidoForklift : ICube //Cars from pixar (lol)
         _tracks?.AddRange(await _queryHandler.QueryAllTracks());
     }
 
-    private async Task RemoveTagObj(Guid tagId)
+    public async Task RemoveTagObj(Guid tagId)
     {
         await _commandHandler.DeleteTag(tagId);
 
