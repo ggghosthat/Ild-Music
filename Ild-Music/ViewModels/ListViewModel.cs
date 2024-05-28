@@ -36,9 +36,9 @@ public class ListViewModel : BaseViewModel
     public CommandDelegator DefineListTypeCommand { get; }
 
     // public ListType ListType {get; private set;}
-    public static ObservableCollection<string> Headers { get; private set; } = new() {"Artists","Playlists","Tracks"};
-    public static string Header { get; set; }
-    public static ObservableCollection<CommonInstanceDTO> CurrentList { get; set; } = new();
+    public ObservableCollection<string> Headers { get; private set; } = new() {"Artists","Playlists","Tracks"};
+    public string Header { get; set; }
+    public ObservableCollection<CommonInstanceDTO> CurrentList { get; set; } = new();
     public CommonInstanceDTO? CurrentItem { get; set; } = null;
 
     public SelectionModel<object> HeaderSelection { get; }
@@ -81,104 +81,116 @@ public class ListViewModel : BaseViewModel
 
     private void Add(object obj)
     {
-        // var factory = (FactoryContainerViewModel)App.ViewModelTable[FactoryContainerViewModel.nameVM];
-
-        // EntityTag entityTag = Header switch
-        // {
-        //     "Artists" => EntityTag.ARTIST,
-        //     "Playlists" => EntityTag.PLAYLIST,
-        //     "Tracks" => EntityTag.TRACK
-        // };
-
-        // factory.SetSubItem(entityTag);
-
-        // MainVM.PushVM(this, factory);
-        // MainVM.ResolveWindowStack();
+        BaseViewModel entityEditor = Header switch
+        {
+             "Artists" => (BaseViewModel)App.ViewModelTable[ArtistEditorViewModel.nameVM],
+             "Playlists" => (BaseViewModel)App.ViewModelTable[ArtistEditorViewModel.nameVM],
+             "Tracks" =>  (BaseViewModel)App.ViewModelTable[ArtistEditorViewModel.nameVM]
+        };
+        
+        MainVM.PushVM(this, factory);
+        MainVM.ResolveWindowStack();
     }
 
     private void Delete(object obj) 
     {
-        // if(CurrentItem is null)
-        //     return;
+        if(CurrentItem is null)
+             return;
 
-        // var id = (Guid)CurrentItem?.Id;
-        // switch (Header)
-        // {
-        //     case "Artists":
-        //         supporter.DeleteArtistInstance(id);
-        //         break;
-        //     case "Playlists": 
-        //         supporter.DeletePlaylistInstance(id);
-        //         break;
-        //     case "Tracks":
-        //         supporter.DeleteTrackInstance(id);
-        //         break;
-        // };
+        var id = (Guid)CurrentItem?.Id;
+        switch (Header)
+        {
+            case "Artists":
+                supporter.DeleteArtistInstance(id);
+                break;
+            case "Playlists": 
+                supporter.DeletePlaylistInstance(id);
+                break;
+            case "Tracks":
+                supporter.DeleteTrackInstance(id);
+                break;
+        };
 
-        // Task.Run( async () => await UpdateProviders());
+        Task.Run( async () => await UpdateProviders());
     }
     
     private void Edit(object obj)
-    {
-        // if(CurrentItem is null)
-        //     return;
-       
-        // var entityId = (Guid)CurrentItem?.Id;
-        // var factory = (FactoryContainerViewModel)App.ViewModelTable[FactoryContainerViewModel.nameVM];
-        
-        // EntityTag entityTag = Header switch
-        // {
-        //     "Artists" => EntityTag.ARTIST,
-        //     "Playlists" => EntityTag.PLAYLIST,
-        //     "Tracks" => EntityTag.TRACK
-        // };
+    {        
+        BaseViewModel editor = null;
 
-        // factory.SetEditableItem(entityTag, entityId);
+        switch(Header)
+        {
+            case "Artists":
+                var artistEditor = (ArtistEditorViewModel)App.ViewModelTable[ArtistEditorViewModel.nameVM];
+                artistEditor?.DropInstance(CurrentItem ?? default!);
+                editor = artistEditor;
+                break;
+            case "Playlists": 
+                var playlistEditor = (PlaylistEditorViewModel)App.ViewModelTable[PlaylistEditorViewModel.nameVM];
+                playlistEditor?.DropInstance(CurrentItem ?? default!);
+                editor = playlistEditor;
+                break;
+            case "Tracks":
+                var trackEditor = (TrackEditorViewModel)App.ViewModelTable[TrackEditorViewModel.nameVM];
+                trackEditor?.DropInstance(CurrentItem ?? default!);
+                editor = trackEditor;
+                break;
+            default:
+                return;
+        }
 
-        // MainVM.PushVM(this, factory);
-        // MainVM.ResolveWindowStack();
+        MainVM.PushVM(this, editor);
+        MainVM.ResolveWindowStack();
     }
 
     private async void ItemSelect(object obj)
     {
-        // if(CurrentItem is not null)
-        // {
-        //     var id = (Guid)CurrentItem?.Id;
-        //     Console.WriteLine(CurrentItem?.Name);
-        //     if(Header.Equals("Artists"))
-        //     {
-        //         var artist = await supporter.FetchArtist(id);
-        //         MainVM.ResolveArtistInstance(this, artist).Start(); 
-        //     }
-        //     else if(Header.Equals("Playlists"))
-        //     {
-        //         var playlist = await supporter.FetchPlaylist(id);
-        //         PassPlaylistEntity(playlist);
+        if(CurrentItem is not null)
+        {
+            var currentItem = CurrentItem ?? default!; 
 
-        //     }
-        //     else if(Header.Equals("Tracks"))
-        //     {
-        //         var track = await supporter.FetchTrack(id);
-        //         PassTrackEntity(track);
-        //     }
-        // }
+            if(Header.Equals("Artists"))
+            {
+                MainVM.ResolveInstance(this, currentItem).Start(); 
+            }
+            else if(Header.Equals("Playlists"))
+            {
+                PassPlaylistEntity(currentItem);
+
+            }
+            else if(Header.Equals("Tracks"))
+            {
+                PassTrackEntity(currentItem);
+            }
+        }
     }
 
-    private void PassPlaylistEntity(Playlist playlist)
+    private void PassPlaylistEntity(CommonInstanceDTO playlistDto)
     {
-        // var mainPlaylistId = MainVM.CurrentPlaylist?.Id ?? Guid.Empty;
-        // if(mainPlaylistId.Equals(playlist.Id))
-        //     MainVM.ResolvePlaylistInstance(this, playlist).Start();
-        // else
-        //     Task.Run(() => MainVM.DropPlaylistInstance(this, playlist));
+
+        var mainPlaylistId = MainVM.CurrentPlaylist?.Id ?? Guid.Empty;
+        if(mainPlaylistId.Equals(playlistDto.Id))
+        {
+            MainVM.ResolveInstance(this, playlistDto).Wait();
+        }
+        else
+        {
+            var playlist = supporter.GetPlaylistAsync(playlistDto).Result;
+            Task.Run(() => MainVM.DropPlaylistInstance(this, playlist));
+        }
     }
 
-    private void PassTrackEntity(Track track)
+    private void PassTrackEntity(CommonInstanceDTO trackDto)
     {
-    //    var mainPlaylistId = MainVM.CurrentTrack?.Id ?? Guid.Empty;
-    //     if(mainPlaylistId.Equals(track.Id))
-    //         MainVM.ResolveTrackInstance(this, track).Start();
-    //     else
-    //         Task.Run(() => MainVM.DropTrackInstance(this, track));
+        var mainPlaylistId = MainVM.CurrentTrack?.Id ?? Guid.Empty;
+        if(mainPlaylistId.Equals(trackDto.Id))
+        {
+            MainVM.ResolveInstance(this, trackDto).Start();
+        }
+        else
+        {
+            var track = supporter.GetTrackAsync(trackDto).Result;
+            Task.Run(() => MainVM.DropTrackInstance(this, track));
+        }
     }
 }
