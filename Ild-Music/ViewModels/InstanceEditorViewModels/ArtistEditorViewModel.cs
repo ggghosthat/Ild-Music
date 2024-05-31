@@ -20,7 +20,7 @@ namespace Ild_Music.ViewModels;
 
 public class ArtistEditorViewModel : BaseViewModel
 {
-    public static readonly string nameVM = "ListVM";        
+    public static readonly string nameVM = "ArtistEditorVM";        
     public override string NameVM => nameVM;
     
     public ArtistEditorViewModel()

@@ -20,7 +20,6 @@
         <conv:NavBarConverter x:Key="NavBarConverter"/>
         <conv:PlayerToggleButtonConverter x:Key="PlayerToggleButtonConverter"/>
         <conv:CurrentEntityConverter x:Key="CurrentEntityConverter"/>
-        
     </Window.Resources>
 
     <Window.Styles>
@@ -52,6 +51,7 @@
             <Setter Property="Width" Value="0"/>
             <Setter Property="Height" Value="0"/>
         </Style>
+
         <Style Selector="Border.volumePopup Slider.volumeSlider">
             <Setter Property="Width" Value="0"/>
             <Setter Property="Height" Value="0"/>
@@ -61,6 +61,7 @@
             <Setter Property="Width" Value="36"/>
             <Setter Property="Height" Value="100"/>
         </Style>
+
         <Style Selector="Border.volumePopup.open Slider.volumeSlider">
             <Setter Property="Width" Value="10"/>
             <Setter Property="Height" Value="100"/>
@@ -339,7 +340,7 @@
                                         <RowDefinition Height="*"/>
                                     </Grid.RowDefinitions>
 
-                                    <Grid Grid.Row="0">
+                                    <Grid Grid.Row="0" ZIndex="3">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="*"/>
                                             <ColumnDefinition Width="auto"/>
@@ -375,7 +376,8 @@
                                     </Grid>
                                    
 
-                                    <ContentControl Grid.Row="1"
+                                    <ContentControl Grid.Row="0"
+                                                    Grid.RowSpan="2"
                                                     Content="{Binding CurrentVM}"> 
                                     </ContentControl>
                                 </Grid>

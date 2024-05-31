@@ -19,7 +19,6 @@ public class InstanceConverter : IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
-
         if (parameter == "name")
         {
             if (value is CommonInstanceDTO dto)
@@ -30,7 +29,7 @@ public class InstanceConverter : IValueConverter
                 return playlist.Name;
             else if(value is Track track)
                 return track.Name;
-            else return null;
+            else return "name";
         }
         else if (parameter == "desc")
         {
@@ -40,7 +39,17 @@ public class InstanceConverter : IValueConverter
                 return playlist.Description;
             else if(value is Track track)
                 return track.Description;
-            else return null;
+            else return "description";
+        }
+        else if (parameter == "year")
+        {
+            if (value is Artist artist)
+                return artist.Year;
+            else if(value is Playlist playlist)
+                return playlist.Year;
+            else if(value is Track track)
+                return track.Year;
+            else return "year";
         }      
         else if (parameter == "duration")      
         {
@@ -105,14 +114,14 @@ public class InstanceConverter : IValueConverter
         }
         else if (parameter == "back")
         {
+            var defaultColor = new Avalonia.Media.Color(125, 39, 218, 72);
             if (value is byte[] source)
             {
-                if (source is not null)
+                if (source != null && source.Length > 0)
                     return CreateBackImage(ref source);
-                
-                else return null;
+                else return defaultColor;
             }
-            else return null;
+            else return defaultColor;
         } 
         else return null;
     }

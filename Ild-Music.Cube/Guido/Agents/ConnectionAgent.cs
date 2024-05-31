@@ -17,7 +17,7 @@ internal static class ConnectionAgent
         int pageLimit = 100)
     {
 
-        SQLitePCL.raw.SetProvider(new SQLitePCL.SQLite3Provider_e_sqlite3());
+        //SQLitePCL.raw.SetProvider(new SQLitePCL.SQLite3Provider_e_sqlite3());
         path = Path.Combine(allocationPath, "storage.db");
         queryLimit = pageLimit;
         connectionString = $"Data Source = {path}";

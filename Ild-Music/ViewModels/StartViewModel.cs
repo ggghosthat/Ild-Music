@@ -19,18 +19,13 @@ public class StartViewModel : BaseViewModel
     public static readonly string nameVM = "StartVM";
         public override string NameVM => nameVM;
 
-        #region AsyncStaff
         private Task trackDropTask;
         private CancellationTokenSource tokenSource = new CancellationTokenSource();
-        #endregion
         
-        #region Services
         private static SupportGhost supporter => (SupportGhost)App.Stage.GetGhost(Ghosts.SUPPORT);
         private static FactoryGhost factory => (FactoryGhost)App.Stage.GetGhost(Ghosts.FACTORY);
         private MainWindowViewModel MainVM => (MainWindowViewModel)App.ViewModelTable[MainWindowViewModel.nameVM];
-        #endregion
 
-        #region Properties
         public ObservableCollection<CommonInstanceDTO> Artists {get; set;} = new ();
         public ObservableCollection<CommonInstanceDTO> Playlists {get; set;} = new ();
         public ObservableCollection<CommonInstanceDTO> Tracks {get; set;} = new ();
@@ -38,15 +33,10 @@ public class StartViewModel : BaseViewModel
         public CommonInstanceDTO CurrentArtist { get; set; }
         public CommonInstanceDTO CurrentPlaylist { get; set; }
         public CommonInstanceDTO CurrentTrack { get; set; }
-        #endregion
-
-        #region Commands
         public CommandDelegator DropPlaylistCommand {get;}
         public CommandDelegator DropTrackCommand {get;}
         public CommandDelegator DropArtistCommand {get;}
-        #endregion
 
-        #region Ctor
         public StartViewModel()
         {
             DropPlaylistCommand = new(DropPlaylist, null);
@@ -59,9 +49,7 @@ public class StartViewModel : BaseViewModel
 
             Task.Run(PopullateLists);
         }
-        #endregion
 
-        #region  Private Methods
         private async Task PopullateLists()
         {
             supporter.ArtistsCollection?.ToList().ForEach(a => Artists.Add(a));
@@ -86,17 +74,13 @@ public class StartViewModel : BaseViewModel
             Tracks.Clear();
             supporter.TracksCollection.ToList().ForEach(t => Tracks.Add(t));
         }
-        #endregion
 
-        #region Public Methods
         public async Task BrowseTracks(IEnumerable<string> paths)
         {
             paths.ToList().ForEach(path => factory.CreateTrack(path));
             RefreshTracks();
         }
-        #endregion
 
-        #region Command Methods        
         private void DropArtist(object obj)
         {
             if (obj is CommonInstanceDTO instanceDTO && instanceDTO.Tag is EntityTag.ARTIST)
@@ -120,5 +104,4 @@ public class StartViewModel : BaseViewModel
                 Task.Run(() => MainVM.DropTrackInstance(this, track));
             }
         }
-        #endregion
 }
