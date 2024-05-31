@@ -11,5 +11,268 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="Ild_Music.Views.TrackEditorView"
              x:DataType="vm:TrackEditorViewModel">
-  Welcome to Avalonia!
+    <UserControl.Resources>
+        <conv:InstanceConverter x:Key="InstanceConverter"/>
+        <conv:ErrorMessageConverter x:Key="ErrorStateConverter"/>
+    </UserControl.Resources>
+
+  <UserControl.Styles>
+    <Style Selector="TextBox">
+      <Setter Property="BorderThickness" Value="0,0,0,1"/>
+      <Setter Property="BorderBrush" Value="{StaticResource btnApplyColor1}"/>
+      <Setter Property="Background" Value="Transparent"/>
+      <Setter Property="SelectionBrush" Value="#0b3338"/>
+    </Style>
+
+    <Style Selector="TextBox:pointerover /template/ Border#PART_BorderElement">
+      <Setter Property="BorderBrush" Value="{StaticResource btnApplyColor1}"/>
+      <Setter Property="BorderThickness" Value="0,0,0,1"/>
+      <Setter Property="Background" Value="#50000000"/>
+    </Style>
+
+    <Style Selector="TextBox:focus /template/ Border#PART_BorderElement">
+      <Setter Property="BorderBrush" Value="{StaticResource btnApplyColor2}"/>
+      <Setter Property="BorderThickness" Value="0,0,0,1"/>
+      <Setter Property="Background" Value="Transparent"/>
+    </Style>
+
+    <Style Selector="TextBox:focus:pointerover /template/ Border#PART_BorderElement">
+      <Setter Property="BorderBrush" Value="{StaticResource btnApplyColor2}"/>
+      <Setter Property="BorderThickness" Value="0,0,0,1"/>
+      <Setter Property="Background" Value="#50000000"/>
+    </Style>
+  </UserControl.Styles>
+  
+  <Grid>
+    <!-- show panel -->
+    <Grid>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="auto"/>
+          <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <Grid Grid.Column="0">
+            <Border HorizontalAlignment="Center"
+                    VerticalAlignment="Center">
+                <i:Interaction.Behaviors>
+                    <ia:EventTriggerBehavior EventName="PointerReleased">
+                      <ia:InvokeCommandAction Command="{Binding SelectAvatarCommand}"/>
+                    </ia:EventTriggerBehavior>  
+                </i:Interaction.Behaviors>
+                <Border Width="300"
+                        Height="300"
+                        Margin="15"
+                        Background="Transparent"
+                        Child="{Binding TrackInstance, 
+                                Converter={StaticResource InstanceConverter},
+                                ConverterParameter=ico_col}">
+                </Border>
+            </Border>
+        </Grid>
+
+        <Grid Grid.Column="1"
+              VerticalAlignment="Center">
+            <StackPanel Orientation="Vertical"
+                        Margin="45, 5">
+                <Border>
+                    <i:Interaction.Behaviors>
+                    <ia:EventTriggerBehavior EventName="PointerReleased">
+                        <ia:InvokeCommandAction Command="{Binding DefinePathCommand}"/>
+                    </ia:EventTriggerBehavior>  
+                    </i:Interaction.Behaviors>
+                    <TextBox  x:Name="txtPath"
+                            Text="{Binding Path}"
+                            Watermark="folding path"
+                            IsReadOnly="True"
+                            HorizontalAlignment="Left"
+                            FontSize="16"
+                            Margin="17, 5, 0, 0"
+                            Width="500"/>
+                </Border>
+
+                <TextBox Watermark="name"
+                         Text="{Binding Name}"
+                         HorizontalAlignment="Left"
+                         FontSize="16"
+                         Margin="17, 3, 0, 2"
+                         Width="500"/>
+
+                <TextBox Watermark="description"
+                         Text="{Binding Description}"
+                         HorizontalAlignment="Left"
+                         FontSize="16"
+                         Margin="17, 2, 0, 3"
+                         Width="500"/>
+
+                <ScrollViewer VerticalScrollBarVisibility="Disabled"
+                              HorizontalScrollBarVisibility="Auto"
+                              HorizontalAlignment="Stretch"
+                              HorizontalContentAlignment="Left"
+                              Margin="0, 5, 20, 0"
+                              Height="110"
+                              Width="500">
+                    <i:Interaction.Behaviors>
+                      <ia:EventTriggerBehavior EventName="Tapped">
+                          <ia:InvokeCommandAction Command="{Binding TrackArtistExplorerCommand}"/>
+                      </ia:EventTriggerBehavior>  
+                    </i:Interaction.Behaviors>
+                    <ListBox ItemsSource="{Binding SelectedTrackArtists}"
+                             SelectionMode="Multiple,Toggle"
+                             Background="#35000000">
+
+                          <ListBox.ItemsPanel>
+                              <ItemsPanelTemplate>
+                                  <StackPanel Orientation="Horizontal"/>
+                              </ItemsPanelTemplate>
+                          </ListBox.ItemsPanel>
+
+                          <ListBox.Styles>
+                            <Style Selector="ListBoxItem">
+                              <Setter Property="BorderBrush" Value="Transparent"/>
+                              <Setter Property="BorderThickness" Value="0"/>
+                              <Setter Property="Padding" Value="4"/>                                
+                              <Setter Property="HorizontalContentAlignment" Value="Center"/>  
+                              <Setter Property="VerticalContentAlignment" Value="Center"/>
+                              <Setter Property="Width" Value="110"/>
+                              <Setter Property="Height" Value="110"/>
+
+                              <Setter Property="Template">
+                                <ControlTemplate>
+                                  <Grid>
+                                    <Border x:Name="Bd"
+                                            CornerRadius="10"
+                                            Background="{TemplateBinding Background}"
+                                            BorderThickness="{TemplateBinding BorderThickness}"
+                                            BorderBrush="{TemplateBinding BorderBrush}"
+                                            Padding="{TemplateBinding Padding}">
+                                        <ContentPresenter Name="PART_ContentPresenter"
+                                                          HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                          VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                                          ContentTemplate="{TemplateBinding ContentTemplate}"
+                                                          Content="{TemplateBinding Content}"/>
+                                    </Border>
+                                  </Grid>
+                                </ControlTemplate>
+                              </Setter>
+                            </Style>
+
+                            <Style Selector="ListBoxItem:pointerover /template/ Border#Bd">
+                              <Setter Property="Background" Value="#800f1317"/>
+                            </Style>
+
+                            <Style Selector="ListBoxItem:pointerover /template/ ContentPresenter">
+                              <Setter Property="Background" Value="Transparent"/>
+                            </Style>
+
+                            <Style Selector="ListBoxItem:selected /template/ Border#Bd">
+                              <Setter Property="Background" Value="#0f1317"/>
+                            </Style>
+
+                            <Style Selector="ListBoxItem:selected /template/ ContentPresenter">
+                              <Setter Property="Background" Value="Transparent"/>
+                            </Style>
+                            
+                            <Style Selector="ListBoxItem:selected:focus /template/ Border#Bd">
+                              <Setter Property="Background" Value="#0f1317"/>
+                            </Style>
+
+                            <Style Selector="ListBoxItem:selected:focus /template/ ContentPresenter">
+                              <Setter Property="Background" Value="Transparent"/>
+                            </Style>
+
+                            <Style Selector="ListBoxItem:selected:pointerover /template/ Border#Bd">
+                              <Setter Property="Background" Value="#0f1317"/>
+                            </Style>
+
+                            <Style Selector="ListBoxItem:selected:pointerover /template/ ContentPresenter">
+                              <Setter Property="Background" Value="Transparent"/>
+                            </Style>
+
+                            <Style Selector="ListBoxItem:selected:focus:pointerover /template/ Border#Bd">
+                              <Setter Property="Background" Value="#0f1317"/>
+                            </Style>
+
+                            <Style Selector="ListBoxItem:selected:focus:pointerover /template/ ContentPresenter">
+                              <Setter Property="Background" Value="Transparent"/>
+                            </Style>
+                          </ListBox.Styles>
+
+                          <ListBox.ItemTemplate>
+                            <DataTemplate>
+                            <Grid MaxHeight="90"
+                                  MaxWidth="90">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>                            
+
+                                <Border Grid.Row="0"
+                                        Padding="5"
+                                        Background="Transparent"
+                                        Child="{Binding ., Converter={StaticResource InstanceConverter}, ConverterParameter=ico_col}">
+                                </Border>
+
+                                <TextBlock Grid.Row="1"
+                                           TextWrapping="Wrap"
+                                           TextAlignment="Center"
+                                           FontSize="12"
+                                           Foreground="White"
+                                           FontWeight="Light"
+                                           VerticalAlignment="Top"
+                                           Text="{Binding ., Converter={StaticResource InstanceConverter}, ConverterParameter=name}"/>
+                            </Grid>
+                            </DataTemplate>
+                          </ListBox.ItemTemplate>
+                    </ListBox>
+                </ScrollViewer>
+            
+                <StackPanel Orientation="Horizontal"
+                            HorizontalAlignment="Left"
+                            Margin="15">
+
+                    <Button Classes="btnApply"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Bottom"
+                            Width="100"
+                            Height="25"
+                            Margin="3,0"
+                            Content="Ok"
+                            Command="{Binding CreateTrackCommand}"/>
+
+                    <Button Classes="btnApply"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Bottom"
+                            Width="100"
+                            Height="25"
+                            Margin="3,0"
+                            Content="Cancel"
+                            Command="{Binding CancelCommand}"/>
+
+                    <TextBlock Classes="logLine"
+                               Text="{Binding TrackLogLine}"
+                               Foreground="{Binding TrackLogError, Converter={StaticResource ErrorStateConverter} }"
+                               Background="Transparent"
+                               FontSize="12"
+                               Margin="5"/>
+                </StackPanel>
+            </StackPanel>
+        </Grid>
+    </Grid>
+
+    <!--background-->
+    <Border Grid.Row="0"
+            Grid.Column="0"
+            Grid.ColumnSpan="3"
+            Grid.RowSpan="3"
+            BorderThickness="0"
+            BorderBrush="Transparent"
+            ZIndex="-1">
+            <Border.Background>
+              <LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,100%">
+                <GradientStop Color="{Binding Avatar, Converter={StaticResource InstanceConverter}, ConverterParameter=back}" Offset="0" />
+                <GradientStop Color="Black" Offset="0.95" />
+              </LinearGradientBrush>
+            </Border.Background>
+    </Border>
+  </Grid>
 </UserControl>

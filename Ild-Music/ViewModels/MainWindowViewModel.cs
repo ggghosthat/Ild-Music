@@ -130,7 +130,7 @@ public class MainWindowViewModel : Base.BaseViewModel
     private void PresetViewModel()
     {        
         // CurrentVM = (BaseViewModel)App.ViewModelTable[StartViewModel.nameVM];
-        CurrentVM = new TrackViewModel();
+        CurrentVM = new TrackEditorViewModel();
     }
 
     private void PresetGlobalTimer()
