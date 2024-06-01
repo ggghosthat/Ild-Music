@@ -48,7 +48,6 @@ namespace Ild_Music.Views
             InitializeComponent();
             DataContext = new MainViewModel();
             Context = (MainViewModel)DataContext;
-            // timer.Start();
         }
         #endregion
 

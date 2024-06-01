@@ -10,21 +10,14 @@ public class BaseViewModel : INotifyPropertyChanged
 
     public event PropertyChangedEventHandler PropertyChanged;
 
-
     public BaseViewModel() {}
-
 
     protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null) =>
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     
+    protected IGhost GetGhost(Ghosts ghostTag) =>
+        App.Stage.GetGhost(ghostTag);
 
-    protected IGhost GetGhost(Ghosts ghostTag)
-    {
-        return App.Stage.GetGhost(ghostTag);
-    }
-
-    protected IWaiter GetWaiter(string waiterName)
-    {
-        return App.Stage.GetWaiter(ref waiterName); 
-    }
+    protected IWaiter GetWaiter(string waiterName) =>
+        App.Stage.GetWaiter(ref waiterName);
 }

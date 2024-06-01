@@ -375,11 +375,10 @@
                                         </StackPanel>
                                     </Grid>
                                    
-
-                                    <ContentControl Grid.Row="0"
-                                                    Grid.RowSpan="2"
-                                                    Content="{Binding CurrentVM}"> 
-                                    </ContentControl>
+                                    <Grid Grid.Row="0"
+                                          Grid.RowSpan="2">
+                                        <ContentControl Content="{Binding CurrentVM}"/> 
+                                    </Grid>
                                 </Grid>
                         </Grid>
 

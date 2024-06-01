@@ -25,8 +25,6 @@ public class MainWindowViewModel : Base.BaseViewModel
     public override string NameVM => nameVM;
 
     private DispatcherTimer timer;
-    private static Dictionary<string, BaseViewModel> _viewModelStore = new(); 
-    private static Stack<BaseViewModel> _windowStack = new();
 
     public MainWindowViewModel()
     {
@@ -38,6 +36,27 @@ public class MainWindowViewModel : Base.BaseViewModel
     
     private static SupportGhost supporter => (SupportGhost)App.Stage.GetGhost(Ghosts.SUPPORT);
     private static PlayerGhost playerGhost => (PlayerGhost)App.Stage.GetGhost(Ghosts.PLAYER);
+
+    
+
+    public CommandDelegator NavBarResolve { get; private set; }
+    public CommandDelegator PreviousCommand { get; private set; }
+    public CommandDelegator NextCommand { get; private set; }
+    public CommandDelegator KickCommand { get; private set; }
+    public CommandDelegator StopCommand { get; private set; }
+    public CommandDelegator RepeatCommand { get; private set; }
+    public CommandDelegator VolumeSliderShowCommand { get; private set; }
+    public CommandDelegator ExitCommand { get; private set; }
+    public CommandDelegator SwitchHomeCommand { get; private set; }
+    public CommandDelegator SwitchListCommand { get; private set; }
+    public CommandDelegator SwitchBrowseCommand { get; private set; }
+    
+    public BaseViewModel CurrentVM { get; set; }
+    public bool VolumeSliderOpen { get; private set; } = false;
+
+    public Stack<BaseViewModel> WindowStack { get; private set; } = new();
+    public ObservableCollection<string> NavItems => new() {"Home","Collections", "Browse"};
+    public char? NavItem { get; set; }
 
     public static IPlayer? _player = null;
     public bool PlayerState => _player?.ToggleState ?? false;
@@ -77,25 +96,6 @@ public class MainWindowViewModel : Base.BaseViewModel
         }
     }
 
-    public CommandDelegator NavBarResolve { get; private set; }
-    public CommandDelegator PreviousCommand { get; private set; }
-    public CommandDelegator NextCommand { get; private set; }
-    public CommandDelegator KickCommand { get; private set; }
-    public CommandDelegator StopCommand { get; private set; }
-    public CommandDelegator RepeatCommand { get; private set; }
-    public CommandDelegator VolumeSliderShowCommand { get; private set; }
-    public CommandDelegator ExitCommand { get; private set; }
-    public CommandDelegator SwitchHomeCommand { get; private set; }
-    public CommandDelegator SwitchListCommand { get; private set; }
-    public CommandDelegator SwitchBrowseCommand { get; private set; }
-    
-    public BaseViewModel CurrentVM { get; set; }
-    public bool VolumeSliderOpen { get; private set; } = false;
-
-    public ObservableCollection<string> NavItems =>
-        new() {"Home","Collections", "Browse"};
-    public char? NavItem { get; set; }
-
     private void PresetPlayer()
     {
         _player = playerGhost?.GetPlayer();
@@ -129,9 +129,9 @@ public class MainWindowViewModel : Base.BaseViewModel
     }
 
     private void PresetViewModel()
-    {        
-        // CurrentVM = (BaseViewModel)App.ViewModelTable[StartViewModel.nameVM];
-        CurrentVM = new TrackEditorViewModel();
+    {   
+        App.ViewModelTable.Add(MainWindowViewModel.nameVM, this);
+        CurrentVM = (BaseViewModel)App.ViewModelTable[TrackEditorViewModel.nameVM];      
     }
 
     private void PresetGlobalTimer()
@@ -153,26 +153,31 @@ public class MainWindowViewModel : Base.BaseViewModel
     public void DefineNewPresentItem(string nameVM)
     {
         CurrentVM = (BaseViewModel)App.ViewModelTable[nameVM];
+        OnPropertyChanged("CurrentVM");
     }
 
     public void PushVM(BaseViewModel prev, BaseViewModel next)
     {
-        _windowStack.Push(prev);
-        _windowStack.Push(next);
+        WindowStack.Push(prev);
+        WindowStack.Push(next);
     }
 
     public BaseViewModel PopVM()
     {
-        return _windowStack.Pop();
+        return WindowStack.Pop();
     }
 
     public void ResolveWindowStack()
     {
-        if (_windowStack.Count > 0)
+        if (WindowStack.Count > 0)
+        {
             CurrentVM = PopVM();
+            OnPropertyChanged("CurrentVM");
+            Console.WriteLine(CurrentVM);
+        }
 
         if (CurrentVM is ListViewModel listVM)
-             listVM.UpdateProviders();
+            listVM.UpdateProviders();
     }
 
     public async Task ResolveInstance(

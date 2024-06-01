@@ -15,7 +15,7 @@ namespace Ild_Music;
 [DoNotNotifyAttribute]
 public partial class App : Application
 {
-    public static Hashtable ViewModelTable;
+    public static Hashtable ViewModelTable = new();
     public static IConfigure Configure;
     public static Stage Stage;
 
@@ -24,7 +24,6 @@ public partial class App : Application
         Configure = new Configure("./config.json");
         Stage = new (ref Configure);
         Stage.Build().Wait();
-        ViewModelTable = new Hashtable();
         PopullateViewModelTable();
     }
     public override void Initialize()
@@ -47,6 +46,7 @@ public partial class App : Application
 
     private void PopullateViewModelTable()
     {
+        App.ViewModelTable.Add(InstanceExplorerViewModel.nameVM, new InstanceExplorerViewModel());
         App.ViewModelTable.Add(ArtistViewModel.nameVM, new ArtistViewModel());
         App.ViewModelTable.Add(PlaylistViewModel.nameVM, new PlaylistViewModel());
         App.ViewModelTable.Add(TrackViewModel.nameVM, new TrackViewModel());
@@ -55,10 +55,8 @@ public partial class App : Application
         App.ViewModelTable.Add(PlaylistEditorViewModel.nameVM, new PlaylistEditorViewModel());
         App.ViewModelTable.Add(TrackEditorViewModel.nameVM, new TrackEditorViewModel());
         App.ViewModelTable.Add(TagEditorViewModel.nameVM, new TagEditorViewModel());
-        App.ViewModelTable.Add(InstanceExplorerViewModel.nameVM, new InstanceExplorerViewModel());
         App.ViewModelTable.Add(BrowserViewModel.nameVM, new BrowserViewModel());
         App.ViewModelTable.Add(StartViewModel.nameVM, new StartViewModel());
         App.ViewModelTable.Add(ListViewModel.nameVM, new ListViewModel());
-        App.ViewModelTable.Add(MainWindowViewModel.nameVM, new MainWindowViewModel());
     }
 }

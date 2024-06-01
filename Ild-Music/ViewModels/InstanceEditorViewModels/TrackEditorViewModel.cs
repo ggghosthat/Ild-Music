@@ -33,7 +33,7 @@ public class TrackEditorViewModel : BaseViewModel
     
     private static SupportGhost supporter => (SupportGhost)App.Stage.GetGhost(Ghosts.SUPPORT);
     private static FactoryGhost factory => (FactoryGhost)App.Stage.GetGhost(Ghosts.FACTORY);
-    private MainWindowViewModel MainVM => (MainWindowViewModel)App.ViewModelTable[MainWindowViewModel.nameVM];    
+    private static MainWindowViewModel MainVM => (MainWindowViewModel)App.ViewModelTable[MainWindowViewModel.nameVM];    
     private static InstanceExplorerViewModel Explorer => (InstanceExplorerViewModel)App.ViewModelTable[InstanceExplorerViewModel.nameVM];
    
     public Track TrackInstance { get; private set; }
@@ -194,9 +194,9 @@ public class TrackEditorViewModel : BaseViewModel
 
         Explorer.OnSelected += OnItemsSelected;
 
-        MainVM.PushVM(this, Explorer);
-        MainVM.ResolveWindowStack();
-        Console.WriteLine("qweqwe");
+        Console.WriteLine(Explorer is null);
+        MainVM.PushVM(null, Explorer);
+        MainVM.ResolveWindowStack();        
     }
 
     private void HandleChanges(object obj)
