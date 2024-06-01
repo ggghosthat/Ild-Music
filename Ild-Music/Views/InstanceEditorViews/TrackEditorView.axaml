@@ -51,44 +51,33 @@
           <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
-        <Grid Grid.Column="0">
-            <Border HorizontalAlignment="Center"
-                    VerticalAlignment="Center">
-                <i:Interaction.Behaviors>
-                    <ia:EventTriggerBehavior EventName="PointerReleased">
-                      <ia:InvokeCommandAction Command="{Binding SelectAvatarCommand}"/>
-                    </ia:EventTriggerBehavior>  
-                </i:Interaction.Behaviors>
-                <Border Width="300"
-                        Height="300"
-                        Margin="15"
-                        Background="Transparent"
-                        Child="{Binding TrackInstance, 
-                                Converter={StaticResource InstanceConverter},
-                                ConverterParameter=ico_col}">
-                </Border>
-            </Border>
+        <Grid Grid.Column="0"
+              HorizontalAlignment="Center"
+              VerticalAlignment="Center">
+              <Border Width="300"
+                      Height="300"
+                      Margin="15"
+                      Background="Transparent"
+                      Tapped="OpenAvatar_Clicked"
+                  Child="{Binding Avatar, 
+                          Converter={StaticResource InstanceConverter},
+                          ConverterParameter=tico_col}">
+              </Border>
         </Grid>
 
         <Grid Grid.Column="1"
               VerticalAlignment="Center">
             <StackPanel Orientation="Vertical"
                         Margin="45, 5">
-                <Border>
-                    <i:Interaction.Behaviors>
-                    <ia:EventTriggerBehavior EventName="PointerReleased">
-                        <ia:InvokeCommandAction Command="{Binding DefinePathCommand}"/>
-                    </ia:EventTriggerBehavior>  
-                    </i:Interaction.Behaviors>
-                    <TextBox  x:Name="txtPath"
-                            Text="{Binding Path}"
-                            Watermark="folding path"
-                            IsReadOnly="True"
-                            HorizontalAlignment="Left"
-                            FontSize="16"
-                            Margin="17, 5, 0, 0"
-                            Width="500"/>
-                </Border>
+                <TextBox x:Name="txtPath"
+                         Text="{Binding Path}"
+                         Watermark="folding path"
+                         IsReadOnly="True"
+                         HorizontalAlignment="Left"
+                         FontSize="16"
+                         Margin="17, 5, 0, 0"
+                         Width="500"
+                         DoubleTapped="OpenMusicFile_Clicked"/>
 
                 <TextBox Watermark="name"
                          Text="{Binding Name}"

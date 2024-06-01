@@ -57,60 +57,47 @@ public class InstanceConverter : IValueConverter
                 return track.Duration;
             return null;   
         }
-        else if (parameter == "ico_col")
+        else if (parameter == "aico_col")
         {
-            if(value is Artist artist)
-            {
-                if(artist.AvatarSource.Length is 0)
-                    return LoadAsset(@"avares://Ild-Music/Assets/DefaultIcons/artist.png");
-                return CraftImage(artist.AvatarSource);
-            }
-            else if(value is Playlist playlist)
-            {
-                if(playlist.AvatarSource.Length is 0)
-                    return LoadAsset(@"avares://Ild-Music/Assets/DefaultIcons/playlist.png");
-                return CraftImage(playlist.AvatarSource);
-            }
-            else if(value is Track track)
-            {
-                if(track.AvatarSource.Length is 0)
-                    return LoadAsset(@"avares://Ild-Music/Assets/DefaultIcons/track.png");
-                return CraftImage(track.AvatarSource);
-            }
-            else return null;
+            if (value is byte[] artistIconSource && artistIconSource.Length >= 0)
+                return ComputeAvatarIcon(ref artistIconSource);
+                
+            return LoadAsset(@"avares://Ild-Music/Assets/DefaultIcons/artist.png");
         }
-        else if (parameter == "aico_dis")
+        else if (parameter == "pico_col")
         {
-            if (value is byte[] source)
-            {
-                if (source is null)
-                    return Application.Current.FindResource("ArtistAvatar");
+            if (value is byte[] playlistIconSource && playlistIconSource.Length >= 0)
+                return ComputeAvatarIcon(ref playlistIconSource);
+                
+            return LoadAsset(@"avares://Ild-Music/Assets/DefaultIcons/playlist.png");
+        }
+        else if (parameter == "tico_col")
+        {
+            if (value is byte[] trackIconSource && trackIconSource.Length >= 0)
+                return ComputeAvatarIcon(ref trackIconSource);
 
-                return ComputeAvatarIcon(ref source);
-            }
-            else return Application.Current.FindResource("ArtistAvatar");
+            return LoadAsset(@"avares://Ild-Music/Assets/DefaultIcons/track.png");
+        }
+        else if (parameter == "aico_dis" && value is byte[] )
+        {
+            if (value is byte[] artistDisplaySource && artistDisplaySource.Length >= 0)
+                return ComputeAvatarIcon(ref artistDisplaySource);
+            
+            return Application.Current.FindResource("ArtistAvatar");
         }
         else if (parameter == "pico_dis")
         {
-            if (value is byte[] source)
-            {
-                if (source is null)
-                    return Application.Current.FindResource("PlaylistAvatar");
-
-                return ComputeAvatarIcon(ref source);
-            }
-            else return Application.Current.FindResource("PlaylistAvatar");
+            if (value is byte[] playlistDisplaySource && playlistDisplaySource.Length >= 0)
+                return ComputeAvatarIcon(ref playlistDisplaySource);
+            
+            return Application.Current.FindResource("PlaylistAvatar");
         }
         else if (parameter == "tico_dis")
         {
-            if (value is byte[] source)
-            {
-                if (source is null)
-                    return Application.Current.FindResource("TrackAvatar");
+            if (value is byte[] trackDisplaySource && trackDisplaySource.Length >= 0)
+                return ComputeAvatarIcon(ref trackDisplaySource);
 
-                return ComputeAvatarIcon(ref source);
-            }
-            else return Application.Current.FindResource("TrackAvatar");
+            return Application.Current.FindResource("TrackAvatar");
         }
         else if (parameter == "back")
         {

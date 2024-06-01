@@ -26,14 +26,13 @@ public class TrackEditorViewModel : BaseViewModel
     
     public TrackEditorViewModel()
     {
-        SelectAvatarCommand = new(SelectAvatar, null);
-        DefinePathCommand = new(DefineTrackPath, null);
         CancelCommand = new(Cancel, null);
+        CreateTrackCommand = new(HandleChanges, null);
     }
     
     private static SupportGhost supporter => (SupportGhost)App.Stage.GetGhost(Ghosts.SUPPORT);
     private static FactoryGhost factory => (FactoryGhost)App.Stage.GetGhost(Ghosts.FACTORY);
-    private static MainWindowViewModel MainVM => (MainWindowViewModel)App.ViewModelTable[MainWindowViewModel.nameVM];    
+    private MainWindowViewModel MainVM => (MainWindowViewModel)App.ViewModelTable[MainWindowViewModel.nameVM];    
     private static InstanceExplorerViewModel Explorer => (InstanceExplorerViewModel)App.ViewModelTable[InstanceExplorerViewModel.nameVM];
    
     public Track TrackInstance { get; private set; }
@@ -43,8 +42,6 @@ public class TrackEditorViewModel : BaseViewModel
     public int Year {get; set;}
     public byte[] Avatar {get; private set;}
     
-    public CommandDelegator SelectAvatarCommand { get; }
-    public CommandDelegator DefinePathCommand { get; set; }
     public CommandDelegator CreateTrackCommand { get; }
     public CommandDelegator CancelCommand { get; }
     public CommandDelegator TrackArtistExplorerCommand {get;}
@@ -90,18 +87,6 @@ public class TrackEditorViewModel : BaseViewModel
         SelectedTrackArtists.Clear();
     }
 
-    private async Task<byte[]> LoadAvatar(string path)
-    {
-        byte[] result;
-
-        using (FileStream fileStream = File.Open(path, FileMode.Open))
-        {
-            result = new byte[fileStream.Length];
-            await fileStream.ReadAsync(result, 0, (int)fileStream.Length);
-        }
-        return result;
-    }
-
     public void CreateTrackInstance()
     {
         try
@@ -109,9 +94,11 @@ public class TrackEditorViewModel : BaseViewModel
             if (String.IsNullOrEmpty(Path))
                 throw new InvalidTrackException();
             
-            Track track;
-            var artists = SelectedTrackArtists.Select(a => supporter.GetArtistAsync(a).Result).ToList();
+            var artists = SelectedTrackArtists
+                .Select(a => supporter.GetArtistAsync(a).Result)
+                .ToList();
             
+            Track track;
             factory.CreateTrack(Path, Name, Description, Year, Avatar, artists, out track);
             TrackInstance = track;
             TrackLogLine = "Successfully created!"; 
@@ -211,19 +198,6 @@ public class TrackEditorViewModel : BaseViewModel
         MainVM.ResolveWindowStack();
     }
 
-    private async void DefineTrackPath(object obj)
-    {
-        if (obj is not string[] result)
-            return;
-
-        if(result != null && result.Length > 0)
-        {
-            Path = string.Join(" ", result);
-            using( var taglib = TagLib.File.Create(Path))
-            Name = (!string.IsNullOrEmpty(taglib.Tag.Title))?taglib.Tag.Title:"Unknown";
-        }
-    }
-
     private void HandleChanges(object obj)
     {
         if (IsEditMode)
@@ -237,21 +211,34 @@ public class TrackEditorViewModel : BaseViewModel
         ExitFactory();
     }
 
-    private static IEnumerable<Window> Windows =>
-        (Application.Current?.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime)?.Windows ?? Array.Empty<Window>();
-
-    public Window? FindWindowByViewModel(INotifyPropertyChanged viewModel) =>
-        Windows.FirstOrDefault(x => ReferenceEquals(viewModel, x.DataContext));
-
-    private async void SelectAvatar(object obj)
+    public void DefineTrackPath(string path)
     {
-        OpenFileDialog dialog = new();
-        string[] result = await dialog.ShowAsync(FindWindowByViewModel(this));
-        if(result != null && result.Length > 0)
+        if(!String.IsNullOrEmpty(path) && !String.IsNullOrWhiteSpace(path))
         {
-            var avatarPath = string.Join(" ", result);
-            Avatar = await LoadAvatar(avatarPath);
-            OnPropertyChanged("AvatarSource");
+            Path = path;
+            using( var taglib = TagLib.File.Create(Path))
+            Name = (!string.IsNullOrEmpty(taglib.Tag.Title))?taglib.Tag.Title:"Unknown";
         }
+    }
+
+    public async void SelectAvatar(string path)
+    {
+        if(!String.IsNullOrEmpty(path) && !String.IsNullOrWhiteSpace(path))
+        {
+            Avatar = await LoadAvatar(path);
+            OnPropertyChanged("Avatar");
+        }
+    }
+
+    private async Task<byte[]> LoadAvatar(string path)
+    {
+        byte[] result;
+
+        using (FileStream fileStream = File.Open(path, FileMode.Open))
+        {
+            result = new byte[fileStream.Length];
+            await fileStream.ReadAsync(result, 0, (int)fileStream.Length);
+        }
+        return result;
     }
 }

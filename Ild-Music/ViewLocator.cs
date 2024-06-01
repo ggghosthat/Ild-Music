@@ -2,6 +2,8 @@ using System;
 using Avalonia.Controls;
 using Avalonia.Controls.Templates;
 using Ild_Music.ViewModels.Base;
+using Ild_Music.ViewModels;
+using Ild_Music.Views;
 
 namespace Ild_Music;
 

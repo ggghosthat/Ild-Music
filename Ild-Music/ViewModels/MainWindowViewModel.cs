@@ -13,8 +13,9 @@ using System.Collections.ObjectModel;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Avalonia;
-using Avalonia.Threading;
+using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
+using Avalonia.Threading;
 
 namespace Ild_Music.ViewModels;
 
