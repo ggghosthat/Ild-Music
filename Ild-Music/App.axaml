@@ -236,6 +236,7 @@
         <DataTemplate DataType="{x:Type vm:MainWindowViewModel}">
             <v:MainWindow/>
         </DataTemplate>
+
         <DataTemplate DataType="{x:Type vm:ArtistViewModel}">
             <v:ArtistView/>
         </DataTemplate>
@@ -254,6 +255,13 @@
         </DataTemplate>
         <DataTemplate DataType="{x:Type vm:TrackEditorViewModel}">
             <v:TrackEditorView/>
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type vm:InstanceExplorerViewModel}">
+            <v:InstanceExplorerView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:BrowserViewModel}">
+            <v:BrowserView/>
         </DataTemplate>
     </Application.DataTemplates>
 </Application>

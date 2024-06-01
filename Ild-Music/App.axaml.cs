@@ -56,6 +56,7 @@ public partial class App : Application
         App.ViewModelTable.Add(TrackEditorViewModel.nameVM, new TrackEditorViewModel());
         App.ViewModelTable.Add(TagEditorViewModel.nameVM, new TagEditorViewModel());
         App.ViewModelTable.Add(InstanceExplorerViewModel.nameVM, new InstanceExplorerViewModel());
+        App.ViewModelTable.Add(BrowserViewModel.nameVM, new BrowserViewModel());
         App.ViewModelTable.Add(StartViewModel.nameVM, new StartViewModel());
         App.ViewModelTable.Add(ListViewModel.nameVM, new ListViewModel());
         App.ViewModelTable.Add(MainWindowViewModel.nameVM, new MainWindowViewModel());

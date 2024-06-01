@@ -26,8 +26,8 @@ public class BrowserViewModel : BaseViewModel
     private MainWindowViewModel MainVM => (MainWindowViewModel)App.ViewModelTable[MainWindowViewModel.nameVM];
     private PlaylistEditorViewModel PlaylistEditor => (PlaylistEditorViewModel)App.ViewModelTable[PlaylistEditorViewModel.nameVM];
 
-    public static ObservableCollection<Track> Source = new();
-    public static ObservableCollection<Track> Output = new();
+    public ObservableCollection<Track> Source = new();
+    public ObservableCollection<Track> Output = new();
 
     public CommandDelegator SaveTracksCommand { get; }
     public CommandDelegator CreatePlaylistCommand { get; set; }

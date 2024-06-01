@@ -28,6 +28,7 @@ public class TrackEditorViewModel : BaseViewModel
     {
         CancelCommand = new(Cancel, null);
         CreateTrackCommand = new(HandleChanges, null);
+        TrackArtistExplorerCommand = new(OpenTrackArtistExplorer, null);
     }
     
     private static SupportGhost supporter => (SupportGhost)App.Stage.GetGhost(Ghosts.SUPPORT);
@@ -185,7 +186,6 @@ public class TrackEditorViewModel : BaseViewModel
 
     private void OpenTrackArtistExplorer(object obj)
     {
-        Explorer.OnSelected += OnItemsSelected;
         if (obj is IList<CommonInstanceDTO> preSelected &&
             preSelected[0].Tag == EntityTag.ARTIST)
             Explorer.Arrange(EntityTag.ARTIST, preSelected); 
@@ -196,6 +196,7 @@ public class TrackEditorViewModel : BaseViewModel
 
         MainVM.PushVM(this, Explorer);
         MainVM.ResolveWindowStack();
+        Console.WriteLine("qweqwe");
     }
 
     private void HandleChanges(object obj)
