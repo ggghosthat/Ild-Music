@@ -31,7 +31,7 @@
                     Background="Transparent"
                     Child="{Binding PlaylistInstance, 
                             Converter={StaticResource InstanceConverter},
-                            ConverterParameter=aico_col}">
+                            ConverterParameter=pico_col}">
             </Border>   
           </Grid>
 
