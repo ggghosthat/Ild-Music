@@ -11,5 +11,337 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="Ild_Music.Views.ArtistView"
              x:DataType="vm:ArtistViewModel">
-  Welcome to Avalonia!
+    <UserControl.Resources>
+        <conv:InstanceConverter x:Key="InstanceConverter"/>
+        <conv:ErrorMessageConverter x:Key="ErrorStateConverter"/>
+    </UserControl.Resources>
+
+    <Grid>
+        <!-- show panel -->
+        <Grid ZIndex="3">
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="*"/>
+          </Grid.ColumnDefinitions>
+            
+          <Grid Grid.Column="0">
+            <Border Width="300"
+                    Height="300"
+                    Margin="15"
+                    Background="Transparent"
+                    Child="{Binding ArtistInstance, 
+                            Converter={StaticResource InstanceConverter},
+                            ConverterParameter=aico_col}">
+            </Border>   
+          </Grid>
+
+          <Grid Grid.Column="1"
+                VerticalAlignment="Center">
+            <StackPanel Orientation="Vertical"
+                        Margin="45 5">
+                <TextBlock Margin="0,5,0,0"
+                           Text="{Binding ArtistInstance, Converter={StaticResource InstanceConverter}, ConverterParameter=name}"    
+                           FontSize="25"
+                           FontWeight="UltraBlack"
+                           Foreground="White"
+                           HorizontalAlignment="Left"
+                           VerticalAlignment="Bottom"
+                           TextAlignment="Center"/>
+
+                <TextBlock Margin="0,3,0,2"
+                           Text="{Binding ArtistInstance, Converter={StaticResource InstanceConverter}, ConverterParameter=desc}"
+                           FontSize="16"
+                           FontWeight="Light"
+                           Foreground="White"
+                           HorizontalAlignment="Left"
+                           VerticalAlignment="Bottom"
+                           TextAlignment="Center"/>
+                           
+                <TextBlock Margin="0,2,0,3"
+                           Text="{Binding ArtistInstance, Converter={StaticResource InstanceConverter}, ConverterParameter=year}"
+                           FontSize="14"
+                           FontWeight="Light"
+                           Foreground="White"
+                           HorizontalAlignment="Left"
+                           VerticalAlignment="Bottom"
+                           TextAlignment="Center"/>             
+     
+                <ScrollViewer VerticalScrollBarVisibility="Disabled"
+                            HorizontalScrollBarVisibility="Auto"
+                            HorizontalAlignment="Stretch"
+                            HorizontalContentAlignment="Left"
+                            Height="110"
+                            Margin="0 15 20 0">
+                    <ListBox ItemsSource="{Binding ArtistPlaylists}"
+                            Classes="InstanceItemsSource"
+                            SelectionMode="Single"
+                            Background="{StaticResource lsSelectedIntances}">
+                        <ListBox.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Orientation="Horizontal"/>
+                            </ItemsPanelTemplate>
+                        </ListBox.ItemsPanel>
+
+                        <ListBox.Styles>
+                          <Style Selector="ListBoxItem">
+                            <Setter Property="BorderBrush" Value="Transparent"/>
+                            <Setter Property="BorderThickness" Value="0"/>
+                            <Setter Property="Padding" Value="4"/>              
+                            <Setter Property="HorizontalContentAlignment" Value="Center"/>  
+                            <Setter Property="VerticalContentAlignment" Value="Center"/>                    
+                            <Setter Property="Width" Value="110"/>
+                            <Setter Property="Height" Value="110"/>
+
+                            <Setter Property="Template">
+                              <ControlTemplate>
+                                <Grid>
+                                  <Border x:Name="Bd"
+                                          Margin="5"
+                                          CornerRadius="15"
+                                          Background="{TemplateBinding Background}"
+                                          BorderThickness="{TemplateBinding BorderThickness}"
+                                          BorderBrush="{TemplateBinding BorderBrush}"
+                                          Padding="{TemplateBinding Padding}">
+                                      <ContentPresenter Name="PART_ContentPresenter"
+                                                        Margin="5,10"
+                                                        HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                        VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                                        ContentTemplate="{TemplateBinding ContentTemplate}"
+                                                        Content="{TemplateBinding Content}"/>
+                                  </Border>
+                                </Grid>
+                              </ControlTemplate>
+                            </Setter>
+                          </Style>
+
+                          <Style Selector="ListBoxItem:pointerover /template/ Border#Bd">
+                            <Setter Property="Background" Value="#800f1317"/>
+                          </Style>
+
+                          <Style Selector="ListBoxItem:pointerover /template/ ContentPresenter">
+                            <Setter Property="Background" Value="Transparent"/>
+                          </Style>
+
+                          <Style Selector="ListBoxItem:selected /template/ Border#Bd">
+                            <Setter Property="Background" Value="#0f1317"/>
+                          </Style>
+
+                          <Style Selector="ListBoxItem:selected /template/ ContentPresenter">
+                            <Setter Property="Background" Value="Transparent"/>
+                          </Style>
+                          
+                          <Style Selector="ListBoxItem:selected:focus /template/ Border#Bd">
+                            <Setter Property="Background" Value="#0f1317"/>
+                          </Style>
+
+                          <Style Selector="ListBoxItem:selected:focus /template/ ContentPresenter">
+                            <Setter Property="Background" Value="Transparent"/>
+                          </Style>
+
+                          <Style Selector="ListBoxItem:selected:pointerover /template/ Border#Bd">
+                            <Setter Property="Background" Value="#0f1317"/>
+                          </Style>
+
+                          <Style Selector="ListBoxItem:selected:pointerover /template/ ContentPresenter">
+                            <Setter Property="Background" Value="Transparent"/>
+                          </Style>
+
+                          <Style Selector="ListBoxItem:selected:focus:pointerover /template/ Border#Bd">
+                            <Setter Property="Background" Value="#0f1317"/>
+                          </Style>
+
+                          <Style Selector="ListBoxItem:selected:focus:pointerover /template/ ContentPresenter">
+                            <Setter Property="Background" Value="Transparent"/>
+                          </Style>
+                        </ListBox.Styles>
+
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <Border Grid.Row="0"
+                                    Width="70"
+                                    Height="70"
+                                    CornerRadius="5"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center">
+                                    <Grid HorizontalAlignment="Center">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="Auto"/>
+                                        </Grid.RowDefinitions>                            
+
+                                        <Border Grid.Row="0"
+                                                Padding="5"
+                                                Background="Transparent"
+                                                Child="{Binding ., Converter={StaticResource InstanceConverter}, ConverterParameter=pico_dis}">
+                                        </Border>
+
+                                        <TextBlock Grid.Row="1"
+                                                   Width="70"
+                                                   TextWrapping="NoWrap"
+                                                   TextAlignment="Center"
+                                                   FontSize="12"
+                                                   Foreground="White"
+                                                   FontWeight="Light"
+                                                   VerticalAlignment="Top"
+                                                   Text="{Binding ., Converter={StaticResource InstanceConverter}, ConverterParameter=name}"/>
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </ScrollViewer>
+
+                <ScrollViewer VerticalScrollBarVisibility="Disabled"
+                            HorizontalScrollBarVisibility="Auto"
+                            HorizontalAlignment="Stretch"
+                            HorizontalContentAlignment="Left"
+                            Height="110"
+                            Margin="0 15 20 0">
+                    <ListBox ItemsSource="{Binding ArtistTracks}"
+                            Classes="InstanceItemsSource"
+                            SelectionMode="Single"
+                            Background="{StaticResource lsSelectedIntances}">
+                        <ListBox.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Orientation="Horizontal"/>
+                            </ItemsPanelTemplate>
+                        </ListBox.ItemsPanel>
+
+                        <ListBox.Styles>
+                          <Style Selector="ListBoxItem">
+                            <Setter Property="BorderBrush" Value="Transparent"/>
+                            <Setter Property="BorderThickness" Value="0"/>
+                            <Setter Property="Padding" Value="4"/>              
+                            <Setter Property="HorizontalContentAlignment" Value="Center"/>  
+                            <Setter Property="VerticalContentAlignment" Value="Center"/>                    
+                            <Setter Property="Width" Value="110"/>
+                            <Setter Property="Height" Value="110"/>
+
+                            <Setter Property="Template">
+                              <ControlTemplate>
+                                <Grid>
+                                  <Border x:Name="Bd"
+                                          Margin="5"
+                                          CornerRadius="15"
+                                          Background="{TemplateBinding Background}"
+                                          BorderThickness="{TemplateBinding BorderThickness}"
+                                          BorderBrush="{TemplateBinding BorderBrush}"
+                                          Padding="{TemplateBinding Padding}">
+                                      <ContentPresenter Name="PART_ContentPresenter"
+                                                        Margin="5,10"
+                                                        HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                        VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                                        ContentTemplate="{TemplateBinding ContentTemplate}"
+                                                        Content="{TemplateBinding Content}"/>
+                                  </Border>
+                                </Grid>
+                              </ControlTemplate>
+                            </Setter>
+                          </Style>
+
+                          <Style Selector="ListBoxItem:pointerover /template/ Border#Bd">
+                            <Setter Property="Background" Value="#800f1317"/>
+                          </Style>
+
+                          <Style Selector="ListBoxItem:pointerover /template/ ContentPresenter">
+                            <Setter Property="Background" Value="Transparent"/>
+                          </Style>
+
+                          <Style Selector="ListBoxItem:selected /template/ Border#Bd">
+                            <Setter Property="Background" Value="#0f1317"/>
+                          </Style>
+
+                          <Style Selector="ListBoxItem:selected /template/ ContentPresenter">
+                            <Setter Property="Background" Value="Transparent"/>
+                          </Style>
+                          
+                          <Style Selector="ListBoxItem:selected:focus /template/ Border#Bd">
+                            <Setter Property="Background" Value="#0f1317"/>
+                          </Style>
+
+                          <Style Selector="ListBoxItem:selected:focus /template/ ContentPresenter">
+                            <Setter Property="Background" Value="Transparent"/>
+                          </Style>
+
+                          <Style Selector="ListBoxItem:selected:pointerover /template/ Border#Bd">
+                            <Setter Property="Background" Value="#0f1317"/>
+                          </Style>
+
+                          <Style Selector="ListBoxItem:selected:pointerover /template/ ContentPresenter">
+                            <Setter Property="Background" Value="Transparent"/>
+                          </Style>
+
+                          <Style Selector="ListBoxItem:selected:focus:pointerover /template/ Border#Bd">
+                            <Setter Property="Background" Value="#0f1317"/>
+                          </Style>
+
+                          <Style Selector="ListBoxItem:selected:focus:pointerover /template/ ContentPresenter">
+                            <Setter Property="Background" Value="Transparent"/>
+                          </Style>
+                        </ListBox.Styles>
+
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <Border Grid.Row="0"
+                                    Width="70"
+                                    Height="70"
+                                    CornerRadius="5"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center">
+                                    <Grid HorizontalAlignment="Center">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="Auto"/>
+                                        </Grid.RowDefinitions>                            
+
+                                        <Border Grid.Row="0"
+                                                Padding="5"
+                                                Background="Transparent"
+                                                Child="{Binding ., Converter={StaticResource InstanceConverter}, ConverterParameter=tico_dis}">
+                                        </Border>
+
+                                        <TextBlock Grid.Row="1"
+                                                   Width="70"
+                                                   TextWrapping="NoWrap"
+                                                   TextAlignment="Center"
+                                                   FontSize="12"
+                                                   Foreground="White"
+                                                   FontWeight="Light"
+                                                   VerticalAlignment="Top"
+                                                   Text="{Binding ., Converter={StaticResource InstanceConverter}, ConverterParameter=name}"/>
+                                    </Grid>
+                                </Border>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </ScrollViewer>
+                <Button Width="100"
+                        Height="25"
+                        Content="Ok"
+                        Margin="0 15"
+                        Classes="btnApply"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Bottom"
+                        Command="{Binding BackCommand}">
+                </Button>
+            </StackPanel>
+          </Grid>         
+        </Grid>
+
+        <!--background-->
+        <Border Grid.Row="0"
+                Grid.Column="0"
+                Grid.ColumnSpan="3"
+                Grid.RowSpan="3"
+                BorderThickness="0"
+                BorderBrush="Transparent"
+                ZIndex="-1">
+                <Border.Background>
+                  <LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,100%">
+                    <GradientStop Color="{Binding AvatarSource, Converter={StaticResource InstanceConverter}, ConverterParameter=back}" Offset="0" />
+                    <GradientStop Color="#65000000" Offset="0.55" />
+                  </LinearGradientBrush>
+                </Border.Background>
+        </Border>
+    </Grid>
 </UserControl>

@@ -129,7 +129,7 @@ public class MainWindowViewModel : Base.BaseViewModel
     private void PresetViewModel()
     {   
         App.ViewModelTable.Add(MainWindowViewModel.nameVM, this);
-        CurrentVM = (BaseViewModel)App.ViewModelTable[ArtistEditorViewModel.nameVM];
+        CurrentVM = (BaseViewModel)App.ViewModelTable[PlaylistViewModel.nameVM];
     }
 
     private void PresetGlobalTimer()
@@ -151,7 +151,6 @@ public class MainWindowViewModel : Base.BaseViewModel
     public void DefineNewPresentItem(string nameVM)
     {
         CurrentVM = (BaseViewModel)App.ViewModelTable[nameVM];
-        OnPropertyChanged("CurrentVM");
     }
 
     public void PushVM(BaseViewModel prev, BaseViewModel next)
@@ -168,11 +167,7 @@ public class MainWindowViewModel : Base.BaseViewModel
     public void ResolveWindowStack()
     {
         if (WindowStack.Count > 0)
-        {
             CurrentVM = PopVM();
-            OnPropertyChanged("CurrentVM");
-            Console.WriteLine(CurrentVM);
-        }
 
         if (CurrentVM is ListViewModel listVM)
             listVM.UpdateProviders();

@@ -11,7 +11,6 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="Ild_Music.Views.TrackView"
              x:DataType="vm:TrackViewModel">
-
     <UserControl.Resources>
 	    <conv:InstanceConverter x:Key="InstanceConverter"/>
 	    <conv:ErrorMessageConverter x:Key="ErrorStateConverter"/>
@@ -32,7 +31,7 @@
         	        Background="Transparent"
             	    Child="{Binding TrackInstance, 
                             Converter={StaticResource InstanceConverter},
-                            ConverterParameter=ico_col}">
+                            ConverterParameter=tico_col}">
             </Border>	
   	      </Grid>
 
@@ -76,7 +75,7 @@
 			        <ListBox ItemsSource="{Binding TrackArtists}"
 			        		Classes="InstanceItemsSource"
 			                SelectionMode="Single"
-			                Background="#35000000">
+			                Background="{StaticResource lsSelectedIntances}">
 			            <ListBox.ItemsPanel>
 			                <ItemsPanelTemplate>
 			                    <StackPanel Orientation="Horizontal"/>
@@ -173,7 +172,7 @@
                                         <Border Grid.Row="0"
                                                 Padding="5"
                                                 Background="Transparent"
-                                                Child="{Binding ., Converter={StaticResource InstanceConverter}, ConverterParameter=ico_col}">
+                                                Child="{Binding ., Converter={StaticResource InstanceConverter}, ConverterParameter=aico_dis}">
                                         </Border>
 
                                         <TextBlock Grid.Row="1"
@@ -216,10 +215,9 @@
 	            <Border.Background>
 	              <LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,100%">
 	                <GradientStop Color="{Binding AvatarSource, Converter={StaticResource InstanceConverter}, ConverterParameter=back}" Offset="0" />
-	                <GradientStop Color="Black" Offset="0.95" />
+	                <GradientStop Color="#65000000" Offset="0.55" />
 	              </LinearGradientBrush>
 	            </Border.Background>
 	    </Border>
 	</Grid>
-
 </UserControl>
