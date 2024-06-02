@@ -20,6 +20,7 @@
         <SolidColorBrush x:Key="btnApplyColor1" Color="#4527da48"/>
         <SolidColorBrush x:Key="btnApplyColor2" Color="#27da48"/>
         <SolidColorBrush x:Key="btnApplyColor3" Color="#4527da48"/>
+        <SolidColorBrush x:Key="lsSelectedIntances" Color="#35515151"/>
         
         <Viewbox x:Key="ColoredPlaylistIcon" 
                  Width="45" Height="45">
@@ -209,8 +210,8 @@
                             <TextBlock Text="{TemplateBinding Content}"
                                       HorizontalAlignment="Center"
                                       VerticalAlignment="Center"
-                                      FontSize="18"
-                                      FontWeight="Bold"
+                                      FontSize="16"
+                                      FontWeight="Medium"
                                       Foreground="White"/>
                         </Border>
                     </ControlTemplate>

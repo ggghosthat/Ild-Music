@@ -26,7 +26,6 @@ public class ArtistEditorViewModel : BaseViewModel
     public ArtistEditorViewModel()
     {
         CreateArtistCommand = new(HandleChanges, null);
-        SelectAvatarCommand = new(SelectAvatar, null);
         CancelCommand = new(Cancel, null);
     }
     
@@ -34,7 +33,6 @@ public class ArtistEditorViewModel : BaseViewModel
     private static FactoryGhost factory => (FactoryGhost)App.Stage.GetGhost(Ghosts.FACTORY);
     private MainWindowViewModel MainVM => (MainWindowViewModel)App.ViewModelTable[MainWindowViewModel.nameVM];
     
-    public CommandDelegator SelectAvatarCommand { get; }
     public CommandDelegator CreateArtistCommand { get; }
     public CommandDelegator CancelCommand { get; }
 
@@ -62,17 +60,6 @@ public class ArtistEditorViewModel : BaseViewModel
         ArtistLogLine = default!;
         Avatar = default!;
         ArtistInstance = default;
-    }
-
-    private async Task<byte[]> LoadAvatar(string path)
-    {
-        byte[] result;
-        using (FileStream fileStream = File.Open(path, FileMode.Open))
-        {
-            result = new byte[fileStream.Length];
-            await fileStream.ReadAsync(result, 0, (int)fileStream.Length);
-        }
-        return result;
     }
 
     public void CreateArtistInstance()
@@ -144,21 +131,24 @@ public class ArtistEditorViewModel : BaseViewModel
             CreateArtistInstance();
     }
 
-    private static IEnumerable<Window> Windows =>
-        (Application.Current?.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime)?.Windows ?? Array.Empty<Window>();
-
-    public Window? FindWindowByViewModel(INotifyPropertyChanged viewModel) =>
-        Windows.FirstOrDefault(x => ReferenceEquals(viewModel, x.DataContext));
-
-    private async void SelectAvatar(object obj)
+    public async void SelectAvatar(string path)
     {
-        OpenFileDialog dialog = new();
-        string[] result = await dialog.ShowAsync(FindWindowByViewModel(this));
-        if(result != null && result.Length > 0)
+        if(!String.IsNullOrEmpty(path) && !String.IsNullOrWhiteSpace(path))
         {
-            var avatarPath = string.Join(" ", result);
-            Avatar = await LoadAvatar(avatarPath);
-            OnPropertyChanged("AvatarSource");
+            Avatar = await LoadAvatar(path);
+            OnPropertyChanged("Avatar");
         }
+    }
+
+    private async Task<byte[]> LoadAvatar(string path)
+    {
+        byte[] result;
+
+        using (FileStream fileStream = File.Open(path, FileMode.Open))
+        {
+            result = new byte[fileStream.Length];
+            await fileStream.ReadAsync(result, 0, (int)fileStream.Length);
+        }
+        return result;
     }
 }

@@ -27,7 +27,6 @@ public class PlaylistEditorViewModel : BaseViewModel
     public PlaylistEditorViewModel()
     {
         CreatePlaylistCommand = new(HandleChanges, null);
-        SelectAvatarCommand = new(SelectAvatar, null);
         CancelCommand = new(Cancel, null);
         PlaylistArtistExplorerCommand = new(OpenPlaylistArtistExplorer, null);
         PlaylistTrackExplorerCommand = new(OpenPlaylistTrackExplorer, null);
@@ -56,7 +55,6 @@ public class PlaylistEditorViewModel : BaseViewModel
 
     public CommandDelegator CreatePlaylistCommand { get; }
     public CommandDelegator CancelCommand { get; }
-    public CommandDelegator SelectAvatarCommand { get; }
     public CommandDelegator PlaylistArtistExplorerCommand {get;}
     public CommandDelegator PlaylistTrackExplorerCommand {get;}
 
@@ -128,18 +126,6 @@ public class PlaylistEditorViewModel : BaseViewModel
                     .ForEach(i => SelectedPlaylistTracks.Add(i));
             }
         }
-    }
-
-    private async Task<byte[]> LoadAvatar(string path)
-    {
-        byte[] result;
-
-        using (FileStream fileStream = File.Open(path, FileMode.Open))
-        {
-            result = new byte[fileStream.Length];
-            await fileStream.ReadAsync(result, 0, (int)fileStream.Length);
-        }
-        return result;
     }
 
     private void OpenPlaylistArtistExplorer(object obj)
@@ -278,21 +264,24 @@ public class PlaylistEditorViewModel : BaseViewModel
             CreatePlaylistInstance();
     }
 
-    private static IEnumerable<Window> Windows =>
-        (Application.Current?.ApplicationLifetime as IClassicDesktopStyleApplicationLifetime)?.Windows ?? Array.Empty<Window>();
-
-    public Window? FindWindowByViewModel(INotifyPropertyChanged viewModel) =>
-        Windows.FirstOrDefault(x => ReferenceEquals(viewModel, x.DataContext));
-
-    private async void SelectAvatar(object obj)
+    public async void SelectAvatar(string path)
     {
-        OpenFileDialog dialog = new();
-        string[] result = await dialog.ShowAsync(FindWindowByViewModel(this));
-        if(result != null && result.Length > 0)
+        if(!String.IsNullOrEmpty(path) && !String.IsNullOrWhiteSpace(path))
         {
-            var avatarPath = string.Join(" ", result);
-            Avatar = await LoadAvatar(avatarPath);
-            OnPropertyChanged("AvatarSource");
+            Avatar = await LoadAvatar(path);
+            OnPropertyChanged("Avatar");
         }
+    }
+
+    private async Task<byte[]> LoadAvatar(string path)
+    {
+        byte[] result;
+
+        using (FileStream fileStream = File.Open(path, FileMode.Open))
+        {
+            result = new byte[fileStream.Length];
+            await fileStream.ReadAsync(result, 0, (int)fileStream.Length);
+        }
+        return result;
     }
 }

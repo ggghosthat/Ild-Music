@@ -37,8 +37,6 @@ public class MainWindowViewModel : Base.BaseViewModel
     private static SupportGhost supporter => (SupportGhost)App.Stage.GetGhost(Ghosts.SUPPORT);
     private static PlayerGhost playerGhost => (PlayerGhost)App.Stage.GetGhost(Ghosts.PLAYER);
 
-    
-
     public CommandDelegator NavBarResolve { get; private set; }
     public CommandDelegator PreviousCommand { get; private set; }
     public CommandDelegator NextCommand { get; private set; }
@@ -131,7 +129,7 @@ public class MainWindowViewModel : Base.BaseViewModel
     private void PresetViewModel()
     {   
         App.ViewModelTable.Add(MainWindowViewModel.nameVM, this);
-        CurrentVM = (BaseViewModel)App.ViewModelTable[TrackEditorViewModel.nameVM];      
+        CurrentVM = (BaseViewModel)App.ViewModelTable[ArtistEditorViewModel.nameVM];
     }
 
     private void PresetGlobalTimer()

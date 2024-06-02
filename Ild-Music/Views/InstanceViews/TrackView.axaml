@@ -41,7 +41,7 @@
   	      	<StackPanel Orientation="Vertical"
 	                  	Margin="45 5">
 	            <TextBlock Margin="0,5,0,0"
-	            		   Text="hookster"	
+	            		   Text="{Binding TrackInstance, Converter={StaticResource InstanceConverter}, ConverterParameter=name}"	
 	                       FontSize="25"
 	                       FontWeight="UltraBlack"
 	                       Foreground="White"
@@ -50,7 +50,7 @@
 	                       TextAlignment="Center"/>
 
                 <TextBlock Margin="0,3,0,2"
-	            		   Text="attention"	
+	            		   Text="{Binding TrackInstance, Converter={StaticResource InstanceConverter}, ConverterParameter=desc}"
 	                       FontSize="16"
 	                       FontWeight="Light"
 	                       Foreground="White"
@@ -59,14 +59,13 @@
 	                       TextAlignment="Center"/>
 	                       
                 <TextBlock Margin="0,2,0,3"
-	            		   Text="2003"	
+	            		   Text="{Binding TrackInstance, Converter={StaticResource InstanceConverter}, ConverterParameter=year}"
 	                       FontSize="14"
 	                       FontWeight="Light"
 	                       Foreground="White"
 	                       HorizontalAlignment="Left"
 	                       VerticalAlignment="Bottom"
-	                       TextAlignment="Center"/>
-	        	
+	                       TextAlignment="Center"/>	        	
 	 
 		      	<ScrollViewer VerticalScrollBarVisibility="Disabled"
 		                    HorizontalScrollBarVisibility="Auto"

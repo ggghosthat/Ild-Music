@@ -11,5 +11,133 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="Ild_Music.Views.PlaylistEditorView"
              x:DataType="vm:PlaylistEditorViewModel">
-  Welcome to Avalonia!
+  <UserControl.Resources>
+    <conv:InstanceConverter x:Key="InstanceConverter"/>
+    <conv:ErrorMessageConverter x:Key="ErrorStateConverter"/>
+  </UserControl.Resources>
+
+  <UserControl.Styles>
+    <Style Selector="TextBox">
+      <Setter Property="BorderThickness" Value="0,0,0,1"/>
+      <Setter Property="BorderBrush" Value="{StaticResource btnApplyColor1}"/>
+      <Setter Property="Background" Value="Transparent"/>
+      <Setter Property="SelectionBrush" Value="#0b3338"/>
+    </Style>
+
+    <Style Selector="TextBox:pointerover /template/ Border#PART_BorderElement">
+      <Setter Property="BorderBrush" Value="{StaticResource btnApplyColor1}"/>
+      <Setter Property="BorderThickness" Value="0,0,0,1"/>
+      <Setter Property="Background" Value="#50000000"/>
+    </Style>
+
+    <Style Selector="TextBox:focus /template/ Border#PART_BorderElement">
+      <Setter Property="BorderBrush" Value="{StaticResource btnApplyColor2}"/>
+      <Setter Property="BorderThickness" Value="0,0,0,1"/>
+      <Setter Property="Background" Value="Transparent"/>
+    </Style>
+
+    <Style Selector="TextBox:focus:pointerover /template/ Border#PART_BorderElement">
+      <Setter Property="BorderBrush" Value="{StaticResource btnApplyColor2}"/>
+      <Setter Property="BorderThickness" Value="0,0,0,1"/>
+      <Setter Property="Background" Value="#50000000"/>
+    </Style>
+  </UserControl.Styles>
+  
+  <Grid>
+    <!-- show panel -->
+    <Grid>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="auto"/>
+          <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <Grid Grid.Column="0"
+              HorizontalAlignment="Center"
+              VerticalAlignment="Center">
+              <Border Width="300"
+                      Height="300"
+                      Margin="15"
+                      Background="Transparent"
+                      Tapped="OpenAvatar_Clicked"
+                  Child="{Binding Avatar, 
+                          Converter={StaticResource InstanceConverter},
+                          ConverterParameter=pico_col}">
+              </Border>
+        </Grid>
+
+        <Grid Grid.Column="1"
+              VerticalAlignment="Center">
+            <StackPanel Orientation="Vertical"
+                        Margin="45, 5">
+                
+                <TextBox Watermark="name"
+                         Text="{Binding Name}"
+                         HorizontalAlignment="Left"
+                         FontSize="16"
+                         Margin="17, 3, 0, 2"
+                         Width="500"/>
+
+                <TextBox Watermark="description"
+                         Text="{Binding Description}"
+                         HorizontalAlignment="Left"
+                         FontSize="16"
+                         Margin="17, 2, 0, 3"
+                         Width="500"/>
+                
+                <TextBox Watermark="year"
+                         Text="{Binding Year}"
+                         HorizontalAlignment="Left"
+                         FontSize="16"
+                         Margin="17, 2, 0, 3"
+                         Width="500"/>
+                
+                <StackPanel Orientation="Horizontal"
+                            HorizontalAlignment="Left"
+                            Margin="15">
+
+                    <Button Classes="btnApply"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Bottom"
+                            Width="100"
+                            Height="25"
+                            Margin="3,0"
+                            Content="Ok"
+                            Command="{Binding CreatePlaylistCommand}"/>
+
+                    <Button Classes="btnApply"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Bottom"
+                            Width="100"
+                            Height="25"
+                            Margin="3,0"
+                            Content="Cancel"
+                            Command="{Binding CancelCommand}"/>
+
+                    <TextBlock Classes="logLine"
+                               Text="{Binding PlaylistLogLine}"
+                               Foreground="{Binding PlaylistLogError, Converter={StaticResource ErrorStateConverter} }"
+                               Background="Transparent"
+                               FontSize="12"
+                               Margin="5"/>
+                </StackPanel>
+            </StackPanel>
+        </Grid>
+    </Grid>
+
+    <!--background-->
+    <Border Grid.Row="0"
+            Grid.Column="0"
+            Grid.ColumnSpan="3"
+            Grid.RowSpan="3"
+            BorderThickness="0"
+            BorderBrush="Transparent"
+            ZIndex="-1">
+            <Border.Background>
+              <LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,100%">
+                <GradientStop Color="{Binding Avatar, Converter={StaticResource InstanceConverter}, ConverterParameter=back}" Offset="0" />
+                <GradientStop Color="#65000000" Offset="0.55" />
+              </LinearGradientBrush>
+            </Border.Background>
+    </Border>
+  </Grid>
 </UserControl>

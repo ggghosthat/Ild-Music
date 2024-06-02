@@ -92,6 +92,13 @@
                          FontSize="16"
                          Margin="17, 2, 0, 3"
                          Width="500"/>
+
+                <TextBox Watermark="year"
+                         Text="{Binding Year}"
+                         HorizontalAlignment="Left"
+                         FontSize="16"
+                         Margin="17, 2, 0, 3"
+                         Width="500"/>
                 
                 <ScrollViewer VerticalScrollBarVisibility="Disabled"
                               HorizontalScrollBarVisibility="Auto"
@@ -108,7 +115,7 @@
                         </i:Interaction.Behaviors>                
                         <ListBox ItemsSource="{Binding SelectedTrackArtists}"
                                  SelectionMode="Multiple,Toggle"
-                                 Background="#35000000">
+                                 Background="{StaticResource lsSelectedIntances}">
 
                               <ListBox.ItemsPanel>
                                   <ItemsPanelTemplate>                                

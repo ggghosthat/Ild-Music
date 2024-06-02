@@ -36,14 +36,10 @@ namespace Ild_Music.ViewModels
             OnPropertyChanged("AvatarSource");
             
             supporter.GetInstanceDTOsFromIds(TrackInstance.Artists, EntityTag.ARTIST)
-                .Result
-                .ToList()
-                .ForEach(a => TrackArtists.Add(a));
+                .Result.ToList().ForEach(a => TrackArtists.Add(a));
 
             supporter.GetInstanceDTOsFromIds(TrackInstance.Playlists, EntityTag.PLAYLIST)
-                .Result
-                .ToList()
-                .ForEach(p => TrackPlaylists.Add(p));
+                .Result.ToList().ForEach(p => TrackPlaylists.Add(p));
         }
 
         public async void SetInstance(Track track)
@@ -52,14 +48,10 @@ namespace Ild_Music.ViewModels
             OnPropertyChanged("AvatarSource");
             
             supporter.GetInstanceDTOsFromIds(TrackInstance.Artists, EntityTag.ARTIST)
-                .Result
-                .ToList()
-                .ForEach(a => TrackArtists.Add(a));
+                .Result.ToList().ForEach(a => TrackArtists.Add(a));
 
             supporter.GetInstanceDTOsFromIds(TrackInstance.Playlists, EntityTag.PLAYLIST)
-                .Result
-                .ToList()
-                .ForEach(p => TrackPlaylists.Add(p));
+                .Result.ToList().ForEach(p => TrackPlaylists.Add(p));
         }
 
         private void BackSwap(object obj)
