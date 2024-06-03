@@ -196,7 +196,6 @@
 
                   <ListBox.Styles>
                     <Style Selector="ListBoxItem">
-                      <Setter Property="Background" Value="yellow"/>
                       <Setter Property="BorderBrush" Value="Transparent"/>
                       <Setter Property="BorderThickness" Value="0"/>
                       <Setter Property="Padding" Value="4"/>           
@@ -216,18 +215,11 @@
                                     MinWidth="{TemplateBinding MinWidth}"
                                     MinHeight="{TemplateBinding MinHeight}"
                                     CornerRadius="{TemplateBinding CornerRadius}"
-                                    Background="{TemplateBinding Background}"
                                     BorderThickness="{TemplateBinding BorderThickness}"
                                     BorderBrush="{TemplateBinding BorderBrush}"
                                     Padding="{TemplateBinding Padding}"
                                     HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
-                                    VerticalAlignment="{TemplateBinding VerticalAlignment}">
-                                
-                                <i:Interaction.Behaviors>
-                                    <ia:EventTriggerBehavior EventName="DoubleTapped">
-                                        <ia:InvokeCommandAction Command="{Binding IndexCommand}"/>
-                                    </ia:EventTriggerBehavior>  
-                                </i:Interaction.Behaviors>                                
+                                    VerticalAlignment="{TemplateBinding VerticalAlignment}">                                
                                 <ContentPresenter Name="PART_ContentPresenter"
                                               HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
                                               VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
@@ -279,6 +271,11 @@
                     </Style>
                   </ListBox.Styles>
 
+                  <i:Interaction.Behaviors>
+                      <ia:EventTriggerBehavior EventName="Tapped">
+                          <ia:InvokeCommandAction Command="{Binding IndexCommand}"/>
+                      </ia:EventTriggerBehavior>  
+                  </i:Interaction.Behaviors>
                   <ListBox.ItemTemplate>
                     <DataTemplate>
                         <TextBlock TextWrapping="Wrap" 
