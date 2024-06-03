@@ -42,6 +42,7 @@
           <Setter Property="BorderBrush" Value="{StaticResource btnApplyColor2}"/>
         </Style>
     </UserControl.Styles>
+    
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
@@ -49,15 +50,32 @@
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
 
-        <TextBox Grid.Row="0"
-                 Margin="30 30 30 10"
-                 Watermark="Find your ones ..."
-                 FontWeight="Regular"
-                 Foreground="White"
-                 HorizontalAlignment="Stretch"
-                 VerticalAlignment="Bottom"
-                 TextAlignment="Left"/>
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="auto"/>
+            </Grid.ColumnDefinitions>
 
+            <TextBox Grid.Column="0"
+                     Watermark="Find your ones ..."
+                     Margin="30 40 30 10"
+                     FontWeight="Regular"
+                     Foreground="White"
+                     HorizontalAlignment="Stretch"
+                     VerticalAlignment="Top"
+                     TextAlignment="Left"/>
+
+            <Button Grid.Column="1"
+                    Margin="30 40 30 10"
+                    FontSize="18"
+                    Width="100"
+                    Height="30"
+                    Content="Ok"
+                    Classes="btnApply"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Top"
+                    Command="{Binding BackCommand}"/>
+        </Grid>
         <ScrollViewer Grid.Row="1"
                       Margin="30 10"
                       VerticalAlignment="Stretch"

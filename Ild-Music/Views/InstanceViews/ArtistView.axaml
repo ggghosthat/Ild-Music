@@ -315,6 +315,7 @@
                         </ListBox.ItemTemplate>
                     </ListBox>
                 </ScrollViewer>
+
                 <Button Width="100"
                         Height="25"
                         Content="Ok"
@@ -322,8 +323,7 @@
                         Classes="btnApply"
                         HorizontalAlignment="Left"
                         VerticalAlignment="Bottom"
-                        Command="{Binding BackCommand}">
-                </Button>
+                        Command="{Binding BackCommand}"/>
             </StackPanel>
           </Grid>         
         </Grid>
