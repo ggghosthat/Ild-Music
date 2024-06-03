@@ -21,6 +21,7 @@ public class InstanceExplorerViewModel : BaseViewModel
     private static SupportGhost supporterService => (SupportGhost)App.Stage.GetGhost(Ghosts.SUPPORT);
     private MainWindowViewModel MainVM => (MainWindowViewModel)App.ViewModelTable[MainWindowViewModel.nameVM];
 
+    public ObservableCollection<int> ActivePages { get; private set; } = new();
     public ObservableCollection<CommonInstanceDTO> Source {get; private set;} = new();
     public IList<CommonInstanceDTO> Output {get; set;} = new List<CommonInstanceDTO>();
     public int PageNumber { get; set; }
@@ -41,6 +42,10 @@ public class InstanceExplorerViewModel : BaseViewModel
         ForwardCommand = new (Forward, null);
         BackCommand = new (Back, null);
         IndexCommand = new (Index, null);
+
+
+        for (int i = 1; i <= 100; i++)
+            ActivePages.Add(i);
     }
 
     public async void Arrange(EntityTag entitytag, IEnumerable<CommonInstanceDTO> preselected = null)
@@ -49,6 +54,10 @@ public class InstanceExplorerViewModel : BaseViewModel
         Output.Clear(); 
 
         supporterService.ResolveMetaData(0, 100, entitytag);
+
+        for (int i = 0; i < MetaData.TotalPages; i++)
+            ActivePages.Add(i);
+
         supporterService
             .GetCurrentPage()
             .Result
@@ -85,6 +94,7 @@ public class InstanceExplorerViewModel : BaseViewModel
 
     public void Index(object obj)
     {
+        Console.WriteLine("Forward");
         Source.Clear();
 
         supporterService

@@ -14,6 +14,9 @@ public sealed class SupportGhost : IGhost
     
     private static MetaData _metaData = new();
 
+    public SupportGhost()
+    {}
+
     public IList<CommonInstanceDTO>? ArtistsCollection = new List<CommonInstanceDTO>();
     public IList<CommonInstanceDTO>? PlaylistsCollection = new List<CommonInstanceDTO>();
     public IList<CommonInstanceDTO>? TracksCollection => new List<CommonInstanceDTO>();
@@ -23,9 +26,6 @@ public sealed class SupportGhost : IGhost
     public event Action OnPlaylistsNotifyRefresh;
     public event Action OnTracksNotifyRefresh;
     public event Action OnTagsNotifyRefresh;
-
-    public SupportGhost()
-    {}
    
     public void Init(ICube inputCube) 
     {
