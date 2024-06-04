@@ -15,11 +15,11 @@ namespace Ild_Music.ViewModels;
 
 public class InstanceExplorerViewModel : BaseViewModel
 {
-    public static readonly string nameVM = "InstanceExplorerVM";
-    public override string NameVM => nameVM;
+    public static readonly Guid viewModelId = Guid.NewGuid();
+    public override Guid ViewModelId => viewModelId;
 
     private static SupportGhost supporterService => (SupportGhost)App.Stage.GetGhost(Ghosts.SUPPORT);
-    private MainWindowViewModel MainVM => (MainWindowViewModel)App.ViewModelTable[MainWindowViewModel.nameVM];
+    private MainWindowViewModel MainVM => (MainWindowViewModel)App.ViewModelTable[MainWindowViewModel.viewModelId];
 
     public ObservableCollection<int> ActivePages { get; private set; } = new();
     public ObservableCollection<CommonInstanceDTO> Source {get; private set;} = new();

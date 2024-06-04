@@ -20,8 +20,8 @@ namespace Ild_Music.ViewModels;
 
 public class ArtistEditorViewModel : BaseViewModel
 {
-    public static readonly string nameVM = "ArtistEditorVM";        
-    public override string NameVM => nameVM;
+    public static readonly Guid viewModelId = Guid.NewGuid();
+    public override Guid ViewModelId => viewModelId;
     
     public ArtistEditorViewModel()
     {
@@ -31,7 +31,7 @@ public class ArtistEditorViewModel : BaseViewModel
     
     private static SupportGhost supporter => (SupportGhost)App.Stage.GetGhost(Ghosts.SUPPORT);
     private static FactoryGhost factory => (FactoryGhost)App.Stage.GetGhost(Ghosts.FACTORY);
-    private MainWindowViewModel MainVM => (MainWindowViewModel)App.ViewModelTable[MainWindowViewModel.nameVM];
+    private MainWindowViewModel MainVM => (MainWindowViewModel)App.ViewModelTable[MainWindowViewModel.viewModelId];
     
     public CommandDelegator CreateArtistCommand { get; }
     public CommandDelegator CancelCommand { get; }

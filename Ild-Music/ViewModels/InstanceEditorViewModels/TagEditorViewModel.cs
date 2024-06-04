@@ -21,8 +21,8 @@ namespace Ild_Music.ViewModels;
 
 public class TagEditorViewModel : BaseViewModel
 {
-    public static readonly string nameVM = "TagEditorVM";        
-    public override string NameVM => nameVM;
+    public static readonly Guid viewModelId = Guid.NewGuid();
+    public override Guid ViewModelId => viewModelId;
 
     public TagEditorViewModel()
     {
@@ -32,16 +32,15 @@ public class TagEditorViewModel : BaseViewModel
         TagPlaylistExplorerCommand = new(OpenTagPlaylistExplorer, null);
         TagTrackExplorerCommand = new(OpenTagTrackExplorer, null);
 
-
-        Explorer.OnSelected += OnArtistsItemsSelected;
-        Explorer.OnSelected += OnPlaylistsItemsSelected;
-        Explorer.OnSelected += OnTracksItemsSelected;
+        Explorer.OnSelected += this.OnArtistsItemsSelected;
+        Explorer.OnSelected += this.OnPlaylistsItemsSelected;
+        Explorer.OnSelected += this.OnTracksItemsSelected;
     }
     
     private static SupportGhost supporter => (SupportGhost)App.Stage.GetGhost(Ghosts.SUPPORT);
     private static FactoryGhost factory => (FactoryGhost)App.Stage.GetGhost(Ghosts.FACTORY);
-    private static MainWindowViewModel MainVM => (MainWindowViewModel)App.ViewModelTable[MainWindowViewModel.nameVM];
-    private static InstanceExplorerViewModel Explorer => (InstanceExplorerViewModel)App.ViewModelTable[InstanceExplorerViewModel.nameVM];
+    private static MainWindowViewModel MainVM => (MainWindowViewModel)App.ViewModelTable[MainWindowViewModel.viewModelId];
+    private static InstanceExplorerViewModel Explorer => (InstanceExplorerViewModel)App.ViewModelTable[InstanceExplorerViewModel.viewModelId];
     
     public CommandDelegator CreateTagCommand { get; }
     public CommandDelegator CancelCommand { get; }

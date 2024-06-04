@@ -21,8 +21,8 @@ namespace Ild_Music.ViewModels;
 
 public class TrackEditorViewModel : BaseViewModel
 {
-    public static readonly string nameVM = "TrackEditorVM";        
-    public override string NameVM => nameVM;
+    public static readonly Guid viewModelId = Guid.NewGuid();
+    public override Guid ViewModelId => viewModelId;
     
     public TrackEditorViewModel()
     {
@@ -33,8 +33,8 @@ public class TrackEditorViewModel : BaseViewModel
     
     private static SupportGhost supporter => (SupportGhost)App.Stage.GetGhost(Ghosts.SUPPORT);
     private static FactoryGhost factory => (FactoryGhost)App.Stage.GetGhost(Ghosts.FACTORY);
-    private static MainWindowViewModel MainVM => (MainWindowViewModel)App.ViewModelTable[MainWindowViewModel.nameVM];    
-    private static InstanceExplorerViewModel Explorer => (InstanceExplorerViewModel)App.ViewModelTable[InstanceExplorerViewModel.nameVM];
+    private static MainWindowViewModel MainVM => (MainWindowViewModel)App.ViewModelTable[MainWindowViewModel.viewModelId];    
+    private static InstanceExplorerViewModel Explorer => (InstanceExplorerViewModel)App.ViewModelTable[InstanceExplorerViewModel.viewModelId];
    
     public Track TrackInstance { get; private set; }
     public string Path { get; set; }

@@ -21,8 +21,8 @@ namespace Ild_Music.ViewModels;
 
 public class PlaylistEditorViewModel : BaseViewModel
 {
-    public static readonly string nameVM = "PlaylistEditorVM";        
-    public override string NameVM => nameVM;
+    public static readonly Guid viewModelId = Guid.NewGuid();
+    public override Guid ViewModelId => viewModelId;
     
     public PlaylistEditorViewModel()
     {
@@ -34,8 +34,8 @@ public class PlaylistEditorViewModel : BaseViewModel
     
     private static SupportGhost supporter => (SupportGhost)App.Stage.GetGhost(Ghosts.SUPPORT);
     private static FactoryGhost factory => (FactoryGhost)App.Stage.GetGhost(Ghosts.FACTORY);
-    private static MainWindowViewModel MainVM => (MainWindowViewModel)App.ViewModelTable[MainWindowViewModel.nameVM];
-    private static InstanceExplorerViewModel Explorer => (InstanceExplorerViewModel)App.ViewModelTable[InstanceExplorerViewModel.nameVM];
+    private static MainWindowViewModel MainVM => (MainWindowViewModel)App.ViewModelTable[MainWindowViewModel.viewModelId];
+    private static InstanceExplorerViewModel Explorer => (InstanceExplorerViewModel)App.ViewModelTable[InstanceExplorerViewModel.viewModelId];
    
     public Playlist PlaylistInstance { get; private set; } = default!;
     public string Name { get; set; } = default!;

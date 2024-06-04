@@ -17,8 +17,8 @@ namespace Ild_Music.ViewModels;
 
 public class ListViewModel : BaseViewModel
 {
-    public static readonly string nameVM = "ListVM";        
-    public override string NameVM => nameVM;
+    public static readonly Guid viewModelId = Guid.NewGuid();
+    public override Guid ViewModelId => viewModelId;
     
     public ListViewModel()
     {
@@ -26,7 +26,7 @@ public class ListViewModel : BaseViewModel
 
     private static SupportGhost supporter => (SupportGhost)App.Stage.GetGhost(Ghosts.SUPPORT);
     private static FactoryGhost factory => (FactoryGhost)App.Stage.GetGhost(Ghosts.FACTORY);
-    private MainWindowViewModel MainVM => (MainWindowViewModel)App.ViewModelTable[MainWindowViewModel.nameVM];
+    private MainWindowViewModel MainVM => (MainWindowViewModel)App.ViewModelTable[MainWindowViewModel.viewModelId];
 
     public CommandDelegator AddCommand { get; }
     public CommandDelegator DeleteCommand { get; }
@@ -83,9 +83,9 @@ public class ListViewModel : BaseViewModel
     {
         BaseViewModel editor = Header switch
         {
-             "Artists" => (BaseViewModel)App.ViewModelTable[ArtistEditorViewModel.nameVM],
-             "Playlists" => (BaseViewModel)App.ViewModelTable[ArtistEditorViewModel.nameVM],
-             "Tracks" =>  (BaseViewModel)App.ViewModelTable[ArtistEditorViewModel.nameVM]
+             "Artists" => (BaseViewModel)App.ViewModelTable[ArtistEditorViewModel.viewModelId],
+             "Playlists" => (BaseViewModel)App.ViewModelTable[ArtistEditorViewModel.viewModelId],
+             "Tracks" =>  (BaseViewModel)App.ViewModelTable[ArtistEditorViewModel.viewModelId]
         };
         
         MainVM.PushVM(this, editor);
@@ -121,17 +121,17 @@ public class ListViewModel : BaseViewModel
         switch(Header)
         {
             case "Artists":
-                var artistEditor = (ArtistEditorViewModel)App.ViewModelTable[ArtistEditorViewModel.nameVM];
+                var artistEditor = (ArtistEditorViewModel)App.ViewModelTable[ArtistEditorViewModel.viewModelId];
                 artistEditor?.DropInstance(CurrentItem ?? default!);
                 editor = artistEditor;
                 break;
             case "Playlists": 
-                var playlistEditor = (PlaylistEditorViewModel)App.ViewModelTable[PlaylistEditorViewModel.nameVM];
+                var playlistEditor = (PlaylistEditorViewModel)App.ViewModelTable[PlaylistEditorViewModel.viewModelId];
                 playlistEditor?.DropInstance(CurrentItem ?? default!);
                 editor = playlistEditor;
                 break;
             case "Tracks":
-                var trackEditor = (TrackEditorViewModel)App.ViewModelTable[TrackEditorViewModel.nameVM];
+                var trackEditor = (TrackEditorViewModel)App.ViewModelTable[TrackEditorViewModel.viewModelId];
                 trackEditor?.DropInstance(CurrentItem ?? default!);
                 editor = trackEditor;
                 break;

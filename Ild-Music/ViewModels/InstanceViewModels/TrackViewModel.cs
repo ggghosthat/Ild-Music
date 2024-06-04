@@ -5,6 +5,7 @@ using Ild_Music.Core.Services.Entities;
 using Ild_Music.Command;
 using Ild_Music.ViewModels.Base;
 
+using System;
 using System.Linq;
 using System.Collections.ObjectModel;
 
@@ -12,7 +13,8 @@ namespace Ild_Music.ViewModels
 {
     public class TrackViewModel : BaseViewModel
     {
-        public static readonly string nameVM = "TrackVM";   
+        public static readonly Guid viewModelId = Guid.NewGuid();
+        public override Guid ViewModelId => viewModelId;
 
         public TrackViewModel()
     	{    		
@@ -20,7 +22,7 @@ namespace Ild_Music.ViewModels
     	}
 
         private static SupportGhost supporter => (SupportGhost)App.Stage.GetGhost(Ghosts.SUPPORT);
-        private static MainWindowViewModel MainVM => (MainWindowViewModel)App.ViewModelTable[MainWindowViewModel.nameVM];
+        private static MainWindowViewModel MainVM => (MainWindowViewModel)App.ViewModelTable[MainWindowViewModel.viewModelId];
 
     	public Track TrackInstance {get; private set;}
         public byte[] AvatarSource => TrackInstance.AvatarSource.ToArray();

@@ -1,3 +1,4 @@
+using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
@@ -6,7 +7,7 @@ using Ild_Music.Core.Contracts.Services.Interfaces;
 namespace Ild_Music.ViewModels.Base;
 public class BaseViewModel : INotifyPropertyChanged
 {   
-    public virtual string NameVM {get; protected set;}
+    public virtual Guid ViewModelId {get; protected set;}
 
     public event PropertyChangedEventHandler PropertyChanged;
 

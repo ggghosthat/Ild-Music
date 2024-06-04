@@ -11,8 +11,8 @@ namespace Ild_Music.ViewModels;
 
 public class BrowserViewModel : BaseViewModel
 {
-    public static readonly string nameVM = "BrowserVM";
-    public override string NameVM => nameVM;
+    public static readonly Guid viewModelId = Guid.NewGuid();
+    public override Guid ViewModelId => viewModelId;
 
     public BrowserViewModel()
     {
@@ -23,8 +23,8 @@ public class BrowserViewModel : BaseViewModel
 
     private static SupportGhost supporter => (SupportGhost)App.Stage.GetGhost(Ghosts.SUPPORT);
     private static FactoryGhost factory => (FactoryGhost)App.Stage.GetGhost(Ghosts.FACTORY);
-    private MainWindowViewModel MainVM => (MainWindowViewModel)App.ViewModelTable[MainWindowViewModel.nameVM];
-    private PlaylistEditorViewModel PlaylistEditor => (PlaylistEditorViewModel)App.ViewModelTable[PlaylistEditorViewModel.nameVM];
+    private MainWindowViewModel MainVM => (MainWindowViewModel)App.ViewModelTable[MainWindowViewModel.viewModelId];
+    private PlaylistEditorViewModel PlaylistEditor => (PlaylistEditorViewModel)App.ViewModelTable[PlaylistEditorViewModel.viewModelId];
 
     public ObservableCollection<Track> Source = new();
     public ObservableCollection<Track> Output = new();

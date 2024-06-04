@@ -21,8 +21,8 @@ namespace Ild_Music.ViewModels;
 
 public class MainWindowViewModel : Base.BaseViewModel
 {
-    public static readonly string nameVM = "MainVM";
-    public override string NameVM => nameVM;
+    public static readonly Guid viewModelId = Guid.NewGuid();
+    public override Guid ViewModelId => viewModelId;
 
     private DispatcherTimer timer;
 
@@ -52,7 +52,7 @@ public class MainWindowViewModel : Base.BaseViewModel
     public BaseViewModel CurrentVM { get; set; }
     public bool VolumeSliderOpen { get; private set; } = false;
 
-    public Stack<BaseViewModel> WindowStack { get; private set; } = new();
+    public Stack<Guid> WindowStack { get; private set; } = new();
     public ObservableCollection<string> NavItems => new() {"Home","Collections", "Browse"};
     public char? NavItem { get; set; }
 
@@ -128,8 +128,8 @@ public class MainWindowViewModel : Base.BaseViewModel
 
     private void PresetViewModel()
     {   
-        App.ViewModelTable.Add(MainWindowViewModel.nameVM, this);
-        CurrentVM = (BaseViewModel)App.ViewModelTable[TagEditorViewModel.nameVM];
+        App.ViewModelTable.Add(MainWindowViewModel.viewModelId, this);
+        CurrentVM = (BaseViewModel)App.ViewModelTable[TagEditorViewModel.viewModelId];
     }
 
     private void PresetGlobalTimer()
@@ -148,20 +148,21 @@ public class MainWindowViewModel : Base.BaseViewModel
         }
     }
 
-    public void DefineNewPresentItem(string nameVM)
+    public void DefineNewPresentItem(Guid viewModelId)
     {
-        CurrentVM = (BaseViewModel)App.ViewModelTable[nameVM];
+        CurrentVM = (BaseViewModel)App.ViewModelTable[viewModelId];
     }
 
     public void PushVM(BaseViewModel prev, BaseViewModel next)
     {
-        WindowStack.Push(prev);
-        WindowStack.Push(next);
+        WindowStack.Push(prev.ViewModelId);
+        WindowStack.Push(next.ViewModelId);
     }
 
     public BaseViewModel PopVM()
     {
-        return WindowStack.Pop();
+        Guid viewModelId = WindowStack.Pop();
+        return (BaseViewModel)App.ViewModelTable[viewModelId];
     }
 
     public void ResolveWindowStack()
@@ -179,9 +180,9 @@ public class MainWindowViewModel : Base.BaseViewModel
     {
         var viewModel = instanceDto.Tag switch 
         {
-           EntityTag.ARTIST  => (BaseViewModel)App.ViewModelTable[ArtistViewModel.nameVM],
-           EntityTag.PLAYLIST => (BaseViewModel)App.ViewModelTable[PlaylistViewModel.nameVM],
-           EntityTag.TRACK => (BaseViewModel)App.ViewModelTable[TrackViewModel.nameVM],
+           EntityTag.ARTIST  => (BaseViewModel)App.ViewModelTable[ArtistViewModel.viewModelId],
+           EntityTag.PLAYLIST => (BaseViewModel)App.ViewModelTable[PlaylistViewModel.viewModelId],
+           EntityTag.TRACK => (BaseViewModel)App.ViewModelTable[TrackViewModel.viewModelId],
            EntityTag.TAG => null,
            _ => null
         };
@@ -222,7 +223,7 @@ public class MainWindowViewModel : Base.BaseViewModel
 
         if (!isResolved)
         {
-            var playlistVM = (PlaylistViewModel)App.ViewModelTable[PlaylistViewModel.nameVM];
+            var playlistVM = (PlaylistViewModel)App.ViewModelTable[PlaylistViewModel.viewModelId];
             playlistVM?.SetInstance(playlist); 
            
             PushVM(source, playlistVM);
@@ -248,7 +249,7 @@ public class MainWindowViewModel : Base.BaseViewModel
  
         if (!isResolved)
         {
-            var trackVM = (TrackViewModel)App.ViewModelTable[TrackViewModel.nameVM];
+            var trackVM = (TrackViewModel)App.ViewModelTable[TrackViewModel.viewModelId];
             trackVM?.SetInstance(track);
 
             PushVM(source, trackVM);
@@ -289,16 +290,16 @@ public class MainWindowViewModel : Base.BaseViewModel
         switch(NavItem)
         {
             case 'a':
-                DefineNewPresentItem(StartViewModel.nameVM);
+                DefineNewPresentItem(StartViewModel.viewModelId);
                 break;
             case 'b':
-                DefineNewPresentItem(ListViewModel.nameVM);
+                DefineNewPresentItem(ListViewModel.viewModelId);
                 break;
             case 'c':
-                //DefineNewPresentItem((BaseViewModel)App.ViewModelTable[SettingViewModel.nameVM]);
+                //DefineNewPresentItem((BaseViewModel)App.ViewModelTable[SettingViewModel.viewModelId]);
                 break;
             case 'd':
-                //DefineNewPresentItem((BaseViewModel)App.ViewModelTable[BrowseViewModel.nameVM]);
+                //DefineNewPresentItem((BaseViewModel)App.ViewModelTable[BrowseViewModel.viewModelId]);
                 break;
             default:
                 break;
@@ -345,17 +346,17 @@ public class MainWindowViewModel : Base.BaseViewModel
     
     public void SwitchHome(object obj)
     {
-        DefineNewPresentItem(StartViewModel.nameVM);
+        DefineNewPresentItem(StartViewModel.viewModelId);
     }
 
     public void SwitchList(object obj)
     {
-        DefineNewPresentItem(ListViewModel.nameVM);
+        DefineNewPresentItem(ListViewModel.viewModelId);
     }
 
     public void SwitchBrowse(object obj)
     {
-        //DefineNewPresentItem(BrowseViewModel.nameVM);
+        //DefineNewPresentItem(BrowseViewModel.viewModelId);
     }
 
     public void Exit(object obj)

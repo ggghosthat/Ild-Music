@@ -8,6 +8,7 @@ using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
 using PropertyChanged;
+using System;
 using System.Collections;
 
 namespace Ild_Music;
@@ -46,17 +47,29 @@ public partial class App : Application
 
     private void PopullateViewModelTable()
     {
-        App.ViewModelTable.Add(InstanceExplorerViewModel.nameVM, new InstanceExplorerViewModel());
-        App.ViewModelTable.Add(ArtistViewModel.nameVM, new ArtistViewModel());
-        App.ViewModelTable.Add(PlaylistViewModel.nameVM, new PlaylistViewModel());
-        App.ViewModelTable.Add(TrackViewModel.nameVM, new TrackViewModel());
-        App.ViewModelTable.Add(TagViewModel.nameVM, new TagViewModel());
-        App.ViewModelTable.Add(ArtistEditorViewModel.nameVM, new ArtistEditorViewModel());
-        App.ViewModelTable.Add(PlaylistEditorViewModel.nameVM, new PlaylistEditorViewModel());
-        App.ViewModelTable.Add(TrackEditorViewModel.nameVM, new TrackEditorViewModel());
-        App.ViewModelTable.Add(TagEditorViewModel.nameVM, new TagEditorViewModel());
-        App.ViewModelTable.Add(BrowserViewModel.nameVM, new BrowserViewModel());
-        App.ViewModelTable.Add(StartViewModel.nameVM, new StartViewModel());
-        App.ViewModelTable.Add(ListViewModel.nameVM, new ListViewModel());
+        var instanceExplorerVm = new InstanceExplorerViewModel();
+        App.ViewModelTable.Add(instanceExplorerVm.ViewModelId, instanceExplorerVm);
+        var artistVm = new ArtistViewModel();
+        App.ViewModelTable.Add(artistVm.ViewModelId, artistVm);
+        var playlistVm = new PlaylistViewModel();
+        App.ViewModelTable.Add(playlistVm.ViewModelId, playlistVm);
+        var trackVm = new TrackViewModel();
+        App.ViewModelTable.Add(trackVm.ViewModelId, trackVm);
+        var tagVm = new TagViewModel();
+        App.ViewModelTable.Add(tagVm.ViewModelId, tagVm);
+        var artistEditorVm = new ArtistEditorViewModel();
+        App.ViewModelTable.Add(artistEditorVm.ViewModelId, artistEditorVm);
+        var playlistEditorVm = new PlaylistEditorViewModel();
+        App.ViewModelTable.Add(playlistEditorVm.ViewModelId, playlistEditorVm);
+        var trackEditorVm = new TrackEditorViewModel();
+        App.ViewModelTable.Add(trackEditorVm.ViewModelId, trackEditorVm);
+        var tagEditorVm = new TagEditorViewModel();
+        App.ViewModelTable.Add(tagEditorVm.ViewModelId, tagEditorVm);
+        var browserVm = new BrowserViewModel();
+        App.ViewModelTable.Add(browserVm.ViewModelId, browserVm);
+        var startVm = new StartViewModel();
+        App.ViewModelTable.Add(startVm.ViewModelId, startVm);
+        var listVm = new ListViewModel();
+        App.ViewModelTable.Add(listVm.ViewModelId, listVm);
     }
 }
