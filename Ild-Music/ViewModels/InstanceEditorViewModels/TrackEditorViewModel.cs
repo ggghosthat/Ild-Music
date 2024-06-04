@@ -50,8 +50,8 @@ public class TrackEditorViewModel : BaseViewModel
     //public Artist CurrentSelectedTrackArtist { get; set; }
     //public Artist CurrentDeleteTrackArtist { get; set; }
 
-    public static ObservableCollection<CommonInstanceDTO> ArtistsProvider { get; set; } = new ();
-    public static ObservableCollection<CommonInstanceDTO> SelectedTrackArtists { get; set; } = new (); 
+    public ObservableCollection<CommonInstanceDTO> ArtistsProvider { get; set; } = new ();
+    public ObservableCollection<CommonInstanceDTO> SelectedTrackArtists { get; set; } = new (); 
     
     public string TrackLogLine { get; set; }
     public bool TrackLogError { get; set; }
@@ -167,7 +167,7 @@ public class TrackEditorViewModel : BaseViewModel
             .ForEach(a => SelectedTrackArtists.Add(a));
     }
 
-    private void OnItemsSelected()
+    private void OnArtistItemsSelected()
     {
         if(Explorer.Output.Count > 0)
         {
@@ -186,15 +186,14 @@ public class TrackEditorViewModel : BaseViewModel
 
     private void OpenTrackArtistExplorer(object obj)
     {
+        Explorer.OnSelected += OnArtistItemsSelected;
+        
         if (obj is IList<CommonInstanceDTO> preSelected &&
             preSelected[0].Tag == EntityTag.ARTIST)
             Explorer.Arrange(EntityTag.ARTIST, preSelected); 
         else
             Explorer.Arrange(EntityTag.ARTIST); 
 
-        Explorer.OnSelected += OnItemsSelected;
-
-        Console.WriteLine(Explorer is null);
         MainVM.PushVM(null, Explorer);
         MainVM.ResolveWindowStack();        
     }

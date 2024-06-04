@@ -247,6 +247,9 @@
         <DataTemplate DataType="{x:Type vm:TrackViewModel}">
             <v:TrackView/>
         </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:TagViewModel}">
+            <v:TagView/>
+        </DataTemplate>
         
         <DataTemplate DataType="{x:Type vm:ArtistEditorViewModel}">
             <v:ArtistEditorView/>
@@ -256,6 +259,9 @@
         </DataTemplate>
         <DataTemplate DataType="{x:Type vm:TrackEditorViewModel}">
             <v:TrackEditorView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:TagEditorViewModel}">
+            <v:TagEditorView/>
         </DataTemplate>
 
         <DataTemplate DataType="{x:Type vm:InstanceExplorerViewModel}">

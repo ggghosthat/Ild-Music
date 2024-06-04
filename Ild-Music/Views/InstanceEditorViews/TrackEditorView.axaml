@@ -70,7 +70,7 @@
             <StackPanel Orientation="Vertical"
                         Margin="45, 5">
                 <TextBox x:Name="txtPath"
-                         Text="{Binding Path}"
+                         Text="{Binding Path, Mode=TwoWay}"
                          Watermark="folding path"
                          IsReadOnly="True"
                          HorizontalAlignment="Left"
@@ -80,21 +80,21 @@
                          DoubleTapped="OpenMusicFile_Clicked"/>
 
                 <TextBox Watermark="name"
-                         Text="{Binding Name}"
+                         Text="{Binding Name, Mode=TwoWay}"
                          HorizontalAlignment="Left"
                          FontSize="16"
                          Margin="17, 3, 0, 2"
                          Width="500"/>
 
                 <TextBox Watermark="description"
-                         Text="{Binding Description}"
+                         Text="{Binding Description, Mode=TwoWay}"
                          HorizontalAlignment="Left"
                          FontSize="16"
                          Margin="17, 2, 0, 3"
                          Width="500"/>
 
                 <TextBox Watermark="year"
-                         Text="{Binding Year}"
+                         Text="{Binding Year, Mode=TwoWay}"
                          HorizontalAlignment="Left"
                          FontSize="16"
                          Margin="17, 2, 0, 3"

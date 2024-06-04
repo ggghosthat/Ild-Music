@@ -9,6 +9,7 @@ using Ild_Music.Core.Contracts.Services.Interfaces;
 using System;
 using System.IO;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.ComponentModel;
@@ -25,16 +26,36 @@ public class TagEditorViewModel : BaseViewModel
 
     public TagEditorViewModel()
     {
-        CreateArtistCommand = new(HandleChanges, null);
+        CreateTagCommand = new(HandleChanges, null);
         CancelCommand = new(Cancel, null);
+        TagArtistExplorerCommand = new(OpenTagArtistExplorer, null);
+        TagPlaylistExplorerCommand = new(OpenTagPlaylistExplorer, null);
+        TagTrackExplorerCommand = new(OpenTagTrackExplorer, null);
+
+
+        Explorer.OnSelected += OnArtistsItemsSelected;
+        Explorer.OnSelected += OnPlaylistsItemsSelected;
+        Explorer.OnSelected += OnTracksItemsSelected;
     }
     
     private static SupportGhost supporter => (SupportGhost)App.Stage.GetGhost(Ghosts.SUPPORT);
     private static FactoryGhost factory => (FactoryGhost)App.Stage.GetGhost(Ghosts.FACTORY);
-    private MainWindowViewModel MainVM => (MainWindowViewModel)App.ViewModelTable[MainWindowViewModel.nameVM];
+    private static MainWindowViewModel MainVM => (MainWindowViewModel)App.ViewModelTable[MainWindowViewModel.nameVM];
+    private static InstanceExplorerViewModel Explorer => (InstanceExplorerViewModel)App.ViewModelTable[InstanceExplorerViewModel.nameVM];
     
-    public CommandDelegator CreateArtistCommand { get; }
+    public CommandDelegator CreateTagCommand { get; }
     public CommandDelegator CancelCommand { get; }
+    public CommandDelegator TagArtistExplorerCommand { get; }
+    public CommandDelegator TagPlaylistExplorerCommand { get; }
+    public CommandDelegator TagTrackExplorerCommand { get; }
+
+    public ObservableCollection<CommonInstanceDTO> ArtistProvider { get; set; } = new();
+    public ObservableCollection<CommonInstanceDTO> PlaylistProvider { get; set; } = new();
+    public ObservableCollection<CommonInstanceDTO> TrackProvider { get; set; } = new();
+
+    public ObservableCollection<CommonInstanceDTO> SelectedTagArtists { get; set; } = new();
+    public ObservableCollection<CommonInstanceDTO> SelectedTagPlaylists { get; set; } = new();
+    public ObservableCollection<CommonInstanceDTO> SelectedTagTracks { get; set; } = new();
 
     public static Tag TagInstance { get; private set; } = default!;
     public string Name {get; set; } = default!;
@@ -58,7 +79,7 @@ public class TagEditorViewModel : BaseViewModel
         Color = default!;
     }
 
-    public void CreateArtistInstance()
+    public void CreateTagInstance()
     {
         try
         {
@@ -75,7 +96,7 @@ public class TagEditorViewModel : BaseViewModel
         }
     }
 
-    public void EditArtistInstance()
+    public void EditTagInstance()
     {
         try
         {
@@ -109,13 +130,99 @@ public class TagEditorViewModel : BaseViewModel
         ExitFactory();
     }
 
+    private void OnArtistsItemsSelected()
+    {
+        if(Explorer.Output.Count > 0)
+        {
+            if (Explorer.Output[0].Tag == EntityTag.ARTIST)
+            {
+                SelectedTagArtists.Clear();
+                var outIds = Explorer.Output.Select(o => o.Id);
+                                 
+                supporter?.ArtistsCollection?
+                    .Where(a => outIds.Contains(a.Id))
+                    .ToList()
+                    .ForEach(i => SelectedTagArtists.Add(i));
+            }
+        }
+    }
+
+    private void OpenTagArtistExplorer(object obj)
+    {
+        if (obj is IList<CommonInstanceDTO> preSelected &&
+            preSelected[0].Tag == EntityTag.ARTIST)
+            Explorer.Arrange(EntityTag.ARTIST, preSelected); 
+        else
+            Explorer.Arrange(EntityTag.ARTIST); 
+
+        MainVM.PushVM(null, Explorer);
+        MainVM.ResolveWindowStack();        
+    }
+
+    private void OnPlaylistsItemsSelected()
+    {
+        if(Explorer.Output.Count > 0)
+        {
+            if (Explorer.Output[0].Tag == EntityTag.PLAYLIST)
+            {
+                SelectedTagPlaylists.Clear();
+                var outIds = Explorer.Output.Select(o => o.Id);
+                                 
+                supporter?.ArtistsCollection?
+                    .Where(a => outIds.Contains(a.Id))
+                    .ToList()
+                    .ForEach(i => SelectedTagPlaylists.Add(i));
+            }
+        }
+    }
+
+    private void OpenTagPlaylistExplorer(object obj)
+    {
+        if (obj is IList<CommonInstanceDTO> preSelected &&
+            preSelected[0].Tag == EntityTag.PLAYLIST)
+            Explorer.Arrange(EntityTag.PLAYLIST, preSelected); 
+        else
+            Explorer.Arrange(EntityTag.PLAYLIST); 
+
+        MainVM.PushVM(null, Explorer);
+        MainVM.ResolveWindowStack();        
+    }
+
+    private void OnTracksItemsSelected()
+    {
+        if(Explorer.Output.Count > 0)
+        {
+            if (Explorer.Output[0].Tag == EntityTag.TRACK)
+            {
+                SelectedTagTracks.Clear();
+                var outIds = Explorer.Output.Select(o => o.Id);
+                                 
+                supporter?.ArtistsCollection?
+                    .Where(a => outIds.Contains(a.Id))
+                    .ToList()
+                    .ForEach(i => SelectedTagTracks.Add(i));
+            }
+        }
+    }
+
+    private void OpenTagTrackExplorer(object obj)
+    {
+        if (obj is IList<CommonInstanceDTO> preSelected &&
+            preSelected[0].Tag == EntityTag.TRACK)
+            Explorer.Arrange(EntityTag.TRACK, preSelected); 
+        else
+            Explorer.Arrange(EntityTag.TRACK); 
+
+        MainVM.PushVM(null, Explorer);
+        MainVM.ResolveWindowStack();        
+    }
 
     private void HandleChanges(object obj)
     {
         if (IsEditMode)
-            EditArtistInstance();
+            EditTagInstance();
         else
-            CreateArtistInstance();
+            CreateTagInstance();
     }
 
     private static IEnumerable<Window> Windows =>
