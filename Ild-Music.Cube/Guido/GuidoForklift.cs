@@ -35,8 +35,7 @@ public class GuidoForklift : ICube //Cars from pixar (lol)
     public IEnumerable<Tag>? Tags => _tags;
 
     public void Init(string allocationPlace, bool isMoveTrackFiles)
-    {
-        
+    {        
         WearhouseAgent.ConfigureAgent(allocationPlace, isMoveTrackFiles); 
         ConnectionAgent.ConfigureAgent(allocationPlace);
         ConnectionAgent.SpreadDatabase(); 
@@ -143,7 +142,7 @@ public class GuidoForklift : ICube //Cars from pixar (lol)
         _tags?.AddRange(await _queryHandler.QueryAllTags());
     } 
 
-    public async Task LoadTopEntities()
+    public async Task LoadStartEntities()
     {
         QueryPool pool = await _queryHandler.QueryTopPool();
         _artists = pool.ArtistsDTOs.ToList();

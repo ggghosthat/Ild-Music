@@ -29,7 +29,7 @@ public class ListViewModel : BaseViewModel
         ItemSelectCommand = new(ItemSelect, null);
         InitCurrentListCommand = new(InitCurrentList, null);
 
-        Task.Run(async () => await DisplayProviders());
+        DisplayProviders();
     }
 
     private static SupportGhost supporter => (SupportGhost)App.Stage.GetGhost(Ghosts.SUPPORT);
@@ -44,9 +44,9 @@ public class ListViewModel : BaseViewModel
     public CommandDelegator InitCurrentListCommand { get; }
 
     // public ListType ListType {get; private set;}
-    public ObservableCollection<string> Headers { get; private set; } = new() {"Artists","Playlists","Tracks"};
-    public string Header { get; set; }
-    public ObservableCollection<CommonInstanceDTO> CurrentList { get; set; } = new();
+    public static ObservableCollection<string> Headers { get; private set; } = new() {"Artists","Playlists","Tracks"};
+    public string Header { get; set; } = Headers[0];
+    public static ObservableCollection<CommonInstanceDTO> CurrentList { get; set; } = new();
     public CommonInstanceDTO? CurrentItem { get; set; } = null;
 
     public SelectionModel<object> HeaderSelection { get; }
@@ -54,7 +54,8 @@ public class ListViewModel : BaseViewModel
     
     private void InitCurrentList(object obj)
     {
-        Task.Run(async () => await DisplayProviders());
+        // Task.Run(async () => await DisplayProviders());
+        DisplayProviders();
     }
 
     public void Back(object obj)
@@ -64,10 +65,28 @@ public class ListViewModel : BaseViewModel
 
     public async Task UpdateProviders()
     {
-        await DisplayProviders();
+        await DisplayProvidersAsync();
     }
 
-    private async Task DisplayProviders()
+    private void DisplayProviders()
+    {
+        CurrentList.Clear();
+
+        switch(Header)
+        {
+            case "Artists":
+                supporter.ArtistsCollection.ToList().ForEach(i => CurrentList.Add(i));
+                break;
+            case "Playlists":
+                supporter.PlaylistsCollection.ToList().ForEach(i => CurrentList.Add(i));
+                break;
+            case "Tracks":
+                supporter.TracksCollection.ToList().ForEach(i => CurrentList.Add(i));
+                break;
+        }
+    }
+
+    private async Task DisplayProvidersAsync()
     {
         CurrentList.Clear();
 
@@ -80,7 +99,11 @@ public class ListViewModel : BaseViewModel
 
         instancesDto
             .ToList()
-            .ForEach(i => CurrentList.Add(i));
+            .ForEach(i => 
+            {
+                Console.WriteLine(i.Name);
+                CurrentList.Add(i);
+            });
     }
 
     public async Task BrowseTracks(IEnumerable<string> paths)

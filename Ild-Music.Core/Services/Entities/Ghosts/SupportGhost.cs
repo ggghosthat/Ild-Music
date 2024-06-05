@@ -17,10 +17,10 @@ public sealed class SupportGhost : IGhost
     public SupportGhost()
     {}
 
-    public IList<CommonInstanceDTO>? ArtistsCollection = new List<CommonInstanceDTO>();
-    public IList<CommonInstanceDTO>? PlaylistsCollection = new List<CommonInstanceDTO>();
-    public IList<CommonInstanceDTO>? TracksCollection => new List<CommonInstanceDTO>();
-    public IList<Tag> TagsCollection => new List<Tag>();
+    public IEnumerable<CommonInstanceDTO>? ArtistsCollection => _cube.Artists;
+    public IEnumerable<CommonInstanceDTO>? PlaylistsCollection => _cube.Playlists;
+    public IEnumerable<CommonInstanceDTO>? TracksCollection => _cube.Tracks;
+    public IEnumerable<Tag> TagsCollection => _cube.Tags;
 
     public event Action OnArtistsNotifyRefresh;
     public event Action OnPlaylistsNotifyRefresh;
@@ -30,10 +30,7 @@ public sealed class SupportGhost : IGhost
     public void Init(ICube inputCube) 
     {
         _cube = inputCube;
-        _cube.Artists?.ToList().ForEach(a => ArtistsCollection?.Add(a));
-        _cube.Playlists?.ToList().ForEach(p => PlaylistsCollection?.Add(p));
-        _cube.Tracks?.ToList().ForEach(t => TracksCollection?.Add(t));
-        _cube.Tags?.ToList().ForEach(tag => TagsCollection?.Add(tag));
+        _cube.LoadStartEntities();
     }
 
     public void AddArtistInstance(Artist artist)
