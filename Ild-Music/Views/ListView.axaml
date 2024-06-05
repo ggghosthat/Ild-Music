@@ -23,10 +23,11 @@
       <RowDefinition Height="auto"/>
     </Grid.RowDefinitions>
 
-    <StackPanel Grid.Row="0">
+    <Border Grid.Row="0"
+            Margin="15 30 15 2">
       <i:Interaction.Behaviors>
         <ia:EventTriggerBehavior EventName="Tapped">
-          <ia:InvokeCommandAction Command="{Binding DefineListTypeCommand}"/>
+          <ia:InvokeCommandAction Command="{Binding InitCurrentListCommand}"/>
         </ia:EventTriggerBehavior>  
       </i:Interaction.Behaviors>
       <ListBox x:Name="Tabs"
@@ -42,8 +43,8 @@
 
           <ListBox.Styles>
             <Style Selector="ListBoxItem">
-              <Setter Property="BorderBrush" Value="Transparent"/>
               <Setter Property="BorderThickness" Value="0"/>
+              <Setter Property="BorderBrush" Value="{StaticResource btnApplyColor1}"/>
               <Setter Property="Margin" Value="0"/>
               <Setter Property="Padding" Value="2"/>
               
@@ -57,88 +58,90 @@
                 <ControlTemplate>
                   
                   <Grid>
-                  <StackPanel Classes="Wrap" Orientation="Vertical">                      
-                      <Border x:Name="Bd"
-                              Margin="2"
-                              CornerRadius="15"
-                              Background="Transparent"
-                              BorderThickness="0"
-                              BorderBrush="Transparent"
-                              Padding="{TemplateBinding Padding}">
+                    <Border x:Name="Bd"
+                            Margin="4 0"
+                            Classes="HeaderBorder"
+                            Background="Transparent"
+                            BorderThickness="0 0 0 2"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            Padding="{TemplateBinding Padding}">
 
-                          <ContentPresenter Name="PART_ContentPresenter"
-                                            HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                            VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
-                                            ContentTemplate="{TemplateBinding ContentTemplate}"
-                                            Content="{TemplateBinding Content}"/>
-                      </Border>
-                      <Border Classes="Underline"
-                              Background="{TemplateBinding Background}" 
-                              Height="3"
-                              Width="45"/>
-                  </StackPanel>
+                        <ContentPresenter Name="PART_ContentPresenter"
+                                          HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                          VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                          ContentTemplate="{TemplateBinding ContentTemplate}"
+                                          Content="{TemplateBinding Content}"/>
+                    </Border>
                   </Grid>
                 </ControlTemplate>
               </Setter>
             </Style>
 
-            <Style Selector="ListBoxItem:pointerover /template/ StackPanel.Wrap Border.Underline">
-              <Setter Property="Background" Value="#2e3c47"/>
+            <Style Selector="ListBoxItem:pointerover /template/ Border.HeaderBorder">
+              <Setter Property="Background" Value="Transparent"/>
+              <Setter Property="BorderBrush" Value="{StaticResource btnApplyColor2}"/>
             </Style>
 
             <Style Selector="ListBoxItem:pointerover /template/ ContentPresenter">
               <Setter Property="Background" Value="Transparent"/>
+              <Setter Property="BorderBrush" Value="Transparent"/>
             </Style>
 
-            <Style Selector="ListBoxItem:selected /template/ StackPanel.Wrap Border.Underline">
-              <Setter Property="Background" Value="#6b1b20"/>
+            <Style Selector="ListBoxItem:selected /template/ Border.HeaderBorder">
+              <Setter Property="Background" Value="Transparent"/>
+              <Setter Property="BorderBrush" Value="{StaticResource btnApplyColor2}"/>
             </Style>
 
             <Style Selector="ListBoxItem:selected /template/ ContentPresenter">
               <Setter Property="Background" Value="Transparent"/>
+              <Setter Property="BorderBrush" Value="Transparent"/>
             </Style>
             
-            <Style Selector="ListBoxItem:selected:focus /template/ StackPanel.Wrap Border.Underline">
-              <Setter Property="Background" Value="#6b1b20"/>
+            <Style Selector="ListBoxItem:selected:focus /template/ Border.HeaderBorder">
+              <Setter Property="Background" Value="Transparent"/>
+              <Setter Property="BorderBrush" Value="{StaticResource btnApplyColor2}"/>
             </Style>
 
             <Style Selector="ListBoxItem:selected:focus /template/ ContentPresenter">
               <Setter Property="Background" Value="Transparent"/>
+              <Setter Property="BorderBrush" Value="Transparent"/>
             </Style>
 
-            <Style Selector="ListBoxItem:selected:pointerover /template/ StackPanel.Wrap Border.Underline">
-              <Setter Property="Background" Value="#6b1b20"/>
+            <Style Selector="ListBoxItem:selected:pointerover /template/ Border.HeaderBorder">
+              <Setter Property="Background" Value="Transparent"/>
+              <Setter Property="BorderBrush" Value="{StaticResource btnApplyColor2}"/>
             </Style>
 
             <Style Selector="ListBoxItem:selected:pointerover /template/ ContentPresenter">
               <Setter Property="Background" Value="Transparent"/>
+              <Setter Property="BorderBrush" Value="Transparent"/>
             </Style>
 
-            <Style Selector="ListBoxItem:selected:focus:pointerover /template/ StackPanel.Wrap Border.Underline">
-              <Setter Property="Background" Value="#6b1b20"/>
+            <Style Selector="ListBoxItem:selected:focus:pointerover /template/ Border.HeaderBorder">
+              <Setter Property="Background" Value="Transparent"/>
+              <Setter Property="BorderBrush" Value="{StaticResource btnApplyColor2}"/>
             </Style>
 
             <Style Selector="ListBoxItem:selected:focus:pointerover /template/ ContentPresenter">
               <Setter Property="Background" Value="Transparent"/>
+              <Setter Property="BorderBrush" Value="Transparent"/>
             </Style>
           </ListBox.Styles>
                     
           <ListBox.ItemTemplate>
             <DataTemplate>
-              <Grid>
-                  <TextBlock Text="{Binding .}"
-                            Foreground="White"
-                            FontSize="12"/>
-              </Grid>
+              <TextBlock Text="{Binding .}"
+                        Foreground="#c2c2c2"
+                        FontSize="14"/>
             </DataTemplate>
           </ListBox.ItemTemplate>
       </ListBox>
-    </StackPanel>
+    </Border>
 
     <Grid Grid.Row="1" 
           HorizontalAlignment="Stretch"
           VerticalAlignment="Stretch"
-          Margin="5,0">        
+          Margin="10 5">        
       <ScrollViewer HorizontalContentAlignment="Center"
                     HorizontalScrollBarVisibility="Disabled"
                     VerticalScrollBarVisibility="Auto"
@@ -167,15 +170,12 @@
                                   BorderThickness="{TemplateBinding BorderThickness}"
                                   BorderBrush="{TemplateBinding BorderBrush}"
                                   Padding="{TemplateBinding Padding}">
-                            <Grid>
                               <ContentPresenter Name="PART_ContentPresenter"
                                                 HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
                                                 VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
                                                 ContentTemplate="{TemplateBinding ContentTemplate}"
                                                 Content="{TemplateBinding Content}"/>
-                            </Grid>
-                          </Border>
-                          
+                          </Border>                          
                         </Grid>
                         
                       </ControlTemplate>
@@ -183,7 +183,7 @@
                   </Style>
 
                   <Style Selector="ListBoxItem:pointerover /template/ Border#Bd">
-                    <Setter Property="Background" Value="#40297863"/>
+                    <Setter Property="Background" Value="#4027da48"/>
                   </Style>
 
                   <Style Selector="ListBoxItem:pointerover /template/ ContentPresenter">
@@ -192,7 +192,7 @@
 
 
                   <Style Selector="ListBoxItem:selected /template/ Border#Bd">
-                    <Setter Property="Background" Value="#70297863"/>
+                    <Setter Property="Background" Value="#7027da48"/>
                   </Style>
 
                   <Style Selector="ListBoxItem:selected /template/ ContentPresenter">
@@ -200,7 +200,7 @@
                   </Style>
 
                   <Style Selector="ListBoxItem:selected:focus /template/ Border#Bd">
-                    <Setter Property="Background" Value="#70297863"/>
+                    <Setter Property="Background" Value="#7027da48"/>
                   </Style>
 
                   <Style Selector="ListBoxItem:selected:focus /template/ ContentPresenter">
@@ -208,7 +208,7 @@
                   </Style>
 
                   <Style Selector="ListBoxItem:selected:pointerover /template/ Border#Bd">
-                    <Setter Property="Background" Value="#70297863"/>
+                    <Setter Property="Background" Value="#7027da48"/>
                   </Style>
 
                   <Style Selector="ListBoxItem:selected:pointerover /template/ ContentPresenter">
@@ -216,7 +216,7 @@
                   </Style>
 
                   <Style Selector="ListBoxItem:selected:focus:pointerover /template/ Border#Bd">
-                    <Setter Property="Background" Value="#70297863"/>
+                    <Setter Property="Background" Value="#7027da48"/>
                   </Style>
 
                   <Style Selector="ListBoxItem:selected:focus:pointerover /template/ ContentPresenter">
@@ -247,6 +247,7 @@
                                 MaxHeight="70"
                                 MaxWidth="70"
                                 Padding="5"
+                                CornerRadius="5"
                                 Background="Transparent"
                                 Child="{Binding ., Converter={StaticResource InstanceConverter}, ConverterParameter=ico_col}">
                         </Border>
@@ -277,19 +278,19 @@
           </i:Interaction.Behaviors>
           <Border Width="30"
                   Height="30"
-                  Margin="10, 2, 5, 5"
+                  Margin="10, 0, 5, 5"
                   BorderThickness="0"
                   CornerRadius="5"
                   HorizontalAlignment="Right"
                   VerticalAlignment="Center">
 
               <Border.Styles>
-                <Style Selector="Border">
-                    <Setter Property="Background" Value="#30000000"/>
+                <Style Selector="Border PathIcon">
+                    <Setter Property="Foreground" Value="#7f7f7f"/>
                 </Style>
 
-                <Style Selector="Border:pointerover">
-                    <Setter Property="Background" Value="#70000000"/>
+                <Style Selector="Border:pointerover PathIcon" >
+                    <Setter Property="Foreground" Value="#fff"/>
                 </Style>
               </Border.Styles>
 
@@ -298,7 +299,6 @@
                         Width="20"
                         Height="20"
                         Background="Transparent"
-                        Foreground="White"
                         Data="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z"> 
               </PathIcon>
           </Border>
@@ -319,12 +319,12 @@
                   VerticalAlignment="Center">
 
               <Border.Styles>
-                <Style Selector="Border">
-                    <Setter Property="Background" Value="#30000000"/>
+                <Style Selector="Border PathIcon">
+                    <Setter Property="Foreground" Value="#7f7f7f"/>
                 </Style>
 
-                <Style Selector="Border:pointerover">
-                    <Setter Property="Background" Value="#70000000"/>
+                <Style Selector="Border:pointerover PathIcon">
+                    <Setter Property="Foreground" Value="#fff"/>
                 </Style>
               </Border.Styles>
 
@@ -333,7 +333,6 @@
                         Width="20"
                         Height="20"
                         Background="Transparent"
-                        Foreground="White"
                         Data="M9,3V4H4V6H5V19A2,2 0 0,0 7,21H17A2,2 0 0,0 19,19V6H20V4H15V3H9M7,6H17V19H7V6M9,8V17H11V8H9M13,8V17H15V8H13Z"> 
               </PathIcon>
           </Border>
@@ -354,12 +353,12 @@
                   VerticalAlignment="Center">
 
               <Border.Styles>
-                <Style Selector="Border">
-                    <Setter Property="Background" Value="#30000000"/>
+                <Style Selector="Border PathIcon">
+                    <Setter Property="Foreground" Value="#7f7f7f"/>
                 </Style>
 
-                <Style Selector="Border:pointerover">
-                    <Setter Property="Background" Value="#70000000"/>
+                <Style Selector="Border:pointerover PathIcon">
+                    <Setter Property="Foreground" Value="#fff"/>
                 </Style>
               </Border.Styles>
 
@@ -368,7 +367,6 @@
                         Width="20"
                         Height="20"
                         Background="Transparent"
-                        Foreground="White"
                         Data="M14.06,9L15,9.94L5.92,19H5V18.08L14.06,9M17.66,3C17.41,3 17.15,3.1 16.96,3.29L15.13,5.12L18.88,8.87L20.71,7.04C21.1,6.65 21.1,6 20.71,5.63L18.37,3.29C18.17,3.09 17.92,3 17.66,3M14.06,6.19L3,17.25V21H6.75L17.81,9.94L14.06,6.19Z"> 
               </PathIcon>
           </Border>

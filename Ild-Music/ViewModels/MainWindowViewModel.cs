@@ -129,7 +129,7 @@ public class MainWindowViewModel : Base.BaseViewModel
     private void PresetViewModel()
     {   
         App.ViewModelTable.Add(MainWindowViewModel.viewModelId, this);
-        CurrentVM = (BaseViewModel)App.ViewModelTable[TagEditorViewModel.viewModelId];
+        CurrentVM = (BaseViewModel)App.ViewModelTable[ListViewModel.viewModelId];
     }
 
     private void PresetGlobalTimer()

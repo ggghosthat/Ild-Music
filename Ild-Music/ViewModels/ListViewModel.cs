@@ -22,6 +22,14 @@ public class ListViewModel : BaseViewModel
     
     public ListViewModel()
     {
+        AddCommand = new(Add, null);
+        DeleteCommand = new(Delete, null);
+        EditCommand = new(Edit, null);
+        BackCommand = new(Back, null);
+        ItemSelectCommand = new(ItemSelect, null);
+        InitCurrentListCommand = new(InitCurrentList, null);
+
+        Task.Run(async () => await DisplayProviders());
     }
 
     private static SupportGhost supporter => (SupportGhost)App.Stage.GetGhost(Ghosts.SUPPORT);
@@ -33,7 +41,7 @@ public class ListViewModel : BaseViewModel
     public CommandDelegator EditCommand { get; }
     public CommandDelegator BackCommand { get; }
     public CommandDelegator ItemSelectCommand { get; }
-    public CommandDelegator DefineListTypeCommand { get; }
+    public CommandDelegator InitCurrentListCommand { get; }
 
     // public ListType ListType {get; private set;}
     public ObservableCollection<string> Headers { get; private set; } = new() {"Artists","Playlists","Tracks"};
@@ -47,6 +55,11 @@ public class ListViewModel : BaseViewModel
     private void InitCurrentList(object obj)
     {
         Task.Run(async () => await DisplayProviders());
+    }
+
+    public void Back(object obj)
+    {        
+        MainVM.ResolveWindowStack();
     }
 
     public async Task UpdateProviders()
@@ -83,11 +96,15 @@ public class ListViewModel : BaseViewModel
     {
         BaseViewModel editor = Header switch
         {
-             "Artists" => (BaseViewModel)App.ViewModelTable[ArtistEditorViewModel.viewModelId],
-             "Playlists" => (BaseViewModel)App.ViewModelTable[ArtistEditorViewModel.viewModelId],
-             "Tracks" =>  (BaseViewModel)App.ViewModelTable[ArtistEditorViewModel.viewModelId]
+            "Artists" => (BaseViewModel)App.ViewModelTable[ArtistEditorViewModel.viewModelId],
+            "Playlists" => (BaseViewModel)App.ViewModelTable[ArtistEditorViewModel.viewModelId],
+            "Tracks" =>  (BaseViewModel)App.ViewModelTable[ArtistEditorViewModel.viewModelId],
+            _ => null
         };
-        
+
+        if (editor is null)
+            return;
+
         MainVM.PushVM(this, editor);
         MainVM.ResolveWindowStack();
     }
@@ -167,7 +184,6 @@ public class ListViewModel : BaseViewModel
 
     private void PassPlaylistEntity(CommonInstanceDTO playlistDto)
     {
-
         var mainPlaylistId = MainVM.CurrentPlaylist?.Id ?? Guid.Empty;
         if(mainPlaylistId.Equals(playlistDto.Id))
         {
