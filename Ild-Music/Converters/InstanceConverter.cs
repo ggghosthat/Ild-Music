@@ -22,7 +22,7 @@ public class InstanceConverter : IValueConverter
         if (parameter == "name")
         {
             if (value is CommonInstanceDTO dto)
-                return dto.Name;
+                return dto.Name.ToString();
             else if(value is Artist artist)
                 return artist.Name;
             else if(value is Playlist playlist)
@@ -56,6 +56,21 @@ public class InstanceConverter : IValueConverter
             if (value is Track track)
                 return track.Duration;
             return null;   
+        }
+        else if (parameter == "dto_icon" && value is CommonInstanceDTO dto)
+        {            
+            if (dto.Avatar.Length > 0)
+            {
+                byte[] avatar = dto.Avatar.ToArray();
+                return ComputeAvatarIcon(ref avatar);
+            }
+
+            return dto.Tag switch
+            {
+                EntityTag.ARTIST => LoadAsset(@"avares://Ild-Music/Assets/DefaultIcons/artist.png"),
+                EntityTag.PLAYLIST => LoadAsset(@"avares://Ild-Music/Assets/DefaultIcons/playlist.png"),
+                EntityTag.TRACK => LoadAsset(@"avares://Ild-Music/Assets/DefaultIcons/track.png")
+            };
         }
         else if (parameter == "aico_col")
         {

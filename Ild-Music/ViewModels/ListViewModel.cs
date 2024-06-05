@@ -29,7 +29,7 @@ public class ListViewModel : BaseViewModel
         ItemSelectCommand = new(ItemSelect, null);
         InitCurrentListCommand = new(InitCurrentList, null);
 
-        DisplayProviders();
+        Task.Run(async () => await DisplayProvidersAsync());
     }
 
     private static SupportGhost supporter => (SupportGhost)App.Stage.GetGhost(Ghosts.SUPPORT);
@@ -54,8 +54,7 @@ public class ListViewModel : BaseViewModel
     
     private void InitCurrentList(object obj)
     {
-        // Task.Run(async () => await DisplayProviders());
-        DisplayProviders();
+        Task.Run(async () => await DisplayProvidersAsync());
     }
 
     public void Back(object obj)
@@ -90,20 +89,18 @@ public class ListViewModel : BaseViewModel
     {
         CurrentList.Clear();
 
-        var instancesDto = Header switch
+        switch(Header)
         {
-            "Artists" => supporter.ArtistsCollection,
-            "Playlists" => supporter.PlaylistsCollection,
-            "Tracks" => supporter.TracksCollection,
-        };
-
-        instancesDto
-            .ToList()
-            .ForEach(i => 
-            {
-                Console.WriteLine(i.Name);
-                CurrentList.Add(i);
-            });
+            case "Artists":
+                supporter.ArtistsCollection.ToList().ForEach(i => CurrentList.Add(i));
+                break;
+            case "Playlists":
+                supporter.PlaylistsCollection.ToList().ForEach(i => CurrentList.Add(i));
+                break;
+            case "Tracks":
+                supporter.TracksCollection.ToList().ForEach(i => CurrentList.Add(i));
+                break;
+        }
     }
 
     public async Task BrowseTracks(IEnumerable<string> paths)
