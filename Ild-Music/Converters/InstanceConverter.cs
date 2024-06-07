@@ -62,14 +62,14 @@ public class InstanceConverter : IValueConverter
             if (dto.Avatar.Length > 0)
             {
                 byte[] avatar = dto.Avatar.ToArray();
-                return ComputeAvatarIcon(ref avatar);
+                return ComputeAvatarIcon(ref avatar, 70d, 70d);
             }
 
             return dto.Tag switch
             {
-                EntityTag.ARTIST => LoadAsset(@"avares://Ild-Music/Assets/DefaultIcons/artist.png"),
-                EntityTag.PLAYLIST => LoadAsset(@"avares://Ild-Music/Assets/DefaultIcons/playlist.png"),
-                EntityTag.TRACK => LoadAsset(@"avares://Ild-Music/Assets/DefaultIcons/track.png")
+                EntityTag.ARTIST => Application.Current.FindResource("ColoredArtistGeometry"),
+                EntityTag.PLAYLIST => Application.Current.FindResource("ColoredArtistIcon"),
+                EntityTag.TRACK => Application.Current.FindResource("ColoredArtistIcon")
             };
         }
         else if (parameter == "aico_col")
@@ -134,10 +134,16 @@ public class InstanceConverter : IValueConverter
     }
 
 
-    private object ComputeAvatarIcon(ref byte[] source)
+    private object ComputeAvatarIcon(ref byte[] source, double w = 0d, double h = 0d)
     {
         var resource = (Border)Application.Current.FindResource("DisplayImage");
         var image = (Avalonia.Controls.Image)resource.Child;
+
+        if (w >= 0d && h >= 0d)
+        {
+            image.Width = w;
+            image.Height = h;
+        }
 
         image.Source = new Bitmap(new MemoryStream(source));
         return resource;

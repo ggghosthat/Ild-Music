@@ -54,7 +54,7 @@ public class ListViewModel : BaseViewModel
     
     private void InitCurrentList(object obj)
     {
-        Task.Run(async () => await DisplayProvidersAsync());
+        DisplayProvidersAsync().Wait();
     }
 
     public void Back(object obj)
@@ -147,8 +147,8 @@ public class ListViewModel : BaseViewModel
                 supporter.DeleteTrackInstance(id);
                 break;
         };
-
-        Task.Run( async () => await UpdateProviders());
+        
+        DisplayProvidersAsync().Wait();
     }
     
     private void Edit(object obj)

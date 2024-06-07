@@ -30,7 +30,7 @@ public partial class ArtistEditorView : UserControl
             AllowMultiple = false
         });
 
-        if (DataContext is PlaylistEditorViewModel playlistEditorVM && files.Count() > 0)
-            playlistEditorVM.SelectAvatar(files.Select(x => x.Path.LocalPath).First());
+        if (DataContext is ArtistEditorViewModel artistEditorVM && files.Count() > 0)
+            artistEditorVM.SelectAvatar(files.Select(x => x.Path.LocalPath).First());
     }
 }
