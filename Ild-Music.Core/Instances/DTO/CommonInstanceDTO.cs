@@ -6,10 +6,11 @@ public struct CommonInstanceDTO
     public ReadOnlyMemory<byte> Avatar { get; } 
     public EntityTag Tag { get; }
 
-    public CommonInstanceDTO(Guid id,
-                             ReadOnlyMemory<char> name,
-                             ReadOnlyMemory<byte> avatar,
-                             EntityTag tag)
+    public CommonInstanceDTO(
+        Guid id,
+        ReadOnlyMemory<char> name,
+        ReadOnlyMemory<byte> avatar,
+        EntityTag tag)
     {
         Id = id;
         Name = name;

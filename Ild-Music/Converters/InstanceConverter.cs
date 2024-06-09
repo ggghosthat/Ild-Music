@@ -58,19 +58,17 @@ public class InstanceConverter : IValueConverter
             return null;   
         }
         else if (parameter == "dto_icon" && value is CommonInstanceDTO dto)
-        {            
-            if (dto.Avatar.Length > 0)
-            {
-                byte[] avatar = dto.Avatar.ToArray();
-                return ComputeAvatarIcon(ref avatar, 70d, 70d);
-            }
+        {    
+            if (dto.Avatar.Length == 0)
+                return null;
 
-            return dto.Tag switch
-            {
-                EntityTag.ARTIST => Application.Current.FindResource("ColoredArtistGeometry"),
-                EntityTag.PLAYLIST => Application.Current.FindResource("ColoredArtistIcon"),
-                EntityTag.TRACK => Application.Current.FindResource("ColoredArtistIcon")
-            };
+            byte[] source = dto.Avatar.ToArray();
+            var ms = new MemoryStream(source);
+            return new Bitmap(ms);
+        }
+        else if (parameter == "dto_has_icon" && value is CommonInstanceDTO dto_has_icon)
+        {            
+            return dto_has_icon.Avatar.Length == 0;
         }
         else if (parameter == "aico_col")
         {
@@ -148,18 +146,18 @@ public class InstanceConverter : IValueConverter
         image.Source = new Bitmap(new MemoryStream(source));
         return resource;
     }
-
-
+    
     private object CreateBackImage(ref byte[] source)
     {
         Avalonia.Media.Color dominantColor;
         using (var pic = SixLabors.ImageSharp.Image.Load<Rgba32>( source ))
         {
-           pic.Mutate(x => x.Resize(new ResizeOptions 
-                                    {
-                                        Sampler = KnownResamplers.NearestNeighbor,
-                                        Size = new SixLabors.ImageSharp.Size(100, 0)
-                                    }));
+            var resizeOptions = new ResizeOptions 
+            {
+                Sampler = KnownResamplers.NearestNeighbor,
+                Size = new SixLabors.ImageSharp.Size(100, 0)
+            };
+            pic.Mutate(x => x.Resize(resizeOptions));
 
             int r = 0;
             int g = 0;
