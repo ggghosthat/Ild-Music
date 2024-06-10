@@ -112,6 +112,18 @@ public class InstanceConverter : IValueConverter
 
             return Application.Current.FindResource("TrackAvatar");
         }
+        else if (parameter == "aico")
+        {
+            return Application.Current.FindResource("ArtistGeometry");
+        }
+        else if (parameter == "pico")
+        {
+            return Application.Current.FindResource("PlaylistGeometry");            
+        }
+        else if (parameter == "tico")
+        {
+            return Application.Current.FindResource("TrackGeometry");            
+        }
         else if (parameter == "back")
         {
             var defaultColor = new Avalonia.Media.Color(125, 39, 218, 72);
