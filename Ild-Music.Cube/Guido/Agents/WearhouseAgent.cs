@@ -1,5 +1,7 @@
 using Ild_Music.Core.Instances;
 
+using System.IO;
+
 namespace Cube.Guido.Agents;
 
 internal static class WearhouseAgent
@@ -12,12 +14,14 @@ internal static class WearhouseAgent
     {
         _wearhousePath = wearhousePath;
         IsMove = isMove;
+
+        AllocateWearhouse();
     }
 
     public static string GetTrackPathFromId(Guid trackId)
     {
         string trckIdString = trackId.ToString();
-        string path = Path.Combine(_wearhousePath, trckIdString);
+        string path = Path.Combine(_wearhousePath, ".wearhouse", "tracks", trckIdString);
 
         if (File.Exists(path))
             return path;
@@ -30,7 +34,7 @@ internal static class WearhouseAgent
         return trackIds.Select(trackId => 
         {
             string trckIdString = trackId.ToString();
-            string path = Path.Combine(_wearhousePath, trckIdString);
+            string path = Path.Combine(_wearhousePath, ".wearhouse", "tracks", trckIdString);
 
             if (File.Exists(path))
                 return path;
@@ -42,11 +46,12 @@ internal static class WearhouseAgent
     public async static void PlaceTrackFile(Track track)
     {
         string path = track.Pathway.ToString();
+
         if (!File.Exists(path))
             return;
 
-        string trackId = track.Id.ToString();
-        string allocationPath = Path.Combine(_wearhousePath, trackId);
+        string trackIdString = track.Id.ToString();
+        string allocationPath = Path.Combine(_wearhousePath, ".wearhouse", "tracks", trackIdString);
         
         if (IsMove == true)
             File.Move(path, allocationPath);
@@ -67,14 +72,27 @@ internal static class WearhouseAgent
             if (!File.Exists(path))
                 return;
 
-            string trackId = track.Id.ToString();
-            string allocationPath = Path.Combine(_wearhousePath, trackId);
+            string trackIdString = track.Id.ToString();
+            string allocationPath = Path.Combine(_wearhousePath, ".wearhouse", "tracks", trackIdString);
         
             if (IsMove == true)
                 File.Move(path, allocationPath);
             else 
                 await CopyFromInputToOutputAsync(allocationPath, path);
         });
+    }
+
+    private static void AllocateWearhouse()
+    {
+        string allocation_root = Path.Combine(_wearhousePath, ".wearhouse");
+        string track_allocation = Path.Combine(allocation_root, "tracks");
+        string avatar_allocation = Path.Combine(allocation_root, "avatars");
+
+        if(!Path.Exists(track_allocation))
+            Directory.CreateDirectory(track_allocation);
+
+        if(!Path.Exists(avatar_allocation))
+            Directory.CreateDirectory(avatar_allocation);
     }
 
     private async static ValueTask CopyFromInputToOutputAsync(string outputPath, string inputPath)

@@ -47,9 +47,6 @@ public class TrackEditorViewModel : BaseViewModel
     public CommandDelegator CancelCommand { get; }
     public CommandDelegator TrackArtistExplorerCommand {get;}
 
-    //public Artist CurrentSelectedTrackArtist { get; set; }
-    //public Artist CurrentDeleteTrackArtist { get; set; }
-
     public ObservableCollection<CommonInstanceDTO> ArtistsProvider { get; set; } = new ();
     public ObservableCollection<CommonInstanceDTO> SelectedTrackArtists { get; set; } = new (); 
     
@@ -91,10 +88,7 @@ public class TrackEditorViewModel : BaseViewModel
     public void CreateTrackInstance()
     {
         try
-        {
-            if (String.IsNullOrEmpty(Path))
-                throw new InvalidTrackException();
-            
+        {            
             var artists = SelectedTrackArtists
                 .Select(a => supporter.GetArtistAsync(a).Result)
                 .ToList();
@@ -115,9 +109,6 @@ public class TrackEditorViewModel : BaseViewModel
     {
         try
         {
-            if (String.IsNullOrEmpty(Path))
-                throw new InvalidTrackException();
-
             var editTrack = TrackInstance;
             editTrack.Pathway = Path.AsMemory();
             editTrack.Name = Name.AsMemory();

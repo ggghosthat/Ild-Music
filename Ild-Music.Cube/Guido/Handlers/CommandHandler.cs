@@ -273,6 +273,7 @@ internal sealed class CommandHandler
             }
         }
         
+        WearhouseAgent.PlaceTrackFile(track);
         return Task.CompletedTask;
     }
 

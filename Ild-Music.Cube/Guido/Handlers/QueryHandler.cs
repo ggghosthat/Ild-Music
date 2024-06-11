@@ -482,7 +482,7 @@ internal sealed class QueryHandler
 
                 track = new (
                     instanceDTO.Id,
-                    extraProps.Path.ToCharArray(),
+                    String.Empty.ToCharArray(),
                     instanceDTO.Name,
                     extraProps.Description.ToCharArray(),
                     instanceDTO.Avatar,

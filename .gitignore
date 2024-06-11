@@ -6,6 +6,7 @@
 
 
 ./dependencies
+./Ild-Music/.wearhouse
 ./PKGBUILD
 ./*.pkg.tar.zst
 ./Ild-Music/bin
