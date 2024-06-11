@@ -117,8 +117,8 @@ public class ListViewModel : BaseViewModel
         BaseViewModel editor = Header switch
         {
             "Artists" => (BaseViewModel)App.ViewModelTable[ArtistEditorViewModel.viewModelId],
-            "Playlists" => (BaseViewModel)App.ViewModelTable[ArtistEditorViewModel.viewModelId],
-            "Tracks" =>  (BaseViewModel)App.ViewModelTable[ArtistEditorViewModel.viewModelId],
+            "Playlists" => (BaseViewModel)App.ViewModelTable[PlaylistEditorViewModel.viewModelId],
+            "Tracks" =>  (BaseViewModel)App.ViewModelTable[TrackEditorViewModel.viewModelId],
             _ => null
         };
 
