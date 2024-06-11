@@ -49,7 +49,7 @@ internal static class ConnectionAgent
                 //create main tables
                 connection.Execute("create table if not exists artists(Id integer primary key, AID, Name varchar, Description varchar, Year integer, Avatar blob)");
                 connection.Execute("create table if not exists playlists(Id integer primary key, PID, Name varchar, Description varchar, Year integer, Avatar blob)");
-                connection.Execute("create table if not exists tracks(Id integer primary key, TID, Name varchar, Description varchar, Year integer, Avatar blob, Valid integer, Duration integer)");
+                connection.Execute("create table if not exists tracks(Id integer primary key, TID, Name varchar, Description varchar, Year integer, Avatar blob, Duration integer)");
 
                 //create n:n relates between main tables
                 connection.Execute("create table if not exists artists_playlists(Id integer primary key, AID, PID)");

@@ -159,7 +159,7 @@ public class ListViewModel : BaseViewModel
         {
             case "Artists":
                 var artistEditor = (ArtistEditorViewModel)App.ViewModelTable[ArtistEditorViewModel.viewModelId];
-                artistEditor?.DropInstance(CurrentItem ?? default!);
+                artistEditor?.DropInstance(CurrentItem ?? default).Wait();
                 editor = artistEditor;
                 break;
             case "Playlists": 

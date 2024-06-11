@@ -27,17 +27,13 @@ public struct Track
                  int year)
     {
 
-        Id = id;
-        if(System.IO.File.Exists(pathway.ToString()))
-        { 
-            Pathway = pathway;
-            Name = name;
-            Description = description;
-            AvatarSource = avatarSource;      
-            Duration = duration;
-            Year = year;
-            IsValid = true;
-        }
+        Id = id; 
+        Pathway = pathway;
+        Name = name;
+        Description = description;
+        AvatarSource = avatarSource;      
+        Duration = duration;
+        Year = year;
     }
     #endregion
 

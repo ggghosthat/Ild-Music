@@ -3,6 +3,7 @@ using Ild_Music.Core.Instances.Querying;
 using Cube.Guido.Agents;
 using Ild_Music.Core.Instances;
 
+using System;
 using System.Data;
 using Dapper;
 
@@ -341,9 +342,9 @@ internal sealed class QueryHandler
                 artist = new (
                     instanceDTO.Id, 
                     instanceDTO.Name,
-                    extraProps.Description.AsMemory(),
+                    extraProps.Description.ToCharArray(),
                     instanceDTO.Avatar,
-                    extraProps .Year);
+                    (int)extraProps.Year);
 
                 artist.Playlists = connection.Query(
                     arttistPlaylistsQuery,
@@ -454,7 +455,7 @@ internal sealed class QueryHandler
 
                 //setting up main and extra properties for artist body
                 var artistExtraPropsQuery = @"
-                    SELECT Description, Year, Valid, Duration FROM tracks
+                    SELECT Description, Year, Duration FROM tracks
                     WHERE TID = @tid";
                
                 var trackArtistsQuery = @"
@@ -474,20 +475,19 @@ internal sealed class QueryHandler
 
                 var extraProps = connection.QueryFirst(
                     artistExtraPropsQuery,
-                    new { pid = trackId },
+                    new { tid = trackId },
                     transaction);
 
-                if(!extraProps.Valid)
-                    return default;
+                Console.WriteLine(extraProps);
 
                 track = new (
                     instanceDTO.Id,
-                    extraProps .Path,
+                    extraProps.Path.ToCharArray(),
                     instanceDTO.Name,
-                    extraProps.Description.AsMemory(),
+                    extraProps.Description.ToCharArray(),
                     instanceDTO.Avatar,
-                    extraProps.Duration,
-                    extraProps .Year);
+                    TimeSpan.FromSeconds(extraProps.Duration),
+                    (int)extraProps.Year);
 
                 track.Artists  = connection.Query(
                     trackArtistsQuery,
@@ -576,6 +576,8 @@ internal sealed class QueryHandler
        {
            connection.Open();
 
+           var inputs = inputIds.Select(i => i.ToString());
+
            using (var transaction = connection.BeginTransaction())
            {
                var table = entityTag switch
@@ -598,7 +600,7 @@ internal sealed class QueryHandler
 
                resultDtos = connection.Query(
                    query,
-                   new {ids = inputIds}, 
+                   new {ids = inputs}, 
                    transaction)
                .Select( i => new CommonInstanceDTO(
                    id: new Guid(i.Id),

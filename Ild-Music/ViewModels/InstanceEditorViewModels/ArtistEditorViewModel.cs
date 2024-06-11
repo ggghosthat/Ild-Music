@@ -86,6 +86,7 @@ public class ArtistEditorViewModel : BaseViewModel
     {
         try
         {
+            Console.WriteLine("edit");
             if (String.IsNullOrEmpty(Name))
                 throw new InvalidArtistException();
 
@@ -109,6 +110,7 @@ public class ArtistEditorViewModel : BaseViewModel
     public async Task DropInstance(CommonInstanceDTO instanceDTO) 
     {
         ArtistInstance = await supporter.GetArtistAsync(instanceDTO);
+        Console.WriteLine(ArtistInstance.Name);
         IsEditMode = true;
         Name = ArtistInstance.Name.ToString();
         Description = ArtistInstance.Description.ToString();
@@ -125,10 +127,16 @@ public class ArtistEditorViewModel : BaseViewModel
 
     private void HandleChanges(object obj)
     {
-        if (IsEditMode)
+        if (IsEditMode == true)
+        {
+            Console.WriteLine("edit instance");
             EditArtistInstance();
+        }
         else
+        {
+            Console.WriteLine("add instance");
             CreateArtistInstance();
+        }
     }
 
     public async void SelectAvatar(string path)

@@ -11,10 +11,7 @@ internal sealed class CommandHandler
     private readonly ReadOnlyMemory<char> _connectionString;
     
     public CommandHandler()
-    {
-    }
-
-    
+    {}
 
     //these methods needs to add instance and their relationships
     public Task AddArtist(Artist artist) 
@@ -33,7 +30,7 @@ internal sealed class CommandHandler
                     artistBodyQuery,
                     new
                     {
-                        AID = artist.Id,
+                        AID = artist.Id.ToString(),
                         Name = artist.Name.ToString(),
                         Description = artist.Description.ToString(),
                         Year = artist.Year,
@@ -53,8 +50,8 @@ internal sealed class CommandHandler
                             artistPlaylistQuery,
                             new
                             {
-                                aid = artist.Id,
-                                pid = artistPlaylistRelate
+                                aid = artist.Id.ToString(),
+                                pid = artistPlaylistRelate.ToString()
                             },
                             transaction);
                     }                    
@@ -72,8 +69,8 @@ internal sealed class CommandHandler
                             artistTrackQuery,
                             new
                             {
-                                aid = artist.Id,
-                                tid = artistTrackRelate
+                                aid = artist.Id.ToString(),
+                                tid = artistTrackRelate.ToString()
                             },
                             transaction);
                     }
@@ -90,8 +87,8 @@ internal sealed class CommandHandler
                             tagArtistQuery,
                             new
                             {
-                                tag_id = artistTag.Id,
-                                iid = artist.Id,
+                                tag_id = artistTag.Id.ToString(),
+                                iid = artist.Id.ToString(),
                                 entity_type = (int)EntityTag.ARTIST
                             },
                             transaction);
@@ -121,7 +118,7 @@ internal sealed class CommandHandler
                     playlistBodyQuery,
                     new
                     {
-                        PID = playlist.Id,
+                        PID = playlist.Id.ToString(),
                         Name = playlist.Name.ToString(),
                         Description = playlist.Description.ToString(),
                         Year = playlist.Year,
@@ -140,8 +137,8 @@ internal sealed class CommandHandler
                             playlistArtistQuery,
                             new
                             {
-                                aid = playlistArtistRelate,
-                                pid = playlist.Id
+                                aid = playlistArtistRelate.ToString(),
+                                pid = playlist.Id.ToString()
                             },
                             transaction);
                     }
@@ -158,8 +155,8 @@ internal sealed class CommandHandler
                             playlistTrackQuery,
                             new
                             {
-                                pid = playlist.Id,
-                                tid = playlistTrackRelate
+                                pid = playlist.Id.ToString(),
+                                tid = playlistTrackRelate.ToString()
                             },
                             transaction);
                     }
@@ -176,8 +173,8 @@ internal sealed class CommandHandler
                             tagPlaylistQuery,
                             new
                             {
-                                tag_id = playlistTag.Id,
-                                iid = playlist.Id,
+                                tag_id = playlistTag.Id.ToString(),
+                                iid = playlist.Id.ToString(),
                                 entity_type = (int)EntityTag.PLAYLIST
                             },
                             transaction);
@@ -200,19 +197,18 @@ internal sealed class CommandHandler
             using(var transaction = connection.BeginTransaction())
             {
                 var trackBodyQuery = @"
-                    insert or ignore into tracks(TID, Name, Description, Year, Avatar, Valid, Duration) 
-                    values (@TID, @Name, @Description, @Year, @Avatar, @IsValid, @Duration)";
+                    insert or ignore into tracks(TID, Name, Description, Year, Avatar, Duration) 
+                    values (@TID, @Name, @Description, @Year, @Avatar, @Duration)";
 
                 connection.Execute(
                     trackBodyQuery,
                     new
                     {
-                        TID = track.Id,
+                        TID = track.Id.ToString(),
                         Name = track.Name.ToString(),
                         Description = track.Description.ToString(),
                         Year = track.Year,
                         Avatar = track.AvatarSource.ToArray(),
-                        IsValid = track.IsValid,
                         Duration = track.Duration
                     },
                     transaction);
@@ -229,8 +225,8 @@ internal sealed class CommandHandler
                             trackArtistQuery,
                             new
                             {
-                                aid = trackArtistRelate,
-                                tid = track.Id
+                                aid = trackArtistRelate.ToString(),
+                                tid = track.Id.ToString()
                             },
                             transaction);
                     }
@@ -247,8 +243,8 @@ internal sealed class CommandHandler
                             trackPlaylistQuery,
                             new
                             {
-                                pid = trackPlaylistRelate,
-                                tid = track.Id
+                                pid = trackPlaylistRelate.ToString(),
+                                tid = track.Id.ToString()
                             },
                             transaction);
                     }
@@ -265,8 +261,8 @@ internal sealed class CommandHandler
                             tagTrackQuery,
                             new
                             {
-                                tag_id = trackTag.Id,
-                                iid = track.Id,
+                                tag_id = trackTag.Id.ToString(),
+                                iid = track.Id.ToString(),
                                 entity_type = (int)EntityTag.TRACK
                             },
                             transaction);
@@ -295,7 +291,7 @@ internal sealed class CommandHandler
                     tagBodyQuery,
                     new
                     {
-                        tag_id = tag.Id,
+                        tag_id = tag.Id.ToString(),
                         name = tag.Name.ToString(),
                         color = tag.Color.ToString(),
                     },
@@ -312,8 +308,8 @@ internal sealed class CommandHandler
                             tagInstanceQuery,
                             new
                             {
-                                tag_id = tag.Id,
-                                iid = tagArtistRelate,
+                                tag_id = tag.Id.ToString(),
+                                iid = tagArtistRelate.ToString(),
                                 entity_tag = (int)EntityTag.ARTIST
                             },
                             transaction);
@@ -331,8 +327,8 @@ internal sealed class CommandHandler
                             tagInstanceQuery,
                             new
                             {
-                                tag_id = tag.Id,
-                                iid = tagPlaylistRelate,
+                                tag_id = tag.Id.ToString(),
+                                iid = tagPlaylistRelate.ToString(),
                                 entity_tag = (int)EntityTag.PLAYLIST
                             },
                             transaction);
@@ -350,8 +346,8 @@ internal sealed class CommandHandler
                             tagInstanceQuery,
                             new
                             {
-                                tag_id = tag.Id,
-                                iid = tagTrackRelate,
+                                tag_id = tag.Id.ToString(),
+                                iid = tagTrackRelate.ToString(),
                                 entity_tag = (int)EntityTag.TRACK
                             },
                             transaction);
@@ -363,7 +359,6 @@ internal sealed class CommandHandler
         }
         
         return Task.CompletedTask;
-
     }
 
 
@@ -384,7 +379,7 @@ internal sealed class CommandHandler
                     updateArtistQuery,
                     new
                     {                            
-                        AID = newArtist.Id,
+                        AID = newArtist.Id.ToString(),
                         Name = newArtist.Name.ToString(),
                         Description = newArtist.Description.ToString(),
                         Avatar = newArtist.AvatarSource.ToArray(),
@@ -404,8 +399,8 @@ internal sealed class CommandHandler
                             updateArtistPlaylistQuery,
                             new
                             {
-                                aid = newArtist.Id,
-                                pid = artistPlaylistRelate
+                                aid = newArtist.Id.ToString(),
+                                pid = artistPlaylistRelate.ToString()
                             },
                             transaction);
                     }
@@ -424,8 +419,8 @@ internal sealed class CommandHandler
                             updateArtistTrackQuery,
                             new
                             {
-                                aid = newArtist.Id,
-                                tid = artistTrackRelate
+                                aid = newArtist.Id.ToString(),
+                                tid = artistTrackRelate.ToString()
                             },
                             transaction);
                     }
@@ -443,8 +438,8 @@ internal sealed class CommandHandler
                             updateTagArtistQuery,
                             new
                             {
-                                tag_id = artistTag.Id,
-                                iid = newArtist.Id,
+                                tag_id = artistTag.Id.ToString(),
+                                iid = newArtist.Id.ToString(),
                                 entity_type = (int)EntityTag.ARTIST
                             },
                             transaction);
@@ -474,7 +469,7 @@ internal sealed class CommandHandler
                     updatePlaylistQuery,
                     new
                     {                            
-                        PID = newPlaylist.Id,
+                        PID = newPlaylist.Id.ToString(),
                         Name = newPlaylist.Name.ToString(),
                         Description = newPlaylist.Description.ToString(),
                         Avatar = newPlaylist.AvatarSource.ToArray(),
@@ -494,8 +489,8 @@ internal sealed class CommandHandler
                             updatePlaylistArtistsQuery,
                             new
                             {
-                                aid = playlistArtistRelate,
-                                pid = newPlaylist.Id
+                                aid = playlistArtistRelate.ToString(),
+                                pid = newPlaylist.Id.ToString()
                             },
                             transaction);
                     }
@@ -514,8 +509,8 @@ internal sealed class CommandHandler
                             updateArtistTrackQuery,
                             new
                             {
-                                pid = newPlaylist.Id,
-                                tid = playlistTrackRelate
+                                pid = newPlaylist.Id.ToString(),
+                                tid = playlistTrackRelate.ToString()
                             },
                             transaction);
                     }
@@ -533,8 +528,8 @@ internal sealed class CommandHandler
                             updateTagPlaylistQuery,
                             new
                             {
-                                tag_id = playlistTag.Id,
-                                iid = newPlaylist.Id,
+                                tag_id = playlistTag.Id.ToString(),
+                                iid = newPlaylist.Id.ToString(),
                                 entity_type = (int)EntityTag.PLAYLIST
                             },
                             transaction);
@@ -557,19 +552,18 @@ internal sealed class CommandHandler
            {
                 var updateTrackQuery = @"
                     update tracks 
-                    set Name = @Name, Description = @Description, Avatar = @Avatar, Year = @Year, Valid = @IsValid, Duration = @Duration 
+                    set Name = @Name, Description = @Description, Avatar = @Avatar, Year = @Year, Duration = @Duration 
                     where TID = @TID";
                 
                 connection.Execute(
                     updateTrackQuery,
                     new
                     {                            
-                        TID = newTrack.Id,
+                        TID = newTrack.Id.ToString(),
                         Name = newTrack.Name.ToString(),
                         Description = newTrack.Description.ToString(),
                         Avatar = newTrack.AvatarSource.ToArray(),
                         Year = newTrack.Year.ToString(),
-                        IsValid = newTrack.IsValid?1:0,
                         Duration = newTrack.Duration.ToString()
                     },
                     transaction);
@@ -586,8 +580,8 @@ internal sealed class CommandHandler
                             updatePlaylistArtistsQuery,
                             new
                             {
-                                aid = trackArtistRelate,
-                                tid = newTrack.Id
+                                aid = trackArtistRelate.ToString(),
+                                tid = newTrack.Id.ToString()
                             },
                             transaction);
                     }
@@ -606,8 +600,8 @@ internal sealed class CommandHandler
                             updateTrackPlaylistQuery,
                             new
                             {
-                                tid = newTrack.Id,
-                                pid = trackPlaylistRelate
+                                tid = newTrack.Id.ToString(),
+                                pid = trackPlaylistRelate.ToString()
                             },
                             transaction);
                     }
@@ -625,8 +619,8 @@ internal sealed class CommandHandler
                             updateTagPlaylistQuery,
                             new
                             {
-                                tag_id = trackTag.Id,
-                                iid = newTrack.Id,
+                                tag_id = trackTag.Id.ToString(),
+                                iid = newTrack.Id.ToString(),
                                 entity_type = (int)EntityTag.TRACK
                             },
                             transaction);
@@ -657,7 +651,7 @@ internal sealed class CommandHandler
                     updateTagQuery,
                     new
                     {
-                        tag_id = newTag.Id,
+                        tag_id = newTag.Id.ToString(),
                         name = newTag.Name.ToString(),
                         color = newTag.Color.ToString(),
                     },
@@ -676,8 +670,8 @@ internal sealed class CommandHandler
                             tagInstanceQuery,
                             new
                             {
-                                tag_id = newTag.Id,
-                                iid = tagArtistRelate,
+                                tag_id = newTag.Id.ToString(),
+                                iid = tagArtistRelate.ToString(),
                                 entity_tag = (int)EntityTag.ARTIST
                             },
                             transaction);
@@ -696,8 +690,8 @@ internal sealed class CommandHandler
                             tagInstanceQuery,
                             new
                             {
-                                tag_id = newTag.Id,
-                                iid = tagPlaylistRelate,
+                                tag_id = newTag.Id.ToString(),
+                                iid = tagPlaylistRelate.ToString(),
                                 entity_tag = (int)EntityTag.PLAYLIST
                             },
                             transaction);
@@ -716,8 +710,8 @@ internal sealed class CommandHandler
                             tagInstanceQuery,
                             new
                             {
-                                tag_id = newTag.Id,
-                                iid = tagTrackRelate,
+                                tag_id = newTag.Id.ToString(),
+                                iid = tagTrackRelate.ToString(),
                                 entity_tag = (int)EntityTag.TRACK
                             },
                             transaction);
@@ -729,7 +723,6 @@ internal sealed class CommandHandler
         }
         
         return Task.CompletedTask;
-
     }
 
 
@@ -750,7 +743,7 @@ internal sealed class CommandHandler
     
                 connection.Execute(
                     deleteArtistQuery,
-                    new {aid = artistId},
+                    new {aid = artistId.ToString()},
                     transaction);
 
                 transaction.Commit();
@@ -775,7 +768,7 @@ internal sealed class CommandHandler
     
                 connection.Execute(
                     deletePlaylistQuery,
-                    new {pid = playlistId},
+                    new {pid = playlistId.ToString()},
                     transaction);
 
                 transaction.Commit();
@@ -800,7 +793,7 @@ internal sealed class CommandHandler
     
                 connection.Execute(
                     deleteTrackQuery,
-                    new {tid = trackId},
+                    new {tid = trackId.ToString()},
                     transaction);
 
                 transaction.Commit();
@@ -825,7 +818,7 @@ internal sealed class CommandHandler
     
                 connection.Execute(
                     deleteTagQuery,
-                    new {tag_id = tagId},
+                    new {tag_id = tagId.ToString()},
                     transaction);
 
                 transaction.Commit();
