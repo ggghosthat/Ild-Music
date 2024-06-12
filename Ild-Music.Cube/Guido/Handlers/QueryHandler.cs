@@ -12,8 +12,7 @@ namespace Cube.Guido.Handlers;
 internal sealed class QueryHandler
 {    
     public QueryHandler()
-    {
-    }
+    {}
 
     //This method require top items for each type with a predefined count.
     //Please, use this method just for initialization puprose.
@@ -27,7 +26,7 @@ internal sealed class QueryHandler
 
             using (var transaction = connection.BeginTransaction())
             {
-                var commonQuery = @"
+                string commonQuery = @"
                     SELECT AID, Name, Avatar FROM artists
                     WHERE Id > 0 AND Id <= @pageLimit;
 			
@@ -44,7 +43,7 @@ internal sealed class QueryHandler
                 {
                     var artistsDTO = multiQuery.Read()
                         .Select(a => new CommonInstanceDTO( 
-                            id: new Guid(a.AID),
+                            id: Guid.Parse((string)a.AID),
                             name: ((string)a.Name).AsMemory(),
                             avatar: a.Avatar,
                             tag: EntityTag.ARTIST))
@@ -52,7 +51,7 @@ internal sealed class QueryHandler
 
                     var playlistsDTO = multiQuery.Read()
                         .Select(a => new CommonInstanceDTO( 
-                            id: new Guid(a.PID),
+                            id: Guid.Parse((string)a.PID),
                             name: ((string)a.Name).AsMemory(),
                             avatar: a.Avatar,
                             tag: EntityTag.PLAYLIST))
@@ -60,7 +59,7 @@ internal sealed class QueryHandler
 
                     var tracksDTO = multiQuery.Read()
                         .Select(a => new CommonInstanceDTO( 
-                            id: new Guid(a.TID),
+                            id: Guid.Parse((string)a.TID),
                             name: ((string)a.Name).AsMemory(),
                             avatar: a.Avatar,
                             tag: EntityTag.TRACK))
@@ -85,14 +84,14 @@ internal sealed class QueryHandler
 
             using (var transaction = connection.BeginTransaction())
             {
-                var artistsPageQuery = "SELECT AID, Name, Avatar FROM artists;";
+                string artistsPageQuery = "SELECT AID, Name, Avatar FROM artists;";
 
                 artistsDTOs = connection.Query(
                     artistsPageQuery,
                     default,
                     transaction)
                 .Select(a => new CommonInstanceDTO( 
-                    id: new Guid(a.AID),
+                    id: Guid.Parse((string)a.AID),
                     name: ((string)a.Name).AsMemory(),
                     avatar: a.Avatar,
                     tag: EntityTag.ARTIST))
@@ -112,7 +111,7 @@ internal sealed class QueryHandler
 
             using (var transaction = connection.BeginTransaction())
             {
-                var artistsPageQuery = @"
+                string artistsPageQuery = @"
                     SELECT AID, Name, Avatar FROM artists
                     WHERE Id > @offset AND Id <= @pageLimit;";
 
@@ -121,7 +120,7 @@ internal sealed class QueryHandler
                     new { offset = offset, pageLimit = limit },
                     transaction)
                 .Select(a => new CommonInstanceDTO( 
-                    id: new Guid(a.AID),
+                    id: Guid.Parse((string)a.AID),
                     name: ((string)a.Name).AsMemory(),
                     avatar: a.Avatar,
                     tag: EntityTag.ARTIST))
@@ -141,14 +140,14 @@ internal sealed class QueryHandler
 
             using (var transaction = connection.BeginTransaction())
             {
-                var playlistsPageQuery = "SELECT PID, Name, Avatar FROM playlists;";
+                string playlistsPageQuery = "SELECT PID, Name, Avatar FROM playlists;";
                
                 playlistsDTOs = connection.Query(
                     playlistsPageQuery,
                     default,
                     transaction)
                 .Select(p => new CommonInstanceDTO( 
-                    id: new Guid(p.PID),
+                    id: Guid.Parse((string)p.PID),
                     name: ((string)p.Name).AsMemory(),
                     avatar: p.Avatar,
                     tag: EntityTag.PLAYLIST))
@@ -159,7 +158,6 @@ internal sealed class QueryHandler
         return Task.FromResult<IEnumerable<CommonInstanceDTO>>(playlistsDTOs);
     }
 
-
     public Task<IEnumerable<CommonInstanceDTO>> QueryPlaylists(int offset, int limit)
     {
         IEnumerable<CommonInstanceDTO> playlistsDTOs;
@@ -169,7 +167,7 @@ internal sealed class QueryHandler
 
             using (var transaction = connection.BeginTransaction())
             {
-                var playlistsPageQuery = @"
+                string playlistsPageQuery = @"
                     SELECT PID, Name, Avatar FROM playlists
                     WHERE Id > @offset AND Id <= @pageLimit;";
                
@@ -178,7 +176,7 @@ internal sealed class QueryHandler
                     new { offset = offset, pageLimit = limit },
                     transaction)
                 .Select(p => new CommonInstanceDTO( 
-                    id: new Guid(p.PID),
+                    id: Guid.Parse((string)p.PID),
                     name: ((string)p.Name).AsMemory(),
                     avatar: p.Avatar,
                     tag: EntityTag.PLAYLIST))
@@ -198,14 +196,14 @@ internal sealed class QueryHandler
 
             using (var transaction = connection.BeginTransaction())
             {
-                var tracksPageQuery = "SELECT TID, Name, Avatar FROM tracks;";
+                string tracksPageQuery = "SELECT TID, Name, Avatar FROM tracks;";
                
                 tracksDTOs = connection.Query(
                     tracksPageQuery,
                     default,
                     transaction)
                 .Select(t => new CommonInstanceDTO( 
-                    id: new Guid(t.TID),
+                    id: Guid.Parse((string)t.TID),
                     name: ((string)t.Name).AsMemory(),
                     avatar: t.Avatar,
                     tag: EntityTag.TRACK))
@@ -216,7 +214,6 @@ internal sealed class QueryHandler
         return Task.FromResult<IEnumerable<CommonInstanceDTO>>(tracksDTOs);
     }
 
-
     public Task<IEnumerable<CommonInstanceDTO>> QueryTracks(int offset, int limit)
     {
         IEnumerable<CommonInstanceDTO> tracksDTOs;
@@ -226,7 +223,7 @@ internal sealed class QueryHandler
 
             using (var transaction = connection.BeginTransaction())
             {
-                var tracksPageQuery = @"
+                string tracksPageQuery = @"
                     SELECT TID, Name, Avatar FROM tracks
                     WHERE Id > @offset AND Id <= @pageLimit;";
                
@@ -235,7 +232,7 @@ internal sealed class QueryHandler
                     new { offset = offset, pageLimit = limit },
                     transaction)
                 .Select(t => new CommonInstanceDTO( 
-                    id: new Guid(t.TID),
+                    id: Guid.Parse((string)t.TID),
                     name: ((string)t.Name).AsMemory(),
                     avatar: t.Avatar,
                     tag: EntityTag.TRACK))
@@ -256,14 +253,14 @@ internal sealed class QueryHandler
 
             using (var transaction = connection.BeginTransaction())
             {
-                var tagsPageQuery = "SELECT TagID, Name, Color FROM tags;";
+                string tagsPageQuery = "SELECT TagID, Name, Color FROM tags;";
 
                 tags = connection.Query(
                     tagsPageQuery,
                     default,
                     transaction)
                 .Select(tag => new Tag(
-                    id: new Guid(tag.Id),
+                    id: Guid.Parse((string)tag.TagId),
                     name: ((string)tag.Name).AsMemory(),
                     color: ((string)tag.Color).AsMemory()))
                 .ToList();
@@ -283,7 +280,7 @@ internal sealed class QueryHandler
 
             using (var transaction = connection.BeginTransaction())
             {
-                var tagsPageQuery = @"
+                string tagsPageQuery = @"
                     SELECT TagID, Name, Color FROM tags
                     WHERE Id > @offset AND Id <= @pageLimit;";
 
@@ -292,7 +289,7 @@ internal sealed class QueryHandler
                     new { offset = offset, pageLimit = limit },
                     transaction)
                 .Select(tag => new Tag(
-                    id: new Guid(tag.Id),
+                    id: Guid.Parse((string)tag.TagId),
                     name: ((string)tag.Name).AsMemory(),
                     color: ((string)tag.Color).AsMemory()))
                 .ToList();
@@ -301,7 +298,6 @@ internal sealed class QueryHandler
 
         return Task.FromResult<IEnumerable<Tag>>(tags);
     }
-
 
     public Task<Artist> QuerySingleArtist(ref CommonInstanceDTO instanceDTO)
     {
@@ -315,19 +311,19 @@ internal sealed class QueryHandler
                 var artistId = instanceDTO.Id.ToString();
 
                 //setting up main and extra properties for artist body
-                var artistExtraPropsQuery = @"
+                string artistExtraPropsQuery = @"
                     SELECT Description, Year FROM artists
                     WHERE AID = @aid";
                
-                var arttistPlaylistsQuery = @"
+                string arttistPlaylistsQuery = @"
                     SELECT PID FROM artists_playlists
                     WHERE AID = @aid";
 
-                var arttistTracksQuery = @"
-                    SELECT TID FROM artists_tracks
+                string arttistTracksQuery = @"
+                    SELECT TID as tid FROM artists_tracks
                     WHERE AID = @aid";
 
-                var arttistTagsQuery = @"
+                string arttistTagsQuery = @"
                     SELECT t.TagID, t.Name, t.Color, ti.IID 
                     FROM tags_instances as ti
                     INNER JOIN tags as t
@@ -350,14 +346,16 @@ internal sealed class QueryHandler
                     arttistPlaylistsQuery,
                     new { aid = artistId },
                     transaction)
-                .Select(pid => new Guid(pid))
+                .Where(pid => pid.Value is not null)
+                .Select(pid => Guid.Parse((string)pid.Value))
                 .ToList();
 
                 artist.Tracks = connection.Query(
                     arttistTracksQuery,
                     new { aid = artistId },
                     transaction)
-                .Select(tid => new Guid(tid))
+                .Where(tid => tid.Value is not null)
+                .Select(tid => Guid.Parse((string)tid.Value))
                 .ToList();
 
                 artist.Tags = connection.Query<Tag>(
@@ -381,28 +379,27 @@ internal sealed class QueryHandler
 
             using (var transaction = connection.BeginTransaction())
             {
-                var playlistId = instanceDTO.Id.ToString();
+                string playlistId = instanceDTO.Id.ToString();
 
                 //setting up main and extra properties for artist body
-                var artistExtraPropsQuery = @"
+                string artistExtraPropsQuery = @"
                     SELECT Description, Year FROM playlists
                     WHERE PID = @pid";
                
-                var playlistArtistsQuery = @"
+                string playlistArtistsQuery = @"
                     SELECT AID FROM artists_playlists
                     WHERE PID = @pid";
 
-                var playlistTracksQuery = @"
+                string playlistTracksQuery = @"
                     SELECT TID FROM playlists_tracks
                     WHERE PID = @pid";
 
-                var playlistTagsQuery = @"
+                string playlistTagsQuery = @"
                     SELECT t.TagID, t.Name, t.Color, ti.IID 
                     FROM tags_instances as ti
                     INNER JOIN tags as t
                     ON t.TagID = ti.TagID
                     WHERE ti.IID = @pid";
-
 
                 var extraProps = connection.QueryFirst(
                     artistExtraPropsQuery,
@@ -420,14 +417,16 @@ internal sealed class QueryHandler
                     playlistArtistsQuery,
                     new { pid = playlistId },
                     transaction)
-                .Select(pid => new Guid(pid))
+                .Where(aid => aid.Value is not null)
+                .Select(aid => Guid.Parse((string)aid.Value))
                 .ToList();
 
                 playlist.Tracky = connection.Query(
                     playlistTracksQuery,
                     new { pid = playlistId },
                     transaction)
-                .Select(tid => new Guid(tid))
+                .Where(tid => tid.Value is not null)
+                .Select(tid => Guid.Parse((string)tid.Value))
                 .ToList();
 
                 playlist.Tags = connection.Query<Tag>(
@@ -451,22 +450,22 @@ internal sealed class QueryHandler
 
             using (var transaction = connection.BeginTransaction())
             {
-                var trackId = instanceDTO.Id.ToString();
+                string trackId = instanceDTO.Id.ToString();
 
                 //setting up main and extra properties for artist body
-                var artistExtraPropsQuery = @"
+                string artistExtraPropsQuery = @"
                     SELECT Description, Year, Duration FROM tracks
                     WHERE TID = @tid";
                
-                var trackArtistsQuery = @"
+                string trackArtistsQuery = @"
                     SELECT AID FROM artists_tracks
                     WHERE TID = @tid";
 
-                var trackPlaylistsQuery = @"
+                string trackPlaylistsQuery = @"
                     SELECT PID FROM playlists_tracks
                     WHERE TID = @tid";
 
-                var trackTagsQuery = @"
+                string trackTagsQuery = @"
                     SELECT t.TagID, t.Name, t.Color, ti.IID 
                     FROM tags_instances as ti
                     INNER JOIN tags as t
@@ -477,8 +476,6 @@ internal sealed class QueryHandler
                     artistExtraPropsQuery,
                     new { tid = trackId },
                     transaction);
-
-                Console.WriteLine(extraProps);
 
                 track = new (
                     instanceDTO.Id,
@@ -492,15 +489,17 @@ internal sealed class QueryHandler
                 track.Artists  = connection.Query(
                     trackArtistsQuery,
                     new { tid = trackId },
-                    transaction)
-                .Select(aid => new Guid(aid))
+                    transaction)                
+                .Where(aid => aid.Value is not null)
+                .Select(aid => Guid.Parse((string)aid.Value))
                 .ToList();
 
                 track.Playlists = connection.Query(
                     trackPlaylistsQuery,
                     new { tid = trackId },
                     transaction)
-                .Select(tid => new Guid(tid))
+                .Where(tid => tid.Value is not null)
+                .Select(tid => Guid.Parse((string)tid.Value))
                 .ToList();
 
                 track.Tags = connection.Query<Tag>(
@@ -517,22 +516,22 @@ internal sealed class QueryHandler
 
     public Task<Tag> QuerySingleTag(Guid tagId)
     {
-        Tag tag;
+        Tag tag;        
         using (IDbConnection connection = ConnectionAgent.GetDbConnection())
         {
             connection.Open();
 
             using (var transaction = connection.BeginTransaction())
             {
-                var tagIdString = tagId.ToString();
+                string tagIdString = tagId.ToString();
 
                 //setting up main and extra properties for artist body
-                var tagQuery = @"
+                string tagQuery = @"
                     SELECT t.TagId as Id, t.Name, t.Color, ti.IID 
                     FROM tags AS t
                     WHERE t.TagID = @tagIdStr";
                 
-                var tagEntitiesQuery = @"
+                string tagEntitiesQuery = @"
                     SELECT ti.IID
                     FROM tags_instances AS ti
                     WHERE ti.TagId = @tagIdStr AND ti.EntityType = @entityType";
@@ -546,29 +545,34 @@ internal sealed class QueryHandler
                     tagEntitiesQuery,
                     new { tagIdStr = tagIdString, entityType = 1 },
                     transaction)
-                .Select(aid => new Guid(aid))
+                .Where(aid => aid.Value is not null)
+                .Select(aid => Guid.Parse((string)aid.Value))
                 .ToList();
 
                 tag.Playlists = connection.Query(
                     tagEntitiesQuery,
                     new { tagIdStr = tagIdString, entityType = 2 },
                     transaction)
-                .Select(pid => new Guid(pid))
+                .Where(pid => tid.Value is not null)
+                .Select(pid => Guid.Parse((string)pid.Value))
                 .ToList();
 
-                tag.Tracks = connection.Query(
+                tag.Tracks = (connection.Query(
                     tagEntitiesQuery,
                     new { tagIdStr = tagIdString, entityType = 3 },
                     transaction)
-                .Select(tid => new Guid(tid))
-                .ToList();
+                .Where(tid => tid.Value is not null)
+                .Select(tid => Guid.Parse((string)tid.Value))
+                .ToList());
             }
         }
 
         return Task.FromResult<Tag>(tag);
     }
 
-    public Task<IEnumerable<CommonInstanceDTO>> QueryInstanceDtosFromIds(IEnumerable<Guid> inputIds, EntityTag entityTag)
+    public Task<IEnumerable<CommonInstanceDTO>> QueryInstanceDtosFromIds(
+        IEnumerable<Guid> inputIds,
+        EntityTag entityTag)
     {
        IEnumerable<CommonInstanceDTO> resultDtos;
 
@@ -576,10 +580,10 @@ internal sealed class QueryHandler
        {
            connection.Open();
 
-           var inputs = inputIds.Select(i => i.ToString());
-
            using (var transaction = connection.BeginTransaction())
            {
+               var inputs = inputIds.Select(i => i.ToString());
+
                var table = entityTag switch
                {
                    EntityTag.ARTIST => "artists",
@@ -596,14 +600,14 @@ internal sealed class QueryHandler
                    _ => default
                };
 
-               var query = $@"SELECT {header} as Id, Name, Avatar FROM {table} WHERE {header} IN @ids";
+               string query = $@"SELECT {header} as Id, Name, Avatar FROM {table} WHERE {header} IN @ids";
 
                resultDtos = connection.Query(
                    query,
                    new {ids = inputs}, 
                    transaction)
-               .Select( i => new CommonInstanceDTO(
-                   id: new Guid(i.Id),
+                .Select(i => new CommonInstanceDTO(
+                   id: Guid.Parse(i.Id),
                    name: ((string)i.Name).AsMemory(),
                    avatar: i.Avatar,
                    tag: entityTag));
