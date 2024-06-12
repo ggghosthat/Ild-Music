@@ -11,7 +11,7 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="Ild_Music.Views.ArtistEditorView"
              x:DataType="vm:ArtistEditorViewModel">
-<UserControl.Resources>
+  <UserControl.Resources>
     <conv:InstanceConverter x:Key="InstanceConverter"/>
     <conv:ErrorMessageConverter x:Key="ErrorStateConverter"/>
   </UserControl.Resources>

@@ -185,7 +185,7 @@ public class TrackEditorViewModel : BaseViewModel
         else
             Explorer.Arrange(EntityTag.ARTIST); 
 
-        MainVM.PushVM(null, Explorer);
+        MainVM.PushVM(this, Explorer);
         MainVM.ResolveWindowStack();        
     }
 
