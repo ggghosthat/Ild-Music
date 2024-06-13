@@ -73,21 +73,21 @@ public class InstanceConverter : IValueConverter
         else if (parameter == "aico_col")
         {
             if (value is byte[] artistIconSource && artistIconSource.Length >= 0)
-                return ComputeAvatarIcon(ref artistIconSource);
+                return ComputeAvatarIcon(ref artistIconSource, 300d, 300d);
                 
             return LoadAsset(@"avares://Ild-Music/Assets/DefaultIcons/artist.png");
         }
         else if (parameter == "pico_col")
         {
             if (value is byte[] playlistIconSource && playlistIconSource.Length >= 0)
-                return ComputeAvatarIcon(ref playlistIconSource);
+                return ComputeAvatarIcon(ref playlistIconSource, 300d, 300d);
                 
             return LoadAsset(@"avares://Ild-Music/Assets/DefaultIcons/playlist.png");
         }
         else if (parameter == "tico_col")
         {
             if (value is byte[] trackIconSource && trackIconSource.Length >= 0)
-                return ComputeAvatarIcon(ref trackIconSource);
+                return ComputeAvatarIcon(ref trackIconSource, 300d, 300d);
 
             return LoadAsset(@"avares://Ild-Music/Assets/DefaultIcons/track.png");
         }
