@@ -23,118 +23,119 @@
       <RowDefinition Height="auto"/>
     </Grid.RowDefinitions>
 
-    <i:Interaction.Behaviors>
-      <ia:EventTriggerBehavior EventName="Tapped">
-        <ia:InvokeCommandAction Command="{Binding InitCurrentListCommand}"/>
-      </ia:EventTriggerBehavior>  
-    </i:Interaction.Behaviors>
-    <ListBox x:Name="Tabs"
-            Grid.Row="0"
-            Margin="15 30 15 2"
-            ItemsSource="{Binding Headers}"
-            SelectedItem="{Binding Header}"
-            Background="Transparent">
-        <ListBox.ItemsPanel>
-          <ItemsPanelTemplate>
-            <StackPanel Orientation="Horizontal"/>
-          </ItemsPanelTemplate>
-        </ListBox.ItemsPanel>
+    <Border Grid.Row="0"
+            Margin="15 30 15 2">
+        <i:Interaction.Behaviors>
+          <ia:EventTriggerBehavior EventName="Tapped">
+            <ia:InvokeCommandAction Command="{Binding InitCurrentListCommand}"/>
+          </ia:EventTriggerBehavior>  
+        </i:Interaction.Behaviors>
+        <ListBox x:Name="Tabs"
+                ItemsSource="{Binding Headers}"
+                SelectedItem="{Binding Header}"
+                Background="Transparent">
+            <ListBox.ItemsPanel>
+              <ItemsPanelTemplate>
+                <StackPanel Orientation="Horizontal"/>
+              </ItemsPanelTemplate>
+            </ListBox.ItemsPanel>
 
-        <ListBox.Styles>
-          <Style Selector="ListBoxItem">
-            <Setter Property="BorderThickness" Value="0"/>
-            <Setter Property="BorderBrush" Value="{StaticResource btnApplyColor1}"/>
-            <Setter Property="Margin" Value="0"/>
-            <Setter Property="Padding" Value="2"/>
-            
-            <Setter Property="HorizontalContentAlignment" Value="Center"/>  
-            <Setter Property="VerticalContentAlignment" Value="Center"/>
-            
-            <Setter Property="Width" Value="60"/>
-            <Setter Property="Height" Value="30"/>
-
-            <Setter Property="Template">
-              <ControlTemplate>
+            <ListBox.Styles>
+              <Style Selector="ListBoxItem">
+                <Setter Property="BorderThickness" Value="0"/>
+                <Setter Property="BorderBrush" Value="{StaticResource btnApplyColor1}"/>
+                <Setter Property="Margin" Value="0"/>
+                <Setter Property="Padding" Value="2"/>
                 
-                <Grid>
-                  <Border x:Name="Bd"
-                          Margin="4 0"
-                          Classes="HeaderBorder"
-                          Background="Transparent"
-                          BorderThickness="0 0 0 2"
-                          BorderBrush="{TemplateBinding BorderBrush}"
-                          Padding="{TemplateBinding Padding}">
+                <Setter Property="HorizontalContentAlignment" Value="Center"/>  
+                <Setter Property="VerticalContentAlignment" Value="Center"/>
+                
+                <Setter Property="Width" Value="60"/>
+                <Setter Property="Height" Value="30"/>
 
-                      <ContentPresenter Name="PART_ContentPresenter"
-                                        HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                        VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
-                                        ContentTemplate="{TemplateBinding ContentTemplate}"
-                                        Content="{TemplateBinding Content}"/>
-                  </Border>
-                </Grid>
-              </ControlTemplate>
-            </Setter>
-          </Style>
+                <Setter Property="Template">
+                  <ControlTemplate>
+                    
+                    <Grid>
+                      <Border x:Name="Bd"
+                              Margin="4 0"
+                              Classes="HeaderBorder"
+                              Background="Transparent"
+                              BorderThickness="0 0 0 2"
+                              BorderBrush="{TemplateBinding BorderBrush}"
+                              Padding="{TemplateBinding Padding}">
 
-          <Style Selector="ListBoxItem:pointerover /template/ Border.HeaderBorder">
-            <Setter Property="Background" Value="Transparent"/>
-            <Setter Property="BorderBrush" Value="{StaticResource btnApplyColor2}"/>
-          </Style>
+                          <ContentPresenter Name="PART_ContentPresenter"
+                                            HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                            VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                            ContentTemplate="{TemplateBinding ContentTemplate}"
+                                            Content="{TemplateBinding Content}"/>
+                      </Border>
+                    </Grid>
+                  </ControlTemplate>
+                </Setter>
+              </Style>
 
-          <Style Selector="ListBoxItem:pointerover /template/ ContentPresenter">
-            <Setter Property="Background" Value="Transparent"/>
-            <Setter Property="BorderBrush" Value="Transparent"/>
-          </Style>
+              <Style Selector="ListBoxItem:pointerover /template/ Border.HeaderBorder">
+                <Setter Property="Background" Value="Transparent"/>
+                <Setter Property="BorderBrush" Value="{StaticResource btnApplyColor2}"/>
+              </Style>
 
-          <Style Selector="ListBoxItem:selected /template/ Border.HeaderBorder">
-            <Setter Property="Background" Value="Transparent"/>
-            <Setter Property="BorderBrush" Value="{StaticResource btnApplyColor2}"/>
-          </Style>
+              <Style Selector="ListBoxItem:pointerover /template/ ContentPresenter">
+                <Setter Property="Background" Value="Transparent"/>
+                <Setter Property="BorderBrush" Value="Transparent"/>
+              </Style>
 
-          <Style Selector="ListBoxItem:selected /template/ ContentPresenter">
-            <Setter Property="Background" Value="Transparent"/>
-            <Setter Property="BorderBrush" Value="Transparent"/>
-          </Style>
-          
-          <Style Selector="ListBoxItem:selected:focus /template/ Border.HeaderBorder">
-            <Setter Property="Background" Value="Transparent"/>
-            <Setter Property="BorderBrush" Value="{StaticResource btnApplyColor2}"/>
-          </Style>
+              <Style Selector="ListBoxItem:selected /template/ Border.HeaderBorder">
+                <Setter Property="Background" Value="Transparent"/>
+                <Setter Property="BorderBrush" Value="{StaticResource btnApplyColor2}"/>
+              </Style>
 
-          <Style Selector="ListBoxItem:selected:focus /template/ ContentPresenter">
-            <Setter Property="Background" Value="Transparent"/>
-            <Setter Property="BorderBrush" Value="Transparent"/>
-          </Style>
+              <Style Selector="ListBoxItem:selected /template/ ContentPresenter">
+                <Setter Property="Background" Value="Transparent"/>
+                <Setter Property="BorderBrush" Value="Transparent"/>
+              </Style>
+              
+              <Style Selector="ListBoxItem:selected:focus /template/ Border.HeaderBorder">
+                <Setter Property="Background" Value="Transparent"/>
+                <Setter Property="BorderBrush" Value="{StaticResource btnApplyColor2}"/>
+              </Style>
 
-          <Style Selector="ListBoxItem:selected:pointerover /template/ Border.HeaderBorder">
-            <Setter Property="Background" Value="Transparent"/>
-            <Setter Property="BorderBrush" Value="{StaticResource btnApplyColor2}"/>
-          </Style>
+              <Style Selector="ListBoxItem:selected:focus /template/ ContentPresenter">
+                <Setter Property="Background" Value="Transparent"/>
+                <Setter Property="BorderBrush" Value="Transparent"/>
+              </Style>
 
-          <Style Selector="ListBoxItem:selected:pointerover /template/ ContentPresenter">
-            <Setter Property="Background" Value="Transparent"/>
-            <Setter Property="BorderBrush" Value="Transparent"/>
-          </Style>
+              <Style Selector="ListBoxItem:selected:pointerover /template/ Border.HeaderBorder">
+                <Setter Property="Background" Value="Transparent"/>
+                <Setter Property="BorderBrush" Value="{StaticResource btnApplyColor2}"/>
+              </Style>
 
-          <Style Selector="ListBoxItem:selected:focus:pointerover /template/ Border.HeaderBorder">
-            <Setter Property="Background" Value="Transparent"/>
-            <Setter Property="BorderBrush" Value="{StaticResource btnApplyColor2}"/>
-          </Style>
+              <Style Selector="ListBoxItem:selected:pointerover /template/ ContentPresenter">
+                <Setter Property="Background" Value="Transparent"/>
+                <Setter Property="BorderBrush" Value="Transparent"/>
+              </Style>
 
-          <Style Selector="ListBoxItem:selected:focus:pointerover /template/ ContentPresenter">
-            <Setter Property="Background" Value="Transparent"/>
-            <Setter Property="BorderBrush" Value="Transparent"/>
-          </Style>
-        </ListBox.Styles>
-                  
-        <ListBox.ItemTemplate>
-          <DataTemplate>
-            <TextBlock Text="{Binding .}"
-                      Foreground="#c2c2c2"
-                      FontSize="14"/>
-          </DataTemplate>
-        </ListBox.ItemTemplate>
-    </ListBox>
+              <Style Selector="ListBoxItem:selected:focus:pointerover /template/ Border.HeaderBorder">
+                <Setter Property="Background" Value="Transparent"/>
+                <Setter Property="BorderBrush" Value="{StaticResource btnApplyColor2}"/>
+              </Style>
+
+              <Style Selector="ListBoxItem:selected:focus:pointerover /template/ ContentPresenter">
+                <Setter Property="Background" Value="Transparent"/>
+                <Setter Property="BorderBrush" Value="Transparent"/>
+              </Style>
+            </ListBox.Styles>
+                      
+            <ListBox.ItemTemplate>
+              <DataTemplate>
+                <TextBlock Text="{Binding .}"
+                          Foreground="#c2c2c2"
+                          FontSize="14"/>
+              </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+    </Border>
 
     <Grid Grid.Row="1" 
           HorizontalAlignment="Stretch"

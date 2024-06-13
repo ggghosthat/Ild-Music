@@ -86,7 +86,6 @@ public class ArtistEditorViewModel : BaseViewModel
     {
         try
         {
-            Console.WriteLine("edit");
             if (String.IsNullOrEmpty(Name))
                 throw new InvalidArtistException();
 
@@ -129,12 +128,10 @@ public class ArtistEditorViewModel : BaseViewModel
     {
         if (IsEditMode == true)
         {
-            Console.WriteLine("edit instance");
             EditArtistInstance();
         }
         else
         {
-            Console.WriteLine("add instance");
             CreateArtistInstance();
         }
     }
