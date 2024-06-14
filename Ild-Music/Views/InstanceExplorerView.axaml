@@ -17,32 +17,28 @@
 
     <UserControl.Styles>
         <Style Selector="TextBox">
-          <Setter Property="CornerRadius" Value="15"/>
-          <Setter Property="BorderThickness" Value="1"/>
-          <Setter Property="Background" Value="#30000000"/>
+          <Setter Property="BorderThickness" Value="0"/>
           <Setter Property="SelectionBrush" Value="#0b3338"/>
-          <Setter Property="BorderBrush" Value="{StaticResource btnApplyColor1}"/>
+          <Setter Property="BorderBrush" Value="Transparent"/>
+          <Setter Property="Background" Value="Transparent"/>
         </Style>
 
         <Style Selector="TextBox:pointerover /template/ Border#PART_BorderElement">
-          <Setter Property="CornerRadius" Value="15"/>
-          <Setter Property="BorderThickness" Value="1"/>
-          <Setter Property="Background" Value="#50000000"/>
-          <Setter Property="BorderBrush" Value="{StaticResource btnApplyColor1}"/>
+          <Setter Property="BorderThickness" Value="0"/>
+          <Setter Property="BorderBrush" Value="Transparent"/>
+          <Setter Property="Background" Value="Transparent"/>
         </Style>
 
         <Style Selector="TextBox:focus /template/ Border#PART_BorderElement">
-          <Setter Property="CornerRadius" Value="15"/>
-          <Setter Property="BorderThickness" Value="1"/>
-          <Setter Property="Background" Value="#70000000"/>
-          <Setter Property="BorderBrush" Value="{StaticResource btnApplyColor2}"/>
+          <Setter Property="BorderThickness" Value="0"/>
+          <Setter Property="BorderBrush" Value="Transparent"/>
+          <Setter Property="Background" Value="Transparent"/>
         </Style>
 
         <Style Selector="TextBox:focus:pointerover /template/ Border#PART_BorderElement">
-          <Setter Property="CornerRadius" Value="15"/>
-          <Setter Property="BorderThickness" Value="1"/>
-          <Setter Property="Background" Value="#50000000"/>
-          <Setter Property="BorderBrush" Value="{StaticResource btnApplyColor2}"/>
+          <Setter Property="BorderThickness" Value="0"/>
+          <Setter Property="BorderBrush" Value="Transparent"/>
+          <Setter Property="Background" Value="Transparent"/>
         </Style>
     </UserControl.Styles>
     
@@ -59,21 +55,106 @@
                 <ColumnDefinition Width="auto"/>
             </Grid.ColumnDefinitions>
 
-            <TextBox Grid.Column="0"
-                     Watermark="Find your ones ..."
-                     Margin="30 40 30 10"
-                     FontWeight="Regular"
-                     Foreground="White"
-                     HorizontalAlignment="Stretch"
-                     VerticalAlignment="Top"
-                     TextAlignment="Left"/>
+            <Border Grid.Column="0"
+                    Height="30"
+                    Margin="30 40 30 10"
+                    BorderThickness="1"
+                    CornerRadius="15"
+                    BorderBrush="{StaticResource color1}"
+                    Background="#50000000"                    
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Top">
+
+              <Grid>
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="*"/>
+                  <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                
+                <TextBox Grid.Column="0"
+                         Background="Transparent"
+                         Watermark="Find your ones ..."
+                         FontWeight="Regular"
+                         Foreground="White"
+                         TextAlignment="Left"/>
+              
+                <StackPanel Grid.Column="1"
+                            Orientation="Horizontal">
+                    <i:Interaction.Behaviors>
+                      <ia:EventTriggerBehavior EventName="PointerPressed">
+                        <ia:InvokeCommandAction Command="{Binding CleanSearchCommand}"/>
+                      </ia:EventTriggerBehavior>  
+                    </i:Interaction.Behaviors>
+                    <Border Width="25"
+                            Height="25"                            
+                            CornerRadius="5"
+                            BorderThickness="0"                            
+                            Margin="10, 0, 5, 5"
+                            Classes="btnCleanSearch"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Center">
+
+                        <Border.Styles>
+                          <Style Selector="Border#btnCleanSearch PathIcon">
+                              <Setter Property="Foreground" Value="#7f7f7f"/>
+                          </Style>
+
+                          <Style Selector="Border#btnCleanSearch:pointerover PathIcon" >
+                              <Setter Property="Foreground" Value="#fff"/>
+                          </Style>
+                        </Border.Styles>
+
+                        <PathIcon HorizontalAlignment="Center"
+                                  VerticalAlignment="Center"
+                                  Width="20"
+                                  Height="20"
+                                  Background="Transparent"
+                                  Data="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z"> 
+                        </PathIcon>
+                    </Border>
+
+                    <i:Interaction.Behaviors>
+                      <ia:EventTriggerBehavior EventName="PointerPressed">
+                        <ia:InvokeCommandAction Command="{Binding SearchCommand}"/>
+                      </ia:EventTriggerBehavior>  
+                    </i:Interaction.Behaviors>
+                    <Border Width="25"
+                            Height="25"
+                            CornerRadius="5"                             
+                            BorderThickness="0"                        
+                            Classes="btnSearch"                            
+                            Margin="10, 0, 5, 5"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Center">
+
+                        <Border.Styles>
+                          <Style Selector="Border#btnSearch PathIcon">
+                              <Setter Property="Foreground" Value="#7f7f7f"/>
+                          </Style>
+
+                          <Style Selector="Border#btnSearch:pointerover PathIcon" >
+                              <Setter Property="Foreground" Value="#fff"/>
+                          </Style>
+                        </Border.Styles>
+
+                        <PathIcon HorizontalAlignment="Center"
+                                  VerticalAlignment="Center"
+                                  Width="20"
+                                  Height="20"
+                                  Background="Transparent"
+                                  Data="M9.5,3A6.5,6.5 0 0,1 16,9.5C16,11.11 15.41,12.59 14.44,13.73L14.71,14H15.5L20.5,19L19,20.5L14,15.5V14.71L13.73,14.44C12.59,15.41 11.11,16 9.5,16A6.5,6.5 0 0,1 3,9.5A6.5,6.5 0 0,1 9.5,3M9.5,5C7,5 5,7 5,9.5C5,12 7,14 9.5,14C12,14 14,12 14,9.5C14,7 12,5 9.5,5Z"> 
+                        </PathIcon>
+                    </Border>
+                </StackPanel>
+              </Grid>
+            </Border>
 
             <Button Grid.Column="1"
                     Margin="30 40 30 10"
-                    FontSize="18"
+                    FontSize="16"
                     Width="100"
                     Height="30"
-                    Content="Ok"
+                    Content="Apply"
                     Classes="btnApply"
                     HorizontalAlignment="Right"
                     VerticalAlignment="Top"

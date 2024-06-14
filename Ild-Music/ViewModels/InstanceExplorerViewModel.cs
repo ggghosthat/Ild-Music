@@ -24,14 +24,17 @@ public class InstanceExplorerViewModel : BaseViewModel
     public ObservableCollection<int> ActivePages { get; private set; } = new();
     public ObservableCollection<CommonInstanceDTO> Source {get; private set;} = new();
     public IList<CommonInstanceDTO> Output {get; set;} = new List<CommonInstanceDTO>();
+    public string SearchQuery { get; set; }
     public int PageNumber { get; set; }
-    public MetaData MetaData => supporterService.GetPageMetaData(); 
+    public MetaData MetaData => supporterService.GetPageMetaData();
     
     public CommandDelegator CloseExplorerCommand {get;}
     public CommandDelegator ExitExplorerCommand {get;}
     public CommandDelegator ForwardCommand { get; }
     public CommandDelegator BackCommand { get; }
     public CommandDelegator IndexCommand { get; }
+    public CommandDelegator SearchCommand { get; }
+    public CommandDelegator CleanSearchCommand { get; }
 
     public event Action OnSelected;
 
@@ -42,12 +45,17 @@ public class InstanceExplorerViewModel : BaseViewModel
         ForwardCommand = new (Forward, null);
         BackCommand = new (Back, null);
         IndexCommand = new (Index, null);
+        SearchCommand = new (Search, null);
+        CleanSearchCommand = new (CleanSearch, null);
     }
 
-    public async void Arrange(EntityTag entitytag, IEnumerable<CommonInstanceDTO> preselected = null)
+    public async void Arrange(
+        EntityTag entitytag,
+        IEnumerable<CommonInstanceDTO> preselected = null)
     {
         Source.Clear();
-        Output.Clear(); 
+        Output.Clear();
+        ActivePages.Clear();
 
         supporterService.ResolveMetaData(0, 100, entitytag);
 
@@ -62,6 +70,37 @@ public class InstanceExplorerViewModel : BaseViewModel
        
         if (preselected != null)
             Output = (IList<CommonInstanceDTO>)preselected;
+    }
+
+    public void Search(object obj)
+    {
+        Source.Clear();
+        ActivePages.Clear();
+
+        supporterService
+            .SearchInstance(SearchQuery, MetaData.EntityTag)
+            .Result
+            .ToList()
+            .ForEach(item => Source.Add(item));
+    }
+
+    public void CleanSearch(object obj)
+    {   
+        if (String.IsNullOrEmpty(SearchQuery) && 
+            String.IsNullOrWhiteSpace(SearchQuery))
+            return;
+
+        Source.Clear();
+        ActivePages.Clear();
+
+        for (int i = 1; i <= MetaData.TotalPages; i++)
+            ActivePages.Add(i);
+
+        supporterService
+            .GetCurrentPage()
+            .Result
+            .ToList()
+            .ForEach(item => Source.Add(item));
     }
 
     public void Forward(object obj)

@@ -184,4 +184,19 @@ public sealed class SupportGhost : IGhost
         int offset = (inputPage * _metaData.PageSize); 
         return await _cube.LoadFramedEntities(_metaData.EntityTag, offset, _metaData.PageSize);
     }
+
+    public async Task<IEnumerable<CommonInstanceDTO>> Search(string searchQuery)
+    {
+        return await _cube.Search(searchQuery);
+    }
+
+    public async Task<IEnumerable<CommonInstanceDTO>> SearchInstance(string searchQuery, EntityTag entityTag)
+    {
+        return await _cube.SearchInstance(searchQuery, entityTag);
+    }
+
+    public async Task<IEnumerable<Tag>> SearchTag(string searchQuery)
+    {
+        return await _cube.SearchTag(searchQuery);
+    }
 }
