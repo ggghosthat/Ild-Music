@@ -75,7 +75,6 @@ public class InstanceExplorerViewModel : BaseViewModel
     public void Search(object obj)
     {
         Source.Clear();
-        ActivePages.Clear();
 
         supporterService
             .SearchInstance(SearchQuery, MetaData.EntityTag)
@@ -85,16 +84,9 @@ public class InstanceExplorerViewModel : BaseViewModel
     }
 
     public void CleanSearch(object obj)
-    {   
-        if (String.IsNullOrEmpty(SearchQuery) && 
-            String.IsNullOrWhiteSpace(SearchQuery))
-            return;
-
+    {
         Source.Clear();
-        ActivePages.Clear();
-
-        for (int i = 1; i <= MetaData.TotalPages; i++)
-            ActivePages.Add(i);
+        SearchQuery = String.Empty;
 
         supporterService
             .GetCurrentPage()

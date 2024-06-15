@@ -82,14 +82,12 @@ internal sealed class SearchHandler
 
             using (var transaction = connection.BeginTransaction())
             {
-                var inputParam = $"%{searchQuery}%";
-                var commonQuery = @"
+                string commonQuery = @$"
                     SELECT AID, Name, Avatar FROM artists 
-                    WHERE Name LIKE @searchWord ;";
+                    WHERE Name LIKE '%{searchQuery}%';";
 
                 var artistsDTO = connection.Query(
                     commonQuery,
-                    new {searchWord = inputParam},
                     transaction)
                 .Select(a => new CommonInstanceDTO( 
                     id: new Guid(a.AID),
@@ -113,14 +111,12 @@ internal sealed class SearchHandler
 
             using (var transaction = connection.BeginTransaction())
             {
-                var inputParam = $"%{searchQuery}%";
-                var commonQuery = @"
+                var commonQuery = @$"
                     SELECT PID, Name, Avatar FROM playlists	
-                    WHERE Name LIKE @searchWord ;";
+                    WHERE Name LIKE '%{searchQuery}%';";
 
                 var playlistsDTO = connection.Query(
                     commonQuery,
-                    new {searchWord = inputParam},
                     transaction)                
                 .Select(p => new CommonInstanceDTO( 
                     id: new Guid(p.PID),
@@ -145,14 +141,12 @@ internal sealed class SearchHandler
 
             using (var transaction = connection.BeginTransaction())
             {
-                var inputParam = $"%{searchQuery}%";
-                var commonQuery = @"
+                string commonQuery = @$"
                     SELECT TID, Name, Avatar FROM tracks 
-                    WHERE Name LIKE @searchWord ;";
+                    WHERE Name LIKE '%{searchQuery}%';";
 
                 var tracksDTO = connection.Query(
                     commonQuery,
-                    new {searchWord = inputParam},
                     transaction) 
                 .Select(t => new CommonInstanceDTO( 
                     id: new Guid(t.TID),
@@ -177,14 +171,12 @@ internal sealed class SearchHandler
 
             using (var transaction = connection.BeginTransaction())
             {
-                var inputParam = $"%{searchQuery}%";
-                var commonQuery = @"
+                string commonQuery = @"
                     SELECT TagID, Name, Color FROM tags 
-                    WHERE Name LIKE @searchWord ;";
+                    WHERE Name LIKE '%{searchQuery}%';";
 
                 var tagsDTO = connection.Query(
                     commonQuery,
-                    new {searchWord = inputParam},
                     transaction)
                 .Select(tag => new Tag(
                     id: new Guid(tag.Id),

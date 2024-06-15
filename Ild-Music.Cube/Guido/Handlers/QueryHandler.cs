@@ -553,7 +553,7 @@ internal sealed class QueryHandler
                     tagEntitiesQuery,
                     new { tagIdStr = tagIdString, entityType = 2 },
                     transaction)
-                .Where(pid => tid.Value is not null)
+                .Where(pid => pid.Value is not null)
                 .Select(pid => Guid.Parse((string)pid.Value))
                 .ToList();
 

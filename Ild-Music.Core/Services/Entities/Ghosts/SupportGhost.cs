@@ -135,7 +135,10 @@ public sealed class SupportGhost : IGhost
         return _metaData;
     }
 
-    public void ResolveMetaData(int startPage, int pageSize, EntityTag entityTag)
+    public void ResolveMetaData(
+        int startPage,
+        int pageSize,
+        EntityTag entityTag)
     {
         const int emptyCollection = 0;
 
