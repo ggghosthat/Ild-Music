@@ -47,11 +47,9 @@ public class ListViewModel : BaseViewModel
     public static ObservableCollection<string> Headers { get; private set; } = new() {"Artists","Playlists","Tracks", "Tags"};
     public string Header { get; set; } = Headers[0];
     public static ObservableCollection<CommonInstanceDTO> CurrentList { get; set; } = new();
-    public static ObservableCollection<Tag> TagsList { get; set; } = new();
     public CommonInstanceDTO? CurrentItem { get; set; } = null;
 
     public SelectionModel<object> HeaderSelection { get; }
-
     
     private void InitCurrentList(object obj)
     {
@@ -83,6 +81,9 @@ public class ListViewModel : BaseViewModel
             case "Tracks":
                 supporter.TracksCollection.ToList().ForEach(i => CurrentList.Add(i));
                 break;
+            case "Tags":
+                supporter.TagsCollection.ToList().ForEach(i => CurrentList.Add(i));
+                break;
         }
     }
 
@@ -100,6 +101,10 @@ public class ListViewModel : BaseViewModel
                 break;
             case "Tracks":
                 supporter.TracksCollection.ToList().ForEach(i => CurrentList.Add(i));
+                break;
+            case "Tags":
+                Console.WriteLine("tags");
+                supporter.TagsCollection.ToList().ForEach(i => CurrentList.Add(i));
                 break;
         }
     }
@@ -120,6 +125,7 @@ public class ListViewModel : BaseViewModel
             "Artists" => (BaseViewModel)App.ViewModelTable[ArtistEditorViewModel.viewModelId],
             "Playlists" => (BaseViewModel)App.ViewModelTable[PlaylistEditorViewModel.viewModelId],
             "Tracks" =>  (BaseViewModel)App.ViewModelTable[TrackEditorViewModel.viewModelId],
+            "Tags" => (BaseViewModel)App.ViewModelTable[TagEditorViewModel.viewModelId],
             _ => null
         };
 
@@ -147,6 +153,9 @@ public class ListViewModel : BaseViewModel
             case "Tracks":
                 supporter.DeleteTrackInstance(id);
                 break;
+            case "Tags":
+                supporter.DeleteTagInstance(id);
+                break;
         };
         
         DisplayProvidersAsync().Wait();
@@ -173,6 +182,11 @@ public class ListViewModel : BaseViewModel
                 trackEditor?.DropInstance(CurrentItem ?? default!);
                 editor = trackEditor;
                 break;
+            case "Tags":
+                var tagEditor = (TagEditorViewModel)App.ViewModelTable[TagEditorViewModel.viewModelId];
+                tagEditor?.DropInstance(CurrentItem ?? default!);
+                editor = tagEditor;
+                break;
             default:
                 return;
         }
@@ -188,18 +202,11 @@ public class ListViewModel : BaseViewModel
             var currentItem = CurrentItem ?? default!; 
 
             if(Header.Equals("Artists"))
-            {
                 MainVM.ResolveInstance(this, currentItem).Start(); 
-            }
             else if(Header.Equals("Playlists"))
-            {
                 PassPlaylistEntity(currentItem);
-
-            }
             else if(Header.Equals("Tracks"))
-            {
                 PassTrackEntity(currentItem);
-            }
         }
     }
 

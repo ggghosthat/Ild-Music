@@ -10,11 +10,13 @@ public class QueryPool : IDisposable
 
     public IEnumerable<CommonInstanceDTO> TracksDTOs { get; set; }
 
+    public IEnumerable<CommonInstanceDTO> TagsDTOs { get; set; }
 
     public void Dispose()
     {
         ArtistsDTOs.ToList().Clear();
         PlaylistsDTOs.ToList().Clear();
         TracksDTOs.ToList().Clear();
+        TagsDTOs.ToList().Clear();
     }
 }

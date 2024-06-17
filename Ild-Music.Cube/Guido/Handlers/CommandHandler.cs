@@ -362,7 +362,6 @@ internal sealed class CommandHandler
         return Task.CompletedTask;
     }
 
-
     //these methods editting instances and their relationships
     public Task EditArtist(Artist newArtist)
     {
@@ -726,8 +725,6 @@ internal sealed class CommandHandler
         return Task.CompletedTask;
     }
 
-
-
     //these methods delleting instances and their relationships 
     public Task DeleteArtist(Guid artistId)
     {
@@ -802,7 +799,6 @@ internal sealed class CommandHandler
         }
 
         return Task.CompletedTask;
-
     }
 
     public Task DeleteTag(Guid tagId) 

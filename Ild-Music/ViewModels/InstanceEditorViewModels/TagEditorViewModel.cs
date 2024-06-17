@@ -116,6 +116,14 @@ public class TagEditorViewModel : BaseViewModel
         }
     }
 
+    public async Task DropInstance(CommonInstanceDTO tagDto) 
+    {
+        TagInstance = await supporter.GetTagAsync(tagDto.Id);
+        IsEditMode = true;
+        Name = TagInstance.Name.ToString();
+        Color = TagInstance.Color.ToString();
+    }
+
     public async Task DropInstance(Tag tag) 
     {
         TagInstance = tag;

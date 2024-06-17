@@ -34,7 +34,10 @@ internal sealed class QueryHandler
 			        WHERE Id > 0 AND Id <= @pageLimit;
 			
 			        SELECT TID, Name, Avatar FROM tracks
-			        WHERE Id > 0 AND Id <= @pageLimit;";
+			        WHERE Id > 0 AND Id <= @pageLimit;
+
+                    SELECT TagID, Name FROM tags
+                    WHERE Id > 0 AND Id <= @pageLimit;";
                 
                 using(var multiQuery = connection.QueryMultiple(
                         commonQuery,
@@ -63,11 +66,20 @@ internal sealed class QueryHandler
                             name: ((string)a.Name).AsMemory(),
                             avatar: a.Avatar,
                             tag: EntityTag.TRACK))
-                        .ToList(); 
+                        .ToList();
+
+                    var tagsDTO = multiQuery.Read()
+                        .Select(a => new CommonInstanceDTO(
+                            id: Guid.Parse((string)a.TagID),
+                            name: ((string)a.Name).AsMemory(),
+                            avatar: new byte[0],
+                            tag: EntityTag.TAG))
+                        .ToList();
 
                     resultPool.ArtistsDTOs = artistsDTO;
                     resultPool.PlaylistsDTOs = playlistsDTO;
                     resultPool.TracksDTOs = tracksDTO;
+                    resultPool.TagsDTOs = tagsDTO;
                 }
             }
         }
@@ -253,7 +265,7 @@ internal sealed class QueryHandler
 
             using (var transaction = connection.BeginTransaction())
             {
-                string tagsPageQuery = "SELECT TagID, Name, FROM tags;";
+                string tagsPageQuery = "SELECT TagID, Name FROM tags;";
 
                 tags = connection.Query(
                     tagsPageQuery,
@@ -268,6 +280,7 @@ internal sealed class QueryHandler
             }
         }
 
+        Console.WriteLine(tags.Count());
         return Task.FromResult<IEnumerable<CommonInstanceDTO>>(tags);
     }
 

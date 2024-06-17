@@ -148,6 +148,7 @@ public class GuidoForklift : ICube //Cars from pixar (lol)
         _artists = pool.ArtistsDTOs.ToList();
         _playlists = pool.PlaylistsDTOs.ToList();
         _tracks = pool.TracksDTOs.ToList();
+        _tags = pool.TagsDTOs.ToList();
     }
 
     public async Task<IEnumerable<CommonInstanceDTO>> LoadEntities(EntityTag entityTag)
@@ -156,7 +157,8 @@ public class GuidoForklift : ICube //Cars from pixar (lol)
         {
             EntityTag.ARTIST => await _queryHandler.QueryAllArtists(),
             EntityTag.PLAYLIST => await _queryHandler.QueryAllPlaylists(),
-            EntityTag.TRACK => await _queryHandler.QueryAllTracks()
+            EntityTag.TRACK => await _queryHandler.QueryAllTracks(),
+            EntityTag.TAG => await _queryHandler.QueryAllTags()
         };
     }
 
@@ -167,7 +169,8 @@ public class GuidoForklift : ICube //Cars from pixar (lol)
         {
             EntityTag.ARTIST => await _queryHandler.QueryArtists(offset, limit),
             EntityTag.PLAYLIST => await _queryHandler.QueryPlaylists(offset, limit),
-            EntityTag.TRACK => await _queryHandler.QueryTracks(offset, limit)
+            EntityTag.TRACK => await _queryHandler.QueryTracks(offset, limit),
+            EntityTag.TAG => await _queryHandler.QueryTags(offset, limit)
         };
     }
     
