@@ -10,8 +10,7 @@ namespace Cube.Guido.Handlers;
 internal sealed class SearchHandler
 {
     public SearchHandler()
-    {
-    }
+    {}
 
     public Task<IEnumerable<CommonInstanceDTO>> Search(string searchQuery)
     {

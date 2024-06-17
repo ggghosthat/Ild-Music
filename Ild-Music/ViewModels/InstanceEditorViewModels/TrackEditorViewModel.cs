@@ -177,7 +177,7 @@ public class TrackEditorViewModel : BaseViewModel
 
     private void OpenTrackArtistExplorer(object obj)
     {
-        Explorer.OnSelected += OnArtistItemsSelected;
+        Explorer.OnArtistsSelected += OnArtistItemsSelected;
         
         if (obj is IList<CommonInstanceDTO> preSelected &&
             preSelected[0].Tag == EntityTag.ARTIST)

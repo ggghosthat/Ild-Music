@@ -130,7 +130,7 @@ public class PlaylistEditorViewModel : BaseViewModel
 
     private void OpenPlaylistArtistExplorer(object obj)
     {
-        Explorer.OnSelected += OnItemsSelected;
+        Explorer.OnArtistsSelected += OnItemsSelected;
         if (obj is IList<CommonInstanceDTO> preSelected &&
             preSelected[0].Tag == EntityTag.ARTIST) 
             Explorer.Arrange(EntityTag.ARTIST, preSelected);         
@@ -143,7 +143,7 @@ public class PlaylistEditorViewModel : BaseViewModel
 
     private void OpenPlaylistTrackExplorer(object obj)
     {
-        Explorer.OnSelected += OnItemsSelected;
+        Explorer.OnTracksSelected += OnItemsSelected;
         if (obj is IList<CommonInstanceDTO> preSelected &&
             preSelected[0].Tag == EntityTag.TRACK) 
             Explorer.Arrange(EntityTag.TRACK, preSelected);         

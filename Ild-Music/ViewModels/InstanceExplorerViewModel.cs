@@ -36,7 +36,10 @@ public class InstanceExplorerViewModel : BaseViewModel
     public CommandDelegator SearchCommand { get; }
     public CommandDelegator CleanSearchCommand { get; }
 
-    public event Action OnSelected;
+    public event Action OnArtistsSelected;
+    public event Action OnPlaylistsSelected;
+    public event Action OnTracksSelected;
+    public event Action OnTagsSelected;
 
     public InstanceExplorerViewModel()
     {
@@ -132,7 +135,22 @@ public class InstanceExplorerViewModel : BaseViewModel
 
     public void CloseExplorer(object obj)
     {
-        OnSelected?.Invoke();
+        switch (MetaData.EntityTag)
+        {
+            case EntityTag.ARTIST:
+                OnArtistsSelected?.Invoke();
+                break;
+            case EntityTag.PLAYLIST:
+                OnPlaylistsSelected?.Invoke();
+                break;
+            case EntityTag.TRACK:
+                OnTracksSelected?.Invoke();
+                break;
+            case EntityTag.TAG:
+                OnTagsSelected?.Invoke();
+                break;
+        }
+
         MainVM.ResolveWindowStack();
     }
 

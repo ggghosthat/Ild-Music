@@ -279,8 +279,6 @@ internal sealed class QueryHandler
                 .ToList();
             }
         }
-
-        Console.WriteLine(tags.Count());
         return Task.FromResult<IEnumerable<CommonInstanceDTO>>(tags);
     }
 

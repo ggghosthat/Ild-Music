@@ -31,10 +31,6 @@ public class TagEditorViewModel : BaseViewModel
         TagArtistExplorerCommand = new(OpenTagArtistExplorer, null);
         TagPlaylistExplorerCommand = new(OpenTagPlaylistExplorer, null);
         TagTrackExplorerCommand = new(OpenTagTrackExplorer, null);
-
-        Explorer.OnSelected += this.OnArtistsItemsSelected;
-        Explorer.OnSelected += this.OnPlaylistsItemsSelected;
-        Explorer.OnSelected += this.OnTracksItemsSelected;
     }
     
     private static SupportGhost supporter => (SupportGhost)App.Stage.GetGhost(Ghosts.SUPPORT);
@@ -121,7 +117,6 @@ public class TagEditorViewModel : BaseViewModel
         TagInstance = await supporter.GetTagAsync(tagDto.Id);
         IsEditMode = true;
         Name = TagInstance.Name.ToString();
-        Color = TagInstance.Color.ToString();
     }
 
     public async Task DropInstance(Tag tag) 
@@ -129,7 +124,6 @@ public class TagEditorViewModel : BaseViewModel
         TagInstance = tag;
         IsEditMode = true;
         Name = TagInstance.Name.ToString();
-        Color = TagInstance.Color.ToString();
     }
 
     private void Cancel(object obj)
@@ -155,14 +149,15 @@ public class TagEditorViewModel : BaseViewModel
     }
 
     private void OpenTagArtistExplorer(object obj)
-    {
+    {        
+        Explorer.OnArtistsSelected += OnArtistsItemsSelected;
         if (obj is IList<CommonInstanceDTO> preSelected &&
             preSelected[0].Tag == EntityTag.ARTIST)
             Explorer.Arrange(EntityTag.ARTIST, preSelected); 
         else
             Explorer.Arrange(EntityTag.ARTIST); 
 
-        MainVM.PushVM(null, Explorer);
+        MainVM.PushVM(this, Explorer);
         MainVM.ResolveWindowStack();        
     }
 
@@ -174,8 +169,8 @@ public class TagEditorViewModel : BaseViewModel
             {
                 SelectedTagPlaylists.Clear();
                 var outIds = Explorer.Output.Select(o => o.Id);
-                                 
-                supporter?.ArtistsCollection?
+                                
+                supporter?.PlaylistsCollection?
                     .Where(a => outIds.Contains(a.Id))
                     .ToList()
                     .ForEach(i => SelectedTagPlaylists.Add(i));
@@ -185,13 +180,14 @@ public class TagEditorViewModel : BaseViewModel
 
     private void OpenTagPlaylistExplorer(object obj)
     {
+        Explorer.OnPlaylistsSelected += this.OnPlaylistsItemsSelected;
         if (obj is IList<CommonInstanceDTO> preSelected &&
             preSelected[0].Tag == EntityTag.PLAYLIST)
             Explorer.Arrange(EntityTag.PLAYLIST, preSelected); 
         else
             Explorer.Arrange(EntityTag.PLAYLIST); 
 
-        MainVM.PushVM(null, Explorer);
+        MainVM.PushVM(this, Explorer);
         MainVM.ResolveWindowStack();        
     }
 
@@ -204,7 +200,7 @@ public class TagEditorViewModel : BaseViewModel
                 SelectedTagTracks.Clear();
                 var outIds = Explorer.Output.Select(o => o.Id);
                                  
-                supporter?.ArtistsCollection?
+                supporter?.TracksCollection?
                     .Where(a => outIds.Contains(a.Id))
                     .ToList()
                     .ForEach(i => SelectedTagTracks.Add(i));
@@ -213,14 +209,15 @@ public class TagEditorViewModel : BaseViewModel
     }
 
     private void OpenTagTrackExplorer(object obj)
-    {
+    {        
+        Explorer.OnTracksSelected += OnTracksItemsSelected;
         if (obj is IList<CommonInstanceDTO> preSelected &&
             preSelected[0].Tag == EntityTag.TRACK)
             Explorer.Arrange(EntityTag.TRACK, preSelected); 
         else
             Explorer.Arrange(EntityTag.TRACK); 
 
-        MainVM.PushVM(null, Explorer);
+        MainVM.PushVM(this, Explorer);
         MainVM.ResolveWindowStack();        
     }
 
