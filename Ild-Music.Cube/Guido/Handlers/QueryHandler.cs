@@ -243,9 +243,9 @@ internal sealed class QueryHandler
         return Task.FromResult<IEnumerable<CommonInstanceDTO>>(tracksDTOs);
     }
 
-    public Task<IEnumerable<Tag>> QueryAllTags()
+    public Task<IEnumerable<CommonInstanceDTO>> QueryAllTags()
     {
-        IEnumerable<Tag> tags;
+        IEnumerable<CommonInstanceDTO> tags;
 
         using(IDbConnection connection = ConnectionAgent.GetDbConnection())
         {
@@ -253,26 +253,27 @@ internal sealed class QueryHandler
 
             using (var transaction = connection.BeginTransaction())
             {
-                string tagsPageQuery = "SELECT TagID, Name, Color FROM tags;";
+                string tagsPageQuery = "SELECT TagID, Name, FROM tags;";
 
                 tags = connection.Query(
                     tagsPageQuery,
                     default,
                     transaction)
-                .Select(tag => new Tag(
+                .Select(tag => new CommonInstanceDTO(
                     id: Guid.Parse((string)tag.TagId),
                     name: ((string)tag.Name).AsMemory(),
-                    color: ((string)tag.Color).AsMemory()))
+                    avatar: new byte[0],
+                    tag: EntityTag.TAG))
                 .ToList();
             }
         }
 
-        return Task.FromResult<IEnumerable<Tag>>(tags);
+        return Task.FromResult<IEnumerable<CommonInstanceDTO>>(tags);
     }
 
-    public Task<IEnumerable<Tag>> QueryTags(int offset, int limit)
+    public Task<IEnumerable<CommonInstanceDTO>> QueryTags(int offset, int limit)
     {
-        IEnumerable<Tag> tags;
+        IEnumerable<CommonInstanceDTO> tags;
 
         using(IDbConnection connection = ConnectionAgent.GetDbConnection())
         {
@@ -281,22 +282,23 @@ internal sealed class QueryHandler
             using (var transaction = connection.BeginTransaction())
             {
                 string tagsPageQuery = @"
-                    SELECT TagID, Name, Color FROM tags
+                    SELECT TagID, Name FROM tags
                     WHERE Id > @offset AND Id <= @pageLimit;";
 
                 tags = connection.Query(
                     tagsPageQuery,
                     new { offset = offset, pageLimit = limit },
                     transaction)
-                .Select(tag => new Tag(
+                .Select(tag => new CommonInstanceDTO(
                     id: Guid.Parse((string)tag.TagId),
                     name: ((string)tag.Name).AsMemory(),
-                    color: ((string)tag.Color).AsMemory()))
+                    avatar: new byte[0],
+                    tag: EntityTag.TAG))
                 .ToList();
             }
         }
 
-        return Task.FromResult<IEnumerable<Tag>>(tags);
+        return Task.FromResult<IEnumerable<CommonInstanceDTO>>(tags);
     }
 
     public Task<Artist> QuerySingleArtist(ref CommonInstanceDTO instanceDTO)

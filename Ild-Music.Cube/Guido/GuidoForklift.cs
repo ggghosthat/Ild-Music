@@ -13,10 +13,10 @@ public class GuidoForklift : ICube //Cars from pixar (lol)
     public string CubeName => "Guido Forklift";
     public Guid CubeId {get; private set;} = Guid.Empty;
 
-    public static List<CommonInstanceDTO>? _artists = new List<CommonInstanceDTO>();
-    public static List<CommonInstanceDTO>? _playlists = new List<CommonInstanceDTO>();
-    public static List<CommonInstanceDTO>? _tracks = new List<CommonInstanceDTO>();
-    public static List<Tag>? _tags = new List<Tag>();
+    public static List<CommonInstanceDTO>? _artists = new ();
+    public static List<CommonInstanceDTO>? _playlists = new ();
+    public static List<CommonInstanceDTO>? _tracks = new ();
+    public static List<CommonInstanceDTO>? _tags = new ();
 
     private static IMediator _mediator = default;
     private readonly static CommandHandler _commandHandler = new ();
@@ -32,7 +32,7 @@ public class GuidoForklift : ICube //Cars from pixar (lol)
     public IEnumerable<CommonInstanceDTO>? Artists => _artists;
     public IEnumerable<CommonInstanceDTO>? Playlists => _playlists;
     public IEnumerable<CommonInstanceDTO>? Tracks => _tracks;
-    public IEnumerable<Tag>? Tags => _tags;
+    public IEnumerable<CommonInstanceDTO>? Tags => _tags;
 
     public void Init(string allocationPlace, bool isMoveTrackFiles)
     {        
@@ -171,12 +171,12 @@ public class GuidoForklift : ICube //Cars from pixar (lol)
         };
     }
     
-    public async Task<IEnumerable<Tag>> LoadTags()
+    public async Task<IEnumerable<CommonInstanceDTO>> LoadTags()
     {
         return await _queryHandler.QueryAllTags();
     }
 
-    public async Task<IEnumerable<Tag>> LoadFramedTags (int offset, int limit)
+    public async Task<IEnumerable<CommonInstanceDTO>> LoadFramedTags (int offset, int limit)
     {
         return await _queryHandler.QueryTags(offset, limit);
     }
@@ -218,11 +218,12 @@ public class GuidoForklift : ICube //Cars from pixar (lol)
             EntityTag.ARTIST => await _searchHandler.SearchArtists(searchTerm),
             EntityTag.PLAYLIST => await _searchHandler.SearchPlaylists(searchTerm),
             EntityTag.TRACK => await _searchHandler.SearchTracks(searchTerm),
+            EntityTag.TAG => await _searchHandler.SearchTags(searchTerm),
             _ => await Task.FromResult<IEnumerable<CommonInstanceDTO>>(Enumerable.Empty<CommonInstanceDTO>())
         };
     }
 
-    public async Task<IEnumerable<Tag>> SearchTag(string searchTerm)
+    public async Task<IEnumerable<CommonInstanceDTO>> SearchTag(string searchTerm)
     {
         return await _searchHandler.SearchTags(searchTerm);
     }

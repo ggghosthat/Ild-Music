@@ -20,7 +20,7 @@ public sealed class SupportGhost : IGhost
     public IEnumerable<CommonInstanceDTO>? ArtistsCollection => _cube.Artists;
     public IEnumerable<CommonInstanceDTO>? PlaylistsCollection => _cube.Playlists;
     public IEnumerable<CommonInstanceDTO>? TracksCollection => _cube.Tracks;
-    public IEnumerable<Tag> TagsCollection => _cube.Tags;
+    public IEnumerable<CommonInstanceDTO> TagsCollection => _cube.Tags;
 
     public event Action OnArtistsNotifyRefresh;
     public event Action OnPlaylistsNotifyRefresh;
@@ -198,7 +198,7 @@ public sealed class SupportGhost : IGhost
         return await _cube.SearchInstance(searchQuery, entityTag);
     }
 
-    public async Task<IEnumerable<Tag>> SearchTag(string searchQuery)
+    public async Task<IEnumerable<CommonInstanceDTO>> SearchTag(string searchQuery)
     {
         return await _cube.SearchTag(searchQuery);
     }

@@ -50,13 +50,11 @@
                 <Setter Property="HorizontalContentAlignment" Value="Center"/>  
                 <Setter Property="VerticalContentAlignment" Value="Center"/>
                 
-                <Setter Property="Width" Value="60"/>
+                <Setter Property="Width" Value="70"/>
                 <Setter Property="Height" Value="30"/>
 
                 <Setter Property="Template">
                   <ControlTemplate>
-                    
-                    <Grid>
                       <Border x:Name="Bd"
                               Margin="4 0"
                               Classes="HeaderBorder"
@@ -71,7 +69,6 @@
                                             ContentTemplate="{TemplateBinding ContentTemplate}"
                                             Content="{TemplateBinding Content}"/>
                       </Border>
-                    </Grid>
                   </ControlTemplate>
                 </Setter>
               </Style>

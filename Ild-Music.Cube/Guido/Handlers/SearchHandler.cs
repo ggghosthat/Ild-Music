@@ -162,9 +162,9 @@ internal sealed class SearchHandler
         return Task.FromResult<IEnumerable<CommonInstanceDTO>>(resultCollection);
     }
 
-    public Task<IEnumerable<Tag>> SearchTags(string searchQuery)
+    public Task<IEnumerable<CommonInstanceDTO>> SearchTags(string searchQuery)
     {
-        List<Tag> resultCollection = new ();
+        List<CommonInstanceDTO> resultCollection = new ();
         using (IDbConnection connection = ConnectionAgent.GetDbConnection())
         {
             connection.Open();
@@ -178,16 +178,17 @@ internal sealed class SearchHandler
                 var tagsDTO = connection.Query(
                     commonQuery,
                     transaction)
-                .Select(tag => new Tag(
-                    id: new Guid(tag.Id),
+                .Select(tag => new CommonInstanceDTO(
+                    id: Guid.Parse((string)tag.TagId),
                     name: ((string)tag.Name).AsMemory(),
-                    color: ((string)tag.Color).AsMemory()))
+                    avatar: new byte[0],
+                    tag: EntityTag.TAG))
                 .ToList();
 
                 resultCollection.AddRange(tagsDTO); 
             }
         }
 
-        return Task.FromResult<IEnumerable<Tag>>(resultCollection);
+        return Task.FromResult<IEnumerable<CommonInstanceDTO>>(resultCollection);
     }
 }

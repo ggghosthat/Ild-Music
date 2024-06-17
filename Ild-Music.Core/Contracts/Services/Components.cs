@@ -21,7 +21,8 @@ public interface ICube : IShare
     public IEnumerable<CommonInstanceDTO>? Artists {get;}
     public IEnumerable<CommonInstanceDTO>? Playlists { get; }
     public IEnumerable<CommonInstanceDTO>? Tracks { get; }        
-    public IEnumerable<Tag>? Tags { get; }
+    public IEnumerable<CommonInstanceDTO>? Tags { get; }
+    
     //intialize method
     public void Init(string alloationPlace, bool isMoveTrackFiles);
 
@@ -51,13 +52,13 @@ public interface ICube : IShare
     public Task<IEnumerable<CommonInstanceDTO>> LoadEntities(EntityTag entityTag);
     public Task<IEnumerable<CommonInstanceDTO>> LoadFramedEntities(EntityTag entityTag, int offset, int limit);
     public Task<IEnumerable<CommonInstanceDTO>> QueryInstanceDtosFromIds(IEnumerable<Guid> ids, EntityTag entityTag);
-    public Task<IEnumerable<Tag>> LoadTags();
-    public Task<IEnumerable<Tag>> LoadFramedTags(int offset, int limit);
+    public Task<IEnumerable<CommonInstanceDTO>> LoadTags();
+    public Task<IEnumerable<CommonInstanceDTO>> LoadFramedTags(int offset, int limit);
 
     //searching methods
     public Task<IEnumerable<CommonInstanceDTO>> Search(string searchTerm);
     public Task<IEnumerable<CommonInstanceDTO>> SearchInstance(string searchTerm, EntityTag entityTag);
-    public Task<IEnumerable<Tag>> SearchTag(string searchTerm);
+    public Task<IEnumerable<CommonInstanceDTO>> SearchTag(string searchTerm);
 }
 
 //Represent Player instance
