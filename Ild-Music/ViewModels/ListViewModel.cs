@@ -103,7 +103,7 @@ public class ListViewModel : BaseViewModel
                 supporter.TracksCollection.ToList().ForEach(i => CurrentList.Add(i));
                 break;
             case "Tags":
-                Console.WriteLine("tags");
+                Console.WriteLine(supporter.TagsCollection.Count());
                 supporter.TagsCollection.ToList().ForEach(i => CurrentList.Add(i));
                 break;
         }

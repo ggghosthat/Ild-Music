@@ -272,7 +272,7 @@ internal sealed class QueryHandler
                     default,
                     transaction)
                 .Select(tag => new CommonInstanceDTO(
-                    id: Guid.Parse((string)tag.TagId),
+                    id: Guid.Parse((string)tag.TagID),
                     name: ((string)tag.Name).AsMemory(),
                     avatar: new byte[0],
                     tag: EntityTag.TAG))
@@ -303,7 +303,7 @@ internal sealed class QueryHandler
                     new { offset = offset, pageLimit = limit },
                     transaction)
                 .Select(tag => new CommonInstanceDTO(
-                    id: Guid.Parse((string)tag.TagId),
+                    id: Guid.Parse((string)tag.TagID),
                     name: ((string)tag.Name).AsMemory(),
                     avatar: new byte[0],
                     tag: EntityTag.TAG))
@@ -542,14 +542,14 @@ internal sealed class QueryHandler
 
                 //setting up main and extra properties for artist body
                 string tagQuery = @"
-                    SELECT t.TagId as Id, t.Name, t.Color, ti.IID 
+                    SELECT t.TagID as Id, t.Name, t.Color, ti.IID 
                     FROM tags AS t
                     WHERE t.TagID = @tagIdStr";
                 
                 string tagEntitiesQuery = @"
                     SELECT ti.IID
                     FROM tags_instances AS ti
-                    WHERE ti.TagId = @tagIdStr AND ti.EntityType = @entityType";
+                    WHERE ti.TagID = @tagIdStr AND ti.EntityType = @entityType";
 
                 tag = connection.QueryFirst<Tag>(
                     tagQuery,
