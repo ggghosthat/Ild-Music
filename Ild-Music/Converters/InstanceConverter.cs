@@ -59,12 +59,20 @@ public class InstanceConverter : IValueConverter
         }
         else if (parameter == "dto_icon" && value is CommonInstanceDTO dto)
         {    
-            if (dto.Avatar.Length == 0)
-                return null;
+            if (dto.Avatar.Length > 0)
+            {
+                byte[] source = dto.Avatar.ToArray();
+                var ms = new MemoryStream(source);
+                return new Bitmap(ms);
+            }
 
-            byte[] source = dto.Avatar.ToArray();
-            var ms = new MemoryStream(source);
-            return new Bitmap(ms);
+            return dto.Tag switch
+            {
+                EntityTag.ARTIST => Application.Current.FindResource("ArtistGeometry"),
+                EntityTag.PLAYLIST => Application.Current.FindResource("PlaylistGeometry"),
+                EntityTag.TRACK => Application.Current.FindResource("TrackGeometry"),
+                EntityTag.TAG => Application.Current.FindResource("TagGeometry"),
+            };
         }
         else if (parameter == "dto_has_icon" && value is CommonInstanceDTO dto_has_icon)
         {            
@@ -74,7 +82,7 @@ public class InstanceConverter : IValueConverter
         {
             if (value is byte[] artistIconSource && artistIconSource.Length >= 0)
                 return ComputeAvatarIcon(ref artistIconSource, 300d, 300d);
-                
+
             return LoadAsset(@"avares://Ild-Music/Assets/DefaultIcons/artist.png");
         }
         else if (parameter == "pico_col")
@@ -111,18 +119,6 @@ public class InstanceConverter : IValueConverter
                 return ComputeAvatarIcon(ref trackDisplaySource);
 
             return Application.Current.FindResource("TrackAvatar");
-        }
-        else if (parameter == "aico")
-        {
-            return Application.Current.FindResource("ArtistGeometry");
-        }
-        else if (parameter == "pico")
-        {
-            return Application.Current.FindResource("PlaylistGeometry");            
-        }
-        else if (parameter == "tico")
-        {
-            return Application.Current.FindResource("TrackGeometry");            
         }
         else if (parameter == "back")
         {

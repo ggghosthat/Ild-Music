@@ -250,7 +250,7 @@
                         <Viewbox Width="45" Height="45">
                             <Canvas Width="24" Height="24"
                                  IsVisible="{Binding ., Converter={StaticResource InstanceConverter}, ConverterParameter=dto_has_icon}}">
-                                <Path VerticalAlignment="Top" Fill="{StaticResource color1}" Data="{Binding ., Converter={StaticResource InstanceConverter}, ConverterParameter=aico}"/>
+                                <Path VerticalAlignment="Top" Fill="{StaticResource color1}" Data="{Binding ., Converter={StaticResource InstanceConverter}, ConverterParameter=dto_icon}"/>
                             </Canvas>
                         </Viewbox>
                     </Grid>

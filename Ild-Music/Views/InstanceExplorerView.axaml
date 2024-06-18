@@ -196,7 +196,7 @@
                       <Setter Property="Padding" Value="4"/>                                
                       <Setter Property="HorizontalContentAlignment" Value="Stretch"/>  
                       <Setter Property="VerticalContentAlignment" Value="Center"/>
-                      <Setter Property="Height" Value="55"/>
+                      <Setter Property="Height" Value="45"/>
 
                       <Setter Property="Template">
                         <ControlTemplate>
@@ -269,15 +269,15 @@
                               MaxHeight="50"
                               MaxWidth="50"
                               Background="Transparent">
-                            <Image Width="50"
-                                   Height="50"
+                            <Image Width="40"
+                                   Height="40"
                                    Stretch="UniformToFill"
                                    Source="{Binding ., Converter={StaticResource InstanceConverter}, ConverterParameter=dto_icon}"/>
                                    
                             <Viewbox Width="50" Height="50">
                                 <Canvas Width="24" Height="24"
                                      IsVisible="{Binding ., Converter={StaticResource InstanceConverter}, ConverterParameter=dto_has_icon}}">
-                                    <Path VerticalAlignment="Top" Fill="{StaticResource color1}" Data="{Binding ., Converter={StaticResource InstanceConverter}, ConverterParameter=aico}"/>
+                                    <Path VerticalAlignment="Top" Fill="{StaticResource color1}" Data="{Binding ., Converter={StaticResource InstanceConverter}, ConverterParameter=dto_icon}"/>
                                 </Canvas>
                             </Viewbox>
                         </Grid>
