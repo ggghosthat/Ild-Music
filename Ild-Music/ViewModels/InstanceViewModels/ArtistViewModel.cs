@@ -25,7 +25,11 @@ public class ArtistViewModel : BaseViewModel
     private static MainWindowViewModel MainVM => (MainWindowViewModel)App.ViewModelTable[MainWindowViewModel.viewModelId];
 
     public Artist ArtistInstance {get; private set;}
-    public byte[] AvatarSource => ArtistInstance.AvatarSource.ToArray();
+
+    public string Name => ArtistInstance.Name.ToString();
+    public string Description => ArtistInstance.Description.ToString();
+    public int Year => ArtistInstance.Year;
+    public byte[] Avatar => ArtistInstance.AvatarSource.ToArray();
 
     public ObservableCollection<CommonInstanceDTO> ArtistPlaylists {get; private set;} = new();
     public ObservableCollection<CommonInstanceDTO> ArtistTracks {get; private set;} = new();      
@@ -35,7 +39,8 @@ public class ArtistViewModel : BaseViewModel
     public async void SetInstance(CommonInstanceDTO artistInstanceDto)
     {
         ArtistInstance = await supporter.GetArtistAsync(artistInstanceDto);
-        OnPropertyChanged("AvatarSource");
+        OnPropertyChanged("ArtistInstance");
+        OnPropertyChanged("Avatar");
 
         supporter.GetInstanceDTOsFromIds(ArtistInstance.Playlists, EntityTag.PLAYLIST)
             .Result
@@ -51,7 +56,10 @@ public class ArtistViewModel : BaseViewModel
     public async void SetInstance(Artist artist)
     {
         ArtistInstance = artist;
-        OnPropertyChanged("AvatarSource");
+        OnPropertyChanged("Name");
+        OnPropertyChanged("Description");
+        OnPropertyChanged("Year");
+        OnPropertyChanged("Avatar");
 
         supporter.GetInstanceDTOsFromIds(ArtistInstance.Playlists, EntityTag.PLAYLIST)
             .Result

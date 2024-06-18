@@ -197,11 +197,20 @@ public class MainWindowViewModel : Base.BaseViewModel
         CommonInstanceDTO instanceDTO)
     {
         if (viewModel is ArtistViewModel artistVM)
-            artistVM.SetInstance(instanceDTO);
+        {
+            var artist = supporter.GetArtistAsync(instanceDTO).Result;
+            artistVM.SetInstance(artist);
+        }
         else if (viewModel is PlaylistViewModel playlistVM)
-            playlistVM.SetInstance(instanceDTO);
+        {
+            var playlist = supporter.GetPlaylistAsync(instanceDTO).Result;
+            playlistVM.SetInstance(playlist);
+        }
         else if (viewModel is TrackViewModel trackVM)
-            trackVM.SetInstance(instanceDTO);
+        {
+            var track = supporter.GetTrackAsync(instanceDTO).Result;
+            trackVM.SetInstance(track);
+        }
     }
 
     public void DropPlaylistInstance(

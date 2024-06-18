@@ -9,6 +9,8 @@ using Avalonia.Data.Converters;
 using System;
 using System.IO;
 using System.Globalization;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Processing;
 using SixLabors.ImageSharp.PixelFormats;
@@ -130,7 +132,11 @@ public class InstanceConverter : IValueConverter
                 else return defaultColor;
             }
             else return defaultColor;
-        } 
+        }        
+        else if (parameter == "coll_active" && value is int collectionCount)
+        {
+            return collectionCount > 0;
+        }
         else return null;
     }
 

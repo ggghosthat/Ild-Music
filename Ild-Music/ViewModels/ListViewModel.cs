@@ -202,7 +202,7 @@ public class ListViewModel : BaseViewModel
             var currentItem = CurrentItem ?? default!; 
 
             if(Header.Equals("Artists"))
-                MainVM.ResolveInstance(this, currentItem).Start(); 
+                await MainVM.ResolveInstance(this, currentItem); 
             else if(Header.Equals("Playlists"))
                 PassPlaylistEntity(currentItem);
             else if(Header.Equals("Tracks"))
