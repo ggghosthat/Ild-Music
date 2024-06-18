@@ -36,7 +36,7 @@ public class GuidoForklift : ICube //Cars from pixar (lol)
 
     public void Init(string allocationPlace, bool isMoveTrackFiles)
     {        
-        WearhouseAgent.ConfigureAgent(allocationPlace, isMoveTrackFiles); 
+        WarehouseAgent.ConfigureAgent(allocationPlace, isMoveTrackFiles); 
         ConnectionAgent.ConfigureAgent(allocationPlace);
         ConnectionAgent.SpreadDatabase(); 
     }

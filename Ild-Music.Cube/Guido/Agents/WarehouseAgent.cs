@@ -4,7 +4,7 @@ using System.IO;
 
 namespace Cube.Guido.Agents;
 
-internal static class WearhouseAgent
+internal static class WarehouseAgent
 {
     private static string _wearhousePath;
 
@@ -21,7 +21,7 @@ internal static class WearhouseAgent
     public static string GetTrackPathFromId(Guid trackId)
     {
         string trckIdString = trackId.ToString();
-        string path = Path.Combine(_wearhousePath, ".wearhouse", "tracks", trckIdString);
+        string path = Path.Combine(_wearhousePath, ".warehouse", "tracks", trckIdString);
 
         if (File.Exists(path))
             return path;
