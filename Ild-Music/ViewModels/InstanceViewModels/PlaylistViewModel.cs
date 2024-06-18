@@ -32,9 +32,9 @@ public class PlaylistViewModel : BaseViewModel
 
     public CommandDelegator BackCommand { get; }
 
-    public async void SetInstance(CommonInstanceDTO instanceDTO)
+    public async void SetInstance(CommonInstanceDTO instanceDto)
     {
-        PlaylistInstance = await supporter.GetPlaylistAsync(instanceDTO);
+        PlaylistInstance = supporter.GetPlaylistAsync(instanceDto).Result;
         OnPropertyChanged("AvatarSource");
 
         supporter.GetInstanceDTOsFromIds(PlaylistInstance.Artists, EntityTag.ARTIST)

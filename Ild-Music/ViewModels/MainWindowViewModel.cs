@@ -168,50 +168,49 @@ public class MainWindowViewModel : Base.BaseViewModel
     public void ResolveWindowStack()
     {
         if (WindowStack.Count > 0)
-            CurrentVM = PopVM();
+        {
+            Guid viewModelId = WindowStack.Pop();
+            CurrentVM = (BaseViewModel)App.ViewModelTable[viewModelId];
+        }
 
         if (CurrentVM is ListViewModel listVM)
             listVM.UpdateProviders();
     }
 
-    public async Task ResolveInstance(
+    public void ResolveInstance(
         BaseViewModel source,
         CommonInstanceDTO instanceDto)
     {
-        var viewModel = instanceDto.Tag switch 
-        {
-           EntityTag.ARTIST  => (BaseViewModel)App.ViewModelTable[ArtistViewModel.viewModelId],
-           EntityTag.PLAYLIST => (BaseViewModel)App.ViewModelTable[PlaylistViewModel.viewModelId],
-           EntityTag.TRACK => (BaseViewModel)App.ViewModelTable[TrackViewModel.viewModelId],
-           EntityTag.TAG => null,
-           _ => null
-        };
+        BaseViewModel viewModel = null;
 
-        SetInstanceToViewModel(viewModel, instanceDto);
+        switch (instanceDto.Tag)
+        {
+            case (EntityTag.ARTIST):
+                var artistViewModel = (ArtistViewModel)App.ViewModelTable[ArtistViewModel.viewModelId];
+                artistViewModel?.SetInstance(instanceDto);
+                viewModel = artistViewModel;
+                break;
+            case (EntityTag.PLAYLIST):
+                var playlistViewModel = (PlaylistViewModel)App.ViewModelTable[PlaylistViewModel.viewModelId];
+                playlistViewModel?.SetInstance(instanceDto);
+                viewModel = playlistViewModel;
+                break;
+            case (EntityTag.TRACK):
+                var trackViewModel = (TrackViewModel)App.ViewModelTable[TrackViewModel.viewModelId];
+                trackViewModel?.SetInstance(instanceDto);
+                viewModel = trackViewModel;
+                break;
+            default:
+                break;
+        }
+
+        if (viewModel is null)
+            return;
+
         PushVM(source, viewModel);
         ResolveWindowStack();
     }   
 
-    private void SetInstanceToViewModel(
-        BaseViewModel viewModel,
-        CommonInstanceDTO instanceDTO)
-    {
-        if (viewModel is ArtistViewModel artistVM)
-        {
-            var artist = supporter.GetArtistAsync(instanceDTO).Result;
-            artistVM.SetInstance(artist);
-        }
-        else if (viewModel is PlaylistViewModel playlistVM)
-        {
-            var playlist = supporter.GetPlaylistAsync(instanceDTO).Result;
-            playlistVM.SetInstance(playlist);
-        }
-        else if (viewModel is TrackViewModel trackVM)
-        {
-            var track = supporter.GetTrackAsync(instanceDTO).Result;
-            trackVM.SetInstance(track);
-        }
-    }
 
     public void DropPlaylistInstance(
         BaseViewModel source, 

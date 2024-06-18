@@ -35,11 +35,13 @@ public class ArtistViewModel : BaseViewModel
     public ObservableCollection<CommonInstanceDTO> ArtistTracks {get; private set;} = new();      
         
     public CommandDelegator BackCommand { get; }
-  	
-    public async void SetInstance(CommonInstanceDTO artistInstanceDto)
+  	    
+    public async void SetInstance(CommonInstanceDTO instanceDto)
     {
-        ArtistInstance = await supporter.GetArtistAsync(artistInstanceDto);
-        OnPropertyChanged("ArtistInstance");
+        ArtistInstance = supporter.GetArtistAsync(instanceDto).Result;
+        OnPropertyChanged("Name");
+        OnPropertyChanged("Description");
+        OnPropertyChanged("Year");
         OnPropertyChanged("Avatar");
 
         supporter.GetInstanceDTOsFromIds(ArtistInstance.Playlists, EntityTag.PLAYLIST)

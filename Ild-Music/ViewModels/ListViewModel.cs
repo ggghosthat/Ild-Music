@@ -202,7 +202,7 @@ public class ListViewModel : BaseViewModel
             var currentItem = CurrentItem ?? default!; 
 
             if(Header.Equals("Artists"))
-                await MainVM.ResolveInstance(this, currentItem); 
+                Task.Run(() => MainVM.ResolveInstance(this, currentItem));
             else if(Header.Equals("Playlists"))
                 PassPlaylistEntity(currentItem);
             else if(Header.Equals("Tracks"))
@@ -215,7 +215,8 @@ public class ListViewModel : BaseViewModel
         var mainPlaylistId = MainVM.CurrentPlaylist?.Id ?? Guid.Empty;
         if(mainPlaylistId.Equals(playlistDto.Id))
         {
-            MainVM.ResolveInstance(this, playlistDto).Wait();
+            // MainVM.ResolveInstance(this, playlistDto).Wait();
+            Task.Run(() => MainVM.ResolveInstance(this, playlistDto));
         }
         else
         {
@@ -229,7 +230,8 @@ public class ListViewModel : BaseViewModel
         var mainPlaylistId = MainVM.CurrentTrack?.Id ?? Guid.Empty;
         if(mainPlaylistId.Equals(trackDto.Id))
         {
-            MainVM.ResolveInstance(this, trackDto).Start();
+            // MainVM.ResolveInstance(this, trackDto).Start();
+            Task.Run(() => MainVM.ResolveInstance(this, trackDto));
         }
         else
         {

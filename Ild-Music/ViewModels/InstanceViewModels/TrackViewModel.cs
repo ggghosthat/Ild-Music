@@ -34,7 +34,7 @@ namespace Ild_Music.ViewModels
 
         public async void SetInstance(CommonInstanceDTO instanceDto)
         {
-            TrackInstance = await supporter.GetTrackAsync(instanceDto);
+            TrackInstance = supporter.GetTrackAsync(instanceDto).Result;
             OnPropertyChanged("AvatarSource");
             
             supporter.GetInstanceDTOsFromIds(TrackInstance.Artists, EntityTag.ARTIST)
