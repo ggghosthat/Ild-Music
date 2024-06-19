@@ -25,7 +25,11 @@ namespace Ild_Music.ViewModels
         private static MainWindowViewModel MainVM => (MainWindowViewModel)App.ViewModelTable[MainWindowViewModel.viewModelId];
 
     	public Track TrackInstance {get; private set;}
-        public byte[] AvatarSource => TrackInstance.AvatarSource.ToArray();
+
+        public string Name => TrackInstance.Name.ToString();
+        public string Description => TrackInstance.Description.ToString();
+        public int Year => TrackInstance.Year;
+        public byte[] Avatar => TrackInstance.AvatarSource.ToArray();
         
         public ObservableCollection<CommonInstanceDTO> TrackArtists {get; private set;} = new();
         public ObservableCollection<CommonInstanceDTO> TrackPlaylists {get; private set;} = new();
@@ -34,8 +38,7 @@ namespace Ild_Music.ViewModels
 
         public async void SetInstance(CommonInstanceDTO instanceDto)
         {
-            TrackInstance = supporter.GetTrackAsync(instanceDto).Result;
-            OnPropertyChanged("AvatarSource");
+            TrackInstance = await supporter.GetTrackAsync(instanceDto);
             
             supporter.GetInstanceDTOsFromIds(TrackInstance.Artists, EntityTag.ARTIST)
                 .Result.ToList().ForEach(a => TrackArtists.Add(a));
@@ -47,7 +50,6 @@ namespace Ild_Music.ViewModels
         public async void SetInstance(Track track)
         {
             TrackInstance = track;
-            OnPropertyChanged("AvatarSource");
             
             supporter.GetInstanceDTOsFromIds(TrackInstance.Artists, EntityTag.ARTIST)
                 .Result.ToList().ForEach(a => TrackArtists.Add(a));

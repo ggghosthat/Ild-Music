@@ -29,7 +29,7 @@
 	        		Height="300"
     	            Margin="15"
         	        Background="Transparent"
-            	    Child="{Binding TrackInstance, 
+            	    Child="{Binding Avatar, 
                             Converter={StaticResource InstanceConverter},
                             ConverterParameter=tico_col}">
             </Border>	
@@ -40,7 +40,7 @@
   	      	<StackPanel Orientation="Vertical"
 	                  	Margin="45 5">
 	            <TextBlock Margin="0,5,0,0"
-	            		   Text="{Binding TrackInstance, Converter={StaticResource InstanceConverter}, ConverterParameter=name}"	
+	            		   Text="{Binding Name}"	
 	                       FontSize="25"
 	                       FontWeight="UltraBlack"
 	                       Foreground="White"
@@ -49,7 +49,7 @@
 	                       TextAlignment="Center"/>
 
                 <TextBlock Margin="0,3,0,2"
-	            		   Text="{Binding TrackInstance, Converter={StaticResource InstanceConverter}, ConverterParameter=desc}"
+	            		   Text="{Binding Description}"
 	                       FontSize="16"
 	                       FontWeight="Light"
 	                       Foreground="White"
@@ -58,7 +58,7 @@
 	                       TextAlignment="Center"/>
 	                       
                 <TextBlock Margin="0,2,0,3"
-	            		   Text="{Binding TrackInstance, Converter={StaticResource InstanceConverter}, ConverterParameter=year}"
+	            		   Text="{Binding Year}"
 	                       FontSize="14"
 	                       FontWeight="Light"
 	                       Foreground="White"
@@ -71,7 +71,8 @@
 		                    HorizontalAlignment="Stretch"
 		                    HorizontalContentAlignment="Left"
 	                        Height="110"
-	                        Margin="0 15 20 0">
+	                        Margin="0 15 20 0"
+                            IsVisible="{Binding TrackArtists.Count, Converter={StaticResource InstanceConverter}, ConverterParameter=coll_active}">
 			        <ListBox ItemsSource="{Binding TrackArtists}"
 			        		Classes="InstanceItemsSource"
 			                SelectionMode="Single"
@@ -214,7 +215,7 @@
 	            ZIndex="-1">
 	            <Border.Background>
 	              <LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,100%">
-	                <GradientStop Color="{Binding AvatarSource, Converter={StaticResource InstanceConverter}, ConverterParameter=back}" Offset="0" />
+	                <GradientStop Color="{Binding Avatar, Converter={StaticResource InstanceConverter}, ConverterParameter=back}" Offset="0" />
 	                <GradientStop Color="#65000000" Offset="0.55" />
 	              </LinearGradientBrush>
 	            </Border.Background>

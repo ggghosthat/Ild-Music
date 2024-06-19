@@ -101,6 +101,10 @@ public class InstanceConverter : IValueConverter
 
             return LoadAsset(@"avares://Ild-Music/Assets/DefaultIcons/track.png", 300d, 300d);
         }
+        else if (parameter == "tag_col")
+        {
+            return LoadAsset(@"avares://Ild-Music/Assets/DefaultIcons/track.png", 300d, 300d); 
+        }
         else if (parameter == "aico_dis" && value is byte[] )
         {
             if (value is byte[] artistDisplaySource && artistDisplaySource.Length > 0)

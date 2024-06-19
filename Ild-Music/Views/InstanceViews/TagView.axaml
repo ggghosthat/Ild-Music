@@ -11,5 +11,70 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:DataType="vm:TagViewModel"
              x:Class="Ild_Music.Views.TagView">
-  Welcome to Avalonia!
+  <UserControl.Resources>
+        <conv:InstanceConverter x:Key="InstanceConverter"/>
+        <conv:ErrorMessageConverter x:Key="ErrorStateConverter"/>
+    </UserControl.Resources>
+
+    <Grid>
+        <!-- show panel -->
+        <Grid ZIndex="3">
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="*"/>
+          </Grid.ColumnDefinitions>
+            
+          <Grid Grid.Column="0">
+            <Border Width="300"
+                    Height="300"
+                    Margin="15"
+                    Background="Transparent"
+                    Child="{Binding Avatar, 
+                            Converter={StaticResource InstanceConverter},
+                            ConverterParameter=tag_col}">
+            </Border>   
+          </Grid>
+
+          <Grid Grid.Column="1"
+                VerticalAlignment="Center">
+            <StackPanel Orientation="Vertical"
+                        Margin="45 5">
+                <TextBlock Margin="0,5,0,0"
+                           Text="{Binding Name}"
+                           FontSize="25"
+                           FontWeight="UltraBlack"
+                           Foreground="White"
+                           HorizontalAlignment="Left"
+                           VerticalAlignment="Bottom"
+                           TextAlignment="Center"/>     
+     
+                <Button Width="100"
+                        Height="25"
+                        Content="Ok"
+                        Margin="0 15"
+                        Classes="btnApply"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Bottom"
+                        Command="{Binding BackCommand}">
+                </Button>
+            </StackPanel>
+          </Grid>         
+        </Grid>
+
+        <!--background-->
+        <Border Grid.Row="0"
+                Grid.Column="0"
+                Grid.ColumnSpan="3"
+                Grid.RowSpan="3"
+                BorderThickness="0"
+                BorderBrush="Transparent"
+                ZIndex="-1">
+                <Border.Background>
+                  <LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,100%">
+                    <GradientStop Color="{Binding Avatar, Converter={StaticResource InstanceConverter}, ConverterParameter=back}" Offset="0" />
+                    <GradientStop Color="#65000000" Offset="0.55" />
+                  </LinearGradientBrush>
+                </Border.Background>
+        </Border>
+    </Grid>
 </UserControl>

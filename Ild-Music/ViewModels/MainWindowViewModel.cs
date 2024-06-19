@@ -168,10 +168,7 @@ public class MainWindowViewModel : Base.BaseViewModel
     public void ResolveWindowStack()
     {
         if (WindowStack.Count > 0)
-        {
-            Guid viewModelId = WindowStack.Pop();
-            CurrentVM = (BaseViewModel)App.ViewModelTable[viewModelId];
-        }
+            CurrentVM = PopVM();
 
         if (CurrentVM is ListViewModel listVM)
             listVM.UpdateProviders();
@@ -193,14 +190,19 @@ public class MainWindowViewModel : Base.BaseViewModel
             case (EntityTag.PLAYLIST):
                 var playlistViewModel = (PlaylistViewModel)App.ViewModelTable[PlaylistViewModel.viewModelId];
                 playlistViewModel?.SetInstance(instanceDto);
+                Console.WriteLine("2");
                 viewModel = playlistViewModel;
                 break;
             case (EntityTag.TRACK):
                 var trackViewModel = (TrackViewModel)App.ViewModelTable[TrackViewModel.viewModelId];
                 trackViewModel?.SetInstance(instanceDto);
                 viewModel = trackViewModel;
-                break;
-            default:
+                break;            
+            case (EntityTag.TAG):
+                var tagViewModel = (TagViewModel)App.ViewModelTable[TagViewModel.viewModelId];
+                var tag = supporter.GetTagAsync(instanceDto.Id).Result;
+                tagViewModel?.SetInstance(tag);
+                viewModel = tagViewModel;
                 break;
         }
 
@@ -232,8 +234,7 @@ public class MainWindowViewModel : Base.BaseViewModel
         if (!isResolved)
         {
             var playlistVM = (PlaylistViewModel)App.ViewModelTable[PlaylistViewModel.viewModelId];
-            playlistVM?.SetInstance(playlist); 
-           
+            playlistVM?.SetInstance(playlist);           
             PushVM(source, playlistVM);
             ResolveWindowStack();
         }
@@ -243,8 +244,7 @@ public class MainWindowViewModel : Base.BaseViewModel
         BaseViewModel source, 
         Track track,
         bool isResolved = true)
-    {
-        
+    {        
         _player?.Stop();
         _player?.DropTrack(track);
 
@@ -259,7 +259,6 @@ public class MainWindowViewModel : Base.BaseViewModel
         {
             var trackVM = (TrackViewModel)App.ViewModelTable[TrackViewModel.viewModelId];
             trackVM?.SetInstance(track);
-
             PushVM(source, trackVM);
             ResolveWindowStack();
         }

@@ -200,8 +200,8 @@ public class ListViewModel : BaseViewModel
         {
             var currentItem = CurrentItem ?? default!; 
 
-            if(Header.Equals("Artists"))
-                Task.Run(() => MainVM.ResolveInstance(this, currentItem));
+            if(Header.Equals("Artists") || Header.Equals("Tags"))
+                MainVM.ResolveInstance(this, currentItem);
             else if(Header.Equals("Playlists"))
                 PassPlaylistEntity(currentItem);
             else if(Header.Equals("Tracks"))
@@ -212,15 +212,15 @@ public class ListViewModel : BaseViewModel
     private void PassPlaylistEntity(CommonInstanceDTO playlistDto)
     {
         var mainPlaylistId = MainVM.CurrentPlaylist?.Id ?? Guid.Empty;
+
         if(mainPlaylistId.Equals(playlistDto.Id))
         {
-            // MainVM.ResolveInstance(this, playlistDto).Wait();
             Task.Run(() => MainVM.ResolveInstance(this, playlistDto));
         }
         else
         {
             var playlist = supporter.GetPlaylistAsync(playlistDto).Result;
-            Task.Run(() => MainVM.DropPlaylistInstance(this, playlist));
+            MainVM.DropPlaylistInstance(this, playlist, false);
         }
     }
 
@@ -229,13 +229,12 @@ public class ListViewModel : BaseViewModel
         var mainPlaylistId = MainVM.CurrentTrack?.Id ?? Guid.Empty;
         if(mainPlaylistId.Equals(trackDto.Id))
         {
-            // MainVM.ResolveInstance(this, trackDto).Start();
             Task.Run(() => MainVM.ResolveInstance(this, trackDto));
         }
         else
         {
             var track = supporter.GetTrackAsync(trackDto).Result;
-            Task.Run(() => MainVM.DropTrackInstance(this, track));
+            MainVM.DropTrackInstance(this, track, false);
         }
     }
 }

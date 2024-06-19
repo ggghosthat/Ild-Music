@@ -26,6 +26,9 @@ public class TagViewModel : BaseViewModel
 
     public Tag TagInstance { get; private set; }
 
+    public string Name => TagInstance.Name.ToString();
+    public byte[] Avatar => default!;
+
     public ObservableCollection<CommonInstanceDTO> TagArtists { get; private set; } = new();
     public ObservableCollection<CommonInstanceDTO> TagPlaylists { get; private set; } = new();
     public ObservableCollection<CommonInstanceDTO> TagTracks { get; private set; } = new();
@@ -35,7 +38,6 @@ public class TagViewModel : BaseViewModel
     public async void SetInstance(Tag tag)
     {
         TagInstance = tag;
-        OnPropertyChanged("AvatarSource");
 
         supporter.GetInstanceDTOsFromIds(TagInstance.Artists, EntityTag.ARTIST)
             .Result

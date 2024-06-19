@@ -1,9 +1,10 @@
+using Ild_Music.Core.Instances;
 using Ild_Music.Core.Instances.DTO;
 using Ild_Music.Core.Instances.Querying;
 using Cube.Guido.Agents;
-using Ild_Music.Core.Instances;
 
 using System;
+using System.Linq;
 using System.Data;
 using Dapper;
 
@@ -416,15 +417,15 @@ internal sealed class QueryHandler
 
                 var extraProps = connection.QueryFirst(
                     artistExtraPropsQuery,
-                    new { id = playlistId },
+                    new { pid = playlistId },
                     transaction);
 
                 playlist = new (
                     instanceDTO.Id, 
                     instanceDTO.Name,
-                    extraProps.Description.AsMemory(),
+                    extraProps.Description.ToCharArray(),
                     instanceDTO.Avatar,
-                    extraProps .Year);
+                    (int)extraProps.Year);
                 
                 playlist.Artists  = connection.Query(
                     playlistArtistsQuery,
@@ -538,9 +539,8 @@ internal sealed class QueryHandler
             {
                 string tagIdString = tagId.ToString();
 
-                //setting up main and extra properties for artist body
                 string tagQuery = @"
-                    SELECT t.TagID as Id, t.Name, t.Color, ti.IID 
+                    SELECT t.TagID, t.Name, t.Color
                     FROM tags AS t
                     WHERE t.TagID = @tagIdStr";
                 
@@ -549,10 +549,12 @@ internal sealed class QueryHandler
                     FROM tags_instances AS ti
                     WHERE ti.TagID = @tagIdStr AND ti.EntityType = @entityType";
 
-                tag = connection.QueryFirst<Tag>(
+                tag = connection.Query(
                     tagQuery,
                     new { tagIdStr = tagIdString },
-                    transaction);
+                    transaction)
+                .Select(t => new Tag(Guid.Parse(t.TagID), t.Name.ToCharArray(), t.Color.ToCharArray()))
+                .First();
 
                 tag.Artists = connection.Query(
                     tagEntitiesQuery,
@@ -570,13 +572,13 @@ internal sealed class QueryHandler
                 .Select(pid => Guid.Parse((string)pid.Value))
                 .ToList();
 
-                tag.Tracks = (connection.Query(
+                tag.Tracks = connection.Query(
                     tagEntitiesQuery,
                     new { tagIdStr = tagIdString, entityType = 3 },
                     transaction)
                 .Where(tid => tid.Value is not null)
                 .Select(tid => Guid.Parse((string)tid.Value))
-                .ToList());
+                .ToList();
             }
         }
 
