@@ -82,43 +82,43 @@ public class InstanceConverter : IValueConverter
         }
         else if (parameter == "aico_col")
         {
-            if (value is byte[] artistIconSource && artistIconSource.Length >= 0)
-                return ComputeAvatarIcon(ref artistIconSource, 300d, 300d);
+            if (value is byte[] artistIconSource && artistIconSource.Length > 0)
+                return CraftImage(artistIconSource, 300d, 300d);
 
-            return LoadAsset(@"avares://Ild-Music/Assets/DefaultIcons/artist.png");
+            return LoadAsset(@"avares://Ild-Music/Assets/DefaultIcons/artist.png", 300d, 300d);
         }
         else if (parameter == "pico_col")
         {
-            if (value is byte[] playlistIconSource && playlistIconSource.Length >= 0)
-                return ComputeAvatarIcon(ref playlistIconSource, 300d, 300d);
+            if (value is byte[] playlistIconSource && playlistIconSource.Length > 0)
+                return CraftImage(playlistIconSource, 300d, 300d);
                 
-            return LoadAsset(@"avares://Ild-Music/Assets/DefaultIcons/playlist.png");
+            return LoadAsset(@"avares://Ild-Music/Assets/DefaultIcons/playlist.png", 300d, 300d);
         }
         else if (parameter == "tico_col")
         {
-            if (value is byte[] trackIconSource && trackIconSource.Length >= 0)
-                return ComputeAvatarIcon(ref trackIconSource, 300d, 300d);
+            if (value is byte[] trackIconSource && trackIconSource.Length > 0)
+                return CraftImage(trackIconSource, 300d, 300d);
 
-            return LoadAsset(@"avares://Ild-Music/Assets/DefaultIcons/track.png");
+            return LoadAsset(@"avares://Ild-Music/Assets/DefaultIcons/track.png", 300d, 300d);
         }
         else if (parameter == "aico_dis" && value is byte[] )
         {
-            if (value is byte[] artistDisplaySource && artistDisplaySource.Length >= 0)
-                return ComputeAvatarIcon(ref artistDisplaySource);
-            
+            if (value is byte[] artistDisplaySource && artistDisplaySource.Length > 0)
+                return DockAvatar(artistDisplaySource);
+
             return Application.Current.FindResource("ArtistAvatar");
         }
         else if (parameter == "pico_dis")
         {
-            if (value is byte[] playlistDisplaySource && playlistDisplaySource.Length >= 0)
-                return ComputeAvatarIcon(ref playlistDisplaySource);
+            if (value is byte[] playlistDisplaySource && playlistDisplaySource.Length > 0)
+                return DockAvatar(playlistDisplaySource);
             
             return Application.Current.FindResource("PlaylistAvatar");
         }
         else if (parameter == "tico_dis")
         {
-            if (value is byte[] trackDisplaySource && trackDisplaySource.Length >= 0)
-                return ComputeAvatarIcon(ref trackDisplaySource);
+            if (value is byte[] trackDisplaySource && trackDisplaySource.Length > 0)
+                return DockAvatar(trackDisplaySource);
 
             return Application.Current.FindResource("TrackAvatar");
         }
@@ -146,7 +146,7 @@ public class InstanceConverter : IValueConverter
     }
 
 
-    private object ComputeAvatarIcon(ref byte[] source, double w = 0d, double h = 0d)
+    private object DockAvatar(byte[] source, double w = 0d, double h = 0d)
     {
         var resource = (Border)Application.Current.FindResource("DisplayImage");
         var image = (Avalonia.Controls.Image)resource.Child;
@@ -157,10 +157,43 @@ public class InstanceConverter : IValueConverter
             image.Height = h;
         }
 
-        image.Source = new Bitmap(new MemoryStream(source));
+        using var ms = new MemoryStream(source);
+        image.Source = new Bitmap(ms);
+
+        resource.Child = image;
         return resource;
     }
     
+    private object CraftImage(ReadOnlyMemory<byte> source, double w = 0d, double h = 0d)
+    {
+        var image = new Avalonia.Controls.Image();
+
+        if (w > 0d && h > 0d)
+        {
+            image.Width = w;
+            image.Height = h;
+        }
+
+        using var ms = new MemoryStream(source.ToArray());
+        image.Source = new Bitmap(ms);
+        return image;
+    }
+
+    private object LoadAsset(string path, double w = 0d, double h = 0d)
+    {
+        var image = new Avalonia.Controls.Image();
+
+        if (w >= 0d && h >= 0d)
+        {
+            image.Width = w;
+            image.Height = h;
+        }
+
+        var bitmap = new Bitmap(AssetLoader.Open(new Uri(path)));
+        image.Source = bitmap;
+        return image;
+    }
+
     private object CreateBackImage(ref byte[] source)
     {
         Avalonia.Media.Color dominantColor;
@@ -198,22 +231,5 @@ public class InstanceConverter : IValueConverter
         }
 
         return dominantColor;
-    }
-
-    private object CraftImage(ReadOnlyMemory<byte> source)
-    {
-        var image = new Avalonia.Controls.Image();
-        var raw = source.ToArray();
-        image.Source = new Bitmap(new MemoryStream( raw ));
-        return image;
-    }
-
-    private object LoadAsset(string path)
-    {
-        var bitmap = new Bitmap(AssetLoader.Open(new Uri(path)));
-
-        var image = new Avalonia.Controls.Image();
-        image.Source = bitmap;
-        return image;
     }
 }

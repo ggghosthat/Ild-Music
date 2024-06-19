@@ -38,12 +38,8 @@ public class ArtistViewModel : BaseViewModel
   	    
     public async void SetInstance(CommonInstanceDTO instanceDto)
     {
-        ArtistInstance = supporter.GetArtistAsync(instanceDto).Result;
-        OnPropertyChanged("Name");
-        OnPropertyChanged("Description");
-        OnPropertyChanged("Year");
-        OnPropertyChanged("Avatar");
-
+        ArtistInstance = await supporter.GetArtistAsync(instanceDto);
+        
         supporter.GetInstanceDTOsFromIds(ArtistInstance.Playlists, EntityTag.PLAYLIST)
             .Result
             .ToList()
@@ -58,10 +54,6 @@ public class ArtistViewModel : BaseViewModel
     public async void SetInstance(Artist artist)
     {
         ArtistInstance = artist;
-        OnPropertyChanged("Name");
-        OnPropertyChanged("Description");
-        OnPropertyChanged("Year");
-        OnPropertyChanged("Avatar");
 
         supporter.GetInstanceDTOsFromIds(ArtistInstance.Playlists, EntityTag.PLAYLIST)
             .Result
