@@ -11,6 +11,7 @@ using Ild_Music.Core.Contracts.Services.Interfaces;
 using System;
 using System.Collections.ObjectModel;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using Avalonia;
 using Avalonia.Controls;
@@ -161,17 +162,13 @@ public class MainWindowViewModel : Base.BaseViewModel
 
     public BaseViewModel PopVM()
     {
-        Guid viewModelId = WindowStack.Pop();
-        return (BaseViewModel)App.ViewModelTable[viewModelId];
+        return (BaseViewModel)App.ViewModelTable[WindowStack.Pop()];
     }
 
     public void ResolveWindowStack()
     {
         if (WindowStack.Count > 0)
             CurrentVM = PopVM();
-
-        if (CurrentVM is ListViewModel listVM)
-            listVM.UpdateProviders();
     }
 
     public void ResolveInstance(

@@ -247,9 +247,10 @@
                                Stretch="UniformToFill"
                                Source="{Binding ., Converter={StaticResource InstanceConverter}, ConverterParameter=dto_icon}"/>
                                
-                        <Viewbox Width="45" Height="45">
-                            <Canvas Width="24" Height="24"
-                                 IsVisible="{Binding ., Converter={StaticResource InstanceConverter}, ConverterParameter=dto_has_icon}}">
+                        <Viewbox Width="45" Height="45"
+                                 IsEnabled="{Binding ., Converter={StaticResource InstanceConverter} 
+                                 ConverterParameter=dto_has_icon}">
+                            <Canvas Width="24" Height="24">
                                 <Path VerticalAlignment="Top" Fill="{StaticResource color1}" Data="{Binding ., Converter={StaticResource InstanceConverter}, ConverterParameter=dto_icon}"/>
                             </Canvas>
                         </Viewbox>

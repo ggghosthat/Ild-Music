@@ -30,6 +30,11 @@ public class ListViewModel : BaseViewModel
         InitCurrentListCommand = new(InitCurrentList, null);
 
         Task.Run(async () => await DisplayProvidersAsync());
+
+        supporter.OnArtistsNotifyRefresh += () => UpdateProvider(EntityTag.ARTIST);
+        supporter.OnPlaylistsNotifyRefresh += () => UpdateProvider(EntityTag.PLAYLIST);
+        supporter.OnTracksNotifyRefresh += () => UpdateProvider(EntityTag.TRACK);
+        supporter.OnTagsNotifyRefresh += () => UpdateProvider(EntityTag.TAG);
     }
 
     private static SupportGhost supporter => (SupportGhost)App.Stage.GetGhost(Ghosts.SUPPORT);
@@ -48,8 +53,6 @@ public class ListViewModel : BaseViewModel
     public string Header { get; set; } = Headers[0];
     public static ObservableCollection<CommonInstanceDTO> CurrentList { get; set; } = new();
     public CommonInstanceDTO? CurrentItem { get; set; } = null;
-
-    public SelectionModel<object> HeaderSelection { get; }
     
     private void InitCurrentList(object obj)
     {
@@ -103,6 +106,29 @@ public class ListViewModel : BaseViewModel
                 supporter.TracksCollection.ToList().ForEach(i => CurrentList.Add(i));
                 break;
             case "Tags":
+                supporter.TagsCollection.ToList().ForEach(i => CurrentList.Add(i));
+                break;
+        }
+
+        OnPropertyChanged("CurrentList");
+    }
+
+    private async void UpdateProvider(EntityTag tag)
+    {
+        CurrentList.Clear();
+
+        switch(tag)
+        {
+            case EntityTag.ARTIST:
+                supporter.ArtistsCollection.ToList().ForEach(i => CurrentList.Add(i));
+                break;
+            case EntityTag.PLAYLIST:
+                supporter.PlaylistsCollection.ToList().ForEach(i => CurrentList.Add(i));
+                break;
+            case EntityTag.TRACK:
+                supporter.TracksCollection.ToList().ForEach(i => CurrentList.Add(i));
+                break;
+            case EntityTag.TAG:
                 supporter.TagsCollection.ToList().ForEach(i => CurrentList.Add(i));
                 break;
         }

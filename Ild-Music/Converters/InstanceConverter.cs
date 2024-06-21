@@ -8,6 +8,7 @@ using Avalonia.Media.Imaging;
 using Avalonia.Data.Converters;
 using System;
 using System.IO;
+using System.Threading.Tasks;
 using System.Globalization;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -67,8 +68,7 @@ public class InstanceConverter : IValueConverter
                 var ms = new MemoryStream(source);
                 return new Bitmap(ms);
             }
-
-            return dto.Tag switch
+            else return dto.Tag switch
             {
                 EntityTag.ARTIST => Application.Current.FindResource("ArtistGeometry"),
                 EntityTag.PLAYLIST => Application.Current.FindResource("PlaylistGeometry"),
@@ -83,27 +83,27 @@ public class InstanceConverter : IValueConverter
         else if (parameter == "aico_col")
         {
             if (value is byte[] artistIconSource && artistIconSource.Length > 0)
-                return CraftImage(artistIconSource, 300d, 300d);
+                return CraftImage(artistIconSource, 300d, 300d).Result;
 
-            return LoadAsset(@"avares://Ild-Music/Assets/DefaultIcons/artist.png", 300d, 300d);
+            return LoadAsset(@"avares://Ild-Music/Assets/DefaultIcons/artist.png", 300d, 300d).Result;
         }
         else if (parameter == "pico_col")
         {
             if (value is byte[] playlistIconSource && playlistIconSource.Length > 0)
-                return CraftImage(playlistIconSource, 300d, 300d);
+                return CraftImage(playlistIconSource, 300d, 300d).Result;
                 
-            return LoadAsset(@"avares://Ild-Music/Assets/DefaultIcons/playlist.png", 300d, 300d);
+            return LoadAsset(@"avares://Ild-Music/Assets/DefaultIcons/playlist.png", 300d, 300d).Result;
         }
         else if (parameter == "tico_col")
         {
             if (value is byte[] trackIconSource && trackIconSource.Length > 0)
-                return CraftImage(trackIconSource, 300d, 300d);
+                return CraftImage(trackIconSource, 300d, 300d).Result;
 
-            return LoadAsset(@"avares://Ild-Music/Assets/DefaultIcons/track.png", 300d, 300d);
+            return LoadAsset(@"avares://Ild-Music/Assets/DefaultIcons/track.png", 300d, 300d).Result;
         }
         else if (parameter == "tag_col")
         {
-            return LoadAsset(@"avares://Ild-Music/Assets/DefaultIcons/tag.png", 150d, 150d); 
+            return LoadAsset(@"avares://Ild-Music/Assets/DefaultIcons/tag.png", 150d, 150d).Result; 
         }
         else if (parameter == "aico_dis" && value is byte[] )
         {
@@ -168,7 +168,7 @@ public class InstanceConverter : IValueConverter
         return resource;
     }
     
-    private object CraftImage(ReadOnlyMemory<byte> source, double w = 0d, double h = 0d)
+    private async Task<object> CraftImage(ReadOnlyMemory<byte> source, double w = 0d, double h = 0d)
     {
         var image = new Avalonia.Controls.Image();
 
@@ -183,11 +183,11 @@ public class InstanceConverter : IValueConverter
         return image;
     }
 
-    private object LoadAsset(string path, double w = 0d, double h = 0d)
+    private async Task<object> LoadAsset(string path, double w = 0d, double h = 0d)
     {
         var image = new Avalonia.Controls.Image();
 
-        if (w >= 0d && h >= 0d)
+        if (w > 0d && h > 0d)
         {
             image.Width = w;
             image.Height = h;
