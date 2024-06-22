@@ -8,9 +8,10 @@
              xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
              xmlns:ia="clr-namespace:Avalonia.Xaml.Interactions.Core;assembly=Avalonia.Xaml.Interactions"
 
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="660"
              x:Class="Ild_Music.Views.ArtistView"
-             x:DataType="vm:ArtistViewModel">
+             x:DataType="vm:ArtistViewModel"
+             Background="green">
     <UserControl.Resources>
         <conv:InstanceConverter x:Key="InstanceConverter"/>
         <conv:ErrorMessageConverter x:Key="ErrorStateConverter"/>
@@ -340,10 +341,7 @@
                 BorderBrush="Transparent"
                 ZIndex="-1">
                 <Border.Background>
-                  <LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,100%">
-                    <GradientStop Color="#65c2c2c2" Offset="0" />
-                    <GradientStop Color="#65000000" Offset="0.55" />
-                  </LinearGradientBrush>
+                  <ImageBrush Source="/Assets/Backgrounds/glass.png" Stretch="UniformToFill"/>
                 </Border.Background>
         </Border>
     </Grid>
