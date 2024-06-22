@@ -19,8 +19,7 @@ Ild-Music.Tests/bin
 Ild-Music.Tests/obj
 Ild-Music.VLCSharpPlayer/bin
 Ild-Music.VLCSharpPlayer/obj
-legacy/bin
-legacy/obj
+legacy
 # User-specific files
 *.rsuser
 *.suo
