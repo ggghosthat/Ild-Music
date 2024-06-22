@@ -7,7 +7,6 @@
 
 ./dependencies
 ./legacy
-./legacy/*
 ./Ild-Music/.wearhouse
 ./PKGBUILD
 ./*.pkg.tar.zst
