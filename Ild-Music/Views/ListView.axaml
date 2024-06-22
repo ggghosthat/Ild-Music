@@ -238,23 +238,11 @@
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="auto"/>
                   </Grid.RowDefinitions>
-                    <Grid Grid.Row="0"
-                            MaxHeight="70"
-                            MaxWidth="70"
-                            Background="Transparent">
-                        <Image Width="70"
+                        <Image Grid.Row="0"
+                               Width="70"
                                Height="70"
                                Stretch="UniformToFill"
                                Source="{Binding ., Converter={StaticResource InstanceConverter}, ConverterParameter=dto_icon}"/>
-                               
-                        <Viewbox Width="45" Height="45"
-                                 IsEnabled="{Binding ., Converter={StaticResource InstanceConverter} 
-                                 ConverterParameter=dto_has_icon}">
-                            <Canvas Width="24" Height="24">
-                                <Path VerticalAlignment="Top" Fill="{StaticResource color1}" Data="{Binding ., Converter={StaticResource InstanceConverter}, ConverterParameter=dto_icon}"/>
-                            </Canvas>
-                        </Viewbox>
-                    </Grid>
 
                     <TextBlock Grid.Row="1"
                                TextWrapping="NoWrap"

@@ -12,9 +12,10 @@ using System.Threading.Tasks;
 using System.Globalization;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using SixLabors.ImageSharp;
-using SixLabors.ImageSharp.Processing;
-using SixLabors.ImageSharp.PixelFormats;
+using System.Diagnostics;
+// using SixLabors.ImageSharp;
+// using SixLabors.ImageSharp.Processing;
+// using SixLabors.ImageSharp.PixelFormats;
 
 namespace Ild_Music.Converters;
 
@@ -61,19 +62,17 @@ public class InstanceConverter : IValueConverter
             return null;   
         }
         else if (parameter == "dto_icon" && value is CommonInstanceDTO dto)
-        {    
+        {
             if (dto.Avatar.Length > 0)
             {
-                byte[] source = dto.Avatar.ToArray();
-                var ms = new MemoryStream(source);
-                return new Bitmap(ms);
+                return LoadBitmapAsync(dto).Result;
             }
             else return dto.Tag switch
             {
-                EntityTag.ARTIST => Application.Current.FindResource("ArtistGeometry"),
-                EntityTag.PLAYLIST => Application.Current.FindResource("PlaylistGeometry"),
-                EntityTag.TRACK => Application.Current.FindResource("TrackGeometry"),
-                EntityTag.TAG => Application.Current.FindResource("TagGeometry"),
+                EntityTag.ARTIST => LoadBitmapAsync(@"avares://Ild-Music/Assets/DefaultIcons/artist.png").Result,
+                EntityTag.PLAYLIST => LoadBitmapAsync(@"avares://Ild-Music/Assets/DefaultIcons/playlist.png").Result,
+                EntityTag.TRACK => LoadBitmapAsync(@"avares://Ild-Music/Assets/DefaultIcons/track.png").Result,
+                EntityTag.TAG => LoadBitmapAsync(@"avares://Ild-Music/Assets/DefaultIcons/tag.png").Result,
             };
         }
         else if (parameter == "dto_has_icon" && value is CommonInstanceDTO dto_has_icon)
@@ -132,7 +131,8 @@ public class InstanceConverter : IValueConverter
             if (value is byte[] source)
             {
                 if (source != null && source.Length > 0)
-                    return CreateBackImage(ref source);
+                    // return CreateBackImage(ref source);
+                    return null;
                 else return defaultColor;
             }
             else return defaultColor;
@@ -198,42 +198,55 @@ public class InstanceConverter : IValueConverter
         return image;
     }
 
+    private async Task<Bitmap> LoadBitmapAsync(string path)
+    {
+        return new Bitmap(AssetLoader.Open(new Uri(path)));
+    }
+
+    private async Task<Bitmap> LoadBitmapAsync(CommonInstanceDTO instanceDto)
+    {
+        byte[] source = instanceDto.Avatar.ToArray();
+        using var ms = new MemoryStream(source);
+        return new Bitmap(ms);
+    }
+
     private object CreateBackImage(ref byte[] source)
     {
-        Avalonia.Media.Color dominantColor;
-        using (var pic = SixLabors.ImageSharp.Image.Load<Rgba32>( source ))
-        {
-            var resizeOptions = new ResizeOptions 
-            {
-                Sampler = KnownResamplers.NearestNeighbor,
-                Size = new SixLabors.ImageSharp.Size(100, 0)
-            };
-            pic.Mutate(x => x.Resize(resizeOptions));
+        // Avalonia.Media.Color dominantColor;
+        // using (var pic = SixLabors.ImageSharp.Image.Load<Rgba32>( source ))
+        // {
+        //     var resizeOptions = new ResizeOptions 
+        //     {
+        //         Sampler = KnownResamplers.NearestNeighbor,
+        //         Size = new SixLabors.ImageSharp.Size(100, 0)
+        //     };
+        //     pic.Mutate(x => x.Resize(resizeOptions));
 
-            int r = 0;
-            int g = 0;
-            int b = 0;
-            int totalPixels = 0;
+        //     int r = 0;
+        //     int g = 0;
+        //     int b = 0;
+        //     int totalPixels = 0;
 
-            for (int x = 0; x < pic.Width; x++)
-            {
-                for (int y = 0; y < pic.Height; y++)
-                {
-                    var pixel = pic[x, y];
-                    r += System.Convert.ToInt32(pixel.R);
-                    g += System.Convert.ToInt32(pixel.G);
-                    b += System.Convert.ToInt32(pixel.B);
-                    totalPixels++;
-                }
-            }
+        //     for (int x = 0; x < pic.Width; x++)
+        //     {
+        //         for (int y = 0; y < pic.Height; y++)
+        //         {
+        //             var pixel = pic[x, y];
+        //             r += System.Convert.ToInt32(pixel.R);
+        //             g += System.Convert.ToInt32(pixel.G);
+        //             b += System.Convert.ToInt32(pixel.B);
+        //             totalPixels++;
+        //         }
+        //     }
 
-            r /= totalPixels;
-            g /= totalPixels;
-            b /= totalPixels;
+        //     r /= totalPixels;
+        //     g /= totalPixels;
+        //     b /= totalPixels;
 
-            dominantColor = new Avalonia.Media.Color(255, (byte) r, (byte) g, (byte) b);
-        }
+        //     dominantColor = new Avalonia.Media.Color(255, (byte) r, (byte) g, (byte) b);
+        // }
 
-        return dominantColor;
+        // return dominantColor;
+        return null;
     }
 }
