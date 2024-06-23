@@ -13,6 +13,7 @@
              x:DataType="vm:PlaylistEditorViewModel">
   <UserControl.Resources>
     <conv:InstanceConverter x:Key="InstanceConverter"/>
+    <conv:IconConverter x:Key="IconConverter"/>
     <conv:ErrorMessageConverter x:Key="ErrorStateConverter"/>
   </UserControl.Resources>
 
@@ -60,7 +61,7 @@
                       Background="Transparent"
                       Tapped="OpenAvatar_Clicked"
                   Child="{Binding Avatar, 
-                          Converter={StaticResource InstanceConverter},
+                          Converter={StaticResource IconConverter},
                           ConverterParameter=pico_col}">
               </Border>
         </Grid>
@@ -199,14 +200,7 @@
                                   <Image Width="70"
                                          Height="70"
                                          Stretch="UniformToFill"
-                                         Source="{Binding ., Converter={StaticResource InstanceConverter}, ConverterParameter=dto_icon}"/>
-                                         
-                                  <Viewbox Width="70" Height="70">
-                                      <Canvas Width="24" Height="24"
-                                           IsVisible="{Binding ., Converter={StaticResource InstanceConverter}, ConverterParameter=dto_has_icon}}">
-                                          <Path VerticalAlignment="Top" Fill="{StaticResource color1}" Data="{Binding ., Converter={StaticResource InstanceConverter}, ConverterParameter=dto_icon}"/>
-                                      </Canvas>
-                                  </Viewbox>
+                                         Source="{Binding ., Converter={StaticResource IconConverter}, ConverterParameter=dto_icon}"/>
                               </Grid>
 
                               <TextBlock Grid.Row="1"
@@ -330,14 +324,7 @@
                                 <Image Width="70"
                                        Height="70"
                                        Stretch="UniformToFill"
-                                       Source="{Binding ., Converter={StaticResource InstanceConverter}, ConverterParameter=dto_icon}"/>
-                                       
-                                <Viewbox Width="70" Height="70">
-                                    <Canvas Width="24" Height="24"
-                                         IsVisible="{Binding ., Converter={StaticResource InstanceConverter}, ConverterParameter=dto_has_icon}}">
-                                        <Path VerticalAlignment="Top" Fill="{StaticResource color1}" Data="{Binding ., Converter={StaticResource InstanceConverter}, ConverterParameter=dto_icon}"/>
-                                    </Canvas>
-                                </Viewbox>
+                                       Source="{Binding ., Converter={StaticResource IconConverter}, ConverterParameter=dto_icon}"/>
                             </Grid>
 
                             <TextBlock Grid.Row="1"
@@ -397,7 +384,7 @@
             ZIndex="-1">
             <Border.Background>
               <LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,100%">
-                <GradientStop Color="{Binding Avatar, Converter={StaticResource InstanceConverter}, ConverterParameter=back}" Offset="0" />
+                <GradientStop Color="{Binding Avatar, Converter={StaticResource IconConverter}, ConverterParameter=back}" Offset="0" />
                 <GradientStop Color="#65000000" Offset="0.55" />
               </LinearGradientBrush>
             </Border.Background>

@@ -14,6 +14,7 @@
 
   <UserControl.Resources>
     <conv:InstanceConverter x:Key="InstanceConverter"/>
+    <conv:IconConverter x:Key="IconConverter"/>
   </UserControl.Resources>
 
   <Grid>
@@ -238,11 +239,11 @@
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="auto"/>
                   </Grid.RowDefinitions>
-                        <Image Grid.Row="0"
-                               Width="70"
-                               Height="70"
-                               Stretch="UniformToFill"
-                               Source="{Binding ., Converter={StaticResource InstanceConverter}, ConverterParameter=dto_icon}"/>
+                    <Image Grid.Row="0"
+                           Width="70"
+                           Height="70"
+                           Stretch="UniformToFill"
+                           Source="{Binding ., Converter={StaticResource IconConverter}, ConverterParameter=dto_icon}"/>
 
                     <TextBlock Grid.Row="1"
                                TextWrapping="NoWrap"

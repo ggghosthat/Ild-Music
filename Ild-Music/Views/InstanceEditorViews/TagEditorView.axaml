@@ -15,6 +15,7 @@
 
     <UserControl.Resources>
       <conv:InstanceConverter x:Key="InstanceConverter"/>
+    <conv:IconConverter x:Key="IconConverter"/>
       <conv:ErrorMessageConverter x:Key="ErrorStateConverter"/>
     </UserControl.Resources>
 
@@ -192,14 +193,7 @@
                               <Image Width="70"
                                      Height="70"
                                      Stretch="UniformToFill"
-                                     Source="{Binding ., Converter={StaticResource InstanceConverter}, ConverterParameter=dto_icon}"/>
-                                     
-                              <Viewbox Width="70" Height="70">
-                                  <Canvas Width="24" Height="24"
-                                       IsVisible="{Binding ., Converter={StaticResource InstanceConverter}, ConverterParameter=dto_has_icon}}">
-                                      <Path VerticalAlignment="Top" Fill="{StaticResource color1}" Data="{Binding ., Converter={StaticResource InstanceConverter}, ConverterParameter=dto_icon}"/>
-                                  </Canvas>
-                              </Viewbox>
+                                     Source="{Binding ., Converter={StaticResource IconConverter}, ConverterParameter=dto_icon}"/>
                           </Grid>
 
                           <TextBlock Grid.Row="1"
@@ -323,14 +317,7 @@
                               <Image Width="70"
                                      Height="70"
                                      Stretch="UniformToFill"
-                                     Source="{Binding ., Converter={StaticResource InstanceConverter}, ConverterParameter=dto_icon}"/>
-                                     
-                              <Viewbox Width="70" Height="70">
-                                  <Canvas Width="24" Height="24"
-                                       IsVisible="{Binding ., Converter={StaticResource InstanceConverter}, ConverterParameter=dto_has_icon}}">
-                                      <Path VerticalAlignment="Top" Fill="{StaticResource color1}" Data="{Binding ., Converter={StaticResource InstanceConverter}, ConverterParameter=dto_icon}"/>
-                                  </Canvas>
-                              </Viewbox>
+                                     Source="{Binding ., Converter={StaticResource IconConverter}, ConverterParameter=dto_icon}"/>
                           </Grid>
 
                           <TextBlock Grid.Row="1"
@@ -455,14 +442,7 @@
                               <Image Width="70"
                                      Height="70"
                                      Stretch="UniformToFill"
-                                     Source="{Binding ., Converter={StaticResource InstanceConverter}, ConverterParameter=dto_icon}"/>
-                                     
-                              <Viewbox Width="70" Height="70">
-                                  <Canvas Width="24" Height="24"
-                                       IsVisible="{Binding ., Converter={StaticResource InstanceConverter}, ConverterParameter=dto_has_icon}}">
-                                      <Path VerticalAlignment="Top" Fill="{StaticResource color1}" Data="{Binding ., Converter={StaticResource InstanceConverter}, ConverterParameter=dto_icon}"/>
-                                  </Canvas>
-                              </Viewbox>
+                                     Source="{Binding ., Converter={StaticResource IconConverter}, ConverterParameter=dto_icon}"/>
                           </Grid>
 
                           <TextBlock Grid.Row="1"

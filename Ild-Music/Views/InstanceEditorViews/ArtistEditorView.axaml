@@ -13,6 +13,7 @@
              x:DataType="vm:ArtistEditorViewModel">
   <UserControl.Resources>
     <conv:InstanceConverter x:Key="InstanceConverter"/>
+    <conv:IconConverter x:Key="IconConverter"/>
     <conv:ErrorMessageConverter x:Key="ErrorStateConverter"/>
   </UserControl.Resources>
 
@@ -60,7 +61,7 @@
                       Background="Transparent"
                       Tapped="OpenAvatar_Clicked"
                   Child="{Binding Avatar, 
-                          Converter={StaticResource InstanceConverter},
+                          Converter={StaticResource IconConverter},
                           ConverterParameter=aico_col}">
               </Border>
         </Grid>
@@ -134,7 +135,7 @@
             ZIndex="-1">
             <Border.Background>
               <LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,100%">
-                <GradientStop Color="{Binding Avatar, Converter={StaticResource InstanceConverter}, ConverterParameter=back}" Offset="0" />
+                <GradientStop Color="{Binding Avatar, Converter={StaticResource IconConverter}, ConverterParameter=back}" Offset="0" />
                 <GradientStop Color="#65000000" Offset="0.55" />
               </LinearGradientBrush>
             </Border.Background>

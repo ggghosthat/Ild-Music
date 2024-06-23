@@ -13,6 +13,7 @@
              x:Class="Ild_Music.Views.TagView">
   <UserControl.Resources>
         <conv:InstanceConverter x:Key="InstanceConverter"/>
+        <conv:IconConverter x:Key="IconConverter"/>
         <conv:ErrorMessageConverter x:Key="ErrorStateConverter"/>
     </UserControl.Resources>
 
@@ -30,7 +31,7 @@
                     Margin="15"
                     Background="Transparent"
                     Child="{Binding Avatar, 
-                            Converter={StaticResource InstanceConverter},
+                            Converter={StaticResource IconConverter},
                             ConverterParameter=tag_col}">
             </Border>   
           </Grid>
@@ -69,9 +70,9 @@
                 BorderThickness="0"
                 BorderBrush="Transparent"
                 ZIndex="-1">
-                <Border.Background>
-                  <ImageBrush Source="/Assets/Backgrounds/glass.png" Stretch="UniformToFill"/>
-                </Border.Background>
+          <Border.Background>
+            <ImageBrush Source="/Assets/Backgrounds/glass.png" Stretch="UniformToFill"/>
+          </Border.Background>
         </Border>
     </Grid>
 </UserControl>
