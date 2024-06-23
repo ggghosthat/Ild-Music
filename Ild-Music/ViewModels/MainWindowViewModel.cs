@@ -187,7 +187,6 @@ public class MainWindowViewModel : Base.BaseViewModel
             case (EntityTag.PLAYLIST):
                 var playlistViewModel = (PlaylistViewModel)App.ViewModelTable[PlaylistViewModel.viewModelId];
                 playlistViewModel?.SetInstance(instanceDto);
-                Console.WriteLine("2");
                 viewModel = playlistViewModel;
                 break;
             case (EntityTag.TRACK):

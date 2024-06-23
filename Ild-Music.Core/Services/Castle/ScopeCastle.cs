@@ -30,7 +30,6 @@ public sealed class ScopeCastle : ICastle, IDisposable
     private static int currentPlayerId;    
     private static int currentCubeId;
 
-    //cube literals (damn!!!, trash 'em out ＼(｀0´)／)
     private readonly static string cubeStoragePath = Environment.CurrentDirectory;
     private readonly int cubeCapacity = 300;
     private readonly bool cubeIsMoveTrackFiles = true;

@@ -11,6 +11,8 @@ public class VlcPlayer : IPlayer
     private static readonly VlcPlayerService _playerService = new();
 
     private IMediator _mediator = default;
+    public VlcPlayer()
+    {}
 
     public Guid PlayerId => Guid.NewGuid();
     public string PlayerName => "Vlc Player";
@@ -18,7 +20,6 @@ public class VlcPlayer : IPlayer
     public Track? CurrentTrack {get; private set;} = null;
     public Playlist? CurrentPlaylist { get; private set;} = null;
 
-    #region Player Triggers
     public bool IsEmpty => _playerService.IsEmpty;
     public bool ToggleState => _playerService.ToggleState;
     public int PlaylistPoint {get; private set;} = 0;
@@ -27,18 +28,14 @@ public class VlcPlayer : IPlayer
     public bool IsSwipe {get; private set;} = false;
     public bool IsPlaylistLoop {get; set;} = false;
     private bool IsPlaylist = false;
-    #endregion
 
-    #region Time Presenters
     public TimeSpan TotalTime => _playerService.TotalTime;
     public TimeSpan CurrentTime 
     {
         get => _playerService.CurrentTime;
         set => _playerService.CurrentTime = value;
     }
-    #endregion
 
-    #region Volume Presenters
     public float MaxVolume {get; private set;} = 100;
     public float MinVolume {get; private set;} = 0;
     public float CurrentVolume 
@@ -46,32 +43,20 @@ public class VlcPlayer : IPlayer
         get => _playerService.CurrentVolume;
         set => _playerService.CurrentVolume = (int)value;
     }
-    #endregion
 
-    #region Events
     private event Action ShuffleCollection;
-    #endregion
 
-    #region constructor
-    public VlcPlayer()
-    {}
-    #endregion
-
-
-    #region Player Inits
     public void ConnectMediator(IMediator mediator)
     {
         _mediator = mediator;
     }
 
-
     public async Task DropTrack(Track track)
     {            
         CurrentTrack = track;
         await _playerService.SetTrack(track);
-        await _mediator.Publish(PlayerSignal.PLAYER_SET_TRACK);
-    }
-       
+        await _mediator?.Publish(PlayerSignal.PLAYER_SET_TRACK);
+    }       
 
     public async Task DropPlaylist(Playlist playlist, int index=0)
     { 
@@ -89,13 +74,12 @@ public class VlcPlayer : IPlayer
         //player service setting
         _playerService.TrackFinished += async () => await SetNewMediaInstance(true); 
         await _playerService.SetTrack(startTrack);
-        await _mediator.Publish(PlayerSignal.PLAYER_SET_PLAYLIST);
+        await _mediator?.Publish(PlayerSignal.PLAYER_SET_PLAYLIST);
     }
 
     public async Task DropNetworkStream(ReadOnlyMemory<char> uri)
     {}
 
-    
     public void Toggle()
     {
         Task.Run(async () => await _playerService.Toggle());
@@ -106,7 +90,7 @@ public class VlcPlayer : IPlayer
         IsSwipe = false;
         IsPlaylist = false;
         Task.Run(async () => await _playerService.Stop());
-        _mediator.Publish(PlayerSignal.PLAYER_OFF);
+        _mediator?.Publish(PlayerSignal.PLAYER_OFF);
     }
 
     public async Task Repeat()
@@ -124,7 +108,7 @@ public class VlcPlayer : IPlayer
             {
                 await SetNewMediaInstance(false);
                 await _playerService.Toggle();
-                await _mediator.Publish(PlayerSignal.PLAYER_SHIFT_LEFT);
+                await _mediator?.Publish(PlayerSignal.PLAYER_SHIFT_LEFT);
             });
         }
     }
@@ -137,7 +121,7 @@ public class VlcPlayer : IPlayer
             {
                 await SetNewMediaInstance(true);
                 await _playerService.Toggle();
-                await _mediator.Publish(PlayerSignal.PLAYER_SHIFT_RIGHT);
+                await _mediator?.Publish(PlayerSignal.PLAYER_SHIFT_RIGHT);
             });
         }
     }
@@ -179,5 +163,4 @@ public class VlcPlayer : IPlayer
             }
         }
     }
-    #endregion
 }
