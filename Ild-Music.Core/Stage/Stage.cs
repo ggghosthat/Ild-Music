@@ -1,43 +1,29 @@
 using Ild_Music.Core.Contracts;
 using Ild_Music.Core.Contracts.Services.Interfaces;
 using Ild_Music.Core.Services.Castle;
-//using ShareInstances.Configure;
+
 namespace Ild_Music.Core.Stage;
+
 public sealed class Stage 
 {
-    #region Castle
     private static ScopeCastle castle = new();
-    #endregion
 
-    #region Configuration Region
-    public IConfigure Configure {get; set;}
-    #endregion
-
-    #region Default Waiters
-    //public static Filer Filer {get; private set;}
-    #endregion
-    
-    #region Current Components
-    public IPlayer PlayerInstance => castle.GetCurrentPlayer(); //castle.ResolvePluginBag().GetCurrentPlayer() ?? null;
-    public ICube CubeInstance => castle.GetCurrentCube(); //castle.ResolvePluginBag().GetCurrentCube() ?? null;
-    #endregion
-        
-    #region Tagging result
-    public bool CompletionResult {get; private set;}
-
-    public event Action OnInitialized;
-    public event Action OnComponentMuted;
-    #endregion
-
-    #region Constructors
     public Stage(){}
     
     public Stage(ref IConfigure configure)
     {
         Configure = configure;
     }
-    #endregion
 
+    public IConfigure Configure {get; set;}
+
+    public IPlayer PlayerInstance => castle.GetCurrentPlayer(); //castle.ResolvePluginBag().GetCurrentPlayer() ?? null;
+    public ICube CubeInstance => castle.GetCurrentCube(); //castle.ResolvePluginBag().GetCurrentCube() ?? null;
+
+    public bool CompletionResult {get; private set;}
+
+    public event Action OnInitialized;
+    public event Action OnComponentMuted;
 
     public async Task Build()
     {
@@ -54,7 +40,6 @@ public sealed class Stage
         }
     }       
 
-    //TODO: this method is needed in more impored reliable solution
     private async Task<bool> DockComponents()
     {
         bool isCompleted = false;
@@ -85,7 +70,6 @@ public sealed class Stage
         return isCompleted;
     }
 
-    #region Instances lists retrieving
     public IEnumerable<IPlayer> GetPlayers()
     {
         return castle.GetPlayersAsync().Result;
@@ -95,9 +79,7 @@ public sealed class Stage
     {
         return castle.GetCubesAsync().Result;
     }
-    #endregion
 
-    #region Current instance Switching
     public void SwitchPlayer(int playerId)
     {
         castle.SwitchPlayer(playerId);
@@ -107,9 +89,7 @@ public sealed class Stage
     {
         castle.SwitchCube(cubeId);
     }
-    #endregion
 
-    #region Service entities resolve
     public IGhost GetGhost(Ghosts ghostTag)
     {
         return castle.ResolveGhost(ghostTag);
@@ -120,12 +100,7 @@ public sealed class Stage
         return castle.ResolveWaiter(ref waiterName);
     }
 
-    #endregion
-
-    #region Clear
     public void Clear()
     {
     }
-    #endregion    
-
 }

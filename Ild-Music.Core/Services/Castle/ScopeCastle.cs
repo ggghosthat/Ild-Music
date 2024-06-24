@@ -53,11 +53,7 @@ public sealed class ScopeCastle : ICastle, IDisposable
         
             //Building container
             container = builder.Build();
-           
-            //supplying mediator to components for CQRS
-            SupplyMediatR<IPlayer>();
-            SupplyMediatR<ICube>();
-          
+                     
             //supplying components for ghosts
             SupplyCube();
             SupplyPlayer();
@@ -78,15 +74,15 @@ public sealed class ScopeCastle : ICastle, IDisposable
            {
                var currentCube = container.ResolveKeyed<ICube>(currentCubeId);
                currentCube.Init(cubeStoragePath, cubeIsMoveTrackFiles);
+               var mediator = preScope.Resolve<IMediator>();
+               currentCube.ConnectMediator(mediator);
                var supportGhost = new SupportGhost();
                var factoryGhost = new FactoryGhost();
-
                supportGhost.Init(currentCube);
                factoryGhost.Init(currentCube);
 
                ghosts[Ghosts.SUPPORT] = supportGhost;
                ghosts[Ghosts.FACTORY] = factoryGhost;
-
                waiters["Filer"] = new Filer();
            }
        } 
@@ -99,6 +95,8 @@ public sealed class ScopeCastle : ICastle, IDisposable
            using (var preScope = container.BeginLifetimeScope())
            {
                var currentPlayer = preScope.ResolveKeyed<IPlayer>(currentPlayerId);
+               var mediator = preScope.Resolve<IMediator>();
+               currentPlayer.ConnectMediator(mediator);
                var playerGhost = new PlayerGhost();
                playerGhost.Init(currentPlayer);
 
