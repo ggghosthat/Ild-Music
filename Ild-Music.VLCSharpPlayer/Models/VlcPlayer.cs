@@ -1,6 +1,7 @@
 using Ild_Music.Core.Contracts;
 using Ild_Music.Core.Instances;
 using Ild_Music.Core.Events.Signals;
+using Ild_Music.Core.Events.Notifications;
 
 using System;
 using System.Threading.Tasks;
@@ -55,7 +56,8 @@ public class VlcPlayer : IPlayer
     {            
         CurrentTrack = track;
         await _playerService.SetTrack(track);
-        await _mediator?.Publish(PlayerSignal.PLAYER_SET_TRACK);
+        var playerNotification = new PlayerNotification(PlayerSignal.PLAYER_SET_TRACK);
+        await _mediator?.Publish(playerNotification);
     }       
 
     public async Task DropPlaylist(Playlist playlist, int index=0)
@@ -74,7 +76,8 @@ public class VlcPlayer : IPlayer
         //player service setting
         _playerService.TrackFinished += async () => await SetNewMediaInstance(true); 
         await _playerService.SetTrack(startTrack);
-        await _mediator?.Publish(PlayerSignal.PLAYER_SET_PLAYLIST);
+        var playerNotification = new PlayerNotification(PlayerSignal.PLAYER_SET_PLAYLIST);
+        await _mediator?.Publish(playerNotification);
     }
 
     public async Task DropNetworkStream(ReadOnlyMemory<char> uri)
@@ -90,7 +93,8 @@ public class VlcPlayer : IPlayer
         IsSwipe = false;
         IsPlaylist = false;
         Task.Run(async () => await _playerService.Stop());
-        _mediator?.Publish(PlayerSignal.PLAYER_OFF);
+        var playerNotification = new PlayerNotification(PlayerSignal.PLAYER_OFF);
+        _mediator?.Publish(playerNotification);
     }
 
     public async Task Repeat()
@@ -108,7 +112,8 @@ public class VlcPlayer : IPlayer
             {
                 await SetNewMediaInstance(false);
                 await _playerService.Toggle();
-                await _mediator?.Publish(PlayerSignal.PLAYER_SHIFT_LEFT);
+                var playerNotification = new PlayerNotification(PlayerSignal.PLAYER_SHIFT_LEFT);
+                await _mediator?.Publish(playerNotification);
             });
         }
     }
@@ -121,7 +126,8 @@ public class VlcPlayer : IPlayer
             {
                 await SetNewMediaInstance(true);
                 await _playerService.Toggle();
-                await _mediator?.Publish(PlayerSignal.PLAYER_SHIFT_RIGHT);
+                var playerNotification = new PlayerNotification(PlayerSignal.PLAYER_SHIFT_RIGHT);
+                await _mediator?.Publish(playerNotification);
             });
         }
     }

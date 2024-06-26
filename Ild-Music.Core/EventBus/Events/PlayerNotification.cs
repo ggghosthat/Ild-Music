@@ -6,13 +6,13 @@ namespace Ild_Music.Core.Events.Notifications;
 
 public class PlayerNotification : INotification
 {
-    public PlayerSignal PlayerSignal {get;}
     public Guid MetaId {get;}
+    public PlayerSignal PlayerSignal {get;}
 
     public PlayerNotification(PlayerSignal playerSignal)
     {
+        MetaId = Guid.NewGuid();
         PlayerSignal = playerSignal;
-        MetaId = Guid.Empty;
     }
 
     public PlayerNotification(PlayerSignal playerSignal, Guid metaId)
