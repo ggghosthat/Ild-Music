@@ -1,12 +1,10 @@
 using Ild_Music.Core.Contracts;
 using Ild_Music.Core.Services.Entities;
-using Ild_Music.Core.EventBag.Events;
+using Ild_Music.Core.Events;
+using Ild_Music.Core.Events.Entity;
 using Ild_Music.Core.Contracts.Services.Interfaces;
 
 using Autofac;
-using MediatR;
-using MediatR.Extensions.Autofac.DependencyInjection;
-using MediatR.Extensions.Autofac.DependencyInjection.Builder;
 
 namespace Ild_Music.Core.Services.Castle;
 
@@ -40,17 +38,10 @@ public sealed class ScopeCastle : ICastle, IDisposable
     public void Pack()
     {
         try
-        {
-            //CQRS mediator registration
-            var configuration = MediatRConfigurationBuilder
-                .Create(typeof(PlayerEvent).Assembly)
-                .WithAllOpenGenericHandlerTypesRegistered()
-                .WithRegistrationScope(RegistrationScope.Scoped) 
-                .Build();
-            
-            //add mediator for CQRS things
-            builder.RegisterMediatR(configuration);
-        
+        {  
+            var eventBag = new EventBag();
+            builder.RegisterInstance<IEventBag>(eventBag).SingleInstance();
+
             //Building container
             container = builder.Build();
                      
@@ -74,8 +65,8 @@ public sealed class ScopeCastle : ICastle, IDisposable
            {
                var currentCube = container.ResolveKeyed<ICube>(currentCubeId);
                currentCube.Init(cubeStoragePath, cubeIsMoveTrackFiles);
-               var mediator = preScope.Resolve<IMediator>();
-               currentCube.ConnectMediator(mediator);
+               var eventBag = preScope.Resolve<IEventBag>();
+               currentCube.ConnectMediator(eventBag);
                var supportGhost = new SupportGhost();
                var factoryGhost = new FactoryGhost();
                supportGhost.Init(currentCube);
@@ -95,8 +86,8 @@ public sealed class ScopeCastle : ICastle, IDisposable
            using (var preScope = container.BeginLifetimeScope())
            {
                var currentPlayer = preScope.ResolveKeyed<IPlayer>(currentPlayerId);
-               var mediator = preScope.Resolve<IMediator>();
-               currentPlayer.ConnectMediator(mediator);
+               var eventBag = preScope.Resolve<IEventBag>();
+               currentPlayer.ConnectMediator(eventBag);
                var playerGhost = new PlayerGhost();
                playerGhost.Init(currentPlayer);
 
@@ -113,11 +104,11 @@ public sealed class ScopeCastle : ICastle, IDisposable
        {
            using (var preScope = container.BeginLifetimeScope())
            {
-               var mediator = preScope.Resolve<IMediator>();
+               var eventBag = preScope.Resolve<IEventBag>();
                var desiredObjects = preScope.Resolve<IEnumerable<T>>();
 
                foreach (var obj in desiredObjects)
-                   obj.ConnectMediator(mediator);
+                   obj.ConnectMediator(eventBag);
            }
        } 
     }

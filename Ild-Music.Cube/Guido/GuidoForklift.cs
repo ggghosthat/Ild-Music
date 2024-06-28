@@ -2,10 +2,11 @@ using Ild_Music.Core.Contracts;
 using Ild_Music.Core.Instances;
 using Ild_Music.Core.Instances.DTO;
 using Ild_Music.Core.Instances.Querying;
+using Ild_Music.Core.Events;
+using Ild_Music.Core.Events.Entity;
+using Ild_Music.Core.Events.Signals;
 using Cube.Guido.Agents;
 using Cube.Guido.Handlers;
-
-using MediatR;
 
 namespace Cube;
 public class GuidoForklift : ICube //Cars from pixar (lol)
@@ -18,7 +19,8 @@ public class GuidoForklift : ICube //Cars from pixar (lol)
     public static List<CommonInstanceDTO>? _tracks = new ();
     public static List<CommonInstanceDTO>? _tags = new ();
 
-    private static IMediator _mediator = default;
+    private IEventBag _eventBag = default;
+
     private readonly static CommandHandler _commandHandler = new ();
     private readonly static QueryHandler _queryHandler = new ();
     private readonly static SearchHandler _searchHandler = new ();
@@ -41,8 +43,8 @@ public class GuidoForklift : ICube //Cars from pixar (lol)
         ConnectionAgent.SpreadDatabase(); 
     }
     
-    public void ConnectMediator(IMediator mediator) =>
-        _mediator = mediator;
+    public void ConnectMediator(IEventBag eventBag) =>
+        _eventBag = eventBag;
 
     
     //insert new entity 

@@ -1,17 +1,20 @@
 using Ild_Music.Core.Contracts;
 using Ild_Music.Core.Instances;
-using Ild_Music.Core.EventBag.Signals;
-using Ild_Music.Core.EventBag.Events;
+using Ild_Music.Core.Events;
+using Ild_Music.Core.Events.Entity;
+using Ild_Music.Core.Events.Signals;
 
 using System;
 using System.Threading.Tasks;
-using MediatR;
+
 namespace Ild_Music.VlcPlayer;
+
 public class VlcPlayer : IPlayer
 {
-    private static readonly VlcPlayerService _playerService = new();
+    private IEventBag _eventBag = default;
+    
+    private static readonly VlcPlayerService _playerService = new();    
 
-    private IMediator _mediator = default;
     public VlcPlayer()
     {}
 
@@ -47,9 +50,9 @@ public class VlcPlayer : IPlayer
 
     private event Action ShuffleCollection;
 
-    public void ConnectMediator(IMediator mediator)
+    public void ConnectMediator(IEventBag eventBag)
     {
-        _mediator = mediator;
+        _eventBag = eventBag;
     }
 
     public async Task DropTrack(Track track)
@@ -57,7 +60,6 @@ public class VlcPlayer : IPlayer
         CurrentTrack = track;
         await _playerService.SetTrack(track);
         var playerEvent = new PlayerEvent(PlayerSignal.PLAYER_SET_TRACK);
-        await _mediator?.Publish(playerEvent);
     }       
 
     public async Task DropPlaylist(Playlist playlist, int index=0)
@@ -77,7 +79,6 @@ public class VlcPlayer : IPlayer
         _playerService.TrackFinished += async () => await SetNewMediaInstance(true); 
         await _playerService.SetTrack(startTrack);
         var playerEvent = new PlayerEvent(PlayerSignal.PLAYER_SET_PLAYLIST);
-        await _mediator?.Publish(playerEvent);
     }
 
     public async Task DropNetworkStream(ReadOnlyMemory<char> uri)
@@ -94,7 +95,6 @@ public class VlcPlayer : IPlayer
         IsPlaylist = false;
         Task.Run(async () => await _playerService.Stop());
         var playerEvent = new PlayerEvent(PlayerSignal.PLAYER_OFF);
-        _mediator?.Publish(playerEvent);
     }
 
     public async Task Repeat()
@@ -113,7 +113,6 @@ public class VlcPlayer : IPlayer
                 await SetNewMediaInstance(false);
                 await _playerService.Toggle();
                 var playerEvent = new PlayerEvent(PlayerSignal.PLAYER_SHIFT_LEFT);
-                await _mediator?.Publish(playerEvent);
             });
         }
     }
@@ -127,7 +126,6 @@ public class VlcPlayer : IPlayer
                 await SetNewMediaInstance(true);
                 await _playerService.Toggle();
                 var playerEvent = new PlayerEvent(PlayerSignal.PLAYER_SHIFT_RIGHT);
-                await _mediator?.Publish(playerEvent);
             });
         }
     }

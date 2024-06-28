@@ -1,13 +1,13 @@
-﻿using Ild_Music.Core.Instances;
+﻿using Ild_Music.Core.Events;
+using Ild_Music.Core.Instances;
 using Ild_Music.Core.Instances.DTO;
 
-using MediatR;
 namespace Ild_Music.Core.Contracts;
 
 public interface IShare
 {
     //add pub-sub supports for all components
-    public void ConnectMediator(IMediator mediator);
+    public void ConnectMediator(IEventBag mediator);
 }
 
 //Represent Cube instance wich interacts with file system

@@ -1,4 +1,4 @@
-namespace Ild_Music.Core.EventBag;
+namespace Ild_Music.Core.Events;
 
 public class EventBag : IEventBag
 {

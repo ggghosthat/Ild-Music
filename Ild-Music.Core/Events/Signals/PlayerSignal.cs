@@ -1,4 +1,4 @@
-namespace Ild_Music.Core.EventBag.Signals;
+namespace Ild_Music.Core.Events.Signals;
 
 public enum PlayerSignal 
 {

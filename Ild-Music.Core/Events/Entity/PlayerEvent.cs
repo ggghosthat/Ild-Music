@@ -1,6 +1,6 @@
-using Ild_Music.Core.EventBag.Signals;
+using Ild_Music.Core.Events.Signals;
 
-namespace Ild_Music.Core.EventBag.Events;
+namespace Ild_Music.Core.Events.Entity;
 
 public struct PlayerEvent
 {
