@@ -1,20 +1,6 @@
-namespace Ild_Music.Core.EventBus;
+namespace Ild_Music.Core.EventBag;
 
-public interface IEventBusRegistrator
-{
-    public Delegate? GetAction(int eventId);
-    public Task<Delegate?> GetActionAsync(int eventId);
-    
-    public void RegisterEvent(int eventId, Delegate action);
-    public void ReleaseEvent(int eventId);
-    public void UpdateEvent(int eventId, Delegate action);
-
-    public Task RegisterEventAsync(int eventId, Delegate action);
-    public Task ReleaseEventAsync(int eventId);
-    public Task UpdateEventAsync(int eventId, Delegate action);
-}
-
-public class EventBus : IEventBusRegistrator
+public class EventBag : IEventBag
 {
     private static Dictionary<int, Delegate> _store = [];
 

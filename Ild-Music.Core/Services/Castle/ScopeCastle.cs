@@ -1,6 +1,6 @@
 using Ild_Music.Core.Contracts;
 using Ild_Music.Core.Services.Entities;
-using Ild_Music.Core.Events.Notifications;
+using Ild_Music.Core.EventBag.Events;
 using Ild_Music.Core.Contracts.Services.Interfaces;
 
 using Autofac;
@@ -43,7 +43,7 @@ public sealed class ScopeCastle : ICastle, IDisposable
         {
             //CQRS mediator registration
             var configuration = MediatRConfigurationBuilder
-                .Create(typeof(PlayerNotification).Assembly)
+                .Create(typeof(PlayerEvent).Assembly)
                 .WithAllOpenGenericHandlerTypesRegistered()
                 .WithRegistrationScope(RegistrationScope.Scoped) 
                 .Build();
