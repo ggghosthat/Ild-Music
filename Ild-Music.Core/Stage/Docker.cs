@@ -29,7 +29,7 @@ public class Docker : IDocker, IDisposable
         {
             Players = DefaultDockProcess<IPlayer>(ref configure.ConfigSheet._players);
             Cubes = DefaultDockProcess<ICube>(ref configure.ConfigSheet._cubes);
-
+            
             return Task.FromResult(0);
         }
         catch(Exception ex)

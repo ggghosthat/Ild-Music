@@ -1,12 +1,12 @@
 ﻿using Ild_Music.Core.Contracts;
-using Ild_Music.Command;
-using Ild_Music.ViewModels.Base;
-using Ild_Music.CQRS;
+using Ild_Music.Core.Events;
 using Ild_Music.Core.Events.Signals;
 using Ild_Music.Core.Services.Entities;
 using Ild_Music.Core.Instances;
 using Ild_Music.Core.Instances.DTO;
 using Ild_Music.Core.Contracts.Services.Interfaces;
+using Ild_Music.Command;
+using Ild_Music.ViewModels.Base;
 
 using System;
 using System.Collections.ObjectModel;
@@ -35,8 +35,9 @@ public class MainWindowViewModel : Base.BaseViewModel
         PresetGlobalTimer();
     }
     
-    private static SupportGhost supporter => (SupportGhost)App.Stage.GetGhost(Ghosts.SUPPORT);
-    private static PlayerGhost playerGhost => (PlayerGhost)App.Stage.GetGhost(Ghosts.PLAYER);
+    private static SupportGhost _supporterGhost => (SupportGhost)App.Stage.GetGhost(Ghosts.SUPPORT);
+    private static PlayerGhost _playerGhost => (PlayerGhost)App.Stage.GetGhost(Ghosts.PLAYER);
+    private static IEventBag _eventBag => (EventBag)App.Stage.GetEventBag();
 
     public CommandDelegator NavBarResolve { get; private set; }
     public CommandDelegator PreviousCommand { get; private set; }
@@ -97,7 +98,7 @@ public class MainWindowViewModel : Base.BaseViewModel
 
     private void PresetPlayer()
     {
-        _player = playerGhost?.GetPlayer();
+        _player = _playerGhost?.GetPlayer();
 
         var entityUpdateDelegate = () =>{
             OnPropertyChanged("CurrentEntity");
@@ -107,8 +108,8 @@ public class MainWindowViewModel : Base.BaseViewModel
             OnPropertyChanged("Title");
         };
 
-        DelegateSwitch.RegisterPlayerDelegate(PlayerSignal.PLAYER_SET_TRACK, entityUpdateDelegate);
-        DelegateSwitch.RegisterPlayerDelegate(PlayerSignal.PLAYER_SET_PLAYLIST,entityUpdateDelegate);
+        _eventBag.RegisterEvent((int)PlayerSignal.PLAYER_SET_TRACK, entityUpdateDelegate);
+        _eventBag.RegisterEvent((int)PlayerSignal.PLAYER_SET_PLAYLIST, entityUpdateDelegate);
     }
     
     private void PresetCommands()
@@ -196,7 +197,7 @@ public class MainWindowViewModel : Base.BaseViewModel
                 break;            
             case (EntityTag.TAG):
                 var tagViewModel = (TagViewModel)App.ViewModelTable[TagViewModel.viewModelId];
-                var tag = supporter.GetTagAsync(instanceDto.Id).Result;
+                var tag = _supporterGhost.GetTagAsync(instanceDto.Id).Result;
                 tagViewModel?.SetInstance(tag);
                 viewModel = tagViewModel;
                 break;

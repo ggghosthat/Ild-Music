@@ -1,3 +1,4 @@
+using Ild_Music.Core.Events;
 using Ild_Music.Core.Contracts;
 using Ild_Music.Core.Contracts.Services.Interfaces;
 using Ild_Music.Core.Services.Castle;
@@ -7,18 +8,16 @@ namespace Ild_Music.Core.Stage;
 public sealed class Stage 
 {
     private static ScopeCastle castle = new();
-
-    public Stage(){}
     
-    public Stage(ref IConfigure configure)
+    public Stage(IConfigure configure)
     {
         Configure = configure;
     }
 
-    public IConfigure Configure {get; set;}
+    public IConfigure Configure {get; private set;}
 
-    public IPlayer PlayerInstance => castle.GetCurrentPlayer(); //castle.ResolvePluginBag().GetCurrentPlayer() ?? null;
-    public ICube CubeInstance => castle.GetCurrentCube(); //castle.ResolvePluginBag().GetCurrentCube() ?? null;
+    public IPlayer? PlayerInstance => castle.GetCurrentPlayer();
+    public ICube? CubeInstance => castle.GetCurrentCube();
 
     public bool CompletionResult {get; private set;}
 
@@ -35,7 +34,6 @@ public sealed class Stage
         }
         catch(Exception ex)
         {
-            Console.WriteLine(ex.Message);
             throw ex;
         }
     }       
@@ -70,37 +68,24 @@ public sealed class Stage
         return isCompleted;
     }
 
-    public IEnumerable<IPlayer> GetPlayers()
-    {
-        return castle.GetPlayersAsync().Result;
-    }
+    public IEnumerable<IPlayer> GetPlayers() =>
+        castle.GetPlayersAsync().Result;
 
-    public IEnumerable<ICube> GetCubes()
-    {
-        return castle.GetCubesAsync().Result;
-    }
+    public IEnumerable<ICube> GetCubes() =>
+        castle.GetCubesAsync().Result;
 
-    public void SwitchPlayer(int playerId)
-    {
+    public IEventBag? GetEventBag() =>
+        castle.GetEventBag().Result;
+
+    public void SwitchPlayer(int playerId) =>
         castle.SwitchPlayer(playerId);
-    }
-
-    public void SwitchCube(int cubeId)
-    {
+    
+    public void SwitchCube(int cubeId) =>
         castle.SwitchCube(cubeId);
-    }
 
-    public IGhost GetGhost(Ghosts ghostTag)
-    {
-        return castle.ResolveGhost(ghostTag);
-    }
+    public IGhost? GetGhost(Ghosts ghostTag) =>
+        castle.ResolveGhost(ghostTag);
 
-    public IWaiter GetWaiter(ref string waiterName)
-    {
-        return castle.ResolveWaiter(ref waiterName);
-    }
-
-    public void Clear()
-    {
-    }
+    public IWaiter GetWaiter(string waiterName) =>
+        castle.ResolveWaiter(waiterName);
 }

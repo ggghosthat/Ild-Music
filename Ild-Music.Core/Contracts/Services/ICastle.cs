@@ -12,11 +12,11 @@ public interface ICastle
 
     public void RegisterPlayer(IPlayer player);
 
-    public IGhost ResolveGhost(Ghosts ghostTag);
+    public IGhost? ResolveGhost(Ghosts ghostTag);
 
-    public IWaiter ResolveWaiter(ref string waiterTag);
+    public IWaiter ResolveWaiter(string waiterTag);
 
-    public Task<IGhost> ResolveGhostAsync(Ghosts ghostTag);
+    public Task<IGhost?> ResolveGhostAsync(Ghosts ghostTag);
 
-    public Task<IWaiter> ResolveWaiterAsync(ref string waiterTag);
+    public Task<IWaiter> ResolveWaiterAsync(string waiterTag);
 }

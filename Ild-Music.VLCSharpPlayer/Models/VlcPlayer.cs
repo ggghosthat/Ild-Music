@@ -19,7 +19,7 @@ public class VlcPlayer : IPlayer
     {}
 
     public Guid PlayerId => Guid.NewGuid();
-    public string PlayerName => "Vlc Player";
+    public string PlayerName => "VLC Player";
     
     public Track? CurrentTrack {get; private set;} = null;
     public Playlist? CurrentPlaylist { get; private set;} = null;

@@ -22,7 +22,7 @@ public class StartViewModel : BaseViewModel
     private Task trackDropTask;
     private CancellationTokenSource tokenSource = new CancellationTokenSource();
     
-    private static SupportGhost supporter => (SupportGhost)App.Stage.GetGhost(Ghosts.SUPPORT);
+    private static SupportGhost _supportGhost => (SupportGhost)App.Stage.GetGhost(Ghosts.SUPPORT);
     private static FactoryGhost factory => (FactoryGhost)App.Stage.GetGhost(Ghosts.FACTORY);
     private MainWindowViewModel MainVM => (MainWindowViewModel)App.ViewModelTable[MainWindowViewModel.viewModelId];
 
@@ -42,37 +42,37 @@ public class StartViewModel : BaseViewModel
         DropPlaylistCommand = new(DropPlaylist, null);
         DropTrackCommand = new(DropTrack, null);
         DropArtistCommand = new(DropArtist, null);
-                
-        supporter.OnArtistsNotifyRefresh += RefreshArtists;
-        supporter.OnPlaylistsNotifyRefresh += RefreshPlaylists;
-        supporter.OnTracksNotifyRefresh += RefreshTracks;
+        
+        _supportGhost.OnArtistsNotifyRefresh += RefreshArtists;
+        _supportGhost.OnPlaylistsNotifyRefresh += RefreshPlaylists;
+        _supportGhost.OnTracksNotifyRefresh += RefreshTracks;
 
         Task.Run(PopullateLists);
     }
 
     private async Task PopullateLists()
     {
-        supporter.ArtistsCollection?.ToList().ForEach(a => Artists.Add(a));
-        supporter.PlaylistsCollection?.ToList().ForEach(p => Playlists.Add(p));
-        supporter.TracksCollection?.ToList().ForEach(t => Tracks.Add(t));         
+        _supportGhost.ArtistsCollection?.ToList().ForEach(a => Artists.Add(a));
+        _supportGhost.PlaylistsCollection?.ToList().ForEach(p => Playlists.Add(p));
+        _supportGhost.TracksCollection?.ToList().ForEach(t => Tracks.Add(t));         
     }
 
     private void RefreshArtists()
     {
         Artists.Clear();
-        supporter.ArtistsCollection.ToList().ForEach(a => Artists.Add(a));
+        _supportGhost.ArtistsCollection.ToList().ForEach(a => Artists.Add(a));
     }
 
     private void RefreshPlaylists()
     {
         Playlists.Clear();
-        supporter.PlaylistsCollection.ToList().ForEach(p => Playlists.Add(p));
+        _supportGhost.PlaylistsCollection.ToList().ForEach(p => Playlists.Add(p));
     }
 
     private void RefreshTracks()
     {
         Tracks.Clear();
-        supporter.TracksCollection.ToList().ForEach(t => Tracks.Add(t));
+        _supportGhost.TracksCollection.ToList().ForEach(t => Tracks.Add(t));
     }
 
     public async Task BrowseTracks(IEnumerable<string> paths)
@@ -91,7 +91,7 @@ public class StartViewModel : BaseViewModel
     {
         if (obj is CommonInstanceDTO instanceDTO && instanceDTO.Tag is EntityTag.PLAYLIST)
         {
-            var playlist = supporter.GetPlaylistAsync(instanceDTO).Result;
+            var playlist = _supportGhost.GetPlaylistAsync(instanceDTO).Result;
             Task.Run(() => MainVM.DropPlaylistInstance(this, playlist));
         }
     }
@@ -100,7 +100,7 @@ public class StartViewModel : BaseViewModel
     {
         if (obj is CommonInstanceDTO instanceDTO && instanceDTO.Tag is EntityTag.TRACK)
         {
-            var track = supporter.GetTrackAsync(instanceDTO).Result;
+            var track = _supportGhost.GetTrackAsync(instanceDTO).Result;
             Task.Run(() => MainVM.DropTrackInstance(this, track));
         }
     }

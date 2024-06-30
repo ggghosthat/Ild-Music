@@ -40,7 +40,7 @@ public sealed class ScopeCastle : ICastle, IDisposable
         try
         {  
             var eventBag = new EventBag();
-            builder.RegisterInstance<IEventBag>(eventBag).SingleInstance();
+            builder.RegisterInstance<IEventBag>(eventBag);
 
             //Building container
             container = builder.Build();
@@ -48,7 +48,6 @@ public sealed class ScopeCastle : ICastle, IDisposable
             //supplying components for ghosts
             SupplyCube();
             SupplyPlayer();
-
             IsActive = true;
         }
         catch(Exception ex)
@@ -64,7 +63,7 @@ public sealed class ScopeCastle : ICastle, IDisposable
            using (var preScope = container.BeginLifetimeScope())
            {
                var currentCube = container.ResolveKeyed<ICube>(currentCubeId);
-               currentCube.Init(cubeStoragePath, cubeIsMoveTrackFiles);
+               currentCube.Init(cubeStoragePath, cubeIsMoveTrackFiles);               
                var eventBag = preScope.Resolve<IEventBag>();
                currentCube.ConnectMediator(eventBag);
                var supportGhost = new SupportGhost();
@@ -116,10 +115,9 @@ public sealed class ScopeCastle : ICastle, IDisposable
     public void RegisterPlayer(IPlayer player)
     {
         if(IsActive) 
-            throw new Exception();        
+            throw new Exception();
 
         currentPlayerId = player.GetHashCode();
-
         builder.RegisterInstance<IPlayer>(player)
             .SingleInstance()
             .Keyed<IPlayer>(player.GetHashCode());
@@ -131,7 +129,6 @@ public sealed class ScopeCastle : ICastle, IDisposable
             throw new Exception();
 
         currentCubeId = cube.GetHashCode();
-
         builder.RegisterInstance<ICube>(cube)
             .SingleInstance()
             .Keyed<ICube>(cube.GetHashCode()); 
@@ -147,7 +144,6 @@ public sealed class ScopeCastle : ICastle, IDisposable
             throw new Exception();
 
         currentPlayerId = players.Last().GetHashCode();
-
         foreach (var player in players)
         {
             builder.RegisterInstance<IPlayer>(player)
@@ -165,7 +161,6 @@ public sealed class ScopeCastle : ICastle, IDisposable
             throw new Exception();
 
         currentCubeId = cubes.Last().GetHashCode();
-
         foreach (var cube in cubes)
         {
             builder.RegisterInstance<ICube>(cube)
@@ -197,7 +192,7 @@ public sealed class ScopeCastle : ICastle, IDisposable
 
 
     //waiter resolve methods (synchronously and asynchronously)
-    public IWaiter ResolveWaiter(ref string waiterTag)
+    public IWaiter ResolveWaiter(string waiterTag)
     {
         if(!IsActive) 
             throw new Exception();
@@ -205,7 +200,7 @@ public sealed class ScopeCastle : ICastle, IDisposable
         return waiters[waiterTag];
     }
 
-    public Task<IWaiter> ResolveWaiterAsync(ref string waiterTag)
+    public Task<IWaiter> ResolveWaiterAsync(string waiterTag)
     {
         if(!IsActive) 
             throw new Exception();
@@ -226,7 +221,7 @@ public sealed class ScopeCastle : ICastle, IDisposable
         return player;
     }
 
-    public ICube GetCurrentCube()
+    public ICube? GetCurrentCube()
     {
         if(!IsActive) 
             throw new Exception();
@@ -254,6 +249,14 @@ public sealed class ScopeCastle : ICastle, IDisposable
             throw new Exception();
 
         return Task.FromResult(container.Resolve<IEnumerable<ICube>>());
+    }
+
+    public Task<IEventBag> GetEventBag()
+    {
+       if(!IsActive)
+            throw new Exception();
+
+        return Task.FromResult(container.Resolve<IEventBag>());
     }
 
     public void SwitchPlayer(int newPlayerId)

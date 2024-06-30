@@ -16,14 +16,15 @@ namespace Ild_Music;
 [DoNotNotifyAttribute]
 public partial class App : Application
 {
-    public static Hashtable ViewModelTable = new();
-    public static IConfigure Configure;
+    public const string ConfigurationFilePath = "./config.json";
+    public static Hashtable ViewModelTable = new ();
+    public static Configure Configure;
     public static Stage Stage;
 
     public App()
     {
-        Configure = new Configure("./config.json");
-        Stage = new (ref Configure);
+        Configure = new ("./config.json");
+        Stage = new (Configure);
         Stage.Build().Wait();
         PopullateViewModelTable();
     }
