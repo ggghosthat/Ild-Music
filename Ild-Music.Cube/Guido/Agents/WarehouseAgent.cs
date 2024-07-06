@@ -1,7 +1,5 @@
 using Ild_Music.Core.Instances;
 
-using System.IO;
-
 namespace Cube.Guido.Agents;
 
 internal static class WarehouseAgent
@@ -34,7 +32,7 @@ internal static class WarehouseAgent
         return trackIds.Select(trackId => 
         {
             string trckIdString = trackId.ToString();
-            string path = Path.Combine(_wearhousePath, ".wearhouse", "tracks", trckIdString);
+            string path = Path.Combine(_wearhousePath, ".warehouse", "tracks", trckIdString);
 
             if (File.Exists(path))
                 return path;
@@ -51,7 +49,7 @@ internal static class WarehouseAgent
             return;
 
         string trackIdString = track.Id.ToString();
-        string allocationPath = Path.Combine(_wearhousePath, ".wearhouse", "tracks", trackIdString);
+        string allocationPath = Path.Combine(_wearhousePath, ".warehouse", "tracks", trackIdString);
         
         if (IsMove == true)
             File.Move(path, allocationPath);
@@ -73,7 +71,7 @@ internal static class WarehouseAgent
                 return;
 
             string trackIdString = track.Id.ToString();
-            string allocationPath = Path.Combine(_wearhousePath, ".wearhouse", "tracks", trackIdString);
+            string allocationPath = Path.Combine(_wearhousePath, ".warehouse", "tracks", trackIdString);
         
             if (IsMove == true)
                 File.Move(path, allocationPath);
@@ -84,7 +82,7 @@ internal static class WarehouseAgent
 
     private static void AllocateWearhouse()
     {
-        string allocation_root = Path.Combine(_wearhousePath, ".wearhouse");
+        string allocation_root = Path.Combine(_wearhousePath, ".warehouse");
         string track_allocation = Path.Combine(allocation_root, "tracks");
         string avatar_allocation = Path.Combine(allocation_root, "avatars");
 

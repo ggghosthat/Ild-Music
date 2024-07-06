@@ -232,4 +232,14 @@ public class GuidoForklift : ICube //Cars from pixar (lol)
     {
         return await _searchHandler.SearchTags(searchTerm);
     }
+
+    public string GetTrackPathFromId(Guid id)
+    {
+        return WarehouseAgent.GetTrackPathFromId(id);
+    }
+
+    public IEnumerable<string> GetTrackPathsFromId(IEnumerable<Guid> ids)
+    {
+        return WarehouseAgent.GetTrackPathsFromId(ids);
+    }
 }

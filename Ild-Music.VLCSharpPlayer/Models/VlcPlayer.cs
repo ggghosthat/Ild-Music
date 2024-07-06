@@ -11,8 +11,9 @@ namespace Ild_Music.VlcPlayer;
 
 public class VlcPlayer : IPlayer
 {
-    private IEventBag _eventBag = default;
-    
+    private IEventBag _eventBag = default;    
+    private bool IsPlaylist = false;
+
     private static readonly VlcPlayerService _playerService = new();    
 
     public VlcPlayer()
@@ -31,7 +32,6 @@ public class VlcPlayer : IPlayer
 
     public bool IsSwipe {get; private set;} = false;
     public bool IsPlaylistLoop {get; set;} = false;
-    private bool IsPlaylist = false;
 
     public TimeSpan TotalTime => _playerService.TotalTime;
     public TimeSpan CurrentTime 
@@ -59,8 +59,9 @@ public class VlcPlayer : IPlayer
     {            
         CurrentTrack = track;
         await _playerService.SetTrack(track);
-        var playerEvent = new PlayerEvent(PlayerSignal.PLAYER_SET_TRACK);
-    }       
+        var action = _eventBag.GetAction((int)PlayerSignal.PLAYER_SET_TRACK);
+        action.DynamicInvoke();
+    } 
 
     public async Task DropPlaylist(Playlist playlist, int index=0)
     { 
@@ -78,7 +79,8 @@ public class VlcPlayer : IPlayer
         //player service setting
         _playerService.TrackFinished += async () => await SetNewMediaInstance(true); 
         await _playerService.SetTrack(startTrack);
-        var playerEvent = new PlayerEvent(PlayerSignal.PLAYER_SET_PLAYLIST);
+        var action = _eventBag.GetAction((int)PlayerSignal.PLAYER_SET_PLAYLIST);
+        action.DynamicInvoke();
     }
 
     public async Task DropNetworkStream(ReadOnlyMemory<char> uri)

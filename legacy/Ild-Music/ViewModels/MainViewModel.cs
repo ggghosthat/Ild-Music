@@ -19,17 +19,12 @@ using Avalonia.Controls.ApplicationLifetimes;
 namespace Ild_Music.ViewModels;
 public class MainViewModel : Base.BaseViewModel
 {
-    #region VM id
     public static readonly string nameVM = "MainVM";
     public override string NameVM => nameVM;
-    #endregion
 
-    #region Services
     private static SupportGhost supporter => (SupportGhost)App.Stage.GetGhost(Ghosts.SUPPORT);
     private static PlayerGhost playerGhost => (PlayerGhost)App.Stage.GetGhost(Ghosts.PLAYER);
-    #endregion
 
-    #region Player Scope
     public static IPlayer? _player = null;
     public bool PlayerState => _player.ToggleState;
     public bool PlayerEmpty => _player.IsEmpty;
@@ -60,7 +55,6 @@ public class MainViewModel : Base.BaseViewModel
     }
 
     public string Title => CurrentTrack?.Name.ToString();
-    #endregion
 
     #region Commands Scope
     public CommandDelegator NavBarResolve { get; private set; }

@@ -11,10 +11,7 @@ using Ild_Music.ViewModels.Base;
 using System;
 using System.Collections.ObjectModel;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Threading.Tasks;
 using Avalonia;
-using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Threading;
 
@@ -241,7 +238,8 @@ public class MainWindowViewModel : Base.BaseViewModel
         BaseViewModel source, 
         Track track,
         bool isResolved = true)
-    {        
+    {   
+        Console.WriteLine(_player is null);
         _player?.Stop();
         _player?.DropTrack(track);
 

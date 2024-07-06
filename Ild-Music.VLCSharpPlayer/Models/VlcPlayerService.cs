@@ -4,31 +4,25 @@ using System;
 using System.Threading.Tasks;
 using LibVLCSharp.Shared;
 namespace Ild_Music.VlcPlayer;
+
 internal class VlcPlayerService
 {
-    #region VLCSharp Instances
-    private static readonly LibVLC _vlc = new(); 
+    private static readonly LibVLC _vlc = new();
     private static MediaPlayer _mediaPlayer;
-    #endregion
-
-    public Track? CurrentTrack {get; private set;} = null;
     private Media currentMedia = null;
 
-    #region Player Triggers
+    public Track? CurrentTrack {get; private set;} = null;
+
     public bool IsEmpty {get; private set;} = true;
     public bool ToggleState {get; private set;} = false;
-    #endregion
 
-    #region Time Presenters
     public TimeSpan TotalTime {get; private set;}
     public TimeSpan CurrentTime 
     {
         get => TimeSpan.FromMilliseconds(_mediaPlayer.Time);
         set => _mediaPlayer.SeekTo(value);
     }
-    #endregion
 
-    #region Volume Presenters
     private float maxVolume = 100;
     private float minVolume = 0;
     public float CurrentVolume 
@@ -44,16 +38,11 @@ internal class VlcPlayerService
                 _mediaPlayer.Volume = (int)value;
         }
     }
-    #endregion
 
-    #region Actions
     private Action notifyAction;
-    #endregion 
 
-    #region Events
     public event Action TrackFinished;
     public event Func<Task> TrackFinishedAsync;
-    #endregion
 
     public VlcPlayerService()
     {
@@ -69,6 +58,7 @@ internal class VlcPlayerService
        Clean();
 
        CurrentTrack = track;
+       Console.WriteLine(track.Pathway);
        currentMedia = new Media(_vlc, new Uri(track.Pathway.ToString()));
        TotalTime = track.Duration;
        _mediaPlayer.Media = currentMedia; 
@@ -78,7 +68,6 @@ internal class VlcPlayerService
     {
         if (!_mediaPlayer.IsPlaying)
         {
-
             _mediaPlayer.Play();
             ToggleState = true;
             IsEmpty = false;

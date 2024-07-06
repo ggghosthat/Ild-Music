@@ -59,6 +59,10 @@ public interface ICube : IShare
     public Task<IEnumerable<CommonInstanceDTO>> Search(string searchTerm);
     public Task<IEnumerable<CommonInstanceDTO>> SearchInstance(string searchTerm, EntityTag entityTag);
     public Task<IEnumerable<CommonInstanceDTO>> SearchTag(string searchTerm);
+
+    //warehouse API
+    public string GetTrackPathFromId(Guid id);
+    public IEnumerable<string> GetTrackPathsFromId(IEnumerable<Guid> ids);
 }
 
 //Represent Player instance
