@@ -7,7 +7,7 @@ namespace Ild_Music.Core.Contracts;
 public interface IShare
 {
     //add pub-sub supports for all components
-    public void ConnectMediator(IEventBag mediator);
+    public void InjectEventBag(IEventBag eventBag);
 }
 
 //Represent Cube instance wich interacts with file system

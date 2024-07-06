@@ -260,6 +260,7 @@ public class ListViewModel : BaseViewModel
         else
         {
             var track = supporter.GetTrackAsync(trackDto).Result;
+            Console.WriteLine($"Track path lvm: {track.Pathway}");
             MainVM.DropTrackInstance(this, track, false);
         }
     }

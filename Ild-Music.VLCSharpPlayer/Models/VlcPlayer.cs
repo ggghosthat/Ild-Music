@@ -50,7 +50,7 @@ public class VlcPlayer : IPlayer
 
     private event Action ShuffleCollection;
 
-    public void ConnectMediator(IEventBag eventBag)
+    public void InjectEventBag(IEventBag eventBag)
     {
         _eventBag = eventBag;
     }

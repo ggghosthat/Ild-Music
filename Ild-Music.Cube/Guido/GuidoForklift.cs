@@ -3,8 +3,6 @@ using Ild_Music.Core.Instances;
 using Ild_Music.Core.Instances.DTO;
 using Ild_Music.Core.Instances.Querying;
 using Ild_Music.Core.Events;
-using Ild_Music.Core.Events.Entity;
-using Ild_Music.Core.Events.Signals;
 using Cube.Guido.Agents;
 using Cube.Guido.Handlers;
 
@@ -43,8 +41,10 @@ public class GuidoForklift : ICube //Cars from pixar (lol)
         ConnectionAgent.SpreadDatabase(); 
     }
     
-    public void ConnectMediator(IEventBag eventBag) =>
+    public void InjectEventBag(IEventBag eventBag)
+    {
         _eventBag = eventBag;
+    }
 
     
     //insert new entity 
