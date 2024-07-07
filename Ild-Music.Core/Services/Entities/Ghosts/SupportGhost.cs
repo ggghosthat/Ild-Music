@@ -36,7 +36,7 @@ public sealed class SupportGhost : IGhost
     public void AddArtistInstance(Artist artist)
     {
         _cube.AddArtistObj(artist);
-        OnArtistsNotifyRefresh?.Invoke();
+        OnArtistsNotifyRefresh.Invoke();
     }
 
     public void AddPlaylistInstance(Playlist playlist)

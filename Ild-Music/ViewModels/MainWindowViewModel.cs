@@ -11,6 +11,7 @@ using Ild_Music.ViewModels.Base;
 using System;
 using System.Collections.ObjectModel;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Threading;
@@ -167,6 +168,9 @@ public class MainWindowViewModel : Base.BaseViewModel
     {
         if (WindowStack.Count > 0)
             CurrentVM = PopVM();
+
+        if (CurrentVM is ListViewModel listVm && listVm.IsUpdate)
+            Task.Run( async () => await listVm.UpdateProviders());
     }
 
     public void ResolveInstance(

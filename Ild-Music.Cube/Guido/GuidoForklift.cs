@@ -12,10 +12,10 @@ public class GuidoForklift : ICube //Cars from pixar (lol)
     public string CubeName => "Guido Forklift";
     public Guid CubeId {get; private set;} = Guid.Empty;
 
-    public static List<CommonInstanceDTO>? _artists = new ();
-    public static List<CommonInstanceDTO>? _playlists = new ();
-    public static List<CommonInstanceDTO>? _tracks = new ();
-    public static List<CommonInstanceDTO>? _tags = new ();
+    public static List<CommonInstanceDTO> _artists = new ();
+    public static List<CommonInstanceDTO> _playlists = new ();
+    public static List<CommonInstanceDTO> _tracks = new ();
+    public static List<CommonInstanceDTO> _tags = new ();
 
     private IEventBag _eventBag = default;
 
@@ -52,7 +52,8 @@ public class GuidoForklift : ICube //Cars from pixar (lol)
         await _commandHandler.AddArtist(artist);
         
         _artists?.Clear();
-        _artists?.AddRange(await _queryHandler.QueryAllArtists());
+        var artists = await _queryHandler.QueryAllArtists();
+        _artists?.AddRange(artists);
     }
 
     public async Task AddPlaylistObj(Playlist playlist) 
@@ -60,7 +61,8 @@ public class GuidoForklift : ICube //Cars from pixar (lol)
         await _commandHandler.AddPlaylist(playlist);
         
         _playlists?.Clear();
-        _playlists?.AddRange(await _queryHandler.QueryAllPlaylists());
+        var playlists = await _queryHandler.QueryAllPlaylists();
+        _playlists?.AddRange(playlists);
     }
 
     public async Task AddTrackObj(Track track) 
@@ -68,7 +70,8 @@ public class GuidoForklift : ICube //Cars from pixar (lol)
         await _commandHandler.AddTrack(track);
 
         _tracks?.Clear();
-        _tracks?.AddRange(await _queryHandler.QueryAllTracks()); 
+        var tracks = await _queryHandler.QueryAllTracks();
+        _tracks?.AddRange(tracks);
     }
 
     public async Task AddTagObj(Tag tag)
@@ -76,7 +79,8 @@ public class GuidoForklift : ICube //Cars from pixar (lol)
         await _commandHandler.AddTag(tag);
 
         _tags?.Clear();
-        _tags?.AddRange(await _queryHandler.QueryAllTags());
+        var tags = await _queryHandler.QueryAllTags();
+        _tags?.AddRange(tags);
     }
 
     public async Task EditArtistObj(Artist newArtist) 
@@ -84,7 +88,8 @@ public class GuidoForklift : ICube //Cars from pixar (lol)
         await _commandHandler.EditArtist(newArtist);
 
         _artists?.Clear();
-        _artists?.AddRange(await _queryHandler.QueryAllArtists());
+        var artists = await _queryHandler.QueryAllArtists();
+        _artists?.AddRange(artists);
     }    
 
     public async Task EditPlaylistObj(Playlist newPlaylist)
@@ -92,7 +97,8 @@ public class GuidoForklift : ICube //Cars from pixar (lol)
         await _commandHandler.EditPlaylist(newPlaylist);
 
         _playlists?.Clear();
-        _playlists?.AddRange(await _queryHandler.QueryAllPlaylists());
+        var playlists = await _queryHandler.QueryAllPlaylists();
+        _playlists?.AddRange(playlists);
     }
 
     public async Task EditTrackObj(Track newTrack)
@@ -100,7 +106,8 @@ public class GuidoForklift : ICube //Cars from pixar (lol)
         await _commandHandler.EditTrack(newTrack);
 
         _tracks?.Clear();
-        _tracks?.AddRange(await _queryHandler.QueryAllTracks()); 
+        var tracks = await _queryHandler.QueryAllTracks();
+        _tracks?.AddRange(tracks); 
     }
 
     public async Task EditTagObj(Tag newTag)
@@ -108,7 +115,8 @@ public class GuidoForklift : ICube //Cars from pixar (lol)
         await _commandHandler.EditTag(newTag);
 
         _tags?.Clear();
-        _tags?.AddRange(await _queryHandler.QueryAllTags());
+        var tags = await _queryHandler.QueryAllTags();
+        _tags?.AddRange(tags);
     }
 
     public async Task RemoveArtistObj(Guid artistId) 
@@ -116,7 +124,8 @@ public class GuidoForklift : ICube //Cars from pixar (lol)
         await _commandHandler.DeleteArtist(artistId);
 
         _artists?.Clear();
-        _artists?.AddRange(await _queryHandler.QueryAllArtists());
+        var artists = await _queryHandler.QueryAllArtists();
+        _artists?.AddRange(artists);
     }
 
     public async Task RemovePlaylistObj(Guid playlistId)
@@ -124,7 +133,8 @@ public class GuidoForklift : ICube //Cars from pixar (lol)
         await _commandHandler.DeletePlaylist(playlistId);
 
         _playlists?.Clear();
-        _playlists?.AddRange(await _queryHandler.QueryAllPlaylists());
+        var playlists = await _queryHandler.QueryAllPlaylists();
+        _playlists?.AddRange(playlists);
     }
 
     public async Task RemoveTrackObj(Guid trackId) 
@@ -132,7 +142,8 @@ public class GuidoForklift : ICube //Cars from pixar (lol)
         await _commandHandler.DeleteTrack(trackId);
 
         _tracks?.Clear();
-        _tracks?.AddRange(await _queryHandler.QueryAllTracks());
+        var tracks = await _queryHandler.QueryAllTracks();
+        _tracks?.AddRange(tracks);
     }
 
     public async Task RemoveTagObj(Guid tagId)
@@ -140,7 +151,8 @@ public class GuidoForklift : ICube //Cars from pixar (lol)
         await _commandHandler.DeleteTag(tagId);
 
         _tags?.Clear();
-        _tags?.AddRange(await _queryHandler.QueryAllTags());
+        var tags = await _queryHandler.QueryAllTags();
+        _tags?.AddRange(tags);
     } 
 
     public async Task LoadStartEntities()
