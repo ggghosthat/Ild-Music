@@ -60,7 +60,7 @@ public class VlcPlayer : IPlayer
         CurrentTrack = track;
         await _playerService.SetTrack(track);
         var action = _eventBag.GetAction((int)PlayerSignal.PLAYER_SET_TRACK);
-        action.DynamicInvoke();
+        action?.DynamicInvoke();
     } 
 
     public async Task DropPlaylist(Playlist playlist, int index=0)
@@ -80,7 +80,7 @@ public class VlcPlayer : IPlayer
         _playerService.TrackFinished += async () => await SetNewMediaInstance(true); 
         await _playerService.SetTrack(startTrack);
         var action = _eventBag.GetAction((int)PlayerSignal.PLAYER_SET_PLAYLIST);
-        action.DynamicInvoke();
+        action?.DynamicInvoke();
     }
 
     public async Task DropNetworkStream(ReadOnlyMemory<char> uri)

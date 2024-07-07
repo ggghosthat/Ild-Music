@@ -467,7 +467,7 @@ internal sealed class QueryHandler
                 string trackId = instanceDTO.Id.ToString();
 
                 //setting up main and extra properties for artist body
-                string artistExtraPropsQuery = @"
+                string trackExtraPropsQuery = @"
                     SELECT Description, Year, Duration FROM tracks
                     WHERE TID = @tid";
                
@@ -487,7 +487,7 @@ internal sealed class QueryHandler
                     WHERE ti.IID = @tid";
 
                 var extraProps = connection.QueryFirst(
-                    artistExtraPropsQuery,
+                    trackExtraPropsQuery,
                     new { tid = trackId },
                     transaction);
 
@@ -497,7 +497,7 @@ internal sealed class QueryHandler
                     instanceDTO.Name,
                     extraProps.Description.ToCharArray(),
                     instanceDTO.Avatar,
-                    TimeSpan.FromSeconds(extraProps.Duration),
+                    TimeSpan.FromMilliseconds(extraProps.Duration),
                     (int)extraProps.Year);
 
                 track.Artists  = connection.Query(

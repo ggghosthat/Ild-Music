@@ -103,9 +103,9 @@
                 
                 <ScrollViewer VerticalScrollBarVisibility="Disabled"
                               HorizontalScrollBarVisibility="Auto"
-                              HorizontalAlignment="Stretch"
+                              HorizontalAlignment="Left"
                               HorizontalContentAlignment="Left"
-                              Margin="0, 5, 20, 0"
+                              Margin="17, 5, 0, 3"
                               Height="110"
                               Width="500">
                     <i:Interaction.Behaviors>

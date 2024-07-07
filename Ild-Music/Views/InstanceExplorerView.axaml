@@ -13,6 +13,7 @@
              x:DataType="vm:InstanceExplorerViewModel">
     <UserControl.Resources>
       <conv:InstanceConverter x:Key="InstanceConverter"/>
+      <conv:IconConverter x:Key="IconConverter"/>
     </UserControl.Resources>
 
     <UserControl.Styles>
@@ -164,7 +165,7 @@
                     FontSize="16"
                     Width="100"
                     Height="30"
-                    Content="Apply"
+                    Content="OK"
                     Classes="btnApply"
                     HorizontalAlignment="Right"
                     VerticalAlignment="Top"
@@ -272,14 +273,7 @@
                             <Image Width="40"
                                    Height="40"
                                    Stretch="UniformToFill"
-                                   Source="{Binding ., Converter={StaticResource InstanceConverter}, ConverterParameter=dto_icon}"/>
-                                   
-                            <Viewbox Width="50" Height="50">
-                                <Canvas Width="24" Height="24"
-                                     IsVisible="{Binding ., Converter={StaticResource InstanceConverter}, ConverterParameter=dto_has_icon}}">
-                                    <Path VerticalAlignment="Top" Fill="{StaticResource color1}" Data="{Binding ., Converter={StaticResource InstanceConverter}, ConverterParameter=dto_icon}"/>
-                                </Canvas>
-                            </Viewbox>
+                                   Source="{Binding ., Converter={StaticResource IconConverter}, ConverterParameter=dto_icon}"/>
                         </Grid>
 
                         <TextBlock Grid.Column="1"

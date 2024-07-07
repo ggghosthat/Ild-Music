@@ -209,7 +209,7 @@ internal sealed class CommandHandler
                         Description = track.Description.ToString(),
                         Year = track.Year,
                         Avatar = track.AvatarSource.ToArray(),
-                        Duration = track.Duration
+                        Duration = track.Duration.TotalMilliseconds
                     },
                     transaction);
 

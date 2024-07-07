@@ -239,7 +239,6 @@ public class MainWindowViewModel : Base.BaseViewModel
         Track track,
         bool isResolved = true)
     {   
-        Console.WriteLine(_player is null);
         _player?.Stop();
         _player?.DropTrack(track);
 

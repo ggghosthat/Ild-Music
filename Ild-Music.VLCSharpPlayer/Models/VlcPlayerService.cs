@@ -58,8 +58,7 @@ internal class VlcPlayerService
        Clean();
 
        CurrentTrack = track;
-       Console.WriteLine(track.Pathway);
-       currentMedia = new Media(_vlc, new Uri(track.Pathway.ToString()));
+       currentMedia = new (_vlc, new Uri(track.Pathway.ToString()));
        TotalTime = track.Duration;
        _mediaPlayer.Media = currentMedia; 
     }

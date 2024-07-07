@@ -45,8 +45,7 @@ public class GuidoForklift : ICube //Cars from pixar (lol)
     {
         _eventBag = eventBag;
     }
-
-    
+ 
     //insert new entity 
     public async Task AddArtistObj(Artist artist) 
     {
@@ -198,7 +197,10 @@ public class GuidoForklift : ICube //Cars from pixar (lol)
 
     public async Task<Track> QueryTrack(CommonInstanceDTO instanceDTO)
     {
-        return await _queryHandler.QuerySingleTrack(ref instanceDTO);
+        var track = _queryHandler.QuerySingleTrack(ref instanceDTO).Result;
+        string trackPath = WarehouseAgent.GetTrackPathFromId(track.Id);
+        track.Pathway = trackPath.AsMemory();
+        return track;
     }
 
     public async Task<Tag> QueryTag(Guid tagId)

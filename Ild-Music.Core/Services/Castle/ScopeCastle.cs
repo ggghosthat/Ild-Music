@@ -65,7 +65,7 @@ public sealed class ScopeCastle : ICastle, IDisposable
                var currentCube = container.ResolveKeyed<ICube>(currentCubeId);
                currentCube.Init(cubeStoragePath, cubeIsMoveTrackFiles);               
                var eventBag = preScope.Resolve<IEventBag>();
-               currentCube.ConnectMediator(eventBag);
+               currentCube.InjectEventBag(eventBag);
                var supportGhost = new SupportGhost();
                var factoryGhost = new FactoryGhost();
                supportGhost.Init(currentCube);
@@ -86,7 +86,7 @@ public sealed class ScopeCastle : ICastle, IDisposable
            {
                var currentPlayer = preScope.ResolveKeyed<IPlayer>(currentPlayerId);
                var eventBag = preScope.Resolve<IEventBag>();
-               currentPlayer.ConnectMediator(eventBag);
+               currentPlayer.InjectEventBag(eventBag);
                var playerGhost = new PlayerGhost();
                playerGhost.Init(currentPlayer);
 
@@ -96,7 +96,6 @@ public sealed class ScopeCastle : ICastle, IDisposable
     }
 
     //Resolve Mediaor dependecy for component objects (mean IPlayer, ICube, etc
-    //Desired type must contain "ConnectMediator" method with single "IMediator" param
     private void SupplyMediatR<T>() where T : IShare
     {
        if(container.IsRegistered<T>())
@@ -107,7 +106,7 @@ public sealed class ScopeCastle : ICastle, IDisposable
                var desiredObjects = preScope.Resolve<IEnumerable<T>>();
 
                foreach (var obj in desiredObjects)
-                   obj.ConnectMediator(eventBag);
+                   obj.InjectEventBag(eventBag);
            }
        } 
     }
