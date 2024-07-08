@@ -46,7 +46,7 @@ public static class Extenssions
         var producer = new InstanceProducer(
             $"Playlist: { DateTime.Now.ToString("h_mm") }".ToCharArray(), 
             String.Empty.ToCharArray(),
-            new byte[0],
+            String.Empty.ToCharArray(),
             tracks,
             null,
             2000);

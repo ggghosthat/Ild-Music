@@ -6,6 +6,7 @@ using Ild_Music.Command;
 using Ild_Music.ViewModels.Base;
 
 using System;
+using System.IO;
 using System.Linq;
 using System.Collections.ObjectModel;
 
@@ -22,24 +23,37 @@ public class ArtistViewModel : BaseViewModel
     }
 
     private static SupportGhost supporter => (SupportGhost)App.Stage.GetGhost(Ghosts.SUPPORT);
+    
     private static MainWindowViewModel MainVM => (MainWindowViewModel)App.ViewModelTable[MainWindowViewModel.viewModelId];
 
     public Artist ArtistInstance {get; private set;}
 
     public string Name => ArtistInstance.Name.ToString();
+    
     public string Description => ArtistInstance.Description.ToString();
+    
     public int Year => ArtistInstance.Year;
-    public byte[] Avatar => ArtistInstance.AvatarSource.ToArray();
+    
+    public string AvatarPath => ArtistInstance.AvatarPath.ToString();
 
-    public ObservableCollection<CommonInstanceDTO> ArtistPlaylists {get; private set;} = new();
-    public ObservableCollection<CommonInstanceDTO> ArtistTracks {get; private set;} = new();      
+    public byte[] Avatar { get; private set; }
+
+    public ObservableCollection<CommonInstanceDTO> ArtistPlaylists { get; private set; } = new();
+
+    public ObservableCollection<CommonInstanceDTO> ArtistTracks { get; private set; } = new();      
         
     public CommandDelegator BackCommand { get; }
   	    
     public async void SetInstance(CommonInstanceDTO instanceDto)
     {
         ArtistInstance = await supporter.GetArtistAsync(instanceDto);
-        
+       
+        if(File.Exists(AvatarPath))
+        {
+            using var fs= new FileStream(AvatarPath, FileMode.Open);
+            await fs.ReadAsync(Avatar, 0, (int)fs.Length);
+        }
+
         supporter.GetInstanceDTOsFromIds(ArtistInstance.Playlists, EntityTag.PLAYLIST)
             .Result
             .ToList()
@@ -54,6 +68,12 @@ public class ArtistViewModel : BaseViewModel
     public async void SetInstance(Artist artist)
     {
         ArtistInstance = artist;
+
+        if(File.Exists(AvatarPath))
+        {
+            using var fs= new FileStream(AvatarPath, FileMode.Open);
+            await fs.ReadAsync(Avatar, 0, (int)fs.Length);
+        }
 
         supporter.GetInstanceDTOsFromIds(ArtistInstance.Playlists, EntityTag.PLAYLIST)
             .Result
@@ -70,6 +90,8 @@ public class ArtistViewModel : BaseViewModel
     {
         ArtistPlaylists.Clear();
         ArtistTracks.Clear();
+        Avatar = new byte[0];
+        ArtistInstance = default;
         MainVM.ResolveWindowStack();
     }
 }

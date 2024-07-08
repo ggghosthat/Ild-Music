@@ -27,9 +27,9 @@ internal static class WarehouseAgent
             return String.Empty;
     }
 
-    public static IEnumerable<string> GetTrackPathsFromId(IEnumerable<Guid> trackIds)
+    public static IEnumerable<string> GetTrackPathsFromIds(IEnumerable<Guid> trackIds)
     {
-        return trackIds.Select(trackId => 
+        return trackIds.Select(trackId =>
         {
             string trckIdString = trackId.ToString();
             string path = Path.Combine(_wearhousePath, ".warehouse", "tracks", trckIdString);
@@ -41,7 +41,58 @@ internal static class WarehouseAgent
         });
     }
 
-    public async static void PlaceTrackFile(Track track)
+    public static string GetAvatarFromId(Guid instanceId)    
+    {
+        string instanceIdString = instanceId.ToString();
+        string path = Path.Combine(_wearhousePath, ".warehouse", "avatars", instanceIdString);
+
+        if (File.Exists(path))
+            return path;
+        else 
+            return String.Empty;
+    }
+
+    public static IDictionary<Guid, string> GetAvatarsFromIds(IEnumerable<Guid> instanceIds)
+    {
+        var resultDict = new Dictionary<Guid, string>();
+
+        instanceIds.ToList().ForEach(instanceId => 
+        {
+            string instanceIdString = instanceId.ToString();
+            string path = Path.Combine(_wearhousePath, ".warehouse", "avatars", instanceIdString);
+
+            if (File.Exists(path))
+                resultDict[instanceId] = path;
+            else 
+                resultDict[instanceId] = String.Empty;
+        });
+
+        return resultDict;
+    }
+
+    public async static Task PlaceAvatar(Guid instanceId, string path)
+    {
+        string instanceIdString = instanceId.ToString();
+        string allocationPath = Path.Combine(_wearhousePath, ".warehouse", "tracks", instanceIdString);
+        
+        if (IsMove == true)
+            File.Move(path, allocationPath);
+        else 
+            await CopyFromInputToOutputAsync(allocationPath, path); 
+    }
+
+    public async static Task<string> PlaceAvatar(Guid instanceId, byte[] avatarSource)
+    {
+        string instanceIdString = instanceId.ToString();
+        string allocationPath = Path.Combine(_wearhousePath, ".warehouse", "tracks", instanceIdString);
+        
+        using var fs = new FileStream(allocationPath, FileMode.CreateNew);
+        await fs.WriteAsync(avatarSource);
+
+        return allocationPath;
+    }
+
+    public async static Task PlaceTrackFile(Track track)
     {
         string path = track.Pathway.ToString();
 
@@ -57,7 +108,7 @@ internal static class WarehouseAgent
             await CopyFromInputToOutputAsync(allocationPath, path); 
     }
 
-    public async static void PlaceTrackFiles(IEnumerable<Track> tracks)
+    public async static Task PlaceTrackFiles(IEnumerable<Track> tracks)
     {
         var parallelOptions = new ParallelOptions()
         {

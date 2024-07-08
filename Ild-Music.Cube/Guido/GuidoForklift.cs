@@ -254,6 +254,36 @@ public class GuidoForklift : ICube //Cars from pixar (lol)
 
     public IEnumerable<string> GetTrackPathsFromId(IEnumerable<Guid> ids)
     {
-        return WarehouseAgent.GetTrackPathsFromId(ids);
+        return WarehouseAgent.GetTrackPathsFromIds(ids);
+    }
+
+    public void PlaceTrackFile(Track track)
+    {
+        WarehouseAgent.PlaceTrackFile(track).Wait();
+    }
+
+    public void PlaceTrackFiles(IEnumerable<Track> tracks)
+    {
+        WarehouseAgent.PlaceTrackFiles(tracks).Wait();
+    }
+
+    public string GetAvatarFromId(Guid instanceId)
+    {
+        return WarehouseAgent.GetAvatarFromId(instanceId);
+    }
+
+    public IDictionary<Guid, string> GetAvatarsFromIds(IEnumerable<Guid> instanceIds)
+    {
+        return WarehouseAgent.GetAvatarsFromIds(instanceIds);
+    }
+
+    public void PlaceAvatar(Guid instanceId, string path)
+    {
+        WarehouseAgent.PlaceAvatar(instanceId, path).Wait();
+    }
+
+    public string PlaceAvatar(Guid instanceId, byte[] avatarSource)
+    {
+        return WarehouseAgent.PlaceAvatar(instanceId, avatarSource).Result;
     }
 }

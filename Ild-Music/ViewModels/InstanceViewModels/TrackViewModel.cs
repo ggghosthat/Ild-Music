@@ -6,6 +6,7 @@ using Ild_Music.Command;
 using Ild_Music.ViewModels.Base;
 
 using System;
+using System.IO;
 using System.Linq;
 using System.Collections.ObjectModel;
 
@@ -22,16 +23,23 @@ namespace Ild_Music.ViewModels
     	}
 
         private static SupportGhost supporter => (SupportGhost)App.Stage.GetGhost(Ghosts.SUPPORT);
+        
         private static MainWindowViewModel MainVM => (MainWindowViewModel)App.ViewModelTable[MainWindowViewModel.viewModelId];
 
     	public Track TrackInstance {get; private set;}
 
         public string Name => TrackInstance.Name.ToString();
+        
         public string Description => TrackInstance.Description.ToString();
+        
         public int Year => TrackInstance.Year;
-        public byte[] Avatar => TrackInstance.AvatarSource.ToArray();
+        
+        public string AvatarPath => TrackInstance.AvatarPath.ToString();
+
+        public byte[] Avatar { get; set; }
         
         public ObservableCollection<CommonInstanceDTO> TrackArtists {get; private set;} = new();
+        
         public ObservableCollection<CommonInstanceDTO> TrackPlaylists {get; private set;} = new();
 
         public CommandDelegator BackCommand { get; }
@@ -39,7 +47,13 @@ namespace Ild_Music.ViewModels
         public async void SetInstance(CommonInstanceDTO instanceDto)
         {
             TrackInstance = await supporter.GetTrackAsync(instanceDto);
-            
+           
+            if(File.Exists(AvatarPath))
+            {
+                using var fs= new FileStream(AvatarPath, FileMode.Open);
+                await fs.ReadAsync(Avatar, 0, (int)fs.Length);
+            }
+
             supporter.GetInstanceDTOsFromIds(TrackInstance.Artists, EntityTag.ARTIST)
                 .Result.ToList().ForEach(a => TrackArtists.Add(a));
 
@@ -50,7 +64,13 @@ namespace Ild_Music.ViewModels
         public async void SetInstance(Track track)
         {
             TrackInstance = track;
-            
+           
+            if(File.Exists(AvatarPath))
+            {
+                using var fs= new FileStream(AvatarPath, FileMode.Open);
+                await fs.ReadAsync(Avatar, 0, (int)fs.Length);
+            }
+
             supporter.GetInstanceDTOsFromIds(TrackInstance.Artists, EntityTag.ARTIST)
                 .Result.ToList().ForEach(a => TrackArtists.Add(a));
 
@@ -61,6 +81,8 @@ namespace Ild_Music.ViewModels
         private void BackSwap(object obj)
         {
             TrackArtists.Clear();
+            Avatar = new byte[0];
+            TrackInstance = default;
             MainVM.ResolveWindowStack();            
         }
     }

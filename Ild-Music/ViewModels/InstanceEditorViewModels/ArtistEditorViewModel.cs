@@ -8,13 +8,7 @@ using Ild_Music.Core.Contracts.Services.Interfaces;
 
 using System;
 using System.IO;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using System.ComponentModel;
-using Avalonia;
-using Avalonia.Controls;
-using Avalonia.Controls.ApplicationLifetimes;
 
 namespace Ild_Music.ViewModels;
 
@@ -30,21 +24,33 @@ public class ArtistEditorViewModel : BaseViewModel
     }
     
     private static SupportGhost supporter => (SupportGhost)App.Stage.GetGhost(Ghosts.SUPPORT);
+    
     private static FactoryGhost factory => (FactoryGhost)App.Stage.GetGhost(Ghosts.FACTORY);
+    
     private MainWindowViewModel MainVM => (MainWindowViewModel)App.ViewModelTable[MainWindowViewModel.viewModelId];
     
     public CommandDelegator CreateArtistCommand { get; }
+
     public CommandDelegator CancelCommand { get; }
 
     public static Artist ArtistInstance { get; private set; } = default!;
-    public string Name {get; set; } = default!;
-    public string Description { get; set; } = default!;
-    public int Year { get; set; } = default!;
-    public byte[] Avatar { get; private set; } = default!;
 
+    public string Name {get; set; } = default!;
+    
+    public string Description { get; set; } = default!;
+    
+    public int Year { get; set; } = default!;
+    
+    public byte[] Avatar { get; private set; } = default!;
+    
+    public string AvatarPath { get; private set; } = default!;
+    
     public string ArtistLogLine { get; set; } = default!;
+    
     public bool ArtistLogError { get; set; } = default!;
+    
     public bool IsEditMode {get; private set;} = false;
+    
     public string ViewHeader {get; private set;} = "Artist";
 
     private async void ExitFactory()
@@ -55,10 +61,11 @@ public class ArtistEditorViewModel : BaseViewModel
 
     private async Task FieldsClear()
     {
-        Name = default!;
-        Description = default!;
-        ArtistLogLine = default!;
-        Avatar = default!;
+        Name = default;
+        Description = default;
+        ArtistLogLine = default;
+        Avatar = default;
+        AvatarPath = default;
         ArtistInstance = default;
     }
 
@@ -70,8 +77,7 @@ public class ArtistEditorViewModel : BaseViewModel
                 throw new InvalidArtistException();
 
             Artist artist;
-
-            factory.CreateArtist(Name, Description, Year, Avatar, out artist);
+            factory.CreateArtist(Name, Description, AvatarPath, Year, out artist);
             ArtistInstance = artist;
             ArtistLogLine = "Successfully created!";
             ExitFactory();
@@ -94,9 +100,9 @@ public class ArtistEditorViewModel : BaseViewModel
             editArtist.Description = Description.AsMemory();
             editArtist.Year = Year;
             editArtist.AvatarSource = (Avatar is not null)? Avatar:default!;
+            editArtist.AvatarPath = AvatarPath.AsMemory();
 
-            supporter.EditArtistInstance(editArtist); 
-
+            supporter.EditArtistInstance(editArtist);
             IsEditMode = false;
             ExitFactory();                
         }
@@ -109,13 +115,16 @@ public class ArtistEditorViewModel : BaseViewModel
     public async Task DropInstance(CommonInstanceDTO instanceDTO) 
     {
         ArtistInstance = await supporter.GetArtistAsync(instanceDTO);
-        Console.WriteLine(ArtistInstance.Name);
         IsEditMode = true;
         Name = ArtistInstance.Name.ToString();
         Description = ArtistInstance.Description.ToString();
-
-        Avatar = ArtistInstance.GetAvatar(); 
-        OnPropertyChanged("AvatarSource");
+        AvatarPath = ArtistInstance.AvatarPath.ToString();
+        
+        if(File.Exists(AvatarPath))
+        {
+            using var fs= new FileStream(AvatarPath, FileMode.Open);
+            await fs.ReadAsync(Avatar, 0, (int)fs.Length);
+        }
     }
 
     private void Cancel(object obj)
@@ -127,21 +136,19 @@ public class ArtistEditorViewModel : BaseViewModel
     private void HandleChanges(object obj)
     {
         if (IsEditMode == true)
-        {
             EditArtistInstance();
-        }
         else
-        {
             CreateArtistInstance();
-        }
     }
 
     public async void SelectAvatar(string path)
     {
         if(!String.IsNullOrEmpty(path) && !String.IsNullOrWhiteSpace(path))
         {
+            AvatarPath = path;
             Avatar = await LoadAvatar(path);
             OnPropertyChanged("Avatar");
+            OnPropertyChanged("AvatarPath");
         }
     }
 

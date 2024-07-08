@@ -22,15 +22,19 @@ public class TagViewModel : BaseViewModel
     }
 
     private static SupportGhost supporter => (SupportGhost)App.Stage.GetGhost(Ghosts.SUPPORT);
+    
     private static MainWindowViewModel MainVM => (MainWindowViewModel)App.ViewModelTable[MainWindowViewModel.viewModelId];
 
     public Tag TagInstance { get; private set; }
 
     public string Name => TagInstance.Name.ToString();
+    
     public byte[] Avatar => default!;
 
     public ObservableCollection<CommonInstanceDTO> TagArtists { get; private set; } = new();
+    
     public ObservableCollection<CommonInstanceDTO> TagPlaylists { get; private set; } = new();
+    
     public ObservableCollection<CommonInstanceDTO> TagTracks { get; private set; } = new();
 
     public CommandDelegator BackCommand { get; }
@@ -60,6 +64,7 @@ public class TagViewModel : BaseViewModel
         TagArtists.Clear();
         TagPlaylists.Clear();
         TagTracks.Clear();
+        TagInstance = default;
         MainVM.ResolveWindowStack();
     }
 }

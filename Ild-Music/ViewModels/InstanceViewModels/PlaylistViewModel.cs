@@ -6,6 +6,7 @@ using Ild_Music.Command;
 using Ild_Music.ViewModels.Base;
 
 using System;
+using System.IO;
 using System.Linq;
 using System.Collections.ObjectModel;
 
@@ -22,15 +23,23 @@ public class PlaylistViewModel : BaseViewModel
 	}
 
     private static SupportGhost supporter => (SupportGhost)App.Stage.GetGhost(Ghosts.SUPPORT);
+    
     private static MainWindowViewModel MainVM => (MainWindowViewModel)App.ViewModelTable[MainWindowViewModel.viewModelId];
 
 	public Playlist PlaylistInstance {get; private set;}
+    
     public string Name => PlaylistInstance.Name.ToString();
+    
     public string Description => PlaylistInstance.Description.ToString();
+    
     public int Year => PlaylistInstance.Year;
-    public byte[] Avatar => PlaylistInstance.AvatarSource.ToArray();
+    
+    public string AvatarPath => PlaylistInstance.AvatarPath.ToString();
+
+    public byte[] Avatar { get; private set; }
 
     public ObservableCollection<CommonInstanceDTO> PlaylistArtists {get; private set;} = new();
+    
     public ObservableCollection<CommonInstanceDTO> PlaylistTracks {get; private set;} = new();      
 
     public CommandDelegator BackCommand { get; }
@@ -39,27 +48,39 @@ public class PlaylistViewModel : BaseViewModel
     {
         PlaylistInstance = await supporter.GetPlaylistAsync(instanceDto);
 
+        if(File.Exists(AvatarPath))
+        {
+            using var fs= new FileStream(AvatarPath, FileMode.Open);
+            await fs.ReadAsync(Avatar, 0, (int)fs.Length);
+        }
+
         supporter.GetInstanceDTOsFromIds(PlaylistInstance.Artists, EntityTag.ARTIST)
             .Result
             .ToList()
             .ForEach(p => PlaylistArtists.Add(p));
 
-        supporter.GetInstanceDTOsFromIds(PlaylistInstance.Tracky, EntityTag.TRACK)
+        supporter.GetInstanceDTOsFromIds(PlaylistInstance.Tracks, EntityTag.TRACK)
             .Result
             .ToList()
             .ForEach(t => PlaylistTracks.Add(t)); 
     }
 
-    public void SetInstance(Playlist playlist)
+    public async void SetInstance(Playlist playlist)
     {
         PlaylistInstance = playlist;
 
+        if(File.Exists(AvatarPath))
+        {
+            using var fs= new FileStream(AvatarPath, FileMode.Open);
+            await fs.ReadAsync(Avatar, 0, (int)fs.Length);
+        }
+        
         supporter.GetInstanceDTOsFromIds(PlaylistInstance.Artists, EntityTag.ARTIST)
             .Result
             .ToList()
             .ForEach(p => PlaylistArtists.Add(p));
 
-        supporter.GetInstanceDTOsFromIds(PlaylistInstance.Tracky, EntityTag.TRACK)
+        supporter.GetInstanceDTOsFromIds(PlaylistInstance.Tracks, EntityTag.TRACK)
             .Result
             .ToList()
             .ForEach(t => PlaylistTracks.Add(t)); 
@@ -69,6 +90,8 @@ public class PlaylistViewModel : BaseViewModel
     {
         PlaylistArtists.Clear();
         PlaylistTracks.Clear();
+        Avatar = new byte[0];
+        PlaylistInstance = default;
         MainVM.ResolveWindowStack();
     }
 }

@@ -435,7 +435,7 @@ internal sealed class QueryHandler
                 .Select(aid => Guid.Parse((string)aid.Value))
                 .ToList();
 
-                playlist.Tracky = connection.Query(
+                playlist.Tracks = connection.Query(
                     playlistTracksQuery,
                     new { pid = playlistId },
                     transaction)

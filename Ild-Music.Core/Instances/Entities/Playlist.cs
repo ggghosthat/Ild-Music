@@ -1,69 +1,82 @@
 namespace Ild_Music.Core.Instances;
 public struct Playlist
 {
-	public Guid Id {get; set;}
-
-	public ReadOnlyMemory<char> Name {get; set;} = string.Empty.AsMemory(); 
-	public ReadOnlyMemory<char> Description {get; set;} = string.Empty.AsMemory();
-    public ReadOnlyMemory<byte> AvatarSource {get; set;} = new byte[0]; 
-    public int Year {get; set;} = DateTime.Now.Year;
-
-    private Lazy<List<Track>> Tracks; 
-    
-    public ICollection<Guid> Artists {get; set;} = new List<Guid>(20);
-    public ICollection<Guid> Tracky {get; set;} = new List<Guid>(20);
-    public ICollection<Tag> Tags { get; set; } = new List<Tag>();
-
-    //Please, be carefull when you call this property and DO NOT call much this property
-    //When playlist contains many track objects, Lazy<T> will init whole list in CLR's heap
-    public int Count => Tracks.Value.Count;
-	
-    public int CurrentIndex {get; set;} = 0;
-	public bool IsOrdered { get; private set; } = false;
-
-    public Track this[int i]
-    {
-        get
-        {
-            return Tracks.Value[i];
-        }
-    }
+    private Lazy<List<Track>> _tracks;
 
     public Playlist(Guid id,
-                    ReadOnlyMemory<char> name, 
-                    ReadOnlyMemory<char> description,
-                    ReadOnlyMemory<byte> avatarSource,
-                    int year)
+        ReadOnlyMemory<char> name, 
+        ReadOnlyMemory<char> description,
+        ReadOnlyMemory<byte> avatarSource,
+        int year)
     {
         Id = id;
         Name = name;
         Description = description;
         AvatarSource = avatarSource;
         Year = year;
-
-        Tracks = new Lazy<List<Track>>();
+        _tracks = new Lazy<List<Track>>();
+    }
+    
+    public Playlist(Guid id,
+        ReadOnlyMemory<char> name, 
+        ReadOnlyMemory<char> description,
+        ReadOnlyMemory<char> avatarPath,
+        int year)
+    {
+        Id = id;
+        Name = name;
+        Description = description;
+        AvatarPath = avatarPath;
+        Year = year;
+        _tracks = new Lazy<List<Track>>();
     }
 
-    #region Collection Manipulation Methods
+	public Guid Id {get; set;}
+
+	public ReadOnlyMemory<char> Name {get; set;} = string.Empty.AsMemory();
+
+	public ReadOnlyMemory<char> Description {get; set;} = string.Empty.AsMemory();
+    
+    public ReadOnlyMemory<byte> AvatarSource {get; set;} = new byte[0]; 
+   
+    public ReadOnlyMemory<char> AvatarPath {get; set;} 
+
+    public int Year {get; set;} = DateTime.Now.Year;
+    
+    public ICollection<Guid> Artists {get; set;} = new List<Guid>(20);
+    
+    public ICollection<Guid> Tracks {get; set;} = new List<Guid>(20);
+    
+    public ICollection<Tag> Tags { get; set; } = new List<Tag>();
+
+    public int Count => _tracks.Value.Count;
+	
+    public int CurrentIndex {get; set;} = 0;
+
+    public bool IsOrdered { get; private set; } = false;
+
+    public Track this[int i]
+    {
+        get => _tracks.Value[i];
+    }
+   
     public void AddTrack(ref Track track)
     {        
-        if(!Tracks.Value.Contains(track))
+        if(!_tracks.Value.Contains(track))
         {
-    	    Tracks.Value.Add(track);
+    	    _tracks.Value.Add(track);
             track.Playlists.Add(Id);
 
             foreach (var art in Artists)
-                track.Artists.Add(art);
-            
+                track.Artists.Add(art);            
         }
     }
 
-
     public void RemoveTrack(ref Track track)
     {        
-    	if(Tracks.Value.Contains(track))
+    	if(_tracks.Value.Contains(track))
     	{
-    		Tracks.Value.Remove(track);
+    		_tracks.Value.Remove(track);
             track.Playlists.Remove(Id);
 
             foreach (var art in Artists)
@@ -73,36 +86,33 @@ public struct Playlist
 
     public IEnumerable<Track> GetTracks()
     {
-        return Tracks.Value;
+        return _tracks.Value;
     }
 
     public void RecoverTracks(List<Track> tracks)
     {
-        Tracks = new Lazy<List<Track>>(tracks);
+        _tracks = new Lazy<List<Track>>(tracks);
     }
 
     public void DumpTracks()
     {
-        if (Tracky?.Count > 0)
-            Tracky?.Clear();
+        if (Tracks?.Count > 0)
+            Tracks?.Clear();
         
-        if(Tracks is not null)
+        if(_tracks is not null)
         {
-            foreach(var track in Tracks.Value)
-                Tracky.Add(track.Id);
+            foreach(var track in _tracks.Value)
+                Tracks?.Add(track.Id);
 
-            Tracks.Value.Clear();
+            _tracks.Value.Clear();
         }
     }
 
     public void EraseTracks()
     {
-        Tracks.Value.Clear();
+        _tracks.Value.Clear();
     }
-    #endregion
 
-
-    #region Avatar Manipulation
     public byte[] GetAvatar()
     {
         try
@@ -132,5 +142,4 @@ public struct Playlist
             }            
         }
     }
-    #endregion
 }

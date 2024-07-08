@@ -7,7 +7,6 @@ using Ild_Music.Core.Exceptions.CubeExceptions;
 using Ild_Music.Core.Contracts.Services.Interfaces;
 
 using System;
-using System.IO;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -34,32 +33,47 @@ public class TagEditorViewModel : BaseViewModel
     }
     
     private static SupportGhost supporter => (SupportGhost)App.Stage.GetGhost(Ghosts.SUPPORT);
+    
     private static FactoryGhost factory => (FactoryGhost)App.Stage.GetGhost(Ghosts.FACTORY);
+    
     private static MainWindowViewModel MainVM => (MainWindowViewModel)App.ViewModelTable[MainWindowViewModel.viewModelId];
+    
     private static InstanceExplorerViewModel Explorer => (InstanceExplorerViewModel)App.ViewModelTable[InstanceExplorerViewModel.viewModelId];
     
     public CommandDelegator CreateTagCommand { get; }
+    
     public CommandDelegator CancelCommand { get; }
+    
     public CommandDelegator TagArtistExplorerCommand { get; }
+    
     public CommandDelegator TagPlaylistExplorerCommand { get; }
+    
     public CommandDelegator TagTrackExplorerCommand { get; }
 
     public ObservableCollection<CommonInstanceDTO> ArtistProvider { get; set; } = new();
+    
     public ObservableCollection<CommonInstanceDTO> PlaylistProvider { get; set; } = new();
+    
     public ObservableCollection<CommonInstanceDTO> TrackProvider { get; set; } = new();
 
     public ObservableCollection<CommonInstanceDTO> SelectedTagArtists { get; set; } = new();
+    
     public ObservableCollection<CommonInstanceDTO> SelectedTagPlaylists { get; set; } = new();
+    
     public ObservableCollection<CommonInstanceDTO> SelectedTagTracks { get; set; } = new();
 
     public static Tag TagInstance { get; private set; } = default!;
+    
     public string Name {get; set; } = default!;
+    
     public string Color { get; set; } = default!;
 
     public string TagLogLine { get; set; } = default!;
+    
     public bool TagLogError { get; set; } = default!;
 
     public bool IsEditMode {get; private set;} = false;
+    
     public string ViewHeader {get; private set;} = "Tag";
 
     private async void ExitFactory()
@@ -70,8 +84,9 @@ public class TagEditorViewModel : BaseViewModel
 
     private async Task FieldsClear()
     {
-        Name = default!;
-        Color = default!;
+        Name = default;
+        Color = default;
+        TagInstance = default;
     }
 
     public void CreateTagInstance()
@@ -151,6 +166,7 @@ public class TagEditorViewModel : BaseViewModel
     private void OpenTagArtistExplorer(object obj)
     {        
         Explorer.OnArtistsSelected += OnArtistsItemsSelected;
+
         if (obj is IList<CommonInstanceDTO> preSelected &&
             preSelected[0].Tag == EntityTag.ARTIST)
             Explorer.Arrange(EntityTag.ARTIST, preSelected); 
@@ -168,8 +184,8 @@ public class TagEditorViewModel : BaseViewModel
             if (Explorer.Output[0].Tag == EntityTag.PLAYLIST)
             {
                 SelectedTagPlaylists.Clear();
-                var outIds = Explorer.Output.Select(o => o.Id);
-                                
+
+                var outIds = Explorer.Output.Select(o => o.Id);                                
                 supporter?.PlaylistsCollection?
                     .Where(a => outIds.Contains(a.Id))
                     .ToList()
@@ -181,6 +197,7 @@ public class TagEditorViewModel : BaseViewModel
     private void OpenTagPlaylistExplorer(object obj)
     {
         Explorer.OnPlaylistsSelected += this.OnPlaylistsItemsSelected;
+
         if (obj is IList<CommonInstanceDTO> preSelected &&
             preSelected[0].Tag == EntityTag.PLAYLIST)
             Explorer.Arrange(EntityTag.PLAYLIST, preSelected); 
@@ -198,8 +215,8 @@ public class TagEditorViewModel : BaseViewModel
             if (Explorer.Output[0].Tag == EntityTag.TRACK)
             {
                 SelectedTagTracks.Clear();
-                var outIds = Explorer.Output.Select(o => o.Id);
-                                 
+
+                var outIds = Explorer.Output.Select(o => o.Id);                                 
                 supporter?.TracksCollection?
                     .Where(a => outIds.Contains(a.Id))
                     .ToList()
@@ -211,6 +228,7 @@ public class TagEditorViewModel : BaseViewModel
     private void OpenTagTrackExplorer(object obj)
     {        
         Explorer.OnTracksSelected += OnTracksItemsSelected;
+
         if (obj is IList<CommonInstanceDTO> preSelected &&
             preSelected[0].Tag == EntityTag.TRACK)
             Explorer.Arrange(EntityTag.TRACK, preSelected); 

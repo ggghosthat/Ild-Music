@@ -4,6 +4,7 @@ using Ild_Music.Core.Contracts.Services.Interfaces;
 using Ild_Music.Core.Exceptions.CubeExceptions;
 
 namespace Ild_Music.Core.Services.Entities;
+
 public sealed class FactoryGhost : IGhost
 {
     public ReadOnlyMemory<char> GhostName {get; init;} = "FactoryGhost".AsMemory(); 
@@ -21,24 +22,16 @@ public sealed class FactoryGhost : IGhost
 
     public void CreateArtist(
         string name,
-        string description = null,
-        int year = 0,    
-        byte[] avatar = null)
+        string description = default!,
+        string avatarPath = default!,
+        int year = 0)
     {
         try
         {
-            Memory<byte> artistAvatarSource = avatar;
-            Memory<char> artistDescription;
-
-            if(description is null)
-                artistDescription = string.Empty.ToCharArray();
-            else 
-                artistDescription = description.ToCharArray();
-
             producer = new InstanceProducer.InstanceProducer(
                 name.ToCharArray(),
                 description?.ToCharArray(),
-                artistAvatarSource, 
+                avatarPath?.ToCharArray(), 
                 year);
             
             cube.AddArtistObj(producer.ArtistInstance); 
@@ -53,24 +46,16 @@ public sealed class FactoryGhost : IGhost
     public void CreateArtist(
         string name,
         string description,
+        string avatarPath,
         int year,    
-        byte[] avatar,
         out Artist artist)
     {
         try
         {
-            Memory<byte> artistAvatarSource = avatar;
-            Memory<char> artistDescription;
-
-            if(description is null)
-                artistDescription = string.Empty.ToCharArray();
-            else 
-                artistDescription = description.ToCharArray();
-
             producer = new InstanceProducer.InstanceProducer(
                 name.ToCharArray(),
                 description?.ToCharArray(),
-                artistAvatarSource, 
+                avatarPath?.ToCharArray(), 
                 year);
 
             artist = producer.ArtistInstance; 
@@ -85,26 +70,18 @@ public sealed class FactoryGhost : IGhost
 
     public void CreatePlaylist(
         string name,
-        string description = null,
+        string description = default!,
+        string avatarPath = default!,
         int year = 0,
-        byte[] avatar = null,
-        IList<Track> tracks = null,
-        IList<Artist> artists = null) 
+        IList<Track> tracks = default!,
+        IList<Artist> artists = default!) 
     {   
         try 
         { 
-            Memory<byte> playlistAvatarSource = avatar;
-            Memory<char> playlistDescription;
-            
-            if(description is null)
-                playlistDescription = string.Empty.ToCharArray();
-            else 
-                playlistDescription = description.ToCharArray();
-
             producer = new InstanceProducer.InstanceProducer(
                 name.ToCharArray(), 
                 description?.ToCharArray(),
-                playlistAvatarSource, 
+                avatarPath?.ToCharArray(), 
                 tracks,
                 artists,
                 year);
@@ -121,26 +98,18 @@ public sealed class FactoryGhost : IGhost
     public void CreatePlaylist(
         string name,
         string description,
+        string avatarPath,
         int year,
-        byte[] avatar,
         IList<Track> tracks,
         IList<Artist> artists,
         out Playlist playlist) 
     {   
         try 
         { 
-            Memory<byte> playlistAvatarSource = avatar;
-            Memory<char> playlistDescription;
-            
-            if(description is null)
-                playlistDescription = string.Empty.ToCharArray();
-            else 
-                playlistDescription = description.ToCharArray();
-
             producer = new InstanceProducer.InstanceProducer(
                 name.ToCharArray(), 
                 description?.ToCharArray(),
-                playlistAvatarSource, 
+                avatarPath?.ToCharArray(), 
                 tracks,
                 artists,
                 year);
@@ -157,46 +126,24 @@ public sealed class FactoryGhost : IGhost
 
     public void CreateTrack(
         string pathway, 
-        string name=null, 
-        string description=null,
+        string name = default!, 
+        string description = default!,
+        string avatarPath = default!,
         int year = 0,
-        byte[] avatar = null,
-        IList<Artist> artists = null) 
+        IList<Artist> artists = default!) 
     {      
         try 
         {               
             using(var taglib = TagLib.File.Create(pathway)) 
             { 
-                Memory<char> trackName; 
-                Memory<char> trackDescription; 
-                Memory<byte> trackAvatarSource;
-
-                int trackYear = (year != 0)? year: DateTime.Now.Year;
-
-                if(name is null) 
-                    trackName = taglib.Tag.Title.ToCharArray() ?? Path.GetFileName(pathway).ToCharArray(); 
-                else 
-                    trackName = name.ToCharArray(); 
-               
-                if(description is null)
-                    trackDescription = string.Empty.ToCharArray();
-                else 
-                    trackDescription = description.ToCharArray();
-                
-                if (avatar is null && taglib.Tag.Pictures.Length > 0)  
-                    trackAvatarSource = taglib.Tag.Pictures[0].Data.Data; 
-                else 
-                    trackAvatarSource = avatar ?? new byte[0]; 
-                
-
                 producer = new InstanceProducer.InstanceProducer(
                     pathway.ToCharArray(), 
-                    trackName, 
-                    trackDescription, 
-                    trackAvatarSource,
+                    name?.ToCharArray(), 
+                    description?.ToCharArray(), 
+                    avatarPath?.ToCharArray(),
                     artists,
                     taglib.Properties.Duration, 
-                    trackYear);
+                    year);
 
                 cube.AddTrackObj(producer.TrackInstance);
                 producer.Dispose(); 
@@ -212,8 +159,8 @@ public sealed class FactoryGhost : IGhost
         string pathway, 
         string name, 
         string description,
+        string avatarPath,
         int year,
-        byte[] avatar,
         IList<Artist> artists,
         out Track track) 
     {      
@@ -221,35 +168,14 @@ public sealed class FactoryGhost : IGhost
         {               
             using(var taglib = TagLib.File.Create(pathway)) 
             { 
-                Memory<char> trackName; 
-                Memory<char> trackDescription; 
-                Memory<byte> trackAvatarSource;
-
-                int trackYear = (year != 0)? year: DateTime.Now.Year;
-
-                if(name is null) 
-                    trackName = taglib.Tag.Title.ToCharArray() ?? Path.GetFileName(pathway).ToCharArray(); 
-                else 
-                    trackName = name.ToCharArray(); 
-               
-                if(description is null)
-                    trackDescription = string.Empty.ToCharArray();
-                else 
-                    trackDescription = description.ToCharArray();
-                
-                if (avatar is null && taglib.Tag.Pictures.Length > 0)  
-                    trackAvatarSource = taglib.Tag.Pictures[0].Data.Data; 
-                else 
-                    trackAvatarSource = avatar ?? new byte[0]; 
-                
                 producer = new InstanceProducer.InstanceProducer(
                     pathway.ToCharArray(), 
-                    trackName, 
-                    trackDescription, 
-                    trackAvatarSource,
+                    name?.ToCharArray(), 
+                    description?.ToCharArray(),
+                    avatarPath?.ToCharArray(),
                     artists,
                     taglib.Properties.Duration, 
-                    trackYear);
+                    year);
 
                 track = producer.TrackInstance;
                 cube.AddTrackObj(producer.TrackInstance);
@@ -261,7 +187,6 @@ public sealed class FactoryGhost : IGhost
             throw ex;
         } 
     }
-
 
     public void CreateTag(
         string name,
@@ -296,24 +221,24 @@ public sealed class FactoryGhost : IGhost
             Track trackResult = default!;
             using(var taglib = TagLib.File.Create(pathway.ToString())) 
             {
-                Memory<char> trackName; 
-                Memory<char> trackDescription = default!; 
-                Memory<byte> trackAvatarSource = default!; 
                 int year = DateTime.Now.Year; 
-                trackName = taglib.Tag.Title.ToCharArray() ?? "Unknown track".ToCharArray(); 
+                var name = taglib.Tag.Title ?? "Untitled track";
                 
-                if(taglib.Tag.Pictures.Length > 0) 
-                    trackAvatarSource = taglib.Tag.Pictures[0].Data.Data; 
-
                 producer = new InstanceProducer.InstanceProducer(
                     pathway.ToCharArray(),
-                    trackName,
-                    trackDescription,
-                    trackAvatarSource,
+                    name.ToCharArray(),
+                    String.Empty.ToCharArray(),
+                    String.Empty.ToCharArray(),
                     null,
                     taglib.Properties.Duration,
                     year); 
-                
+               
+                if(taglib.Tag.Pictures.Length > 0)
+                {
+                    var avatarSource = taglib.Tag.Pictures[0].Data.Data;
+                    cube.PlaceAvatar(producer.TrackInstance.Id, avatarSource);
+                }
+
                 cube.AddTrackObj(producer.TrackInstance);
                 trackResult = producer.TrackInstance; 
                 producer.Dispose(); 

@@ -144,12 +144,12 @@ internal sealed class CommandHandler
                     }
                 }
 
-                if(playlist.Tracky is not null && playlist.Tracky.Count > 0)
+                if(playlist.Tracks is not null && playlist.Tracks.Count > 0)
                 {
                     string playlistTrackQuery = @"
                         insert into playlists_tracks(PID, TID) select @tid, @tid where not EXISTS(SELECT 1 from playlists_tracks where PID = @pid and TID = @tid)";
                     
-                    foreach(var playlistTrackRelate in playlist.Tracky)
+                    foreach(var playlistTrackRelate in playlist.Tracks)
                     {
                         connection.Execute(
                             playlistTrackQuery,
@@ -497,13 +497,13 @@ internal sealed class CommandHandler
                 }
 
 
-                if(newPlaylist.Tracky is not null && newPlaylist.Tracky.Count > 0)
+                if(newPlaylist.Tracks is not null && newPlaylist.Tracks.Count > 0)
                 {
                     string updateArtistTrackQuery = @"
                         delete from playlists_tracks where PID = @pid;
                         insert into playlists_tracks(PID, TID) select @pid, @tid where not EXISTS(SELECT 1 from playlists_tracks where PID = @pid and TID = @tid);";
                  
-                    foreach(var playlistTrackRelate in newPlaylist.Tracky)
+                    foreach(var playlistTrackRelate in newPlaylist.Tracks)
                     {
                         connection.Execute(
                             updateArtistTrackQuery,

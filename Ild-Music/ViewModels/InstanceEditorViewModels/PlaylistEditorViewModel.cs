@@ -12,10 +12,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
-using System.ComponentModel;
-using Avalonia;
-using Avalonia.Controls;
-using Avalonia.Controls.ApplicationLifetimes;
 
 namespace Ild_Music.ViewModels;
 
@@ -33,29 +29,47 @@ public class PlaylistEditorViewModel : BaseViewModel
     }
     
     private static SupportGhost supporter => (SupportGhost)App.Stage.GetGhost(Ghosts.SUPPORT);
+    
     private static FactoryGhost factory => (FactoryGhost)App.Stage.GetGhost(Ghosts.FACTORY);
+    
     private static MainWindowViewModel MainVM => (MainWindowViewModel)App.ViewModelTable[MainWindowViewModel.viewModelId];
+    
     private static InstanceExplorerViewModel Explorer => (InstanceExplorerViewModel)App.ViewModelTable[InstanceExplorerViewModel.viewModelId];
    
     public Playlist PlaylistInstance { get; private set; } = default!;
+    
     public string Name { get; set; } = default!;
+    
     public string Description { get; set; } = default!;
+    
     public int Year { get; set; } = default!;
+    
     public byte[] Avatar { get; set; } = default!;
+    
+    public string AvatarPath { get; set; } = default!;
 
     public ObservableCollection<CommonInstanceDTO> ArtistsProvider {get;set;} = new();
+    
     public ObservableCollection<CommonInstanceDTO> TracksProvider {get; set;} = new();
+    
     public ObservableCollection<CommonInstanceDTO> SelectedPlaylistArtists {get;set;} = new();
+    
     public ObservableCollection<CommonInstanceDTO> SelectedPlaylistTracks {get; set;} = new();
 
     public string PlaylistLogLine { get; set; }
-    public bool PlaylistLogError { get; set; } 
+
+    public bool PlaylistLogError { get; set; }
+
     public bool IsEditMode {get; private set;} = false;
+
     public string ViewHeader {get; private set;} = "Playlist";
 
     public CommandDelegator CreatePlaylistCommand { get; }
+    
     public CommandDelegator CancelCommand { get; }
+
     public CommandDelegator PlaylistArtistExplorerCommand {get;}
+    
     public CommandDelegator PlaylistTrackExplorerCommand {get;}
 
     private void ExitFactory()
@@ -94,6 +108,7 @@ public class PlaylistEditorViewModel : BaseViewModel
         Name = default;
         Description = default;  
         Avatar = default;
+        AvatarPath = default;
         PlaylistLogLine = default;
         SelectedPlaylistArtists.Clear();
         SelectedPlaylistTracks.Clear();
@@ -165,7 +180,7 @@ public class PlaylistEditorViewModel : BaseViewModel
             var artists = SelectedPlaylistArtists.Select(a => supporter.GetArtistAsync(a).Result).ToList();
             var tracks = SelectedPlaylistTracks.Select(t => supporter.GetTrackAsync(t).Result).ToList();
             
-            factory?.CreatePlaylist(Name, Description, Year, Avatar, tracks, artists, out playlist);
+            factory?.CreatePlaylist(Name, Description, AvatarPath, Year, tracks, artists, out playlist);
             PlaylistInstance = playlist;
             PlaylistLogLine = "Successfully created!";
             ExitFactory(); 
@@ -187,7 +202,7 @@ public class PlaylistEditorViewModel : BaseViewModel
             editPlaylist.Name = Name.AsMemory();
             editPlaylist.Description = Description.AsMemory();
             editPlaylist.Year = Year;
-            editPlaylist.AvatarSource = (Avatar is not null)? Avatar:null;
+            editPlaylist.AvatarPath = AvatarPath.AsMemory();
 
             if(SelectedPlaylistTracks != null && SelectedPlaylistTracks.Count > 0)
             {
@@ -220,7 +235,6 @@ public class PlaylistEditorViewModel : BaseViewModel
             }
 
             supporter?.EditPlaylistInstance(editPlaylist);
-
             IsEditMode = false;
             ExitFactory();
         }
@@ -238,7 +252,13 @@ public class PlaylistEditorViewModel : BaseViewModel
         Name = PlaylistInstance.Name.ToString();
         Description = PlaylistInstance.Description.ToString();
         Year = PlaylistInstance.Year;
-        Avatar = PlaylistInstance.GetAvatar();
+        AvatarPath = PlaylistInstance.AvatarPath.ToString();
+
+        if(File.Exists(AvatarPath))
+        {
+            using var fs= new FileStream(AvatarPath, FileMode.Open);
+            await fs.ReadAsync(Avatar, 0, (int)fs.Length);
+        }
 
         supporter?.ArtistsCollection?
             .Where(a => PlaylistInstance.Artists.Contains(a.Id))
@@ -246,7 +266,7 @@ public class PlaylistEditorViewModel : BaseViewModel
             .ForEach(a => SelectedPlaylistArtists.Add(a));
             
         supporter?.TracksCollection?
-            .Where(t => PlaylistInstance.Tracky.Contains(t.Id))
+            .Where(t => PlaylistInstance.Tracks.Contains(t.Id))
             .ToList()
             .ForEach(a => SelectedPlaylistTracks.Add(a));
     }
@@ -268,7 +288,9 @@ public class PlaylistEditorViewModel : BaseViewModel
     {
         if(!String.IsNullOrEmpty(path) && !String.IsNullOrWhiteSpace(path))
         {
+            AvatarPath = path;
             Avatar = await LoadAvatar(path);
+            OnPropertyChanged("AvatarPath");
             OnPropertyChanged("Avatar");
         }
     }

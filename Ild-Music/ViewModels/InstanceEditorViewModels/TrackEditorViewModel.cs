@@ -8,14 +8,10 @@ using Ild_Music.Core.Contracts.Services.Interfaces;
 
 using System;
 using System.IO;
-using System.ComponentModel;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
-using Avalonia;
-using Avalonia.Controls;
-using Avalonia.Controls.ApplicationLifetimes;
 
 namespace Ild_Music.ViewModels;
 
@@ -32,27 +28,43 @@ public class TrackEditorViewModel : BaseViewModel
     }
     
     private static SupportGhost supporter => (SupportGhost)App.Stage.GetGhost(Ghosts.SUPPORT);
+    
     private static FactoryGhost factory => (FactoryGhost)App.Stage.GetGhost(Ghosts.FACTORY);
+    
     private static MainWindowViewModel MainVM => (MainWindowViewModel)App.ViewModelTable[MainWindowViewModel.viewModelId];    
+    
     private static InstanceExplorerViewModel Explorer => (InstanceExplorerViewModel)App.ViewModelTable[InstanceExplorerViewModel.viewModelId];
    
     public Track TrackInstance { get; private set; }
+
     public string Path { get; set; }
+    
     public string Name { get; set; }
+    
     public string Description { get; set; }
+    
     public int Year {get; set;}
+    
     public byte[] Avatar {get; private set;}
+
+    public string AvatarPath {get; private set;}
     
     public CommandDelegator CreateTrackCommand { get; }
+    
     public CommandDelegator CancelCommand { get; }
+    
     public CommandDelegator TrackArtistExplorerCommand {get;}
 
     public ObservableCollection<CommonInstanceDTO> ArtistsProvider { get; set; } = new ();
+    
     public ObservableCollection<CommonInstanceDTO> SelectedTrackArtists { get; set; } = new (); 
     
     public string TrackLogLine { get; set; }
+    
     public bool TrackLogError { get; set; }
+    
     public bool IsEditMode {get; private set;} = false;
+    
     public string ViewHeader {get; private set;} = "Track";
   
     private void ExitFactory()
@@ -82,6 +94,7 @@ public class TrackEditorViewModel : BaseViewModel
         Description = default;
         TrackLogLine = default;
         Avatar = default;
+        AvatarPath = default;
         SelectedTrackArtists.Clear();
     }
 
@@ -94,7 +107,7 @@ public class TrackEditorViewModel : BaseViewModel
                 .ToList();
             
             Track track;
-            factory.CreateTrack(Path, Name, Description, Year, Avatar, artists, out track);
+            factory.CreateTrack(Path, Name, Description, AvatarPath, Year, artists, out track);
             TrackInstance = track;
             TrackLogLine = "Successfully created!"; 
             ExitFactory();
@@ -113,7 +126,7 @@ public class TrackEditorViewModel : BaseViewModel
             editTrack.Pathway = Path.AsMemory();
             editTrack.Name = Name.AsMemory();
             editTrack.Description = Description.AsMemory();
-            editTrack.AvatarSource = (Avatar is not null)?Avatar:null;
+            editTrack.AvatarPath = AvatarPath.AsMemory();
 
             if(SelectedTrackArtists != null && SelectedTrackArtists.Count > 0)
             {
@@ -124,6 +137,7 @@ public class TrackEditorViewModel : BaseViewModel
                         var artistInstance = await supporter.GetArtistAsync(a);
                         artistInstance.DeleteTrack(ref editTrack);
                     });
+
                 SelectedTrackArtists.ToList()
                     .ForEach(async a => 
                     {
@@ -133,7 +147,6 @@ public class TrackEditorViewModel : BaseViewModel
             }
 
             supporter.EditTrackInstance(editTrack);
-
             IsEditMode = false;
             ExitFactory();
         }
@@ -150,7 +163,13 @@ public class TrackEditorViewModel : BaseViewModel
         Path = TrackInstance.Pathway.ToString();
         Name = TrackInstance.Name.ToString();
         Description = TrackInstance.Description.ToString();
-        Avatar = TrackInstance.GetAvatar();
+        AvatarPath = TrackInstance.AvatarPath.ToString();
+
+        if(File.Exists(AvatarPath))
+        {
+            using var fs= new FileStream(AvatarPath, FileMode.Open);
+            await fs.ReadAsync(Avatar, 0, (int)fs.Length);
+        }
 
         supporter?.ArtistsCollection?
             .Where(a => TrackInstance.Artists.Contains(a.Id))
@@ -216,7 +235,9 @@ public class TrackEditorViewModel : BaseViewModel
     {
         if(!String.IsNullOrEmpty(path) && !String.IsNullOrWhiteSpace(path))
         {
-            Avatar = await LoadAvatar(path);
+            AvatarPath = path;
+            Avatar = await LoadAvatar(path); 
+            OnPropertyChanged("AvatarPath");
             OnPropertyChanged("Avatar");
         }
     }
