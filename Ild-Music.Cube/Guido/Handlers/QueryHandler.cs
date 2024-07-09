@@ -28,13 +28,13 @@ internal sealed class QueryHandler
             using (var transaction = connection.BeginTransaction())
             {
                 string commonQuery = @"
-                    SELECT AID, Name, Avatar FROM artists
+                    SELECT AID, Name FROM artists
                     WHERE Id > 0 AND Id <= @pageLimit;
 			
-			        SELECT PID, Name, Avatar FROM playlists
+			        SELECT PID, Name FROM playlists
 			        WHERE Id > 0 AND Id <= @pageLimit;
 			
-			        SELECT TID, Name, Avatar FROM tracks
+			        SELECT TID, Name FROM tracks
 			        WHERE Id > 0 AND Id <= @pageLimit;
 
                     SELECT TagID, Name FROM tags
@@ -49,23 +49,23 @@ internal sealed class QueryHandler
                         .Select(a => new CommonInstanceDTO( 
                             id: Guid.Parse((string)a.AID),
                             name: ((string)a.Name).AsMemory(),
-                            avatar: a.Avatar,
+                            avatarPath: WarehouseAgent.GetAvatarFromId(Guid.Parse((string)a.AID)).AsMemory(),
                             tag: EntityTag.ARTIST))
                         .ToList();
 
                     var playlistsDTO = multiQuery.Read()
-                        .Select(a => new CommonInstanceDTO( 
-                            id: Guid.Parse((string)a.PID),
-                            name: ((string)a.Name).AsMemory(),
-                            avatar: a.Avatar,
+                        .Select(p => new CommonInstanceDTO( 
+                            id: Guid.Parse((string)p.PID),
+                            name: ((string)p.Name).AsMemory(),
+                            avatarPath: WarehouseAgent.GetAvatarFromId(Guid.Parse((string)p.PID)).AsMemory(),
                             tag: EntityTag.PLAYLIST))
                         .ToList(); 
 
                     var tracksDTO = multiQuery.Read()
-                        .Select(a => new CommonInstanceDTO( 
-                            id: Guid.Parse((string)a.TID),
-                            name: ((string)a.Name).AsMemory(),
-                            avatar: a.Avatar,
+                        .Select(t => new CommonInstanceDTO( 
+                            id: Guid.Parse((string)t.TID),
+                            name: ((string)t.Name).AsMemory(),
+                            avatarPath: WarehouseAgent.GetAvatarFromId(Guid.Parse((string)t.TID)).AsMemory(),
                             tag: EntityTag.TRACK))
                         .ToList();
 
@@ -97,18 +97,16 @@ internal sealed class QueryHandler
 
             using (var transaction = connection.BeginTransaction())
             {
-                string artistsPageQuery = "SELECT AID, Name, Avatar FROM artists;";
+                string artistsPageQuery = "SELECT AID, Name FROM artists;";
 
-                artistsDTOs = connection.Query(
-                    artistsPageQuery,
-                    default,
-                    transaction)
-                .Select(a => new CommonInstanceDTO( 
-                    id: Guid.Parse((string)a.AID),
-                    name: ((string)a.Name).AsMemory(),
-                    avatar: a.Avatar,
-                    tag: EntityTag.ARTIST))
-                .ToList();
+                artistsDTOs = connection
+                    .Query(artistsPageQuery,default,transaction)
+                    .Select(a => new CommonInstanceDTO( 
+                        id: Guid.Parse((string)a.AID),
+                        name: ((string)a.Name).AsMemory(),
+                        avatarPath: WarehouseAgent.GetAvatarFromId(Guid.Parse((string)a.AID)).AsMemory(),
+                        tag: EntityTag.ARTIST))
+                    .ToList();
             }
         }
 
@@ -125,19 +123,17 @@ internal sealed class QueryHandler
             using (var transaction = connection.BeginTransaction())
             {
                 string artistsPageQuery = @"
-                    SELECT AID, Name, Avatar FROM artists
+                    SELECT AID, Name FROM artists
                     WHERE Id > @offset AND Id <= @pageLimit;";
 
-                artistsDTOs = connection.Query(
-                    artistsPageQuery,
-                    new { offset = offset, pageLimit = limit },
-                    transaction)
-                .Select(a => new CommonInstanceDTO( 
-                    id: Guid.Parse((string)a.AID),
-                    name: ((string)a.Name).AsMemory(),
-                    avatar: a.Avatar,
-                    tag: EntityTag.ARTIST))
-                .ToList();
+                artistsDTOs = connection
+                    .Query(artistsPageQuery, new { offset = offset, pageLimit = limit }, transaction)
+                    .Select(a => new CommonInstanceDTO(
+                        id: Guid.Parse((string)a.AID),
+                        name: ((string)a.Name).AsMemory(),
+                        avatarPath: WarehouseAgent.GetAvatarFromId(Guid.Parse((string)a.AID)).AsMemory(),
+                        tag: EntityTag.ARTIST))
+                    .ToList();
             }
         }
 
@@ -153,18 +149,16 @@ internal sealed class QueryHandler
 
             using (var transaction = connection.BeginTransaction())
             {
-                string playlistsPageQuery = "SELECT PID, Name, Avatar FROM playlists;";
+                string playlistsPageQuery = "SELECT PID, Name FROM playlists;";
                
-                playlistsDTOs = connection.Query(
-                    playlistsPageQuery,
-                    default,
-                    transaction)
-                .Select(p => new CommonInstanceDTO( 
-                    id: Guid.Parse((string)p.PID),
-                    name: ((string)p.Name).AsMemory(),
-                    avatar: p.Avatar,
-                    tag: EntityTag.PLAYLIST))
-                .ToList(); 
+                playlistsDTOs = connection
+                    .Query(playlistsPageQuery, default, transaction)
+                    .Select(p => new CommonInstanceDTO( 
+                        id: Guid.Parse((string)p.PID),
+                        name: ((string)p.Name).AsMemory(),
+                        avatarPath: WarehouseAgent.GetAvatarFromId(Guid.Parse((string)p.PID)).AsMemory(),
+                        tag: EntityTag.PLAYLIST))
+                    .ToList(); 
             }
         }
 
@@ -181,19 +175,17 @@ internal sealed class QueryHandler
             using (var transaction = connection.BeginTransaction())
             {
                 string playlistsPageQuery = @"
-                    SELECT PID, Name, Avatar FROM playlists
+                    SELECT PID, Name FROM playlists
                     WHERE Id > @offset AND Id <= @pageLimit;";
                
-                playlistsDTOs = connection.Query(
-                    playlistsPageQuery,
-                    new { offset = offset, pageLimit = limit },
-                    transaction)
-                .Select(p => new CommonInstanceDTO( 
-                    id: Guid.Parse((string)p.PID),
-                    name: ((string)p.Name).AsMemory(),
-                    avatar: p.Avatar,
-                    tag: EntityTag.PLAYLIST))
-                .ToList(); 
+                playlistsDTOs = connection
+                    .Query(playlistsPageQuery, new { offset = offset, pageLimit = limit }, transaction)
+                    .Select(p => new CommonInstanceDTO( 
+                        id: Guid.Parse((string)p.PID),
+                        name: ((string)p.Name).AsMemory(),
+                        avatarPath: WarehouseAgent.GetAvatarFromId(Guid.Parse((string)p.PID)).AsMemory(),
+                        tag: EntityTag.PLAYLIST))
+                    .ToList(); 
             }
         }
 
@@ -209,18 +201,16 @@ internal sealed class QueryHandler
 
             using (var transaction = connection.BeginTransaction())
             {
-                string tracksPageQuery = "SELECT TID, Name, Avatar FROM tracks;";
+                string tracksPageQuery = "SELECT TID, Name FROM tracks;";
                
-                tracksDTOs = connection.Query(
-                    tracksPageQuery,
-                    default,
-                    transaction)
-                .Select(t => new CommonInstanceDTO( 
-                    id: Guid.Parse((string)t.TID),
-                    name: ((string)t.Name).AsMemory(),
-                    avatar: t.Avatar,
-                    tag: EntityTag.TRACK))
-                .ToList();
+                tracksDTOs = connection
+                    .Query(tracksPageQuery, default, transaction)
+                    .Select(t => new CommonInstanceDTO( 
+                        id: Guid.Parse((string)t.TID),
+                        name: ((string)t.Name).AsMemory(),
+                        avatarPath: WarehouseAgent.GetAvatarFromId(Guid.Parse((string)t.TID)).AsMemory(),
+                        tag: EntityTag.TRACK))
+                    .ToList();
             }
         }
 
@@ -237,19 +227,17 @@ internal sealed class QueryHandler
             using (var transaction = connection.BeginTransaction())
             {
                 string tracksPageQuery = @"
-                    SELECT TID, Name, Avatar FROM tracks
+                    SELECT TID, Name FROM tracks
                     WHERE Id > @offset AND Id <= @pageLimit;";
                
-                tracksDTOs = connection.Query(
-                    tracksPageQuery,
-                    new { offset = offset, pageLimit = limit },
-                    transaction)
-                .Select(t => new CommonInstanceDTO( 
-                    id: Guid.Parse((string)t.TID),
-                    name: ((string)t.Name).AsMemory(),
-                    avatar: t.Avatar,
-                    tag: EntityTag.TRACK))
-                .ToList();
+                tracksDTOs = connection
+                    .Query(tracksPageQuery, new { offset = offset, pageLimit = limit }, transaction)
+                    .Select(t => new CommonInstanceDTO( 
+                        id: Guid.Parse((string)t.TID),
+                        name: ((string)t.Name).AsMemory(),
+                        avatarPath: WarehouseAgent.GetAvatarFromId(Guid.Parse((string)t.TID)).AsMemory(),
+                        tag: EntityTag.TRACK))
+                    .ToList();
             }
         }
 
@@ -259,7 +247,6 @@ internal sealed class QueryHandler
     public Task<IEnumerable<CommonInstanceDTO>> QueryAllTags()
     {
         IEnumerable<CommonInstanceDTO> tags;
-
         using(IDbConnection connection = ConnectionAgent.GetDbConnection())
         {
             connection.Open();
@@ -286,7 +273,6 @@ internal sealed class QueryHandler
     public Task<IEnumerable<CommonInstanceDTO>> QueryTags(int offset, int limit)
     {
         IEnumerable<CommonInstanceDTO> tags;
-
         using(IDbConnection connection = ConnectionAgent.GetDbConnection())
         {
             connection.Open();
@@ -353,7 +339,7 @@ internal sealed class QueryHandler
                     instanceDTO.Id, 
                     instanceDTO.Name,
                     extraProps.Description.ToCharArray(),
-                    instanceDTO.Avatar,
+                    instanceDTO.AvatarPath,
                     (int)extraProps.Year);
 
                 artist.Playlists = connection.Query(
@@ -424,7 +410,7 @@ internal sealed class QueryHandler
                     instanceDTO.Id, 
                     instanceDTO.Name,
                     extraProps.Description.ToCharArray(),
-                    instanceDTO.Avatar,
+                    instanceDTO.AvatarPath,
                     (int)extraProps.Year);
                 
                 playlist.Artists  = connection.Query(
@@ -496,7 +482,7 @@ internal sealed class QueryHandler
                     String.Empty.ToCharArray(),
                     instanceDTO.Name,
                     extraProps.Description.ToCharArray(),
-                    instanceDTO.Avatar,
+                    instanceDTO.AvatarPath,
                     TimeSpan.FromMilliseconds(extraProps.Duration),
                     (int)extraProps.Year);
 
@@ -615,17 +601,15 @@ internal sealed class QueryHandler
                    _ => default
                };
 
-               string query = $@"SELECT {header} as Id, Name, Avatar FROM {table} WHERE {header} IN @ids";
+               string query = $@"SELECT {header} as Id, Name FROM {table} WHERE {header} IN @ids";
 
-               resultDtos = connection.Query(
-                   query,
-                   new {ids = inputs}, 
-                   transaction)
-                .Select(i => new CommonInstanceDTO(
-                   id: Guid.Parse(i.Id),
-                   name: ((string)i.Name).AsMemory(),
-                   avatar: i.Avatar,
-                   tag: entityTag));
+               resultDtos = connection
+                   .Query(query, new {ids = inputs}, transaction)
+                   .Select(i => new CommonInstanceDTO(
+                        id: Guid.Parse(i.Id),
+                        name: ((string)i.Name).AsMemory(),
+                        avatarPath: WarehouseAgent.GetAvatarFromId(Guid.Parse(i.Id)).AsMemory(),
+                        tag: entityTag));
 
            } 
 

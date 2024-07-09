@@ -11,9 +11,6 @@ using System;
 using System.IO;
 using System.Threading.Tasks;
 using System.Globalization;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Diagnostics;
 
 namespace Ild_Music.Converters;
 
@@ -23,7 +20,7 @@ public class IconConverter : IValueConverter
     {
         if (parameter == "dto_icon" && value is CommonInstanceDTO dto)
         {
-            if (dto.Avatar.Length > 0)
+            if (dto.AvatarPath.Length > 0)
             {
                 return LoadBitmapFromDto(dto).Result;
             }
@@ -149,15 +146,9 @@ public class IconConverter : IValueConverter
         return image;
     }
 
-    private async Task<Bitmap> LoadBitmapfromPath(string path)
-    {
-        return new Bitmap(AssetLoader.Open(new Uri(path)));
-    }
+    private async Task<Bitmap> LoadBitmapfromPath(string path) =>
+        new Bitmap(AssetLoader.Open(new Uri(path)));
 
-    private async Task<Bitmap> LoadBitmapFromDto(CommonInstanceDTO instanceDto)
-    {
-        byte[] source = instanceDto.Avatar.ToArray();
-        using var ms = new MemoryStream(source);
-        return new Bitmap(ms);
-    }
+    private async Task<Bitmap> LoadBitmapFromDto(CommonInstanceDTO instanceDto) =>
+        new Bitmap(instanceDto.AvatarPath.ToString());
 }

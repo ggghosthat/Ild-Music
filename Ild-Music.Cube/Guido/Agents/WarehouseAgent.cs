@@ -73,18 +73,14 @@ internal static class WarehouseAgent
     public async static Task PlaceAvatar(Guid instanceId, string path)
     {
         string instanceIdString = instanceId.ToString();
-        string allocationPath = Path.Combine(_wearhousePath, ".warehouse", "tracks", instanceIdString);
-        
-        if (IsMove == true)
-            File.Move(path, allocationPath);
-        else 
-            await CopyFromInputToOutputAsync(allocationPath, path); 
+        string allocationPath = Path.Combine(_wearhousePath, ".warehouse", "avatars", instanceIdString);    
+        File.Copy(path, allocationPath);
     }
 
     public async static Task<string> PlaceAvatar(Guid instanceId, byte[] avatarSource)
     {
         string instanceIdString = instanceId.ToString();
-        string allocationPath = Path.Combine(_wearhousePath, ".warehouse", "tracks", instanceIdString);
+        string allocationPath = Path.Combine(_wearhousePath, ".warehouse", "avatars", instanceIdString);
         
         using var fs = new FileStream(allocationPath, FileMode.CreateNew);
         await fs.WriteAsync(avatarSource);
@@ -131,6 +127,28 @@ internal static class WarehouseAgent
         });
     }
 
+    public static Task DeleteAvatar(Guid id)
+    {
+        string avatarIdString = id.ToString();
+        string allocationPath = Path.Combine(_wearhousePath, ".warehouse", "avatars", avatarIdString);
+        
+        if (IsMove == true)
+            File.Delete(allocationPath);
+
+        return Task.CompletedTask;
+    }
+
+    public static Task DeleteTrack(Guid id)
+    {
+        string trackIdString = id.ToString();
+        string allocationPath = Path.Combine(_wearhousePath, ".warehouse", "tracks", trackIdString);
+        
+        if (IsMove == true)
+            File.Delete(allocationPath);
+
+        return Task.CompletedTask;
+    }
+
     private static void AllocateWearhouse()
     {
         string allocation_root = Path.Combine(_wearhousePath, ".warehouse");
@@ -149,7 +167,7 @@ internal static class WarehouseAgent
         try
         {
             int bytesRead = -1;
-            int bufferSize = 1024;
+            int bufferSize = 4096;
             byte[] buffer = new byte [bufferSize];
 
             using (FileStream outputFileStream = new FileStream(outputPath, FileMode.OpenOrCreate, FileAccess.Write, FileShare.ReadWrite))

@@ -51,6 +51,7 @@ namespace Ild_Music.ViewModels
             if(File.Exists(AvatarPath))
             {
                 using var fs= new FileStream(AvatarPath, FileMode.Open);
+                Avatar = new byte[fs.Length];
                 await fs.ReadAsync(Avatar, 0, (int)fs.Length);
             }
 
@@ -68,6 +69,7 @@ namespace Ild_Music.ViewModels
             if(File.Exists(AvatarPath))
             {
                 using var fs= new FileStream(AvatarPath, FileMode.Open);
+                Avatar = new byte[fs.Length];
                 await fs.ReadAsync(Avatar, 0, (int)fs.Length);
             }
 

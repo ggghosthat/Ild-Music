@@ -23,8 +23,8 @@ internal sealed class CommandHandler
             using(var transaction = connection.BeginTransaction())
             {
                 string artistBodyQuery = @"
-                    insert or ignore into artists(AID, Name, Description, Year, Avatar)
-                    values (@AID, @Name, @Description, @Year, @Avatar)";
+                    insert or ignore into artists(AID, Name, Description, Year)
+                    values (@AID, @Name, @Description, @Year)";
 
                 connection.Execute(
                     artistBodyQuery,
@@ -33,8 +33,7 @@ internal sealed class CommandHandler
                         AID = artist.Id.ToString(),
                         Name = artist.Name.ToString(),
                         Description = artist.Description.ToString(),
-                        Year = artist.Year,
-                        Avatar = artist.AvatarSource.ToArray()
+                        Year = artist.Year
                     },
                     transaction);
 
@@ -99,6 +98,7 @@ internal sealed class CommandHandler
             }
         }
 
+        WarehouseAgent.PlaceAvatar(artist.Id, artist.AvatarPath.ToString()).Wait();
         return Task.CompletedTask;
     }
 
@@ -111,8 +111,8 @@ internal sealed class CommandHandler
             using(var transaction = connection.BeginTransaction())
             {
                 string playlistBodyQuery = @"
-                    insert or ignore into playlists(PID, Name, Description, Year, Avatar) 
-                    values (@PID, @Name, @Description, @Year, @Avatar)";
+                    insert or ignore into playlists(PID, Name, Description, Year) 
+                    values (@PID, @Name, @Description, @Year)";
 
                 connection.Execute(
                     playlistBodyQuery,
@@ -121,8 +121,7 @@ internal sealed class CommandHandler
                         PID = playlist.Id.ToString(),
                         Name = playlist.Name.ToString(),
                         Description = playlist.Description.ToString(),
-                        Year = playlist.Year,
-                        Avatar = playlist.AvatarSource.ToArray()
+                        Year = playlist.Year
                     },
                     transaction);
 
@@ -185,6 +184,7 @@ internal sealed class CommandHandler
             }
         }
 
+        WarehouseAgent.PlaceAvatar(playlist.Id, playlist.AvatarPath.ToString()).Wait();
         return Task.CompletedTask;
     }
     
@@ -197,8 +197,8 @@ internal sealed class CommandHandler
             using(var transaction = connection.BeginTransaction())
             {
                 string trackBodyQuery = @"
-                    insert or ignore into tracks(TID, Name, Description, Year, Avatar, Duration) 
-                    values (@TID, @Name, @Description, @Year, @Avatar, @Duration)";
+                    insert or ignore into tracks(TID, Name, Description, Year, Duration) 
+                    values (@TID, @Name, @Description, @Year, @Duration)";
 
                 connection.Execute(
                     trackBodyQuery,
@@ -208,7 +208,6 @@ internal sealed class CommandHandler
                         Name = track.Name.ToString(),
                         Description = track.Description.ToString(),
                         Year = track.Year,
-                        Avatar = track.AvatarSource.ToArray(),
                         Duration = track.Duration.TotalMilliseconds
                     },
                     transaction);
@@ -273,7 +272,8 @@ internal sealed class CommandHandler
             }
         }
         
-        WarehouseAgent.PlaceTrackFile(track);
+        WarehouseAgent.PlaceTrackFile(track).Wait();
+        WarehouseAgent.PlaceAvatar(track.Id, track.AvatarPath.ToString()).Wait();
         return Task.CompletedTask;
     }
 
@@ -372,7 +372,7 @@ internal sealed class CommandHandler
            {
                 string updateArtistQuery = @"
                     update artists 
-                    set Name = @Name, Description = @Description, Year = @Year, Avatar = @Avatar 
+                    set Name = @Name, Description = @Description, Year = @Year 
                     where AID = @AID";
                 
                 connection.Execute(
@@ -382,7 +382,6 @@ internal sealed class CommandHandler
                         AID = newArtist.Id.ToString(),
                         Name = newArtist.Name.ToString(),
                         Description = newArtist.Description.ToString(),
-                        Avatar = newArtist.AvatarSource.ToArray(),
                         Year = newArtist.Year.ToString()
                     },
                     transaction);
@@ -405,7 +404,6 @@ internal sealed class CommandHandler
                             transaction);
                     }
                 }
-
 
                 if(newArtist.Tracks is not null && newArtist.Tracks.Count > 0)
                 {
@@ -462,7 +460,7 @@ internal sealed class CommandHandler
            {
                 string updatePlaylistQuery = @"
                     update playlists 
-                    set Name = @Name, Description = @Description, Year = @Year, Avatar = @Avatar 
+                    set Name = @Name, Description = @Description, Year = @Year 
                     where PID = @PID";
                 
                 connection.Execute(
@@ -472,7 +470,6 @@ internal sealed class CommandHandler
                         PID = newPlaylist.Id.ToString(),
                         Name = newPlaylist.Name.ToString(),
                         Description = newPlaylist.Description.ToString(),
-                        Avatar = newPlaylist.AvatarSource.ToArray(),
                         Year = newPlaylist.Year.ToString()
                     },
                     transaction);
@@ -495,7 +492,6 @@ internal sealed class CommandHandler
                             transaction);
                     }
                 }
-
 
                 if(newPlaylist.Tracks is not null && newPlaylist.Tracks.Count > 0)
                 {
@@ -552,7 +548,7 @@ internal sealed class CommandHandler
            {
                 string updateTrackQuery = @"
                     update tracks 
-                    set Name = @Name, Description = @Description, Avatar = @Avatar, Year = @Year, Duration = @Duration 
+                    set Name = @Name, Description = @Description, Year = @Year, Duration = @Duration 
                     where TID = @TID";
                 
                 connection.Execute(
@@ -562,7 +558,6 @@ internal sealed class CommandHandler
                         TID = newTrack.Id.ToString(),
                         Name = newTrack.Name.ToString(),
                         Description = newTrack.Description.ToString(),
-                        Avatar = newTrack.AvatarSource.ToArray(),
                         Year = newTrack.Year.ToString(),
                         Duration = newTrack.Duration.ToString()
                     },
@@ -586,7 +581,6 @@ internal sealed class CommandHandler
                             transaction);
                     }
                 }
-
 
                 if(newTrack.Playlists is not null && newTrack.Playlists.Count > 0)
                 {
@@ -657,7 +651,6 @@ internal sealed class CommandHandler
                     },
                     transaction);
                 
-
                 if(newTag.Artists is not null && newTag.Artists.Count > 0)
                 {
                     string tagInstanceQuery = @"
@@ -746,6 +739,8 @@ internal sealed class CommandHandler
 
                 transaction.Commit();
             }
+
+            WarehouseAgent.DeleteAvatar(artistId).Wait();
         }
 
         return Task.CompletedTask;
@@ -771,6 +766,8 @@ internal sealed class CommandHandler
 
                 transaction.Commit();
             }
+
+            WarehouseAgent.DeleteAvatar(playlistId).Wait();
         }
 
         return Task.CompletedTask;
@@ -794,8 +791,12 @@ internal sealed class CommandHandler
                     new {tid = trackId.ToString()},
                     transaction);
 
+               
                 transaction.Commit();
             }
+            
+            WarehouseAgent.DeleteTrack(trackId).Wait();
+            WarehouseAgent.DeleteAvatar(trackId).Wait();
         }
 
         return Task.CompletedTask;

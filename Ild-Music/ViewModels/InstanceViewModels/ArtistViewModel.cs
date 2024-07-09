@@ -47,10 +47,11 @@ public class ArtistViewModel : BaseViewModel
     public async void SetInstance(CommonInstanceDTO instanceDto)
     {
         ArtistInstance = await supporter.GetArtistAsync(instanceDto);
-       
+
         if(File.Exists(AvatarPath))
         {
             using var fs= new FileStream(AvatarPath, FileMode.Open);
+            Avatar = new byte[fs.Length];
             await fs.ReadAsync(Avatar, 0, (int)fs.Length);
         }
 
@@ -72,6 +73,7 @@ public class ArtistViewModel : BaseViewModel
         if(File.Exists(AvatarPath))
         {
             using var fs= new FileStream(AvatarPath, FileMode.Open);
+            Avatar = new byte[fs.Length];
             await fs.ReadAsync(Avatar, 0, (int)fs.Length);
         }
 
