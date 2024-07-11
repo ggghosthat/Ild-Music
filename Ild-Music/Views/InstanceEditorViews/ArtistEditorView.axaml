@@ -133,12 +133,12 @@
             BorderThickness="0"
             BorderBrush="Transparent"
             ZIndex="-1">
-            <Border.Background>
-              <LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,100%">
-                <GradientStop Color="{Binding Avatar, Converter={StaticResource IconConverter}, ConverterParameter=back}" Offset="0" />
-                <GradientStop Color="#65000000" Offset="0.55" />
-              </LinearGradientBrush>
-            </Border.Background>
+        <Border.Background>
+            <LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,100%">
+                <GradientStop Color="{Binding Avatar, Converter={StaticResource IconConverter}, ConverterParameter=background}" Offset="0.0" />
+                <GradientStop Color="#65000000" Offset="1.0" />
+            </LinearGradientBrush>
+        </Border.Background>
     </Border>
   </Grid>
 </UserControl>

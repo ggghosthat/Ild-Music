@@ -138,7 +138,11 @@ public class InstanceConverter : IValueConverter
         Avalonia.Media.Color dominantColor;
         using (var pic = SixLabors.ImageSharp.Image.Load<Rgba32>( source ))
         {
-           pic.Mutate(x => x.Resize(new ResizeOptions 
+ <LinearGradientBrush StartPoint="50%,0%" EndPoint="50%,100%">
+                <GradientStop Color="{Binding AvatarSource, Converter={StaticResource InstanceConverter}, ConverterParameter=back}" Offset="0.0" />
+                <GradientStop Color="Black" Offset="1.0" />
+              </LinearGradientBrush>
+          pic.Mutate(x => x.Resize(new ResizeOptions 
                                     {
                                         Sampler = KnownResamplers.NearestNeighbor,
                                         Size = new SixLabors.ImageSharp.Size(100, 0)

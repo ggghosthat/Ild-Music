@@ -212,9 +212,9 @@
 	            BorderThickness="0"
 	            BorderBrush="Transparent"
 	            ZIndex="-1">
-	        <Border.Background>
-	          <ImageBrush Source="/Assets/Backgrounds/glass.png" Stretch="UniformToFill"/>
-	        </Border.Background>
+	      <Border.Background>
+            <ImageBrush Source="/Assets/Backgrounds/glass.png" Stretch="UniformToFill"/>
+          </Border.Background>
 	    </Border>
 	</Grid>
 </UserControl>

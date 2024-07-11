@@ -11,6 +11,9 @@ using System;
 using System.IO;
 using System.Threading.Tasks;
 using System.Globalization;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.Processing;
+using SixLabors.ImageSharp.PixelFormats;
 
 namespace Ild_Music.Converters;
 
@@ -39,7 +42,7 @@ public class IconConverter : IValueConverter
         else if (parameter == "aico_col")
         {
             if (value is byte[] artistIconSource && artistIconSource.Length > 0)
-                return CraftImage(artistIconSource, 300d, 300d).Result;
+                return CraftImage(artistIconSource, 400d, 400d).Result;
 
             return LoadAsset(@"avares://Ild-Music/Assets/DefaultIcons/artist.png", 300d, 300d).Result;
         }
@@ -82,6 +85,12 @@ public class IconConverter : IValueConverter
 
             return Application.Current.FindResource("TrackAvatar");
         }
+        else if (parameter == "background")
+        {
+            if (value is byte[] source && source.Length > 0)
+                return CalculateDominantColor(source).Result;
+            else return null;
+        }
         else return null;
     }
 
@@ -101,6 +110,7 @@ public class IconConverter : IValueConverter
     private async Task<object> CraftImage(ReadOnlyMemory<byte> source, double w = 0d, double h = 0d)
     {
         var image = new Avalonia.Controls.Image();
+        image.Margin = new Thickness(15);
         return ProcessImageFromSource(image, source, w, h);
     }
 
@@ -146,9 +156,54 @@ public class IconConverter : IValueConverter
         return image;
     }
 
-    private async Task<Bitmap> LoadBitmapfromPath(string path) =>
-        new Bitmap(AssetLoader.Open(new Uri(path)));
+    private Task<Avalonia.Media.Color> CalculateDominantColor(byte[] source)
+    {
+        Avalonia.Media.Color dominantColor;
+        using (var pic = SixLabors.ImageSharp.Image.Load<Rgba32>(source))
+        {
+           pic.Mutate(x => 
+              x.Resize(new ResizeOptions 
+              {
+                Sampler = KnownResamplers.NearestNeighbor,
+                Size = new SixLabors.ImageSharp.Size(100, 100)
+              }));
 
-    private async Task<Bitmap> LoadBitmapFromDto(CommonInstanceDTO instanceDto) =>
-        new Bitmap(instanceDto.AvatarPath.ToString());
+            int r = 0;
+            int g = 0;
+            int b = 0;
+            int totalPixels = 0;
+
+            for (int x = 0; x < pic.Width; x++)
+            {
+                for (int y = 0; y < pic.Height; y++)
+                {
+                    var pixel = pic[x, y];
+                    r += System.Convert.ToInt32(pixel.R);
+                    g += System.Convert.ToInt32(pixel.G);
+                    b += System.Convert.ToInt32(pixel.B);
+                    totalPixels++;
+                }
+            }
+
+            r /= totalPixels;
+            g /= totalPixels;
+            b /= totalPixels;
+
+            dominantColor = new Avalonia.Media.Color(255, (byte) r, (byte) g, (byte) b);
+        }
+
+        return Task.FromResult(dominantColor); 
+    }
+
+    private Task<Avalonia.Media.Imaging.Bitmap> LoadBitmapfromPath(string path)
+    {
+        var bitmap = new Avalonia.Media.Imaging.Bitmap(AssetLoader.Open(new Uri(path)));
+        return Task.FromResult(bitmap);
+    }
+
+    private Task<Avalonia.Media.Imaging.Bitmap> LoadBitmapFromDto(CommonInstanceDTO instanceDto)
+    {
+        var bitmap = new Avalonia.Media.Imaging.Bitmap(instanceDto.AvatarPath.ToString());
+        return Task.FromResult(bitmap);
+    }
 }

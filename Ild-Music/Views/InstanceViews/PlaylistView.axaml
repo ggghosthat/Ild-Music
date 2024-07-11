@@ -338,7 +338,10 @@
                 BorderBrush="Transparent"
                 ZIndex="-1">
           <Border.Background>
-            <ImageBrush Source="/Assets/Backgrounds/glass.png" Stretch="UniformToFill"/>
+            <LinearGradientBrush StartPoint="50%,0%" EndPoint="50%,100%">
+              <GradientStop Color="{Binding Avatar, Converter={StaticResource IconConverter}, ConverterParameter=background}" Offset="0.0" />
+              <GradientStop Color="Black" Offset="1.0" />
+            </LinearGradientBrush> 
           </Border.Background>
         </Border>
     </Grid>
