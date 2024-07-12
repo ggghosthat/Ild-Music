@@ -20,7 +20,8 @@ internal sealed class QueryHandler
     //In other way will increase memory leak.
     public Task<QueryPool> QueryTopPool()
     {
-        QueryPool resultPool = new QueryPool();
+        var resultPool = new QueryPool();
+        int startPageLimit = 300;
         using (IDbConnection connection = ConnectionAgent.GetDbConnection())
         {
             connection.Open();
@@ -42,7 +43,7 @@ internal sealed class QueryHandler
                 
                 using(var multiQuery = connection.QueryMultiple(
                         commonQuery,
-                        new {pageLimit = ConnectionAgent.QueryLimit},
+                        new {pageLimit = startPageLimit},
                         transaction))
                 {
                     var artistsDTO = multiQuery.Read()
@@ -122,12 +123,11 @@ internal sealed class QueryHandler
 
             using (var transaction = connection.BeginTransaction())
             {
-                string artistsPageQuery = @"
-                    SELECT AID, Name FROM artists
-                    WHERE Id > @offset AND Id <= @pageLimit;";
+                string artistsPageQuery = "SELECT AID, Name FROM artists WHERE Id > "
+                    + offset + " AND Id <= " + (offset + limit) + ";";
 
                 artistsDTOs = connection
-                    .Query(artistsPageQuery, new { offset = offset, pageLimit = limit }, transaction)
+                    .Query(artistsPageQuery, default, transaction)
                     .Select(a => new CommonInstanceDTO(
                         id: Guid.Parse((string)a.AID),
                         name: ((string)a.Name).AsMemory(),
@@ -136,7 +136,6 @@ internal sealed class QueryHandler
                     .ToList();
             }
         }
-
         return Task.FromResult<IEnumerable<CommonInstanceDTO>>(artistsDTOs);
     }
 
@@ -174,12 +173,10 @@ internal sealed class QueryHandler
 
             using (var transaction = connection.BeginTransaction())
             {
-                string playlistsPageQuery = @"
-                    SELECT PID, Name FROM playlists
-                    WHERE Id > @offset AND Id <= @pageLimit;";
+                string playlistsPageQuery = "SELECT PID, Name FROM playlists WHERE Id >" + offset + "AND Id <=" + limit + ";";
                
                 playlistsDTOs = connection
-                    .Query(playlistsPageQuery, new { offset = offset, pageLimit = limit }, transaction)
+                    .Query(playlistsPageQuery, default, transaction)
                     .Select(p => new CommonInstanceDTO( 
                         id: Guid.Parse((string)p.PID),
                         name: ((string)p.Name).AsMemory(),
@@ -226,12 +223,10 @@ internal sealed class QueryHandler
 
             using (var transaction = connection.BeginTransaction())
             {
-                string tracksPageQuery = @"
-                    SELECT TID, Name FROM tracks
-                    WHERE Id > @offset AND Id <= @pageLimit;";
+                string tracksPageQuery = "SELECT TID, Name FROM tracks WHERE Id > " + offset + " AND Id <= " + limit + ";";
                
                 tracksDTOs = connection
-                    .Query(tracksPageQuery, new { offset = offset, pageLimit = limit }, transaction)
+                    .Query(tracksPageQuery, default, transaction)
                     .Select(t => new CommonInstanceDTO( 
                         id: Guid.Parse((string)t.TID),
                         name: ((string)t.Name).AsMemory(),
@@ -279,14 +274,9 @@ internal sealed class QueryHandler
 
             using (var transaction = connection.BeginTransaction())
             {
-                string tagsPageQuery = @"
-                    SELECT TagID, Name FROM tags
-                    WHERE Id > @offset AND Id <= @pageLimit;";
+                string tagsPageQuery = "SELECT TagID, Name FROM tags WHERE Id > " + offset + " AND Id <= " + limit + ";";
 
-                tags = connection.Query(
-                    tagsPageQuery,
-                    new { offset = offset, pageLimit = limit },
-                    transaction)
+                tags = connection.Query(tagsPageQuery, transaction)
                 .Select(tag => new CommonInstanceDTO(
                     id: Guid.Parse((string)tag.TagID),
                     name: ((string)tag.Name).AsMemory(),

@@ -17,6 +17,9 @@ public interface ICube : IShare
     public Guid CubeId { get; }
     public string CubeName { get; }
     
+    public int StartGap => 300;
+    public int PageSize { get; }
+        
     //main attributes
     public IEnumerable<CommonInstanceDTO>? Artists {get;}
     public IEnumerable<CommonInstanceDTO>? Playlists { get; }

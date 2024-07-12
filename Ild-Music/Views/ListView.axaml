@@ -143,13 +143,14 @@
                     HorizontalScrollBarVisibility="Disabled"
                     VerticalScrollBarVisibility="Auto"
                     Background="#50000000"
-                    DragDrop.AllowDrop="True">
+                    DragDrop.AllowDrop="True"
+                    PointerWheelChanged="OnScrollChanged">
         <ListBox ItemsSource="{Binding CurrentList}"
-                SelectedItem="{Binding CurrentItem}"
-                ScrollViewer.VerticalScrollBarVisibility="Auto"
-                ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                Background="Transparent">
-
+                 Background="Transparent"
+                 SelectedItem="{Binding CurrentItem}"
+                 ScrollViewer.VerticalScrollBarVisibility="Auto"
+                 ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+               
             <ListBox.Styles>
               <Style Selector="ListBoxItem">
                 <Setter Property="BorderBrush" Value="Transparent"/>

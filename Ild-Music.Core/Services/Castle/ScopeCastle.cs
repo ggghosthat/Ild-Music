@@ -1,7 +1,6 @@
 using Ild_Music.Core.Contracts;
 using Ild_Music.Core.Services.Entities;
 using Ild_Music.Core.Events;
-using Ild_Music.Core.Events.Entity;
 using Ild_Music.Core.Contracts.Services.Interfaces;
 
 using Autofac;

@@ -10,20 +10,18 @@ internal static class ConnectionAgent
     private static string connectionString;
     private static int queryLimit;
 
-    public static int QueryLimit => queryLimit;
-
     public static void ConfigureAgent(
         string allocationPath,
-        int pageLimit = 100)
+        int pageLimit = 10)
     {
-
-        //SQLitePCL.raw.SetProvider(new SQLitePCL.SQLite3Provider_e_sqlite3());
         path = Path.Combine(allocationPath, "storage.db");
         queryLimit = pageLimit;
         connectionString = $"Data Source = {path}";
 
         CheckFacilityIntegrity();
     }
+
+    public static int QueryLimit => queryLimit;
 
     //checking out existance of file (relates to SQLite db)
     //create new db file for SQLite using

@@ -70,15 +70,19 @@ public class ListViewModel : BaseViewModel
         switch(Header)
         {
             case "Artists":
+                supporter.ResolveMetaData(Core.Instances.EntityTag.ARTIST);
                 supporter.ArtistsCollection.ToList().ForEach(i => CurrentList.Add(i));
                 break;
             case "Playlists":
+                supporter.ResolveMetaData(Core.Instances.EntityTag.PLAYLIST);
                 supporter.PlaylistsCollection.ToList().ForEach(i => CurrentList.Add(i));
                 break;
             case "Tracks":
+                supporter.ResolveMetaData(Core.Instances.EntityTag.TRACK);
                 supporter.TracksCollection.ToList().ForEach(i => CurrentList.Add(i));
                 break;
             case "Tags":
+                supporter.ResolveMetaData(Core.Instances.EntityTag.TAG);
                 supporter.TagsCollection.ToList().ForEach(i => CurrentList.Add(i));
                 break;
         }
@@ -91,15 +95,19 @@ public class ListViewModel : BaseViewModel
         switch(Header)
         {
             case "Artists":
+                supporter.ResolveMetaData(Core.Instances.EntityTag.ARTIST);
                 supporter.ArtistsCollection.ToList().ForEach(i => CurrentList.Add(i));
                 break;
             case "Playlists":
+                supporter.ResolveMetaData(Core.Instances.EntityTag.PLAYLIST);
                 supporter.PlaylistsCollection.ToList().ForEach(i => CurrentList.Add(i));
                 break;
             case "Tracks":
+                supporter.ResolveMetaData(Core.Instances.EntityTag.TRACK);
                 supporter.TracksCollection.ToList().ForEach(i => CurrentList.Add(i));
                 break;
             case "Tags":
+                supporter.ResolveMetaData(Core.Instances.EntityTag.TAG);
                 supporter.TagsCollection.ToList().ForEach(i => CurrentList.Add(i));
                 break;
         }
@@ -110,9 +118,14 @@ public class ListViewModel : BaseViewModel
     public async Task BrowseTracks(IEnumerable<string> paths)
     {
         if(Header is "Tracks")
-        {
             paths.ToList().ForEach(path => factory.CreateTrack(path));
-        }
+    }
+
+    public Task ExtendCurrentList()
+    {
+        var items = supporter.PageForward().Result;
+        items.ToList().ForEach(i => CurrentList.Add(i));
+        return Task.CompletedTask;
     }
 
     private void Add(object obj)

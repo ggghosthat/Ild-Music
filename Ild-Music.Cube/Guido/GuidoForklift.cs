@@ -28,6 +28,8 @@ public class GuidoForklift : ICube //Cars from pixar (lol)
         if (CubeId == Guid.Empty)
             CubeId = Guid.NewGuid();
     }
+    
+    public int PageSize => ConnectionAgent.QueryLimit;
 
     public IEnumerable<CommonInstanceDTO>? Artists => _artists;
     public IEnumerable<CommonInstanceDTO>? Playlists => _playlists;

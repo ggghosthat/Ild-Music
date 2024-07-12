@@ -10,9 +10,8 @@ public sealed class SupportGhost : IGhost
 {
     public ReadOnlyMemory<char> GhostName {get; init;} = "SupporterService".AsMemory();
 
-    private static ICube _cube;
-    
-    private static MetaData _metaData = new();
+    private static ICube _cube; 
+    private MetaData _metaData = new();
 
     public SupportGhost()
     {}
@@ -135,16 +134,31 @@ public sealed class SupportGhost : IGhost
         return _metaData;
     }
 
-    public void ResolveMetaData(
-        int startPage,
-        int pageSize,
-        EntityTag entityTag)
+    public void ResolveMetaData(EntityTag entityTag, bool skip=true)
+    {
+        const int emptyCollection = 0;
+
+        _metaData.CurrentPage = 2;
+        _metaData.PageSize = 10;
+        _metaData.EntityTag = entityTag;
+        _metaData.Skip = skip;
+        _metaData.TotalCount = entityTag switch
+        {
+            EntityTag.ARTIST => ArtistsCollection?.Count() ?? emptyCollection,
+            EntityTag.PLAYLIST => PlaylistsCollection?.Count() ?? emptyCollection,
+            EntityTag.TRACK => TracksCollection?.Count() ?? emptyCollection,
+            EntityTag.TAG => TagsCollection?.Count() ?? emptyCollection
+        };
+    }
+    
+    public void ResolveMetaData(int startPage, int pageSize, EntityTag entityTag, bool skip=false)
     {
         const int emptyCollection = 0;
 
         _metaData.CurrentPage = startPage;
         _metaData.PageSize = pageSize;
         _metaData.EntityTag = entityTag;
+        _metaData.Skip = skip;
         _metaData.TotalCount = entityTag switch
         {
             EntityTag.ARTIST => ArtistsCollection?.Count() ?? emptyCollection,
@@ -154,7 +168,7 @@ public sealed class SupportGhost : IGhost
             _ => 0
         };
     }
-    
+
     public void PageBack()
     {
         if (_metaData.TotalCount == 0)
@@ -164,13 +178,18 @@ public sealed class SupportGhost : IGhost
             _metaData.CurrentPage--;
     }
 
-    public void PageForward()
+    public async Task<IEnumerable<CommonInstanceDTO>> PageForward()
     {
-        if (_metaData.TotalCount == 0) 
-            return;
+        if (_metaData.TotalCount == 0 || !_metaData.HasNext) 
+            return Enumerable.Empty<CommonInstanceDTO>();
 
-        if (_metaData.HasNext)
-            _metaData.CurrentPage++;
+        int offset = (_metaData.CurrentPage * _metaData.PageSize);
+        
+        if (_metaData.Skip) //if we need load itens according boot loading, we should use the gap
+            offset += _cube.StartGap;
+
+        _metaData.CurrentPage++;
+        return await _cube.LoadFramedEntities(_metaData.EntityTag, offset, _metaData.PageSize);
     }
     
     public async Task<IEnumerable<CommonInstanceDTO>> GetCurrentPage()
