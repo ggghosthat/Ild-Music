@@ -25,12 +25,12 @@ public class Filer : IWaiter
         factoryGhost = ghost;
     }
 
-
 	public async Task BrowseFiles(IEnumerable<string> inputPaths)
 	{
-		Parallel.ForEach(inputPaths,
-						 new ParallelOptions { MaxDegreeOfParallelism = 4 },
-						 (string file) =>
+		Parallel.ForEach(
+			inputPaths,
+			new ParallelOptions { MaxDegreeOfParallelism = 4 },
+			(string file) =>
         {            
 			//containing file-format restriction.
     		//in the nearest release will be allow mp3 format only!!!
