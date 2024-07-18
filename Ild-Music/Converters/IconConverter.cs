@@ -60,6 +60,13 @@ public class IconConverter : IValueConverter
 
             return LoadAsset(@"avares://Ild-Music/Assets/DefaultIcons/track.png", 300d, 300d).Result;
         }
+        else if (parameter == "tico_inst" && value is Track track)
+        {   
+            if (track.AvatarSource.Length > 0)
+                return CraftImage(track.AvatarSource, 300d, 300d).Result;
+
+            return LoadBitmapfromPath(@"avares://Ild-Music/Assets/DefaultIcons/track.png").Result;
+        }
         else if (parameter == "tag_col")
         {
             return LoadAsset(@"avares://Ild-Music/Assets/DefaultIcons/tag.png", 150d, 150d).Result; 
