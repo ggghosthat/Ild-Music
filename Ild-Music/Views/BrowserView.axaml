@@ -293,6 +293,31 @@
                   <Style Selector="ListBoxItem:selected:focus:pointerover /template/ ContentPresenter">
                       <Setter Property="Background" Value="Transparent"/>
                   </Style>
+
+                  <Style Selector="TextBox">
+                    <Setter Property="BorderThickness" Value="0"/>
+                    <Setter Property="BorderBrush" Value="Transparent"/>
+                    <Setter Property="Background" Value="Transparent"/>
+                    <Setter Property="SelectionBrush" Value="Transparent"/>
+                  </Style>
+
+                  <Style Selector="TextBox:pointerover /template/ Border#PART_BorderElement">
+                    <Setter Property="BorderBrush" Value="Transparent"/>
+                    <Setter Property="BorderThickness" Value="0"/>
+                    <Setter Property="Background" Value="Transparent"/>
+                  </Style>
+
+                  <Style Selector="TextBox:focus /template/ Border#PART_BorderElement">
+                    <Setter Property="BorderBrush" Value="Transparent"/>
+                    <Setter Property="BorderThickness" Value="0"/>
+                    <Setter Property="Background" Value="Transparent"/>
+                  </Style>
+
+                  <Style Selector="TextBox:focus:pointerover /template/ Border#PART_BorderElement">
+                    <Setter Property="BorderBrush" Value="Transparent"/>
+                    <Setter Property="BorderThickness" Value="0"/>
+                    <Setter Property="Background" Value="Transparent"/>
+                  </Style>
               </ListBox.Styles>
 
               <i:Interaction.Behaviors>
@@ -317,9 +342,11 @@
                                Width="70"
                                Height="70"
                                Stretch="UniformToFill"
-                               Source="{Binding ., Converter={StaticResource IconConverter}, ConverterParameter=dto_icon}"/>
+                               Source="{Binding ., Converter={StaticResource IconConverter}, ConverterParameter=tico_col}"/>
 
-                        <TextBlock  Grid.Column="1"
+                        <TextBox  Grid.Column="1"
+                                  Background="Transparent"
+                                  BorderThickness="0"
                                     Text="{Binding .,
                                            Converter={StaticResource InstanceConverter},
                                            ConverterParameter=name}"

@@ -125,7 +125,7 @@ public sealed class FactoryGhost : IGhost
     }
 
     public void CreateTrack(
-        string pathway, 
+        string pathway,
         string name = default!, 
         string description = default!,
         string avatarPath = default!,
@@ -133,22 +133,12 @@ public sealed class FactoryGhost : IGhost
         IList<Artist> artists = default!) 
     {      
         try 
-        {   
-
-            Memory<char> trackName;
-
+        {
             using(var taglib = TagLib.File.Create(pathway)) 
-            { 
-                if (!String.IsNullOrEmpty(name))
-                    trackName = name.ToCharArray();
-                else if (!String.IsNullOrEmpty(taglib.Tag.Title))
-                    trackName = taglib.Tag.Title.ToCharArray();
-                else 
-                    trackName = Path.GetFileName(pathway).ToCharArray();
-
+            {
                 producer = new InstanceProducer.InstanceProducer(
                     pathway.ToCharArray(), 
-                    trackName,
+                    name.ToCharArray(),
                     description?.ToCharArray(), 
                     avatarPath?.ToCharArray(),
                     artists,
@@ -249,7 +239,6 @@ public sealed class FactoryGhost : IGhost
                     cube.PlaceAvatar(producer.TrackInstance.Id, avatarSource);
                 }
 
-                cube.AddTrackObj(producer.TrackInstance);
                 trackResult = producer.TrackInstance; 
                 producer.Dispose(); 
             }
