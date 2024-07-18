@@ -46,9 +46,9 @@ public class Filer : IWaiter
         });
 	}
 
-	public IList<Track> GetTracks()
+	public IEnumerable<Track> GetTracks()
 	{
-		return MusicFiles.Values.ToList();
+		return MusicFiles.Values;
 	}
 
 	public void CleanFiler()

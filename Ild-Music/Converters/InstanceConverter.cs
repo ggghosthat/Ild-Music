@@ -30,7 +30,7 @@ public class InstanceConverter : IValueConverter
             else if(value is Playlist playlist)
                 return playlist.Name;
             else if(value is Track track)
-                return track.Name;
+                return track.Name.ToString();
             else return "name";
         }
         else if (parameter == "desc")

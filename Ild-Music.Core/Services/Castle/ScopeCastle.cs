@@ -72,7 +72,9 @@ public sealed class ScopeCastle : ICastle, IDisposable
 
                ghosts[Ghosts.SUPPORT] = supportGhost;
                ghosts[Ghosts.FACTORY] = factoryGhost;
-               waiters["Filer"] = new Filer();
+               var filer = new Filer();
+               filer.WakeUp(factoryGhost);
+               waiters["Filer"] = filer;
            }
        } 
     }
@@ -86,9 +88,9 @@ public sealed class ScopeCastle : ICastle, IDisposable
                var currentPlayer = preScope.ResolveKeyed<IPlayer>(currentPlayerId);
                var eventBag = preScope.Resolve<IEventBag>();
                currentPlayer.InjectEventBag(eventBag);
+               
                var playerGhost = new PlayerGhost();
                playerGhost.Init(currentPlayer);
-
                ghosts[Ghosts.PLAYER] = playerGhost;
            }
        } 

@@ -20,6 +20,11 @@ public class BrowserViewModel : BaseViewModel
     private static string FILER_TAG = "Filer";
     public static Filer _filer;
 
+    private static SupportGhost supporter => (SupportGhost)App.Stage.GetGhost(Ghosts.SUPPORT);
+    private static FactoryGhost factory => (FactoryGhost)App.Stage.GetGhost(Ghosts.FACTORY);
+    private MainWindowViewModel MainVM => (MainWindowViewModel)App.ViewModelTable[MainWindowViewModel.viewModelId];
+    private PlaylistEditorViewModel PlaylistEditor => (PlaylistEditorViewModel)App.ViewModelTable[PlaylistEditorViewModel.viewModelId];
+
     public BrowserViewModel()
     {
         _filer = (Filer)App.Stage.GetWaiter(FILER_TAG);
@@ -29,11 +34,6 @@ public class BrowserViewModel : BaseViewModel
         CreatePlaylistCommand = new(CreatePlaylist, null);
         BackCommand = new(Back, null);
     }
-
-    private static SupportGhost supporter => (SupportGhost)App.Stage.GetGhost(Ghosts.SUPPORT);
-    private static FactoryGhost factory => (FactoryGhost)App.Stage.GetGhost(Ghosts.FACTORY);
-    private MainWindowViewModel MainVM => (MainWindowViewModel)App.ViewModelTable[MainWindowViewModel.viewModelId];
-    private PlaylistEditorViewModel PlaylistEditor => (PlaylistEditorViewModel)App.ViewModelTable[PlaylistEditorViewModel.viewModelId];
 
     public ObservableCollection<Track> Source { get; private set; } = new();
     public ObservableCollection<Track> Output { get; set; } = new();
@@ -61,18 +61,12 @@ public class BrowserViewModel : BaseViewModel
 
     public async Task Browse(IList<string> paths)
     {
-        await _filer.BrowseFiles(paths);
-        await UpdateItems();
-    }
-
-    private Task UpdateItems()
-    {
+        await _filer.BrowseFiles(paths);        
         Source.Clear();
         _filer.GetTracks()
              .ToList()
              .ForEach(mf => Source.Add(mf));
         _filer.CleanFiler();
-        return Task.CompletedTask;
     }
 
     private void ExitFactory()

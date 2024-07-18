@@ -13,7 +13,7 @@
              x:DataType="vm:BrowserViewModel">
 
     <UserControl.Resources>
-        <conv:InstanceConverter x:Key="InsanceConverter"/>
+        <conv:InstanceConverter x:Key="InstanceConverter"/>
         <conv:IconConverter x:Key="IconConverter"/>
     </UserControl.Resources>
 
@@ -202,163 +202,149 @@
                     </Border>
                 </StackPanel>
             </StackPanel>
-
-
         </Grid>
 
         <ScrollViewer Grid.Column="1"
+                      Margin="0, 30, 0, 0"  
                       VerticalScrollBarVisibility="Auto"
                       HorizontalScrollBarVisibility="Disabled"
                       HorizontalAlignment="Stretch"
                       VerticalAlignment="Stretch"
                       HorizontalContentAlignment="Stretch">
           <ListBox ItemsSource="{Binding Source}"
-                      SelectedItems="{Binding Output}"
-                      SelectionMode="Multiple"
-                      HorizontalAlignment="Stretch"
-                      ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                      ScrollViewer.VerticalScrollBarVisibility="Auto"
-                      Background="Transparent">
-                      <ListBox.ItemsPanel>
-                          <ItemsPanelTemplate>
-                              <StackPanel Orientation="Vertical"/>
-                          </ItemsPanelTemplate>
-                      </ListBox.ItemsPanel>
+                   SelectedItems="{Binding Output}"
+                   SelectionMode="Multiple"
+                   HorizontalAlignment="Stretch"
+                   ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                   ScrollViewer.VerticalScrollBarVisibility="Auto"
+                   Background="Transparent">
+              <ListBox.ItemsPanel>
+                  <ItemsPanelTemplate>
+                      <StackPanel Orientation="Vertical"/>
+                  </ItemsPanelTemplate>
+              </ListBox.ItemsPanel>
 
-                      <ListBox.Styles>
-                          <Style Selector="ListBoxItem">
-                              <Setter Property="BorderBrush" Value="Transparent"/>
-                              <Setter Property="BorderThickness" Value="0"/>
-                              <Setter Property="Margin" Value="0"/>
-                              <Setter Property="Padding" Value="4"/>
-                              <Setter Property="HorizontalContentAlignment" Value="Stretch"/> 
-                              <Setter Property="Height" Value="50"/>
+              <ListBox.Styles>
+                  <Style Selector="ListBoxItem">
+                      <Setter Property="BorderBrush" Value="Transparent"/>
+                      <Setter Property="BorderThickness" Value="0"/>
+                      <Setter Property="Margin" Value="0"/>
+                      <Setter Property="Padding" Value="4"/>
+                      <Setter Property="HorizontalContentAlignment" Value="Stretch"/> 
+                      <Setter Property="Height" Value="50"/>
 
-                              <Setter Property="Template">
-                                  <ControlTemplate>
-                                      <Grid HorizontalAlignment="Stretch">
-                                          <Border x:Name="Bd"
-                                                  Margin="0"
-                                                  CornerRadius="0"
-                                                  Background="{TemplateBinding Background}"
-                                                  BorderThickness="{TemplateBinding BorderThickness}"
-                                                  BorderBrush="{TemplateBinding BorderBrush}"
-                                                  Padding="{TemplateBinding Padding}">
-                                                  <ContentPresenter Name="PART_ContentPresenter"
-                                                                      HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                                                      VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
-                                                                      ContentTemplate="{TemplateBinding ContentTemplate}"
-                                                                      Content="{TemplateBinding Content}"/>
-                                          </Border>
-                                      </Grid>
-                                  </ControlTemplate>
-                              </Setter>
-                          </Style>
+                      <Setter Property="Template">
+                          <ControlTemplate>
+                              <Grid HorizontalAlignment="Stretch">
+                                  <Border x:Name="Bd"
+                                          Margin="0"
+                                          CornerRadius="0"
+                                          Background="{TemplateBinding Background}"
+                                          BorderThickness="{TemplateBinding BorderThickness}"
+                                          BorderBrush="{TemplateBinding BorderBrush}"
+                                          Padding="{TemplateBinding Padding}">
+                                          <ContentPresenter Name="PART_ContentPresenter"
+                                                              HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                              VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                                              ContentTemplate="{TemplateBinding ContentTemplate}"
+                                                              Content="{TemplateBinding Content}"/>
+                                  </Border>
+                              </Grid>
+                          </ControlTemplate>
+                      </Setter>
+                  </Style>
 
-                          <Style Selector="ListBoxItem:pointerover /template/ Border#Bd">
-                              <Setter Property="Background" Value="#297863"/>
-                          </Style>
+                  <Style Selector="ListBoxItem:pointerover /template/ Border#Bd">
+                      <Setter Property="Background" Value="#4027da48"/>
+                  </Style>
 
-                          <Style Selector="ListBoxItem:pointerover /template/ ContentPresenter">
-                              <Setter Property="Background" Value="Transparent"/>
-                          </Style>
+                  <Style Selector="ListBoxItem:pointerover /template/ ContentPresenter">
+                      <Setter Property="Background" Value="Transparent"/>
+                  </Style>
 
-                          <Style Selector="ListBoxItem:selected /template/ Border#Bd">
-                              <Setter Property="Background" Value="#297863"/>
-                          </Style>
+                  <Style Selector="ListBoxItem:selected /template/ Border#Bd">
+                      <Setter Property="Background" Value="#7027da48"/>
+                  </Style>
 
-                          <Style Selector="ListBoxItem:selected /template/ ContentPresenter">
-                              <Setter Property="Background" Value="Transparent"/>
-                          </Style>
-  
-                          <Style Selector="ListBoxItem:selected:focus /template/ Border#Bd">
-                              <Setter Property="Background" Value="#297863"/>
-                          </Style>
+                  <Style Selector="ListBoxItem:selected /template/ ContentPresenter">
+                      <Setter Property="Background" Value="Transparent"/>
+                  </Style>
 
-                          <Style Selector="ListBoxItem:selected:focus /template/ ContentPresenter">
-                              <Setter Property="Background" Value="Transparent"/>
-                          </Style>
+                  <Style Selector="ListBoxItem:selected:focus /template/ Border#Bd">
+                      <Setter Property="Background" Value="#7027da48"/>
+                  </Style>
 
-                          <Style Selector="ListBoxItem:selected:pointerover /template/ Border#Bd">
-                              <Setter Property="Background" Value="#297863"/>
-                          </Style>
+                  <Style Selector="ListBoxItem:selected:focus /template/ ContentPresenter">
+                      <Setter Property="Background" Value="Transparent"/>
+                  </Style>
 
-                          <Style Selector="ListBoxItem:selected:pointerover /template/ ContentPresenter">
-                              <Setter Property="Background" Value="Transparent"/>
-                          </Style>
+                  <Style Selector="ListBoxItem:selected:pointerover /template/ Border#Bd">
+                      <Setter Property="Background" Value="#7027da48"/>
+                  </Style>
 
-                          <Style Selector="ListBoxItem:selected:focus:pointerover /template/ Border#Bd">
-                              <Setter Property="Background" Value="#297863"/>
-                          </Style>
+                  <Style Selector="ListBoxItem:selected:pointerover /template/ ContentPresenter">
+                      <Setter Property="Background" Value="Transparent"/>
+                  </Style>
 
-                          <Style Selector="ListBoxItem:selected:focus:pointerover /template/ ContentPresenter">
-                              <Setter Property="Background" Value="Transparent"/>
-                          </Style>
-                      </ListBox.Styles>
+                  <Style Selector="ListBoxItem:selected:focus:pointerover /template/ Border#Bd">
+                      <Setter Property="Background" Value="#7027da48"/>
+                  </Style>
 
-                      <i:Interaction.Behaviors>
-                          <ia:EventTriggerBehavior EventName="DoubleTapped">
-                              <!--<ia:InvokeCommandAction Command="{Binding PlaybackSingleCommand}"
-                                                      CommandParameter="{Binding .}"/>-->
-                          </ia:EventTriggerBehavior> 
-                      </i:Interaction.Behaviors> 
-                      <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <Grid HorizontalAlignment="Stretch"
-                                  Grid.Background="Transparent">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="auto"/>
-                                    <ColumnDefinition Width="auto"/>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="auto"/>
-                                    <ColumnDefinition Width="auto"/>
-                                </Grid.ColumnDefinitions>
+                  <Style Selector="ListBoxItem:selected:focus:pointerover /template/ ContentPresenter">
+                      <Setter Property="Background" Value="Transparent"/>
+                  </Style>
+              </ListBox.Styles>
 
-                                <Image Grid.Row="0"
-                                       Width="70"
-                                       Height="70"
-                                       Stretch="UniformToFill"
-                                       Source="{Binding ., Converter={StaticResource IconConverter}, ConverterParameter=dto_icon}"/>
+              <i:Interaction.Behaviors>
+                  <ia:EventTriggerBehavior EventName="DoubleTapped">
+                      <!--<ia:InvokeCommandAction Command="{Binding PlaybackSingleCommand}"
+                                              CommandParameter="{Binding .}"/>-->
+                  </ia:EventTriggerBehavior> 
+              </i:Interaction.Behaviors> 
+              <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Grid HorizontalAlignment="Stretch"
+                          Grid.Background="Transparent">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="auto"/>
+                            <ColumnDefinition Width="auto"/>
+                        </Grid.ColumnDefinitions>
 
-                                <TextBlock  Grid.Column="1"
-                                            Text="{Binding .,
-                                                   Converter={StaticResource InstanceConverter},
-                                                   ConverterParameter=name}"
-                                            HorizontalAlignment="Left"
-                                            VerticalAlignment="Center"
-                                            Margin="0"
-                                            FontSize="16"
-                                            TextAlignment="Left"
-                                            Foreground="White"
-                                            FontWeight="Light"/>
+                        <Image Grid.Row="0"
+                               Width="70"
+                               Height="70"
+                               Stretch="UniformToFill"
+                               Source="{Binding ., Converter={StaticResource IconConverter}, ConverterParameter=dto_icon}"/>
 
+                        <TextBlock  Grid.Column="1"
+                                    Text="{Binding .,
+                                           Converter={StaticResource InstanceConverter},
+                                           ConverterParameter=name}"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Center"
+                                    Margin="0"
+                                    FontSize="16"
+                                    TextAlignment="Left"
+                                    Foreground="White"
+                                    FontWeight="Light"/>
 
-                                <TextBlock  Grid.Column="1"
-                                            Text="{Binding .,
-                                                   Converter={StaticResource InstanceConverter},
-                                                   ConverterParameter=name}"
-                                            HorizontalAlignment="Left"
-                                            VerticalAlignment="Center"
-                                            Margin="0"
-                                            FontSize="16"
-                                            TextAlignment="Left"
-                                            Foreground="White"
-                                            FontWeight="Light"/>
-
-                                <TextBlock  Grid.Column="3"
-                                            Text="{Binding ., 
-                                                   StringFormat=\{0:mm\\:ss\},
-                                                   Converter={StaticResource InstanceConverter},
-                                                   ConverterParameter=duration}"
-                                            HorizontalAlignment="Right"
-                                            VerticalAlignment="Center"
-                                            Margin="0"
-                                            FontSize="16"
-                                            Foreground="White"
-                                            FontWeight="Light"/>
-                            </Grid>
-                        </DataTemplate>
-                      </ListBox.ItemTemplate>
+                        <TextBlock  Grid.Column="3"
+                                    Text="{Binding ., 
+                                           StringFormat=\{0:mm\\:ss\},
+                                           Converter={StaticResource InstanceConverter},
+                                           ConverterParameter=duration}"
+                                    HorizontalAlignment="Right"
+                                    VerticalAlignment="Center"
+                                    Margin="0"
+                                    FontSize="16"
+                                    Foreground="White"
+                                    FontWeight="Light"/>
+                    </Grid>
+                </DataTemplate>
+              </ListBox.ItemTemplate>
           </ListBox>
         </ScrollViewer>
     </Grid>
