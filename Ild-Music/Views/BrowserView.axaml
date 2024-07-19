@@ -15,6 +15,7 @@
     <UserControl.Resources>
         <conv:InstanceConverter x:Key="InstanceConverter"/>
         <conv:IconConverter x:Key="IconConverter"/>
+        <conv:ListActivityConverter x:Key="ListActivityConverter"/>
     </UserControl.Resources>
 
     <Grid Background="#50000000">
@@ -112,6 +113,7 @@
                                 Data="M9,3V4H4V6H5V19A2,2 0 0,0 7,21H17A2,2 0 0,0 19,19V6H20V4H15V3H9M7,6H17V19H7V6M9,8V17H11V8H9M13,8V17H15V8H13Z"/>
                   </Border>
                 </StackPanel>
+
                 <StackPanel>
                   <i:Interaction.Behaviors>
                     <ia:EventTriggerBehavior EventName="PointerPressed">
@@ -141,6 +143,7 @@
                                 Data="M12 3V13.55C11.41 13.21 10.73 13 10 13C7.79 13 6 14.79 6 17S7.79 21 10 21 14 19.21 14 17V7H18V3H12Z"/>
                   </Border>
                 </StackPanel>
+
                 <StackPanel>
                   <i:Interaction.Behaviors>
                     <ia:EventTriggerBehavior EventName="PointerPressed">
@@ -171,6 +174,7 @@
                                 Data="M3,6H21V8H3V6M3,11H21V13H3V11M3,16H21V18H3V16Z"/>
                   </Border>
                 </StackPanel>
+
                 <StackPanel Margin="20, 0">
                     <i:Interaction.Behaviors>
                         <ia:EventTriggerBehavior EventName="PointerPressed">
@@ -211,7 +215,8 @@
                       HorizontalAlignment="Stretch"
                       VerticalAlignment="Stretch"
                       HorizontalContentAlignment="Stretch">
-          <ListBox ItemsSource="{Binding Source}"
+          <ListBox Name="SourceList"
+                   ItemsSource="{Binding Source}"
                    SelectedItems="{Binding Output}"
                    SelectionMode="Multiple"
                    HorizontalAlignment="Stretch"
@@ -243,7 +248,7 @@
                                           BorderThickness="{TemplateBinding BorderThickness}"
                                           BorderBrush="{TemplateBinding BorderBrush}"
                                           Padding="{TemplateBinding Padding}">
-                                          <ContentPresenter Name="PART_ContentPresenter"
+                                      <ContentPresenter Name="PART_ContentPresenter"
                                                               HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
                                                               VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
                                                               ContentTemplate="{TemplateBinding ContentTemplate}"
@@ -374,5 +379,18 @@
               </ListBox.ItemTemplate>
           </ListBox>
         </ScrollViewer>
+
+        <StackPanel Grid.Column="1"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    IsVisible="{Binding #SourceList.ItemCount, Converter={StaticResource ListActivityConverter}, ConverterParameter=is_empty}">
+            <TextBlock Text="¯\_(ツ)_/¯"
+                       FontSize="70"
+                       FontWeight="Light"/>
+            <TextBlock Text="Collection is empty!"
+                       TextAlignment="Center"
+                       FontSize="15"
+                       FontWeight="Light"/>
+        </StackPanel>
     </Grid>
 </UserControl>

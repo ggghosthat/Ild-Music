@@ -20,7 +20,6 @@ namespace Ild_Music.Views;
 [DoNotNotifyAttribute]
 public partial class MainWindow : Window
 {
-    #region Parts
     private const string PART_TITLEBAR = "DragBar";
     private const string PART_NAVBAR = "NavBar";
     private const string PART_VOLUME_AREA = "VolumeArea";
@@ -37,7 +36,6 @@ public partial class MainWindow : Window
     private Control volumeButton;
     private Control mainGrid;
     private Slider volumeSlider;
-    #endregion
 
     public static MainWindowViewModel Context {get; private set;}
 
@@ -46,7 +44,6 @@ public partial class MainWindow : Window
         InitializeComponent();
     }
 
-    #region Arrange Maethods
     private void InitializeComponent()
     {
         AvaloniaXamlLoader.Load(this);
@@ -63,7 +60,6 @@ public partial class MainWindow : Window
         volumeButton = (Control)e.NameScope.Get<Border>(PART_VOLUME_BUTTON);
         mainGrid = (Control)e.NameScope.Get<Grid>(PART_MAIN_GRID);
         volumeSlider = e.NameScope.Get<Slider>(PART_VOLUME_SLIDER);
-
     }
 
     protected override void OnPointerPressed(PointerPressedEventArgs e)
@@ -109,10 +105,7 @@ public partial class MainWindow : Window
         if(Application.Current.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktopLifetime)
             desktopLifetime.Shutdown();
     }
-    #endregion
 
-
-    #region NavBar Pressed Methods
     private void SwitchContext(string vmName)
     {
         var vm = (BaseViewModel)App.ViewModelTable[vmName];
@@ -140,6 +133,4 @@ public partial class MainWindow : Window
 
     private void VolumePopupDown(object? sender, PointerPressedEventArgs e) => 
         ((MainWindowViewModel)DataContext).VolumeSliderShowCommand.Execute(null);
-
-    #endregion
 }
