@@ -31,24 +31,18 @@
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
-            <Border Grid.Row="0"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center">
-                <TextBlock Text="Browse your music"
+            <TextBlock Grid.Row="0"
+                       Text="Browse your tracks"
                        FontSize="30"
-                       FontWeight="Light"/>
-            </Border>
+                       FontWeight="Light"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center"/>
 
             <StackPanel Grid.Row="1"
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch"
                         MinWidth="200"
                         MaxWidth="400">
-                <i:Interaction.Behaviors>
-                  <ia:EventTriggerBehavior EventName="Tapped">
-                      <ia:InvokeCommandAction Command="{Binding BrowseCommand}"/>
-                  </ia:EventTriggerBehavior>
-                </i:Interaction.Behaviors>
                 <Border x:Name="BrowseArea"
                         BorderThickness="2"
                         Margin="15,5"
@@ -65,23 +59,25 @@
                             <Setter Property="Background" Value="#70000000"/>
                         </Style>
                     </Border.Styles>
-                    <Viewbox>
-                        <Canvas Width="24" Height="24">
-                            <Path Fill="{StaticResource color1}" Data="M9,16V10H5L12,3L19,10H15V16H9M5,20V18H19V20H5Z" />
-                        </Canvas>
-                    </Viewbox>
-                </Border>
-                <Border HorizontalAlignment="Center">
-                    <TextBlock Text="Drag mp3 file or click and browse it"
-                               FontSize="16"
-                               Foreground="#9c9c9c"
-                               FontWeight="Light"/>
+                    <StackPanel>
+                        <Viewbox>
+                            <Canvas Width="24" Height="24">
+                                <Path Fill="{StaticResource color1}" Data="M9,16V10H5L12,3L19,10H15V16H9M5,20V18H19V20H5Z" />
+                            </Canvas>
+                        </Viewbox>
+
+                        <TextBlock Text="click here and browse your tracks"
+                                   HorizontalAlignment="Center"
+                                   FontSize="16"
+                                   Foreground="#9c9c9c"
+                                   FontWeight="Light"/>
+                    </StackPanel>
                 </Border>
             </StackPanel>
 
             <StackPanel Grid.Row="2"
                         Orientation="Horizontal"
-                        HorizontalAlignment="Left"
+                        HorizontalAlignment="Center"
                         VerticalAlignment="Center">
                 <StackPanel>
                   <i:Interaction.Behaviors>
@@ -175,7 +171,7 @@
                   </Border>
                 </StackPanel>
 
-                <StackPanel Margin="20, 0">
+                <StackPanel>
                     <i:Interaction.Behaviors>
                         <ia:EventTriggerBehavior EventName="PointerPressed">
                           <!--<ia:InvokeCommandAction Command="{Binding PlayBrowsedTracksCommand}"/>-->
@@ -385,9 +381,11 @@
                     VerticalAlignment="Center"
                     IsVisible="{Binding #SourceList.ItemCount, Converter={StaticResource ListActivityConverter}, ConverterParameter=is_empty}">
             <TextBlock Text="¯\_(ツ)_/¯"
+                       Foreground="#969696" 
                        FontSize="70"
                        FontWeight="Light"/>
-            <TextBlock Text="Collection is empty!"
+            <TextBlock Text="Collection is empty"
+                       Foreground="#969696"
                        TextAlignment="Center"
                        FontSize="15"
                        FontWeight="Light"/>

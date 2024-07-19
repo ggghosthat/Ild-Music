@@ -29,7 +29,6 @@ public class BrowserViewModel : BaseViewModel
     {
         _filer = (Filer)App.Stage.GetWaiter(FILER_TAG);
 
-        BrowseCommand = new(BrowseFromManager, null);
         SaveTracksCommand = new(SaveTracks, null);
         CreatePlaylistCommand = new(CreatePlaylist, null);
         BackCommand = new(Back, null);
@@ -38,11 +37,29 @@ public class BrowserViewModel : BaseViewModel
     public ObservableCollection<Track> Source { get; private set; } = new();
     public ObservableCollection<Track> Output { get; set; } = new();
 
-    public CommandDelegator BrowseCommand { get; }
     public CommandDelegator SaveTracksCommand { get; }
     public CommandDelegator CreatePlaylistCommand { get; }
     public CommandDelegator BackCommand { get; }
-   
+    
+    public async Task Browse(IList<string> paths)
+    {
+        await _filer.BrowseFiles(paths);        
+        Source.Clear();
+        _filer.GetTracks()
+             .ToList()
+             .ForEach(mf => Source.Add(mf));
+        _filer.CleanFiler();
+    }
+
+    private void SaveTracks(object obj)
+    {
+        if (Output.Count == 0)
+            return;
+
+        foreach (var track in Output)
+            supporter.AddTrackInstance(track);
+    }
+
     public void CreatePlaylist(object obj)
     {
         if (Output.Count == 0)
@@ -58,45 +75,11 @@ public class BrowserViewModel : BaseViewModel
         MainVM.PushVM(this, PlaylistEditor);
         MainVM.ResolveWindowStack();
     }
-
-    public async Task Browse(IList<string> paths)
-    {
-        await _filer.BrowseFiles(paths);        
-        Source.Clear();
-        _filer.GetTracks()
-             .ToList()
-             .ForEach(mf => Source.Add(mf));
-        _filer.CleanFiler();
-    }
-
-    private void ExitFactory()
-    {
-        FieldsClear();
-        MainVM.ResolveWindowStack();
-    }
-
-    private void FieldsClear()
+  
+    public void Back(object obj)
     {
        Source.Clear();
        Output.Clear();
-    }
-
-    private void SaveTracks(object obj)
-    {
-        if (Output.Count == 0)
-            return;
-
-        foreach (var track in Output)
-            supporter.AddTrackInstance(track);
-    }
-
-    private void BrowseFromManager(object obj)
-    {
-
-    }
-
-    public void Back(object obj)
-    {
-        ExitFactory();
+       MainVM.ResolveWindowStack();
     }
 }
