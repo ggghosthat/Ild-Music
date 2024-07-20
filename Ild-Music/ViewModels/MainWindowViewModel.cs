@@ -55,7 +55,7 @@ public class MainWindowViewModel : Base.BaseViewModel
 
     public Stack<Guid> WindowStack { get; private set; } = new();
     public ObservableCollection<string> NavItems => new() {"Home","Collections", "Browse"};
-    public char? NavItem { get; set; }
+    public string? NavItem { get; set; }
 
     public static IPlayer? _player = null;
     public bool PlayerState => _player?.ToggleState ?? false;
@@ -293,23 +293,18 @@ public class MainWindowViewModel : Base.BaseViewModel
 
     private void NavResolve(object obj)
     {
-        switch(NavItem)
+        var navItemName = NavItem switch
         {
-            case 'a':
-                DefineNewPresentItem(StartViewModel.viewModelId);
-                break;
-            case 'b':
-                DefineNewPresentItem(ListViewModel.viewModelId);
-                break;
-            case 'c':
-                //DefineNewPresentItem((BaseViewModel)App.ViewModelTable[SettingViewModel.viewModelId]);
-                break;
-            case 'd':
-                //DefineNewPresentItem((BaseViewModel)App.ViewModelTable[BrowseViewModel.viewModelId]);
-                break;
-            default:
-                break;
-        }
+            "Home" => StartViewModel.viewModelId,
+            "Collections" => ListViewModel.viewModelId,
+            "Browse" => BrowserViewModel.viewModelId,
+            _ => Guid.Empty
+        };
+
+        if (navItemName == Guid.Empty)
+            return;
+
+        DefineNewPresentItem(navItemName);
     }
 
     private void KickPlayer(object obj) 

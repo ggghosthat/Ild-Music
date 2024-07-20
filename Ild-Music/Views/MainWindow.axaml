@@ -1,4 +1,4 @@
-<Window xmlns="https://github.com/avaloniaui"
+    <Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:vm="using:Ild_Music.ViewModels"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -142,244 +142,243 @@
                               Grid.ColumnSpan="2"
                               ColumnDefinitions = "auto, *"
                               Background="Transparent">
-                                <!--NavBar-->
-                                <Grid x:Name="NavBar"
-                                      Grid.Column="0" 
-                                      Background="#40000000"
-                                      HorizontalAlignment="Stretch">
-                                    <!--NavBarItems-->
-                                    <StackPanel VerticalAlignment="Top"
+                            <!--NavBar-->
+                            <Grid x:Name="NavBar"
+                                  Grid.Column="0" 
+                                  Background="#40000000"
+                                  HorizontalAlignment="Stretch">
+                                <!--NavBarItems-->
+                                <StackPanel VerticalAlignment="Top"
+                                            HorizontalAlignment="Center">
+                                    <Viewbox Classes="vb" Width="170" Height="25" Margin="40, 10, 10, 10"
+                                             HorizontalAlignment="Stretch"
+                                             VerticalAlignment="Top">
+                                        <Canvas Width="170" Height="30">
+                                            <Path Fill="#27da48" Data="M 30.00,0.00
+                                                    C 30.00,0.00 40.00,0.00 40.00,0.00
+                                                        40.00,0.00 40.00,34.00 40.00,34.00
+                                                        40.00,34.00 30.00,34.00 30.00,34.00
+                                                        30.00,34.00 30.00,0.00 30.00,0.00 Z
+                                                    M 105.00,0.00
+                                                    C 105.00,0.00 115.00,0.00 115.00,0.00
+                                                        115.00,0.00 115.00,34.00 115.00,34.00
+                                                        115.00,34.00 105.00,34.00 105.00,34.00
+                                                        105.00,34.00 105.00,0.00 105.00,0.00 Z
+                                                    M 15.00,6.00
+                                                    C 15.00,6.00 25.00,6.00 25.00,6.00
+                                                        25.00,6.00 25.00,29.00 25.00,29.00
+                                                        25.00,29.00 15.00,29.00 15.00,29.00
+                                                        15.00,29.00 15.00,6.00 15.00,6.00 Z
+                                                    M 45.00,6.00
+                                                    C 45.00,6.00 55.00,6.00 55.00,6.00
+                                                        55.00,6.00 55.00,29.00 55.00,29.00
+                                                        55.00,29.00 45.00,29.00 45.00,29.00
+                                                        45.00,29.00 45.00,6.00 45.00,6.00 Z
+                                                    M 90.00,6.00
+                                                    C 90.00,6.00 100.00,6.00 100.00,6.00
+                                                        100.00,6.00 100.00,29.00 100.00,29.00
+                                                        100.00,29.00 90.00,29.00 90.00,29.00
+                                                        90.00,29.00 90.00,6.00 90.00,6.00 Z
+                                                    M 120.00,6.00
+                                                    C 120.00,6.00 130.00,6.00 130.00,6.00
+                                                        130.00,6.00 130.00,29.00 130.00,29.00
+                                                        130.00,29.00 120.00,29.00 120.00,29.00
+                                                        120.00,29.00 120.00,6.00 120.00,6.00 Z
+                                                    M 0.00,14.00
+                                                    C 0.00,14.00 10.00,14.00 10.00,14.00
+                                                        10.00,14.00 10.00,29.00 10.00,29.00
+                                                        10.00,29.00 0.00,29.00 0.00,29.00
+                                                        0.00,29.00 0.00,14.00 0.00,14.00 Z
+                                                    M 60.00,14.00
+                                                    C 60.00,14.00 70.00,14.00 70.00,14.00
+                                                        70.00,14.00 70.00,29.00 70.00,29.00
+                                                        70.00,29.00 60.00,29.00 60.00,29.00
+                                                        60.00,29.00 60.00,14.00 60.00,14.00 Z
+                                                    M 75.00,14.00
+                                                    C 75.00,14.00 85.00,14.00 85.00,14.00
+                                                        85.00,14.00 85.00,29.00 85.00,29.00
+                                                        85.00,29.00 75.00,29.00 75.00,29.00
+                                                        75.00,29.00 75.00,14.00 75.00,14.00 Z
+                                                    M 135.00,14.00
+                                                    C 135.00,14.00 145.00,14.00 145.00,14.00
+                                                        145.00,14.00 145.00,29.00 145.00,29.00
+                                                        145.00,29.00 135.00,29.00 135.00,29.00
+                                                        135.00,29.00 135.00,14.00 135.00,14.00 Z" />
+                                        </Canvas>
+                                    </Viewbox>
+                                    <ScrollViewer HorizontalScrollBarVisibility="Disabled"
+                                                VerticalScrollBarVisibility="Auto"
                                                 HorizontalAlignment="Center">
-                                            <Viewbox Classes="vb" Width="170" Height="25" Margin="40, 10, 10, 10"
-                                                     HorizontalAlignment="Stretch"
-                                                     VerticalAlignment="Top">
-                                                <Canvas Width="170" Height="30">
-                                                    <Path Fill="#27da48" Data="M 30.00,0.00
-                                                            C 30.00,0.00 40.00,0.00 40.00,0.00
-                                                                40.00,0.00 40.00,34.00 40.00,34.00
-                                                                40.00,34.00 30.00,34.00 30.00,34.00
-                                                                30.00,34.00 30.00,0.00 30.00,0.00 Z
-                                                            M 105.00,0.00
-                                                            C 105.00,0.00 115.00,0.00 115.00,0.00
-                                                                115.00,0.00 115.00,34.00 115.00,34.00
-                                                                115.00,34.00 105.00,34.00 105.00,34.00
-                                                                105.00,34.00 105.00,0.00 105.00,0.00 Z
-                                                            M 15.00,6.00
-                                                            C 15.00,6.00 25.00,6.00 25.00,6.00
-                                                                25.00,6.00 25.00,29.00 25.00,29.00
-                                                                25.00,29.00 15.00,29.00 15.00,29.00
-                                                                15.00,29.00 15.00,6.00 15.00,6.00 Z
-                                                            M 45.00,6.00
-                                                            C 45.00,6.00 55.00,6.00 55.00,6.00
-                                                                55.00,6.00 55.00,29.00 55.00,29.00
-                                                                55.00,29.00 45.00,29.00 45.00,29.00
-                                                                45.00,29.00 45.00,6.00 45.00,6.00 Z
-                                                            M 90.00,6.00
-                                                            C 90.00,6.00 100.00,6.00 100.00,6.00
-                                                                100.00,6.00 100.00,29.00 100.00,29.00
-                                                                100.00,29.00 90.00,29.00 90.00,29.00
-                                                                90.00,29.00 90.00,6.00 90.00,6.00 Z
-                                                            M 120.00,6.00
-                                                            C 120.00,6.00 130.00,6.00 130.00,6.00
-                                                                130.00,6.00 130.00,29.00 130.00,29.00
-                                                                130.00,29.00 120.00,29.00 120.00,29.00
-                                                                120.00,29.00 120.00,6.00 120.00,6.00 Z
-                                                            M 0.00,14.00
-                                                            C 0.00,14.00 10.00,14.00 10.00,14.00
-                                                                10.00,14.00 10.00,29.00 10.00,29.00
-                                                                10.00,29.00 0.00,29.00 0.00,29.00
-                                                                0.00,29.00 0.00,14.00 0.00,14.00 Z
-                                                            M 60.00,14.00
-                                                            C 60.00,14.00 70.00,14.00 70.00,14.00
-                                                                70.00,14.00 70.00,29.00 70.00,29.00
-                                                                70.00,29.00 60.00,29.00 60.00,29.00
-                                                                60.00,29.00 60.00,14.00 60.00,14.00 Z
-                                                            M 75.00,14.00
-                                                            C 75.00,14.00 85.00,14.00 85.00,14.00
-                                                                85.00,14.00 85.00,29.00 85.00,29.00
-                                                                85.00,29.00 75.00,29.00 75.00,29.00
-                                                                75.00,29.00 75.00,14.00 75.00,14.00 Z
-                                                            M 135.00,14.00
-                                                            C 135.00,14.00 145.00,14.00 145.00,14.00
-                                                                145.00,14.00 145.00,29.00 145.00,29.00
-                                                                145.00,29.00 135.00,29.00 135.00,29.00
-                                                                135.00,29.00 135.00,14.00 135.00,14.00 Z" />
-                                                </Canvas>
-                                            </Viewbox>
-                                            <ScrollViewer HorizontalScrollBarVisibility="Disabled"
-                                                        VerticalScrollBarVisibility="Auto"
-                                                        HorizontalAlignment="Center">
-                                                <ListBox ItemsSource="{Binding NavItems}"
-                                                        SelectedItem="{Binding NavItem}"
-                                                        HorizontalAlignment="Left"
-                                                        ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                                                        ScrollViewer.VerticalScrollBarVisibility="Disabled"
-                                                        Background="transparent">
-                                                        <ListBox.ItemsPanel>
-                                                            <ItemsPanelTemplate>
-                                                                <StackPanel Orientation="Vertical"/>
-                                                            </ItemsPanelTemplate>
-                                                        </ListBox.ItemsPanel>
+                                        <ListBox ItemsSource="{Binding NavItems}"
+                                                SelectedItem="{Binding NavItem}"
+                                                HorizontalAlignment="Left"
+                                                ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                                                ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                                                Background="transparent">
+                                            <ListBox.ItemsPanel>
+                                                <ItemsPanelTemplate>
+                                                    <StackPanel Orientation="Vertical"/>
+                                                </ItemsPanelTemplate>
+                                            </ListBox.ItemsPanel>
+            
+                                            <ListBox.Styles>
+                                                    <Style Selector="ListBoxItem">
+                                                        <Setter Property="BorderBrush" Value="Transparent"/>
+                                                        <Setter Property="BorderThickness" Value="0"/>
+                                                        <Setter Property="Margin" Value="0"/>
+                                                        <Setter Property="Padding" Value="0"/>
+                                                        <Setter Property="HorizontalContentAlignment" Value="Left"/>
+
+                                                        <Setter Property="Template">
+                                                            <ControlTemplate>
+                                                                <Grid>
+                                                                    <Border x:Name="Bd"
+                                                                            Margin="{TemplateBinding Margin}"
+                                                                            CornerRadius="10"
+                                                                            Background="{TemplateBinding Background}"
+                                                                            BorderThickness="{TemplateBinding BorderThickness}"
+                                                                            BorderBrush="{TemplateBinding BorderBrush}"
+                                                                            Padding="{TemplateBinding Padding}">
+                                                                    <ContentPresenter Name="PART_ContentPresenter"
+                                                                                        HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                                                        VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                                                                        ContentTemplate="{TemplateBinding ContentTemplate}"
+                                                                                        Content="{TemplateBinding Content}"/>
+                                                                    </Border>
+                                                                </Grid>
+                                                            </ControlTemplate>
+                                                        </Setter>
+                                                    </Style>
+
+                                                    <Style Selector="ListBoxItem:pointerover /template/ Border#Bd">
+                                                        <Setter Property="Background" Value="Transparent"/>
+                                                    </Style>
+
+                                                    <Style Selector="ListBoxItem:pointerover /template/ ContentPresenter">
+                                                        <Setter Property="Background" Value="Transparent"/>
+                                                    </Style>
+
+                                                    <Style Selector="ListBoxItem:selected /template/ Border#Bd">
+                                                        <Setter Property="Background" Value="Transparent"/>
+                                                    </Style>
+
+                                                    <Style Selector="ListBoxItem:selected /template/ ContentPresenter">
+                                                        <Setter Property="Background" Value="Transparent"/>
+                                                    </Style>
+                                            
+                                                    <Style Selector="ListBoxItem:selected:focus /template/ Border#Bd">
+                                                        <Setter Property="Background" Value="Transparent"/>
+                                                    </Style>
+                    
+                                                    <Style Selector="ListBoxItem:selected:focus /template/ ContentPresenter">
+                                                        <Setter Property="Background" Value="Transparent"/>
+                                                    </Style>
+
+                                                    <Style Selector="ListBoxItem:selected:pointerover /template/ Border#Bd">
+                                                        <Setter Property="Background" Value="Transparent"/>
+                                                    </Style>
+
+                                                    <Style Selector="ListBoxItem:selected:pointerover /template/ ContentPresenter">
+                                                        <Setter Property="Background" Value="Transparent"/>
+                                                    </Style>
+
+                                                    <Style Selector="ListBoxItem:selected:focus:pointerover /template/ Border#Bd">
+                                                        <Setter Property="Background" Value="Transparent"/>
+                                                    </Style>
+
+                                                    <Style Selector="ListBoxItem:selected:focus:pointerover /template/ ContentPresenter">
+                                                        <Setter Property="Background" Value="Transparent"/>
+                                                    </Style>
+                                            </ListBox.Styles>
                         
-                                                        <ListBox.Styles>
-                                                                <Style Selector="ListBoxItem">
-                                                                    <Setter Property="BorderBrush" Value="Transparent"/>
-                                                                    <Setter Property="BorderThickness" Value="0"/>
-                                                                    <Setter Property="Margin" Value="0"/>
-                                                                    <Setter Property="Padding" Value="0"/>
-                                                                    <Setter Property="HorizontalContentAlignment" Value="Left"/>
+                                            <i:Interaction.Behaviors>
+                                                <ia:EventTriggerBehavior EventName="Tapped">
+                                                    <ia:InvokeCommandAction Command="{Binding NavBarResolve}"/>
+                                                </ia:EventTriggerBehavior>  
+                                            </i:Interaction.Behaviors>
+                                            <ListBox.ItemTemplate>
+                                                <DataTemplate>         
+                                                    <Border Classes="NavBarItem"
+                                                            VerticalAlignment="Top"
+                                                            HorizontalAlignment="Center"
+                                                            CornerRadius="10"
+                                                            Margin="8, 2"
+                                                            Width="170">
+                                                        <Border.Styles>
+                                                            <Style Selector="Border.NavBarItem Viewbox Canvas Path.NavIcon">
+                                                                <Setter Property="Fill" Value="#7b7f6b"/>
+                                                            </Style>
+                                                        </Border.Styles>
 
-                                                                    <Setter Property="Template">
-                                                                        <ControlTemplate>
-                                                                            <Grid>
-                                                                                <Border x:Name="Bd"
-                                                                                        Margin="{TemplateBinding Margin}"
-                                                                                        CornerRadius="10"
-                                                                                        Background="{TemplateBinding Background}"
-                                                                                        BorderThickness="{TemplateBinding BorderThickness}"
-                                                                                        BorderBrush="{TemplateBinding BorderBrush}"
-                                                                                        Padding="{TemplateBinding Padding}">
-                                                                                <ContentPresenter Name="PART_ContentPresenter"
-                                                                                                    HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                                                                                    VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
-                                                                                                    ContentTemplate="{TemplateBinding ContentTemplate}"
-                                                                                                    Content="{TemplateBinding Content}"/>
-                                                                                </Border>
-                                                                            </Grid>
-                                                                        </ControlTemplate>
-                                                                    </Setter>
-                                                                </Style>
+                                                        <StackPanel Orientation="Horizontal"
+                                                                    HorizontalAlignment="Left">
+                                                        <Viewbox Classes="vb"
+                                                                Width="25"
+                                                                Height="25"
+                                                                Margin="10, 5"
+                                                                HorizontalAlignment="Left"
+                                                                Child="{Binding ., Converter={StaticResource NavBarConverter}}"/>
+                                                        <Label FontSize="16"
+                                                            Margin="5"
+                                                            FontWeight="Regular"
+                                                            Content = "{Binding .}"/>
+                                                        </StackPanel>
+                                                    </Border>
+                                                </DataTemplate>
+                                            </ListBox.ItemTemplate>
+                                        </ListBox>
+                                    </ScrollViewer>
+                                </StackPanel>
+                            </Grid>      
 
-                                                                <Style Selector="ListBoxItem:pointerover /template/ Border#Bd">
-                                                                    <Setter Property="Background" Value="Transparent"/>
-                                                                </Style>
+                            <!--ContextArea-->
+                            <Grid Grid.Column="2"
+                                  Grid.ColumnSpan="2">
+                                <Grid.RowDefinitions>                                        
+                                    <RowDefinition Height="auto"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
 
-                                                                <Style Selector="ListBoxItem:pointerover /template/ ContentPresenter">
-                                                                    <Setter Property="Background" Value="Transparent"/>
-                                                                </Style>
-
-                                                                <Style Selector="ListBoxItem:selected /template/ Border#Bd">
-                                                                    <Setter Property="Background" Value="Transparent"/>
-                                                                </Style>
-
-                                                                <Style Selector="ListBoxItem:selected /template/ ContentPresenter">
-                                                                    <Setter Property="Background" Value="Transparent"/>
-                                                                </Style>
-                                                        
-                                                                <Style Selector="ListBoxItem:selected:focus /template/ Border#Bd">
-                                                                    <Setter Property="Background" Value="Transparent"/>
-                                                                </Style>
-                                
-                                                                <Style Selector="ListBoxItem:selected:focus /template/ ContentPresenter">
-                                                                    <Setter Property="Background" Value="Transparent"/>
-                                                                </Style>
-
-                                                                <Style Selector="ListBoxItem:selected:pointerover /template/ Border#Bd">
-                                                                    <Setter Property="Background" Value="Transparent"/>
-                                                                </Style>
-
-                                                                <Style Selector="ListBoxItem:selected:pointerover /template/ ContentPresenter">
-                                                                    <Setter Property="Background" Value="Transparent"/>
-                                                                </Style>
-
-                                                                <Style Selector="ListBoxItem:selected:focus:pointerover /template/ Border#Bd">
-                                                                    <Setter Property="Background" Value="Transparent"/>
-                                                                </Style>
-
-                                                                <Style Selector="ListBoxItem:selected:focus:pointerover /template/ ContentPresenter">
-                                                                    <Setter Property="Background" Value="Transparent"/>
-                                                                </Style>
-                                                        </ListBox.Styles>
+                                <Grid Grid.Row="0" ZIndex="3">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="auto"/>
+                                    </Grid.ColumnDefinitions>
                                     
-                                                        <i:Interaction.Behaviors>
-                                                            <ia:EventTriggerBehavior EventName="Tapped">
-                                                                <ia:InvokeCommandAction Command="{Binding NavBarResolve}"/>
-                                                            </ia:EventTriggerBehavior>  
-                                                        </i:Interaction.Behaviors>
-                                                        <ListBox.ItemTemplate>
-                                                        <DataTemplate>         
-                                                        <Border Classes="NavBarItem"
-                                                                VerticalAlignment="Top"
-                                                                HorizontalAlignment="Center"
-                                                                CornerRadius="10"
-                                                                Margin="8, 2"
-                                                                Width="170">
-                                                                <Border.Styles>
-                                                                    <Style Selector="Border.NavBarItem Viewbox Canvas Path.NavIcon">
-                                                                        <Setter Property="Fill" Value="#7b7f6b"/>
-                                                                    </Style>
-                                                                </Border.Styles>
+                                    <!--DragMove area-->                          
+                                    <Grid x:Name="DragBar"
+                                        Grid.Column="0"
+                                        Background="Transparent"/>
 
-                                                                <StackPanel Orientation="Horizontal"
-                                                                            HorizontalAlignment="Left">
-                                                                <Viewbox Classes="vb"
-                                                                        Width="25"
-                                                                        Height="25"
-                                                                        Margin="10, 5"
-                                                                        HorizontalAlignment="Left"
-                                                                        Child="{Binding ., Converter={StaticResource NavBarConverter}}">   
-                                                                </Viewbox>                                                        
-                                                                <Label FontSize="16"
-                                                                    Margin="5"
-                                                                    FontWeight="Regular"
-                                                                    Content = "{Binding .}"/>
-                                                                </StackPanel>
-                                                        </Border>
-                                                        </DataTemplate>
-                                                        </ListBox.ItemTemplate>
-                                                </ListBox>
-                                            </ScrollViewer>
+                                    <StackPanel Grid.Column="1"
+                                            HorizontalAlignment="Right"
+                                            Orientation="Horizontal">                                                                             
+                                        <Border Classes="WindowButton"
+                                                Width="40"
+                                                Height="40"
+                                                Background="Transparent"
+                                                Child="{StaticResource MinimizeHead}"
+                                                PointerPressed="OnHideClick"/>
+                                        <Border Classes="WindowButton"
+                                                Width="40"
+                                                Height="40"
+                                                Background="Transparent"
+                                                Child="{StaticResource MaximizeHead}"
+                                                PointerPressed="OnExpandClick"/>
+                                        <Border Classes="WindowButton"
+                                                Width="40"
+                                                Height="40"
+                                                Background="Transparent"
+                                                Child="{StaticResource CloseHead}"
+                                                PointerPressed="OnCloseClick"/>
                                     </StackPanel>
-                                </Grid>      
-
-                                <!--ContextArea-->
-                                <Grid Grid.Column="2"
-                                      Grid.ColumnSpan="2">
-                                    <Grid.RowDefinitions>                                        
-                                        <RowDefinition Height="auto"/>
-                                        <RowDefinition Height="*"/>
-                                    </Grid.RowDefinitions>
-
-                                    <Grid Grid.Row="0" ZIndex="3">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="*"/>
-                                            <ColumnDefinition Width="auto"/>
-                                        </Grid.ColumnDefinitions>
-                                        
-                                        <!--DragMove area-->                          
-                                        <Grid x:Name="DragBar"
-                                            Grid.Column="0"
-                                            Background="Transparent"/>
-
-                                        <StackPanel Grid.Column="1"
-                                                HorizontalAlignment="Right"
-                                                Orientation="Horizontal">                                                                             
-                                            <Border Classes="WindowButton"
-                                                    Width="40"
-                                                    Height="40"
-                                                    Background="Transparent"
-                                                    Child="{StaticResource MinimizeHead}"
-                                                    PointerPressed="OnHideClick"/>
-                                            <Border Classes="WindowButton"
-                                                    Width="40"
-                                                    Height="40"
-                                                    Background="Transparent"
-                                                    Child="{StaticResource MaximizeHead}"
-                                                    PointerPressed="OnExpandClick"/>
-                                            <Border Classes="WindowButton"
-                                                    Width="40"
-                                                    Height="40"
-                                                    Background="Transparent"
-                                                    Child="{StaticResource CloseHead}"
-                                                    PointerPressed="OnCloseClick"/>
-                                        </StackPanel>
-                                    </Grid>
-                                   
-                                    <Grid Grid.Row="0"
-                                          Grid.RowSpan="2">
-                                        <ContentControl Content="{Binding CurrentVM}"/> 
-                                    </Grid>
                                 </Grid>
+                               
+                                <Grid Grid.Row="0"
+                                      Grid.RowSpan="2">
+                                    <ContentControl Content="{Binding CurrentVM}"/> 
+                                </Grid>
+                            </Grid>
                         </Grid>
 
                         <!--Player-->

@@ -74,13 +74,11 @@ public partial class MainWindow : Window
     {
         base.Render(context);
 
-        // Get relative position of button, in relation to main grid
         var position = volumeButton.TranslatePoint(new Point(), mainGrid) ??
-                        throw new Exception("Cannot get TranslatePoint from Configuration Button");
+            throw new Exception("Cannot get TranslatePoint from Configuration Button");
 
-        // Set margin of popup so it appears bottom left of button
-        // volumePopup.Margin = new Thickness(position.X, 0, 0, (mainGrid.Bounds.Height - position.Y) );
-        Dispatcher.UIThread.Post( () => { volumePopup.Margin = new Thickness(position.X, 0, 0, (mainGrid.Bounds.Height - position.Y) ); } );
+        Dispatcher.UIThread.Post( () => 
+            { volumePopup.Margin = new Thickness(position.X, 0, 0, (mainGrid.Bounds.Height - position.Y) ); } );
     }
 
     private void OnHideClick(object sender, PointerPressedEventArgs e)
@@ -91,44 +89,15 @@ public partial class MainWindow : Window
     private void OnExpandClick(object sender, PointerPressedEventArgs e)
     {
         if (WindowState == WindowState.Normal)
-        {
             WindowState = WindowState.Maximized;
-        }
         else if (WindowState == WindowState.Maximized)
-        {
-            WindowState = WindowState.Normal;   
-        }
+            WindowState = WindowState.Normal;
     }
 
     private void OnCloseClick(object sender, PointerPressedEventArgs e)
     {
         if(Application.Current.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktopLifetime)
             desktopLifetime.Shutdown();
-    }
-
-    private void SwitchContext(string vmName)
-    {
-        var vm = (BaseViewModel)App.ViewModelTable[vmName];
-
-        if (vm != null)
-        {
-            Context.CurrentVM = vm;   
-        }
-    }
-    
-    private void OnHomePointerPressed(object? sender, PointerPressedEventArgs e)
-    {
-        // SwitchContext(StartViewModel.nameVM);
-    }
-
-    private void OnCollectsPointerPressed(object? sender, PointerPressedEventArgs e)
-    {
-        // SwitchContext(ListViewModel.nameVM);
-    }
-
-    private void OnSettingPointerPressed(object? sender, PointerPressedEventArgs e)
-    {
-        // SwitchContext(SettingViewModel.nameVM);
     }
 
     private void VolumePopupDown(object? sender, PointerPressedEventArgs e) => 
