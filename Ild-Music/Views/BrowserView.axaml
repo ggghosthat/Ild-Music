@@ -20,11 +20,14 @@
 
     <Grid Background="#50000000">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="0.5*"/>
+            <ColumnDefinition Width="auto"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         
-        <Grid Grid.Column="0">
+        <Grid Grid.Column="0"
+              VerticalAlignment="Stretch"
+              HorizontalAlignment="Stretch"
+              Margin="5, 0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="auto"/>
@@ -32,53 +35,54 @@
             </Grid.RowDefinitions>
 
             <TextBlock Grid.Row="0"
-                       Text="Browse your tracks"
+                       Text="Browse here"
                        FontSize="30"
                        FontWeight="Light"
                        HorizontalAlignment="Center"
-                       VerticalAlignment="Center"/>
+                       VerticalAlignment="Bottom"
+                       Margin="5, 10"/>
 
             <StackPanel Grid.Row="1"
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch"
                         MinWidth="200"
                         MaxWidth="400">
-                <Border x:Name="BrowseArea"
-                        BorderThickness="2"
-                        Margin="15,5"
-                        Height="{Binding $parent[StackPanel].Bounds.Width}"
-                        CornerRadius="10"
-                        BorderBrush="#20000000"
-                        Tapped="OpenMusicFiles_Clicked"
-                        DragDrop.AllowDrop="True">
-                    <Border.Styles>
-                        <Style Selector="Border#BrowseArea">
-                            <Setter Property="Background" Value="#50000000"/>
-                        </Style>
-                        <Style Selector="Border#BrowseArea:pointerover">
-                            <Setter Property="Background" Value="#70000000"/>
-                        </Style>
-                    </Border.Styles>
-                    <StackPanel>
-                        <Viewbox>
-                            <Canvas Width="24" Height="24">
-                                <Path Fill="{StaticResource color1}" Data="M9,16V10H5L12,3L19,10H15V16H9M5,20V18H19V20H5Z" />
-                            </Canvas>
-                        </Viewbox>
+              <Border x:Name="BrowseArea"
+                      Margin="15,5"
+                      CornerRadius="10"
+                      BorderThickness="2"
+                      BorderBrush="#20000000"
+                      Height="{Binding $parent[StackPanel].Bounds.Width}"
+                      Tapped="OpenMusicFiles_Clicked"
+                      DragDrop.AllowDrop="True">
+                  <Border.Styles>
+                      <Style Selector="Border#BrowseArea">
+                          <Setter Property="Background" Value="#50000000"/>
+                      </Style>
+                      <Style Selector="Border#BrowseArea:pointerover">
+                          <Setter Property="Background" Value="#70000000"/>
+                      </Style>
+                  </Border.Styles>
+                  <StackPanel>
+                      <Viewbox>
+                          <Canvas Width="24" Height="24">
+                              <Path Fill="{StaticResource color1}" Data="M9,16V10H5L12,3L19,10H15V16H9M5,20V18H19V20H5Z" />
+                          </Canvas>
+                      </Viewbox>
 
-                        <TextBlock Text="click here and browse your tracks"
-                                   HorizontalAlignment="Center"
-                                   FontSize="16"
-                                   Foreground="#9c9c9c"
-                                   FontWeight="Light"/>
-                    </StackPanel>
-                </Border>
+                      <TextBlock Text="click and browse"
+                                 HorizontalAlignment="Center"
+                                 FontSize="16"
+                                 Foreground="#9c9c9c"
+                                 FontWeight="Light"/>
+                  </StackPanel>
+              </Border>
             </StackPanel>
 
             <StackPanel Grid.Row="2"
                         Orientation="Horizontal"
                         HorizontalAlignment="Center"
-                        VerticalAlignment="Center">
+                        VerticalAlignment="Top">
                 <StackPanel>
                   <i:Interaction.Behaviors>
                     <ia:EventTriggerBehavior EventName="PointerPressed">
@@ -205,12 +209,12 @@
         </Grid>
 
         <ScrollViewer Grid.Column="1"
-                      Margin="10, 40, 10, 0"  
-                      VerticalScrollBarVisibility="Auto"
-                      HorizontalScrollBarVisibility="Disabled"
-                      HorizontalAlignment="Stretch"
+                      Margin="10, 40, 10, 0"
                       VerticalAlignment="Stretch"
-                      HorizontalContentAlignment="Stretch">
+                      HorizontalAlignment="Stretch"
+                      VerticalScrollBarVisibility="Auto"
+                      HorizontalContentAlignment="Stretch"
+                      HorizontalScrollBarVisibility="Disabled">
           <ListBox Name="SourceList"
                    ItemsSource="{Binding Source}"
                    SelectedItems="{Binding Output}"

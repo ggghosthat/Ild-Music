@@ -45,6 +45,7 @@ public class MainWindowViewModel : Base.BaseViewModel
     public CommandDelegator StopCommand { get; private set; }
     public CommandDelegator RepeatCommand { get; private set; }
     public CommandDelegator VolumeSliderShowCommand { get; private set; }
+    public CommandDelegator SearchBarShowCommand { get; private set; }
     public CommandDelegator ExitCommand { get; private set; }
     public CommandDelegator SwitchHomeCommand { get; private set; }
     public CommandDelegator SwitchListCommand { get; private set; }
@@ -52,11 +53,15 @@ public class MainWindowViewModel : Base.BaseViewModel
     
     public BaseViewModel CurrentVM { get; set; }
     public bool VolumeSliderOpen { get; private set; } = false;
+    public bool SearchAreaOpen { get; private set; } = false;
 
     public Stack<Guid> WindowStack { get; private set; } = new();
     public ObservableCollection<string> NavItems => new() {"Home","Collections", "Browse"};
     public string? NavItem { get; set; }
 
+    public ObservableCollection<CommonInstanceDTO> SearchItems { get; set; }= new();
+    public CommonInstanceDTO SearchItem { get; set; }
+    
     public static IPlayer? _player = null;
     public bool PlayerState => _player?.ToggleState ?? false;
     public bool PlayerEmpty => _player?.IsEmpty ?? true;
@@ -120,6 +125,7 @@ public class MainWindowViewModel : Base.BaseViewModel
         NextCommand = new(NextSwipePlayer, OnCanSwipePlayer);
         RepeatCommand = new(RepeatPlayer, OnCanTogglePlayer);
         VolumeSliderShowCommand = new(VolumeSliderShow,null);
+        SearchBarShowCommand = new(SearchBarShow, null);
         ExitCommand = new(Exit, null);
 
         SwitchHomeCommand = new(SwitchHome, null);
@@ -345,6 +351,11 @@ public class MainWindowViewModel : Base.BaseViewModel
         VolumeSliderOpen ^= true;
     }
     
+    private void SearchBarShow(object obj)
+    {
+        SearchAreaOpen ^= true;
+    }
+
     public void SwitchHome(object obj)
     {
         DefineNewPresentItem(StartViewModel.viewModelId);

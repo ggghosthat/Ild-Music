@@ -288,12 +288,12 @@
         </Grid>
 
         <Grid Grid.Column="1" >
-              <Grid.RowDefinitions>
+            <Grid.RowDefinitions>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="*"/>
-              </Grid.RowDefinitions>
+            </Grid.RowDefinitions>
 
-              <TextBlock Grid.Row="0"
+            <TextBlock Grid.Row="0"
                          HorizontalAlignment="Stretch"
                          Text="Artists"
                          Margin="10,0"
@@ -301,12 +301,12 @@
                          FontSize="16"
                          FontWeight="Bold"/>
             
-             <ScrollViewer Grid.Row="1"
+            <ScrollViewer Grid.Row="1"
                            Margin="0, 5" 
                            HorizontalAlignment="Stretch"
                            HorizontalScrollBarVisibility="Disabled"
                            VerticalScrollBarVisibility="Auto">
-                     <ListBox ItemsSource="{Binding Artists}"
+                    <ListBox ItemsSource="{Binding Artists}"
                               SelectedItem="{Binding CurrentArtist}"
                               HorizontalAlignment="Stretch"
                               ScrollViewer.HorizontalScrollBarVisibility="Disabled"
@@ -391,7 +391,7 @@
                                     <Setter Property="Background" Value="Transparent"/>
                                 </Style>
                          </ListBox.Styles>
-      
+
                          <i:Interaction.Behaviors>
                                 <ia:EventTriggerBehavior EventName="DoubleTapped">
                                     <ia:InvokeCommandAction Command="{Binding DropArtistCommand}"
@@ -422,8 +422,8 @@
                             </Grid>
                             </DataTemplate>
                          </ListBox.ItemTemplate>
-                     </ListBox>
-             </ScrollViewer>
+                    </ListBox>
+            </ScrollViewer>
         </Grid>
     </Grid>
 </UserControl>

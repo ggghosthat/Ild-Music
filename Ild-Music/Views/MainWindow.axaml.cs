@@ -24,6 +24,8 @@ public partial class MainWindow : Window
     private const string PART_NAVBAR = "NavBar";
     private const string PART_VOLUME_AREA = "VolumeArea";
     private const string PART_VOLUME_BUTTON = "VolumeButton";
+    private const string PART_SEARCH_AREA = "SearchArea";
+    private const string PART_SEARCH_BAR = "SearchBar";
     private const string PART_MAIN_GRID = "MainGrid";
     private const string PART_VOLUME_SLIDER = "VolumeSlider";
     private const string PART_TIME_SLIDER = "sldThumby";
@@ -34,6 +36,8 @@ public partial class MainWindow : Window
 
     private Control volumePopup;
     private Control volumeButton;
+    private Control searchPopup;
+    private Control searchBar;
     private Control mainGrid;
     private Slider volumeSlider;
 
@@ -58,6 +62,8 @@ public partial class MainWindow : Window
 
         volumePopup = (Control)e.NameScope.Get<Border>(PART_VOLUME_AREA);
         volumeButton = (Control)e.NameScope.Get<Border>(PART_VOLUME_BUTTON);
+        searchPopup = (Control)e.NameScope.Get<Border>(PART_SEARCH_AREA);
+        searchBar = (Control)e.NameScope.Get<Border>(PART_SEARCH_BAR);
         mainGrid = (Control)e.NameScope.Get<Grid>(PART_MAIN_GRID);
         volumeSlider = e.NameScope.Get<Slider>(PART_VOLUME_SLIDER);
     }
@@ -74,11 +80,19 @@ public partial class MainWindow : Window
     {
         base.Render(context);
 
-        var position = volumeButton.TranslatePoint(new Point(), mainGrid) ??
+        var voulumeButtonPosition = volumeButton.TranslatePoint(new Point(), mainGrid) ??
             throw new Exception("Cannot get TranslatePoint from Configuration Button");
 
+        var searchBarPosition = searchBar.TranslatePoint(new Point(), mainGrid) ??
+            throw new Exception("Cannot get TranslatePoint from Configuration Button");
+
+        var volumePopupGap = (mainGrid.Bounds.Height - voulumeButtonPosition.Y);
+        var searchPopupGap = (mainGrid.Bounds.Height - (searchBarPosition.Y + searchBar.Bounds.Height + searchPopup.Bounds.Height));
         Dispatcher.UIThread.Post( () => 
-            { volumePopup.Margin = new Thickness(position.X, 0, 0, (mainGrid.Bounds.Height - position.Y) ); } );
+        {
+            volumePopup.Margin = new Thickness(voulumeButtonPosition.X, 0, 0, volumePopupGap);
+            searchPopup.Margin = new Thickness(searchBarPosition.X, 0, 0, searchPopupGap);
+        });
     }
 
     private void OnHideClick(object sender, PointerPressedEventArgs e)
@@ -100,6 +114,13 @@ public partial class MainWindow : Window
             desktopLifetime.Shutdown();
     }
 
-    private void VolumePopupDown(object? sender, PointerPressedEventArgs e) => 
+    private void VolumePopupDown(object? sender, PointerPressedEventArgs e)
+    {
         ((MainWindowViewModel)DataContext).VolumeSliderShowCommand.Execute(null);
+    }
+
+    private void SearchBarTyped(object? sender, KeyEventArgs e)
+    {
+        ((MainWindowViewModel)DataContext).SearchBarShowCommand.Execute(null);    
+    }
 }
