@@ -218,7 +218,7 @@
           <ListBox Name="SourceList"
                    ItemsSource="{Binding Source}"
                    SelectedItems="{Binding Output}"
-                   SelectionMode="Multiple"
+                   SelectionMode="Toggle, Multiple"
                    HorizontalAlignment="Stretch"
                    ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                    ScrollViewer.VerticalScrollBarVisibility="Auto"
@@ -327,8 +327,7 @@
 
               <i:Interaction.Behaviors>
                   <ia:EventTriggerBehavior EventName="DoubleTapped">
-                      <!--<ia:InvokeCommandAction Command="{Binding PlaybackSingleCommand}"
-                                              CommandParameter="{Binding .}"/>-->
+                      <ia:InvokeCommandAction Command="{Binding PlayTrackCommand}"/>
                   </ia:EventTriggerBehavior> 
               </i:Interaction.Behaviors> 
               <ListBox.ItemTemplate>

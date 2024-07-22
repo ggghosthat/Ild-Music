@@ -29,6 +29,7 @@ public class BrowserViewModel : BaseViewModel
     {
         _filer = (Filer)App.Stage.GetWaiter(FILER_TAG);
 
+        PlayTrackCommand = new(PlaySelectedTrack, null);
         SaveTracksCommand = new(SaveTracks, null);
         CreatePlaylistCommand = new(CreatePlaylist, null);
         BackCommand = new(Back, null);
@@ -36,7 +37,9 @@ public class BrowserViewModel : BaseViewModel
 
     public ObservableCollection<Track> Source { get; private set; } = new();
     public ObservableCollection<Track> Output { get; set; } = new();
-
+    
+    public CommandDelegator PlayTrackCommand { get; }
+    public CommandDelegator PlaySourceCommand { get; }
     public CommandDelegator SaveTracksCommand { get; }
     public CommandDelegator CreatePlaylistCommand { get; }
     public CommandDelegator BackCommand { get; }
@@ -49,6 +52,15 @@ public class BrowserViewModel : BaseViewModel
              .ToList()
              .ForEach(mf => Source.Add(mf));
         _filer.CleanFiler();
+    }
+    
+    public void PlaySelectedTrack(object obj)
+    {
+        if(Output.Count == 1)
+        {
+            var selectedTrack = Output[0];
+            Task.Run(() => MainVM.DropTrackInstance(this, selectedTrack));
+        }
     }
 
     private void SaveTracks(object obj)
