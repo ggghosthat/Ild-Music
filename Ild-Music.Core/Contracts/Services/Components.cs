@@ -25,6 +25,8 @@ public interface ICube : IShare
     public IEnumerable<CommonInstanceDTO>? Playlists { get; }
     public IEnumerable<CommonInstanceDTO>? Tracks { get; }        
     public IEnumerable<CommonInstanceDTO>? Tags { get; }
+
+    public IEnumerable<Track> BrowsedTracks { get; }
     
     //intialize method
     public void Init(string alloationPlace, bool isMoveTrackFiles);
@@ -74,6 +76,10 @@ public interface ICube : IShare
     public IDictionary<Guid, string> GetAvatarsFromIds(IEnumerable<Guid> instanceIds);
     public void PlaceAvatar(Guid instanceId, string path);
     public string PlaceAvatar(Guid instanceId, byte[] avatarSource);
+
+    //browsed tracks
+    public Task RegisterBrowsedTracks(IEnumerable<Track> tracks);
+    public Task EraseBrowsedTracks();
 }
 
 //Represent Player instance

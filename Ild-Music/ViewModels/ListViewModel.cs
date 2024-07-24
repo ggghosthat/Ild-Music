@@ -52,7 +52,7 @@ public class ListViewModel : BaseViewModel
         DisplayProvidersAsync().Wait();
     }
 
-    public void Back(object obj)
+    private void Back(object obj)
     {        
         MainVM.ResolveWindowStack();
     }

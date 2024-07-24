@@ -29,19 +29,22 @@ public class BrowserViewModel : BaseViewModel
     {
         _filer = (Filer)App.Stage.GetWaiter(FILER_TAG);
 
-        PlayTrackCommand = new(PlaySelectedTrack, null);
+        PlayTrackCommand = new(PlaySingleTrack, null);
+        PlaySourceCommand = new(PlaySelectedSource, null);
         SaveTracksCommand = new(SaveTracks, null);
         CreatePlaylistCommand = new(CreatePlaylist, null);
+        EraseCommand = new(Erase, null);
         BackCommand = new(Back, null);
     }
 
     public ObservableCollection<Track> Source { get; private set; } = new();
     public ObservableCollection<Track> Output { get; set; } = new();
-    
+   
     public CommandDelegator PlayTrackCommand { get; }
     public CommandDelegator PlaySourceCommand { get; }
     public CommandDelegator SaveTracksCommand { get; }
     public CommandDelegator CreatePlaylistCommand { get; }
+    public CommandDelegator EraseCommand { get; }
     public CommandDelegator BackCommand { get; }
     
     public async Task Browse(IList<string> paths)
@@ -54,13 +57,25 @@ public class BrowserViewModel : BaseViewModel
         _filer.CleanFiler();
     }
     
-    public void PlaySelectedTrack(object obj)
+    private void PlaySingleTrack(object obj)
     {
-        if(Output.Count == 1)
+        if (Output.Count == 1)
         {
             var selectedTrack = Output[0];
             Task.Run(() => MainVM.DropTrackInstance(this, selectedTrack));
         }
+    }
+
+    private void PlaySelectedSource(object obj)
+    {
+        Playlist tempPlaylist;
+
+        if (Output.Count > 0)
+            tempPlaylist = factory.CreateTemporaryPlaylist(Output);
+        else
+            tempPlaylist = factory.CreateTemporaryPlaylist(Source);
+        
+        Task.Run(() => MainVM.DropPlaylistInstance(this, tempPlaylist));
     }
 
     private void SaveTracks(object obj)
@@ -72,7 +87,7 @@ public class BrowserViewModel : BaseViewModel
             supporter.AddTrackInstance(track);
     }
 
-    public void CreatePlaylist(object obj)
+    private void CreatePlaylist(object obj)
     {
         if (Output.Count == 0)
             return;
@@ -87,11 +102,22 @@ public class BrowserViewModel : BaseViewModel
         MainVM.PushVM(this, PlaylistEditor);
         MainVM.ResolveWindowStack();
     }
-  
-    public void Back(object obj)
+ 
+    private void Erase(object obj)
     {
+        if (Output.Count > 0)
+            Output.Clear();
+        if (Source.Count > 0)
+            Source.Clear();
+        
+        factory.ClearBrowsedTracks();
+    }
+
+    private void Back(object obj)
+    { 
        Source.Clear();
-       Output.Clear();
+       Output.Clear(); 
+       factory.ClearBrowsedTracks();
        MainVM.ResolveWindowStack();
     }
 }

@@ -250,6 +250,37 @@ public sealed class FactoryGhost : IGhost
         } 
     } 
 
+    public Playlist CreateTemporaryPlaylist(IList<Track> tracks) 
+    {      
+        try 
+        {  
+            cube.RegisterBrowsedTracks(tracks);
+            Playlist playlist;
+            producer = new InstanceProducer.InstanceProducer(
+                $"Temporary playlist {DateTime.Now}".ToCharArray(), 
+                String.Empty.ToCharArray(),
+                String.Empty.ToCharArray(), 
+                tracks,
+                null,
+                DateTime.Now.Year);
+
+            playlist = producer.PlaylistInstance;
+            producer.Dispose();
+
+            return playlist;
+        } 
+        catch (InvalidTrackException ex)
+        {
+            throw ex; 
+        } 
+    }
+
+    public void ClearBrowsedTracks()
+    {
+        if (cube.BrowsedTracks.Count() > 0)
+            cube.EraseBrowsedTracks();
+    }
+
     private async ValueTask<Memory<byte>> ExtractTrackAvatar(string pathway) 
     { 
         Memory<byte> buffer; 

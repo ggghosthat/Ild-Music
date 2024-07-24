@@ -84,11 +84,11 @@
                         HorizontalAlignment="Center"
                         VerticalAlignment="Top">
                 <StackPanel>
-                  <i:Interaction.Behaviors>
-                    <ia:EventTriggerBehavior EventName="PointerPressed">
-                      <ia:InvokeCommandAction Command="{Binding BackCommand}"/>
-                    </ia:EventTriggerBehavior>  
-                  </i:Interaction.Behaviors>
+                   <i:Interaction.Behaviors>
+                      <ia:EventTriggerBehavior EventName="PointerPressed">
+                        <ia:InvokeCommandAction Command="{Binding PlaySourceCommand}"/>
+                      </ia:EventTriggerBehavior>  
+                   </i:Interaction.Behaviors>
                   <Border Width="30"
                           Height="30"
                           Margin="10, 2, 5, 5"
@@ -105,19 +105,20 @@
                             <Setter Property="Background" Value="#70000000"/>
                         </Style>
                       </Border.Styles>
-                        
+
                       <PathIcon Foreground="{StaticResource color1}"
                                 Background="Transparent"
                                 VerticalAlignment="Stretch"
                                 HorizontalAlignment="Stretch"
-                                Data="M9,3V4H4V6H5V19A2,2 0 0,0 7,21H17A2,2 0 0,0 19,19V6H20V4H15V3H9M7,6H17V19H7V6M9,8V17H11V8H9M13,8V17H15V8H13Z"/>
-                  </Border>
+                                Data="M8,5.14V19.14L19,12.14L8,5.14Z"/>
+                   </Border>
                 </StackPanel>
 
+                
                 <StackPanel>
                   <i:Interaction.Behaviors>
                     <ia:EventTriggerBehavior EventName="PointerPressed">
-                      <!--<ia:InvokeCommandAction Command="{Binding CreateTrackCommand}"/>-->
+                      <ia:InvokeCommandAction Command="{Binding SaveTracksCommand}"/>
                     </ia:EventTriggerBehavior>  
                   </i:Interaction.Behaviors>
                   <Border Width="30"
@@ -140,7 +141,7 @@
                                 Background="Transparent"
                                 VerticalAlignment="Stretch"
                                 HorizontalAlignment="Stretch"
-                                Data="M12 3V13.55C11.41 13.21 10.73 13 10 13C7.79 13 6 14.79 6 17S7.79 21 10 21 14 19.21 14 17V7H18V3H12Z"/>
+                                Data="M17 9V12H14V14H17V17H19V14H22V12H19V9H17M9 3V13.55C8.41 13.21 7.73 13 7 13C4.79 13 3 14.79 3 17S4.79 21 7 21 11 19.21 11 17V7H15V3H9Z"/>
                   </Border>
                 </StackPanel>
 
@@ -171,17 +172,17 @@
                                 Background="Transparent"
                                 VerticalAlignment="Stretch"
                                 HorizontalAlignment="Stretch"
-                                Data="M3,6H21V8H3V6M3,11H21V13H3V11M3,16H21V18H3V16Z"/>
+                                Data="M3 16H10V14H3M18 14V10H16V14H12V16H16V20H18V16H22V14M14 6H3V8H14M14 10H3V12H14V10Z"/>
                   </Border>
                 </StackPanel>
-
+                
                 <StackPanel>
-                    <i:Interaction.Behaviors>
-                        <ia:EventTriggerBehavior EventName="PointerPressed">
-                          <!--<ia:InvokeCommandAction Command="{Binding PlayBrowsedTracksCommand}"/>-->
-                        </ia:EventTriggerBehavior>  
-                    </i:Interaction.Behaviors>
-                    <Border Width="30"
+                  <i:Interaction.Behaviors>
+                    <ia:EventTriggerBehavior EventName="PointerPressed">
+                      <ia:InvokeCommandAction Command="{Binding EraseCommand}"/>
+                    </ia:EventTriggerBehavior>  
+                  </i:Interaction.Behaviors>
+                  <Border Width="30"
                           Height="30"
                           Margin="10, 2, 5, 5"
                           BorderThickness="0"
@@ -197,14 +198,15 @@
                             <Setter Property="Background" Value="#70000000"/>
                         </Style>
                       </Border.Styles>
-
+                        
                       <PathIcon Foreground="{StaticResource color1}"
                                 Background="Transparent"
                                 VerticalAlignment="Stretch"
                                 HorizontalAlignment="Stretch"
-                                Data="M8,5.14V19.14L19,12.14L8,5.14Z"/>
-                    </Border>
+                                Data="M9,3V4H4V6H5V19A2,2 0 0,0 7,21H17A2,2 0 0,0 19,19V6H20V4H15V3H9M7,6H17V19H7V6M9,8V17H11V8H9M13,8V17H15V8H13Z"/>
+                  </Border>
                 </StackPanel>
+
             </StackPanel>
         </Grid>
 

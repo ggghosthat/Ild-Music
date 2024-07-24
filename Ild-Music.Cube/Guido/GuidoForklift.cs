@@ -7,15 +7,17 @@ using Cube.Guido.Agents;
 using Cube.Guido.Handlers;
 
 namespace Cube;
+
 public class GuidoForklift : ICube //Cars from pixar (lol)
 { 
     public string CubeName => "Guido Forklift";
     public Guid CubeId {get; private set;} = Guid.Empty;
 
-    public static List<CommonInstanceDTO> _artists = new ();
-    public static List<CommonInstanceDTO> _playlists = new ();
-    public static List<CommonInstanceDTO> _tracks = new ();
-    public static List<CommonInstanceDTO> _tags = new ();
+    private static List<CommonInstanceDTO> _artists = new ();
+    private static List<CommonInstanceDTO> _playlists = new ();
+    private static List<CommonInstanceDTO> _tracks = new ();
+    private static List<CommonInstanceDTO> _tags = new ();
+    private static List<Track> _browsedTracks = new ();
 
     private IEventBag _eventBag = default;
 
@@ -35,6 +37,8 @@ public class GuidoForklift : ICube //Cars from pixar (lol)
     public IEnumerable<CommonInstanceDTO>? Playlists => _playlists;
     public IEnumerable<CommonInstanceDTO>? Tracks => _tracks;
     public IEnumerable<CommonInstanceDTO>? Tags => _tags;
+    
+    public IEnumerable<Track> BrowsedTracks => _browsedTracks;
 
     public void Init(string allocationPlace, bool isMoveTrackFiles)
     {        
@@ -177,7 +181,6 @@ public class GuidoForklift : ICube //Cars from pixar (lol)
         };
     }
 
-
     public async Task<IEnumerable<CommonInstanceDTO>> LoadFramedEntities(EntityTag entityTag, int offset, int limit)
     {
         return entityTag switch
@@ -187,7 +190,7 @@ public class GuidoForklift : ICube //Cars from pixar (lol)
             EntityTag.TRACK => await _queryHandler.QueryTracks(offset, limit),
             EntityTag.TAG => await _queryHandler.QueryTags(offset, limit)
         };
-    }
+    } 
     
     public async Task<IEnumerable<CommonInstanceDTO>> LoadTags()
     {
@@ -287,5 +290,15 @@ public class GuidoForklift : ICube //Cars from pixar (lol)
     public string PlaceAvatar(Guid instanceId, byte[] avatarSource)
     {
         return WarehouseAgent.PlaceAvatar(instanceId, avatarSource).Result;
+    }
+
+    public async Task RegisterBrowsedTracks(IEnumerable<Track> tracks)
+    {
+       _browsedTracks.AddRange(tracks); 
+    }
+
+    public async Task EraseBrowsedTracks()
+    {
+        _browsedTracks.Clear();
     }
 }
