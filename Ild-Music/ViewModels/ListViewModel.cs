@@ -26,6 +26,7 @@ public class ListViewModel : BaseViewModel
         ItemSelectCommand = new(ItemSelect, null);
         InitCurrentListCommand = new(InitCurrentList, null);
 
+        SubscribeToGhostUpdate(); 
         Task.Run(async () => await DisplayProvidersAsync());
     }
 
@@ -57,35 +58,58 @@ public class ListViewModel : BaseViewModel
         MainVM.ResolveWindowStack();
     }
 
+    private void SubscribeToGhostUpdate()
+    {
+        //supporter.OnArtistsNotifyRefresh += () => UpdateProvider(Core.Instances.EntityTag.ARTIST);
+        //supporter.OnPlaylistsNotifyRefresh += () => UpdateProvider(Core.Instances.EntityTag.PLAYLIST);
+        //supporter.OnTracksNotifyRefresh += () => UpdateProvider(Core.Instances.EntityTag.TRACK);
+        //supporter.OnTagsNotifyRefresh += () => UpdateProvider(Core.Instances.EntityTag.TAG);
+        //factory.OnArtistUpdate += () => UpdateProvider(Core.Instances.EntityTag.ARTIST);
+        //factory.OnPlaylistUpdate += () => UpdateProvider(Core.Instances.EntityTag.PLAYLIST);
+        //factory.OnTrackUpdate += () => UpdateProvider(Core.Instances.EntityTag.TRACK);
+        //factory.OnTagUpdate += () => UpdateProvider(Core.Instances.EntityTag.TAG);
+
+        supporter.OnArtistsNotifyRefresh += () => Task.Run(async () => await DisplayProvidersAsync());
+        supporter.OnPlaylistsNotifyRefresh += () => Task.Run(async () => await DisplayProvidersAsync());
+        factory.OnPlaylistUpdate += () => Task.Run(async () => await DisplayProvidersAsync());
+
+    }
+
     public async Task UpdateProviders()
     {
         await DisplayProvidersAsync();
         IsUpdate = false;
     }
 
-    private void DisplayProviders()
+    private void UpdateProvider(Core.Instances.EntityTag entityTag)
     {
         CurrentList.Clear();
 
-        switch(Header)
+        switch(entityTag)
         {
-            case "Artists":
+            case Core.Instances.EntityTag.ARTIST:
                 supporter.ResolveMetaData(Core.Instances.EntityTag.ARTIST);
-                supporter.ArtistsCollection.ToList().ForEach(i => CurrentList.Add(i));
+                supporter.ArtistsCollection?.ToList().ForEach(i => CurrentList.Add(i));
+                Console.WriteLine($"ARTIST");
                 break;
-            case "Playlists":
+            case Core.Instances.EntityTag.PLAYLIST:
                 supporter.ResolveMetaData(Core.Instances.EntityTag.PLAYLIST);
-                supporter.PlaylistsCollection.ToList().ForEach(i => CurrentList.Add(i));
+                supporter.PlaylistsCollection?.ToList().ForEach(i => CurrentList.Add(i));
+                Console.WriteLine($"PLAYLIST");
                 break;
-            case "Tracks":
+            case Core.Instances.EntityTag.TRACK:
                 supporter.ResolveMetaData(Core.Instances.EntityTag.TRACK);
-                supporter.TracksCollection.ToList().ForEach(i => CurrentList.Add(i));
+                supporter.TracksCollection?.ToList().ForEach(i => CurrentList.Add(i));
+                Console.WriteLine($"TRACK");
                 break;
-            case "Tags":
+            case Core.Instances.EntityTag.TAG:
                 supporter.ResolveMetaData(Core.Instances.EntityTag.TAG);
-                supporter.TagsCollection.ToList().ForEach(i => CurrentList.Add(i));
+                supporter.TagsCollection?.ToList().ForEach(i => CurrentList.Add(i));
+                Console.WriteLine($"TAG");
                 break;
         }
+        
+        OnPropertyChanged("CurrentList");
     }
 
     private async Task DisplayProvidersAsync()
@@ -96,19 +120,19 @@ public class ListViewModel : BaseViewModel
         {
             case "Artists":
                 supporter.ResolveMetaData(Core.Instances.EntityTag.ARTIST);
-                supporter.ArtistsCollection.ToList().ForEach(i => CurrentList.Add(i));
+                supporter.ArtistsCollection?.ToList().ForEach(i => CurrentList.Add(i));
                 break;
             case "Playlists":
                 supporter.ResolveMetaData(Core.Instances.EntityTag.PLAYLIST);
-                supporter.PlaylistsCollection.ToList().ForEach(i => CurrentList.Add(i));
+                supporter.PlaylistsCollection?.ToList().ForEach(i => CurrentList.Add(i));
                 break;
             case "Tracks":
                 supporter.ResolveMetaData(Core.Instances.EntityTag.TRACK);
-                supporter.TracksCollection.ToList().ForEach(i => CurrentList.Add(i));
+                supporter.TracksCollection?.ToList().ForEach(i => CurrentList.Add(i));
                 break;
             case "Tags":
                 supporter.ResolveMetaData(Core.Instances.EntityTag.TAG);
-                supporter.TagsCollection.ToList().ForEach(i => CurrentList.Add(i));
+                supporter.TagsCollection?.ToList().ForEach(i => CurrentList.Add(i));
                 break;
         }
 

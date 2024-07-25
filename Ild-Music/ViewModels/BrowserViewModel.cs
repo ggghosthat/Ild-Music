@@ -50,7 +50,6 @@ public class BrowserViewModel : BaseViewModel
     public async Task Browse(IList<string> paths)
     {
         await _filer.BrowseFiles(paths);        
-        Source.Clear();
         _filer.GetTracks()
              .ToList()
              .ForEach(mf => Source.Add(mf));
@@ -93,8 +92,11 @@ public class BrowserViewModel : BaseViewModel
             return;
 
         foreach (var track in Output)
+        {
+            supporter.AddTrackInstance(track);
             PlaylistEditor.SelectedPlaylistTracks.Add(track.ToCommonDTO());
-        
+        }
+
         PlaylistEditor.Name = $"Playlist {DateTime.Now.ToString("MMMM dddd")}";
         PlaylistEditor.Description = "";
         PlaylistEditor.Year = DateTime.Now.Year;

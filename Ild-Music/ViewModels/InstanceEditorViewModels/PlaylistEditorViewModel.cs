@@ -178,9 +178,9 @@ public class PlaylistEditorViewModel : BaseViewModel
             
             Playlist playlist = default;  
             var artists = SelectedPlaylistArtists.Select(a => supporter.GetArtistAsync(a).Result).ToList();
-            var tracks = SelectedPlaylistTracks.Select(t => supporter.GetTrackAsync(t).Result).ToList();
-            
+            var tracks = SelectedPlaylistTracks.Select(t => supporter.GetTrackAsync(t).Result).ToList();            
             factory?.CreatePlaylist(Name, Description, AvatarPath, Year, tracks, artists, out playlist);
+
             PlaylistInstance = playlist;
             PlaylistLogLine = "Successfully created!";
             ExitFactory(); 

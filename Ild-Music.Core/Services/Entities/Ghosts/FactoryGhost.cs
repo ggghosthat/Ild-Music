@@ -15,6 +15,11 @@ public sealed class FactoryGhost : IGhost
     public FactoryGhost()
     {}
 
+    public event Action OnArtistUpdate;
+    public event Action OnPlaylistUpdate;
+    public event Action OnTrackUpdate;
+    public event Action OnTagUpdate;
+
     public void Init(ICube inputCube)
     {
        cube = inputCube;
@@ -34,8 +39,9 @@ public sealed class FactoryGhost : IGhost
                 avatarPath?.ToCharArray(), 
                 year);
             
-            cube.AddArtistObj(producer.ArtistInstance); 
+            cube.AddArtistObj(producer.ArtistInstance);
             producer.Dispose();
+            OnArtistUpdate?.Invoke();
         }
         catch (InvalidArtistException ex)
         {
@@ -59,8 +65,9 @@ public sealed class FactoryGhost : IGhost
                 year);
 
             artist = producer.ArtistInstance; 
-            cube.AddArtistObj(producer.ArtistInstance); 
+            cube.AddArtistObj(producer.ArtistInstance);
             producer.Dispose();
+            OnArtistUpdate?.Invoke();
         }
         catch (InvalidArtistException ex)
         {
@@ -87,7 +94,8 @@ public sealed class FactoryGhost : IGhost
                 year);
 
             cube.AddPlaylistObj(producer.PlaylistInstance);
-            producer.Dispose(); 
+            producer.Dispose();
+            OnPlaylistUpdate?.Invoke();
         } 
         catch (InvalidPlaylistException ex) 
         { 
@@ -115,8 +123,9 @@ public sealed class FactoryGhost : IGhost
                 year);
 
             playlist = producer.PlaylistInstance;
-            cube.AddPlaylistObj(producer.PlaylistInstance);
-            producer.Dispose(); 
+            cube.AddPlaylistObj(playlist);
+            producer.Dispose();
+            OnPlaylistUpdate?.Invoke();
         } 
         catch (InvalidPlaylistException ex) 
         { 
@@ -146,7 +155,8 @@ public sealed class FactoryGhost : IGhost
                     year);
 
                 cube.AddTrackObj(producer.TrackInstance);
-                producer.Dispose(); 
+                producer.Dispose();
+                OnTrackUpdate?.Invoke();
             } 
         } 
         catch (InvalidTrackException ex) 
@@ -179,7 +189,8 @@ public sealed class FactoryGhost : IGhost
 
                 track = producer.TrackInstance;
                 cube.AddTrackObj(producer.TrackInstance);
-                producer.Dispose(); 
+                producer.Dispose();
+                OnTrackUpdate?.Invoke();
             } 
         } 
         catch (InvalidTrackException ex) 
@@ -212,6 +223,7 @@ public sealed class FactoryGhost : IGhost
         tag = producer.TagInstance;
         cube.AddTagObj(producer.TagInstance);
         producer.Dispose();
+        OnTagUpdate?.Invoke();
     }
     
     public Track CreateTrackBrowsed(string pathway) 
