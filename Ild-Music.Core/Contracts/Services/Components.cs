@@ -1,6 +1,7 @@
 ﻿using Ild_Music.Core.Events;
 using Ild_Music.Core.Instances;
 using Ild_Music.Core.Instances.DTO;
+using Ild_Music.Core.Instances.Querying;
 
 namespace Ild_Music.Core.Contracts;
 
@@ -21,11 +22,7 @@ public interface ICube : IShare
     public int PageSize { get; }
         
     //main attributes
-    public IEnumerable<CommonInstanceDTO>? Artists {get;}
-    public IEnumerable<CommonInstanceDTO>? Playlists { get; }
-    public IEnumerable<CommonInstanceDTO>? Tracks { get; }        
-    public IEnumerable<CommonInstanceDTO>? Tags { get; }
-
+    public InstancePool InstancePool { get; }
     public IEnumerable<Track> BrowsedTracks { get; }
     
     //intialize method
@@ -59,6 +56,7 @@ public interface ICube : IShare
     public Task<IEnumerable<CommonInstanceDTO>> QueryInstanceDtosFromIds(IEnumerable<Guid> ids, EntityTag entityTag);
     public Task<IEnumerable<CommonInstanceDTO>> LoadTags();
     public Task<IEnumerable<CommonInstanceDTO>> LoadFramedTags(int offset, int limit);
+    public Task<MetricSheet> QueryCapacityMetrics();
 
     //searching methods
     public Task<IEnumerable<CommonInstanceDTO>> Search(string searchTerm);

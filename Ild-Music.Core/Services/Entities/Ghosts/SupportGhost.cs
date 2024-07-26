@@ -1,6 +1,7 @@
 using Ild_Music.Core.Instances;
 using Ild_Music.Core.Instances.DTO;
 using Ild_Music.Core.Instances.Pagging;
+using Ild_Music.Core.Instances.Querying;
 using Ild_Music.Core.Contracts;
 using Ild_Music.Core.Contracts.Services.Interfaces;
 
@@ -15,11 +16,6 @@ public sealed class SupportGhost : IGhost
 
     public SupportGhost()
     {}
-
-    public IEnumerable<CommonInstanceDTO>? ArtistsCollection => _cube.Artists;
-    public IEnumerable<CommonInstanceDTO>? PlaylistsCollection => _cube.Playlists;
-    public IEnumerable<CommonInstanceDTO>? TracksCollection => _cube.Tracks;
-    public IEnumerable<CommonInstanceDTO>? TagsCollection => _cube.Tags;
 
     public event Action OnArtistsNotifyRefresh;
     public event Action OnPlaylistsNotifyRefresh;
@@ -104,6 +100,19 @@ public sealed class SupportGhost : IGhost
         OnTagsNotifyRefresh?.Invoke();
     }
 
+    public async Task<IEnumerable<CommonInstanceDTO>> GetInstances(EntityTag entityTag)
+    {
+        await _cube.LoadStartEntities();
+
+        return entityTag switch 
+        {
+            EntityTag.ARTIST => _cube?.InstancePool.ArtistsDTOs,
+            EntityTag.PLAYLIST => _cube?.InstancePool.PlaylistsDTOs,
+            EntityTag.TRACK => _cube?.InstancePool.TracksDTOs,
+            EntityTag.TAG => _cube?.InstancePool.TagsDTOs,
+        };
+    }
+
     public async Task<Artist> GetArtistAsync(CommonInstanceDTO instanceDTO)
     {
         return await _cube.QueryArtist(instanceDTO);
@@ -136,7 +145,7 @@ public sealed class SupportGhost : IGhost
 
     public void ResolveMetaData(EntityTag entityTag, bool skip=true)
     {
-        const int emptyCollection = 0;
+        var capacitySheet = _cube.QueryCapacityMetrics().Result;
 
         _metaData.CurrentPage = 2;
         _metaData.PageSize = 10;
@@ -144,28 +153,32 @@ public sealed class SupportGhost : IGhost
         _metaData.Skip = skip;
         _metaData.TotalCount = entityTag switch
         {
-            EntityTag.ARTIST => ArtistsCollection?.Count() ?? emptyCollection,
-            EntityTag.PLAYLIST => PlaylistsCollection?.Count() ?? emptyCollection,
-            EntityTag.TRACK => TracksCollection?.Count() ?? emptyCollection,
-            EntityTag.TAG => TagsCollection?.Count() ?? emptyCollection
+            EntityTag.ARTIST => capacitySheet.ArtistsCount,
+            EntityTag.PLAYLIST => capacitySheet.PlaylistsCount,
+            EntityTag.TRACK => capacitySheet.TracksCount,
+            EntityTag.TAG => capacitySheet.TagsCount
         };
     }
     
-    public void ResolveMetaData(int startPage, int pageSize, EntityTag entityTag, bool skip=false)
+    public void ResolveMetaData(
+        int startPage,
+        int pageSize,
+        EntityTag entityTag,
+        bool skip=false)
     {
-        const int emptyCollection = 0;
 
+        var capacitySheet = _cube.QueryCapacityMetrics().Result;
+        
         _metaData.CurrentPage = startPage;
         _metaData.PageSize = pageSize;
         _metaData.EntityTag = entityTag;
         _metaData.Skip = skip;
         _metaData.TotalCount = entityTag switch
         {
-            EntityTag.ARTIST => ArtistsCollection?.Count() ?? emptyCollection,
-            EntityTag.PLAYLIST => PlaylistsCollection?.Count() ?? emptyCollection,
-            EntityTag.TRACK => TracksCollection?.Count() ?? emptyCollection,
-            EntityTag.TAG => TagsCollection?.Count() ?? emptyCollection,
-            _ => 0
+            EntityTag.ARTIST => capacitySheet.ArtistsCount,
+            EntityTag.PLAYLIST => capacitySheet.PlaylistsCount,
+            EntityTag.TRACK => capacitySheet.TracksCount,
+            EntityTag.TAG => capacitySheet.TagsCount
         };
     }
 
@@ -185,7 +198,7 @@ public sealed class SupportGhost : IGhost
 
         int offset = (_metaData.CurrentPage * _metaData.PageSize);
         
-        if (_metaData.Skip) //if we need load itens according boot loading, we should use the gap
+        if (_metaData.Skip) //if we need load items according boot loading, we should use the gap
             offset += _cube.StartGap;
 
         _metaData.CurrentPage++;

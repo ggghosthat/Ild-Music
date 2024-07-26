@@ -3,8 +3,6 @@ using Ild_Music.Core.Instances.DTO;
 using Ild_Music.Core.Instances.Querying;
 using Cube.Guido.Agents;
 
-using System;
-using System.Linq;
 using System.Data;
 using Dapper;
 
@@ -18,9 +16,9 @@ internal sealed class QueryHandler
     //This method require top items for each type with a predefined count.
     //Please, use this method just for initialization puprose.
     //In other way will increase memory leak.
-    public Task<QueryPool> QueryTopPool()
+    public Task<InstancePool> QueryPool()
     {
-        var resultPool = new QueryPool();
+        var resultPool = new InstancePool();
         int startPageLimit = 300;
         using (IDbConnection connection = ConnectionAgent.GetDbConnection())
         {
@@ -86,7 +84,7 @@ internal sealed class QueryHandler
             }
         }
 
-        return Task.FromResult<QueryPool>(resultPool);
+        return Task.FromResult<InstancePool>(resultPool);
     }
 
     public Task<IEnumerable<CommonInstanceDTO>> QueryAllArtists()
@@ -600,10 +598,35 @@ internal sealed class QueryHandler
                         name: ((string)i.Name).AsMemory(),
                         avatarPath: WarehouseAgent.GetAvatarFromId(Guid.Parse(i.Id)).AsMemory(),
                         tag: entityTag));
-
            } 
 
            return Task.FromResult<IEnumerable<CommonInstanceDTO>>(resultDtos);
        }
+    }
+
+    public Task<MetricSheet> QueryCapacityMetrics()
+    {
+        MetricSheet metricSheet;
+
+        using (IDbConnection connection = ConnectionAgent.GetDbConnection())
+        {
+           connection.Open();
+
+           using (var transaction = connection.BeginTransaction())
+           {
+               string scalarArtistsCount = "SELECT count(1) from artists;";
+               string scalarPlaylistsCount = "SELECT count(1) from playlists;";
+               string scalarTracksCount = "SELECT count(1) from tracks;";
+               string scalarTagsCount = "SELECT count(1) from tags;";
+                
+               int artistsCount = connection.ExecuteScalar<int>(scalarArtistsCount, transaction);
+               int playlistsCount = connection.ExecuteScalar<int>(scalarPlaylistsCount, transaction);
+               int tracksCount = connection.ExecuteScalar<int>(scalarTracksCount, transaction);
+               int tagsCount = connection.ExecuteScalar<int>(scalarTagsCount, transaction);
+
+               metricSheet = new MetricSheet(artistsCount, playlistsCount, tracksCount, tagsCount);
+          } 
+        }
+        return Task.FromResult<MetricSheet>(metricSheet);
     }
 }

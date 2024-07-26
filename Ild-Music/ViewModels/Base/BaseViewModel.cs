@@ -21,4 +21,9 @@ public class BaseViewModel : INotifyPropertyChanged
 
     protected IWaiter GetWaiter(string waiterName) =>
         App.Stage.GetWaiter(waiterName);
+
+    public virtual void Load()
+    {
+
+    }
 }

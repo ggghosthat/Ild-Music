@@ -154,29 +154,26 @@ public class MainWindowViewModel : Base.BaseViewModel
         }
     }
 
-    public void DefineNewPresentItem(Guid viewModelId)
-    {
-        CurrentVM = (BaseViewModel)App.ViewModelTable[viewModelId];
-    }
-
     public void PushVM(BaseViewModel prev, BaseViewModel next)
     {
         WindowStack.Push(prev.ViewModelId);
         WindowStack.Push(next.ViewModelId);
     }
-
-    public BaseViewModel PopVM()
+     
+    public void DefineNewPresentItem(Guid viewModelId)
     {
-        return (BaseViewModel)App.ViewModelTable[WindowStack.Pop()];
+        var viewModel = (BaseViewModel)App.ViewModelTable[viewModelId];
+        viewModel.Load();
+        CurrentVM = viewModel;
     }
 
     public void ResolveWindowStack()
     {
-        if (WindowStack.Count > 0)
-            CurrentVM = PopVM();
+        if (WindowStack.Count == 0)
+            return;
 
-        if (CurrentVM is ListViewModel listVm && listVm.IsUpdate)
-            Task.Run( async () => await listVm.UpdateProviders());
+        var viewModelId = WindowStack.Pop();
+        DefineNewPresentItem(viewModelId); 
     }
 
     public void ResolveInstance(
@@ -288,12 +285,12 @@ public class MainWindowViewModel : Base.BaseViewModel
 
     private bool OnCanTogglePlayer(object obj) 
     {
-        return _player.IsEmpty == false;
+        return _player?.IsEmpty == false;
     }
 
     private bool OnCanSwipePlayer(object obj)
     {
-        return (_player.IsEmpty == false) && (_player.IsSwipe == true);
+        return (_player?.IsEmpty == false) && (_player.IsSwipe == true);
     }
 
     private void NavResolve(object obj)
@@ -308,6 +305,7 @@ public class MainWindowViewModel : Base.BaseViewModel
 
         if (navItemName == Guid.Empty)
             return;
+
 
         DefineNewPresentItem(navItemName);
     }
