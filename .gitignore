@@ -6,8 +6,7 @@
 
 
 ./dependencies
-./Ild-Music/.warehouse
-./Ild-Music/storage.db
+./Ild-Music/.warehouse/
 ./PKGBUILD
 ./*.pkg.tar.zst
 Ild-Music/bin
@@ -26,6 +25,7 @@ Ild-Music.VLCSharpPlayer/obj
 *.user
 *.userosscache
 *.sln.docstates
+*.db
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
