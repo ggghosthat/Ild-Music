@@ -28,7 +28,7 @@ public class GuidoForklift : ICube //Cars from pixar (lol)
             CubeId = Guid.NewGuid();
     }
    
-    public InstancePool InstancePool {get; private set;}
+    public InstancePool InstancePool => _instancePool;
     
     public IEnumerable<Track> BrowsedTracks => _browsedTracks;
     

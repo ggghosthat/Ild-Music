@@ -27,44 +27,29 @@ public class TrackEditorViewModel : BaseViewModel
         TrackArtistExplorerCommand = new(OpenTrackArtistExplorer, null);
     }
     
-    private static SupportGhost supporter => (SupportGhost)App.Stage.GetGhost(Ghosts.SUPPORT);
-    
+    private static SupportGhost supporter => (SupportGhost)App.Stage.GetGhost(Ghosts.SUPPORT);    
     private static FactoryGhost factory => (FactoryGhost)App.Stage.GetGhost(Ghosts.FACTORY);
-    
     private static MainWindowViewModel MainVM => (MainWindowViewModel)App.ViewModelTable[MainWindowViewModel.viewModelId];    
-    
     private static InstanceExplorerViewModel Explorer => (InstanceExplorerViewModel)App.ViewModelTable[InstanceExplorerViewModel.viewModelId];
    
     public Track TrackInstance { get; private set; }
-
     public string Path { get; set; }
-    
     public string Name { get; set; }
-    
     public string Description { get; set; }
-    
     public int Year {get; set;}
-    
     public byte[] Avatar {get; private set;}
-
     public string AvatarPath {get; private set;}
-    
-    public CommandDelegator CreateTrackCommand { get; }
-    
+
+    public CommandDelegator CreateTrackCommand { get; }    
     public CommandDelegator CancelCommand { get; }
-    
     public CommandDelegator TrackArtistExplorerCommand {get;}
 
     public ObservableCollection<CommonInstanceDTO> ArtistsProvider { get; set; } = new ();
-    
     public ObservableCollection<CommonInstanceDTO> SelectedTrackArtists { get; set; } = new (); 
     
     public string TrackLogLine { get; set; }
-    
     public bool TrackLogError { get; set; }
-    
     public bool IsEditMode {get; private set;} = false;
-    
     public string ViewHeader {get; private set;} = "Track";
   
     private void ExitFactory()
@@ -76,15 +61,23 @@ public class TrackEditorViewModel : BaseViewModel
     private async Task InitProviders()
     {
         ArtistsProvider.ToList().Clear();
-        supporter?.ArtistsCollection?.ToList()
-            .ForEach(artist => ArtistsProvider.Add(artist));
+
+        using (var instancePool = await supporter.GetInstancePool())
+        {
+            instancePool.ArtistsDTOs.ToList()
+                .ForEach(artist => ArtistsProvider.Add(artist));
+        }
     }
 
     private void ArtistProviderUpdate()
     {
         ArtistsProvider.Clear();
-        supporter?.ArtistsCollection?.ToList()
-            .ForEach(artist => ArtistsProvider.Add(artist));        
+        
+        using (var instancePool = supporter.GetInstancePool().Result)
+        {
+            instancePool.ArtistsDTOs.ToList()
+                .ForEach(artist => ArtistsProvider.Add(artist));        
+        }
     }
 
     private void FieldsClear()
@@ -170,11 +163,14 @@ public class TrackEditorViewModel : BaseViewModel
             using var fs= new FileStream(AvatarPath, FileMode.Open);
             await fs.ReadAsync(Avatar, 0, (int)fs.Length);
         }
-
-        supporter?.ArtistsCollection?
-            .Where(a => TrackInstance.Artists.Contains(a.Id))
-            .ToList()
-            .ForEach(a => SelectedTrackArtists.Add(a));
+        
+        using (var instancePool = await supporter.GetInstancePool())
+        {
+            instancePool.ArtistsDTOs
+                .Where(a => TrackInstance.Artists.Contains(a.Id))
+                .ToList()
+                .ForEach(a => SelectedTrackArtists.Add(a));
+        }
     }
 
     private void OnArtistItemsSelected()
@@ -185,11 +181,14 @@ public class TrackEditorViewModel : BaseViewModel
             {
                 SelectedTrackArtists.Clear();
                 var outIds = Explorer.Output.Select(o => o.Id);
-                                 
-                supporter?.ArtistsCollection?
-                    .Where(a => outIds.Contains(a.Id))
-                    .ToList()
-                    .ForEach(i => SelectedTrackArtists.Add(i));
+                                
+                using (var instancePool = supporter.GetInstancePool().Result)
+                {
+                    instancePool.ArtistsDTOs
+                        .Where(a => outIds.Contains(a.Id))
+                        .ToList()
+                        .ForEach(i => SelectedTrackArtists.Add(i));
+                }
             }
         }
     }
@@ -227,7 +226,11 @@ public class TrackEditorViewModel : BaseViewModel
         {
             Path = path;
             using( var taglib = TagLib.File.Create(Path))
-            Name = (!string.IsNullOrEmpty(taglib.Tag.Title))?taglib.Tag.Title:"Unknown";
+            {
+                Name = (!string.IsNullOrEmpty(taglib.Tag.Title))
+                    ? taglib.Tag.Title
+                    : "Unknown"; 
+            }
         }
     }
 

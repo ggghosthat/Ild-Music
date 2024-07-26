@@ -205,25 +205,28 @@ public class ListViewModel : BaseViewModel
     private Task DisplayProvidersAsync()
     {
         CurrentList.Clear();
-
-        switch(Header)
+        
+        using (var instancePool = supporter.GetInstancePool().Result)
         {
-            case "Artists":
-                supporter.ResolveMetaData(Core.Instances.EntityTag.ARTIST);
-                supporter.ArtistsCollection?.ToList().ForEach(i => CurrentList.Add(i));
-                break;
-            case "Playlists":
-                supporter.ResolveMetaData(Core.Instances.EntityTag.PLAYLIST);
-                supporter.PlaylistsCollection?.ToList().ForEach(i => CurrentList.Add(i));
-                break;
-            case "Tracks":
-                supporter.ResolveMetaData(Core.Instances.EntityTag.TRACK);
-                supporter.TracksCollection?.ToList().ForEach(i => CurrentList.Add(i));
-                break;
-            case "Tags":
-                supporter.ResolveMetaData(Core.Instances.EntityTag.TAG);
-                supporter.TagsCollection?.ToList().ForEach(i => CurrentList.Add(i));
-                break;
+            switch(Header)
+            {
+                case "Artists":
+                    supporter.ResolveMetaData(Core.Instances.EntityTag.ARTIST);
+                    instancePool.ArtistsDTOs.ToList().ForEach(a => CurrentList.Add(a));
+                    break;
+                case "Playlists":
+                    supporter.ResolveMetaData(Core.Instances.EntityTag.PLAYLIST);
+                    instancePool.PlaylistsDTOs.ToList().ForEach(p => CurrentList.Add(p));
+                    break;
+                case "Tracks":
+                    supporter.ResolveMetaData(Core.Instances.EntityTag.TRACK);
+                    instancePool.TracksDTOs.ToList().ForEach(t => CurrentList.Add(t));
+                    break;
+                case "Tags":
+                    supporter.ResolveMetaData(Core.Instances.EntityTag.TAG);
+                    instancePool.TagsDTOs.ToList().ForEach(tag => CurrentList.Add(tag));
+                    break;
+            }
         }
 
         OnPropertyChanged("CurrentList");

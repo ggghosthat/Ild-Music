@@ -23,34 +23,22 @@ public class ArtistEditorViewModel : BaseViewModel
         CancelCommand = new(Cancel, null);
     }
     
-    private static SupportGhost supporter => (SupportGhost)App.Stage.GetGhost(Ghosts.SUPPORT);
-    
+    private static SupportGhost supporter => (SupportGhost)App.Stage.GetGhost(Ghosts.SUPPORT); 
     private static FactoryGhost factory => (FactoryGhost)App.Stage.GetGhost(Ghosts.FACTORY);
-    
     private MainWindowViewModel MainVM => (MainWindowViewModel)App.ViewModelTable[MainWindowViewModel.viewModelId];
     
     public CommandDelegator CreateArtistCommand { get; }
-
     public CommandDelegator CancelCommand { get; }
 
     public static Artist ArtistInstance { get; private set; } = default!;
-
     public string Name {get; set; } = default!;
-    
     public string Description { get; set; } = default!;
-    
     public int Year { get; set; } = default!;
-    
     public byte[] Avatar { get; private set; } = default!;
-    
     public string AvatarPath { get; private set; } = default!;
-    
     public string ArtistLogLine { get; set; } = default!;
-    
     public bool ArtistLogError { get; set; } = default!;
-    
     public bool IsEditMode {get; private set;} = false;
-    
     public string ViewHeader {get; private set;} = "Artist";
 
     private async void ExitFactory()

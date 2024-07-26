@@ -32,48 +32,31 @@ public class TagEditorViewModel : BaseViewModel
         TagTrackExplorerCommand = new(OpenTagTrackExplorer, null);
     }
     
-    private static SupportGhost supporter => (SupportGhost)App.Stage.GetGhost(Ghosts.SUPPORT);
-    
+    private static SupportGhost supporter => (SupportGhost)App.Stage.GetGhost(Ghosts.SUPPORT); 
     private static FactoryGhost factory => (FactoryGhost)App.Stage.GetGhost(Ghosts.FACTORY);
-    
     private static MainWindowViewModel MainVM => (MainWindowViewModel)App.ViewModelTable[MainWindowViewModel.viewModelId];
-    
     private static InstanceExplorerViewModel Explorer => (InstanceExplorerViewModel)App.ViewModelTable[InstanceExplorerViewModel.viewModelId];
     
     public CommandDelegator CreateTagCommand { get; }
-    
     public CommandDelegator CancelCommand { get; }
-    
     public CommandDelegator TagArtistExplorerCommand { get; }
-    
     public CommandDelegator TagPlaylistExplorerCommand { get; }
-    
     public CommandDelegator TagTrackExplorerCommand { get; }
 
     public ObservableCollection<CommonInstanceDTO> ArtistProvider { get; set; } = new();
-    
     public ObservableCollection<CommonInstanceDTO> PlaylistProvider { get; set; } = new();
-    
     public ObservableCollection<CommonInstanceDTO> TrackProvider { get; set; } = new();
 
     public ObservableCollection<CommonInstanceDTO> SelectedTagArtists { get; set; } = new();
-    
     public ObservableCollection<CommonInstanceDTO> SelectedTagPlaylists { get; set; } = new();
-    
     public ObservableCollection<CommonInstanceDTO> SelectedTagTracks { get; set; } = new();
 
     public static Tag TagInstance { get; private set; } = default!;
-    
-    public string Name {get; set; } = default!;
-    
+    public string Name {get; set; } = default!;    
     public string Color { get; set; } = default!;
-
     public string TagLogLine { get; set; } = default!;
-    
     public bool TagLogError { get; set; } = default!;
-
     public bool IsEditMode {get; private set;} = false;
-    
     public string ViewHeader {get; private set;} = "Tag";
 
     private async void ExitFactory()
@@ -154,11 +137,14 @@ public class TagEditorViewModel : BaseViewModel
             {
                 SelectedTagArtists.Clear();
                 var outIds = Explorer.Output.Select(o => o.Id);
-                                 
-                supporter?.ArtistsCollection?
-                    .Where(a => outIds.Contains(a.Id))
-                    .ToList()
-                    .ForEach(i => SelectedTagArtists.Add(i));
+                
+                using (var instancePool = supporter.GetInstancePool().Result)
+                {
+                    instancePool.ArtistsDTOs
+                        .Where(a => outIds.Contains(a.Id))
+                        .ToList()
+                        .ForEach(i => SelectedTagArtists.Add(i)); 
+                }
             }
         }
     }
@@ -185,11 +171,15 @@ public class TagEditorViewModel : BaseViewModel
             {
                 SelectedTagPlaylists.Clear();
 
-                var outIds = Explorer.Output.Select(o => o.Id);                                
-                supporter?.PlaylistsCollection?
-                    .Where(a => outIds.Contains(a.Id))
-                    .ToList()
-                    .ForEach(i => SelectedTagPlaylists.Add(i));
+                var outIds = Explorer.Output.Select(o => o.Id);
+                
+                using (var instancePool = supporter.GetInstancePool().Result)
+                {
+                    instancePool.PlaylistsDTOs
+                        .Where(a => outIds.Contains(a.Id))
+                        .ToList()
+                        .ForEach(i => SelectedTagPlaylists.Add(i));
+                }
             }
         }
     }
@@ -216,11 +206,15 @@ public class TagEditorViewModel : BaseViewModel
             {
                 SelectedTagTracks.Clear();
 
-                var outIds = Explorer.Output.Select(o => o.Id);                                 
-                supporter?.TracksCollection?
-                    .Where(a => outIds.Contains(a.Id))
-                    .ToList()
-                    .ForEach(i => SelectedTagTracks.Add(i));
+                var outIds = Explorer.Output.Select(o => o.Id);
+                using (var instancePool = supporter.GetInstancePool().Result)
+                {
+                    instancePool.TracksDTOs
+                        .Where(t => outIds.Contains(t.Id))
+                        .ToList()
+                        .ForEach(i => SelectedTagTracks.Add(i));
+            
+                }
             }
         }
     }

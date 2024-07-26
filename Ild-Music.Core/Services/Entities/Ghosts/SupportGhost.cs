@@ -100,17 +100,11 @@ public sealed class SupportGhost : IGhost
         OnTagsNotifyRefresh?.Invoke();
     }
 
-    public async Task<IEnumerable<CommonInstanceDTO>> GetInstances(EntityTag entityTag)
+    public async Task<InstancePool> GetInstancePool()
     {
         await _cube.LoadStartEntities();
-
-        return entityTag switch 
-        {
-            EntityTag.ARTIST => _cube?.InstancePool.ArtistsDTOs,
-            EntityTag.PLAYLIST => _cube?.InstancePool.PlaylistsDTOs,
-            EntityTag.TRACK => _cube?.InstancePool.TracksDTOs,
-            EntityTag.TAG => _cube?.InstancePool.TagsDTOs,
-        };
+        Console.WriteLine(_cube.InstancePool is null);
+        return _cube.InstancePool;
     }
 
     public async Task<Artist> GetArtistAsync(CommonInstanceDTO instanceDTO)

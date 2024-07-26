@@ -28,48 +28,31 @@ public class PlaylistEditorViewModel : BaseViewModel
         PlaylistTrackExplorerCommand = new(OpenPlaylistTrackExplorer, null);
     }
     
-    private static SupportGhost supporter => (SupportGhost)App.Stage.GetGhost(Ghosts.SUPPORT);
-    
+    private static SupportGhost supporter => (SupportGhost)App.Stage.GetGhost(Ghosts.SUPPORT); 
     private static FactoryGhost factory => (FactoryGhost)App.Stage.GetGhost(Ghosts.FACTORY);
-    
     private static MainWindowViewModel MainVM => (MainWindowViewModel)App.ViewModelTable[MainWindowViewModel.viewModelId];
-    
     private static InstanceExplorerViewModel Explorer => (InstanceExplorerViewModel)App.ViewModelTable[InstanceExplorerViewModel.viewModelId];
    
     public Playlist PlaylistInstance { get; private set; } = default!;
-    
     public string Name { get; set; } = default!;
-    
     public string Description { get; set; } = default!;
-    
     public int Year { get; set; } = default!;
-    
     public byte[] Avatar { get; set; } = default!;
-    
     public string AvatarPath { get; set; } = default!;
 
     public ObservableCollection<CommonInstanceDTO> ArtistsProvider {get;set;} = new();
-    
     public ObservableCollection<CommonInstanceDTO> TracksProvider {get; set;} = new();
-    
     public ObservableCollection<CommonInstanceDTO> SelectedPlaylistArtists {get;set;} = new();
-    
     public ObservableCollection<CommonInstanceDTO> SelectedPlaylistTracks {get; set;} = new();
 
     public string PlaylistLogLine { get; set; }
-
     public bool PlaylistLogError { get; set; }
-
     public bool IsEditMode {get; private set;} = false;
-
     public string ViewHeader {get; private set;} = "Playlist";
 
     public CommandDelegator CreatePlaylistCommand { get; }
-    
     public CommandDelegator CancelCommand { get; }
-
     public CommandDelegator PlaylistArtistExplorerCommand {get;}
-    
     public CommandDelegator PlaylistTrackExplorerCommand {get;}
 
     private void ExitFactory()
@@ -81,26 +64,38 @@ public class PlaylistEditorViewModel : BaseViewModel
     private async Task InitProviders()
     {
         ArtistsProvider.Clear();
-        supporter?.ArtistsCollection?.ToList()
-            .ForEach(artist => ArtistsProvider.Add(artist));
-        
         TracksProvider.Clear();
-        supporter?.TracksCollection?.ToList()
-            .ForEach(track => TracksProvider.Add(track));
+
+        using (var instancePool = await supporter.GetInstancePool())
+        {
+            instancePool.ArtistsDTOs.ToList()
+                .ForEach(artist => ArtistsProvider.Add(artist));
+        
+            instancePool.TracksDTOs.ToList()
+                .ForEach(track => TracksProvider.Add(track));
+        }
     }
         
     private void ArtistProviderUpdate()
     {
         ArtistsProvider.Clear();
-        supporter?.ArtistsCollection?.ToList()
-            .ForEach(artist => ArtistsProvider.Add(artist));            
+
+        using (var instancePool = supporter.GetInstancePool().Result)
+        {
+            instancePool.ArtistsDTOs.ToList()
+                .ForEach(artist => ArtistsProvider.Add(artist));            
+        }
     }
 
     private void TrackProviderUpdate()
     {
         TracksProvider.Clear();
-        supporter?.TracksCollection?.ToList()
-            .ForEach(track => TracksProvider.Add(track));            
+
+        using (var instancePool = supporter.GetInstancePool().Result)
+        {
+            instancePool.TracksDTOs.ToList()
+                .ForEach(track => TracksProvider.Add(track));            
+        }
     }
 
     private void FieldsClear()
@@ -121,24 +116,26 @@ public class PlaylistEditorViewModel : BaseViewModel
             if (Explorer.Output[0].Tag is EntityTag.ARTIST)
             {
                 SelectedPlaylistArtists.Clear();
+
                 var outIds = Explorer.Output.Select(o => o.Id);
-                                     
-                supporter?
-                    .ArtistsCollection?
-                    .Where(a => outIds.Contains(a.Id))
-                    .ToList()
-                    .ForEach(i => SelectedPlaylistArtists.Add(i));
+                using (var instancePool = supporter.GetInstancePool().Result)
+                {
+                    instancePool.ArtistsDTOs
+                        .Where(a => outIds.Contains(a.Id)).ToList()
+                        .ForEach(i => SelectedPlaylistArtists.Add(i));
+                }
             }
             else if(Explorer.Output[0].Tag is EntityTag.TRACK)
             {
                 SelectedPlaylistTracks.Clear();
+
                 var outIds = Explorer.Output.Select(o => o.Id);
-                                     
-                supporter?
-                    .TracksCollection?
-                    .Where(t => outIds.Contains(t.Id))
-                    .ToList()
-                    .ForEach(i => SelectedPlaylistTracks.Add(i));
+                using (var instancePool = supporter.GetInstancePool().Result)
+                {
+                    instancePool.TracksDTOs
+                        .Where(t => outIds.Contains(t.Id)).ToList()
+                        .ForEach(i => SelectedPlaylistTracks.Add(i));
+                }
             }
         }
     }
@@ -259,16 +256,19 @@ public class PlaylistEditorViewModel : BaseViewModel
             using var fs= new FileStream(AvatarPath, FileMode.Open);
             await fs.ReadAsync(Avatar, 0, (int)fs.Length);
         }
-
-        supporter?.ArtistsCollection?
-            .Where(a => PlaylistInstance.Artists.Contains(a.Id))
-            .ToList()
-            .ForEach(a => SelectedPlaylistArtists.Add(a));
+        
+        using (var instancePool = await supporter.GetInstancePool())
+        {   
+            instancePool.ArtistsDTOs
+                .Where(a => PlaylistInstance.Artists.Contains(a.Id))
+                .ToList()
+                .ForEach(a => SelectedPlaylistArtists.Add(a));
             
-        supporter?.TracksCollection?
-            .Where(t => PlaylistInstance.Tracks.Contains(t.Id))
-            .ToList()
-            .ForEach(a => SelectedPlaylistTracks.Add(a));
+            instancePool.TracksDTOs
+                .Where(t => PlaylistInstance.Tracks.Contains(t.Id))
+                .ToList()
+                .ForEach(a => SelectedPlaylistTracks.Add(a));
+        }
     }
 
     private void Cancel(object obj)
