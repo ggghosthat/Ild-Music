@@ -103,7 +103,6 @@ public sealed class SupportGhost : IGhost
     public async Task<InstancePool> GetInstancePool()
     {
         await _cube.LoadStartEntities();
-        Console.WriteLine(_cube.InstancePool is null);
         return _cube.InstancePool;
     }
 

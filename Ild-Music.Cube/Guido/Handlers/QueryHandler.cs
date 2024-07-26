@@ -122,7 +122,7 @@ internal sealed class QueryHandler
             using (var transaction = connection.BeginTransaction())
             {
                 string artistsPageQuery = "SELECT AID, Name FROM artists WHERE Id > "
-                    + offset + " AND Id <= " + (offset + limit) + ";";
+                    + offset + " AND Id <= " + (offset + limit) + " ;";
 
                 artistsDTOs = connection
                     .Query(artistsPageQuery, default, transaction)
@@ -171,8 +171,7 @@ internal sealed class QueryHandler
 
             using (var transaction = connection.BeginTransaction())
             {
-                string playlistsPageQuery = "SELECT PID, Name FROM playlists WHERE Id >" + offset + "AND Id <=" + limit + ";";
-               
+                string playlistsPageQuery = "SELECT PID, Name FROM playlists WHERE Id > " + offset + " AND Id <= " + limit + " ;";
                 playlistsDTOs = connection
                     .Query(playlistsPageQuery, default, transaction)
                     .Select(p => new CommonInstanceDTO( 
@@ -221,7 +220,7 @@ internal sealed class QueryHandler
 
             using (var transaction = connection.BeginTransaction())
             {
-                string tracksPageQuery = "SELECT TID, Name FROM tracks WHERE Id > " + offset + " AND Id <= " + limit + ";";
+                string tracksPageQuery = "SELECT TID, Name FROM tracks WHERE Id > " + offset + " AND Id <= " + limit + " ;";
                
                 tracksDTOs = connection
                     .Query(tracksPageQuery, default, transaction)
@@ -272,7 +271,7 @@ internal sealed class QueryHandler
 
             using (var transaction = connection.BeginTransaction())
             {
-                string tagsPageQuery = "SELECT TagID, Name FROM tags WHERE Id > " + offset + " AND Id <= " + limit + ";";
+                string tagsPageQuery = "SELECT TagID, Name FROM tags WHERE Id > " + offset + " AND Id <= " + limit + " ;";
 
                 tags = connection.Query(tagsPageQuery, transaction)
                 .Select(tag => new CommonInstanceDTO(
