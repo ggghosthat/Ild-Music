@@ -44,7 +44,9 @@ public class MainWindowViewModel : Base.BaseViewModel
     public CommandDelegator StopCommand { get; private set; }
     public CommandDelegator RepeatCommand { get; private set; }
     public CommandDelegator VolumeSliderShowCommand { get; private set; }
-    public CommandDelegator SearchBarShowCommand { get; private set; }
+    public CommandDelegator SearchAreaShowCommand { get; private set; }
+    public CommandDelegator SearchAreaToggleCommand { get; private set; }
+    public CommandDelegator SearchAreaHideCommand { get; private set; }
     public CommandDelegator SearchCommand { get; private set; }
     public CommandDelegator SelectSearchItemCommand { get; private set; }
     public CommandDelegator ExitCommand { get; private set; }
@@ -60,8 +62,8 @@ public class MainWindowViewModel : Base.BaseViewModel
     public ObservableCollection<string> NavItems => new() {"Home","Collections", "Browse"};
     public string? NavItem { get; set; }
 
-    public ObservableCollection<CommonInstanceDTO> SearchItems { get; set; } = new();
-    public CommonInstanceDTO SearchItem { get; set; }
+    public ObservableCollection<CommonInstanceDTO?> SearchItems { get; set; } = new();
+    public CommonInstanceDTO? SearchItem { get; set; }
     public string SearchPhrase { get; set; }
     
     public static IPlayer? _player = null;
@@ -127,7 +129,9 @@ public class MainWindowViewModel : Base.BaseViewModel
         NextCommand = new(NextSwipePlayer, OnCanSwipePlayer);
         RepeatCommand = new(RepeatPlayer, OnCanTogglePlayer);
         VolumeSliderShowCommand = new(VolumeSliderShow,null);
-        SearchBarShowCommand = new(SearchBarShow, null);
+        SearchAreaShowCommand = new(SearchAreaShow, null);
+        SearchAreaToggleCommand = new(SearchAreaToggle, null);
+        SearchAreaHideCommand = new(SearchAreaHide, null);
         SearchCommand = new(Search, null);
         SelectSearchItemCommand = new(SelectSearchItem, null);
         ExitCommand = new(Exit, null);
@@ -283,6 +287,43 @@ public class MainWindowViewModel : Base.BaseViewModel
         _player?.Toggle();
     }
 
+    public void SearchItemUp()
+    {
+        if (SearchItem is CommonInstanceDTO dto)
+        {
+            int count = SearchItems.Count - 1;
+            int index = SearchItems.IndexOf(dto);
+
+            if (index == 0)
+                SearchItem = SearchItems[count];
+            else
+                SearchItem = SearchItems[index - 1];
+        }
+        else
+        {
+            SearchItem = SearchItems[SearchItems.Count - 1];
+        }
+    }
+
+    public void SearchItemDown()
+    {
+        if (SearchItem is CommonInstanceDTO dto)
+        {
+            int count = SearchItems.Count - 1;
+            int index = SearchItems.IndexOf(dto);
+            
+            if (index == count)
+                SearchItem = SearchItems[0];
+            else
+                SearchItem = SearchItems[index + 1];
+        }
+        else
+        {
+            SearchItem = SearchItems[0];
+        }
+
+    }
+
     private bool OnNavSelected(object obj)
     {
         return (NavItem is not null);
@@ -352,14 +393,25 @@ public class MainWindowViewModel : Base.BaseViewModel
         VolumeSliderOpen ^= true;
     }
     
-    private void SearchBarShow(object obj)
+    private void SearchAreaShow(object obj)
+    {
+        SearchAreaOpen = true;
+    }
+
+    private void SearchAreaToggle(object obj)
     {
         SearchAreaOpen ^= true;
     }
 
+    private void SearchAreaHide(object obj)
+    {
+        SearchAreaOpen = false;
+    }
+
     private void SelectSearchItem(object obj)
     {
-        ResolveInstance(CurrentVM, SearchItem);
+        if (SearchItem is CommonInstanceDTO searchItem)
+        ResolveInstance(CurrentVM, searchItem);
     }
 
     private void Search(object obj)

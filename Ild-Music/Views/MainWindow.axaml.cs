@@ -124,8 +124,20 @@ public partial class MainWindow : Window
     {
         if (e.Key == Key.Enter)
         {
-            ((MainWindowViewModel)DataContext).SearchBarShowCommand.Execute(null);
+            ((MainWindowViewModel)DataContext).SearchAreaShowCommand.Execute(null);
             ((MainWindowViewModel)DataContext).SearchCommand.Execute(null);
+        }
+        else if (e.Key == Key.Up)
+        {
+            ((MainWindowViewModel)DataContext).SearchItemUp();
+        }
+        else if (e.Key == Key.Down)
+        {
+            ((MainWindowViewModel)DataContext).SearchItemDown();
+        }
+        else if (e.Key == Key.Escape)
+        {
+            ((MainWindowViewModel)DataContext).SearchAreaHideCommand.Execute(null);
         }
     }
 }
