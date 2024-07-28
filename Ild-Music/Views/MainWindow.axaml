@@ -20,6 +20,8 @@
         <conv:NavBarConverter x:Key="NavBarConverter"/>
         <conv:PlayerToggleButtonConverter x:Key="PlayerToggleButtonConverter"/>
         <conv:CurrentEntityConverter x:Key="CurrentEntityConverter"/>
+        <conv:InstanceConverter x:Key="InstanceConverter"/>
+        <conv:IconConverter x:Key="IconConverter"/>
     </Window.Resources>
 
     <Window.Styles>
@@ -136,14 +138,14 @@
                                 ZIndex="3"
                                 Grid.Row="0"
                                 Grid.RowSpan="3"
-                                CornerRadius="5"
-                                Background="#70929292"
+                                CornerRadius="10"
+                                Background="#3a3a3a"
                                 HorizontalAlignment="Left"
                                 VerticalAlignment="Bottom"
                                 Classes="searchPopup"
                                 IsVisible="{Binding SearchAreaOpen}"
                                 Height="200">
-                            <ScrollViewer Margin="0, 5"
+                            <ScrollViewer Margin="0"
                                           Width="{Binding #SearchBox.Width}"
                                           Height="200"
                                           HorizontalAlignment="Stretch"
@@ -166,8 +168,8 @@
                                             <Style Selector="ListBoxItem">
                                                 <Setter Property="BorderBrush" Value="Transparent"/>
                                                 <Setter Property="BorderThickness" Value="0"/>
-                                                <Setter Property="CornerRadius" Value="10"/>
-                                                <Setter Property="Margin" Value="3"/>
+                                                <Setter Property="CornerRadius" Value="{Binding #SearchArea.CornerRadius}"/>
+                                                <Setter Property="Margin" Value="0"/>
                                                 <Setter Property="Padding" Value="0"/>
                                                 <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
 
@@ -232,12 +234,17 @@
                                                 <Setter Property="Background" Value="Transparent"/>
                                             </Style>
                                      </ListBox.Styles>
-
+                                    
+                                     <i:Interaction.Behaviors>
+                                         <ia:EventTriggerBehavior EventName="DoubleTapped">
+                                             <ia:InvokeCommandAction Command="{Binding SelectSearchItemCommand}"/>
+                                         </ia:EventTriggerBehavior>  
+                                     </i:Interaction.Behaviors>
                                      <ListBox.ItemTemplate>
                                         <DataTemplate>                                     
                                         <Grid>
                                             <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="Auto"/>
                                                 <ColumnDefinition Width="Auto"/>
                                             </Grid.ColumnDefinitions> 
                                             
@@ -248,10 +255,12 @@
                                                    Source="{Binding ., Converter={StaticResource IconConverter}, ConverterParameter=dto_icon}"/>
 
                                             <TextBlock Grid.Column="1"
+                                                       Margin="5, 0" 
                                                        HorizontalAlignment="Stretch"
                                                        VerticalAlignment="Center"
                                                        Foreground="White"
-                                                       FontSize="12"
+                                                       FontSize="14"
+                                                       FontWeight="Medium"
                                                        Text="{Binding ., Converter={StaticResource InstanceConverter}, ConverterParameter=name}"
                                                        TextAlignment="Left"/>
                                         </Grid>
@@ -342,6 +351,7 @@
                                             Margin="10, 0">
                                         <TextBox x:Name="SearchBox"
                                                  Width="200"
+                                                 Text="{Binding SearchPhrase}"
                                                  Watermark="Search here"
                                                  Background="Transparent"
                                                  HorizontalAlignment="Stretch"

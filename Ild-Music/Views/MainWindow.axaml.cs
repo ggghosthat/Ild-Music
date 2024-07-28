@@ -86,13 +86,6 @@ public partial class MainWindow : Window
         var searchBarPosition = searchBar.TranslatePoint(new Point(), mainGrid) ??
             throw new Exception("Cannot get TranslatePoint from Configuration Button");
 
-        Console.WriteLine("----- trace ---------");
-        Console.WriteLine(mainGrid.Bounds.Height);
-        Console.WriteLine(searchBarPosition.Y);
-        Console.WriteLine(searchBar.Bounds.Height);
-        Console.WriteLine(searchPopup.Bounds.Height);
-        Console.WriteLine("------------------------");
-        
         var volumePopupGap = (mainGrid.Bounds.Height - voulumeButtonPosition.Y);
         var searchPopupGap = (mainGrid.Bounds.Height - (searchBarPosition.Y + searchBar.Bounds.Height + searchPopup.Bounds.Height));
 
@@ -129,6 +122,10 @@ public partial class MainWindow : Window
 
     private void SearchBarTyped(object? sender, KeyEventArgs e)
     {
-        ((MainWindowViewModel)DataContext).SearchBarShowCommand.Execute(null);    
+        if (e.Key == Key.Enter)
+        {
+            ((MainWindowViewModel)DataContext).SearchBarShowCommand.Execute(null);
+            ((MainWindowViewModel)DataContext).SearchCommand.Execute(null);
+        }
     }
 }

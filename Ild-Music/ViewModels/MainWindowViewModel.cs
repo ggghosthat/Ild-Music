@@ -9,9 +9,9 @@ using Ild_Music.Command;
 using Ild_Music.ViewModels.Base;
 
 using System;
+using System.Linq;
 using System.Collections.ObjectModel;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Threading;
@@ -45,6 +45,8 @@ public class MainWindowViewModel : Base.BaseViewModel
     public CommandDelegator RepeatCommand { get; private set; }
     public CommandDelegator VolumeSliderShowCommand { get; private set; }
     public CommandDelegator SearchBarShowCommand { get; private set; }
+    public CommandDelegator SearchCommand { get; private set; }
+    public CommandDelegator SelectSearchItemCommand { get; private set; }
     public CommandDelegator ExitCommand { get; private set; }
     public CommandDelegator SwitchHomeCommand { get; private set; }
     public CommandDelegator SwitchListCommand { get; private set; }
@@ -58,8 +60,9 @@ public class MainWindowViewModel : Base.BaseViewModel
     public ObservableCollection<string> NavItems => new() {"Home","Collections", "Browse"};
     public string? NavItem { get; set; }
 
-    public ObservableCollection<CommonInstanceDTO> SearchItems { get; set; }= new();
+    public ObservableCollection<CommonInstanceDTO> SearchItems { get; set; } = new();
     public CommonInstanceDTO SearchItem { get; set; }
+    public string SearchPhrase { get; set; }
     
     public static IPlayer? _player = null;
     public bool PlayerState => _player?.ToggleState ?? false;
@@ -125,6 +128,8 @@ public class MainWindowViewModel : Base.BaseViewModel
         RepeatCommand = new(RepeatPlayer, OnCanTogglePlayer);
         VolumeSliderShowCommand = new(VolumeSliderShow,null);
         SearchBarShowCommand = new(SearchBarShow, null);
+        SearchCommand = new(Search, null);
+        SelectSearchItemCommand = new(SelectSearchItem, null);
         ExitCommand = new(Exit, null);
 
         SwitchHomeCommand = new(SwitchHome, null);
@@ -306,7 +311,6 @@ public class MainWindowViewModel : Base.BaseViewModel
         if (navItemName == Guid.Empty)
             return;
 
-
         DefineNewPresentItem(navItemName);
     }
 
@@ -351,6 +355,17 @@ public class MainWindowViewModel : Base.BaseViewModel
     private void SearchBarShow(object obj)
     {
         SearchAreaOpen ^= true;
+    }
+
+    private void SelectSearchItem(object obj)
+    {
+        ResolveInstance(CurrentVM, SearchItem);
+    }
+
+    private void Search(object obj)
+    {
+        _supporterGhost?.Search(SearchPhrase).Result
+            .ToList().ForEach(i => SearchItems.Add(i)); 
     }
 
     public void SwitchHome(object obj)
