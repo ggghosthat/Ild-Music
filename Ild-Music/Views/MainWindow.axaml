@@ -141,11 +141,13 @@
                                 HorizontalAlignment="Left"
                                 VerticalAlignment="Bottom"
                                 Classes="searchPopup"
-                                IsVisible="{Binding SearchAreaOpen}">
+                                IsVisible="{Binding SearchAreaOpen}"
+                                Height="200">
                             <ScrollViewer Margin="0, 5"
                                           Width="{Binding #SearchBox.Width}"
                                           Height="200"
                                           HorizontalAlignment="Stretch"
+                                          VerticalAlignment="Bottom"
                                           HorizontalScrollBarVisibility="Disabled"
                                           VerticalScrollBarVisibility="Auto">
                                 <ListBox ItemsSource="{Binding SearchItems}"
