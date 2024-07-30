@@ -235,8 +235,9 @@ public class MainWindowViewModel : Base.BaseViewModel
         _player?.Stop();
         _player?.DropPlaylist(playlist);
 
-        OnPropertyChanged("CurrentTrack");
         OnPropertyChanged("CurrentPlaylist");
+        OnPropertyChanged("CurrentTrack");
+        OnPropertyChanged("Title");
         OnPropertyChanged("TotalTime");
         OnPropertyChanged("TotalTimeDisplay");
         OnPropertyChanged("CurrentTime");
@@ -261,6 +262,7 @@ public class MainWindowViewModel : Base.BaseViewModel
         _player?.DropTrack(track);
 
         OnPropertyChanged("CurrentTrack");
+        OnPropertyChanged("Title");
         OnPropertyChanged("TotalTime");
         OnPropertyChanged("TotalTimeDisplay");
         OnPropertyChanged("CurrentTime");

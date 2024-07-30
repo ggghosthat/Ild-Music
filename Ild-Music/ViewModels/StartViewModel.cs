@@ -56,9 +56,8 @@ public class StartViewModel : BaseViewModel
        using (var instancePool = await _supportGhost.GetInstancePool())
        {
            instancePool.ArtistsDTOs.ToList().ForEach(a => Artists.Add(a));
-           instancePool.PlaylistsDTOs.ToList().ForEach(p => Artists.Add(p));
-           instancePool.TracksDTOs.ToList().ForEach(t => Artists.Add(t));
-           instancePool.TagsDTOs.ToList().ForEach(tag => Artists.Add(tag));
+           instancePool.PlaylistsDTOs.ToList().ForEach(p => Playlists.Add(p));
+           instancePool.TracksDTOs.ToList().ForEach(t => Tracks.Add(t));
        }
     }
 
