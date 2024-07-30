@@ -143,10 +143,11 @@
                     HorizontalScrollBarVisibility="Disabled"
                     VerticalScrollBarVisibility="Auto"
                     Background="#50000000"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch"
                     DragDrop.AllowDrop="True"
                     PointerWheelChanged="OnScrollChanged">
         <ListBox ItemsSource="{Binding CurrentList}"
-                 Background="Transparent"
                  SelectedItem="{Binding CurrentItem}"
                  ScrollViewer.VerticalScrollBarVisibility="Auto"
                  ScrollViewer.HorizontalScrollBarVisibility="Disabled">
@@ -156,6 +157,8 @@
                 <Setter Property="BorderBrush" Value="Transparent"/>
                 <Setter Property="BorderThickness" Value="0"/>
                 <Setter Property="Padding" Value="4"/>
+                <Setter Property="HorizontalAlignment" Value="Left"/>
+                <Setter Property="VerticalAlignment" Value="Top"/>
                 <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
                 <Setter Property="VerticalContentAlignment" Value="Stretch"/>
                 <Setter Property="Width" Value="120"/>
@@ -165,8 +168,8 @@
                       <Border x:Name="Bd"
                               Margin="10"
                               CornerRadius="10"
-                              VerticalAlignment="Stretch"
-                              HorizontalAlignment="Stretch"
+                              VerticalAlignment="{TemplateBinding VerticalAlignment}"
+                              HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
                               Padding="{TemplateBinding Padding}"
                               Background="{TemplateBinding Background}"
                               BorderBrush="{TemplateBinding BorderBrush}"
@@ -224,7 +227,7 @@
 
             <ListBox.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <WrapPanel/>
+                    <UniformGrid/>
                 </ItemsPanelTemplate>
             </ListBox.ItemsPanel>
 

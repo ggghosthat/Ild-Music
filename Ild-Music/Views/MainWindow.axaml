@@ -19,7 +19,6 @@
     <Window.Resources>
         <conv:NavBarConverter x:Key="NavBarConverter"/>
         <conv:PlayerToggleButtonConverter x:Key="PlayerToggleButtonConverter"/>
-        <conv:CurrentEntityConverter x:Key="CurrentEntityConverter"/>
         <conv:InstanceConverter x:Key="InstanceConverter"/>
         <conv:IconConverter x:Key="IconConverter"/>
     </Window.Resources>
@@ -283,10 +282,6 @@
                                 <!--NavBarItems-->
                                 <StackPanel VerticalAlignment="Top"
                                             HorizontalAlignment="Center">
-                                    <StackPanel.Styles>
-                                        
-                                    </StackPanel.Styles>
-
                                     <Viewbox Classes="vb" Width="170" Height="25" Margin="40, 10, 10, 10"
                                              HorizontalAlignment="Stretch"
                                              VerticalAlignment="Top">
@@ -347,8 +342,8 @@
                                     <Border x:Name="SearchBar"
                                             CornerRadius="15"
                                             BorderBrush="Green"
-                                            BorderThickness="2"
-                                            Margin="10, 0">
+                                            BorderThickness="1"
+                                            Margin="10">
                                         <TextBox x:Name="SearchBox"
                                                  Width="200"
                                                  Text="{Binding SearchPhrase}"
@@ -403,6 +398,7 @@
                                             </TextBox.Styles>
                                         </TextBox>
                                     </Border>
+
                                     <ScrollViewer HorizontalScrollBarVisibility="Disabled"
                                                 VerticalScrollBarVisibility="Auto"
                                                 HorizontalAlignment="Center">
@@ -500,7 +496,7 @@
                                                             HorizontalAlignment="Center"
                                                             CornerRadius="10"
                                                             Margin="8, 2"
-                                                            Width="170">
+                                                            Width="200">
                                                         <Border.Styles>
                                                             <Style Selector="Border.NavBarItem Viewbox Canvas Path.NavIcon">
                                                                 <Setter Property="Fill" Value="#7b7f6b"/>
@@ -781,36 +777,23 @@
                             </StackPanel>
 
                             <!-- Current Track Area -->
-                            <StackPanel Grid.Row="0"
-                                        Grid.Column="2"
-                                        Orientation="Horizontal"
-                                        VerticalAlignment="Top"
-                                        HorizontalAlignment="Stretch"
-                                        Margin="3">
-                                        <Grid>
-                                            <Grid.RowDefinitions>
-                                                <RowDefinition Height="Auto"/>
-                                                <RowDefinition Height="Auto"/>
-                                            </Grid.RowDefinitions>
+                            <Grid Grid.Row="0"
+                                  Grid.Column="2"
+                                  VerticalAlignment="Top"
+                                  HorizontalAlignment="Stretch"
+                                  Margin="3">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
 
-                                            <Border Grid.Row="0"
-                                                    Margin="3,0">
-                                                <TextBlock Text="{Binding CurrentTrack,
-                                                                    Converter={StaticResource CurrentEntityConverter},
-                                                                    ConverterParameter=name}" 
-                                                            FontSize="14"
-                                                            Foreground="#fff"/>
-                                            </Border>
-                                            <Border Grid.Row="1"
-                                                    Margin="3,0">
-                                                <TextBlock Text="{Binding CurrentTrack,
-                                                                    Converter={StaticResource CurrentEntityConverter}, 
-                                                                    ConverterParameter=artist }" 
-                                                            FontSize="14"
-                                                            Foreground="#bebfbd"/>
-                                            </Border>
-                                        </Grid>
-                            </StackPanel>
+                                <Border Grid.Row="0"
+                                        Margin="3,0">
+                                    <TextBlock Text="{Binding Title}" 
+                                                FontSize="14"
+                                                Foreground="#fff"/>
+                                </Border>
+                            </Grid>
                         </Grid>
                     </Grid>
                 </ControlTemplate>

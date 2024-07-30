@@ -77,7 +77,7 @@ public class VlcPlayer : IPlayer
         IsPlaylist = true;
 
         //player service setting
-        _playerService.TrackFinished += async () => await SetNewMediaInstance(true); 
+        _playerService.TrackFinished += MovePlaylistForward; 
         await _playerService.SetTrack(startTrack);
         var action = _eventBag.GetAction((int)PlayerSignal.PLAYER_SET_PLAYLIST);
         action?.DynamicInvoke();
@@ -96,7 +96,8 @@ public class VlcPlayer : IPlayer
         IsSwipe = false;
         IsPlaylist = false;
         Task.Run(async () => await _playerService.Stop());
-        var playerEvent = new PlayerEvent(PlayerSignal.PLAYER_OFF);
+        var action = _eventBag.GetAction((int)PlayerSignal.PLAYER_OFF);
+        action?.DynamicInvoke();
     }
 
     public async Task Repeat()
@@ -105,68 +106,77 @@ public class VlcPlayer : IPlayer
     public async Task Shuffle()
     {}
 
-
     public void SkipPrev()
     {
-        if (IsPlaylist)
+        if (!IsPlaylist)
+            return;
+
+        Task.Run(async () => 
         {
-            Task.Run(async () => 
-            {
-                await SetNewMediaInstance(false);
-                await _playerService.Toggle();
-                var playerEvent = new PlayerEvent(PlayerSignal.PLAYER_SHIFT_LEFT);
-            });
-        }
+            MovePlaylistBack();
+            await _playerService.Toggle();
+            var action = _eventBag.GetAction((int)PlayerSignal.PLAYER_SHIFT_LEFT);
+            action?.DynamicInvoke();
+        });
     }
 
     public void SkipNext()
     {
-        if(IsPlaylist)
+        if(!IsPlaylist)
+            return;
+        
+        Task.Run(async () =>
         {
-            Task.Run(async () =>
-            {
-                await SetNewMediaInstance(true);
-                await _playerService.Toggle();
-                var playerEvent = new PlayerEvent(PlayerSignal.PLAYER_SHIFT_RIGHT);
-            });
+            MovePlaylistForward();
+            await _playerService.Toggle();
+            var action = _eventBag.GetAction((int)PlayerSignal.PLAYER_SHIFT_RIGHT);
+            action?.DynamicInvoke();
+        });
+    }
+
+    private void MovePlaylistBack()
+    {
+        if(IsSwipe && CurrentPlaylist != null)
+        {
+            DragPointer(false);
+            SetPlaylistTrack();
+            _playerService.SetTrack(CurrentTrack).Wait();
         }
     }
 
-    private async Task SetNewMediaInstance(bool direct)
+    private void MovePlaylistForward()
     {
-        if(IsSwipe && CurrentPlaylist is not null)
+        if(IsSwipe && CurrentPlaylist != null)
         {
-            DragPointer(direct);
-   
-            var newTrack = (Track)CurrentPlaylist?[PlaylistPoint];
-            CurrentTrack = newTrack;
-            await _playerService.SetTrack(newTrack);
+            DragPointer(true);
+            SetPlaylistTrack();
+            _playerService.SetTrack(CurrentTrack).Wait();
         }
     }
 
     private void DragPointer(bool direction)
-    {
+    {        
+        if (!IsPlaylistLoop)
+            return;
+     
         if (direction)
         {
             if (PlaylistPoint == PlaylistCount - 1)
-            {
-                if (!IsPlaylistLoop) return;
-                else PlaylistPoint = 0;
-            }
+                PlaylistPoint = 0;
             else
                 PlaylistPoint++;
         }
         else 
         {
             if (PlaylistPoint == 0)
-            {
-                if (!IsPlaylistLoop) return;
-                else PlaylistPoint = PlaylistCount - 1;
-            }
+                PlaylistPoint = PlaylistCount - 1;
             else
-            {
                 PlaylistPoint--;
-            }
         }
+    }
+
+    private void SetPlaylistTrack()
+    {
+        CurrentTrack = (Track)CurrentPlaylist?[PlaylistPoint];        
     }
 }

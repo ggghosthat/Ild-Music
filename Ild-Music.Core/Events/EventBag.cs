@@ -6,7 +6,7 @@ public class EventBag : IEventBag
 
     public Delegate? GetAction(int eventId)
     {
-        if(_store.ContainsKey(eventId))
+        if(!_store.ContainsKey(eventId))
             return null;
 
         return _store[eventId];
@@ -14,7 +14,7 @@ public class EventBag : IEventBag
   
     public void RegisterEvent(int eventId, Delegate action)
     {
-        if (_store.ContainsKey(eventId))
+        if (!_store.ContainsKey(eventId))
             return;
 
         _store[eventId] = action;
@@ -22,19 +22,19 @@ public class EventBag : IEventBag
 
     public void ReleaseEvent(int eventId)
     {
-        if(_store.ContainsKey(eventId))
+        if(!_store.ContainsKey(eventId))
             _store.Remove(eventId);
     }
 
     public void UpdateEvent(int eventId, Delegate action)
     {
-        if(_store.ContainsKey(eventId))
+        if(!_store.ContainsKey(eventId))
             _store[eventId] = action;
     }
    
     public async Task<Delegate?> GetActionAsync(int eventId)
     {
-        if(_store.ContainsKey(eventId))
+        if(!_store.ContainsKey(eventId))
             return null;
 
         return _store[eventId];
@@ -42,7 +42,7 @@ public class EventBag : IEventBag
 
     public async Task RegisterEventAsync(int eventId, Delegate action)
     {
-        if (_store.ContainsKey(eventId))
+        if (!_store.ContainsKey(eventId))
             return;
 
         _store[eventId] = action;

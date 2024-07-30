@@ -109,11 +109,13 @@ public class MainWindowViewModel : Base.BaseViewModel
         _player = _playerGhost?.GetPlayer();
 
         var entityUpdateDelegate = () =>{
-            OnPropertyChanged("CurrentEntity");
+            OnPropertyChanged("CurrentTrack");
+            OnPropertyChanged("CurrentPlaylist");
             OnPropertyChanged("PlayerState");
             OnPropertyChanged("TotalTime");
             OnPropertyChanged("TotalTimeDisplay");
             OnPropertyChanged("Title");
+            Console.WriteLine(Title);
         };
 
         _eventBag.RegisterEvent((int)PlayerSignal.PLAYER_SET_TRACK, entityUpdateDelegate);

@@ -10,39 +10,8 @@ internal class VlcPlayerService
     private static readonly LibVLC _vlc = new();
     private static MediaPlayer _mediaPlayer;
     private Media currentMedia = null;
-
-    public Track? CurrentTrack {get; private set;} = null;
-
-    public bool IsEmpty {get; private set;} = true;
-    public bool ToggleState {get; private set;} = false;
-
-    public TimeSpan TotalTime {get; private set;}
-    public TimeSpan CurrentTime 
-    {
-        get => TimeSpan.FromMilliseconds(_mediaPlayer.Time);
-        set => _mediaPlayer.SeekTo(value);
-    }
-
     private float maxVolume = 100;
     private float minVolume = 0;
-    public float CurrentVolume 
-    {
-        get => _mediaPlayer.Volume;
-        set
-        {
-            if (value <= minVolume)
-                _mediaPlayer.Volume = (int)minVolume;
-            else if (value >= maxVolume)
-                _mediaPlayer.Volume = (int)maxVolume;
-            else
-                _mediaPlayer.Volume = (int)value;
-        }
-    }
-
-    private Action notifyAction;
-
-    public event Action TrackFinished;
-    public event Func<Task> TrackFinishedAsync;
 
     public VlcPlayerService()
     {
@@ -50,20 +19,52 @@ internal class VlcPlayerService
         _mediaPlayer.Volume = 40;
     }
 
-    public void DefineCallback(Action callback) =>
-        notifyAction = callback;
+    public Track? CurrentTrack {get; private set;} = null;
 
-    public async Task SetTrack(Track track)
+    public bool IsEmpty {get; private set;} = true;
+
+    public bool ToggleState {get; private set;} = false;
+
+    public TimeSpan TotalTime {get; private set;}
+
+    public TimeSpan CurrentTime 
     {
-       Clean();
-
-       CurrentTrack = track;
-       currentMedia = new (_vlc, new Uri(track.Pathway.ToString()));
-       TotalTime = track.Duration;
-       _mediaPlayer.Media = currentMedia; 
+        get => TimeSpan.FromMilliseconds(_mediaPlayer.Time);
+        set => _mediaPlayer.SeekTo(value);
     }
 
-    public async Task Toggle()
+    public float CurrentVolume 
+    {
+        get => _mediaPlayer.Volume;
+        set => SetVolume(value);
+    }
+
+    private Action notifyAction;
+
+    public event Action TrackFinished;
+    public event Func<Task> TrackFinishedAsync;
+
+    public void DefineCallback(Action callback)
+    {
+        notifyAction = callback;
+    }
+
+    public Task SetTrack(Track? track)
+    {
+        Clean();
+
+        if (track != null)
+        {
+           CurrentTrack = track;
+           currentMedia = new (_vlc, new Uri(track?.Pathway.ToString()));
+           TotalTime = track?.Duration ?? default;
+           _mediaPlayer.Media = currentMedia; 
+        }
+
+        return Task.CompletedTask;
+    }
+
+    public Task Toggle()
     {
         if (!_mediaPlayer.IsPlaying)
         {
@@ -87,6 +88,8 @@ internal class VlcPlayerService
             notifyAction?.Invoke();
             _mediaPlayer.Pause();
         }
+
+        return Task.CompletedTask;
     }
 
     public async Task Stop()
@@ -100,9 +103,21 @@ internal class VlcPlayerService
         });
     }
 
-    public async void Seek(TimeSpan timePoint)
+    public Task Seek(TimeSpan timePoint)
     {
         _mediaPlayer.SeekTo(timePoint);
+
+       return Task.CompletedTask;
+    }
+
+    private SetVolume(int volume)
+    {
+        if (volume <= minVolume)
+            _mediaPlayer.Volume = (int)minVolume;
+        else if (volume >= maxVolume)
+            _mediaPlayer.Volume = (int)maxVolume;
+        else
+            _mediaPlayer.Volume = (int)volume;
     }
 
     private void Clean()
