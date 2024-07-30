@@ -16,7 +16,6 @@
   
     <Application.Resources>
         <SolidColorBrush x:Key="color1" Color="#27da48"/>
-
         <SolidColorBrush x:Key="btnApplyColor1" Color="#4527da48"/>
         <SolidColorBrush x:Key="btnApplyColor2" Color="#27da48"/>
         <SolidColorBrush x:Key="btnApplyColor3" Color="#4527da48"/>

@@ -21,6 +21,7 @@
         <conv:PlayerToggleButtonConverter x:Key="PlayerToggleButtonConverter"/>
         <conv:InstanceConverter x:Key="InstanceConverter"/>
         <conv:IconConverter x:Key="IconConverter"/>
+        <conv:IndicatorConverter x:Key="IndicatorConverter"/>
     </Window.Resources>
 
     <Window.Styles>
@@ -46,6 +47,13 @@
         </Style>
         <Style Selector="Border.PlayerButton:pointerpressed Border Viewbox Canvas Path">
             <Setter Property="Fill" Value="#6ed48b"/>
+        </Style>
+
+        <Style Selector="Grid.CurrentTrackArea Ellipse.Indicator">
+            <Setter Property="Fill" Value="Transparent"/>
+        </Style>
+        <Style Selector="Grid.CurrentTrackArea:pointerover Ellipse.Indicator">
+            <Setter Property="Fill" Value="#27da48"/>
         </Style>
 
         <Style Selector="Window">
@@ -604,195 +612,219 @@
                                         VerticalAlignment="Top"
                                         HorizontalAlignment="Left"
                                         Margin="15,0,0,0">
-                                    <Border Classes="PlayerButton"
-                                            Background="#00000000"
-                                            Margin="0,5">
-                                            <i:Interaction.Behaviors>
-                                                <ia:EventTriggerBehavior EventName="Tapped">
-                                                    <ia:InvokeCommandAction Command="{Binding PreviousCommand}"/>
-                                                </ia:EventTriggerBehavior>  
-                                            </i:Interaction.Behaviors>
-                                            <Border>
-                                                <Viewbox Classes="vb" Margin="2,0" HorizontalAlignment="Left">
-                                                    <Canvas Width="30" Height="30">
-                                                        <Path Data="M6,6H8V18H6M9.5,12L18,18V6M16,14.14L12.97,12L16,9.86V14.14Z" />
-                                                    </Canvas>
-                                                </Viewbox>
-                                            </Border>
-                                    </Border>
-                                    
-                                    <Border Classes="PlayerButton"
-                                            Background="#00000000"
-                                            Margin="0,5">
-                                            <i:Interaction.Behaviors>
-                                                <ia:EventTriggerBehavior EventName="Tapped">
-                                                    <ia:InvokeCommandAction Command="{Binding KickCommand}"/>
-                                                </ia:EventTriggerBehavior>  
-                                            </i:Interaction.Behaviors>
-                                            <Border>
-                                                <Viewbox Classes="vb"
-                                                            Margin="2,0" 
-                                                            HorizontalAlignment="Left">
-                                                    <Canvas Width="30" Height="30">
-                                                        <Path Data="{Binding PlayerState, Converter={StaticResource PlayerToggleButtonConverter}}"/>
-                                                    </Canvas>
-                                                </Viewbox>
-                                            </Border>
-                                    </Border>
+                                <Border Classes="PlayerButton"
+                                        Background="#00000000"
+                                        Margin="0,5">
+                                        <i:Interaction.Behaviors>
+                                            <ia:EventTriggerBehavior EventName="Tapped">
+                                                <ia:InvokeCommandAction Command="{Binding PreviousCommand}"/>
+                                            </ia:EventTriggerBehavior>  
+                                        </i:Interaction.Behaviors>
+                                        <Border>
+                                            <Viewbox Classes="vb" Margin="2,0" HorizontalAlignment="Left">
+                                                <Canvas Width="30" Height="30">
+                                                    <Path Data="M6,6H8V18H6M9.5,12L18,18V6M16,14.14L12.97,12L16,9.86V14.14Z" />
+                                                </Canvas>
+                                            </Viewbox>
+                                        </Border>
+                                </Border>
+                                
+                                <Border Classes="PlayerButton"
+                                        Background="#00000000"
+                                        Margin="0,5">
+                                        <i:Interaction.Behaviors>
+                                            <ia:EventTriggerBehavior EventName="Tapped">
+                                                <ia:InvokeCommandAction Command="{Binding KickCommand}"/>
+                                            </ia:EventTriggerBehavior>  
+                                        </i:Interaction.Behaviors>
+                                        <Border>
+                                            <Viewbox Classes="vb"
+                                                        Margin="2,0" 
+                                                        HorizontalAlignment="Left">
+                                                <Canvas Width="30" Height="30">
+                                                    <Path Data="{Binding PlayerState, Converter={StaticResource PlayerToggleButtonConverter}}"/>
+                                                </Canvas>
+                                            </Viewbox>
+                                        </Border>
+                                </Border>
 
-                                    <Border Classes="PlayerButton"
-                                            Background="#00000000"
-                                            Margin="0,5">
-                                            <i:Interaction.Behaviors>
-                                                <ia:EventTriggerBehavior EventName="Tapped">
-                                                    <ia:InvokeCommandAction Command="{Binding NextCommand}"/>
-                                                </ia:EventTriggerBehavior>  
-                                            </i:Interaction.Behaviors>
-                                            <Border>
-                                                <Viewbox Classes="vb" Margin="2,0" HorizontalAlignment="Left">
-                                                    <Canvas Width="30" Height="30">
-                                                        <Path Data="M6,18L14.5,12L6,6M8,9.86L11.03,12L8,14.14M16,6H18V18H16" />
-                                                    </Canvas>
-                                                </Viewbox>
-                                            </Border>
-                                    </Border>
+                                <Border Classes="PlayerButton"
+                                        Background="#00000000"
+                                        Margin="0,5">
+                                        <i:Interaction.Behaviors>
+                                            <ia:EventTriggerBehavior EventName="Tapped">
+                                                <ia:InvokeCommandAction Command="{Binding NextCommand}"/>
+                                            </ia:EventTriggerBehavior>  
+                                        </i:Interaction.Behaviors>
+                                        <Border>
+                                            <Viewbox Classes="vb" Margin="2,0" HorizontalAlignment="Left">
+                                                <Canvas Width="30" Height="30">
+                                                    <Path Data="M6,18L14.5,12L6,6M8,9.86L11.03,12L8,14.14M16,6H18V18H16" />
+                                                </Canvas>
+                                            </Viewbox>
+                                        </Border>
+                                </Border>
 
-                                    <Border Classes="PlayerButton"
-                                            Background="#00000000"
-                                            Margin="0,5">
-                                            <i:Interaction.Behaviors>
-                                                <ia:EventTriggerBehavior EventName="Tapped">
-                                                    <ia:InvokeCommandAction Command="{Binding RepeatCommand}"/>
-                                                </ia:EventTriggerBehavior>  
-                                            </i:Interaction.Behaviors>
-                                            <Border>
-                                                <Viewbox Classes="vb" Margin="2,0" HorizontalAlignment="Left">
-                                                    <Canvas Width="30" Height="30">
-                                                        <Path Data="M6,5.75L10.25,10H7V16H13.5L15.5,18H7A2,2 0 0,1 5,16V10H1.75L6,5.75M18,18.25L13.75,14H17V8H10.5L8.5,6H17A2,2 0 0,1 19,8V14H22.25L18,18.25Z" />
-                                                    </Canvas>
-                                                </Viewbox>
-                                            </Border>
-                                    </Border>
+                                <Border Classes="PlayerButton"
+                                        Background="#00000000"
+                                        Margin="0,5">
+                                        <i:Interaction.Behaviors>
+                                            <ia:EventTriggerBehavior EventName="Tapped">
+                                                <ia:InvokeCommandAction Command="{Binding RepeatCommand}"/>
+                                            </ia:EventTriggerBehavior>  
+                                        </i:Interaction.Behaviors>
+                                        <Border>
+                                            <Viewbox Classes="vb" Margin="2,0" HorizontalAlignment="Left">
+                                                <Canvas Width="30" Height="30">
+                                                    <Path Data="M6,5.75L10.25,10H7V16H13.5L15.5,18H7A2,2 0 0,1 5,16V10H1.75L6,5.75M18,18.25L13.75,14H17V8H10.5L8.5,6H17A2,2 0 0,1 19,8V14H22.25L18,18.25Z" />
+                                                </Canvas>
+                                            </Viewbox>
+                                        </Border>
+                                </Border>
 
-                                    <Border x:Name="VolumeButton"
-                                            Classes="PlayerButton"
-                                            CornerRadius="5"
-                                            Width="36"
-                                            Margin="5">
-                                            <i:Interaction.Behaviors>
-                                                <ia:EventTriggerBehavior EventName="Tapped">
-                                                    <ia:InvokeCommandAction Command="{Binding VolumeSliderShowCommand}"/>
-                                                </ia:EventTriggerBehavior>  
-                                            </i:Interaction.Behaviors>
-                                            <Border>
-                                                <Viewbox Classes="vb" Margin="2,0" HorizontalAlignment="Center">
-                                                    <Canvas Width="30" Height="30">
-                                                        <Path Data="M7,9V15H11L16,20V4L11,9H7Z" />
-                                                    </Canvas>
-                                                </Viewbox>
-                                            </Border>
-                                    </Border>
+                                <Border x:Name="VolumeButton"
+                                        Classes="PlayerButton"
+                                        CornerRadius="5"
+                                        Width="36"
+                                        Margin="5">
+                                        <i:Interaction.Behaviors>
+                                            <ia:EventTriggerBehavior EventName="Tapped">
+                                                <ia:InvokeCommandAction Command="{Binding VolumeSliderShowCommand}"/>
+                                            </ia:EventTriggerBehavior>  
+                                        </i:Interaction.Behaviors>
+                                        <Border>
+                                            <Viewbox Classes="vb" Margin="2,0" HorizontalAlignment="Center">
+                                                <Canvas Width="30" Height="30">
+                                                    <Path Data="M7,9V15H11L16,20V4L11,9H7Z" />
+                                                </Canvas>
+                                            </Viewbox>
+                                        </Border>
+                                </Border>
                             </StackPanel> 
 
                             <!-- Slider Area -->
-                            <StackPanel x:Name="sliderArea"
+                            <StackPanel x:Name="SliderArea"
                                         Grid.Row="0"
                                         Grid.Column="1"
                                         Orientation="Horizontal"
                                         VerticalAlignment="Top"
                                         HorizontalAlignment="Stretch"
                                         Margin="5,3,20,0">
-                                    <Grid x:Name="sliderParent"
-                                            HorizontalAlignment="Stretch">
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="Auto"/>
-                                            <RowDefinition Height="Auto"/>
-                                        </Grid.RowDefinitions>
-                                        
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="*"/>
-                                            <ColumnDefinition Width="*"/>
-                                            <ColumnDefinition Width="*"/>
-                                        </Grid.ColumnDefinitions>
+                                <Grid x:Name="SliderParent"
+                                        HorizontalAlignment="Stretch">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+                                    
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
 
-                                        <Slider x:Name="sldThumby"       
-                                                Grid.Row="0"                    
-                                                Width="{Binding #sliderArea.Bounds.Width}"
-                                                Classes="thumby"                                          
-                                                IsEnabled="{Binding PlayerState}"
-                                                Orientation="Horizontal"
-                                                Maximum="{Binding TotalTime, Mode=OneWay}"
-                                                Minimum="{Binding StartTime, Mode=OneWay}"
-                                                Value="{Binding CurrentTime, Mode=TwoWay}">
-                                                <Slider.Resources>
-                                                    <x:Double x:Key="SliderHorizontalThumbWidth">13</x:Double>
-                                                    <GridLength x:Key="SliderPreContentMargin">0</GridLength>
-                                                    <GridLength x:Key="SliderPostContentMargin">0</GridLength>
-                                                </Slider.Resources>
-                                                <Slider.Styles>
-                                                    <Style Selector="Slider.thumby /template/ RepeatButton#PART_DecreaseButton">
-                                                        <Setter Property="Background" Value="#34eb64"/>
-                                                    </Style>
+                                    <Slider x:Name="sldThumby"       
+                                            Grid.Row="0"                    
+                                            Width="{Binding #SliderArea.Bounds.Width}"
+                                            Classes="thumby"                                          
+                                            IsEnabled="{Binding PlayerState}"
+                                            Orientation="Horizontal"
+                                            Maximum="{Binding TotalTime, Mode=OneWay}"
+                                            Minimum="{Binding StartTime, Mode=OneWay}"
+                                            Value="{Binding CurrentTime, Mode=TwoWay}">
+                                            <Slider.Resources>
+                                                <x:Double x:Key="SliderHorizontalThumbWidth">13</x:Double>
+                                                <GridLength x:Key="SliderPreContentMargin">0</GridLength>
+                                                <GridLength x:Key="SliderPostContentMargin">0</GridLength>
+                                            </Slider.Resources>
+                                            <Slider.Styles>
+                                                <Style Selector="Slider.thumby /template/ RepeatButton#PART_DecreaseButton">
+                                                    <Setter Property="Background" Value="#34eb64"/>
+                                                </Style>
 
-                                                    <Style Selector="Slider.thumby /template/ RepeatButton#PART_IncreaseButton">
-                                                        <Setter Property="Background" Value="#2b4532"/>
-                                                    </Style>
+                                                <Style Selector="Slider.thumby /template/ RepeatButton#PART_IncreaseButton">
+                                                    <Setter Property="Background" Value="#2b4532"/>
+                                                </Style>
 
-                                                    <Style Selector="Slider.thumby /template/ Thumb#thumb">
-                                                        <Setter Property="Template">
-                                                            <ControlTemplate>
-                                                                <Grid>
-                                                                    <Ellipse Width="13"
-                                                                                Height="13"
-                                                                                Fill="#34eb64"/>
-                                                                </Grid>
-                                                            </ControlTemplate>
-                                                        </Setter>
-                                                    </Style>
-                                                </Slider.Styles>
-                                        </Slider>
+                                                <Style Selector="Slider.thumby /template/ Thumb#thumb">
+                                                    <Setter Property="Template">
+                                                        <ControlTemplate>
+                                                            <Grid>
+                                                                <Ellipse Width="13"
+                                                                            Height="13"
+                                                                            Fill="#34eb64"/>
+                                                            </Grid>
+                                                        </ControlTemplate>
+                                                    </Setter>
+                                                </Style>
+                                            </Slider.Styles>
+                                    </Slider>
 
-                                        <Grid Grid.Row="1">
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="Auto"/>
-                                                    <ColumnDefinition Width="*"/>
-                                                    <ColumnDefinition Width="Auto"/>
-                                                </Grid.ColumnDefinitions>
-                                                    <TextBlock Grid.Column="0" 
-                                                                Text="{Binding CurrentTimeDisplay, StringFormat=\{0:mm\\:ss\}}"
-                                                                Foreground="#6ed48b" 
-                                                                Margin="0,-10,0,0"
-                                                                FontSize="10"
-                                                                FontWeight="Light"
-                                                                HorizontalAlignment="Left"/>
-                                                    <TextBlock Grid.Column="2"
-                                                                Text="{Binding TotalTimeDisplay, StringFormat=\{0:mm\\:ss\}}"
-                                                                Foreground="#6ed48b"
-                                                                Margin="0,-10,0,0"
-                                                                FontSize="10"
-                                                                FontWeight="Light"
-                                                                HorizontalAlignment="Right"/>   
-                                        </Grid>
+                                    <Grid Grid.Row="1">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                            </Grid.ColumnDefinitions>
+                                                <TextBlock Grid.Column="0" 
+                                                            Text="{Binding CurrentTimeDisplay, StringFormat=\{0:mm\\:ss\}}"
+                                                            Foreground="#6ed48b" 
+                                                            Margin="0,-10,0,0"
+                                                            FontSize="10"
+                                                            FontWeight="Light"
+                                                            HorizontalAlignment="Left"/>
+                                                <TextBlock Grid.Column="2"
+                                                            Text="{Binding TotalTimeDisplay, StringFormat=\{0:mm\\:ss\}}"
+                                                            Foreground="#6ed48b"
+                                                            Margin="0,-10,0,0"
+                                                            FontSize="10"
+                                                            FontWeight="Light"
+                                                            HorizontalAlignment="Right"/>   
                                     </Grid>
+                                </Grid>
                             </StackPanel>
 
                             <!-- Current Track Area -->
-                            <Grid Grid.Row="0"
+                            <Grid Classes="CurrentTrackArea"
+                                  Grid.Row="0"
                                   Grid.Column="2"
-                                  VerticalAlignment="Top"
-                                  HorizontalAlignment="Stretch"
-                                  Margin="3">
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="Auto"/>
-                                </Grid.RowDefinitions>
+                                  VerticalAlignment="Stretch"
+                                  HorizontalAlignment="Stretch">
+                                <Grid.Styles>
+                                    <Style Selector="">
+                                    </Style>
+                                </Grid.Styles>
 
-                                <Border Grid.Row="0"
-                                        Margin="3,0">
-                                    <TextBlock Text="{Binding Title}" 
-                                                FontSize="14"
-                                                Foreground="#fff"/>
-                                </Border>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <Ellipse Classes="Indicator"
+                                         Width="10"
+                                         Height="10"
+                                         Margin="5,0"                               
+                                         Grid.Column="0"
+                                         Fill="#27da48"
+                                         VerticalAlignment="Center"
+                                         IsVisible="{Binding CurrentTrack, Converter={StaticResource IndicatorConverter}}"/>
+
+                                <TextBlock Grid.Column="1"
+                                           Margin="5,0"
+                                           FontSize="18"
+                                           FontWeight="Bold"
+                                           Foreground="#fff"
+                                           VerticalAlignment="Center"
+                                           Text="{Binding Title}"/>
+
+                                <TextBlock Grid.Column="2"
+                                           Margin="5,0"
+                                           FontSize="18"
+                                           FontWeight="Regular"
+                                           Foreground="#cecece"
+                                           VerticalAlignment="Center"
+                                           Text="{Binding Title}"/>
                             </Grid>
                         </Grid>
                     </Grid>
