@@ -26,11 +26,23 @@ public class InstanceConverter : IValueConverter
             if (value is CommonInstanceDTO dto)
                 return dto.Name.ToString();
             else if(value is Artist artist)
-                return artist.Name;
+                return artist.Name.ToString();
             else if(value is Playlist playlist)
-                return playlist.Name;
+                return playlist.Name.ToString();
             else if(value is Track track)
                 return track.Name.ToString();
+            else return "name";
+        }
+        else if (parameter == "shortname")
+        {
+            if (value is CommonInstanceDTO dto)
+                return SliceName(dto.Name);
+            else if(value is Artist artist)
+                return SliceName(artist.Name);
+            else if(value is Playlist playlist)
+                return SliceName(playlist.Name);
+            else if(value is Track track)
+                return SliceName(track.Name);
             else return "name";
         }
         else if (parameter == "desc")
@@ -69,5 +81,21 @@ public class InstanceConverter : IValueConverter
     public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
     {
         throw new NotImplementedException();
+    }
+
+    private static string SliceName(ReadOnlyMemory<char> name)
+    {
+        if (name.Length <= 10)
+            return name.ToString();
+
+        return name.Slice(0, 10).ToString() + "...";
+    }
+
+    private static string SliceName(string name)
+    {
+        if (name.Length <= 10)
+            return name.ToString();
+
+        return name.AsMemory().Slice(0, 10).ToString() + "...";
     }
 }

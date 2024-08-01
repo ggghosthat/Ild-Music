@@ -238,14 +238,17 @@
             </i:Interaction.Behaviors>
             <ListBox.ItemTemplate>
               <DataTemplate>
-                <Grid>
-                  <Grid.RowDefinitions>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="auto"/>
-                  </Grid.RowDefinitions>
+                <Grid Width="120"
+                      Height="120">
+                    <Grid.RowDefinitions>
+                      <RowDefinition Height="auto"/>
+                      <RowDefinition Height="auto"/>
+                    </Grid.RowDefinitions>
+
                     <Image Grid.Row="0"
                            Width="70"
                            Height="70"
+                           Margin="10"
                            Stretch="UniformToFill"
                            Source="{Binding ., Converter={StaticResource IconConverter}, ConverterParameter=dto_icon}"/>
 
@@ -258,7 +261,7 @@
                                Background="Transparent"
                                VerticalAlignment="Top"
                                HorizontalAlignment="Stretch"
-                               Text="{Binding ., Converter={StaticResource InstanceConverter}, ConverterParameter=name}"/>
+                               Text="{Binding ., Converter={StaticResource InstanceConverter}, ConverterParameter=shortname}"/>
                 </Grid>
               </DataTemplate>
             </ListBox.ItemTemplate>
