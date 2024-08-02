@@ -67,6 +67,7 @@
             <Setter Property="Template">
                 <ControlTemplate>
                     <Grid x:Name="MainGrid"
+                          Margin="0, 0, 15, 0"  
                           Background="#2e2e2e">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*"/>
@@ -283,7 +284,20 @@
                                 </ListBox>
                             </ScrollViewer>
                         </Border>
-                                           
+                        
+                        <Border x:Name="CurrentInstanceArea"
+                                ZIndex="3"
+                                Height="300"
+                                Width="400"
+                                Grid.Row="0"
+                                Grid.RowSpan="3"
+                                Background="red"
+                                CornerRadius="10, 10, 0, 0"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Bottom"
+                                Classes="currentInstanceAreaPopup">
+                        </Border>
+
                         <!--Main Area-->
                         <Grid Grid.Row="0"
                               Grid.ColumnSpan="2"
@@ -650,9 +664,6 @@
                                 </LinearGradientBrush>
                             </Grid.Background>
 
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto"/>
-                            </Grid.RowDefinitions>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto"/>
                                 <ColumnDefinition Width="*"/>
@@ -660,8 +671,7 @@
                             </Grid.ColumnDefinitions>
 
                             <!-- Player Buttons Area -->
-                            <StackPanel Grid.Row="0"
-                                        Grid.Column="0"
+                            <StackPanel Grid.Column="0"
                                         Orientation="Horizontal"
                                         VerticalAlignment="Top"
                                         HorizontalAlignment="Left"
@@ -758,7 +768,6 @@
 
                             <!-- Slider Area -->
                             <StackPanel x:Name="SliderArea"
-                                        Grid.Row="0"
                                         Grid.Column="1"
                                         Orientation="Horizontal"
                                         VerticalAlignment="Top"
@@ -839,15 +848,11 @@
                             </StackPanel>
 
                             <!-- Current Track Area -->
-                            <Grid Classes="CurrentTrackArea"
-                                  Grid.Row="0"
+                            <Grid x:Name="CurrentInstanceTray"
                                   Grid.Column="2"
+                                  Classes="CurrentTrackArea"
                                   VerticalAlignment="Stretch"
                                   HorizontalAlignment="Stretch">
-                                <Grid.Styles>
-                                    <Style Selector="">
-                                    </Style>
-                                </Grid.Styles>
 
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="Auto"/>
@@ -869,14 +874,6 @@
                                            FontSize="18"
                                            FontWeight="Bold"
                                            Foreground="#fff"
-                                           VerticalAlignment="Center"
-                                           Text="{Binding Title}"/>
-
-                                <TextBlock Grid.Column="2"
-                                           Margin="5,0"
-                                           FontSize="18"
-                                           FontWeight="Regular"
-                                           Foreground="#cecece"
                                            VerticalAlignment="Center"
                                            Text="{Binding Title}"/>
                             </Grid>

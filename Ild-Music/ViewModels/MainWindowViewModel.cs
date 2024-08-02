@@ -146,7 +146,7 @@ public class MainWindowViewModel : Base.BaseViewModel
     private void PresetViewModel()
     {   
         App.ViewModelTable.Add(MainWindowViewModel.viewModelId, this);
-        CurrentVM = (BaseViewModel)App.ViewModelTable[BrowserViewModel.viewModelId];
+        CurrentVM = (BaseViewModel)App.ViewModelTable[StartViewModel.viewModelId];
     }
 
     private void PresetGlobalTimer()
