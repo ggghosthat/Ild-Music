@@ -325,7 +325,6 @@ public class MainWindowViewModel : Base.BaseViewModel
         {
             SearchItem = SearchItems[0];
         }
-
     }
 
     private bool OnNavSelected(object obj)
@@ -409,19 +408,25 @@ public class MainWindowViewModel : Base.BaseViewModel
 
     private void SearchAreaHide(object obj)
     {
+        SearchPhrase = String.Empty;
         SearchAreaOpen = false;
     }
 
     private void SelectSearchItem(object obj)
     {
         if (SearchItem is CommonInstanceDTO searchItem)
-        ResolveInstance(CurrentVM, searchItem);
+            ResolveInstance(CurrentVM, searchItem);
     }
 
     private void Search(object obj)
     {
+        if (String.IsNullOrEmpty(SearchPhrase))
+            return;
+     
         _supporterGhost?.Search(SearchPhrase).Result
             .ToList().ForEach(i => SearchItems.Add(i)); 
+        
+        SearchAreaOpen = true;
     }
 
     public void SwitchHome(object obj)

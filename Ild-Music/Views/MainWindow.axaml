@@ -12,7 +12,7 @@
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="Ild_Music.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
-        Icon="/Assets/avalonia-logo.ico"
+        Icon="/Assets/ild-music-logo.ico"
         SystemDecorations="None"
         WindowStartupLocation="CenterScreen">
 
@@ -54,6 +54,13 @@
         </Style>
         <Style Selector="Grid.CurrentTrackArea:pointerover Ellipse.Indicator">
             <Setter Property="Fill" Value="#27da48"/>
+        </Style>
+
+        <Style Selector="Border.SearchButton PathIcon">
+            <Setter Property="Foreground" Value="#7f7f7f"/>
+        </Style>
+        <Style Selector="Border.SearchButton:pointerover PathIcon">
+            <Setter Property="Foreground" Value="#a0a0a0"/>
         </Style>
 
         <Style Selector="Window">
@@ -153,7 +160,7 @@
                                 IsVisible="{Binding SearchAreaOpen}"
                                 Height="200">
                             <ScrollViewer Margin="0"
-                                          Width="{Binding #SearchBox.Width}"
+                                          Width="{Binding #SearchBar.Width}"
                                           Height="200"
                                           HorizontalAlignment="Stretch"
                                           VerticalAlignment="Bottom"
@@ -172,74 +179,74 @@
                                      </ListBox.ItemsPanel>
 
                                      <ListBox.Styles>
-                                            <Style Selector="ListBoxItem">
-                                                <Setter Property="BorderBrush" Value="Transparent"/>
-                                                <Setter Property="BorderThickness" Value="0"/>
-                                                <Setter Property="CornerRadius" Value="{Binding #SearchArea.CornerRadius}"/>
-                                                <Setter Property="Margin" Value="0"/>
-                                                <Setter Property="Padding" Value="0"/>
-                                                <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                                        <Style Selector="ListBoxItem">
+                                            <Setter Property="BorderBrush" Value="Transparent"/>
+                                            <Setter Property="BorderThickness" Value="0"/>
+                                            <Setter Property="CornerRadius" Value="{Binding #SearchArea.CornerRadius}"/>
+                                            <Setter Property="Margin" Value="0"/>
+                                            <Setter Property="Padding" Value="0"/>
+                                            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
 
-                                                <Setter Property="Template">
-                                                    <ControlTemplate>
-                                                        <Grid>
-                                                            <Border x:Name="Bd"
-                                                                    Margin="{TemplateBinding Margin}"
-                                                                    CornerRadius="{TemplateBinding CornerRadius}"
-                                                                    Background="{TemplateBinding Background}"
-                                                                    BorderThickness="{TemplateBinding BorderThickness}"
-                                                                    BorderBrush="{TemplateBinding BorderBrush}"
-                                                                    Padding="{TemplateBinding Padding}">
-                                                            <ContentPresenter Name="PART_ContentPresenter"
-                                                                              HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                                                              VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
-                                                                              ContentTemplate="{TemplateBinding ContentTemplate}"
-                                                                              Content="{TemplateBinding Content}"/>
-                                                            </Border>
-                                                        </Grid>
-                                                    </ControlTemplate>
-                                                </Setter>
-                                            </Style>
+                                            <Setter Property="Template">
+                                                <ControlTemplate>
+                                                    <Grid>
+                                                        <Border x:Name="Bd"
+                                                                Margin="{TemplateBinding Margin}"
+                                                                CornerRadius="{TemplateBinding CornerRadius}"
+                                                                Background="{TemplateBinding Background}"
+                                                                BorderThickness="{TemplateBinding BorderThickness}"
+                                                                BorderBrush="{TemplateBinding BorderBrush}"
+                                                                Padding="{TemplateBinding Padding}">
+                                                        <ContentPresenter Name="PART_ContentPresenter"
+                                                                          HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                                          VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                                                          ContentTemplate="{TemplateBinding ContentTemplate}"
+                                                                          Content="{TemplateBinding Content}"/>
+                                                        </Border>
+                                                    </Grid>
+                                                </ControlTemplate>
+                                            </Setter>
+                                        </Style>
 
-                                            <Style Selector="ListBoxItem:pointerover /template/ Border#Bd">
-                                              <Setter Property="Background" Value="#4027da48"/>
-                                            </Style>
+                                        <Style Selector="ListBoxItem:pointerover /template/ Border#Bd">
+                                          <Setter Property="Background" Value="#4027da48"/>
+                                        </Style>
 
-                                            <Style Selector="ListBoxItem:pointerover /template/ ContentPresenter">
-                                                <Setter Property="Background" Value="Transparent"/>
-                                            </Style>
+                                        <Style Selector="ListBoxItem:pointerover /template/ ContentPresenter">
+                                            <Setter Property="Background" Value="Transparent"/>
+                                        </Style>
 
-                                            <Style Selector="ListBoxItem:selected /template/ Border#Bd">
-                                                <Setter Property="Background" Value="#7027da48"/>
-                                            </Style>
+                                        <Style Selector="ListBoxItem:selected /template/ Border#Bd">
+                                            <Setter Property="Background" Value="#7027da48"/>
+                                        </Style>
 
-                                            <Style Selector="ListBoxItem:selected /template/ ContentPresenter">
-                                                <Setter Property="Background" Value="Transparent"/>
-                                            </Style>
-                                    
-                                            <Style Selector="ListBoxItem:selected:focus /template/ Border#Bd">
-                                                <Setter Property="Background" Value="#7027da48"/>
-                                            </Style>
+                                        <Style Selector="ListBoxItem:selected /template/ ContentPresenter">
+                                            <Setter Property="Background" Value="Transparent"/>
+                                        </Style>
+                                
+                                        <Style Selector="ListBoxItem:selected:focus /template/ Border#Bd">
+                                            <Setter Property="Background" Value="#7027da48"/>
+                                        </Style>
 
-                                            <Style Selector="ListBoxItem:selected:focus /template/ ContentPresenter">
-                                                <Setter Property="Background" Value="Transparent"/>
-                                            </Style>
+                                        <Style Selector="ListBoxItem:selected:focus /template/ ContentPresenter">
+                                            <Setter Property="Background" Value="Transparent"/>
+                                        </Style>
 
-                                            <Style Selector="ListBoxItem:selected:pointerover /template/ Border#Bd">
-                                              <Setter Property="Background" Value="#7027da48"/>
-                                            </Style>
+                                        <Style Selector="ListBoxItem:selected:pointerover /template/ Border#Bd">
+                                          <Setter Property="Background" Value="#7027da48"/>
+                                        </Style>
 
-                                            <Style Selector="ListBoxItem:selected:pointerover /template/ ContentPresenter">
-                                                <Setter Property="Background" Value="Transparent"/>
-                                            </Style>
+                                        <Style Selector="ListBoxItem:selected:pointerover /template/ ContentPresenter">
+                                            <Setter Property="Background" Value="Transparent"/>
+                                        </Style>
 
-                                            <Style Selector="ListBoxItem:selected:focus:pointerover /template/ Border#Bd">
-                                                <Setter Property="Background" Value="#7027da48"/>
-                                            </Style>
+                                        <Style Selector="ListBoxItem:selected:focus:pointerover /template/ Border#Bd">
+                                            <Setter Property="Background" Value="#7027da48"/>
+                                        </Style>
 
-                                            <Style Selector="ListBoxItem:selected:focus:pointerover /template/ ContentPresenter">
-                                                <Setter Property="Background" Value="Transparent"/>
-                                            </Style>
+                                        <Style Selector="ListBoxItem:selected:focus:pointerover /template/ ContentPresenter">
+                                            <Setter Property="Background" Value="Transparent"/>
+                                        </Style>
                                      </ListBox.Styles>
                                     
                                      <i:Interaction.Behaviors>
@@ -349,62 +356,109 @@
 
                                     <Border x:Name="SearchBar"
                                             CornerRadius="15"
-                                            BorderBrush="Green"
+                                            BorderBrush="{StaticResource color1}"
                                             BorderThickness="1"
                                             Margin="10">
-                                        <TextBox x:Name="SearchBox"
-                                                 Width="200"
-                                                 Text="{Binding SearchPhrase}"
-                                                 Watermark="Search here"
-                                                 Background="Transparent"
-                                                 HorizontalAlignment="Stretch"
-                                                 BorderThickness="0"
-                                                 KeyDown="SearchBarTyped">
-                                            <TextBox.Styles>
-                                                <Style Selector="#SearchBar TextBox">
-                                                  <Setter Property="BorderThickness" Value="0"/>
-                                                  <Setter Property="Background" Value="Transparent"/>
-                                                  <Setter Property="BorderBrush" Value="{StaticResource btnApplyColor1}"/>
-                                                  <Setter Property="SelectionBrush" Value="#0b3338"/>
-                                                </Style>
+                                        <StackPanel Orientation="Horizontal"
+                                                    HorizontalAlignment="Stretch">
+                                            <TextBox x:Name="SearchBox"
+                                                     Text="{Binding SearchPhrase, Mode=TwoWay}"
+                                                     Width="170"
+                                                     Watermark="Search here"
+                                                     Background="Transparent"
+                                                     HorizontalAlignment="Stretch"
+                                                     BorderThickness="0"
+                                                     KeyDown="SearchBarTyped">
+                                                <TextBox.Styles>
+                                                    <Style Selector="#SearchBar TextBox">
+                                                      <Setter Property="BorderThickness" Value="0"/>
+                                                      <Setter Property="Background" Value="Transparent"/>
+                                                      <Setter Property="BorderBrush" Value="{StaticResource btnApplyColor1}"/>
+                                                      <Setter Property="SelectionBrush" Value="#0b3338"/>
+                                                    </Style>
 
-                                                <Style Selector="#SearchBar:pointerover TextBox /template/ Border#PART_BorderElement">
-                                                  <Setter Property="BorderThickness" Value="0"/>
-                                                  <Setter Property="Background" Value="Transparent"/>
-                                                  <Setter Property="BorderBrush" Value="{StaticResource btnApplyColor1}"/>
-                                                </Style>
+                                                    <Style Selector="#SearchBar:pointerover TextBox /template/ Border#PART_BorderElement">
+                                                      <Setter Property="BorderThickness" Value="0"/>
+                                                      <Setter Property="Background" Value="Transparent"/>
+                                                      <Setter Property="BorderBrush" Value="{StaticResource btnApplyColor1}"/>
+                                                    </Style>
 
-                                                <Style Selector="#SearchBar:focus TextBox /template/ Border#PART_BorderElement">
-                                                  <Setter Property="BorderThickness" Value="0"/>
-                                                  <Setter Property="Background" Value="Transparent"/>
-                                                  <Setter Property="BorderBrush" Value="{StaticResource btnApplyColor1}"/>
-                                                </Style>
+                                                    <Style Selector="#SearchBar:focus TextBox /template/ Border#PART_BorderElement">
+                                                      <Setter Property="BorderThickness" Value="0"/>
+                                                      <Setter Property="Background" Value="Transparent"/>
+                                                      <Setter Property="BorderBrush" Value="{StaticResource btnApplyColor1}"/>
+                                                    </Style>
 
-                                                <Style Selector="#SearchBar:focus:pointerover TextBox /template/ Border#PART_BorderElement">
-                                                  <Setter Property="BorderThickness" Value="0"/>
-                                                  <Setter Property="Background" Value="Transparent"/>
-                                                  <Setter Property="BorderBrush" Value="{StaticResource btnApplyColor1}"/>
-                                                </Style>
+                                                    <Style Selector="#SearchBar:focus:pointerover TextBox /template/ Border#PART_BorderElement">
+                                                      <Setter Property="BorderThickness" Value="0"/>
+                                                      <Setter Property="Background" Value="Transparent"/>
+                                                      <Setter Property="BorderBrush" Value="{StaticResource btnApplyColor1}"/>
+                                                    </Style>
 
-                                                <Style Selector="#SearchBox:pointerover /template/ Border#PART_BorderElement">
-                                                  <Setter Property="BorderThickness" Value="0"/>
-                                                  <Setter Property="Background" Value="Transparent"/>
-                                                  <Setter Property="BorderBrush" Value="{StaticResource btnApplyColor1}"/>
-                                                </Style>
+                                                    <Style Selector="#SearchBox:pointerover /template/ Border#PART_BorderElement">
+                                                      <Setter Property="BorderThickness" Value="0"/>
+                                                      <Setter Property="Background" Value="Transparent"/>
+                                                      <Setter Property="BorderBrush" Value="{StaticResource btnApplyColor1}"/>
+                                                    </Style>
 
-                                                <Style Selector="#SearchBox:focus /template/ Border#PART_BorderElement">
-                                                  <Setter Property="BorderThickness" Value="0"/>
-                                                  <Setter Property="Background" Value="Transparent"/>
-                                                  <Setter Property="BorderBrush" Value="{StaticResource btnApplyColor1}"/>
-                                                </Style>
+                                                    <Style Selector="#SearchBox:focus /template/ Border#PART_BorderElement">
+                                                      <Setter Property="BorderThickness" Value="0"/>
+                                                      <Setter Property="Background" Value="Transparent"/>
+                                                      <Setter Property="BorderBrush" Value="{StaticResource btnApplyColor1}"/>
+                                                    </Style>
 
-                                                <Style Selector="#SearchBox:focus:pointerover /template/ Border#PART_BorderElement">
-                                                  <Setter Property="BorderThickness" Value="0"/>
-                                                  <Setter Property="Background" Value="Transparent"/>
-                                                  <Setter Property="BorderBrush" Value="{StaticResource btnApplyColor1}"/>
-                                                </Style>
-                                            </TextBox.Styles>
-                                        </TextBox>
+                                                    <Style Selector="#SearchBox:focus:pointerover /template/ Border#PART_BorderElement">
+                                                      <Setter Property="BorderThickness" Value="0"/>
+                                                      <Setter Property="Background" Value="Transparent"/>
+                                                      <Setter Property="BorderBrush" Value="{StaticResource btnApplyColor1}"/>
+                                                    </Style>
+                                                </TextBox.Styles>
+                                            </TextBox>
+                                            
+                                            <Border Classes="SearchButton"
+                                                    Width="15"
+                                                    Height="15"
+                                                    Margin="5"
+                                                    BorderThickness="0"
+                                                    CornerRadius="5"
+                                                    HorizontalAlignment="Right"
+                                                    VerticalAlignment="Center"
+                                                    IsVisible="{Binding SearchPhrase, TargetNullValue=False}">
+                                                <i:Interaction.Behaviors>
+                                                    <ia:EventTriggerBehavior EventName="PointerPressed">
+                                                        <ia:InvokeCommandAction Command="{Binding SearchAreaHideCommand}"/>
+                                                    </ia:EventTriggerBehavior>  
+                                                </i:Interaction.Behaviors>
+                                                <PathIcon HorizontalAlignment="Center"
+                                                            VerticalAlignment="Center"
+                                                            Width="20"
+                                                            Height="20"
+                                                            Background="Transparent"
+                                                            Data="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z">
+                                                  </PathIcon>
+                                            </Border>
+
+                                            <Border Classes="SearchButton"
+                                                    Width="15"
+                                                    Height="15"
+                                                    Margin="5, 0, 10, 0"
+                                                    BorderThickness="0"
+                                                    CornerRadius="5"
+                                                    HorizontalAlignment="Right"
+                                                    VerticalAlignment="Center">
+                                                <i:Interaction.Behaviors>
+                                                    <ia:EventTriggerBehavior EventName="PointerPressed">
+                                                        <ia:InvokeCommandAction Command="{Binding SearchCommand}"/>
+                                                    </ia:EventTriggerBehavior>  
+                                                </i:Interaction.Behaviors>
+                                              <PathIcon HorizontalAlignment="Center"
+                                                        VerticalAlignment="Center"
+                                                        Width="20"
+                                                        Height="20"
+                                                        Background="Transparent"
+                                                        Data="M9.5,3A6.5,6.5 0 0,1 16,9.5C16,11.11 15.41,12.59 14.44,13.73L14.71,14H15.5L20.5,19L19,20.5L14,15.5V14.71L13.73,14.44C12.59,15.41 11.11,16 9.5,16A6.5,6.5 0 0,1 3,9.5A6.5,6.5 0 0,1 9.5,3M9.5,5C7,5 5,7 5,9.5C5,12 7,14 9.5,14C12,14 14,12 14,9.5C14,7 12,5 9.5,5Z"/>
+                                            </Border>
+                                        </StackPanel>
                                     </Border>
 
                                     <ScrollViewer HorizontalScrollBarVisibility="Disabled"

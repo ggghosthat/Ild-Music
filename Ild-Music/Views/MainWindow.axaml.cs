@@ -26,6 +26,7 @@ public partial class MainWindow : Window
     private const string PART_VOLUME_BUTTON = "VolumeButton";
     private const string PART_SEARCH_AREA = "SearchArea";
     private const string PART_SEARCH_BAR = "SearchBar";
+    private const string PART_SEARCH_BOX = "SearchBox";
     private const string PART_MAIN_GRID = "MainGrid";
     private const string PART_VOLUME_SLIDER = "VolumeSlider";
     private const string PART_TIME_SLIDER = "sldThumby";
@@ -39,6 +40,7 @@ public partial class MainWindow : Window
     private Control searchPopup;
     private Control searchBar;
     private Control mainGrid;
+    private TextBox searchBox;
     private Slider volumeSlider;
 
     public static MainWindowViewModel Context {get; private set;}
@@ -65,6 +67,7 @@ public partial class MainWindow : Window
         searchPopup = (Control)e.NameScope.Get<Border>(PART_SEARCH_AREA);
         searchBar = (Control)e.NameScope.Get<Border>(PART_SEARCH_BAR);
         mainGrid = (Control)e.NameScope.Get<Grid>(PART_MAIN_GRID);
+        searchBox= e.NameScope.Get<TextBox>(PART_SEARCH_BOX);
         volumeSlider = e.NameScope.Get<Slider>(PART_VOLUME_SLIDER);
     }
 
@@ -124,7 +127,6 @@ public partial class MainWindow : Window
     {
         if (e.Key == Key.Enter)
         {
-            ((MainWindowViewModel)DataContext).SearchAreaShowCommand.Execute(null);
             ((MainWindowViewModel)DataContext).SearchCommand.Execute(null);
         }
         else if (e.Key == Key.Up)
@@ -138,6 +140,6 @@ public partial class MainWindow : Window
         else if (e.Key == Key.Escape)
         {
             ((MainWindowViewModel)DataContext).SearchAreaHideCommand.Execute(null);
-        }
+        }        
     }
 }
