@@ -469,7 +469,7 @@
                             Width="100"
                             Height="25"
                             Margin="3,0"
-                            Content="Ok"
+                            Content="Apply"
                             Command="{Binding CreateTagCommand}"/>
 
                     <Button Classes="btnApply"

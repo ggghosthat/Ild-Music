@@ -117,11 +117,13 @@ public class TagEditorViewModel : BaseViewModel
         Name = TagInstance.Name.ToString();
     }
 
-    public async Task DropInstance(Tag tag) 
+    public Task DropInstance(Tag tag) 
     {
         TagInstance = tag;
         IsEditMode = true;
         Name = TagInstance.Name.ToString();
+
+        return Task.CompletedTask;
     }
 
     private void Cancel(object obj)

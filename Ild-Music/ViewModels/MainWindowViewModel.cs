@@ -211,9 +211,9 @@ public class MainWindowViewModel : Base.BaseViewModel
                 viewModel = trackViewModel;
                 break;            
             case (EntityTag.TAG):
-                var tagViewModel = (TagViewModel)App.ViewModelTable[TagViewModel.viewModelId];
+                var tagViewModel = (TagEditorViewModel)App.ViewModelTable[TagEditorViewModel.viewModelId];
                 var tag = _supporterGhost.GetTagAsync(instanceDto.Id).Result;
-                tagViewModel?.SetInstance(tag);
+                tagViewModel?.DropInstance(tag).Wait();
                 viewModel = tagViewModel;
                 break;
         }

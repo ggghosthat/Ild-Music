@@ -38,7 +38,7 @@ public class ListViewModel : BaseViewModel
     public CommandDelegator ItemSelectCommand { get; }
     public CommandDelegator InitCurrentListCommand { get; }
 
-    public static ObservableCollection<string> Headers { get; private set; } = new() {"Artists","Playlists","Tracks", "Tags"};
+    public static ObservableCollection<string> Headers { get; private set; } = new() {"Artists","Playlists","Tracks"};
     public string Header { get; set; } = Headers[0];
 
     public static ObservableCollection<CommonInstanceDTO> CurrentList { get; set; } = new();
