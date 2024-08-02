@@ -49,9 +49,9 @@
               <Border Classes="FunctionButton"
                       Width="30"
                       Height="30"
-                      Margin="10, 2, 5, 5"
+                      Margin="15"
                       BorderThickness="0"
-                      CornerRadius="5"
+                      CornerRadius="10"
                       HorizontalAlignment="Stretch"
                       VerticalAlignment="Stretch">
 
@@ -370,7 +370,7 @@
           <Border.Background>
             <LinearGradientBrush StartPoint="50%,0%" EndPoint="50%,100%">
               <GradientStop Color="{Binding Avatar, Converter={StaticResource IconConverter}, ConverterParameter=background}" Offset="0.0" />
-              <GradientStop Color="Black" Offset="1.0" />
+              <GradientStop Color="#282828" Offset="0.9" />
             </LinearGradientBrush> 
           </Border.Background>
         </Border>

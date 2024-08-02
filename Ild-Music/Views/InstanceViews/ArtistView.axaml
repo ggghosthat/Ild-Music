@@ -39,7 +39,7 @@
           <StackPanel Grid.Column="0"
                       Margin="45 5"
                       Orientation="Vertical">
-                          <StackPanel Margin="5, 20, 5, 5"
+            <StackPanel Margin="5, 20, 5, 5"
                         Orientation="Horizontal">
               <i:Interaction.Behaviors>
                 <ia:EventTriggerBehavior EventName="PointerPressed">
@@ -65,7 +65,8 @@
             
               <Border Width="300"
                       Height="300"
-                      Margin="10"
+                      Margin="15"
+                      CornerRadius="10"
                       Background="Transparent"
                       Child="{Binding Avatar, Converter={StaticResource IconConverter}, ConverterParameter=aico_col}">
               </Border>   
@@ -368,7 +369,7 @@
           <Border.Background>
             <LinearGradientBrush StartPoint="50%,0%" EndPoint="50%,100%">
               <GradientStop Color="{Binding Avatar, Converter={StaticResource IconConverter}, ConverterParameter=background}" Offset="0.0" />
-              <GradientStop Color="Black" Offset="1.0" />
+              <GradientStop Color="#282828" Offset="0.9" />
             </LinearGradientBrush> 
           </Border.Background>
         </Border>

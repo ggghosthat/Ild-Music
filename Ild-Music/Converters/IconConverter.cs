@@ -42,7 +42,7 @@ public class IconConverter : IValueConverter
         else if (parameter == "aico_col")
         {
             if (value is byte[] artistIconSource && artistIconSource.Length > 0)
-                return CraftImage(artistIconSource, 400d, 400d).Result;
+                return CraftImage(artistIconSource, 300d, 300d).Result;
 
             return LoadAsset(@"avares://Ild-Music/Assets/DefaultIcons/artist.png", 300d, 300d).Result;
         }

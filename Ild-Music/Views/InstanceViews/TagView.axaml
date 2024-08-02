@@ -18,7 +18,6 @@
     </UserControl.Resources>
 
     <Grid>
-        <!-- show panel -->
         <Grid ZIndex="3">
           <Grid.ColumnDefinitions>
             <ColumnDefinition Width="auto"/>
@@ -62,7 +61,6 @@
           </Grid>         
         </Grid>
 
-        <!--background-->
         <Border Grid.Row="0"
                 Grid.Column="0"
                 Grid.ColumnSpan="3"
