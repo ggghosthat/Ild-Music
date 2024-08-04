@@ -73,6 +73,7 @@ public class MainWindowViewModel : Base.BaseViewModel
     public Track? CurrentTrack => _player?.CurrentTrack;
     public string Title => CurrentTrack?.Name.ToString();
     public Playlist? CurrentPlaylist => _player?.CurrentPlaylist;
+    public ObservableCollection<Track> CurrentPlaylistTracks = new();
 
     //private TimeSpan totalTime = TimeSpan.FromSeconds(1);
     public double TotalTime => _player?.TotalTime.TotalSeconds ?? 1d;
@@ -87,20 +88,20 @@ public class MainWindowViewModel : Base.BaseViewModel
     public double CurrentTime 
     {
         get => (double)(_player?.CurrentTime.TotalSeconds ?? 0);
-        set
+        set 
         {
             if (_player is not null)
-                _player.CurrentTime = TimeSpan.FromSeconds(value);
+                _player?.CurrentTime = TimeSpan.FromSeconds(value);
         }
     }
 
     public float CurrentVolume
     {
         get => _player?.CurrentVolume ?? 0;
-        set
+        set 
         {
             if (_player is not null)
-                _player.CurrentVolume = value;
+                _player?.CurrentVolume = value;
         }
     }
 
@@ -234,6 +235,7 @@ public class MainWindowViewModel : Base.BaseViewModel
     {
         _player?.Stop();
         _player?.DropPlaylist(playlist);
+        SetPlaylistToCurrentInstance(playlist);
 
         OnPropertyChanged("CurrentPlaylist");
         OnPropertyChanged("CurrentTrack");
@@ -251,6 +253,12 @@ public class MainWindowViewModel : Base.BaseViewModel
             PushVM(source, playlistVM);
             ResolveWindowStack();
         }
+    }
+
+    private void SetPlaylistToCurrentInstance(Playlist playlist)
+    {
+        _supporterGhost.GetInstanceDTOsFromIds(playlist.Tracks, EntityTag.TRACK).Result
+            .ToList().ForEach(t => CurrentPlaylistTracks.Add(t));
     }
 
     public void DropTrackInstance(

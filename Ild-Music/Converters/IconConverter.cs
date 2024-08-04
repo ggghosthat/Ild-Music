@@ -35,6 +35,13 @@ public class IconConverter : IValueConverter
                 EntityTag.TAG => LoadBitmapfromPath(@"avares://Ild-Music/Assets/DefaultIcons/tag.png").Result,
             };
         }
+        if (parameter == "track_icon" && value is Track trackInstance)
+        {
+            if (trackInstance.AvatarPath.Length > 0)
+                return LoadBitmapFromTrack(trackInstance).Result;
+            else
+                return LoadBitmapfromPath(@"avares://Ild-Music/Assets/DefaultIcons/track.png").Result;
+        }
         else if (parameter == "dto_has_icon" && value is CommonInstanceDTO dto_has_icon)
         {            
             return dto_has_icon.Avatar.Length == 0;
@@ -211,6 +218,12 @@ public class IconConverter : IValueConverter
     private Task<Avalonia.Media.Imaging.Bitmap> LoadBitmapFromDto(CommonInstanceDTO instanceDto)
     {
         var bitmap = new Avalonia.Media.Imaging.Bitmap(instanceDto.AvatarPath.ToString());
+        return Task.FromResult(bitmap);
+    }
+
+    private Task<Avalonia.Media.Imaging.Bitmap> LoadBitmapFromTrack(Track track)
+    {
+        var bitmap = new Avalonia.Media.Imaging.Bitmap(track.AvatarPath.ToString());
         return Task.FromResult(bitmap);
     }
 }

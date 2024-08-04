@@ -558,11 +558,10 @@ internal sealed class QueryHandler
         return Task.FromResult<Tag>(tag);
     }
 
-    public Task<IEnumerable<CommonInstanceDTO>> QueryInstanceDtosFromIds(
-        IEnumerable<Guid> inputIds,
-        EntityTag entityTag)
+    public Task<IEnumerable<Track>> QueryTracksById(
+        IEnumerable<Guid> inputIds)
     {
-       IEnumerable<CommonInstanceDTO> resultDtos;
+       IEnumerable<Track> tracks;
 
        using (IDbConnection connection = ConnectionAgent.GetDbConnection())
        {
@@ -570,36 +569,33 @@ internal sealed class QueryHandler
 
            using (var transaction = connection.BeginTransaction())
            {
-               var inputs = inputIds.Select(i => i.ToString());
+                var inputs = inputIds.Select(i => i.ToString());
 
-               var table = entityTag switch
-               {
-                   EntityTag.ARTIST => "artists",
-                   EntityTag.PLAYLIST => "playlists",
-                   EntityTag.TRACK => "tracks",
-                   _ => default
-               };
+                string tracksQuery = @"
+                    SELECT t.TID, t.Name, t.Description, t.Year, t.Duration, a.AID
+                    FROM tracks as t
+                    LEFT JOIN artists_tracks AS at 
+                    ON t.TID = at.TID
+                    INNER JOIN artists AS a 
+                    ON at.AID = a.AID
+                    WHERE t.TID in @tid";
+               
+                tracks = connection.Query<Track, ICollection<string>, Track>(
+                    tracksQuery,
+                    (track, artists) => 
+                    {
+                        track.Artists = artists
+                            .Select(a => Guid.Parse(a.ToString()))
+                            .ToList();
+                        return track;
+                    },
+                    new {tid = inputs},
+                    transaction,
+                    splitOn: "AID");
 
-               var header = entityTag switch
-               {
-                   EntityTag.ARTIST => "AID",
-                   EntityTag.PLAYLIST => "PID",
-                   EntityTag.TRACK => "TID",
-                   _ => default
-               };
-
-               string query = $@"SELECT {header} as Id, Name FROM {table} WHERE {header} IN @ids";
-
-               resultDtos = connection
-                   .Query(query, new {ids = inputs}, transaction)
-                   .Select(i => new CommonInstanceDTO(
-                        id: Guid.Parse(i.Id),
-                        name: ((string)i.Name).AsMemory(),
-                        avatarPath: WarehouseAgent.GetAvatarFromId(Guid.Parse(i.Id)).AsMemory(),
-                        tag: entityTag));
            } 
 
-           return Task.FromResult<IEnumerable<CommonInstanceDTO>>(resultDtos);
+           return Task.FromResult<IEnumerable<Track>>(tracks);
        }
     }
 

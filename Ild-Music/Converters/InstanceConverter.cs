@@ -31,7 +31,7 @@ public class InstanceConverter : IValueConverter
                 return playlist.Name.ToString();
             else if(value is Track track)
                 return track.Name.ToString();
-            else return "name";
+            else return null;
         }
         else if (parameter == "shortname")
         {
@@ -43,7 +43,7 @@ public class InstanceConverter : IValueConverter
                 return SliceName(playlist.Name);
             else if(value is Track track)
                 return SliceName(track.Name);
-            else return "name";
+            else return null;
         }
         else if (parameter == "desc")
         {
@@ -53,7 +53,7 @@ public class InstanceConverter : IValueConverter
                 return playlist.Description;
             else if(value is Track track)
                 return track.Description;
-            else return "description";
+            else return null;
         }
         else if (parameter == "year")
         {
@@ -63,7 +63,7 @@ public class InstanceConverter : IValueConverter
                 return playlist.Year;
             else if(value is Track track)
                 return track.Year;
-            else return "year";
+            else return null;
         }      
         else if (parameter == "duration")      
         {

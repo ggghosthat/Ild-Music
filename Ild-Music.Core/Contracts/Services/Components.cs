@@ -53,9 +53,9 @@ public interface ICube : IShare
     public Task LoadStartEntities();
     public Task<IEnumerable<CommonInstanceDTO>> LoadEntities(EntityTag entityTag);
     public Task<IEnumerable<CommonInstanceDTO>> LoadFramedEntities(EntityTag entityTag, int offset, int limit);
-    public Task<IEnumerable<CommonInstanceDTO>> QueryInstanceDtosFromIds(IEnumerable<Guid> ids, EntityTag entityTag);
     public Task<IEnumerable<CommonInstanceDTO>> LoadTags();
     public Task<IEnumerable<CommonInstanceDTO>> LoadFramedTags(int offset, int limit);
+    public Task<IEnumerable<Track>> LoadTracksById(IEnumerable<Guid> ids);
     public Task<MetricSheet> QueryCapacityMetrics();
 
     //searching methods

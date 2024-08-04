@@ -55,46 +55,46 @@
 	            </StackPanel>
 
 	            <Border Width="300"
-	        			Height="300"
-		            	Margin="15"
-	                  	CornerRadius="10"
-	    	        	Background="Transparent"
-	        	    	Child="{Binding Avatar, Converter={StaticResource IconConverter}, ConverterParameter=tico_col}">
-	        	</Border>            
+			        				Height="300"
+				            	Margin="15"
+			                CornerRadius="10"
+			    	        	Background="Transparent"
+			        	    	Child="{Binding Avatar, Converter={StaticResource IconConverter}, ConverterParameter=tico_col}">
+	        		</Border>            
 	        </StackPanel>
 
 	  	    <StackPanel Grid.Column="1"
 	  	    			VerticalAlignment="Center"
 	  	    			Margin="10, 30, 10, 10">
 	  	    	<TextBlock Margin="0,5,0,0"
-	            		   Text="{Binding Name}"	
-	                       FontSize="25"
-	                       FontWeight="UltraBlack"
-	                       Foreground="White"
-	                       HorizontalAlignment="Left"
-	                       VerticalAlignment="Bottom"
-	                       TextAlignment="Center"/>
+	            		   	 Text="{Binding Name}"	
+	                     FontSize="25"
+	                     FontWeight="UltraBlack"
+	                     Foreground="White"
+	                     HorizontalAlignment="Left"
+	                     VerticalAlignment="Bottom"
+	                     TextAlignment="Center"/>
 
-	            <TextBlock Margin="0,3,0,2"
-	            		   Text="{Binding Description}"
-	                       FontSize="16"
-	                       FontWeight="Light"
-	                       Foreground="White"
-	                       HorizontalAlignment="Left"
-	                       VerticalAlignment="Bottom"
-	                       TextAlignment="Center"/>
+	          <TextBlock Margin="0,3,0,2"
+	            		   	 Text="{Binding Description}"
+	                     FontSize="16"
+	                     FontWeight="Light"
+	                     Foreground="White"
+	                     HorizontalAlignment="Left"
+	                     VerticalAlignment="Bottom"
+	                     TextAlignment="Center"/>
 	                       
-	            <TextBlock Margin="0,2,0,3"
-	            		   Text="{Binding Year}"
-	                       FontSize="14"
-	                       FontWeight="Light"
-	                       Foreground="White"
-	                       HorizontalAlignment="Left"
-	                       VerticalAlignment="Bottom"
-	                       TextAlignment="Center"/>
+	          <TextBlock Margin="0,2,0,3"
+	            		     Text="{Binding Year}"
+	                     FontSize="14"
+	                     FontWeight="Light"
+	                     Foreground="White"
+	                     HorizontalAlignment="Left"
+	                     VerticalAlignment="Bottom"
+	                     TextAlignment="Center"/>
 
-	 			<Grid VerticalAlignment="Bottom"
-	 				  Margin="0, 2, 20, 0">
+	 					<Grid VerticalAlignment="Bottom"
+	 				  			Margin="0, 2, 20, 0">
 		            <StackPanel
 		                      HorizontalAlignment="Center"
 		                      VerticalAlignment="Center"
@@ -221,7 +221,8 @@
 		                  </ListBox.ItemTemplate>
 		              </ListBox>
 		            </ScrollViewer>
-	            </Grid>
+	        	</Grid>
+	        	
 	        </StackPanel>
         </Grid>
 
@@ -234,11 +235,11 @@
 	            BorderBrush="Transparent"
 	            ZIndex="-1">
 	      <Border.Background>
-            <LinearGradientBrush StartPoint="50%,0%" EndPoint="50%,100%">
-              <GradientStop Color="{Binding Avatar, Converter={StaticResource IconConverter}, ConverterParameter=background}" Offset="0.0" />
-              <GradientStop Color="#282828" Offset="0.9" />
-            </LinearGradientBrush> 
-          </Border.Background>
+          <LinearGradientBrush StartPoint="50%,0%" EndPoint="50%,100%">
+            <GradientStop Color="{Binding Avatar, Converter={StaticResource IconConverter}, ConverterParameter=background}" Offset="0.0" />
+            <GradientStop Color="#282828" Offset="0.9" />
+          </LinearGradientBrush> 
+        </Border.Background>
 	    </Border>
 	</Grid>
 </UserControl>

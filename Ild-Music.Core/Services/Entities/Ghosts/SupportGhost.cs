@@ -14,13 +14,13 @@ public sealed class SupportGhost : IGhost
     private static ICube _cube; 
     private MetaData _metaData = new();
 
-    public SupportGhost()
-    {}
-
     public event Action OnArtistsNotifyRefresh;
     public event Action OnPlaylistsNotifyRefresh;
     public event Action OnTracksNotifyRefresh;
     public event Action OnTagsNotifyRefresh;
+
+    public SupportGhost()
+    {}
    
     public void Init(ICube inputCube) 
     {
@@ -126,9 +126,9 @@ public sealed class SupportGhost : IGhost
         return await _cube.QueryTag(tagId);
     }
 
-    public async Task<IEnumerable<CommonInstanceDTO>> GetInstanceDTOsFromIds(IEnumerable<Guid> ids, EntityTag entityTag)
+    public async Task<IEnumerable<Track>> GetInstanceDTOsFromIds(IEnumerable<Guid> ids, EntityTag entityTag)
     {
-        return await _cube.QueryInstanceDtosFromIds(ids, entityTag);
+        return await _cube.LoadTracksById(ids);
     }
 
     public MetaData GetPageMetaData()
