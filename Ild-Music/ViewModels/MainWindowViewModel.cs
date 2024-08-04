@@ -73,7 +73,7 @@ public class MainWindowViewModel : Base.BaseViewModel
     public Track? CurrentTrack => _player?.CurrentTrack;
     public string Title => CurrentTrack?.Name.ToString();
     public Playlist? CurrentPlaylist => _player?.CurrentPlaylist;
-    public ObservableCollection<Track> CurrentPlaylistTracks = new();
+    public ObservableCollection<Track> CurrentPlaylistTracks { get; private set; }= new();
 
     //private TimeSpan totalTime = TimeSpan.FromSeconds(1);
     public double TotalTime => _player?.TotalTime.TotalSeconds ?? 1d;
@@ -91,7 +91,7 @@ public class MainWindowViewModel : Base.BaseViewModel
         set 
         {
             if (_player is not null)
-                _player?.CurrentTime = TimeSpan.FromSeconds(value);
+                _player.CurrentTime = TimeSpan.FromSeconds(value);
         }
     }
 
@@ -101,7 +101,7 @@ public class MainWindowViewModel : Base.BaseViewModel
         set 
         {
             if (_player is not null)
-                _player?.CurrentVolume = value;
+                _player.CurrentVolume = value;
         }
     }
 
@@ -257,7 +257,7 @@ public class MainWindowViewModel : Base.BaseViewModel
 
     private void SetPlaylistToCurrentInstance(Playlist playlist)
     {
-        _supporterGhost.GetInstanceDTOsFromIds(playlist.Tracks, EntityTag.TRACK).Result
+        _supporterGhost.LoadTracksById(playlist.Tracks).Result
             .ToList().ForEach(t => CurrentPlaylistTracks.Add(t));
     }
 

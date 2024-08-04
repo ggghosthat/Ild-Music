@@ -126,7 +126,12 @@ public sealed class SupportGhost : IGhost
         return await _cube.QueryTag(tagId);
     }
 
-    public async Task<IEnumerable<Track>> GetInstanceDTOsFromIds(IEnumerable<Guid> ids, EntityTag entityTag)
+    public async Task<IEnumerable<CommonInstanceDTO>> GetInstanceDTOsFromIds(IEnumerable<Guid> ids, EntityTag entityTag)
+    {
+        return await _cube.LoadInstancesById(ids, entityTag);
+    }
+
+    public async Task<IEnumerable<Track>> LoadTracksById(IEnumerable<Guid> ids)
     {
         return await _cube.LoadTracksById(ids);
     }

@@ -168,6 +168,11 @@ public class GuidoForklift : ICube //Cars from pixar (lol)
         return await _queryHandler.QuerySingleTag(tagId); 
     }
 
+    public async Task<IEnumerable<CommonInstanceDTO>> LoadInstancesById(IEnumerable<Guid> ids, EntityTag entityTag)
+    {
+        return await _queryHandler.QueryInstancesById(ids, entityTag);
+    }
+
     public async Task<IEnumerable<Track>> LoadTracksById(IEnumerable<Guid> ids)
     {
         return await _queryHandler.QueryTracksById(ids);

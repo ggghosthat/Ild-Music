@@ -22,6 +22,7 @@
         <conv:InstanceConverter x:Key="InstanceConverter"/>
         <conv:IconConverter x:Key="IconConverter"/>
         <conv:IndicatorConverter x:Key="IndicatorConverter"/>
+        <conv:ListActivityConverter x:Key="ListActivityConverter"/>
     </Window.Resources>
 
     <Window.Styles>
@@ -291,7 +292,7 @@
                                 Width="400"
                                 Grid.Row="0"
                                 Grid.RowSpan="3"
-                                Background="#902d2d2d"
+                                Background="#3d3d3d"
                                 CornerRadius="10, 10, 0, 0"
                                 HorizontalAlignment="Right"
                                 VerticalAlignment="Bottom"

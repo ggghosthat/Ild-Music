@@ -558,6 +558,51 @@ internal sealed class QueryHandler
         return Task.FromResult<Tag>(tag);
     }
 
+    public Task<IEnumerable<CommonInstanceDTO>> QueryInstancesById(
+        IEnumerable<Guid> inputIds,
+        EntityTag entityTag)
+    {
+       IEnumerable<CommonInstanceDTO> resultDtos;
+
+       using (IDbConnection connection = ConnectionAgent.GetDbConnection())
+       {
+           connection.Open();
+
+           using (var transaction = connection.BeginTransaction())
+           {
+               var inputs = inputIds.Select(i => i.ToString());
+
+               var table = entityTag switch
+               {
+                   EntityTag.ARTIST => "artists",
+                   EntityTag.PLAYLIST => "playlists",
+                   EntityTag.TRACK => "tracks",
+                   _ => default
+               };
+
+               var header = entityTag switch
+               {
+                   EntityTag.ARTIST => "AID",
+                   EntityTag.PLAYLIST => "PID",
+                   EntityTag.TRACK => "TID",
+                   _ => default
+               };
+
+               string query = $@"SELECT {header} as Id, Name FROM {table} WHERE {header} IN @ids";
+
+               resultDtos = connection
+                   .Query(query, new {ids = inputs}, transaction)
+                   .Select(i => new CommonInstanceDTO(
+                        id: Guid.Parse(i.Id),
+                        name: ((string)i.Name).AsMemory(),
+                        avatarPath: WarehouseAgent.GetAvatarFromId(Guid.Parse(i.Id)).AsMemory(),
+                        tag: entityTag));
+           } 
+
+           return Task.FromResult<IEnumerable<CommonInstanceDTO>>(resultDtos);
+       }
+    }
+
     public Task<IEnumerable<Track>> QueryTracksById(
         IEnumerable<Guid> inputIds)
     {
@@ -574,24 +619,20 @@ internal sealed class QueryHandler
                 string tracksQuery = @"
                     SELECT t.TID, t.Name, t.Description, t.Year, t.Duration, a.AID
                     FROM tracks as t
-                    LEFT JOIN artists_tracks AS at 
-                    ON t.TID = at.TID
-                    INNER JOIN artists AS a 
-                    ON at.AID = a.AID
                     WHERE t.TID in @tid";
                
-                tracks = connection.Query<Track, ICollection<string>, Track>(
+                tracks = connection.Query(
                     tracksQuery,
-                    (track, artists) => 
-                    {
-                        track.Artists = artists
-                            .Select(a => Guid.Parse(a.ToString()))
-                            .ToList();
-                        return track;
-                    },
                     new {tid = inputs},
-                    transaction,
-                    splitOn: "AID");
+                    transaction)
+                .Select(t => new Track(
+                    Guid.Parse(t.TID),
+                    WarehouseAgent.GetTrackPathFromId(Guid.Parse(t.TID)),
+                    t.Name,
+                    t.Description.ToCharArray(),
+                    WarehouseAgent.GetAvatarFromId(Guid.Parse(t.TID)).AsMemory(),
+                    TimeSpan.FromMilliseconds(t.Duration),
+                    (int)t.Year));
 
            } 
 
