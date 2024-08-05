@@ -12,6 +12,7 @@ using System;
 using System.Linq;
 using System.Collections.ObjectModel;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Threading;
@@ -73,7 +74,8 @@ public class MainWindowViewModel : Base.BaseViewModel
     public Track? CurrentTrack => _player?.CurrentTrack;
     public string Title => CurrentTrack?.Name.ToString();
     public Playlist? CurrentPlaylist => _player?.CurrentPlaylist;
-    public ObservableCollection<Track> CurrentPlaylistTracks { get; private set; }= new();
+    public ObservableCollection<Track> CurrentPlaylistTracks { get; private set; } = new();
+    public ObservableCollection<CommonInstanceDTO> CurrentPlaylistArtists { get; private set; } = new();
 
     //private TimeSpan totalTime = TimeSpan.FromSeconds(1);
     public double TotalTime => _player?.TotalTime.TotalSeconds ?? 1d;
@@ -235,7 +237,6 @@ public class MainWindowViewModel : Base.BaseViewModel
     {
         _player?.Stop();
         _player?.DropPlaylist(playlist);
-        SetPlaylistToCurrentInstance(playlist);
 
         OnPropertyChanged("CurrentPlaylist");
         OnPropertyChanged("CurrentTrack");
@@ -253,12 +254,19 @@ public class MainWindowViewModel : Base.BaseViewModel
             PushVM(source, playlistVM);
             ResolveWindowStack();
         }
+
+        SetPlaylistToCurrentInstance(playlist);
     }
 
     private void SetPlaylistToCurrentInstance(Playlist playlist)
     {
-        _supporterGhost.LoadTracksById(playlist.Tracks).Result
-            .ToList().ForEach(t => CurrentPlaylistTracks.Add(t));
+        foreach (var track in  _supporterGhost.LoadTracksById(playlist.Tracks).Result)
+        {
+            CurrentPlaylistTracks.Add(track);
+
+            _supporterGhost.GetInstanceDTOsFromIds(track.Artists, EntityTag.ARTIST).Result
+                .ToList().ForEach(a => CurrentPlaylistArtists.Add(a));
+        }
     }
 
     public void DropTrackInstance(

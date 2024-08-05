@@ -617,7 +617,7 @@ internal sealed class QueryHandler
                 var inputs = inputIds.Select(i => i.ToString());
 
                 string tracksQuery = @"
-                    SELECT t.TID, t.Name, t.Description, t.Year, t.Duration, a.AID
+                    SELECT t.TID, t.Name, t.Description, t.Year, t.Duration
                     FROM tracks as t
                     WHERE t.TID in @tid";
                

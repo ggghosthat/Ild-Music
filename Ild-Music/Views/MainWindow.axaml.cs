@@ -106,7 +106,7 @@ public partial class MainWindow : Window
 
         var volumePopupGap = (mainGrid.Bounds.Height - voulumeButtonPosition.Y);
         var searchPopupGap = (mainGrid.Bounds.Height - (searchBarPosition.Y + searchBar.Bounds.Height + searchPopup.Bounds.Height));
-        var currentInstancePopupGap = (mainGrid.Bounds.Height - currentInstanceTrayPosition.Y);
+        var currentInstancePopupGap = (mainGrid.Bounds.Height - currentInstanceTrayPosition.Y) + 10;
 
         
         Dispatcher.UIThread.Post( () => 
