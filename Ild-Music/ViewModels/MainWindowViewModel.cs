@@ -45,6 +45,9 @@ public class MainWindowViewModel : Base.BaseViewModel
     public CommandDelegator StopCommand { get; private set; }
     public CommandDelegator RepeatCommand { get; private set; }
     public CommandDelegator VolumeSliderShowCommand { get; private set; }
+    public CommandDelegator ResolveCurrentInstanceCommand { get; private set; }
+    public CommandDelegator ShowCurrentInstanceTabCommand { get; private set; }
+    public CommandDelegator HideCurrentInstanceTabCommand { get; private set; }
     public CommandDelegator SearchAreaShowCommand { get; private set; }
     public CommandDelegator SearchAreaToggleCommand { get; private set; }
     public CommandDelegator SearchAreaHideCommand { get; private set; }
@@ -72,12 +75,10 @@ public class MainWindowViewModel : Base.BaseViewModel
     public bool PlayerEmpty => _player?.IsEmpty ?? true;
 
     public Track? CurrentTrack => _player?.CurrentTrack;
-    public string Title => CurrentTrack?.Name.ToString();
     public Playlist? CurrentPlaylist => _player?.CurrentPlaylist;
-    public ObservableCollection<Track> CurrentPlaylistTracks { get; private set; } = new();
-    public ObservableCollection<CommonInstanceDTO> CurrentPlaylistArtists { get; private set; } = new();
+    public string Title => CurrentTrack?.Name.ToString();
+    public bool IsActiveCurrentTab { get; set; } = false;
 
-    //private TimeSpan totalTime = TimeSpan.FromSeconds(1);
     public double TotalTime => _player?.TotalTime.TotalSeconds ?? 1d;
     public double StartTime => TimeSpan.Zero.TotalSeconds;
    
@@ -134,6 +135,9 @@ public class MainWindowViewModel : Base.BaseViewModel
         NextCommand = new(NextSwipePlayer, OnCanSwipePlayer);
         RepeatCommand = new(RepeatPlayer, OnCanTogglePlayer);
         VolumeSliderShowCommand = new(VolumeSliderShow,null);
+        ResolveCurrentInstanceCommand = new(ResolveCurrentInstance, null);
+        ShowCurrentInstanceTabCommand = new(ShowCurrentInstanceTab, null);
+        HideCurrentInstanceTabCommand = new(HideCurrentInstanceTab, null);
         SearchAreaShowCommand = new(SearchAreaShow, null);
         SearchAreaToggleCommand = new(SearchAreaToggle, null);
         SearchAreaHideCommand = new(SearchAreaHide, null);
@@ -253,19 +257,6 @@ public class MainWindowViewModel : Base.BaseViewModel
             playlistVM?.SetInstance(playlist);           
             PushVM(source, playlistVM);
             ResolveWindowStack();
-        }
-
-        SetPlaylistToCurrentInstance(playlist);
-    }
-
-    private void SetPlaylistToCurrentInstance(Playlist playlist)
-    {
-        foreach (var track in  _supporterGhost.LoadTracksById(playlist.Tracks).Result)
-        {
-            CurrentPlaylistTracks.Add(track);
-
-            _supporterGhost.GetInstanceDTOsFromIds(track.Artists, EntityTag.ARTIST).Result
-                .ToList().ForEach(a => CurrentPlaylistArtists.Add(a));
         }
     }
 
@@ -411,6 +402,27 @@ public class MainWindowViewModel : Base.BaseViewModel
     {
         VolumeSliderOpen ^= true;
     }
+
+    private void ResolveCurrentInstance(object obj)
+    {
+        if (CurrentPlaylist == null && CurrentTrack is Track track)
+        {
+            var trackVM = (TrackViewModel)App.ViewModelTable[TrackViewModel.viewModelId];
+            trackVM?.SetInstance(track);
+            PushVM(this, trackVM);
+            ResolveWindowStack();
+        }
+    }
+
+    private void ShowCurrentInstanceTab(object obj)
+    {
+        IsActiveCurrentTab = true;
+    }
+
+    private void HideCurrentInstanceTab(object obj)
+    {
+        IsActiveCurrentTab = false;
+    }
     
     private void SearchAreaShow(object obj)
     {
@@ -457,7 +469,7 @@ public class MainWindowViewModel : Base.BaseViewModel
 
     public void SwitchBrowse(object obj)
     {
-        //DefineNewPresentItem(BrowseViewModel.viewModelId);
+        DefineNewPresentItem(BrowserViewModel.viewModelId);
     }
 
     public void Exit(object obj)

@@ -40,13 +40,13 @@
             <Setter Property="Background" Value="#80484d4f"/>
         </Style>
 
-        <Style Selector="Border.PlayerButton Border Viewbox Canvas Path">
+        <Style Selector="Border.PlayerButton Viewbox Canvas Path">
             <Setter Property="Fill" Value="#7b7f6b"/>
         </Style>
-        <Style Selector="Border.PlayerButton:pointerover Border Viewbox Canvas Path">
+        <Style Selector="Border.PlayerButton:pointerover Viewbox Canvas Path">
             <Setter Property="Fill" Value="#6ed48b"/>
         </Style>
-        <Style Selector="Border.PlayerButton:pointerpressed Border Viewbox Canvas Path">
+        <Style Selector="Border.PlayerButton:pointerpressed Viewbox Canvas Path">
             <Setter Property="Fill" Value="#6ed48b"/>
         </Style>
 
@@ -292,63 +292,83 @@
                                 Width="350"
                                 Grid.Row="0"
                                 Grid.RowSpan="3"
-                                Background="#80212121"
                                 CornerRadius="10"
                                 HorizontalAlignment="Right"
                                 VerticalAlignment="Bottom"
-                                Classes="currentInstanceAreaPopup">                            
+                                Classes="currentInstanceAreaPopup"
+                                IsVisible="{Binding IsActiveCurrentTab}">
+                            <Border.Background>
+                                <LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,100%">
+                                  <GradientStop Color="#90212121" Offset="0.5" />
+                                  <GradientStop Color="#9027da48" Offset="0.9" />
+                                </LinearGradientBrush> 
+                            </Border.Background>
                             <Grid>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="auto"/>
-                                    <RowDefinition Height="auto"/>
-                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="auto"/>
+                                </Grid.ColumnDefinitions>
 
-                                <Grid Grid.Row="0">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="auto"/>
-                                        <ColumnDefinition Width="*"/>
-                                    </Grid.ColumnDefinitions>
+                                <Border Grid.Column="0"
+                                        Width="70"
+                                        Height="70"
+                                        Margin="5"
+                                        CornerRadius="10"
+                                        Background="Transparent">
+                                    <Border.Background>
+                                        <ImageBrush Source="{Binding CurrentTrack, Converter={StaticResource IconConverter}, ConverterParameter=track_icon}"/>
+                                    </Border.Background>
+                                </Border>
 
-                                    <Border Grid.Column="0"
-                                            Width="70"
-                                            Height="70"
-                                            Margin="5"
-                                            CornerRadius="10"
-                                            Background="Transparent">
-                                        <Border.Background>
-                                            <ImageBrush Source="{Binding CurrentTrack, Converter={StaticResource IconConverter}, ConverterParameter=track_icon}"/>
-                                        </Border.Background>
-                                    </Border>
+                                <StackPanel Grid.Column="1">
+                                    <TextBlock Margin="0,10,0,0"
+                                               Text="{Binding CurrentTrack, Converter={StaticResource InstanceConverter}, ConverterParameter=name}"  
+                                               FontSize="16"
+                                               FontWeight="UltraBlack"
+                                               Foreground="White"
+                                               HorizontalAlignment="Left"
+                                               VerticalAlignment="Bottom"
+                                               TextAlignment="Center"/>
+                                               
+                                    <TextBlock Margin="0,2,0,3"
+                                               Text="{Binding CurrentTrack, Converter={StaticResource InstanceConverter}, ConverterParameter=year}"
+                                               FontSize="12"
+                                               FontWeight="Light"
+                                               Foreground="White"
+                                               HorizontalAlignment="Left"
+                                               VerticalAlignment="Bottom"
+                                               TextAlignment="Center"/>
 
-                                    <StackPanel Grid.Column="1">
-                                        <TextBlock Margin="0,10,0,0"
-                                                   Text="{Binding CurrentTrack, Converter={StaticResource InstanceConverter}, ConverterParameter=name}"  
-                                                   FontSize="16"
-                                                   FontWeight="UltraBlack"
-                                                   Foreground="White"
-                                                   HorizontalAlignment="Left"
-                                                   VerticalAlignment="Bottom"
-                                                   TextAlignment="Center"/>
-
-                                        <TextBlock Margin="0,3,0,2"
-                                                   Text="{Binding CurrentTrack, Converter={StaticResource InstanceConverter}, ConverterParameter=desc}"
-                                                   FontSize="14"
-                                                   FontWeight="Light"
-                                                   Foreground="White"
-                                                   HorizontalAlignment="Left"
-                                                   VerticalAlignment="Bottom"
-                                                   TextAlignment="Center"/>
-                                                   
-                                        <TextBlock Margin="0,2,0,3"
-                                                   Text="{Binding CurrentTrack, Converter={StaticResource InstanceConverter}, ConverterParameter=year}"
-                                                   FontSize="12"
-                                                   FontWeight="Light"
-                                                   Foreground="White"
-                                                   HorizontalAlignment="Left"
-                                                   VerticalAlignment="Bottom"
-                                                   TextAlignment="Center"/>
-                                    </StackPanel>
-                                </Grid>
+                                    <TextBlock Margin="0,3,0,2"
+                                               Text="{Binding CurrentTrack, Converter={StaticResource InstanceConverter}, ConverterParameter=desc}"
+                                               FontSize="14"
+                                               FontWeight="Light"
+                                               Foreground="White"
+                                               HorizontalAlignment="Left"
+                                               VerticalAlignment="Bottom"
+                                               TextAlignment="Center"/>
+                                               
+                                    
+                                </StackPanel>
+                                
+                                <Border Grid.Column="2" 
+                                      Width="50"
+                                      Height="50"
+                                      HorizontalAlignment="Right"
+                                      VerticalAlignment="Top"
+                                      Margin="2, -5">
+                                  <i:Interaction.Behaviors>
+                                    <ia:EventTriggerBehavior EventName="Tapped">
+                                        <ia:InvokeCommandAction Command="{Binding HideCurrentInstanceTabCommand}"/>
+                                    </ia:EventTriggerBehavior>  
+                                  </i:Interaction.Behaviors>
+                                  <PathIcon Foreground="#c3c3c3"
+                                            Background="Transparent"
+                                            VerticalAlignment="Stretch"
+                                            HorizontalAlignment="Stretch"
+                                            Data="M20,14H4V10H20"/>
+                               </Border>
                             </Grid>
                         </Border>
 
@@ -906,7 +926,8 @@
                                   Grid.Column="2"
                                   Classes="CurrentTrackArea"
                                   VerticalAlignment="Stretch"
-                                  HorizontalAlignment="Stretch">
+                                  HorizontalAlignment="Stretch"
+                                  IsVisible="{Binding CurrentTrack, Converter={StaticResource IndicatorConverter}}">
 
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="Auto"/>
@@ -914,22 +935,38 @@
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
 
-                                <Ellipse Classes="Indicator"
-                                         Width="10"
-                                         Height="10"
-                                         Margin="5,0"                               
-                                         Grid.Column="0"
-                                         Fill="#27da48"
-                                         VerticalAlignment="Center"
-                                         IsVisible="{Binding CurrentTrack, Converter={StaticResource IndicatorConverter}}"/>
-
                                 <TextBlock Grid.Column="1"
                                            Margin="5,0"
                                            FontSize="16"
                                            FontWeight="Medium"
                                            Foreground="#fff"
                                            VerticalAlignment="Center"
-                                           Text="{Binding Title}"/>
+                                           Text="{Binding Title}">
+                                    <i:Interaction.Behaviors>
+                                        <ia:EventTriggerBehavior EventName="Tapped">
+                                            <ia:InvokeCommandAction Command="{Binding ShowCurrentInstanceTabCommand}"/>
+                                        </ia:EventTriggerBehavior>  
+                                    </i:Interaction.Behaviors>
+                                </TextBlock>
+
+                                <Border Classes="PlayerButton"
+                                        Grid.Column="2"
+                                        Background="#00000000"
+                                        Margin="0,5"
+                                        IsVisible="{Binding CurrentTrack, Converter={StaticResource IndicatorConverter}}">
+                                        <i:Interaction.Behaviors>
+                                            <ia:EventTriggerBehavior EventName="Tapped">
+                                                <ia:InvokeCommandAction Command="{Binding ResolveCurrentInstanceCommand}"/>
+                                            </ia:EventTriggerBehavior>  
+                                        </i:Interaction.Behaviors>
+                                        <Border>
+                                            <Viewbox Classes="vb" Margin="2,0" HorizontalAlignment="Left">
+                                                <Canvas Width="30" Height="30">
+                                                    <Path Data="M6,5.75L10.25,10H7V16H13.5L15.5,18H7A2,2 0 0,1 5,16V10H1.75L6,5.75M18,18.25L13.75,14H17V8H10.5L8.5,6H17A2,2 0 0,1 19,8V14H22.25L18,18.25Z" />
+                                                </Canvas>
+                                            </Viewbox>
+                                        </Border>
+                                </Border>
                             </Grid>
                         </Grid>
                     </Grid>
