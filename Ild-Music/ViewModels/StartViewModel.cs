@@ -63,27 +63,27 @@ public class StartViewModel : BaseViewModel
 
     private void RefreshArtists()
     {
-        Artists.Clear();
         using (var instancePool = _supportGhost.GetInstancePool().Result)
         {
+            Artists.Clear();
             instancePool.ArtistsDTOs.ToList().ForEach(a => Artists.Add(a));    
         }
     }
 
     private void RefreshPlaylists()
     {
-        Playlists.Clear();
         using (var instancePool = _supportGhost.GetInstancePool().Result)
         {
+            Playlists.Clear();
             instancePool.PlaylistsDTOs.ToList().ForEach(p => Playlists.Add(p));  
         }
     }
 
     private void RefreshTracks()
     {
-        Tracks.Clear();
         using (var instancePool = _supportGhost.GetInstancePool().Result)
         {
+            Tracks.Clear();
             instancePool.TracksDTOs.ToList().ForEach(t => Playlists.Add(t));  
         }
     }

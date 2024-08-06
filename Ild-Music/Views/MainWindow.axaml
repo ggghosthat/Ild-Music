@@ -299,8 +299,8 @@
                                 IsVisible="{Binding IsActiveCurrentTab}">
                             <Border.Background>
                                 <LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,100%">
-                                  <GradientStop Color="#90212121" Offset="0.5" />
-                                  <GradientStop Color="#9027da48" Offset="0.9" />
+                                  <GradientStop Color="#212121" Offset="0.5" />
+                                  <GradientStop Color="#27da48" Offset="0.9" />
                                 </LinearGradientBrush> 
                             </Border.Background>
                             <Grid>

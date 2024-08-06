@@ -448,6 +448,7 @@ internal sealed class CommandHandler
            }
         }
 
+        WarehouseAgent.PlaceAvatar(newArtist.Id, newArtist.AvatarPath.ToString()).Wait();
         return Task.CompletedTask;
     }
 
@@ -536,6 +537,7 @@ internal sealed class CommandHandler
            }
         }
 
+        WarehouseAgent.PlaceAvatar(newPlaylist.Id, newPlaylist.AvatarPath.ToString()).Wait();
         return Task.CompletedTask;
     }
 
@@ -625,6 +627,7 @@ internal sealed class CommandHandler
            }
         }
 
+        WarehouseAgent.PlaceAvatar(newTrack.Id, newTrack.AvatarPath.ToString()).Wait();
         return Task.CompletedTask;
     }
 

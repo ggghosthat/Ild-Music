@@ -72,8 +72,11 @@ internal static class WarehouseAgent
 
     public async static Task PlaceAvatar(Guid instanceId, string path)
     {
+        if (!File.Exists(path))
+            return;
+            
         string instanceIdString = instanceId.ToString();
-        string allocationPath = Path.Combine(_wearhousePath, ".warehouse", "avatars", instanceIdString);    
+        string allocationPath = Path.Combine(_wearhousePath, ".warehouse", "avatars", instanceIdString);
         File.Copy(path, allocationPath);
     }
 
