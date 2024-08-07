@@ -110,7 +110,7 @@ internal class VlcPlayerService
        return Task.CompletedTask;
     }
 
-    private SetVolume(int volume)
+    private void SetVolume(float volume)
     {
         if (volume <= minVolume)
             _mediaPlayer.Volume = (int)minVolume;

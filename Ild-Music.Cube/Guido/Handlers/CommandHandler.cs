@@ -475,7 +475,9 @@ internal sealed class CommandHandler
                     },
                     transaction);
 
-                if(newPlaylist.Artists is not null && newPlaylist.Artists.Count > 0)
+                Console.WriteLine($"artists: {newPlaylist.Artists?.Count}");
+                Console.WriteLine($"tracks: {newPlaylist.Tracks?.Count}");
+                if(newPlaylist.Artists?.Count > 0)
                 {
                     string updatePlaylistArtistsQuery = @"
                         delete from artists_playlists where PID = @pid;
@@ -494,7 +496,7 @@ internal sealed class CommandHandler
                     }
                 }
 
-                if(newPlaylist.Tracks is not null && newPlaylist.Tracks.Count > 0)
+                if(newPlaylist.Tracks?.Count > 0)
                 {
                     string updateArtistTrackQuery = @"
                         delete from playlists_tracks where PID = @pid;
@@ -513,7 +515,7 @@ internal sealed class CommandHandler
                     }
                 }
 
-                if(newPlaylist.Tags is not null && newPlaylist.Tags.Count > 0)
+                if(newPlaylist.Tags?.Count > 0)
                 {
                     string updateTagPlaylistQuery = @"
                         delete from tags_instances where IID = @iid and EntityType = @entity_type;

@@ -240,6 +240,7 @@ public class MainWindowViewModel : Base.BaseViewModel
         int playlistIndex = 0)
     {
         _player?.Stop();
+        playlist.LoadTrackLine(_supporterGhost);
         _player?.DropPlaylist(playlist);
 
         OnPropertyChanged("CurrentPlaylist");

@@ -201,7 +201,8 @@ public class PlaylistEditorViewModel : BaseViewModel
             editPlaylist.Year = Year;
             editPlaylist.AvatarPath = AvatarPath.AsMemory();
 
-            if(SelectedPlaylistTracks != null && SelectedPlaylistTracks.Count > 0)
+            Console.WriteLine($"PEVM: {SelectedPlaylistTracks.Count}");
+            if(SelectedPlaylistTracks.Count > 0)
             {
                 editPlaylist.EraseTracks();
                 SelectedPlaylistTracks.ToList()
@@ -210,11 +211,11 @@ public class PlaylistEditorViewModel : BaseViewModel
                         var trackInstance = await supporter.GetTrackAsync(t);
                         editPlaylist.AddTrack(ref trackInstance);
                     });
+                Console.WriteLine($"PEVM: {editPlaylist.Tracks.Count}");
             }
 
-            if(SelectedPlaylistArtists != null && SelectedPlaylistArtists.Count > 0)
+            if(SelectedPlaylistArtists.Count > 0)
             {
-                //remove playlist from no-needed artists
                 ArtistsProvider.ToList()
                     .Except(SelectedPlaylistArtists).ToList()
                     .ForEach(async a => 
@@ -222,7 +223,6 @@ public class PlaylistEditorViewModel : BaseViewModel
                         var artistInstance = await supporter.GetArtistAsync(a);
                         artistInstance.DeletePlaylist(ref editPlaylist);
                     });
-                //add playlist to needed artists
                 SelectedPlaylistArtists.ToList()
                     .ForEach(async a =>
                     {
@@ -250,11 +250,14 @@ public class PlaylistEditorViewModel : BaseViewModel
         Description = PlaylistInstance.Description.ToString();
         Year = PlaylistInstance.Year;
         AvatarPath = PlaylistInstance.AvatarPath.ToString();
-
+        
         if(File.Exists(AvatarPath))
         {
             using var fs= new FileStream(AvatarPath, FileMode.Open);
-            await fs.ReadAsync(Avatar, 0, (int)fs.Length);
+            {
+                Avatar = new byte[fs.Length];
+                await fs.ReadAsync(Avatar, 0, (int)fs.Length);
+            }
         }
         
         using (var instancePool = await supporter.GetInstancePool())

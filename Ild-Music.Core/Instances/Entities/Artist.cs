@@ -63,8 +63,6 @@ public struct Artist
 			playlist.Artists.Add(Id);
 
             Tracks.ToList().AddRange(playlist.Tracks);
-            foreach (var track in playlist.GetTracks())
-                 track.Artists.Add(Id);
 		}
 	}
 

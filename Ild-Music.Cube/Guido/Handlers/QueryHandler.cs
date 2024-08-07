@@ -400,7 +400,7 @@ internal sealed class QueryHandler
                     instanceDTO.AvatarPath,
                     (int)extraProps.Year);
                 
-                playlist.Artists  = connection.Query(
+                playlist.Artists = (IList<Guid>)connection.Query(
                     playlistArtistsQuery,
                     new { pid = playlistId },
                     transaction)

@@ -1,8 +1,10 @@
+using Ild_Music.Core.Services.Entities;
+
+using System.Linq;
+
 namespace Ild_Music.Core.Instances;
 public struct Playlist
 {
-    private Lazy<List<Track>> _tracks;
-
     public Playlist(Guid id,
         ReadOnlyMemory<char> name, 
         ReadOnlyMemory<char> description,
@@ -14,7 +16,6 @@ public struct Playlist
         Description = description;
         AvatarSource = avatarSource;
         Year = year;
-        _tracks = new Lazy<List<Track>>();
     }
     
     public Playlist(Guid id,
@@ -28,7 +29,6 @@ public struct Playlist
         Description = description;
         AvatarPath = avatarPath;
         Year = year;
-        _tracks = new Lazy<List<Track>>();
     }
 
 	public Guid Id {get; set;}
@@ -43,28 +43,30 @@ public struct Playlist
 
     public int Year {get; set;} = DateTime.Now.Year;
     
-    public ICollection<Guid> Artists {get; set;} = new List<Guid>(20);
+    public IList<Guid> Artists { get; set; } = new List<Guid>(20);
     
-    public ICollection<Guid> Tracks {get; set;} = new List<Guid>(20);
+    public IList<Guid> Tracks { get; set; } = new List<Guid>(20);
     
-    public ICollection<Tag> Tags { get; set; } = new List<Tag>();
+    public IList<Tag> Tags { get; set; } = new List<Tag>();
+    
+    public List<Track> TrackLine { get; private set; } = new List<Track>();
 
-    public int Count => _tracks.Value.Count;
+    public int Count => Tracks.Count;
 	
     public int CurrentIndex {get; set;} = 0;
 
     public bool IsOrdered { get; private set; } = false;
 
-    public Track this[int i]
+    public Track? this[int i]
     {
-        get => _tracks.Value[i];
+        get => TrackLine[i];
     }
    
     public void AddTrack(ref Track track)
     {        
-        if(!_tracks.Value.Contains(track))
+        if(!Tracks.Contains(track.Id))
         {
-    	    _tracks.Value.Add(track);
+    	    Tracks.Add(track.Id);
             track.Playlists.Add(Id);
 
             foreach (var art in Artists)
@@ -74,9 +76,9 @@ public struct Playlist
 
     public void RemoveTrack(ref Track track)
     {        
-    	if(_tracks.Value.Contains(track))
+    	if(Tracks.Contains(track.Id))
     	{
-    		_tracks.Value.Remove(track);
+    		Tracks.Remove(track.Id);
             track.Playlists.Remove(Id);
 
             foreach (var art in Artists)
@@ -84,62 +86,14 @@ public struct Playlist
     	}
     }
 
-    public IEnumerable<Track> GetTracks()
+    public void LoadTrackLine(SupportGhost supportGhost)
     {
-        return _tracks.Value;
-    }
-
-    public void RecoverTracks(List<Track> tracks)
-    {
-        _tracks = new Lazy<List<Track>>(tracks);
-    }
-
-    public void DumpTracks()
-    {
-        if (Tracks?.Count > 0)
-            Tracks?.Clear();
-        
-        if(_tracks is not null)
-        {
-            foreach(var track in _tracks.Value)
-                Tracks?.Add(track.Id);
-
-            _tracks.Value.Clear();
-        }
+        var tracks = supportGhost.LoadTracksById(Tracks).Result;
+        TrackLine.AddRange(tracks);
     }
 
     public void EraseTracks()
     {
-        _tracks.Value.Clear();
-    }
-
-    public byte[] GetAvatar()
-    {
-        try
-        {
-            return AvatarSource.ToArray();
-        }
-        catch(Exception ex)
-        {
-            //Speciall logging or throwing logic
-            return null;
-        }
-    }
-
-    public void SetAvatar(string path)
-    {
-        if(path is not null && File.Exists(path))
-        {
-            try
-            {
-                byte[] file = System.IO.File.ReadAllBytes(path);
-                AvatarSource = file; 
-            }
-            catch(Exception ex)
-            {
-                //Speciall logging or throwing logic
-                throw ex;   
-            }            
-        }
+        TrackLine.Clear();
     }
 }

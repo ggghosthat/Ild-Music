@@ -64,23 +64,20 @@ public class VlcPlayer : IPlayer
     } 
 
     public async Task DropPlaylist(Playlist playlist, int index=0)
-    { 
-        //main playlist params initialization
-        PlaylistPoint = index;
-        CurrentPlaylist = playlist;
-        var startTrack = playlist[PlaylistPoint];
-        CurrentTrack = startTrack;
-
-        //side plalist params initialization
-        PlaylistCount = playlist.Count;
+    {        
         IsSwipe = true;
         IsPlaylist = true;
+        PlaylistPoint = index;
+        CurrentPlaylist = playlist;
+        PlaylistCount = playlist.Count;
 
-        //player service setting
-        _playerService.TrackFinished += MovePlaylistForward; 
-        await _playerService.SetTrack(startTrack);
+        _playerService.TrackFinished += MovePlaylistForward;
         var action = _eventBag.GetAction((int)PlayerSignal.PLAYER_SET_PLAYLIST);
         action?.DynamicInvoke();
+        
+        var startTrack = playlist[PlaylistPoint];
+        CurrentTrack = startTrack;
+        await _playerService.SetTrack(startTrack);
     }
 
     public async Task DropNetworkStream(ReadOnlyMemory<char> uri)
@@ -95,6 +92,7 @@ public class VlcPlayer : IPlayer
     {
         IsSwipe = false;
         IsPlaylist = false;
+        CurrentPlaylist?.EraseTracks();
         Task.Run(async () => await _playerService.Stop());
         var action = _eventBag.GetAction((int)PlayerSignal.PLAYER_OFF);
         action?.DynamicInvoke();
