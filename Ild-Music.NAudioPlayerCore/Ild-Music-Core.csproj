@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <EnableDynamicLoading>true</EnableDynamicLoading>
+  </PropertyGroup>
+
+<ItemGroup>
+  <ProjectReference Include="..\Ild-Music.Core\Ild-Music.Core.csproj">
+  	<Private>false</Private>
+  	<ExcludeAssets>runtime</ExcludeAssets>
+  </ProjectReference>
+</ItemGroup>
+
+<ItemGroup>
+  <PackageReference Include="NAudio" Version="2.1.0" />
+  <PackageReference Include="NAudio.WinMM" Version="2.1.0" />
+</ItemGroup>
+</Project>

@@ -3,6 +3,7 @@ using Ild_Music.Core.Instances;
 using System;
 using System.Threading.Tasks;
 using LibVLCSharp.Shared;
+
 namespace Ild_Music.VlcPlayer;
 
 internal class VlcPlayerService

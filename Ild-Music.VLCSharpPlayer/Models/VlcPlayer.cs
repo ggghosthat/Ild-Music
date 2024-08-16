@@ -1,7 +1,6 @@
 using Ild_Music.Core.Contracts;
 using Ild_Music.Core.Instances;
 using Ild_Music.Core.Events;
-using Ild_Music.Core.Events.Entity;
 using Ild_Music.Core.Events.Signals;
 
 using System;
@@ -48,8 +47,6 @@ public class VlcPlayer : IPlayer
         set => _playerService.CurrentVolume = (int)value;
     }
 
-    private event Action ShuffleCollection;
-
     public void InjectEventBag(IEventBag eventBag)
     {
         _eventBag = eventBag;
@@ -75,9 +72,8 @@ public class VlcPlayer : IPlayer
         var action = _eventBag.GetAction((int)PlayerSignal.PLAYER_SET_PLAYLIST);
         action?.DynamicInvoke();
         
-        var startTrack = playlist[PlaylistPoint];
-        CurrentTrack = startTrack;
-        await _playerService.SetTrack(startTrack);
+        CurrentTrack = playlist[PlaylistPoint];
+        await _playerService.SetTrack(CurrentTrack);
     }
 
     public async Task DropNetworkStream(ReadOnlyMemory<char> uri)
