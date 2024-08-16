@@ -1,8 +1,0 @@
-{
-    "Players": [
-        "./components/Ild_Music.VLCSharpPlayer/VLCSharpPlayer.dll"
-    ],
-    "Synches": [
-        "./components/Ild_Music.SynchronizationBlock/SynchronizationBlock.dll"
-    ]
-}
