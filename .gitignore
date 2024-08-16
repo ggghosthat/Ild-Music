@@ -6,7 +6,7 @@
 
 
 ./dependencies
-./Ild-Music/.warehouse/
+./Ild-Music/.warehouse
 ./PKGBUILD
 ./*.pkg.tar.zst
 Ild-Music/bin
@@ -19,6 +19,9 @@ Ild-Music.Tests/bin
 Ild-Music.Tests/obj
 Ild-Music.VLCSharpPlayer/bin
 Ild-Music.VLCSharpPlayer/obj
+Ild-Music.NAudioPlayerCore/bin
+Ild-Music.NAudioPlayerCore/obj
+./legacy
 # User-specific files
 *.rsuser
 *.suo
