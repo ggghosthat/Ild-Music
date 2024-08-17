@@ -1,8 +1,8 @@
 {
     "Players": [
-        "/home/jake/repos/Ild-Music/Ild-Music.VLCSharpPlayer/bin/Release/net8.0/linux-x64/publish/VLCSharpPlayer.dll"
+        "E:/repos/Ild-Music/Ild-Music.NAudioPlayerCore/bin/Debug/net8.0/win-x64/publish/Ild-Music-Core.dll"
     ],
     "Cubes": [
-        "/home/jake/repos/Ild-Music/Ild-Music.Cube/bin/Release/net8.0/linux-x64/publish/Ild-Music.Cube.dll"
+        "E:/repos/Ild-Music/Ild-Music.Cube/bin/Release/net8.0/win-x64/publish/Ild-Music.Cube.dll"
     ]
 }

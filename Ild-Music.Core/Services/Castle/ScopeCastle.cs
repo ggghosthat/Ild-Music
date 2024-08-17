@@ -96,22 +96,6 @@ public sealed class ScopeCastle : ICastle, IDisposable
        } 
     }
 
-    //Resolve Mediaor dependecy for component objects (mean IPlayer, ICube, etc
-    private void SupplyMediatR<T>() where T : IShare
-    {
-       if(container.IsRegistered<T>())
-       {
-           using (var preScope = container.BeginLifetimeScope())
-           {
-               var eventBag = preScope.Resolve<IEventBag>();
-               var desiredObjects = preScope.Resolve<IEnumerable<T>>();
-
-               foreach (var obj in desiredObjects)
-                   obj.InjectEventBag(eventBag);
-           }
-       } 
-    }
-
     public void RegisterPlayer(IPlayer player)
     {
         if(IsActive) 

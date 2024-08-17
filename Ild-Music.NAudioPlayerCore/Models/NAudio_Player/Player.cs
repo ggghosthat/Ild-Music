@@ -62,17 +62,15 @@ public class NAudioPlayer : IPlayer
         _eventBag = eventBag;
     }
     
-    public Task DropTrack(Track track)
+    public async Task DropTrack(Track track)
     {
         CurrentTrack = track;
-        _audioPlayer.SetInstance(CurrentTrack);
+        await _audioPlayer.SetInstance(track);
         var action = _eventBag.GetAction((int)PlayerSignal.PLAYER_SET_TRACK);
         action?.DynamicInvoke();
-        
-        return Task.CompletedTask;
     }
 
-    public Task DropPlaylist(Playlist playlist, int index=0)
+    public async Task DropPlaylist(Playlist playlist, int index=0)
     {
         IsSwipe = true;
         IsPlaylist = true;
@@ -80,33 +78,31 @@ public class NAudioPlayer : IPlayer
         CurrentPlaylist = playlist;
         PlaylistCount = playlist.Count;        
 
-        CurrentTrack = playlist[PlaylistPoint];
-        _audioPlayer.SetInstance(CurrentTrack);
+        var track =  (Track)playlist[PlaylistPoint];
+        CurrentTrack = track;
+        await _audioPlayer.SetInstance(track);
         _audioPlayer.TrackFinished += SkipNext;
 
         var action = _eventBag.GetAction((int)PlayerSignal.PLAYER_SET_PLAYLIST);
         action?.DynamicInvoke();
-        return Task.CompletedTask;
-}
+    }
 
     public async Task DropNetworkStream(ReadOnlyMemory<char> uri)
     {}
 
-    public void SetNotifier(Action callBack)
-    {
-        notifyAction = callBack;
-    }
- 
     public void Toggle()
     {
-        Task.Run(() => _audioPlayer.Toggle());
-        notifyAction?.Invoke(); 
+        Task.Run(async () => await _audioPlayer.Toggle());
     }
 
     public void Stop()
     {
-        Task.Run(() => _audioPlayer.Stop());
-        notifyAction?.Invoke(); 
+        IsSwipe = false;
+        IsPlaylist = false;
+        Task.Run(async () => await _audioPlayer.Stop());
+        CurrentPlaylist?.EraseTracks();
+        var action = _eventBag.GetAction((int)PlayerSignal.PLAYER_OFF);
+        action?.DynamicInvoke();
     }
     
     public async Task Repeat()
@@ -125,26 +121,34 @@ public class NAudioPlayer : IPlayer
         await Task.Run(() => _audioPlayer.Repeat());
     }
 
-    public async void SkipPrev()
+    public void SkipPrev()
     {
-        await Task.Run(() => {
-            if (IsSwipe && !IsEmpty)
-                DropMediaInstance(false);
+        if (!IsPlaylist)
+            return;
+        Task.Run(async () => {
+            DropMediaInstance(false);
+            await _audioPlayer.Toggle();
+            var action = _eventBag.GetAction((int)PlayerSignal.PLAYER_SHIFT_LEFT);
+            action?.DynamicInvoke();
         });
     }
 
-    public async void SkipNext()
+    public void SkipNext()
     {
-        await Task.Run(() => {
-            if (IsSwipe && !IsEmpty)
-                DropMediaInstance(true);
+        if (!IsPlaylist)
+            return;
+        Task.Run(async () => {
+            DropMediaInstance(true);
+            await _audioPlayer.Toggle();
+            var action = _eventBag.GetAction((int)PlayerSignal.PLAYER_SHIFT_LEFT);
+            action?.DynamicInvoke();
         });
     }
 
     private void DropMediaInstance(bool direct)
     {
         _audioPlayer.TrackFinished -= SkipNext;
-        _audioPlayer.Stop();
+        Task.Run(async () => await _audioPlayer.Stop());
 
         notifyAction?.Invoke();
         
@@ -155,10 +159,11 @@ public class NAudioPlayer : IPlayer
     }
 
     private void SetMedia()
-    {
-        CurrentTrack = CurrentPlaylist?[PlaylistPoint];
-        _audioPlayer.SetInstance(CurrentTrack);
-        Task.Run(() => _audioPlayer.Toggle());
+    { 
+        var track = (Track)CurrentPlaylist?[PlaylistPoint];
+        CurrentTrack = track;
+        _audioPlayer.SetInstance(track);
+        _audioPlayer.Toggle().Wait();
     }
 
     private void DragPointer(bool direction)
@@ -189,6 +194,5 @@ public class NAudioPlayer : IPlayer
         
         _audioPlayer.TrackFinished -= SkipNext;
         _audioPlayer.Stop();
-
     }
 }

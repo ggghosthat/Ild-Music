@@ -276,7 +276,7 @@ public class MainWindowViewModel : Base.BaseViewModel
         OnPropertyChanged("CurrentTime");
 
         _player?.Toggle();
- 
+        
         if (!isResolved)
         {
             var trackVM = (TrackViewModel)App.ViewModelTable[TrackViewModel.viewModelId];

@@ -25,7 +25,7 @@
     <PackageReference Include="Avalonia.Xaml.Interactions" Version="11.0.10.9" />
     <PackageReference Include="Avalonia.Xaml.Interactivity" Version="11.0.10.9" />
     <PackageReference Include="PropertyChanged.Fody" Version="4.1.0" />
-    <PackageReference Include="SixLabors.ImageSharp" Version="3.1.4" />
+    <PackageReference Include="SixLabors.ImageSharp" Version="3.1.5" />
   </ItemGroup>
 
   <ItemGroup>

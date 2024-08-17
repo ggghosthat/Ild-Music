@@ -2,11 +2,12 @@ using Ild_Music.Core.Instances;
 
 using NAudio.Wave;
 using System;
+using System.Threading.Tasks;
 
 namespace NAudioPlayerCore.Models;
 public class NAudioPlaybacker
 {
-    private readonly object obj = new ();
+    public readonly object synchLock = new();
     private static WaveOutEvent _device;
     private static AudioFileReader _reader;
     private const float DEFAULT_VOLUME = 0.5f;
@@ -40,67 +41,72 @@ public class NAudioPlaybacker
         set => _reader.CurrentTime = value;
     }
     
-    public void SetInstance(Track? track)
-    {
-        if (track == null)
-            return;
+    public Task SetInstance(Track track)
+    {   
+        CleanPlayer();
 
-        do
-            _device?.Stop();
-        while(_device == null && _reader == null);
-        
         IsEmpty = false;
         CurrentTrack = track;
-        Title = track?.Name.ToArray();
-        TotalTime = track?.Duration ?? default;
+        Title = track.Name.ToArray();
+        TotalTime = track.Duration;
 
-        BuildPlayer();
+        BuildPlayer(track.Pathway);
+    
+        return Task.CompletedTask;
     }
 
-    private void BuildPlayer()
+    private void BuildPlayer(ReadOnlyMemory<char> path)
     {
         if (_device == null)
         {
             _device = new();
             _device.PlaybackStopped += OnPlaybackStopped;
         }
+
         if (_reader == null)
         {
-            string path = CurrentTrack?.Pathway.ToString();
-            _reader = new(path);
-            var wc = new WaveChannel32(_reader);
-            wc.PadWithZeroes = false;
-            _device.Init(wc);
-            _device.Volume = Volume;
+            _reader = new(path.ToString());
         }
+
+        var wc = new WaveChannel32(_reader);
+        wc.PadWithZeroes = false;
+        _device.Init(wc);
+        _device.Volume = Volume;
     }
 
-    public void Toggle()
+    public Task Toggle()
     {
-        bool isActiveDevice = _device != null;
-        bool isActiveReader = _reader != null;
+        bool isActivePlayer = _device != null || _reader != null;
 
-        if (!IsEmpty || !isActiveDevice && !isActiveReader)
-            return;
+        if (!isActivePlayer)
+            return Task.CompletedTask;
 
-        if (_device.PlaybackState == PlaybackState.Stopped || _device.PlaybackState == PlaybackState.Paused)
+        if (_device.PlaybackState != PlaybackState.Playing)
         {
-            bool isRunningDevice = _device.PlaybackState != PlaybackState.Stopped;
-            bool isEndReached = _reader.CurrentTime.TotalMilliseconds == TotalTime.TotalMilliseconds; 
+            bool isPlaying = _reader.CurrentTime.TotalMilliseconds < TotalTime.TotalMilliseconds;
 
-            _device?.Play(); 
-            while (isRunningDevice || isEndReached);
+            _device?.Play();
+            while (isPlaying && isActivePlayer);
+            _device?.Stop();
+            IsEmpty = true;
             TrackFinished?.Invoke();
         }
-        else 
+        else if (_device.PlaybackState == PlaybackState.Playing)
         {
+            IsEmpty = false;
             _device?.Pause();
         }
+
+        return Task.CompletedTask;
     }
 
-    public void Stop()
+    public async Task Stop()
     {
-        _device?.Stop();
+        await Task.Run( () => 
+        {
+            _device?.Stop();
+            IsEmpty = true;
+        });
     }
 
     public void Repeat()
@@ -129,6 +135,11 @@ public class NAudioPlaybacker
     }
 
     private void OnPlaybackStopped(object sender, StoppedEventArgs e)
+    {
+        CleanPlayer();
+    }
+
+    private void CleanPlayer()
     {
         if(_device != null)
         {
