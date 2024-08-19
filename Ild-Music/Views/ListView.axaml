@@ -227,7 +227,7 @@
 
             <ListBox.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <UniformGrid/>
+                    <WrapPanel HorizontalAlignment="Stretch"/>
                 </ItemsPanelTemplate>
             </ListBox.ItemsPanel>
 

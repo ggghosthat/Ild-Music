@@ -66,7 +66,7 @@ public class NAudioPlayer : IPlayer
     {
         CurrentTrack = track;
         await _audioPlayer.SetInstance(track);
-        var action = _eventBag.GetAction((int)PlayerSignal.PLAYER_SET_TRACK);
+        var action = _eventBag?.GetAction((int)PlayerSignal.PLAYER_SET_TRACK);
         action?.DynamicInvoke();
     }
 

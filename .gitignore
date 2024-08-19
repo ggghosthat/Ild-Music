@@ -22,6 +22,7 @@ Ild-Music.VLCSharpPlayer/obj
 Ild-Music.NAudioPlayerCore/bin
 Ild-Music.NAudioPlayerCore/obj
 ./legacy
+./PlayerTest
 # User-specific files
 *.rsuser
 *.suo

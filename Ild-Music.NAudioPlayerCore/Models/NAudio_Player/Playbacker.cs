@@ -77,10 +77,10 @@ public class NAudioPlaybacker
     public Task Toggle()
     {
         bool isActivePlayer = _device != null || _reader != null;
-
+        
         if (!isActivePlayer)
             return Task.CompletedTask;
-
+        
         if (_device.PlaybackState != PlaybackState.Playing)
         {
             bool isPlaying = _reader.CurrentTime.TotalMilliseconds < TotalTime.TotalMilliseconds;

@@ -46,7 +46,8 @@ public class ListViewModel : BaseViewModel
 
     public override void Load()
     {
-        Task.Run(async () => await DisplayProvidersAsync());
+        // Task.Run(async () => await DisplayProvidersAsync());
+        DisplayProvidersAsync().Wait();
     }
 
     public async Task UpdateProviders()
@@ -95,6 +96,7 @@ public class ListViewModel : BaseViewModel
              return;
         
         var id = (Guid)CurrentItem?.Id;
+        
         switch (Header)
         {
             case "Artists":
@@ -110,8 +112,9 @@ public class ListViewModel : BaseViewModel
                 supporter.DeleteTagInstance(id);
                 break;
         };
-        
-        DisplayProvidersAsync().Wait();
+
+        if (CurrentItem is CommonInstanceDTO dto)
+            CurrentList.Remove(dto);
     }
     
     private void Edit(object obj)
@@ -203,11 +206,11 @@ public class ListViewModel : BaseViewModel
     }
 
     private Task DisplayProvidersAsync()
-    {
-        CurrentList.Clear();
-        
+    {        
         using (var instancePool = supporter.GetInstancePool().Result)
         {
+            CurrentList.Clear();
+            
             switch(Header)
             {
                 case "Artists":
@@ -229,7 +232,6 @@ public class ListViewModel : BaseViewModel
             }
         }
 
-        OnPropertyChanged("CurrentList");
         return Task.CompletedTask;
     } 
 }
