@@ -43,11 +43,11 @@ public struct Playlist
 
     public int Year {get; set;} = DateTime.Now.Year;
     
-    public IList<Guid> Artists { get; set; } = new List<Guid>(20);
+    public List<Guid> Artists { get; set; } = new List<Guid>(20);
     
-    public IList<Guid> Tracks { get; set; } = new List<Guid>(20);
+    public List<Guid> Tracks { get; set; } = new List<Guid>(20);
     
-    public IList<Tag> Tags { get; set; } = new List<Tag>();
+    public List<Tag> Tags { get; set; } = new List<Tag>();
     
     public List<Track> TrackLine { get; private set; } = new List<Track>();
 
@@ -67,7 +67,6 @@ public struct Playlist
         if(!Tracks.Contains(track.Id))
         {
     	    Tracks.Add(track.Id);
-            track.Playlists.Add(Id);
 
             foreach (var art in Artists)
                 track.Artists.Add(art);            
@@ -79,7 +78,6 @@ public struct Playlist
     	if(Tracks.Contains(track.Id))
     	{
     		Tracks.Remove(track.Id);
-            track.Playlists.Remove(Id);
 
             foreach (var art in Artists)
                 track.Artists.Remove(art);

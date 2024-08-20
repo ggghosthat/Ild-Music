@@ -17,8 +17,8 @@ public class NAudioPlaybacker
     {}
 
     public PlaybackState PlaybackState => (_device != null)
-        ?_device.PlaybackState
-        :PlaybackState.Stopped;
+        ? _device.PlaybackState
+        : PlaybackState.Stopped;
 
     public bool IsEmpty = true;
 
@@ -64,9 +64,7 @@ public class NAudioPlaybacker
         }
 
         if (_reader == null)
-        {
             _reader = new(path.ToString());
-        }
 
         var wc = new WaveChannel32(_reader);
         wc.PadWithZeroes = false;

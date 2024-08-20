@@ -276,7 +276,6 @@ public class MainWindowViewModel : Base.BaseViewModel
         OnPropertyChanged("CurrentTime");
 
         _player?.Toggle();
-        Console.WriteLine(track.Name);
 
         if (!isResolved)
         {

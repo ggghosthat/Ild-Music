@@ -128,15 +128,18 @@
 		                    <Style Selector="ListBoxItem">
 		                      <Setter Property="BorderBrush" Value="Transparent"/>
 		                      <Setter Property="BorderThickness" Value="0"/>
-		                      <Setter Property="Padding" Value="4"/>                                
-		                      <Setter Property="HorizontalContentAlignment" Value="Stretch"/>  
+		                      <Setter Property="Padding" Value="4"/>   
+		                      <Setter Property="Margin" Value="5"/>
+							  <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
 		                      <Setter Property="VerticalContentAlignment" Value="Center"/>
-		                      <Setter Property="Height" Value="45"/>
+		                      <Setter Property="Height" Value="100"/>
+							  <Setter Property="CornerRadius" Value="10"/>
 
 		                      <Setter Property="Template">
 		                        <ControlTemplate>
 		                            <Border x:Name="Bd"
-		                                    CornerRadius="5"
+		                                    CornerRadius="{TemplateBinding CornerRadius}"
+											Margin="{TemplateBinding Margin}"
 		                                    Background="{TemplateBinding Background}"
 		                                    BorderThickness="{TemplateBinding BorderThickness}"
 		                                    BorderBrush="{TemplateBinding BorderBrush}"
@@ -195,18 +198,18 @@
 		                  <ListBox.ItemTemplate>
 		                    <DataTemplate>
 		                    <Grid>
-		                        <Grid.ColumnDefinitions>
-		                            <ColumnDefinition Width="Auto"/>
-		                            <ColumnDefinition Width="*"/>
-		                        </Grid.ColumnDefinitions>                            
+		                        <Grid.RowDefinitions>
+		                            <RowDefinition Height="Auto"/>
+		                            <RowDefinition Height="*"/>
+		                        </Grid.RowDefinitions>                            
 
-		                        <Image Grid.Column="0"
-		                               Width="50"
-		                               Height="50"
+		                        <Image Grid.Row="0"
+		                               Width="60"
+		                               Height="60"
 		                               Stretch="UniformToFill"
 		                               Source="{Binding ., Converter={StaticResource IconConverter}, ConverterParameter=dto_icon}"/>
 
-		                        <TextBlock Grid.Column="1"
+		                        <TextBlock Grid.Row="1"
 		                                   TextWrapping="Wrap"
 		                                   TextAlignment="Center"
 		                                   FontSize="16"
@@ -215,7 +218,7 @@
 		                                   FontWeight="Medium"
 		                                   VerticalAlignment="Center"
 		                                   HorizontalAlignment="Left"
-		                                   Text="{Binding ., Converter={StaticResource InstanceConverter}, ConverterParameter=name}"/>
+		                                   Text="{Binding ., Converter={StaticResource InstanceConverter}, ConverterParameter=shortname}"/>
 		                    </Grid>
 		                    </DataTemplate>
 		                  </ListBox.ItemTemplate>
@@ -235,7 +238,7 @@
 	            BorderBrush="Transparent"
 	            ZIndex="-1">
 	      <Border.Background>
-          <LinearGradientBrush StartPoint="50%,0%" EndPoint="50%,100%">
+          <LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,100%">
             <GradientStop Color="{Binding Avatar, Converter={StaticResource IconConverter}, ConverterParameter=background}" Offset="0.0" />
             <GradientStop Color="#282828" Offset="0.9" />
           </LinearGradientBrush> 

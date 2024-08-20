@@ -13,8 +13,7 @@ public class NAudioPlayer : IPlayer
 {
     private IEventBag _eventBag = default;
     public static NAudioPlaybacker _audioPlayer = new();
-    private static Action notifyAction;    
-    private event Action ShuffleCollection;
+    private static Action notifyAction;
     public event Action TrackStarted;
 
     public NAudioPlayer()
@@ -24,9 +23,13 @@ public class NAudioPlayer : IPlayer
     public string PlayerName => "NAudio Player";
 
     public CurrentEntity CurrentEntity {get; private set;}
+
     public Track? CurrentTrack { get; private set; }
+    
     public Playlist? CurrentPlaylist { get; private set; }
+    
     public int PlaylistPoint { get; private set; }
+    
     public int PlaylistCount { get; private set; }
     
     public TimeSpan TotalTime => _audioPlayer.TotalTime;
@@ -51,7 +54,7 @@ public class NAudioPlayer : IPlayer
 
     public float MinVolume {get; private set;} = 0;
 
-    public float CurrentVolume 
+    public float CurrentVolume
     {
         get => _audioPlayer.Volume;
         set => _audioPlayer.OnVolumeChanged(value);
@@ -185,14 +188,5 @@ public class NAudioPlayer : IPlayer
             else
                 PlaylistPoint--;
         }
-    }
-
-    private void CleanUpPlayer()
-    {
-        PlaylistPoint = 0;
-        notifyAction?.Invoke();
-        
-        _audioPlayer.TrackFinished -= SkipNext;
-        _audioPlayer.Stop();
     }
 }

@@ -27,6 +27,17 @@ internal static class WarehouseAgent
             return String.Empty;
     }
 
+    public static ReadOnlyMemory<char> GetTrackPathFromIdAsMemory(Guid trackId)
+    {
+        string trckIdString = trackId.ToString();
+        string path = Path.Combine(_wearhousePath, ".warehouse", "tracks", trckIdString);
+
+        if (File.Exists(path))
+            return path.AsMemory();
+        else 
+            return String.Empty.AsMemory();
+    }
+
     public static IEnumerable<string> GetTrackPathsFromIds(IEnumerable<Guid> trackIds)
     {
         return trackIds.Select(trackId =>
@@ -38,6 +49,20 @@ internal static class WarehouseAgent
                 return path;
             else 
                 return String.Empty;
+        });
+    }
+
+    public static IEnumerable<ReadOnlyMemory<char>> GetTrackPathsFromIdsAsMemory(IEnumerable<Guid> trackIds)
+    {
+        return trackIds.Select(trackId =>
+        {
+            string trckIdString = trackId.ToString();
+            string path = Path.Combine(_wearhousePath, ".warehouse", "tracks", trckIdString);
+
+            if (File.Exists(path))
+                return path.AsMemory();
+            else 
+                return String.Empty.AsMemory();
         });
     }
 

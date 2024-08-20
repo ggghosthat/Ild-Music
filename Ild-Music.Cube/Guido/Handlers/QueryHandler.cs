@@ -329,28 +329,34 @@ internal sealed class QueryHandler
                     instanceDTO.AvatarPath,
                     (int)extraProps.Year);
 
-                artist.Playlists = connection.Query(
+                var artistPlaylists = connection.Query(
                     arttistPlaylistsQuery,
                     new { aid = artistId },
                     transaction)
-                .Where(pid => pid.Value is not null)
-                .Select(pid => Guid.Parse((string)pid.Value))
+                .Where(pid => pid.PID is not null)
+                .Select(pid => Guid.Parse((string)pid.PID))
                 .ToList();
 
-                artist.Tracks = connection.Query(
+                artist.Playlists.AddRange(artistPlaylists);
+
+                var artistTracks = connection.Query(
                     arttistTracksQuery,
                     new { aid = artistId },
                     transaction)
-                .Where(tid => tid.Value is not null)
-                .Select(tid => Guid.Parse((string)tid.Value))
+                .Where(tid => tid.TID is not null)
+                .Select(tid => Guid.Parse((string)tid.TID))
                 .ToList();
 
-                artist.Tags = connection.Query<Tag>(
+                artist.Tracks.AddRange(artistTracks);
+
+                var artistsTags = connection.Query<Tag>(
                     arttistTagsQuery,
                     new { aid = artistId },
                     transaction)
                 .Select(tag => tag)
-                .ToList();               
+                .ToList();
+
+                artist.Tags.AddRange(artistsTags);
             }
         }
 
@@ -400,28 +406,34 @@ internal sealed class QueryHandler
                     instanceDTO.AvatarPath,
                     (int)extraProps.Year);
                 
-                playlist.Artists = (IList<Guid>)connection.Query(
+                var playlistArtists = connection.Query(
                     playlistArtistsQuery,
                     new { pid = playlistId },
                     transaction)
-                .Where(aid => aid.Value is not null)
-                .Select(aid => Guid.Parse((string)aid.Value))
+                .Where(aid => aid.AID is not null)
+                .Select(aid => Guid.Parse((string)aid.AID))
                 .ToList();
 
-                playlist.Tracks = connection.Query(
+                playlist.Artists.AddRange(playlistArtists);
+
+                var playlistTracks = connection.Query(
                     playlistTracksQuery,
                     new { pid = playlistId },
                     transaction)
-                .Where(tid => tid.Value is not null)
-                .Select(tid => Guid.Parse((string)tid.Value))
+                .Where(tid => tid.TID is not null)
+                .Select(tid => Guid.Parse((string)tid.TID))
                 .ToList();
 
-                playlist.Tags = connection.Query<Tag>(
+                playlist.Tracks.AddRange(playlistTracks);
+
+                var playlistTags = connection.Query<Tag>(
                     playlistTagsQuery,
                     new { pid = playlistId },
                     transaction)
                 .Select(tag => tag)
-                .ToList();               
+                .ToList();
+
+                playlist.Tags.AddRange(playlistTags);
             }
         }
 
@@ -433,7 +445,7 @@ internal sealed class QueryHandler
         Track track;
         using (IDbConnection connection = ConnectionAgent.GetDbConnection())
         {
-            connection .Open();
+            connection.Open();
 
             using (var transaction = connection.BeginTransaction())
             {
@@ -466,35 +478,41 @@ internal sealed class QueryHandler
 
                 track = new (
                     instanceDTO.Id,
-                    String.Empty.ToCharArray(),
+                    WarehouseAgent.GetTrackPathFromIdAsMemory(instanceDTO.Id),
                     instanceDTO.Name,
                     extraProps.Description.ToCharArray(),
                     instanceDTO.AvatarPath,
                     TimeSpan.FromMilliseconds(extraProps.Duration),
                     (int)extraProps.Year);
 
-                track.Artists  = connection.Query(
+                var trackArtists = connection.Query(
                     trackArtistsQuery,
                     new { tid = trackId },
                     transaction)                
-                .Where(aid => aid.Value is not null)
-                .Select(aid => Guid.Parse((string)aid.Value))
+                .Where(aid => aid.AID is not null)
+                .Select(aid => Guid.Parse((string)aid.AID))
                 .ToList();
 
-                track.Playlists = connection.Query(
+                track.Artists.AddRange(trackArtists);
+
+                var trackPlaylists = connection.Query(
                     trackPlaylistsQuery,
                     new { tid = trackId },
                     transaction)
-                .Where(tid => tid.Value is not null)
-                .Select(tid => Guid.Parse((string)tid.Value))
+                .Where(pid => pid.PID is not null)
+                .Select(pid => Guid.Parse((string)pid.PID))
                 .ToList();
 
-                track.Tags = connection.Query<Tag>(
+                track.Playlists.AddRange(trackPlaylists);
+
+                var trackTags = connection.Query<Tag>(
                     trackTagsQuery,
                     new { tid = trackId },
                     transaction)
                 .Select(tag => tag)
-                .ToList();               
+                .ToList();
+
+                track.Tags.AddRange(trackTags);
             }
         }
 
@@ -529,38 +547,39 @@ internal sealed class QueryHandler
                 .Select(t => new Tag(Guid.Parse(t.TagID), t.Name.ToCharArray(), t.Color.ToCharArray()))
                 .First();
 
-                tag.Artists = connection.Query(
+                connection.Query(
                     tagEntitiesQuery,
                     new { tagIdStr = tagIdString, entityType = 1 },
                     transaction)
                 .Where(aid => aid.Value is not null)
-                .Select(aid => Guid.Parse((string)aid.Value))
-                .ToList();
+                .Select(aid => Guid.Parse((string)aid.IID))
+                .ToList()
+                .ForEach(aid => tag.Artists.Add(aid));
 
-                tag.Playlists = connection.Query(
+                connection.Query(
                     tagEntitiesQuery,
                     new { tagIdStr = tagIdString, entityType = 2 },
                     transaction)
                 .Where(pid => pid.Value is not null)
-                .Select(pid => Guid.Parse((string)pid.Value))
-                .ToList();
+                .Select(pid => Guid.Parse((string)pid.IID))
+                .ToList()
+                .ForEach(aid => tag.Playlists.Add(aid));
 
-                tag.Tracks = connection.Query(
+                connection.Query(
                     tagEntitiesQuery,
                     new { tagIdStr = tagIdString, entityType = 3 },
                     transaction)
                 .Where(tid => tid.Value is not null)
-                .Select(tid => Guid.Parse((string)tid.Value))
-                .ToList();
+                .Select(tid => Guid.Parse((string)tid.IID))
+                .ToList()
+                .ForEach(tid => tag.Tracks.Add(tid));
             }
         }
 
         return Task.FromResult<Tag>(tag);
     }
 
-    public Task<IEnumerable<CommonInstanceDTO>> QueryInstancesById(
-        IEnumerable<Guid> inputIds,
-        EntityTag entityTag)
+    public Task<IEnumerable<CommonInstanceDTO>> QueryInstancesById(IEnumerable<Guid> inputIds, EntityTag entityTag)
     {
        IEnumerable<CommonInstanceDTO> resultDtos;
 
@@ -594,8 +613,8 @@ internal sealed class QueryHandler
                    .Query(query, new {ids = inputs}, transaction)
                    .Select(i => new CommonInstanceDTO(
                         id: Guid.Parse(i.Id),
-                        name: ((string)i.Name).AsMemory(),
-                        avatarPath: WarehouseAgent.GetAvatarFromId(Guid.Parse(i.Id)).AsMemory(),
+                        name: ((string)i.Name).ToCharArray(),
+                        avatarPath: WarehouseAgent.GetAvatarFromId(Guid.Parse(i.Id)).ToCharArray(),
                         tag: entityTag));
            } 
 
@@ -603,8 +622,7 @@ internal sealed class QueryHandler
        }
     }
 
-    public Task<IEnumerable<Track>> QueryTracksById(
-        IEnumerable<Guid> inputIds)
+    public Task<IEnumerable<Track>> QueryTracksById(IEnumerable<Guid> inputIds)
     {
        IEnumerable<Track> tracks;
 

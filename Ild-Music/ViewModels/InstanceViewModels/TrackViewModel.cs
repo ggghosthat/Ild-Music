@@ -47,7 +47,7 @@ namespace Ild_Music.ViewModels
         public async void SetInstance(CommonInstanceDTO instanceDto)
         {
             TrackInstance = await supporter.GetTrackAsync(instanceDto);
-           
+
             if(File.Exists(AvatarPath))
             {
                 using var fs= new FileStream(AvatarPath, FileMode.Open);

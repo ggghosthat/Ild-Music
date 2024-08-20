@@ -40,19 +40,16 @@ public struct Artist
     
     public int Year {get; set;} = DateTime.Now.Year;
 
-	public ICollection<Guid> Tracks {get; set;} = new List<Guid>();
+	public List<Guid> Tracks {get; set;} = new List<Guid>();
 
-	public ICollection<Guid> Playlists {get; set;} = new List<Guid>();
+	public List<Guid> Playlists {get; set;} = new List<Guid>();
 
-	public ICollection<Tag> Tags {get; set;} = new List<Tag>();
+	public List<Tag> Tags {get; set;} = new List<Tag>();
 
 	public void AddTrack(ref Track track)
 	{
 		if(!Tracks.Contains(track.Id))
-		{
 			Tracks.Add(track.Id);
-			track.Artists.Add(Id);
-		}
 	}
 
 	public void AddPlaylist(ref Playlist playlist)
@@ -60,8 +57,6 @@ public struct Artist
 		if(!Playlists.Contains(playlist.Id))
 		{
 			Playlists.Add(playlist.Id);
-			playlist.Artists.Add(Id);
-
             Tracks.ToList().AddRange(playlist.Tracks);
 		}
 	}
@@ -69,10 +64,7 @@ public struct Artist
 	public void DeleteTrack(ref Track track) 
 	{
 		if (Tracks.Contains(track.Id))
-		{
 			Tracks.Remove(track.Id);
-			track.Artists.Remove(Id);
-		}
 	}
 
 	public void DeletePlaylist(ref Playlist playlist) 
@@ -80,43 +72,9 @@ public struct Artist
 		if (!Playlists.Contains(playlist.Id))
 		{
 			Playlists.Remove(playlist.Id);
-			playlist.Artists.Remove(Id);
 
             foreach (var tid in playlist.Tracks)
                 Tracks.Remove(tid);
 		}
 	}
-
-	#region Avatar Manipulation
-	public byte[] GetAvatar()
-    {
-		try
-		{
-			return AvatarSource.ToArray();
-		}
-		catch(Exception ex)
-		{
-			//Speciall logging or throwing logic
-			throw ex;
-			// return null;
-		}
-    }
-
-    public void SetAvatar(string path)
-    {
-        if(path is not null && File.Exists(path))
-        {
-            try
-            {
-                byte[] file = System.IO.File.ReadAllBytes(path);
-                AvatarSource = file; 
-            }
-            catch(Exception ex)
-            {
-                //Speciall logging or throwing logic
-                throw ex;   
-            }            
-        }
-    }
-    #endregion
 }

@@ -7,14 +7,12 @@ using Dapper;
 namespace Cube.Guido.Handlers;
 
 internal sealed class CommandHandler 
-{
-    private readonly ReadOnlyMemory<char> _connectionString;
-    
+{    
     public CommandHandler()
     {}
 
     //these methods needs to add instance and their relationships
-    public Task AddArtist(Artist artist) 
+    public Task AddArtist(Artist artist)
     {
         using (IDbConnection connection = ConnectionAgent.GetDbConnection())
         {
@@ -102,7 +100,7 @@ internal sealed class CommandHandler
         return Task.CompletedTask;
     }
 
-    public Task AddPlaylist(Playlist playlist) 
+    public Task AddPlaylist(Playlist playlist)
     {
         using (IDbConnection connection = ConnectionAgent.GetDbConnection())
         {
@@ -277,7 +275,7 @@ internal sealed class CommandHandler
         return Task.CompletedTask;
     }
 
-    public Task AddTag(Tag tag) 
+    public Task AddTag(Tag tag)
     {
         using (IDbConnection connection = ConnectionAgent.GetDbConnection())
         {
@@ -452,7 +450,7 @@ internal sealed class CommandHandler
         return Task.CompletedTask;
     }
 
-    public Task EditPlaylist(Playlist newPlaylist) 
+    public Task EditPlaylist(Playlist newPlaylist)
     {
         using (IDbConnection connection = ConnectionAgent.GetDbConnection())
         {
@@ -475,8 +473,6 @@ internal sealed class CommandHandler
                     },
                     transaction);
 
-                Console.WriteLine($"artists: {newPlaylist.Artists?.Count}");
-                Console.WriteLine($"tracks: {newPlaylist.Tracks?.Count}");
                 if(newPlaylist.Artists?.Count > 0)
                 {
                     string updatePlaylistArtistsQuery = @"
