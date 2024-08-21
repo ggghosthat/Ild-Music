@@ -26,7 +26,7 @@ public class NAudioPlaybacker
     
     public ReadOnlyMemory<char> Title { get; private set; }
     
-    public float Volume { get; private set; } = DEFAULT_VOLUME;
+    public float Volume { get; private set; }
     
     public TimeSpan TotalTime { get; private set; }
     
@@ -59,23 +59,22 @@ public class NAudioPlaybacker
     {
         if (_device == null)
         {
-            _device = new();
+            _device = new ();
             _device.PlaybackStopped += OnPlaybackStopped;
         }
-
         if (_reader == null)
-            _reader = new(path.ToString());
+        {
+            _reader = new (path.ToString());
+            _device.Init(_reader);
+        }
 
-        var wc = new WaveChannel32(_reader);
-        wc.PadWithZeroes = false;
-        _device.Init(wc);
         _device.Volume = Volume;
     }
 
     public Task Toggle()
     {
-        bool isActivePlayer = _device != null || _reader != null;
-        
+        bool isActivePlayer = _device != null && _reader != null;
+
         if (!isActivePlayer)
             return Task.CompletedTask;
         
@@ -85,6 +84,7 @@ public class NAudioPlaybacker
 
             _device?.Play();
             while (isPlaying && isActivePlayer);
+            
             _device?.Stop();
             IsEmpty = true;
             TrackFinished?.Invoke();

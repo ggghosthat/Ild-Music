@@ -119,7 +119,6 @@ public class MainWindowViewModel : Base.BaseViewModel
             OnPropertyChanged("TotalTime");
             OnPropertyChanged("TotalTimeDisplay");
             OnPropertyChanged("Title");
-            Console.WriteLine(Title);
         };
 
         _eventBag.RegisterEvent((int)PlayerSignal.PLAYER_SET_TRACK, entityUpdateDelegate);

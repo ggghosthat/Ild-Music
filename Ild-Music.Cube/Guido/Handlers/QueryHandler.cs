@@ -475,14 +475,14 @@ internal sealed class QueryHandler
                     trackExtraPropsQuery,
                     new { tid = trackId },
                     transaction);
-
+                
                 track = new (
                     instanceDTO.Id,
                     WarehouseAgent.GetTrackPathFromIdAsMemory(instanceDTO.Id),
                     instanceDTO.Name,
                     extraProps.Description.ToCharArray(),
                     instanceDTO.AvatarPath,
-                    TimeSpan.FromMilliseconds(extraProps.Duration),
+                    TimeSpan.FromMilliseconds((long)extraProps.Duration),
                     (int)extraProps.Year);
 
                 var trackArtists = connection.Query(

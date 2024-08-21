@@ -48,7 +48,7 @@ public class NAudioPlayer : IPlayer
 
     public bool IsPlaylistLoop {get; set;} = false;
 
-    public bool ToggleState => (_audioPlayer.PlaybackState == PlaybackState.Stopped)?true:false;
+    public bool ToggleState => (_audioPlayer.PlaybackState == PlaybackState.Playing)?true:false;
     
     public float MaxVolume {get; private set;} = 1;
 

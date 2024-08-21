@@ -45,7 +45,8 @@
                           VerticalScrollBarVisibility="Disabled"
                           HorizontalScrollBarVisibility="Auto"
                           HorizontalContentAlignment="Left"
-                          HorizontalAlignment="Stretch">
+                          HorizontalAlignment="Stretch"
+                          Height="110">
                 <ListBox ItemsSource="{Binding Playlists}"
                          SelectedItem="{Binding CurrentPlaylist}"
                          ScrollViewer.HorizontalScrollBarVisibility="Visible"
