@@ -5,7 +5,6 @@ using Ild_Music.Core.Events.Signals;
 
 using NAudio.Wave;
 using System;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace NAudioPlayerCore.Models;

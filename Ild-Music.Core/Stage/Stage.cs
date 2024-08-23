@@ -1,6 +1,7 @@
-using Ild_Music.Core.Events;
 using Ild_Music.Core.Contracts;
 using Ild_Music.Core.Contracts.Services.Interfaces;
+using Ild_Music.Core.Events;
+using Ild_Music.Core.Exceptions.Flag;
 using Ild_Music.Core.Services.Castle;
 
 namespace Ild_Music.Core.Stage;
@@ -17,53 +18,51 @@ public sealed class Stage
     public IConfigure Configure {get; private set;}
 
     public IPlayer? PlayerInstance => castle.GetCurrentPlayer();
+    
     public ICube? CubeInstance => castle.GetCurrentCube();
 
-    public bool CompletionResult {get; private set;}
+    public bool CompletionResult { get; private set; }
+
+    public List<ErrorFlag> Errors { get; private set; } = [];
 
     public event Action OnInitialized;
+
     public event Action OnComponentMuted;
 
     public async Task Build()
     {
-        try 
+        CompletionResult = await DockComponents();
+        
+        if (CompletionResult)
         {
-            CompletionResult = await DockComponents();
             castle.Pack();
             OnInitialized?.Invoke();
-        }
-        catch(Exception ex)
-        {
-            throw ex;
         }
     }       
 
     private async Task<bool> DockComponents()
     {
-        bool isCompleted = false;
-        try
+        bool isCompleted;
+       
+        using (var docker = new Docker(Configure))
         {
-            using (var docker = new Docker(Configure))
+            var dock = await docker.Dock();
+            
+            if(dock == 0)
             {
-                var dock = await docker.Dock();
+                await castle.RegisterPlayers(docker.Players);
+                await castle.RegisterCubes(docker.Cubes);
 
-                if(dock == 0)
-                {
-                    await castle.RegisterPlayers(docker.Players);
-                    await castle.RegisterCubes(docker.Cubes);
-                }
-                else if(dock == -1)
-                {
-                    throw new Exception("Could not load defined components");
-                }
+                isCompleted = true;
             }
+            else
+            { 
+                foreach (var err in docker.Errors)
+                    Errors.Add(err);
 
-            isCompleted = true;
-        }
-        catch(Exception ex)
-        {
-            throw ex;
-        }
+                isCompleted = false;
+            }
+        }        
        
         return isCompleted;
     }
