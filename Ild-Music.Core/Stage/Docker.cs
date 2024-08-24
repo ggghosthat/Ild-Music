@@ -26,7 +26,7 @@ public class Docker : IDocker, IDisposable
         Players = DefaultDockProcess<IPlayer>(ref configure.ConfigSheet._players);
         Cubes = DefaultDockProcess<ICube>(ref configure.ConfigSheet._cubes);
         
-        return (_errors.Count > 0)
+        return (_errors.Count == 0)
             ? ValueTask.FromResult(0)
             : ValueTask.FromResult(1);
     }
@@ -83,5 +83,4 @@ public class Docker : IDocker, IDisposable
         _errors.Clear();
         GC.Collect();
     }
-
 }

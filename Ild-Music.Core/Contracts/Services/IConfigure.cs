@@ -1,10 +1,13 @@
+using Ild_Music.Core.Exceptions.Flag;
+
 namespace Ild_Music.Core.Contracts;
+
 public interface IConfigure
 {
     public ReadOnlyMemory<char> ComponentsFile {get; init;}
  	public Config ConfigSheet {get; set;}    
 
-    public Task ParseAsync();
+    public void Parse();
 }
 
 public record Config()
@@ -36,5 +39,3 @@ public record Config()
         set => _cubeSource = value;
     }
 }
-
-

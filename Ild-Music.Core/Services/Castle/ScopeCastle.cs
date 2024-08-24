@@ -44,9 +44,10 @@ public sealed class ScopeCastle : ICastle, IDisposable
             //Building container
             container = builder.Build();
                      
-            //supplying components for ghosts
+            //ghosts initialization
             SupplyCube();
             SupplyPlayer();
+            
             IsActive = true;
         }
         catch(Exception ex)

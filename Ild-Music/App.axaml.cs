@@ -9,6 +9,7 @@ using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
 using PropertyChanged;
 using System;
+using System.IO;
 using System.Collections;
 
 namespace Ild_Music;
@@ -16,18 +17,28 @@ namespace Ild_Music;
 [DoNotNotifyAttribute]
 public partial class App : Application
 {
-    public const string ConfigurationFilePath = "./config.json";
-    public static Hashtable ViewModelTable = new ();
-    public static Configure Configure;
-    public static Stage Stage;
+    public const string CONFIGURATION_FILE = "./config.json";
+
+    private static Configure _configure;
+    
+    private static Stage _stage;
+
+    public static bool IsCrashedLoading = false;
+
+    private static List<ErrorFlag> _errors = [];
 
     public App()
     {
-        Configure = new ("./config.json");
-        Stage = new (Configure);
-        Stage.Build().Wait();
-        PopullateViewModelTable();
+        bool stageBuildStatus = StageBuildChainExecute();
+        PrepareViewModelTable(stageBuildStatus);
     }
+
+    public static Stage Stage => _stage;
+    
+    public static Configure Configure => _configure;
+
+    public static Hashtable ViewModelTable { get;set; } = new();
+
     public override void Initialize()
     {
         AvaloniaXamlLoader.Load(this);
@@ -46,7 +57,34 @@ public partial class App : Application
         base.OnFrameworkInitializationCompleted();
     }
 
-    private void PopullateViewModelTable()
+    private static bool ParseConfigurationFile()
+    {
+        _configure = new (CONFIGURATION_FILE);
+        _configure.Parse();
+        return _configure.CheckErrors(_errors);
+    }
+
+    private static bool BuildStage()
+    {
+        _stage = new (_configure);
+        _stage.Build().Wait();
+        return _configure.CheckErrors(_errors);
+    }
+
+    private static bool StageBuildChainExecute()
+    {
+        if (!ParseConfigurationFile())
+            return false;
+
+        if (!BuildStage())
+            return false;
+
+        return true;
+    }
+
+
+
+    private static void SuccededLoadingViewModelTableInitialization()
     {
         var instanceExplorerVm = new InstanceExplorerViewModel();
         App.ViewModelTable.Add(instanceExplorerVm.ViewModelId, instanceExplorerVm);
@@ -72,5 +110,18 @@ public partial class App : Application
         App.ViewModelTable.Add(startVm.ViewModelId, startVm);
         var listVm = new ListViewModel();
         App.ViewModelTable.Add(listVm.ViewModelId, listVm);
+    }
+
+    private static void CrashedLoadingViewModelTableInitialization()
+    {
+        //register crashed loading view model
+    }
+
+    private static void PrepareViewModelTable(bool stageBuildStatus)
+    {
+        if (stageBuildingStatus)
+            SuccededLoadingViewModelTableInitialization();
+        else
+            CrashedLoadingViewModelTableInitialization();
     }
 }

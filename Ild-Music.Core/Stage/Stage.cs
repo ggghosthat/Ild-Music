@@ -6,7 +6,7 @@ using Ild_Music.Core.Services.Castle;
 
 namespace Ild_Music.Core.Stage;
 
-public sealed class Stage 
+public sealed class Stage : IErrorTracable
 {
     private static ScopeCastle castle = new();
     
@@ -32,7 +32,7 @@ public sealed class Stage
     public async Task Build()
     {
         CompletionResult = await DockComponents();
-        
+
         if (CompletionResult)
         {
             castle.Pack();
@@ -47,7 +47,7 @@ public sealed class Stage
         using (var docker = new Docker(Configure))
         {
             var dock = await docker.Dock();
-            
+
             if(dock == 0)
             {
                 await castle.RegisterPlayers(docker.Players);
@@ -85,6 +85,20 @@ public sealed class Stage
     public IGhost? GetGhost(Ghosts ghostTag) =>
         castle.ResolveGhost(ghostTag);
 
-    public IWaiter GetWaiter(string waiterName) =>
+    public IWaiter? GetWaiter(string waiterName) =>
         castle.ResolveWaiter(waiterName);
+
+    public bool CheckErrors(List<ErrorFlag> errorList)
+    {
+        bool result = false;
+
+        if (Errors.Count > 0)
+        {
+            errorList.AddRange(Errors);
+            Errors.Clear();
+            result = true;
+        }
+
+        return result;
+    }
 }

@@ -217,6 +217,8 @@ public class MainWindowViewModel : Base.BaseViewModel
                 viewModel = trackViewModel;
                 break;            
             case (EntityTag.TAG):
+                if (_supporterGhost is null)
+                    break;
                 var tagViewModel = (TagEditorViewModel)App.ViewModelTable[TagEditorViewModel.viewModelId];
                 var tag = _supporterGhost.GetTagAsync(instanceDto.Id).Result;
                 tagViewModel?.DropInstance(tag).Wait();

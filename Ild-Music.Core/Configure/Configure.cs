@@ -1,27 +1,52 @@
 using Ild_Music.Core.Contracts;
+using Ild_Music.Core.Exceptions.Flag;
 
 using System.Text.Json;
 
 namespace Ild_Music.Core.Configure;
 
-public class Configure:IConfigure
+public class Configure : IConfigure, IErrorTracable
 {
-    public ReadOnlyMemory<char> ComponentsFile {get; init;}
-
-    public Config ConfigSheet {get; set;}
-
     public Configure()
     {}
 
     public Configure(string componentsFile)
     {
         ComponentsFile = componentsFile.AsMemory();
-        ParseAsync().Wait();
     }
 
-    public async Task ParseAsync()
+    public ReadOnlyMemory<char> ComponentsFile {get; init;}
+
+    public Config? ConfigSheet {get; set;}
+
+    public List<ErrorFlag> Errors { get; private set; } = [];
+
+    public void Parse()
     {
-        using FileStream openStream = File.OpenRead(ComponentsFile.ToString());
-        ConfigSheet = await JsonSerializer.DeserializeAsync<Config>(openStream);
+        bool isCompleted;
+        try
+        {
+            using FileStream openStream = File.OpenRead(ComponentsFile.ToString());
+            ConfigSheet = JsonSerializer.Deserialize<Config>(openStream);
+        }
+        catch(Exception ex)
+        {
+            var error = new ErrorFlag("configure", "parsing", ex.Message);
+            Errors.Add(error);
+        }
+    }
+
+    public bool CheckErrors(List<ErrorFlag> errorList)
+    {
+        bool result = false;
+
+        if (Errors.Count > 0)
+        {
+            errorList.AddRange(Errors);
+            Errors.Clear();
+            result = true;
+        }
+
+        return result;
     }
 }
