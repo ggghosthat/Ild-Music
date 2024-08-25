@@ -17,4 +17,6 @@ public struct ErrorFlag
     public string Step { get; }
 
     public string? Message { get; }
+
+    public override string ToString() => $"({WarnTime}) [{Handler}:{Step}] - {Message}";
 }

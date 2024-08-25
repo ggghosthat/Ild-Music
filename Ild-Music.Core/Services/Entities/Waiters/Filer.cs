@@ -15,8 +15,6 @@ public class Filer : IWaiter
 
     private static FactoryGhost factoryGhost;
 
-    private static Memory<byte> buffer;
-
     public Filer()
     {}
 

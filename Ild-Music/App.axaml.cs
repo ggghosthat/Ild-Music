@@ -2,6 +2,7 @@ using Ild_Music.ViewModels;
 using Ild_Music.Views;
 using Ild_Music.Core.Contracts;
 using Ild_Music.Core.Configure;
+using Ild_Music.Core.Exceptions.Flag;
 using Ild_Music.Core.Stage;
 
 using Avalonia;
@@ -11,6 +12,7 @@ using PropertyChanged;
 using System;
 using System.IO;
 using System.Collections;
+using System.Collections.Generic;
 
 namespace Ild_Music;
 
@@ -114,12 +116,14 @@ public partial class App : Application
 
     private static void CrashedLoadingViewModelTableInitialization()
     {
-        //register crashed loading view model
+        var failedBootViewModel = new FailedBootViewModel();
+        failedBootViewModel.SetErrors(_errors);
+        App.ViewModelTable.Add(failedBootViewModel.ViewModelId, failedBootViewModel);
     }
 
     private static void PrepareViewModelTable(bool stageBuildStatus)
     {
-        if (stageBuildingStatus)
+        if (stageBuildStatus)
             SuccededLoadingViewModelTableInitialization();
         else
             CrashedLoadingViewModelTableInitialization();
