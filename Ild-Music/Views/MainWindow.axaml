@@ -378,6 +378,7 @@
                               Background="Transparent">
                             <!--NavBar-->
                             <Grid x:Name="NavBar"
+                                  IsVisible="{Binding BorderComponentsVisiblity}" 
                                   Grid.Column="0" 
                                   Background="#40000000"
                                   HorizontalAlignment="Stretch">
@@ -724,9 +725,10 @@
                         </Grid>
 
                         <!--Player-->
-                        <Grid Grid.Row="2"
+                        <Grid Height="40"
+                              IsVisible="{Binding BorderComponentsVisiblity}"  
+                              Grid.Row="2"
                               ColumnSpan="3"
-                              Height="40"
                               HorizontalAlignment="Stretch">
                             <Grid.Background>
                                 <LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,100%">

@@ -25,21 +25,21 @@ public partial class App : Application
     
     private static Stage _stage;
 
-    public static bool IsCrashedLoading = false;
-
     private static List<ErrorFlag> _errors = [];
 
     public App()
     {
-        bool stageBuildStatus = StageBuildChainExecute();
-        PrepareViewModelTable(stageBuildStatus);
+        IsNormalBoot = StageBuildChainExecute();
+        PrepareViewModelTable();
     }
+    
+    public static bool IsNormalBoot  { get; private set; } = false;
 
     public static Stage Stage => _stage;
     
     public static Configure Configure => _configure;
 
-    public static Hashtable ViewModelTable { get;set; } = new();
+    public static Hashtable ViewModelTable { get; set; } = new();
 
     public override void Initialize()
     {
@@ -75,10 +75,10 @@ public partial class App : Application
 
     private static bool StageBuildChainExecute()
     {
-        if (!ParseConfigurationFile())
+        if (ParseConfigurationFile())
             return false;
 
-        if (!BuildStage())
+        if (BuildStage())
             return false;
 
         return true;
@@ -121,9 +121,9 @@ public partial class App : Application
         App.ViewModelTable.Add(failedBootViewModel.ViewModelId, failedBootViewModel);
     }
 
-    private static void PrepareViewModelTable(bool stageBuildStatus)
+    private static void PrepareViewModelTable()
     {
-        if (stageBuildStatus)
+        if (IsNormalBoot)
             SuccededLoadingViewModelTableInitialization();
         else
             CrashedLoadingViewModelTableInitialization();

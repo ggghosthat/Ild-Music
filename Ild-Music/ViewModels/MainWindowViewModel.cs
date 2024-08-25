@@ -28,10 +28,17 @@ public class MainWindowViewModel : Base.BaseViewModel
 
     public MainWindowViewModel()
     {
-        PresetPlayer();
-        PresetCommands();
-        PresetViewModel();
-        PresetGlobalTimer();
+        if (App.IsNormalBoot)
+        { 
+            PresetPlayer();
+            PresetCommands();
+            PresetViewModel();
+            PresetGlobalTimer();
+        }
+        else
+        {
+            PresetFailedBoot();
+        }
     }
     
     private static SupportGhost _supporterGhost => (SupportGhost)App.Stage.GetGhost(Ghosts.SUPPORT);
@@ -39,25 +46,45 @@ public class MainWindowViewModel : Base.BaseViewModel
     private static IEventBag _eventBag => (EventBag)App.Stage.GetEventBag();
 
     public CommandDelegator NavBarResolve { get; private set; }
+
     public CommandDelegator PreviousCommand { get; private set; }
+    
     public CommandDelegator NextCommand { get; private set; }
+    
     public CommandDelegator KickCommand { get; private set; }
+    
     public CommandDelegator StopCommand { get; private set; }
+    
     public CommandDelegator RepeatCommand { get; private set; }
+    
     public CommandDelegator VolumeSliderShowCommand { get; private set; }
+    
     public CommandDelegator ResolveCurrentInstanceCommand { get; private set; }
+    
     public CommandDelegator ShowCurrentInstanceTabCommand { get; private set; }
+    
     public CommandDelegator HideCurrentInstanceTabCommand { get; private set; }
+    
     public CommandDelegator SearchAreaShowCommand { get; private set; }
+    
     public CommandDelegator SearchAreaToggleCommand { get; private set; }
+    
     public CommandDelegator SearchAreaHideCommand { get; private set; }
+    
     public CommandDelegator SearchCommand { get; private set; }
+    
     public CommandDelegator SelectSearchItemCommand { get; private set; }
+    
     public CommandDelegator ExitCommand { get; private set; }
+    
     public CommandDelegator SwitchHomeCommand { get; private set; }
+    
     public CommandDelegator SwitchListCommand { get; private set; }
+    
     public CommandDelegator SwitchBrowseCommand { get; private set; }
     
+    public bool BorderComponentsVisiblity { get; set; } = true;
+
     public BaseViewModel CurrentVM { get; set; }
     public bool VolumeSliderOpen { get; private set; } = false;
     public bool SearchAreaOpen { get; private set; } = false;
@@ -153,6 +180,13 @@ public class MainWindowViewModel : Base.BaseViewModel
     {   
         App.ViewModelTable.Add(MainWindowViewModel.viewModelId, this);
         CurrentVM = (BaseViewModel)App.ViewModelTable[StartViewModel.viewModelId];
+    }
+
+    private void PresetFailedBoot()
+    {   
+        BorderComponentsVisiblity = false;
+        App.ViewModelTable.Add(MainWindowViewModel.viewModelId, this);
+        CurrentVM = (BaseViewModel)App.ViewModelTable[FailedBootViewModel.viewModelId];
     }
 
     private void PresetGlobalTimer()
