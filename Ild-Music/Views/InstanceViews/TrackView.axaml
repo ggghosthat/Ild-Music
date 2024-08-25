@@ -225,7 +225,6 @@
 		              </ListBox>
 		            </ScrollViewer>
 	        	</Grid>
-	        	
 	        </StackPanel>
         </Grid>
 
@@ -237,12 +236,12 @@
 	            BorderThickness="0"
 	            BorderBrush="Transparent"
 	            ZIndex="-1">
-	      <Border.Background>
-          <LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,100%">
-            <GradientStop Color="{Binding Avatar, Converter={StaticResource IconConverter}, ConverterParameter=background}" Offset="0.0" />
-            <GradientStop Color="#282828" Offset="0.9" />
-          </LinearGradientBrush> 
-        </Border.Background>
+	      	<Border.Background>
+				<LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,100%">
+					<GradientStop Color="{Binding Avatar, Converter={StaticResource IconConverter}, ConverterParameter=background}" Offset="0.0" />
+					<GradientStop Color="#282828" Offset="0.9" />
+				</LinearGradientBrush> 
+        	</Border.Background>
 	    </Border>
 	</Grid>
 </UserControl>

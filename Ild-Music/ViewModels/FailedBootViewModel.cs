@@ -49,12 +49,8 @@ public class FailedBootViewModel : BaseViewModel
             Errors.Add(error);
     }
 
-    public void ExportErrorsList(string folderPath)
+    public void ExportErrorsList(string filePath)
     {
-        if (!Directory.Exists(folderPath))
-            return;
-
-        string filePath = Path.Combine(folderPath, "errors.txt");
         File.WriteAllLines(filePath, Errors.ToList().Select(x => x.ToString()));
     }
 
@@ -64,8 +60,8 @@ public class FailedBootViewModel : BaseViewModel
             return;
 
         string errorString = SelectedError.ToString();
-        var clipboard = Clipboard.Get();
 
+        var clipboard = Clipboard.Get();
         if (clipboard != null) 
             clipboard.SetTextAsync(errorString).Wait();
     }
@@ -77,13 +73,12 @@ public class FailedBootViewModel : BaseViewModel
     }
 }
 
-public class Clipboard {
-    public static IClipboard Get() {
-
-        //Desktop
-        if (Application.Current?.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime { MainWindow: { } window }) {
+public class Clipboard
+{
+    public static IClipboard Get() 
+    {
+        if (Application.Current?.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime { MainWindow: { } window })
             return window.Clipboard!;
-        }
 
         return null!;
     }

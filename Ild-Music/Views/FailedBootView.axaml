@@ -97,9 +97,10 @@
 
     <StackPanel Grid.Row="1">
       <Label Content="Sorry, during some launching issues shown below could not start up. Please, contact the developers with this issue below. :("
-           FontSize="16"
-           Margin="30 10"
-           FontWeight="Medium"/>
+             FontSize="16"
+             Margin="30 10"
+             FontWeight="Medium"/>
+           
       <ScrollViewer Margin="30 10"
                     Height="100"
                     VerticalAlignment="Top"
@@ -192,22 +193,44 @@
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto"/>
                             <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>                            
-                        <TextBlock Grid.Column="1"
-                                    TextWrapping="Wrap"
-                                    TextAlignment="Center"
-                                    FontSize="14"
-                                    Margin="5"
-                                    Foreground="White"
-                                    FontWeight="Regular"
-                                    VerticalAlignment="Center"
-                                    HorizontalAlignment="Left"
-                                    Text="{Binding .}"/>
+                        </Grid.ColumnDefinitions>
+                        
+                        <TextBlock Grid.Column="0"
+                                   Margin="5"
+                                   FontSize="14"
+                                   Text="{Binding .}"
+                                   TextWrapping="Wrap"
+                                   TextAlignment="Center"
+                                   Foreground="White"
+                                   FontWeight="Regular"
+                                   VerticalAlignment="Center"
+                                   HorizontalAlignment="Left"/>
                     </Grid>
                   </DataTemplate>
                 </ListBox.ItemTemplate>
           </ListBox>
       </ScrollViewer>
-    </StackPanel>
+
+      <StackPanel Margin="30 10"
+                  Orientation="Horizontal">
+        <Button Width="100"
+                Height="25"
+                Margin="3,0"
+                Content="Export"
+                Classes="btnApply"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Click="SaveErrorFile_Clicked"/>
+
+        <Button Width="100"
+                Height="25"
+                Margin="3,0"
+                Content="Exit"
+                Classes="btnApply"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Command="{Binding AppCloseCommand}"/>
+      </StackPanel>
+    </StackPanel>    
   </Grid>
 </UserControl>

@@ -54,15 +54,15 @@
         <Grid Grid.Column="0"
               HorizontalAlignment="Center"
               VerticalAlignment="Center">
-              <Border Width="300"
-                      Height="300"
-                      Margin="15"
-                      Background="Transparent"
-                      Tapped="OpenAvatar_Clicked"
+          <Border Width="300"
+                  Height="300"
+                  Margin="15"
+                  Background="Transparent"
+                  Tapped="OpenAvatar_Clicked"
                   Child="{Binding Avatar, 
-                          Converter={StaticResource IconConverter},
-                          ConverterParameter=tico_col}">
-              </Border>
+                      Converter={StaticResource IconConverter},
+                      ConverterParameter=tico_col}">
+          </Border>
         </Grid>
 
         <Grid Grid.Column="1"
