@@ -25,4 +25,32 @@ public partial class ListView : UserControl
             isListenScrollEvent = true;
         }
     }
+
+    private void ListView_DragEnter(object sender, DragEventArgs e)
+    {
+        if (e.Data.Contains(DataFormats.FileNames))
+        {
+            e.DragEffects = DragDropEffects.Copy;
+            e.Handled = true;
+        }
+    }
+
+    private void ListView_DragOver(object sender, DragEventArgs e)
+    {
+        e.DragEffects = DragDropEffects.Copy;
+        e.Handled = true;
+    }
+
+    private void ListView_Drop(object sender, DragEventArgs e)
+    {
+        if (e.Data.Contains(DataFormats.FileNames))
+        {
+            var files = e.Data.GetFileNames();
+            foreach (var file in files)
+            {
+
+            }
+            e.Handled = true;
+        }
+    }
 }
