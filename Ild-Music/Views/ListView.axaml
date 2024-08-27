@@ -17,11 +17,7 @@
     <conv:IconConverter x:Key="IconConverter"/>
   </UserControl.Resources>
 
-  <Grid AllowDrop="True"
-        DragEnter="ListView_DragEnter"
-        DragLeave="ListView_DragLeave"
-        DragOver="ListView_DragOver"
-        Drop="ListView_Drop">
+  <Grid DragDrop.AllowDrop="True">
     <Grid.RowDefinitions>
       <RowDefinition Height="auto"/>
       <RowDefinition Height="*"/>

@@ -14,6 +14,9 @@ public partial class ListView : UserControl
     public ListView()
     {
         InitializeComponent();
+
+        AddHandler(DragDrop.DropOverEvent, ListView_DropOver);
+        AddHandler(DragDrop.DragEvent, ListView_Drop);
     }
 
     private void OnScrollChanged(object sender, PointerWheelEventArgs e)
@@ -35,22 +38,28 @@ public partial class ListView : UserControl
         }
     }
 
-    private void ListView_DragOver(object sender, DragEventArgs e)
+    private void ListView_Drag(object sender, DragEventArgs e)
     {
         e.DragEffects = DragDropEffects.Copy;
         e.Handled = true;
+    }
+
+    private void ListView_DropOver(object sender, DragEventArgs e)
+    {
+        // Only allow Copy or Link as Drop Operations.
+        e.DragEffects = e.DragEffects & (DragDropEffects.Copy | DragDropEffects.Link);
+
+        // Only allow if the dragged data contains file names.
+        if (!e.Data.Contains(DataFormats.FileNames))
+            e.DragEffects = DragDropEffects.None;
     }
 
     private void ListView_Drop(object sender, DragEventArgs e)
     {
         if (e.Data.Contains(DataFormats.FileNames))
         {
-            var files = e.Data.GetFileNames();
-            foreach (var file in files)
-            {
-
-            }
-            e.Handled = true;
+            var filePaths = e.Data.GetFileNames();
+            var text = string.Join(Environment.NewLine, filePaths);
         }
     }
 }

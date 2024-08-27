@@ -1,8 +1,8 @@
 {
     "Players": [
-        "E:/repos/Ild-Music/Ild-Music.NAudioPlayerCore/bin/Release/net8.0/win-x64/publish/Ild-Music-Core.dll"
+        "D:/repos/Ild-Music/Ild-Music.NAudioPlayerCore/bin/Release/net8.0/win-x64/publish/Ild-Music-Core.dll"
     ],
     "Cubes": [
-        "E:/repos/Ild-Music/Ild-Music.Cube/bin/Release/net8.0/win-x64/publish/Ild-Music.Cube.dll"    
+        "D:/repos/Ild-Music/Ild-Music.Cube/bin/Release/net8.0/win-x64/publish/Ild-Music.Cube.dll"    
     ]
 }
