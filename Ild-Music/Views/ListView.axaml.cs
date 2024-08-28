@@ -1,6 +1,9 @@
 using Ild_Music.ViewModels;
 
 using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using Avalonia.Input;
 using Avalonia.Controls;
 using PropertyChanged;
@@ -11,12 +14,24 @@ namespace Ild_Music.Views;
 public partial class ListView : UserControl
 {
     private bool isListenScrollEvent = true;
+
+    private const string DROP_AREA_BORRDER = "DropArea";
+    private const string DROP_PLACE_BORRDER = "DropPlace";
+
+    private static Border dropArea;
+    private static Border dropPlace;
+
+    private static IEnumerable<string> _placedFiles;
+
     public ListView()
     {
         InitializeComponent();
+        dropArea = this.FindControl<Border>(DROP_AREA_BORRDER);
+        dropPlace = this.FindControl<Border>(DROP_PLACE_BORRDER);
 
-        AddHandler(DragDrop.DropOverEvent, ListView_DropOver);
-        AddHandler(DragDrop.DragEvent, ListView_Drop);
+        AddHandler(DragDrop.DropEvent, ListView_DragLeave);
+        AddHandler(DragDrop.DragEnterEvent, ListView_DragOver);
+        AddHandler(DragDrop.DragLeaveEvent, ListView_DragLeave);
     }
 
     private void OnScrollChanged(object sender, PointerWheelEventArgs e)
@@ -29,37 +44,37 @@ public partial class ListView : UserControl
         }
     }
 
-    private void ListView_DragEnter(object sender, DragEventArgs e)
+    private void ListView_DragOver(object sender, DragEventArgs e)
     {
-        if (e.Data.Contains(DataFormats.FileNames))
-        {
-            e.DragEffects = DragDropEffects.Copy;
-            e.Handled = true;
-        }
-    }
-
-    private void ListView_Drag(object sender, DragEventArgs e)
-    {
-        e.DragEffects = DragDropEffects.Copy;
-        e.Handled = true;
-    }
-
-    private void ListView_DropOver(object sender, DragEventArgs e)
-    {
-        // Only allow Copy or Link as Drop Operations.
+        dropArea.IsVisible = true;
+        dropArea.Cursor = new Cursor(StandardCursorType.Hand);
         e.DragEffects = e.DragEffects & (DragDropEffects.Copy | DragDropEffects.Link);
 
-        // Only allow if the dragged data contains file names.
         if (!e.Data.Contains(DataFormats.FileNames))
             e.DragEffects = DragDropEffects.None;
+
+        _placedFiles = GetFiles(e);
+        _placedFiles.OrderBy(x => x);
     }
 
-    private void ListView_Drop(object sender, DragEventArgs e)
+    private void ListView_DragLeave(object sender, DragEventArgs e)
     {
-        if (e.Data.Contains(DataFormats.FileNames))
-        {
-            var filePaths = e.Data.GetFileNames();
-            var text = string.Join(Environment.NewLine, filePaths);
-        }
+        dropArea.IsVisible = false;
+        _placedFiles = Enumerable.Empty<string>();
+    }
+
+    private void DropAreaReleaseMouse(object sender, PointerPressedEventArgs e)
+    {
+        dropArea.IsVisible = false;
+    }
+
+    private static IEnumerable<string> GetFiles(DragEventArgs dragEvent)
+    {
+        var filePaths = dragEvent.Data.GetFileNames();
+
+        if (filePaths.Count() > 0)
+            return filePaths;
+        else 
+            return Enumerable.Empty<string>();
     }
 }

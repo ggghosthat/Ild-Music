@@ -46,7 +46,6 @@ public class ListViewModel : BaseViewModel
 
     public override void Load()
     {
-        // Task.Run(async () => await DisplayProvidersAsync());
         DisplayProvidersAsync().Wait();
     }
 
@@ -73,7 +72,6 @@ public class ListViewModel : BaseViewModel
 
     private void Add(object obj)
     {
-
         BaseViewModel editor = Header switch
         {
             "Artists" => (BaseViewModel)App.ViewModelTable[ArtistEditorViewModel.viewModelId],

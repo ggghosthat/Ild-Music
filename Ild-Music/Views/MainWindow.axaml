@@ -14,7 +14,8 @@
         x:DataType="vm:MainWindowViewModel"
         Icon="/Assets/ild-music-logo.ico"
         SystemDecorations="None"
-        WindowStartupLocation="CenterScreen">
+        WindowStartupLocation="CenterScreen"
+        DragDrop.AllowDrop="True">
 
     <Window.Resources>
         <conv:NavBarConverter x:Key="NavBarConverter"/>
