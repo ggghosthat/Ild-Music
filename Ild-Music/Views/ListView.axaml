@@ -7,7 +7,6 @@
              xmlns:conv="clr-namespace:Ild_Music.Converters"
              xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
              xmlns:ia="clr-namespace:Avalonia.Xaml.Interactions.Core;assembly=Avalonia.Xaml.Interactions"
-
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="Ild_Music.Views.ListView"
              x:DataType="vm:ListViewModel">
@@ -371,27 +370,23 @@
       </Border>
     </StackPanel>
 
+
     <!--background-->
     <Border x:Name="DropArea"
             Grid.Row="0"
             Grid.RowSpan="3"
-            Margin="10 30 10 10"
-            BorderThickness="3"
-            CornerRadius="10"
-            Background="#955c5c5c"
-            BorderBrush="Transparent"
             IsVisible="false"  
             ZIndex="2"
+            Background="#85b2b2b2"
             PointerPressed="DropAreaReleaseMouse">
       <Border x:Name="DropPlace"
               Margin="10"    
               CornerRadius="10"
               BorderThickness="3"
               Background="Transparent"
-              BorderBrush="{StaticResource color1}"
               HorizontalAlignment="Stretch"
-              VerticalAlignment="Stretch">
-
+              VerticalAlignment="Stretch"
+              BorderBrush="{StaticResource color1}">
           <StackPanel HorizontalAlignment="Center"
                       VerticalAlignment="Center">
             <PathIcon Width="100"
@@ -402,11 +397,10 @@
                       Background="Transparent"
                       Data="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18V20Z"/>
             <Label Content="Drop your music file"
-                   FontWeight="Medium"
-                   FontSize="30"
-                   Foreground="#c2c2c2"/>
-
-          </StackPanel>
+                FontWeight="Medium"
+                FontSize="30"
+                Foreground="#c2c2c2"/>
+        </StackPanel>          
       </Border>
     </Border>
   </Grid>

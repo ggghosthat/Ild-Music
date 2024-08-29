@@ -3,6 +3,7 @@ using Ild_Music.Command;
 using Ild_Music.Core.Instances.DTO;
 using Ild_Music.Core.Services.Entities;
 using Ild_Music.Core.Contracts.Services.Interfaces;
+using Ild_Music.Contracts;
 
 using System;
 using System.Collections.Generic;
@@ -12,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace Ild_Music.ViewModels;
 
-public class ListViewModel : BaseViewModel
+public class ListViewModel : BaseViewModel, IFileDropable
 {
     public static readonly Guid viewModelId = Guid.NewGuid();
     public override Guid ViewModelId => viewModelId;
@@ -54,10 +55,16 @@ public class ListViewModel : BaseViewModel
         await DisplayProvidersAsync();
     }
  
-    public async Task BrowseTracks(IEnumerable<string> paths)
+    public void DropFile(string filePath)
     {
-        if(Header is "Tracks")
-            paths.ToList().ForEach(path => factory.CreateTrack(path));
+        factory.CreateTrack(filePath);
+        DisplayProvidersAsync().Wait();
+    }
+
+    public void DropFiles(IEnumerable<string> filePaths)
+    {
+        filePaths.ToList().ForEach(path => factory.CreateTrack(path));
+        DisplayProvidersAsync().Wait();
     }
 
     public Task ExtendCurrentList()

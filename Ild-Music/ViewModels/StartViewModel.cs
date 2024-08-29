@@ -4,6 +4,7 @@ using Ild_Music.Core.Instances;
 using Ild_Music.Core.Instances.DTO;
 using Ild_Music.Core.Services.Entities;
 using Ild_Music.Core.Contracts.Services.Interfaces;
+using Ild_Music.Contracts;
 
 using System;
 using System.Collections.Generic;
@@ -14,7 +15,7 @@ using System.Threading.Tasks;
 
 namespace Ild_Music.ViewModels;
 
-public class StartViewModel : BaseViewModel
+public class StartViewModel : BaseViewModel, IFileDropable
 {
     public static readonly Guid viewModelId = Guid.NewGuid();
     public override Guid ViewModelId => viewModelId;
@@ -49,7 +50,6 @@ public class StartViewModel : BaseViewModel
     public CommandDelegator DropPlaylistCommand {get;}
     public CommandDelegator DropTrackCommand {get;}
     public CommandDelegator DropArtistCommand {get;}
-
    
     private async Task PopullateLists()
     {
@@ -84,13 +84,19 @@ public class StartViewModel : BaseViewModel
         using (var instancePool = _supportGhost.GetInstancePool().Result)
         {
             Tracks.Clear();
-            instancePool.TracksDTOs.ToList().ForEach(t => Playlists.Add(t));  
+            instancePool.TracksDTOs.ToList().ForEach(t => Tracks.Add(t));  
         }
     }
 
-    public async Task BrowseTracks(IEnumerable<string> paths)
+    public void DropFile(string filePath)
     {
-        paths.ToList().ForEach(path => factory.CreateTrack(path));
+        factory.CreateTrackBrowsed(filePath, true);
+        RefreshTracks();
+    }
+
+    public void DropFiles(IEnumerable<string> filePaths)
+    {
+        Task.Run(() => filePaths.ToList().ForEach(path => factory.CreateTrackBrowsed(path, true)));
         RefreshTracks();
     }
 

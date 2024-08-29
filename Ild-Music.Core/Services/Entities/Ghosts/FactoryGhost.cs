@@ -226,7 +226,7 @@ public sealed class FactoryGhost : IGhost
         OnTagUpdate?.Invoke();
     }
     
-    public Track CreateTrackBrowsed(string pathway) 
+    public Track CreateTrackBrowsed(string pathway, bool allocateInstance = false)
     {      
         try 
         {        
@@ -244,14 +244,18 @@ public sealed class FactoryGhost : IGhost
                     null,
                     taglib.Properties.Duration,
                     year); 
-               
-                if(taglib.Tag.Pictures.Length > 0)
+                                
+                trackResult = producer.TrackInstance; 
+                
+                if(allocateInstance && taglib.Tag.Pictures.Length > 0)
                 {
                     var avatarSource = taglib.Tag.Pictures[0].Data.Data;
                     cube.PlaceAvatar(producer.TrackInstance.Id, avatarSource);
                 }
 
-                trackResult = producer.TrackInstance; 
+                if (allocateInstance)
+                    cube.AddTrackObj(trackResult).Wait();
+
                 producer.Dispose(); 
             }
             return trackResult; 

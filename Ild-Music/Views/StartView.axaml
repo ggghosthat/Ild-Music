@@ -275,10 +275,12 @@
                                        Source="{Binding ., Converter={StaticResource IconConverter}, ConverterParameter=dto_icon}"/>
 
                                 <TextBlock Grid.Column="1"
-                                           HorizontalAlignment="Center"
-                                           VerticalAlignment="Center"
                                            Foreground="White"
                                            FontSize="16"
+                                           FontWeight="Regular"
+                                           Margin="10 5"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
                                            Text="{Binding ., Converter={StaticResource InstanceConverter}, ConverterParameter=name}"
                                            TextAlignment="Center"/>
                             </Grid>                          
@@ -286,6 +288,37 @@
                     </ListBox.ItemTemplate>
                   </ListBox>
             </ScrollViewer>
+            
+            <Border x:Name="DropArea"
+                    Grid.Row="3"
+                    IsVisible="false"  
+                    ZIndex="2"
+                    Background="#85b2b2b2"
+                    PointerPressed="DropAreaReleaseMouse">
+                <Border x:Name="DropPlace"
+                        Margin="10"    
+                        CornerRadius="10"
+                        BorderThickness="3"
+                        Background="Transparent"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch"
+                        BorderBrush="{StaticResource color1}">
+                    <StackPanel HorizontalAlignment="Center"
+                                VerticalAlignment="Center">
+                        <PathIcon Width="100"
+                                  Height="100"
+                                  HorizontalAlignment="Center"
+                                  VerticalAlignment="Center"
+                                  Foreground="#c2c2c2"
+                                  Background="Transparent"
+                                  Data="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18V20Z"/>
+                        <Label Content="Drop your music file"
+                            FontWeight="Medium"
+                            FontSize="30"
+                            Foreground="#c2c2c2"/>
+                    </StackPanel>
+                </Border>
+            </Border>
         </Grid>
 
         <Grid Grid.Column="1">

@@ -1,4 +1,5 @@
 using Ild_Music.ViewModels;
+using Ild_Music.Contracts;
 
 using System;
 using System.Collections;
@@ -65,6 +66,11 @@ public partial class ListView : UserControl
 
     private void DropAreaReleaseMouse(object sender, PointerPressedEventArgs e)
     {
+        _placedFiles = _placedFiles.GroupBy(f => f).Select(f => f.Key);
+
+        if (DataContext is IFileDropable fileDropable)
+            fileDropable.DropFiles(_placedFiles);
+
         dropArea.IsVisible = false;
     }
 
