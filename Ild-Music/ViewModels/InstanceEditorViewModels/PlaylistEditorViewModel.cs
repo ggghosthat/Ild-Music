@@ -201,7 +201,6 @@ public class PlaylistEditorViewModel : BaseViewModel
             editPlaylist.Year = Year;
             editPlaylist.AvatarPath = AvatarPath.AsMemory();
 
-            Console.WriteLine($"PEVM: {SelectedPlaylistTracks.Count}");
             if(SelectedPlaylistTracks.Count > 0)
             {
                 editPlaylist.EraseTracks();
@@ -211,7 +210,6 @@ public class PlaylistEditorViewModel : BaseViewModel
                         var trackInstance = await supporter.GetTrackAsync(t);
                         editPlaylist.AddTrack(ref trackInstance);
                     });
-                Console.WriteLine($"PEVM: {editPlaylist.Tracks.Count}");
             }
 
             if(SelectedPlaylistArtists.Count > 0)
@@ -222,12 +220,14 @@ public class PlaylistEditorViewModel : BaseViewModel
                     {
                         var artistInstance = await supporter.GetArtistAsync(a);
                         artistInstance.DeletePlaylist(ref editPlaylist);
+                        editPlaylist.Artists.Remove(a.Id);
                     });
                 SelectedPlaylistArtists.ToList()
                     .ForEach(async a =>
                     {
                         var artistInstance = await supporter.GetArtistAsync(a);
                         artistInstance.AddPlaylist(ref editPlaylist);
+                        editPlaylist.Artists.Add(a.Id);
                     });
             }
 

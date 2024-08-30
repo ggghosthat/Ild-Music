@@ -35,8 +35,7 @@ internal sealed class CommandHandler
                     },
                     transaction);
 
-
-                if(artist.Playlists is not null && artist.Playlists.Count > 0)
+                if(artist.Playlists?.Count > 0)
                 {
                     string artistPlaylistQuery = @"
                         insert into artists_playlists(AID, PID) select @aid, @pid where not EXISTS(SELECT 1 from artists_playlists where AID = @aid and PID = @pid)";
@@ -54,8 +53,7 @@ internal sealed class CommandHandler
                     }                    
                 }
 
-
-                if(artist.Tracks is not null && artist.Tracks.Count > 0)
+                if(artist.Tracks?.Count > 0)
                 {
                     string artistTrackQuery = @"
                         insert into artists_tracks(AID, TID) select @aid, @tid where not EXISTS(SELECT 1 from artists_tracks where AID = @aid and TID = @tid)";
@@ -73,7 +71,7 @@ internal sealed class CommandHandler
                     }
                 }
 
-                if(artist.Tags is not null && artist.Tags.Count > 0)
+                if(artist.Tags?.Count > 0)
                 {
                     string tagArtistQuery = @"
                         insert into tags_instances(TagID, IID, EntityType) select @tag_id, @iid, @entity_type where not EXISTS(SELECT 1 from tags_instances where TagID = @tag_id and IID = @iid and EntityType=@entity_type)";
@@ -123,7 +121,7 @@ internal sealed class CommandHandler
                     },
                     transaction);
 
-                if(playlist.Artists is not null && playlist.Artists.Count > 0)
+                if(playlist.Artists?.Count > 0)
                 {
                     string playlistArtistQuery = @"
                         insert into artists_playlists(AID, PID) select @aid, @pid where not EXISTS(SELECT 1 from artists_playlists where AID = @aid and PID = @pid)";
@@ -141,7 +139,7 @@ internal sealed class CommandHandler
                     }
                 }
 
-                if(playlist.Tracks is not null && playlist.Tracks.Count > 0)
+                if(playlist.Tracks?.Count > 0)
                 {
                     string playlistTrackQuery = @"
                         insert into playlists_tracks(PID, TID) select @tid, @tid where not EXISTS(SELECT 1 from playlists_tracks where PID = @pid and TID = @tid)";
@@ -159,7 +157,7 @@ internal sealed class CommandHandler
                     }
                 }
 
-                if(playlist.Tags is not null && playlist.Tags.Count > 0)
+                if(playlist.Tags?.Count > 0)
                 {
                     string tagPlaylistQuery = @"
                         insert into tags_instances(TagID, IID, EntityType) select @tag_id, @iid, @entity_type where not EXISTS(SELECT 1 from tags_instances where TagID = @tag_id and IID = @iid and EntityType=@entity_type)";
@@ -211,7 +209,7 @@ internal sealed class CommandHandler
                     transaction);
 
 
-                if(track.Artists is not null && track.Artists.Count > 0)
+                if(track.Artists?.Count > 0)
                 {
                     string trackArtistQuery = @"
                         insert into artists_tracks(AID, TID) select @aid, @tid where not EXISTS(SELECT 1 from artists_tracks where AID = @aid and TID = @tid)";
@@ -229,7 +227,7 @@ internal sealed class CommandHandler
                     }
                 }
 
-                if(track.Playlists is not null && track.Playlists.Count > 0)
+                if(track.Playlists?.Count > 0)
                 {
                     string trackPlaylistQuery = @"
                         insert into playlists_tracks(PID, TID) select @pid, @tid where not EXISTS(SELECT 1 from playlists_tracks where PID = @pid and TID = @tid)";
@@ -247,7 +245,7 @@ internal sealed class CommandHandler
                     }
                 }
 
-                if(track.Tags is not null && track.Tags.Count > 0)
+                if(track.Tags?.Count > 0)
                 {
                     string tagTrackQuery = @"
                         insert into tags_instances(TagID, IID, EntityType) select @tag_id, @iid, @entity_type where not EXISTS(SELECT 1 from tags_instances where TagID = @tag_id and IID = @iid and EntityType=@entity_type)";
@@ -297,7 +295,7 @@ internal sealed class CommandHandler
                     transaction);
                 
 
-                if(tag.Artists is not null && tag.Artists.Count > 0)
+                if(tag.Artists?.Count > 0)
                 {
                     var tagInstanceQuery = @"insert into tags_instances(TagID, IID, EntityType) select @tag_id, @iid, @entity_type where not EXISTS(SELECT 1 from tags_instances where TagID = @tag_id and IID = @iid and EntityType=@entity_type)";
                     
@@ -315,7 +313,7 @@ internal sealed class CommandHandler
                     }
                 }
 
-                if(tag.Playlists is not null && tag.Playlists.Count > 0)
+                if(tag.Playlists?.Count > 0)
                 {
                     string tagInstanceQuery = @"
                         insert into tags_instances(TagID, IID, EntityType) select @tag_id, @iid, @entity_type where not EXISTS(SELECT 1 from tags_instances where TagID = @tag_id and IID = @iid and EntityType=@entity_type)";
@@ -334,7 +332,7 @@ internal sealed class CommandHandler
                     }
                 }
 
-                if(tag.Tracks is not null && tag.Tracks.Count > 0)
+                if(tag.Tracks?.Count > 0)
                 {
                     string tagInstanceQuery = @"
                         insert into tags_instances(TagID, IID, EntityType) select @tag_id, @iid, @entity_type where not EXISTS(SELECT 1 from tags_instances where TagID = @tag_id and IID = @iid and EntityType=@entity_type)";
@@ -384,7 +382,7 @@ internal sealed class CommandHandler
                     },
                     transaction);
 
-                if(newArtist.Playlists is not null && newArtist.Playlists.Count > 0)
+                if(newArtist.Playlists?.Count > 0)
                 {
                     string updateArtistPlaylistQuery = @"
                         delete from artists_playlists where AID = @aid;
@@ -403,7 +401,7 @@ internal sealed class CommandHandler
                     }
                 }
 
-                if(newArtist.Tracks is not null && newArtist.Tracks.Count > 0)
+                if(newArtist.Tracks?.Count > 0)
                 {
                     string updateArtistTrackQuery = @"
                         delete from artists_tracks where AID = @aid;
@@ -422,7 +420,7 @@ internal sealed class CommandHandler
                     }
                 }
 
-                if(newArtist.Tags is not null && newArtist.Tags.Count > 0)
+                if(newArtist.Tags?.Count > 0)
                 {
                     string updateTagArtistQuery = @"
                         delete from tags_instances where IID = @iid and EntityType = @entity_type;
@@ -563,7 +561,7 @@ internal sealed class CommandHandler
                     },
                     transaction);
 
-                if(newTrack.Artists is not null && newTrack.Artists.Count > 0)
+                if(newTrack.Artists?.Count > 0)
                 {
                     string updatePlaylistArtistsQuery = @"
                         delete from artists_tracks where TID = @tid;
@@ -582,7 +580,7 @@ internal sealed class CommandHandler
                     }
                 }
 
-                if(newTrack.Playlists is not null && newTrack.Playlists.Count > 0)
+                if(newTrack.Playlists?.Count > 0)
                 {
                     string updateTrackPlaylistQuery = @"
                         delete from playlists_tracks where TID = @tid;
@@ -601,7 +599,7 @@ internal sealed class CommandHandler
                     }
                 }
 
-                if(newTrack.Tags is not null && newTrack.Tags.Count > 0)
+                if(newTrack.Tags?.Count > 0)
                 {
                     string updateTagPlaylistQuery = @"
                         delete from tags_instances where IID = @iid and EntityType = @entity_type;
@@ -652,7 +650,7 @@ internal sealed class CommandHandler
                     },
                     transaction);
                 
-                if(newTag.Artists is not null && newTag.Artists.Count > 0)
+                if(newTag.Artists?.Count > 0)
                 {
                     string tagInstanceQuery = @"
                         delete from tags_instances where IID = @iid and EntityType = @entity_type;
@@ -672,7 +670,7 @@ internal sealed class CommandHandler
                     }
                 }
 
-                if(newTag.Playlists is not null && newTag.Playlists.Count > 0)
+                if(newTag.Playlists?.Count > 0)
                 {
                     string tagInstanceQuery = @"
                         delete from tags_instances where IID = @iid and EntityType = @entity_type;
@@ -692,7 +690,7 @@ internal sealed class CommandHandler
                     }
                 }
 
-                if(newTag.Tracks is not null && newTag.Tracks.Count > 0)
+                if(newTag.Tracks?.Count > 0)
                 {
                     string tagInstanceQuery = @"
                         delete from tags_instances where IID = @iid and EntityType = @entity_type;

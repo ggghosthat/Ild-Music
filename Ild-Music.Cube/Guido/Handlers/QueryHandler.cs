@@ -494,7 +494,7 @@ internal sealed class QueryHandler
                 .ToList();
 
                 track.Artists.AddRange(trackArtists);
-
+                
                 var trackPlaylists = connection.Query(
                     trackPlaylistsQuery,
                     new { tid = trackId },

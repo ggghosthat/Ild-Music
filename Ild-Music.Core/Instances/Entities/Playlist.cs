@@ -68,8 +68,8 @@ public struct Playlist
         {
     	    Tracks.Add(track.Id);
 
-            foreach (var art in Artists)
-                track.Artists.Add(art);            
+            foreach (var artist in Artists)
+                track.Artists.Add(artist);            
         }
     }
 
@@ -79,8 +79,8 @@ public struct Playlist
     	{
     		Tracks.Remove(track.Id);
 
-            foreach (var art in Artists)
-                track.Artists.Remove(art);
+            foreach (var artist in Artists)
+                track.Artists.Remove(artist);
     	}
     }
 

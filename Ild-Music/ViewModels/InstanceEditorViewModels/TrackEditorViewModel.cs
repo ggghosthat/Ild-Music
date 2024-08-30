@@ -121,7 +121,7 @@ public class TrackEditorViewModel : BaseViewModel
             editTrack.Description = Description.AsMemory();
             editTrack.AvatarPath = AvatarPath.AsMemory();
 
-            if(SelectedTrackArtists != null && SelectedTrackArtists.Count > 0)
+            if(SelectedTrackArtists?.Count > 0)
             {
                 ArtistsProvider.ToList()
                     .Except(SelectedTrackArtists).ToList()
@@ -136,6 +136,7 @@ public class TrackEditorViewModel : BaseViewModel
                     {
                         var artistInstance = await supporter.GetArtistAsync(a);
                         artistInstance.AddTrack(ref editTrack);
+                        editTrack.Artists.Add(a.Id);
                     });
             }
 

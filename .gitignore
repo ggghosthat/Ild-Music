@@ -6,9 +6,10 @@
 
 
 ./dependencies
-./Ild-Music/.warehouse
 ./PKGBUILD
 ./*.pkg.tar.zst
+Ild-Music/.warehouse
+Ild-Music/storage.db
 Ild-Music/bin
 Ild-Music/obj
 Ild-Music.Core/bin
