@@ -250,7 +250,8 @@ public class PlaylistEditorViewModel : BaseViewModel
         Description = PlaylistInstance.Description.ToString();
         Year = PlaylistInstance.Year;
         AvatarPath = PlaylistInstance.AvatarPath.ToString();
-        
+        Avatar = new byte[2048];
+                
         if(File.Exists(AvatarPath))
         {
             using var fs= new FileStream(AvatarPath, FileMode.Open);

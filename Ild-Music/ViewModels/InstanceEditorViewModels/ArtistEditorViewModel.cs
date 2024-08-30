@@ -107,11 +107,14 @@ public class ArtistEditorViewModel : BaseViewModel
         Name = ArtistInstance.Name.ToString();
         Description = ArtistInstance.Description.ToString();
         AvatarPath = ArtistInstance.AvatarPath.ToString();
-        
+                
         if(File.Exists(AvatarPath))
         {
             using var fs= new FileStream(AvatarPath, FileMode.Open);
-            await fs.ReadAsync(Avatar, 0, (int)fs.Length);
+            {
+                Avatar = new byte[fs.Length];
+                await fs.ReadAsync(Avatar, 0, (int)fs.Length);
+            }
         }
     }
 

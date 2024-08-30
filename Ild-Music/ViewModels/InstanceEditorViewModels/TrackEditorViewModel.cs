@@ -161,7 +161,10 @@ public class TrackEditorViewModel : BaseViewModel
         if(File.Exists(AvatarPath))
         {
             using var fs= new FileStream(AvatarPath, FileMode.Open);
-            await fs.ReadAsync(Avatar, 0, (int)fs.Length);
+            {
+                Avatar = new byte[fs.Length];
+                await fs.ReadAsync(Avatar, 0, (int)fs.Length);
+            }
         }
         
         using (var instancePool = await supporter.GetInstancePool())

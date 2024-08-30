@@ -55,7 +55,7 @@ public partial class ListView : UserControl
             e.DragEffects = DragDropEffects.None;
 
         _placedFiles = GetFiles(e);
-        _placedFiles.OrderBy(x => x);
+        DropToViewModel();
     }
 
     private void ListView_DragLeave(object sender, DragEventArgs e)
@@ -66,12 +66,15 @@ public partial class ListView : UserControl
 
     private void DropAreaReleaseMouse(object sender, PointerPressedEventArgs e)
     {
-        _placedFiles = _placedFiles.GroupBy(f => f).Select(f => f.Key);
-
-        if (DataContext is IFileDropable fileDropable)
-            fileDropable.DropFiles(_placedFiles);
-
         dropArea.IsVisible = false;
+    }
+
+    private void DropToViewModel()
+    {
+        _placedFiles = _placedFiles.GroupBy(f => f).Select(f=> f.Key);
+        
+        if (DataContext is ListViewModel viewModel)
+            viewModel.DropFiles(_placedFiles);
     }
 
     private static IEnumerable<string> GetFiles(DragEventArgs dragEvent)
