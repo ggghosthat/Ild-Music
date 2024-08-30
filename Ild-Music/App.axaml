@@ -148,7 +148,9 @@
 
     <Application.Styles>
         <FluentTheme />
-
+        
+        <StyleInclude Source="avares://FluentAvalonia.ProgressRing/Styling/Controls/ProgressRing.axaml" />
+        
         <Style Selector="ScrollViewer /template/ ScrollBar#PART_HorizontalScrollBar[IsExpanded=true] Grid Border#HorizontalRoot">
             <Setter Property="Height" Value="0"/>
         </Style>

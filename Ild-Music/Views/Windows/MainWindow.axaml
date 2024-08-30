@@ -68,7 +68,7 @@
         <Style Selector="Window">
             <Setter Property="Template">
                 <ControlTemplate>
-                    <Grid x:Name="MainGrid"  
+                    <Grid x:Name="MainGrid"
                           Background="#2e2e2e">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*"/>
@@ -112,6 +112,7 @@
                                     <Setter Property="Height" Value="100"/>
                                 </Style>
                             </Border.Styles>
+
                             <Slider x:Name="VolumeSlider"
                                     Classes="volumeSlider"
                                     Orientation="Vertical"
@@ -386,7 +387,10 @@
                                 <!--NavBarItems-->
                                 <StackPanel VerticalAlignment="Top"
                                             HorizontalAlignment="Center">
-                                    <Viewbox Classes="vb" Width="170" Height="25" Margin="40, 10, 10, 10"
+                                    <Viewbox Classes="vb"
+                                             Width="170"
+                                             Height="25"
+                                             Margin="40, 10, 10, 10"
                                              HorizontalAlignment="Stretch"
                                              VerticalAlignment="Top">
                                         <Canvas Width="170" Height="30">

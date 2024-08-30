@@ -13,6 +13,8 @@ using System;
 using System.IO;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Ild_Music;
 
@@ -29,8 +31,6 @@ public partial class App : Application
 
     public App()
     {
-        IsNormalBoot = StageBuildChainExecute();
-        PrepareViewModelTable();
     }
     
     public static bool IsNormalBoot  { get; private set; } = false;
@@ -46,14 +46,29 @@ public partial class App : Application
         AvaloniaXamlLoader.Load(this);
     }
 
-    public override void OnFrameworkInitializationCompleted()
+    public override async void OnFrameworkInitializationCompleted()
     {
+
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
-        {
-            desktop.MainWindow = new MainWindow
+        {    
+            var splashScreen = new SplashScreen()
+            {
+                DataContext = new SplashScreenViewModel(),
+            };
+
+            desktop.MainWindow = splashScreen;
+            splashScreen.Show();
+            
+            await Task.Run(() => StageBuildChainExecute());
+
+            var mainWindow = new MainWindow
             {
                 DataContext = new MainWindowViewModel(),
             };
+
+            desktop.MainWindow = mainWindow;
+            mainWindow.Show();
+            splashScreen.Close();
         }
 
         base.OnFrameworkInitializationCompleted();
@@ -73,17 +88,18 @@ public partial class App : Application
         return _configure.CheckErrors(_errors);
     }
 
-    private static bool StageBuildChainExecute()
+    private static void StageBuildChainExecute()
     {
         if (ParseConfigurationFile())
-            return false;
+            IsNormalBoot = false;
 
         if (BuildStage())
-            return false;
+            IsNormalBoot = false;
 
-        return true;
+        IsNormalBoot = true;
+        
+        PrepareViewModelTable();
     }
-
 
 
     private static void SuccededLoadingViewModelTableInitialization()
