@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 
              xmlns:vm="clr-namespace:Ild_Music.ViewModels"
+             xmlns:lang="clr-namespace:Ild_Music.Assets"
              xmlns:conv="using:Ild_Music.Converters"
              xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
              xmlns:ia="clr-namespace:Avalonia.Xaml.Interactions.Core;assembly=Avalonia.Xaml.Interactions"
@@ -34,7 +35,7 @@
 
             <TextBlock Grid.Row="0"
                       HorizontalAlignment="Left"
-                      Text="Playlists"
+                      Text="{x:Static lang:Resources.PlaylistLabelStartView}"
                       Margin="10"
                       Foreground="White"
                       FontSize="16"
@@ -139,6 +140,14 @@
                                     <RowDefinition Height="Auto"/>
                                 </Grid.RowDefinitions> 
                                 
+                                <Border Grid.Row="0"
+                                        Width="70"
+                                        Height="70">
+                                    <Border.Background>
+                                        <ImageBrush/>
+                                    </Border.Background>
+                                </Border>
+                                
                                 <Image Grid.Row="0"
                                        Width="70"
                                        Height="70"
@@ -162,7 +171,7 @@
 
             <TextBlock Grid.Row="2"
                        HorizontalAlignment="Left"
-                       Text="Tracks"
+                       Text="{x:Static lang:Resources.TrackLabelStartView}"
                        Margin="10"
                        Foreground="White"
                        FontSize="16"
@@ -329,7 +338,7 @@
 
             <TextBlock Grid.Row="0"
                          HorizontalAlignment="Stretch"
-                         Text="Artists"
+                         Text="{x:Static lang:Resources.ArtistLabelStartView}"
                          Margin="10"
                          Foreground="White"
                          FontSize="16"

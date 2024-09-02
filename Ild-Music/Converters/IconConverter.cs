@@ -103,7 +103,8 @@ public class IconConverter : IValueConverter
         {
             if (value is byte[] source && source.Length > 0)
                 return CalculateDominantColor(source).Result;
-            else return new Avalonia.Media.Color(150, (byte)39, (byte)218, (byte)72);
+            
+            return new Avalonia.Media.Color(150, (byte)39, (byte)218, (byte)72);
         }
         else return null;
     }

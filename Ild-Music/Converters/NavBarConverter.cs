@@ -1,4 +1,5 @@
 using Ild_Music;
+using Ild_Music.Assets;
 using Ild_Music.ViewModels;
 
 using Avalonia;
@@ -17,22 +18,42 @@ public class NavBarConverter : IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
-    	//return icons from app resource
-    	var result = value switch
-    	{
-    		"Home" => Application.Current.FindResource("NavHome"),
-    		"Collections" => Application.Current.FindResource("NavList"),
-    		"Settings" => Application.Current.FindResource("NavSetting"),
-            "Browse" => Application.Current.FindResource("NavBrowse"),
-            "About" => Application.Current.FindResource("NavAbout"),
-    		_ => null
-    	};
+    	if (value is not Guid id)
+            return null;
 
-    	return result;
+        return parameter.ToString() switch
+        {
+            "icon" => GetIcon(id),
+            "name" => GetName(id)
+        };
     }
 
     public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
     {
         throw new NotImplementedException();
+    }
+
+    private static object GetIcon(Guid id)
+    {
+        if (id.Equals(StartViewModel.viewModelId))
+            return Application.Current.FindResource("NavHome");
+        else if (id.Equals(ListViewModel.viewModelId))
+            return Application.Current.FindResource("NavList");
+        else if (id.Equals(BrowserViewModel.viewModelId))
+            return Application.Current.FindResource("NavBrowse");
+        else 
+            return null;
+    }
+
+    private static object GetName(Guid id)
+    {
+        if (id.Equals(StartViewModel.viewModelId))
+            return Resources.HomeNavbarItem;
+        else if (id.Equals(ListViewModel.viewModelId))
+            return Resources.ListNavbarItem;
+        else if (id.Equals(BrowserViewModel.viewModelId))
+            return Resources.BrowseNavbarItem;
+        else 
+            return null;
     }
 }

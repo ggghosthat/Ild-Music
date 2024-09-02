@@ -45,8 +45,6 @@ public class MainWindowViewModel : Base.BaseViewModel
     private static PlayerGhost _playerGhost => (PlayerGhost)App.Stage.GetGhost(Ghosts.PLAYER);
     private static IEventBag _eventBag => (EventBag)App.Stage.GetEventBag();
 
-    public CommandDelegator NavBarResolve { get; private set; }
-
     public CommandDelegator PreviousCommand { get; private set; }
     
     public CommandDelegator NextCommand { get; private set; }
@@ -90,29 +88,45 @@ public class MainWindowViewModel : Base.BaseViewModel
     public bool SearchAreaOpen { get; private set; } = false;
 
     public Stack<Guid> WindowStack { get; private set; } = new();
+
     public ObservableCollection<string> NavItems => new() {"Home","Collections", "Browse"};
+
+    public ObservableCollection<Guid> NavbarItems { get; } = new () {StartViewModel.viewModelId, ListViewModel.viewModelId, BrowserViewModel.viewModelId}; 
+    
     public string? NavItem { get; set; }
 
+    public Guid NavbarItem { get; set; }
+
     public ObservableCollection<CommonInstanceDTO?> SearchItems { get; set; } = new();
+    
     public CommonInstanceDTO? SearchItem { get; set; }
+    
     public string SearchPhrase { get; set; }
     
     public static IPlayer? _player = null;
+
     public bool PlayerState => _player?.ToggleState ?? false;
+    
     public bool PlayerEmpty => _player?.IsEmpty ?? true;
 
     public Track? CurrentTrack => _player?.CurrentTrack;
+    
     public Playlist? CurrentPlaylist => _player?.CurrentPlaylist;
+    
     public string Title => CurrentTrack?.Name.ToString();
+    
     public bool IsActiveCurrentTab { get; set; } = false;
 
     public double TotalTime => _player?.TotalTime.TotalSeconds ?? 1d;
+    
     public double StartTime => TimeSpan.Zero.TotalSeconds;
    
     public TimeSpan CurrentTimeDisplay => TimeSpan.FromSeconds(CurrentTime);
+    
     public TimeSpan TotalTimeDisplay => _player?.TotalTime ?? TimeSpan.Zero;
 
     public float MaxVolume => _player.MaxVolume;
+    
     public float MinVolume => _player.MinVolume;
 
     public double CurrentTime 
@@ -154,7 +168,6 @@ public class MainWindowViewModel : Base.BaseViewModel
     
     private void PresetCommands()
     {
-        NavBarResolve = new(NavResolve, OnNavSelected);
         KickCommand = new(KickPlayer, OnCanTogglePlayer);
         StopCommand = new(StopPlayer, OnCanTogglePlayer);
         PreviousCommand = new(PreviousSwipePlayer, OnCanSwipePlayer);
@@ -370,6 +383,13 @@ public class MainWindowViewModel : Base.BaseViewModel
         }
     }
 
+    public void NavResolve()
+    {
+        System.Console.WriteLine("here");
+        if (NavbarItem != Guid.Empty)
+            DefineNewPresentItem(NavbarItem);
+    }
+
     private bool OnNavSelected(object obj)
     {
         return (NavItem is not null);
@@ -383,22 +403,6 @@ public class MainWindowViewModel : Base.BaseViewModel
     private bool OnCanSwipePlayer(object obj)
     {
         return (_player?.IsEmpty == false) && (_player.IsSwipe == true);
-    }
-
-    private void NavResolve(object obj)
-    {
-        var navItemName = NavItem switch
-        {
-            "Home" => StartViewModel.viewModelId,
-            "Collections" => ListViewModel.viewModelId,
-            "Browse" => BrowserViewModel.viewModelId,
-            _ => Guid.Empty
-        };
-
-        if (navItemName == Guid.Empty)
-            return;
-
-        DefineNewPresentItem(navItemName);
     }
 
     private void KickPlayer(object obj) 

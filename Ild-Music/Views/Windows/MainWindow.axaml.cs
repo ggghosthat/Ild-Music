@@ -141,23 +141,33 @@ public partial class MainWindow : Window
         ((MainWindowViewModel)DataContext).VolumeSliderShowCommand.Execute(null);
     }
 
+    private void HomeNavBarClicked(object? sender, PointerPressedEventArgs e)
+    {
+        var viewModel = (MainWindowViewModel)DataContext;        
+        viewModel.DefineNewPresentItem(StartViewModel.viewModelId);
+    }
+    
+    private void ListNavBarClicked(object? sender, PointerPressedEventArgs e)
+    {
+        var viewModel = (MainWindowViewModel)DataContext;
+        viewModel.DefineNewPresentItem(ListViewModel.viewModelId);
+    }
+    
+    private void BrowseNavBarClicked(object? sender, PointerPressedEventArgs e)
+    {
+        var viewModel = (MainWindowViewModel)DataContext;
+        viewModel.DefineNewPresentItem(BrowserViewModel.viewModelId);
+    }
+
     private void SearchBarTyped(object? sender, KeyEventArgs e)
     {
         if (e.Key == Key.Enter)
-        {
             ((MainWindowViewModel)DataContext).SearchCommand.Execute(null);
-        }
         else if (e.Key == Key.Up)
-        {
             ((MainWindowViewModel)DataContext).SearchItemUp();
-        }
         else if (e.Key == Key.Down)
-        {
             ((MainWindowViewModel)DataContext).SearchItemDown();
-        }
         else if (e.Key == Key.Escape)
-        {
             ((MainWindowViewModel)DataContext).SearchAreaHideCommand.Execute(null);
-        }        
     }
 }
