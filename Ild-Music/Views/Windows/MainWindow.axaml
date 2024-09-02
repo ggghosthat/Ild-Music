@@ -19,12 +19,11 @@
         DragDrop.AllowDrop="True">
 
     <Window.Resources>
-        <conv:NavBarConverter x:Key="NavBarConverter"/>
-        <conv:PlayerToggleButtonConverter x:Key="PlayerToggleButtonConverter"/>
-        <conv:InstanceConverter x:Key="InstanceConverter"/>
         <conv:IconConverter x:Key="IconConverter"/>
+        <conv:InstanceConverter x:Key="InstanceConverter"/>
         <conv:IndicatorConverter x:Key="IndicatorConverter"/>
         <conv:ListActivityConverter x:Key="ListActivityConverter"/>
+        <conv:PlayerToggleButtonConverter x:Key="PlayerToggleButtonConverter"/>
     </Window.Resources>
 
     <Window.Styles>

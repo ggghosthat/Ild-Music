@@ -89,11 +89,7 @@ public class MainWindowViewModel : Base.BaseViewModel
 
     public Stack<Guid> WindowStack { get; private set; } = new();
 
-    public ObservableCollection<string> NavItems => new() {"Home","Collections", "Browse"};
-
     public ObservableCollection<Guid> NavbarItems { get; } = new () {StartViewModel.viewModelId, ListViewModel.viewModelId, BrowserViewModel.viewModelId}; 
-    
-    public string? NavItem { get; set; }
 
     public Guid NavbarItem { get; set; }
 
