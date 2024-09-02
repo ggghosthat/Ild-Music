@@ -381,7 +381,6 @@ public class MainWindowViewModel : Base.BaseViewModel
 
     public void NavResolve()
     {
-        System.Console.WriteLine("here");
         if (NavbarItem != Guid.Empty)
             DefineNewPresentItem(NavbarItem);
     }
