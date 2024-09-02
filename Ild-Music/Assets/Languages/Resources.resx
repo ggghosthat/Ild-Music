@@ -157,4 +157,20 @@
     <value>Tracks</value>
     <comment/>
   </data>
+  <data name="BrowserTitle" xml:space="preserve">
+    <value>Browse your music</value>
+    <comment/>
+  </data>
+  <data name="BrowserDragDropArea" xml:space="preserve">
+    <value>click and browse</value>
+    <comment/>
+  </data>
+  <data name="EmptyBannerFace" xml:space="preserve">
+    <value>¯\_(ツ)_/¯</value>
+    <comment/>
+  </data>
+  <data name="EmptyBannerText" xml:space="preserve">
+    <value>Collection is empty</value>
+    <comment/>
+  </data>
 </root>

@@ -66,5 +66,13 @@ namespace Ild_Music.Assets
         public static string PlaylistHeaderListView => ResourceManager.GetString("PlaylistHeaderListView", resourceCulture);
         
         public static string TrackHeaderListView => ResourceManager.GetString("TrackHeaderListView", resourceCulture);
+
+        public static string BrowserTitle => ResourceManager.GetString("BrowserTitle", resourceCulture);
+
+        public static string BrowserDragDropArea => ResourceManager.GetString("BrowserDragDropArea", resourceCulture);
+        
+        public static string EmptyBannerFace => ResourceManager.GetString("EmptyBannerFace", resourceCulture);
+
+        public static string EmptyBannerText => ResourceManager.GetString("EmptyBannerText", resourceCulture);
     }
 }
