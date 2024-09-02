@@ -60,6 +60,11 @@ namespace Ild_Music.Assets
         public static string PlaylistLabelStartView => ResourceManager.GetString("PlaylistLabelStartView", resourceCulture);
  
         public static string TrackLabelStartView => ResourceManager.GetString("TrackLabelStartView", resourceCulture);
- 
+         
+        public static string ArtistHeaderListView => ResourceManager.GetString("ArtistHeaderListView", resourceCulture);
+        
+        public static string PlaylistHeaderListView => ResourceManager.GetString("PlaylistHeaderListView", resourceCulture);
+        
+        public static string TrackHeaderListView => ResourceManager.GetString("TrackHeaderListView", resourceCulture);
     }
 }

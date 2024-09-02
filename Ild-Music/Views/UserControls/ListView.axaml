@@ -14,6 +14,7 @@
   <UserControl.Resources>
     <conv:InstanceConverter x:Key="InstanceConverter"/>
     <conv:IconConverter x:Key="IconConverter"/>
+    <conv:ListHeaderConverter x:Key="ListHeaderConverter"/>
   </UserControl.Resources>
 
   <Grid>
@@ -26,13 +27,13 @@
     <Border Grid.Row="0"
             Margin="15 30 15 2">
         <i:Interaction.Behaviors>
-          <ia:EventTriggerBehavior EventName="Tapped">
-            <ia:InvokeCommandAction Command="{Binding InitCurrentListCommand}"/>
-          </ia:EventTriggerBehavior>  
+            <ia:EventTriggerBehavior EventName="Tapped">
+                <ia:InvokeCommandAction Command="{Binding InitCurrentListCommand}"/>
+            </ia:EventTriggerBehavior> 
         </i:Interaction.Behaviors>
         <ListBox x:Name="Tabs"
-                ItemsSource="{Binding Headers}"
-                SelectedItem="{Binding Header}"
+                ItemsSource="{Binding HeaderTags}"
+                SelectedItem="{Binding HeaderTag}"
                 Background="Transparent">
             <ListBox.ItemsPanel>
               <ItemsPanelTemplate>
@@ -126,9 +127,9 @@
                       
             <ListBox.ItemTemplate>
               <DataTemplate>
-                <TextBlock Text="{Binding .}"
-                          Foreground="#c2c2c2"
-                          FontSize="14"/>
+                <TextBlock FontSize="14"
+                           Foreground="#c2c2c2"
+                           Text="{Binding ., Converter={StaticResource ListHeaderConverter}}"/>
               </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>

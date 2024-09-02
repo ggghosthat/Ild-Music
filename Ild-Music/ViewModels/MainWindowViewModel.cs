@@ -388,7 +388,7 @@ public class MainWindowViewModel : Base.BaseViewModel
 
     private bool OnNavSelected(object obj)
     {
-        return (NavItem is not null);
+        return (NavbarItem != Guid.Empty);
     }
 
     private bool OnCanTogglePlayer(object obj) 

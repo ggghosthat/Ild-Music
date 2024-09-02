@@ -18,10 +18,11 @@ public partial class ListView : UserControl
 
     private const string DROP_AREA_BORRDER = "DropArea";
     private const string DROP_PLACE_BORRDER = "DropPlace";
+    private const string TABBER_NAME = "Tabs";
 
     private static Border dropArea;
     private static Border dropPlace;
-
+    private static ListBox tabber;
     private static IEnumerable<string> _placedFiles;
 
     public ListView()
@@ -29,6 +30,8 @@ public partial class ListView : UserControl
         InitializeComponent();
         dropArea = this.FindControl<Border>(DROP_AREA_BORRDER);
         dropPlace = this.FindControl<Border>(DROP_PLACE_BORRDER);
+
+        tabber = this.FindControl<ListBox>(TABBER_NAME);
 
         AddHandler(DragDrop.DropEvent, ListView_DragLeave);
         AddHandler(DragDrop.DragEnterEvent, ListView_DragOver);
@@ -67,6 +70,12 @@ public partial class ListView : UserControl
     private void DropAreaReleaseMouse(object sender, PointerPressedEventArgs e)
     {
         dropArea.IsVisible = false;
+    }
+
+    private void TabberPointerPressed(object sender, PointerPressedEventArgs e)
+    {
+        var viewModel = (ListViewModel)DataContext;
+        viewModel.DisplayProvidersAsync().Wait();
     }
 
     private void DropToViewModel()

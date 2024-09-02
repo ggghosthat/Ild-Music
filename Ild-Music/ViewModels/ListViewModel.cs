@@ -1,9 +1,11 @@
-using Ild_Music.ViewModels.Base;
+
 using Ild_Music.Command;
+using Ild_Music.Core.Contracts.Services.Interfaces;
+using Ild_Music.Core.Instances;
 using Ild_Music.Core.Instances.DTO;
 using Ild_Music.Core.Services.Entities;
-using Ild_Music.Core.Contracts.Services.Interfaces;
 using Ild_Music.Contracts;
+using Ild_Music.ViewModels.Base;
 
 using System;
 using System.Collections.Generic;
@@ -30,17 +32,27 @@ public class ListViewModel : BaseViewModel, IFileDropable
 
     private static SupportGhost supporter => (SupportGhost)App.Stage.GetGhost(Ghosts.SUPPORT);
     private static FactoryGhost factory => (FactoryGhost)App.Stage.GetGhost(Ghosts.FACTORY);
-    private MainWindowViewModel MainVM => (MainWindowViewModel)App.ViewModelTable[MainWindowViewModel.viewModelId];
+    private static MainWindowViewModel MainVM => (MainWindowViewModel)App.ViewModelTable[MainWindowViewModel.viewModelId];
 
     public CommandDelegator AddCommand { get; }
+    
     public CommandDelegator DeleteCommand { get; }
+    
     public CommandDelegator EditCommand { get; }
+    
     public CommandDelegator BackCommand { get; }
+    
     public CommandDelegator ItemSelectCommand { get; }
+
     public CommandDelegator InitCurrentListCommand { get; }
 
     public static ObservableCollection<string> Headers { get; private set; } = new() {"Artists","Playlists","Tracks"};
+
+    public static ObservableCollection<EntityTag> HeaderTags { get; private set; } = new() {EntityTag.ARTIST, EntityTag.PLAYLIST, EntityTag.TRACK};
+
     public string Header { get; set; } = Headers[0];
+
+    public EntityTag HeaderTag { get; set; } = HeaderTags[0];
 
     public static ObservableCollection<CommonInstanceDTO> CurrentList { get; set; } = new();
     public CommonInstanceDTO? CurrentItem { get; set; }
@@ -79,12 +91,12 @@ public class ListViewModel : BaseViewModel, IFileDropable
 
     private void Add(object obj)
     {
-        BaseViewModel editor = Header switch
+        BaseViewModel editor = HeaderTag switch
         {
-            "Artists" => (BaseViewModel)App.ViewModelTable[ArtistEditorViewModel.viewModelId],
-            "Playlists" => (BaseViewModel)App.ViewModelTable[PlaylistEditorViewModel.viewModelId],
-            "Tracks" =>  (BaseViewModel)App.ViewModelTable[TrackEditorViewModel.viewModelId],
-            "Tags" => (BaseViewModel)App.ViewModelTable[TagEditorViewModel.viewModelId],
+            EntityTag.ARTIST => (BaseViewModel)App.ViewModelTable[ArtistEditorViewModel.viewModelId],
+            EntityTag.PLAYLIST => (BaseViewModel)App.ViewModelTable[PlaylistEditorViewModel.viewModelId],
+            EntityTag.TRACK =>  (BaseViewModel)App.ViewModelTable[TrackEditorViewModel.viewModelId],
+            EntityTag.TAG => (BaseViewModel)App.ViewModelTable[TagEditorViewModel.viewModelId],
             _ => null
         };
 
@@ -102,18 +114,18 @@ public class ListViewModel : BaseViewModel, IFileDropable
         
         var id = (Guid)CurrentItem?.Id;
         
-        switch (Header)
+        switch (HeaderTag)
         {
-            case "Artists":
+            case EntityTag.ARTIST:
                 supporter.DeleteArtistInstance(id);
                 break;
-            case "Playlists": 
+            case EntityTag.PLAYLIST: 
                 supporter.DeletePlaylistInstance(id);
                 break;
-            case "Tracks":
+            case EntityTag.TRACK:
                 supporter.DeleteTrackInstance(id);
                 break;
-            case "Tags":
+            case EntityTag.TAG:
                 supporter.DeleteTagInstance(id);
                 break;
         };
@@ -126,24 +138,24 @@ public class ListViewModel : BaseViewModel, IFileDropable
     {        
         BaseViewModel editor = null;
 
-        switch(Header)
+        switch(HeaderTag)
         {
-            case "Artists":
+            case EntityTag.ARTIST:
                 var artistEditor = (ArtistEditorViewModel)App.ViewModelTable[ArtistEditorViewModel.viewModelId];
                 artistEditor?.DropInstance(CurrentItem ?? default).Wait();
                 editor = artistEditor;
                 break;
-            case "Playlists": 
+            case EntityTag.PLAYLIST: 
                 var playlistEditor = (PlaylistEditorViewModel)App.ViewModelTable[PlaylistEditorViewModel.viewModelId];
                 playlistEditor?.DropInstance(CurrentItem ?? default!);
                 editor = playlistEditor;
                 break;
-            case "Tracks":
+            case EntityTag.TRACK:
                 var trackEditor = (TrackEditorViewModel)App.ViewModelTable[TrackEditorViewModel.viewModelId];
                 trackEditor?.DropInstance(CurrentItem ?? default!);
                 editor = trackEditor;
                 break;
-            case "Tags":
+            case EntityTag.TAG:
                 var tagEditor = (TagEditorViewModel)App.ViewModelTable[TagEditorViewModel.viewModelId];
                 tagEditor?.DropInstance(CurrentItem ?? default!);
                 editor = tagEditor;
@@ -156,18 +168,26 @@ public class ListViewModel : BaseViewModel, IFileDropable
         MainVM.ResolveWindowStack();
     }
 
-    private async void ItemSelect(object obj)
+    public void ItemSelect(object obj)
     {
         if(CurrentItem is not null)
         {
             var currentItem = CurrentItem ?? default!; 
 
-            if(Header.Equals("Artists") || Header.Equals("Tags"))
-                MainVM.ResolveInstance(this, currentItem);
-            else if(Header.Equals("Playlists"))
-                PassPlaylistEntity(currentItem);
-            else if(Header.Equals("Tracks"))
-                PassTrackEntity(currentItem);
+            switch (HeaderTag)
+            {
+                case EntityTag.ARTIST:
+                    MainVM.ResolveInstance(this, currentItem);
+                    break;
+                case EntityTag.PLAYLIST:
+                    PassPlaylistEntity(currentItem);
+                    break;
+                case EntityTag.TRACK:
+                    PassTrackEntity(currentItem);
+                    break;
+                default:
+                    break;
+            }
         }
     }
 
@@ -210,27 +230,27 @@ public class ListViewModel : BaseViewModel, IFileDropable
         }
     }
 
-    private Task DisplayProvidersAsync()
+    public Task DisplayProvidersAsync()
     {        
         using (var instancePool = supporter.GetInstancePool().Result)
         {
             CurrentList.Clear();
             
-            switch(Header)
+            switch(HeaderTag)
             {
-                case "Artists":
+                case EntityTag.ARTIST:
                     supporter.ResolveMetaData(Core.Instances.EntityTag.ARTIST);
                     instancePool.ArtistsDTOs.ToList().ForEach(a => CurrentList.Add(a));
                     break;
-                case "Playlists":
+                case EntityTag.PLAYLIST:
                     supporter.ResolveMetaData(Core.Instances.EntityTag.PLAYLIST);
                     instancePool.PlaylistsDTOs.ToList().ForEach(p => CurrentList.Add(p));
                     break;
-                case "Tracks":
+                case EntityTag.TRACK:
                     supporter.ResolveMetaData(Core.Instances.EntityTag.TRACK);
                     instancePool.TracksDTOs.ToList().ForEach(t => CurrentList.Add(t));
                     break;
-                case "Tags":
+                case EntityTag.TAG:
                     supporter.ResolveMetaData(Core.Instances.EntityTag.TAG);
                     instancePool.TagsDTOs.ToList().ForEach(tag => CurrentList.Add(tag));
                     break;

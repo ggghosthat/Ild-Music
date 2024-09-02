@@ -145,4 +145,16 @@
     <value>Tracks</value>
     <comment/>
   </data>
+  <data name="ArtistHeaderListView" xml:space="preserve">
+    <value>Artists</value>
+    <comment/>
+  </data>
+  <data name="PlaylistHeaderListView" xml:space="preserve">
+    <value>Playlists</value>
+    <comment/>
+  </data>
+  <data name="TrackHeaderListView" xml:space="preserve">
+    <value>Tracks</value>
+    <comment/>
+  </data>
 </root>
