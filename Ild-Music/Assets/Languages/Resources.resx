@@ -237,4 +237,28 @@
     <value>Cancel</value>
     <comment/>
   </data>
+  <data name="SearBarInstanceExplorer" xml:space="preserve">
+    <value>Find yours ...</value>
+    <comment/>
+  </data>
+  <data name="SearchButtonInstanceExplorer" xml:space="preserve">
+    <value>Ok</value>
+    <comment/>
+  </data>
+  <data name="TitleFailedBootView" xml:space="preserve">
+    <value>Something went wrong ...</value>
+    <comment/>
+  </data>
+  <data name="PhraseFailedBootView" xml:space="preserve">
+    <value>Sorry, during some launching issues shown below could not start up. Please, contact the developers with this issue below. :(</value>
+    <comment/>
+  </data>
+  <data name="ExportFailedBootView" xml:space="preserve">
+    <value>Export</value>
+    <comment/>
+  </data>
+  <data name="ExitFailedBootView" xml:space="preserve">
+    <value>Exit</value>
+    <comment/>
+  </data>
 </root>

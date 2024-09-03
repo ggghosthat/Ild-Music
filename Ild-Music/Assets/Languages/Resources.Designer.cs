@@ -106,5 +106,17 @@ namespace Ild_Music.Assets
         public static string ApplyButtonTrackEditorView => ResourceManager.GetString("ApplyButtonTrackEditorView", resourceCulture);
         
         public static string CancelButtonTrackEditorView => ResourceManager.GetString("CancelButtonTrackEditorView", resourceCulture);
+
+        public static string SearBarInstanceExplorer => ResourceManager.GetString("SearBarInstanceExplorer", resourceCulture);
+
+        public static string SearchButtonInstanceExplorer => ResourceManager.GetString("SearchButtonInstanceExplorer", resourceCulture);
+        
+        public static string TitleFailedBootView => ResourceManager.GetString("TitleFailedBootView", resourceCulture);
+        
+        public static string PhraseFailedBootView => ResourceManager.GetString("PhraseFailedBootView", resourceCulture);
+        
+        public static string ExportFailedBootView => ResourceManager.GetString("ExportFailedBootView", resourceCulture);
+        
+        public static string ExitFailedBootView => ResourceManager.GetString("ExitFailedBootView", resourceCulture);
     }
 }

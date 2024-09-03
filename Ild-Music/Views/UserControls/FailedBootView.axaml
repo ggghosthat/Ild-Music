@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 
              xmlns:vm="clr-namespace:Ild_Music.ViewModels"
+             xmlns:lang="clr-namespace:Ild_Music.Assets"
              xmlns:conv="using:Ild_Music.Converters"
              xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
              xmlns:ia="clr-namespace:Avalonia.Xaml.Interactions.Core;assembly=Avalonia.Xaml.Interactions"
@@ -26,7 +27,7 @@
       </Grid.ColumnDefinitions>
 
       <Label Grid.Column="0"
-            Content="Something went wrong..."
+            Content="{x:Static lang:Resources.TitleFailedBootView}"
             FontSize="40"
             Margin="30 50 30 20"
             FontWeight="Medium"
@@ -96,7 +97,7 @@
     </Grid>
 
     <StackPanel Grid.Row="1">
-      <Label Content="Sorry, during some launching issues shown below could not start up. Please, contact the developers with this issue below. :("
+      <Label Content="{x:Static lang:Resources.PhraseFailedBootView}"
              FontSize="16"
              Margin="30 10"
              FontWeight="Medium"/>
@@ -216,7 +217,7 @@
         <Button Width="100"
                 Height="25"
                 Margin="3,0"
-                Content="Export"
+                Content="{x:Static lang:Resources.ExportFailedBootView}"
                 Classes="btnApply"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Top"
@@ -225,7 +226,7 @@
         <Button Width="100"
                 Height="25"
                 Margin="3,0"
-                Content="Exit"
+                Content="{x:Static lang:Resources.ExitFailedBootView}"
                 Classes="btnApply"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Top"
