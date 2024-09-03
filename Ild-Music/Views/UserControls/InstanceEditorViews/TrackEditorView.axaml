@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 
              xmlns:vm="clr-namespace:Ild_Music.ViewModels"
+             xmlns:lang="clr-namespace:Ild_Music.Assets"
              xmlns:conv="clr-namespace:Ild_Music.Converters"
              xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
              xmlns:ia="clr-namespace:Avalonia.Xaml.Interactions.Core;assembly=Avalonia.Xaml.Interactions"
@@ -71,7 +72,7 @@
                         Margin="45, 5">
                 <TextBox x:Name="txtPath"
                          Text="{Binding Path, Mode=TwoWay}"
-                         Watermark="folding path"
+                         Watermark="{x:Static lang:Resources.FoldingPathTrackEditorView}"
                          IsReadOnly="True"
                          HorizontalAlignment="Left"
                          FontSize="16"
@@ -79,21 +80,21 @@
                          Width="500"
                          DoubleTapped="OpenMusicFile_Clicked"/>
 
-                <TextBox Watermark="name"
+                <TextBox Watermark="{x:Static lang:Resources.NameTrackEditorView}"
                          Text="{Binding Name, Mode=TwoWay}"
                          HorizontalAlignment="Left"
                          FontSize="16"
                          Margin="17, 3, 0, 2"
                          Width="500"/>
 
-                <TextBox Watermark="description"
+                <TextBox Watermark="{x:Static lang:Resources.DescriptionTrackEditorView}"
                          Text="{Binding Description, Mode=TwoWay}"
                          HorizontalAlignment="Left"
                          FontSize="16"
                          Margin="17, 2, 0, 3"
                          Width="500"/>
 
-                <TextBox Watermark="year"
+                <TextBox Watermark="{x:Static lang:Resources.YearTrackEditorView}"
                          Text="{Binding Year, Mode=TwoWay}"
                          HorizontalAlignment="Left"
                          FontSize="16"
@@ -235,7 +236,7 @@
                             Width="100"
                             Height="25"
                             Margin="3,0"
-                            Content="Ok"
+                            Content="{x:Static lang:Resources.ApplyButtonTrackEditorView}"
                             Command="{Binding CreateTrackCommand}"/>
 
                     <Button Classes="btnApply"
@@ -244,7 +245,7 @@
                             Width="100"
                             Height="25"
                             Margin="3,0"
-                            Content="Cancel"
+                            Content="{x:Static lang:Resources.CancelButtonTrackEditorView}"
                             Command="{Binding CancelCommand}"/>
 
                     <TextBlock Classes="logLine"

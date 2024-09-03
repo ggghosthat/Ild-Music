@@ -173,4 +173,68 @@
     <value>Collection is empty</value>
     <comment/>
   </data>
+  <data name="NameArtistEdtorView" xml:space="preserve">
+    <value>name</value>
+    <comment/>
+  </data>
+  <data name="DescriptionArtistEditorView" xml:space="preserve">
+    <value>description</value>
+    <comment/>
+  </data>
+  <data name="YearArtistEditorView" xml:space="preserve">
+    <value>year</value>
+    <comment/>
+  </data>
+  <data name="ApplyButtonArtistEditorView" xml:space="preserve">
+    <value>Ok</value>
+    <comment/>
+  </data>
+  <data name="CancelButtonArtistEditorView" xml:space="preserve">
+    <value>Cancel</value>
+    <comment/>
+  </data>
+  <data name="NamePlaylistEditorView" xml:space="preserve">
+    <value>name</value>
+    <comment/>
+  </data>
+  <data name="DescriptionPlaylistEditorView" xml:space="preserve">
+    <value>description</value>
+    <comment/>
+  </data>
+  <data name="YearPlaylistEditorView" xml:space="preserve">
+    <value>year</value>
+    <comment/>
+  </data>
+  <data name="ApplyButtonPlaylistEditorView" xml:space="preserve">
+    <value>Ok</value>
+    <comment/>
+  </data>
+  <data name="CancelButtonPlaylistEditorView" xml:space="preserve">
+    <value>Cancel</value>
+    <comment/>
+  </data>
+  <data name="FoldingPathTrackEditorView" xml:space="preserve">
+    <value>folding path</value>
+    <comment/>
+  </data>
+  <data name="NameTrackEditorView" xml:space="preserve">
+    <value>name</value>
+    <comment/>
+  </data>
+  <data name="DescriptionTrackEditorView" xml:space="preserve">
+    <value>description</value>
+    <comment/>
+  </data>
+  <data name="YearTrackEditorView" xml:space="preserve">
+    <value>year</value>
+    <comment/>
+  </data>
+  <data name="ApplyButtonTrackEditorView" xml:space="preserve">
+    <value>Ok</value>
+    <comment/>
+  </data>
+  <data name="CancelButtonTrackEditorView" xml:space="preserve">
+    <value>Cancel</value>
+    <comment/>
+  </data>
 </root>

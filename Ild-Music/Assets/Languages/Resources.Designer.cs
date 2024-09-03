@@ -74,5 +74,37 @@ namespace Ild_Music.Assets
         public static string EmptyBannerFace => ResourceManager.GetString("EmptyBannerFace", resourceCulture);
 
         public static string EmptyBannerText => ResourceManager.GetString("EmptyBannerText", resourceCulture);
+
+        public static string NameArtistEdtorView => ResourceManager.GetString("NameArtistEdtorView", resourceCulture);
+
+        public static string DescriptionArtistEditorView => ResourceManager.GetString("DescriptionArtistEditorView", resourceCulture);
+    
+        public static string YearArtistEditorView => ResourceManager.GetString("YearArtistEditorView", resourceCulture);
+    
+        public static string ApplyButtonArtistEditorView => ResourceManager.GetString("ApplyButtonArtistEditorView", resourceCulture);
+        
+        public static string CancelButtonArtistEditorView => ResourceManager.GetString("CancelButtonArtistEditorView", resourceCulture);
+
+        public static string NamePlaylistEditorView => ResourceManager.GetString("NamePlaylistEditorView", resourceCulture);
+
+        public static string DescriptionPlaylistEditorView => ResourceManager.GetString("DescriptionPlaylistEditorView", resourceCulture);
+    
+        public static string YearPlaylistEditorView => ResourceManager.GetString("YearPlaylistEditorView", resourceCulture);
+    
+        public static string ApplyButtonPlaylistEditorView => ResourceManager.GetString("ApplyButtonPlaylistEditorView", resourceCulture);
+        
+        public static string CancelButtonPlaylistEditorView => ResourceManager.GetString("CancelButtonPlaylistEditorView", resourceCulture);
+        
+        public static string FoldingPathTrackEditorView => ResourceManager.GetString("FoldingPathTrackEditorView", resourceCulture);
+        
+        public static string NameTrackEditorView => ResourceManager.GetString("NameTrackEditorView", resourceCulture);
+        
+        public static string DescriptionTrackEditorView => ResourceManager.GetString("DescriptionTrackEditorView", resourceCulture);
+        
+        public static string YearTrackEditorView => ResourceManager.GetString("YearTrackEditorView", resourceCulture);
+        
+        public static string ApplyButtonTrackEditorView => ResourceManager.GetString("ApplyButtonTrackEditorView", resourceCulture);
+        
+        public static string CancelButtonTrackEditorView => ResourceManager.GetString("CancelButtonTrackEditorView", resourceCulture);
     }
 }
