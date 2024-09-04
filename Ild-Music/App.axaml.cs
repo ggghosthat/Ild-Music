@@ -94,13 +94,10 @@ public partial class App : Application
 
     private static void StageBuildChainExecute()
     {
-        if (ParseConfigurationFile())
+        if (ParseConfigurationFile() || BuildStage())
             IsNormalBoot = false;
-
-        if (BuildStage())
-            IsNormalBoot = false;
-
-        IsNormalBoot = true;
+        else 
+            IsNormalBoot = true;
         
         PrepareViewModelTable();
     }
