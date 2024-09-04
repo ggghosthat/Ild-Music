@@ -156,7 +156,13 @@
                  SelectedItem="{Binding CurrentItem}"
                  ScrollViewer.VerticalScrollBarVisibility="Auto"
                  ScrollViewer.HorizontalScrollBarVisibility="Disabled">
-               
+                        
+            <ListBox.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel HorizontalAlignment="Stretch"/>
+                </ItemsPanelTemplate>
+            </ListBox.ItemsPanel>
+
             <ListBox.Styles>
               <Style Selector="ListBoxItem">
                 <Setter Property="BorderBrush" Value="Transparent"/>
@@ -230,12 +236,6 @@
               </Style>
             </ListBox.Styles>
 
-            <ListBox.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <WrapPanel HorizontalAlignment="Stretch"/>
-                </ItemsPanelTemplate>
-            </ListBox.ItemsPanel>
-
             <i:Interaction.Behaviors>
               <ia:EventTriggerBehavior EventName="DoubleTapped">
                 <ia:InvokeCommandAction Command="{Binding ItemSelectCommand}"/>
@@ -243,19 +243,22 @@
             </i:Interaction.Behaviors>
             <ListBox.ItemTemplate>
               <DataTemplate>
-                <Grid Width="120"
-                      Height="120">
+                <Grid Margin="5">
                     <Grid.RowDefinitions>
                       <RowDefinition Height="auto"/>
                       <RowDefinition Height="auto"/>
                     </Grid.RowDefinitions>
 
-                    <Image Grid.Row="0"
-                           Width="70"
-                           Height="70"
-                           Margin="10"
-                           Stretch="UniformToFill"
-                           Source="{Binding ., Converter={StaticResource IconConverter}, ConverterParameter=dto_icon}"/>
+                    <Border Grid.Row="0"
+                            Width="70"
+                            Height="70"
+                            CornerRadius="15"                                        
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Stretch">
+                        <Border.Background>
+                            <ImageBrush Stretch="UniformToFill" Source="{Binding ., Converter={StaticResource IconConverter}, ConverterParameter=dto_icon}"/>
+                        </Border.Background>
+                    </Border>
 
                     <TextBlock Grid.Row="1"
                                TextWrapping="NoWrap"

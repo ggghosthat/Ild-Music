@@ -187,31 +187,33 @@
 
                         <ListBox.ItemTemplate>
                           <DataTemplate>
-                          <Grid>
-                              <Grid.RowDefinitions>
-                                  <RowDefinition Height="*"/>
-                                  <RowDefinition Height="Auto"/>
-                              </Grid.RowDefinitions>                            
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>                            
 
-                              <Grid Grid.Row="0"
-                                    MaxHeight="70"
-                                    MaxWidth="70"
-                                    Background="Transparent">
-                                  <Image Width="70"
-                                         Height="70"
-                                         Stretch="UniformToFill"
-                                         Source="{Binding ., Converter={StaticResource IconConverter}, ConverterParameter=dto_icon}"/>
-                              </Grid>
+                                <Border Grid.Row="0"
+                                        Width="70"
+                                        Height="70"
+                                        CornerRadius="15"                                        
+                                        HorizontalAlignment="Stretch"
+                                        VerticalAlignment="Stretch">
+                                    <Border.Background>
+                                        <ImageBrush Stretch="UniformToFill" Source="{Binding ., Converter={StaticResource IconConverter}, ConverterParameter=dto_icon}"/>
+                                    </Border.Background>
+                                </Border>
 
-                              <TextBlock Grid.Row="1"
-                                         TextWrapping="Wrap"
-                                         TextAlignment="Center"
-                                         FontSize="12"
-                                         Foreground="White"
-                                         FontWeight="Light"
-                                         VerticalAlignment="Top"
-                                         Text="{Binding ., Converter={StaticResource InstanceConverter}, ConverterParameter=name}"/>
-                          </Grid>
+
+                                <TextBlock Grid.Row="1"
+                                          TextWrapping="Wrap"
+                                          TextAlignment="Center"
+                                          FontSize="12"
+                                          Foreground="White"
+                                          FontWeight="Light"
+                                          VerticalAlignment="Top"
+                                          Text="{Binding ., Converter={StaticResource InstanceConverter}, ConverterParameter=name}"/>
+                            </Grid>
                           </DataTemplate>
                         </ListBox.ItemTemplate>
                   </ListBox>
@@ -317,15 +319,16 @@
                                 <RowDefinition Height="Auto"/>
                             </Grid.RowDefinitions>                            
 
-                            <Grid Grid.Row="0"
-                                  MaxHeight="70"
-                                  MaxWidth="70"
-                                  Background="Transparent">
-                                <Image Width="70"
-                                       Height="70"
-                                       Stretch="UniformToFill"
-                                       Source="{Binding ., Converter={StaticResource IconConverter}, ConverterParameter=dto_icon}"/>
-                            </Grid>
+                            <Border Grid.Row="0"
+                                    Width="70"
+                                    Height="70"
+                                    CornerRadius="15"                                        
+                                    HorizontalAlignment="Stretch"
+                                    VerticalAlignment="Stretch">
+                                <Border.Background>
+                                    <ImageBrush Stretch="UniformToFill" Source="{Binding ., Converter={StaticResource IconConverter}, ConverterParameter=dto_icon}"/>
+                                </Border.Background>
+                            </Border>
 
                             <TextBlock Grid.Row="1"
                                        TextWrapping="Wrap"

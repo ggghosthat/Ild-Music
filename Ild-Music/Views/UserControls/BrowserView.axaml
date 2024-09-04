@@ -345,37 +345,35 @@
                             <ColumnDefinition Width="auto"/>
                         </Grid.ColumnDefinitions>
 
-                        <Image Grid.Row="0"
-                               Width="50"
-                               Height="50"
-                               Stretch="UniformToFill"
-                               Source="{Binding ., Converter={StaticResource IconConverter}, ConverterParameter=tico_inst}"/>
+                        <Border Grid.Row="0"
+                                Width="50"
+                                Height="50"
+                                CornerRadius="15"                                        
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Stretch">
+                            <Border.Background>
+                                <ImageBrush Stretch="UniformToFill" Source="{Binding ., Converter={StaticResource IconConverter}, ConverterParameter=dto_icon}"/>
+                            </Border.Background>
+                        </Border>
 
                         <TextBox  Grid.Column="1"
                                   Background="Transparent"
                                   BorderThickness="0"
-                                    Text="{Binding .,
-                                           Converter={StaticResource InstanceConverter},
-                                           ConverterParameter=name}"
-                                    HorizontalAlignment="Left"
-                                    VerticalAlignment="Center"
-                                    Margin="0"
-                                    FontSize="16"
-                                    TextAlignment="Left"
-                                    Foreground="White"
-                                    FontWeight="Light"/>
+                                  HorizontalAlignment="Left"
+                                  VerticalAlignment="Center"
+                                  FontSize="16"
+                                  TextAlignment="Left"
+                                  Foreground="White"
+                                  FontWeight="Light"
+                                  Text="{Binding ., Converter={StaticResource InstanceConverter},ConverterParameter=name}"/>
 
                         <TextBlock  Grid.Column="3"
-                                    Text="{Binding ., 
-                                           StringFormat=\{0:mm\\:ss\},
-                                           Converter={StaticResource InstanceConverter},
-                                           ConverterParameter=duration}"
-                                    HorizontalAlignment="Right"
-                                    VerticalAlignment="Center"
-                                    Margin="0"
                                     FontSize="16"
                                     Foreground="White"
-                                    FontWeight="Light"/>
+                                    FontWeight="Light"
+                                    HorizontalAlignment="Right"
+                                    VerticalAlignment="Center"
+                                    Text="{Binding ., StringFormat=\{0:mm\\:ss\}, Converter={StaticResource InstanceConverter}, ConverterParameter=duration}"/>
                     </Grid>
                 </DataTemplate>
               </ListBox.ItemTemplate>

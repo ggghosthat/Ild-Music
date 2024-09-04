@@ -161,6 +161,7 @@
                   </StackPanel>
                 </Grid>
             </Border>
+
             <Button Grid.Column="1"
                     Margin="30 40 30 10"
                     FontSize="16"
@@ -267,15 +268,16 @@
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>                            
 
-                        <Grid Grid.Column="0"
-                              MaxHeight="50"
-                              MaxWidth="50"
-                              Background="Transparent">
-                            <Image Width="40"
-                                   Height="40"
-                                   Stretch="UniformToFill"
-                                   Source="{Binding ., Converter={StaticResource IconConverter}, ConverterParameter=dto_icon}"/>
-                        </Grid>
+                        <Border Grid.Column="0"
+                                Width="50"
+                                Height="50"
+                                CornerRadius="15"                                        
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Stretch">
+                            <Border.Background>
+                                <ImageBrush Stretch="UniformToFill" Source="{Binding ., Converter={StaticResource IconConverter}, ConverterParameter=dto_icon}"/>
+                            </Border.Background>
+                        </Border>
 
                         <TextBlock Grid.Column="1"
                                    TextWrapping="Wrap"
