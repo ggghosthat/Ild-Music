@@ -294,16 +294,11 @@
                                 Grid.Row="0"
                                 Grid.RowSpan="3"
                                 CornerRadius="10"
+                                Background="#80212121"
                                 HorizontalAlignment="Right"
                                 VerticalAlignment="Bottom"
                                 Classes="currentInstanceAreaPopup"
                                 IsVisible="{Binding IsActiveCurrentTab}">
-                            <Border.Background>
-                                <LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,100%">
-                                  <GradientStop Color="#212121" Offset="0.5" />
-                                  <GradientStop Color="#27da48" Offset="0.9" />
-                                </LinearGradientBrush> 
-                            </Border.Background>
 
                             <Grid>
                                 <Grid.ColumnDefinitions>
@@ -315,7 +310,7 @@
                                 <Border Grid.Column="0"
                                         Width="70"
                                         Height="70"
-                                        Margin="5"
+                                        Margin="10 5"
                                         CornerRadius="10"
                                         Background="Transparent">
                                     <Border.Background>
@@ -324,7 +319,7 @@
                                 </Border>
 
                                 <StackPanel Grid.Column="1">
-                                    <TextBlock Margin="0,10,0,0"
+                                    <TextBlock Margin="10,20,0,0"
                                                Text="{Binding CurrentTrack, Converter={StaticResource InstanceConverter}, ConverterParameter=name}"  
                                                FontSize="16"
                                                FontWeight="UltraBlack"
@@ -353,21 +348,21 @@
                                 </StackPanel>
                                 
                                 <Border Grid.Column="2" 
-                                      Width="50"
-                                      Height="50"
-                                      HorizontalAlignment="Right"
-                                      VerticalAlignment="Top"
-                                      Margin="2, -5">
-                                  <i:Interaction.Behaviors>
-                                    <ia:EventTriggerBehavior EventName="Tapped">
-                                        <ia:InvokeCommandAction Command="{Binding HideCurrentInstanceTabCommand}"/>
-                                    </ia:EventTriggerBehavior>  
-                                  </i:Interaction.Behaviors>
-                                  <PathIcon Foreground="#c3c3c3"
-                                            Background="Transparent"
-                                            VerticalAlignment="Stretch"
-                                            HorizontalAlignment="Stretch"
-                                            Data="M20,14H4V10H20"/>
+                                        Width="50"
+                                        Height="50"
+                                        HorizontalAlignment="Right"
+                                        VerticalAlignment="Top"
+                                        Margin="2, -5">
+                                    <i:Interaction.Behaviors>
+                                        <ia:EventTriggerBehavior EventName="Tapped">
+                                            <ia:InvokeCommandAction Command="{Binding HideCurrentInstanceTabCommand}"/>
+                                        </ia:EventTriggerBehavior>  
+                                    </i:Interaction.Behaviors>
+                                    <PathIcon Foreground="#c3c3c3"
+                                                Background="Transparent"
+                                                VerticalAlignment="Stretch"
+                                                HorizontalAlignment="Stretch"
+                                                Data="M20,14H4V10H20"/>
                                </Border>
                             </Grid>
                         </Border>
@@ -930,23 +925,23 @@
                                     </i:Interaction.Behaviors>
                                 </TextBlock>
 
-                                <Border Classes="PlayerButton"
+                                <Border Margin="0,5"
                                         Grid.Column="2"
+                                        Classes="PlayerButton"
                                         Background="#00000000"
-                                        Margin="0,5"
                                         IsVisible="{Binding CurrentTrack, Converter={StaticResource IndicatorConverter}}">
-                                        <i:Interaction.Behaviors>
-                                            <ia:EventTriggerBehavior EventName="Tapped">
-                                                <ia:InvokeCommandAction Command="{Binding ResolveCurrentInstanceCommand}"/>
-                                            </ia:EventTriggerBehavior>  
-                                        </i:Interaction.Behaviors>
-                                        <Border>
-                                            <Viewbox Classes="vb" Margin="2,0" HorizontalAlignment="Left">
-                                                <Canvas Width="30" Height="30">
-                                                    <Path Data="M6,5.75L10.25,10H7V16H13.5L15.5,18H7A2,2 0 0,1 5,16V10H1.75L6,5.75M18,18.25L13.75,14H17V8H10.5L8.5,6H17A2,2 0 0,1 19,8V14H22.25L18,18.25Z" />
-                                                </Canvas>
-                                            </Viewbox>
-                                        </Border>
+                                    <i:Interaction.Behaviors>
+                                        <ia:EventTriggerBehavior EventName="Tapped">
+                                            <ia:InvokeCommandAction Command="{Binding ResolveCurrentInstanceCommand}"/>
+                                        </ia:EventTriggerBehavior>  
+                                    </i:Interaction.Behaviors>
+                                    <Border>
+                                        <Viewbox Classes="vb" Margin="2,0" HorizontalAlignment="Left">
+                                            <Canvas Width="30" Height="30">
+                                                <Path Data="M11 9H13V7H11V9M14 17V15H13V11H10V13H11V15H10V17H14M5 3H19C20.1 3 21 3.89 21 5V19C21 19.53 20.79 20.04 20.41 20.41C20.04 20.79 19.53 21 19 21H5C4.47 21 3.96 20.79 3.59 20.41C3.21 20.04 3 19.53 3 19V5C3 3.89 3.89 3 5 3M19 19V5H5V19H19Z" />
+                                            </Canvas>
+                                        </Viewbox>
+                                    </Border>
                                 </Border>
                             </Grid>
                         </Grid>

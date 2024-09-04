@@ -103,7 +103,6 @@ public class IconConverter : IValueConverter
         {
             if (value is byte[] source && source.Length > 0)
                 return CalculateDominantColor(source).Result;
-            
             return new Avalonia.Media.Color(150, (byte)39, (byte)218, (byte)72);
         }
         else return null;
@@ -175,6 +174,45 @@ public class IconConverter : IValueConverter
     {
         Avalonia.Media.Color dominantColor;
         using (var pic = SixLabors.ImageSharp.Image.Load<Rgba32>(source))
+        {
+           pic.Mutate(x => 
+              x.Resize(new ResizeOptions 
+              {
+                Sampler = KnownResamplers.NearestNeighbor,
+                Size = new SixLabors.ImageSharp.Size(100, 100)
+              }));
+
+            int r = 0;
+            int g = 0;
+            int b = 0;
+            int totalPixels = 0;
+
+            for (int x = 0; x < pic.Width; x++)
+            {
+                for (int y = 0; y < pic.Height; y++)
+                {
+                    var pixel = pic[x, y];
+                    r += System.Convert.ToInt32(pixel.R);
+                    g += System.Convert.ToInt32(pixel.G);
+                    b += System.Convert.ToInt32(pixel.B);
+                    totalPixels++;
+                }
+            }
+
+            r /= totalPixels;
+            g /= totalPixels;
+            b /= totalPixels;
+
+            dominantColor = new Avalonia.Media.Color(255, (byte) r, (byte) g, (byte) b);
+        }
+
+        return Task.FromResult(dominantColor); 
+    }
+
+    private Task<Avalonia.Media.Color> CalculateDominantColor(ReadOnlyMemory<char> path)
+    {
+        Avalonia.Media.Color dominantColor;
+        using (var pic = SixLabors.ImageSharp.Image.Load<Rgba32>(path.ToString()))
         {
            pic.Mutate(x => 
               x.Resize(new ResizeOptions 

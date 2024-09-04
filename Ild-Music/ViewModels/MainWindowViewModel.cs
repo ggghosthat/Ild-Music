@@ -444,7 +444,7 @@ public class MainWindowViewModel : Base.BaseViewModel
         {
             var trackVM = (TrackViewModel)App.ViewModelTable[TrackViewModel.viewModelId];
             trackVM?.SetInstance(track);
-            PushVM(this, trackVM);
+            PushVM(CurrentVM, trackVM);
             ResolveWindowStack();
         }
     }
