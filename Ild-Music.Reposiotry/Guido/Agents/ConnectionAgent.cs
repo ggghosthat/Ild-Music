@@ -1,7 +1,7 @@
 using System.Data.SQLite;
 using Dapper;
 
-namespace Cube.Guido.Agents;
+namespace Ild_Music.Repository.Guido.Agents;
 
 //this class was being delegated SQLite database 
 internal static class ConnectionAgent

@@ -1,12 +1,12 @@
 using Ild_Music.Core.Instances;
 using Ild_Music.Core.Instances.DTO;
 using Ild_Music.Core.Instances.Querying;
-using Cube.Guido.Agents;
+using Ild_Music.Repository.Guido.Agents;
 
 using System.Data;
 using Dapper;
 
-namespace Cube.Guido.Handlers;
+namespace Ild_Music.Repository.Guido.Handlers;
 
 internal sealed class QueryHandler
 {    

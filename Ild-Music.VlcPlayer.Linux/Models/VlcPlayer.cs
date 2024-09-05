@@ -3,14 +3,11 @@ using Ild_Music.Core.Instances;
 using Ild_Music.Core.Events;
 using Ild_Music.Core.Events.Signals;
 
-using System;
-using System.Threading.Tasks;
-
-namespace Ild_Music.VlcPlayer;
+namespace Ild_Music.VlcPlayer.Linux;
 
 public class VlcPlayer : IPlayer
 {
-    private IEventBag _eventBag = default;    
+    private IEventBag _eventBag;
     private bool IsPlaylist = false;
 
     private static readonly VlcPlayerService _playerService = new();    

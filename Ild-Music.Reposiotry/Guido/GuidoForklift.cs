@@ -3,10 +3,10 @@ using Ild_Music.Core.Instances;
 using Ild_Music.Core.Instances.DTO;
 using Ild_Music.Core.Instances.Querying;
 using Ild_Music.Core.Events;
-using Cube.Guido.Agents;
-using Cube.Guido.Handlers;
+using Ild_Music.Repository.Guido.Agents;
+using Ild_Music.Repository.Guido.Handlers;
 
-namespace Cube;
+namespace Ild_Music.Repository;
 
 public class GuidoForklift : ICube //Cars from pixar (lol)
 { 

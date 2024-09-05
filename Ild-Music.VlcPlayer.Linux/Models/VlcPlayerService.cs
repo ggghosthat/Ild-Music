@@ -1,10 +1,8 @@
 using Ild_Music.Core.Instances;
 
-using System;
-using System.Threading.Tasks;
 using LibVLCSharp.Shared;
 
-namespace Ild_Music.VlcPlayer;
+namespace Ild_Music.VlcPlayer.Linux;
 
 internal class VlcPlayerService
 {

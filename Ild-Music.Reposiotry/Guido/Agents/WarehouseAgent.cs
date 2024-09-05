@@ -1,6 +1,6 @@
 using Ild_Music.Core.Instances;
 
-namespace Cube.Guido.Agents;
+namespace Ild_Music.Repository.Guido.Agents;
 
 internal static class WarehouseAgent
 {

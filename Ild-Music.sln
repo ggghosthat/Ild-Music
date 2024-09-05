@@ -3,13 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.002.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VLCSharpPlayer", "Ild-Music.VLCSharpPlayer\VLCSharpPlayer.csproj", "{B565E66C-C6D8-4DE6-9B65-4BA2D1F80D3E}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ild-Music.Core", "Ild-Music.Core\Ild-Music.Core.csproj", "{4D7EE5AD-3C11-4B5F-A2A9-11BE03AD158A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ild-Music.Cube", "Ild-Music.Cube\Ild-Music.Cube.csproj", "{8AC4661B-E60E-49F1-9436-5559CBE8BA36}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ild-Music-Core", "Ild-Music.NAudioPlayerCore\Ild-Music-Core.csproj", "{A8B2BBAE-2E36-48E0-B652-D9D98B5A5202}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ild-Music.VlcPlayer.Linux", "Ild-Music.VlcPlayer.Linux\Ild-Music.VlcPlayer.Linux.csproj", "{90C11B85-DB84-48A1-A142-05ABECBB2C98}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ild-Music.NAudio.Windows", "Ild-Music.NAudio.Windows\Ild-Music.NAudio.Windows.csproj", "{F4C19FF7-7D4A-4B61-A4BF-ED702ABF42EE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,22 +17,22 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{B565E66C-C6D8-4DE6-9B65-4BA2D1F80D3E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B565E66C-C6D8-4DE6-9B65-4BA2D1F80D3E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B565E66C-C6D8-4DE6-9B65-4BA2D1F80D3E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B565E66C-C6D8-4DE6-9B65-4BA2D1F80D3E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{4D7EE5AD-3C11-4B5F-A2A9-11BE03AD158A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{4D7EE5AD-3C11-4B5F-A2A9-11BE03AD158A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4D7EE5AD-3C11-4B5F-A2A9-11BE03AD158A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4D7EE5AD-3C11-4B5F-A2A9-11BE03AD158A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8AC4661B-E60E-49F1-9436-5559CBE8BA36}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8AC4661B-E60E-49F1-9436-5559CBE8BA36}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8AC4661B-E60E-49F1-9436-5559CBE8BA36}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8AC4661B-E60E-49F1-9436-5559CBE8BA36}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A8B2BBAE-2E36-48E0-B652-D9D98B5A5202}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A8B2BBAE-2E36-48E0-B652-D9D98B5A5202}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A8B2BBAE-2E36-48E0-B652-D9D98B5A5202}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A8B2BBAE-2E36-48E0-B652-D9D98B5A5202}.Release|Any CPU.Build.0 = Release|Any CPU
+		{90C11B85-DB84-48A1-A142-05ABECBB2C98}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{90C11B85-DB84-48A1-A142-05ABECBB2C98}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{90C11B85-DB84-48A1-A142-05ABECBB2C98}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{90C11B85-DB84-48A1-A142-05ABECBB2C98}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F4C19FF7-7D4A-4B61-A4BF-ED702ABF42EE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F4C19FF7-7D4A-4B61-A4BF-ED702ABF42EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F4C19FF7-7D4A-4B61-A4BF-ED702ABF42EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F4C19FF7-7D4A-4B61-A4BF-ED702ABF42EE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
