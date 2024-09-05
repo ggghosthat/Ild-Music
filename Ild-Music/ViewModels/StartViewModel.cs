@@ -111,7 +111,7 @@ public class StartViewModel : BaseViewModel, IFileDropable
         if (obj is CommonInstanceDTO instanceDTO && instanceDTO.Tag is EntityTag.PLAYLIST)
         {
             var playlist = _supportGhost.GetPlaylistAsync(instanceDTO).Result;
-            Task.Run(() => MainVM.DropPlaylistInstance(this, playlist, false));
+            MainVM.DropPlaylistInstance(this, playlist, false);
         }
     }
 
@@ -120,7 +120,37 @@ public class StartViewModel : BaseViewModel, IFileDropable
         if (obj is CommonInstanceDTO instanceDTO && instanceDTO.Tag is EntityTag.TRACK)
         {
             var track = _supportGhost.GetTrackAsync(instanceDTO).Result;
-            Task.Run(() => MainVM.DropTrackInstance(this, track, false));
+            MainVM.DropTrackInstance(this, track, false);
+        }
+            
+    }
+
+    private void PassPlaylistEntity(CommonInstanceDTO playlistDto)
+    {
+        var mainPlaylistId = MainVM.CurrentPlaylist?.Id ?? Guid.Empty;
+
+        if(mainPlaylistId.Equals(playlistDto.Id))
+        {
+            Task.Run(() => MainVM.ResolveInstance(this, playlistDto));
+        }
+        else
+        {
+            var playlist = _supportGhost.GetPlaylistAsync(playlistDto).Result;
+            MainVM.DropPlaylistInstance(this, playlist, false);
+        }
+    }
+
+    private void PassTrackEntity(CommonInstanceDTO trackDto)
+    {
+        var mainPlaylistId = MainVM.CurrentTrack?.Id ?? Guid.Empty;
+        if(mainPlaylistId.Equals(trackDto.Id))
+        {
+            Task.Run(() => MainVM.ResolveInstance(this, trackDto));
+        }
+        else
+        {
+            var track = _supportGhost.GetTrackAsync(trackDto).Result;
+            MainVM.DropTrackInstance(this, track, false);
         }
     }
 }

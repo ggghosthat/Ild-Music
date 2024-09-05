@@ -12,7 +12,6 @@ using System;
 using System.Linq;
 using System.Collections.ObjectModel;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Threading;
@@ -313,9 +312,9 @@ public class MainWindowViewModel : Base.BaseViewModel
         Track track,
         bool isResolved = true)
     {   
-        _player?.Stop();
+        // _player?.Stop();
         _player?.DropTrack(track);
-        
+
         OnPropertyChanged("IsEmpty");
         OnPropertyChanged("CurrentTrack");
         OnPropertyChanged("Title");
@@ -333,19 +332,6 @@ public class MainWindowViewModel : Base.BaseViewModel
             ResolveWindowStack();
         }
     } 
-
-    //Don't ready to use
-    public void HitTemps(IEnumerable<Track> musicFiles)
-    {
-        _player?.Stop();
-
-        OnPropertyChanged("CurrentTrack");
-        OnPropertyChanged("TotalTime");
-        OnPropertyChanged("TotalTimeDisplay");
-        OnPropertyChanged("CurrentTime");
-            
-        _player?.Toggle();
-    }
 
     public void SearchItemUp()
     {

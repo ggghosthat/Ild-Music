@@ -64,6 +64,7 @@ public class NAudioPlayer : IPlayer
     
     public async Task DropTrack(Track track)
     {
+        Stop();
         CurrentTrack = track;
         await _audioPlayer.SetInstance(track);
         var action = _eventBag?.GetAction((int)PlayerSignal.PLAYER_SET_TRACK);
@@ -92,14 +93,14 @@ public class NAudioPlayer : IPlayer
 
     public void Toggle()
     {
-        Task.Run(_audioPlayer.Toggle);
+        Task.Run(() => _audioPlayer.Toggle().Wait());
     }
 
     public void Stop()
     {
         IsSwipe = false;
         IsPlaylist = false;
-        Task.Run(async () => await _audioPlayer.Stop());
+        Task.Run(() => _audioPlayer.Stop().Wait());
         CurrentPlaylist?.EraseTracks();
         var action = _eventBag.GetAction((int)PlayerSignal.PLAYER_OFF);
         action?.DynamicInvoke();

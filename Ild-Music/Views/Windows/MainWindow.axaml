@@ -836,7 +836,7 @@
                                         <ColumnDefinition Width="*"/>
                                     </Grid.ColumnDefinitions>
 
-                                    <Slider x:Name="sldThumby"       
+                                    <Slider x:Name="sldThumby"
                                             Grid.Row="0"                    
                                             Width="{Binding #SliderArea.Bounds.Width}"
                                             Classes="thumby"                                          
@@ -917,7 +917,7 @@
                                            FontWeight="Medium"
                                            Foreground="#fff"
                                            VerticalAlignment="Center"
-                                           Text="{Binding Title}">
+                                           Text="{Binding Title, Converter={StaticResource InstanceConverter}, ConverterParameter=shortname}">
                                     <i:Interaction.Behaviors>
                                         <ia:EventTriggerBehavior EventName="Tapped">
                                             <ia:InvokeCommandAction Command="{Binding ShowCurrentInstanceTabCommand}"/>

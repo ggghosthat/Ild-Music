@@ -17,5 +17,4 @@
   <ItemGroup>
     <ProjectReference Include="..\Ild-Music.Core\Ild-Music.Core.csproj" />
   </ItemGroup>
-
 </Project>

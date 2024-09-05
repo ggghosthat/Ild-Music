@@ -1,19 +1,9 @@
 using Ild_Music.Core.Instances;
 using Ild_Music.Core.Instances.DTO;
 
-using Avalonia;
-using Avalonia.Controls;
-using Avalonia.Platform;
-using Avalonia.Media;
-using Avalonia.Media.Imaging;
 using Avalonia.Data.Converters;
 using System;
-using System.IO;
-using System.Threading.Tasks;
 using System.Globalization;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Diagnostics;
 
 namespace Ild_Music.Converters;
 
@@ -43,6 +33,8 @@ public class InstanceConverter : IValueConverter
                 return SliceName(playlist.Name);
             else if(value is Track track)
                 return SliceName(track.Name);
+            else if (value is string title)
+                return SliceName(title);
             else return null;
         }
         else if (parameter == "desc")

@@ -68,7 +68,7 @@ internal static class WarehouseAgent
 
     public static string GetAvatarFromId(Guid instanceId)    
     {
-        string instanceIdString = instanceId.ToString();
+        string instanceIdString = $"{instanceId.ToString()}.png";
         string path = Path.Combine(_wearhousePath, ".warehouse", "avatars", instanceIdString);
 
         if (File.Exists(path))
@@ -83,7 +83,7 @@ internal static class WarehouseAgent
 
         instanceIds.ToList().ForEach(instanceId => 
         {
-            string instanceIdString = instanceId.ToString();
+            string instanceIdString = $"{instanceId.ToString()}.png";
             string path = Path.Combine(_wearhousePath, ".warehouse", "avatars", instanceIdString);
 
             if (File.Exists(path))
@@ -100,14 +100,14 @@ internal static class WarehouseAgent
         if (!File.Exists(path))
             return;
             
-        string instanceIdString = instanceId.ToString();
+        string instanceIdString = $"{instanceId.ToString()}.png";
         string allocationPath = Path.Combine(_wearhousePath, ".warehouse", "avatars", instanceIdString);
         File.Copy(path, allocationPath);
     }
 
     public async static Task<string> PlaceAvatar(Guid instanceId, byte[] avatarSource)
     {
-        string instanceIdString = instanceId.ToString();
+        string instanceIdString = $"{instanceId.ToString()}.png";
         string allocationPath = Path.Combine(_wearhousePath, ".warehouse", "avatars", instanceIdString);
         
         using var fs = new FileStream(allocationPath, FileMode.CreateNew);
@@ -157,7 +157,7 @@ internal static class WarehouseAgent
 
     public static Task DeleteAvatar(Guid id)
     {
-        string avatarIdString = id.ToString();
+        string avatarIdString = $"{id.ToString()}.png";
         string allocationPath = Path.Combine(_wearhousePath, ".warehouse", "avatars", avatarIdString);
         
         if (IsMove == true)
@@ -168,7 +168,7 @@ internal static class WarehouseAgent
 
     public static Task DeleteTrack(Guid id)
     {
-        string trackIdString = id.ToString();
+        string trackIdString = $"{id.ToString()}.png";
         string allocationPath = Path.Combine(_wearhousePath, ".warehouse", "tracks", trackIdString);
         
         if (IsMove == true)

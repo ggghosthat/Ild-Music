@@ -31,12 +31,7 @@ public class NAudioPlaybacker
     
     public TimeSpan CurrentTime
     {
-        get 
-        {
-            return (_reader != null)
-                ? _reader.CurrentTime
-                : TimeSpan.Zero;
-        }
+        get => (_reader != null) ? _reader.CurrentTime : TimeSpan.Zero;
         set => _reader.CurrentTime = value;
     }
     
