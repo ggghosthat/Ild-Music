@@ -150,22 +150,19 @@ public class NAudioPlayer : IPlayer
     private void DropMediaInstance(bool direct)
     {
         _audioPlayer.TrackFinished -= SkipNext;
-        Task.Run(async () => await _audioPlayer.Stop());
-
+        _audioPlayer.Stop().Wait();
         notifyAction?.Invoke();
         
         DragPointer(direct);   
         SetMedia();
-
         notifyAction?.Invoke();
     }
 
-    private void SetMedia()
+    private async void SetMedia()
     { 
         var track = (Track)CurrentPlaylist?[PlaylistPoint];
         CurrentTrack = track;
-        _audioPlayer.SetInstance(track);
-        _audioPlayer.Toggle().Wait();
+        await _audioPlayer.SetInstance(track);
     }
 
     private void DragPointer(bool direction)
