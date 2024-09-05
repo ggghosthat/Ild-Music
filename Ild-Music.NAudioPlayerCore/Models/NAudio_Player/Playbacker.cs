@@ -28,7 +28,7 @@ public class NAudioPlaybacker
     
     public float Volume { get; private set; }
     
-    public TimeSpan TotalTime { get; private set; }
+    public TimeSpan TotalTime { get; private set; } = TimeSpan.FromMilliseconds(1);
     
     public TimeSpan CurrentTime
     {

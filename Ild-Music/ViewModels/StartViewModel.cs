@@ -111,7 +111,7 @@ public class StartViewModel : BaseViewModel, IFileDropable
         if (obj is CommonInstanceDTO instanceDTO && instanceDTO.Tag is EntityTag.PLAYLIST)
         {
             var playlist = _supportGhost.GetPlaylistAsync(instanceDTO).Result;
-            Task.Run(() => MainVM.DropPlaylistInstance(this, playlist));
+            Task.Run(() => MainVM.DropPlaylistInstance(this, playlist, false));
         }
     }
 
@@ -120,7 +120,7 @@ public class StartViewModel : BaseViewModel, IFileDropable
         if (obj is CommonInstanceDTO instanceDTO && instanceDTO.Tag is EntityTag.TRACK)
         {
             var track = _supportGhost.GetTrackAsync(instanceDTO).Result;
-            Task.Run(() => MainVM.DropTrackInstance(this, track));
+            Task.Run(() => MainVM.DropTrackInstance(this, track, false));
         }
     }
 }
