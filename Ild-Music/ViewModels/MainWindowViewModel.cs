@@ -42,7 +42,9 @@ public class MainWindowViewModel : Base.BaseViewModel
     }
     
     private static SupportGhost _supporterGhost => (SupportGhost)App.Stage.GetGhost(Ghosts.SUPPORT);
+
     private static PlayerGhost _playerGhost => (PlayerGhost)App.Stage.GetGhost(Ghosts.PLAYER);
+    
     private static IEventBag _eventBag => (EventBag)App.Stage.GetEventBag();
 
     public CommandDelegator PreviousCommand { get; private set; }
@@ -84,7 +86,9 @@ public class MainWindowViewModel : Base.BaseViewModel
     public bool BorderComponentsVisiblity { get; set; } = true;
 
     public BaseViewModel CurrentVM { get; set; }
+
     public bool VolumeSliderOpen { get; private set; } = false;
+
     public bool SearchAreaOpen { get; private set; } = false;
 
     public Stack<Guid> WindowStack { get; private set; } = new();
@@ -276,7 +280,6 @@ public class MainWindowViewModel : Base.BaseViewModel
         ResolveWindowStack();
     }   
 
-
     public void DropPlaylistInstance(
         BaseViewModel source, 
         Playlist playlist,
@@ -312,7 +315,8 @@ public class MainWindowViewModel : Base.BaseViewModel
     {   
         _player?.Stop();
         _player?.DropTrack(track);
-
+        
+        OnPropertyChanged("IsEmpty");
         OnPropertyChanged("CurrentTrack");
         OnPropertyChanged("Title");
         OnPropertyChanged("TotalTime");
@@ -320,7 +324,7 @@ public class MainWindowViewModel : Base.BaseViewModel
         OnPropertyChanged("CurrentTime");
 
         _player?.Toggle();
-
+        
         if (!isResolved)
         {
             var trackVM = (TrackViewModel)App.ViewModelTable[TrackViewModel.viewModelId];

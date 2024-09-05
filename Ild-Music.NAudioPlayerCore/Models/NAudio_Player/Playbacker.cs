@@ -45,13 +45,14 @@ public class NAudioPlaybacker
     {   
         CleanPlayer();
 
-        IsEmpty = false;
         CurrentTrack = track;
         Title = track.Name.ToArray();
         TotalTime = track.Duration;
 
         BuildPlayer(track.Pathway);
-    
+
+        IsEmpty = false;
+        
         return Task.CompletedTask;
     }
 

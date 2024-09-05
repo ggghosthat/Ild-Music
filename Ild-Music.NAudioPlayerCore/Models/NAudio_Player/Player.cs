@@ -94,7 +94,7 @@ public class NAudioPlayer : IPlayer
 
     public void Toggle()
     {
-        Task.Run(async () => await _audioPlayer.Toggle());
+        Task.Run(_audioPlayer.Toggle);
     }
 
     public void Stop()

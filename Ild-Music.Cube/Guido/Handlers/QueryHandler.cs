@@ -645,10 +645,10 @@ internal sealed class QueryHandler
                     transaction)
                 .Select(t => new Track(
                     Guid.Parse(t.TID),
-                    WarehouseAgent.GetTrackPathFromId(Guid.Parse(t.TID)),
-                    t.Name,
+                    WarehouseAgent.GetTrackPathFromId(Guid.Parse(t.TID)).ToCharArray(),
+                    t.Name.ToCharArray(),
                     t.Description.ToCharArray(),
-                    WarehouseAgent.GetAvatarFromId(Guid.Parse(t.TID)).AsMemory(),
+                    WarehouseAgent.GetAvatarFromId(Guid.Parse(t.TID)).ToCharArray(),
                     TimeSpan.FromMilliseconds(t.Duration),
                     (int)t.Year));
 
