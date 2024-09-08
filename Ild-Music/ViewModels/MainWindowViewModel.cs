@@ -15,6 +15,8 @@ using System.Collections.Generic;
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Threading;
+using System.Threading.Tasks;
+using Avalonia.Controls.Documents;
 
 namespace Ild_Music.ViewModels;
 
@@ -289,13 +291,8 @@ public class MainWindowViewModel : Base.BaseViewModel
         playlist.LoadTrackLine(_supporterGhost);
         _player?.DropPlaylist(playlist);
 
-        OnPropertyChanged("CurrentPlaylist");
-        OnPropertyChanged("CurrentTrack");
-        OnPropertyChanged("Title");
-        OnPropertyChanged("TotalTime");
-        OnPropertyChanged("TotalTimeDisplay");
-        OnPropertyChanged("CurrentTime");
-            
+        UpdatePlaybackProperty();     
+
         _player?.Toggle();
 
         if (!isResolved)
@@ -311,19 +308,14 @@ public class MainWindowViewModel : Base.BaseViewModel
         BaseViewModel source, 
         Track track,
         bool isResolved = true)
-    {   
-        // _player?.Stop();
-        _player?.DropTrack(track);
-
-        OnPropertyChanged("IsEmpty");
-        OnPropertyChanged("CurrentTrack");
-        OnPropertyChanged("Title");
-        OnPropertyChanged("TotalTime");
-        OnPropertyChanged("TotalTimeDisplay");
-        OnPropertyChanged("CurrentTime");
-
+    {
+        _player?.Stop();
+        Task.Run(() => _player?.DropTrack(track)).Wait();
         _player?.Toggle();
-        
+
+        UpdatePlaybackProperty();
+
+
         if (!isResolved)
         {
             var trackVM = (TrackViewModel)App.ViewModelTable[TrackViewModel.viewModelId];
@@ -331,7 +323,18 @@ public class MainWindowViewModel : Base.BaseViewModel
             PushVM(source, trackVM);
             ResolveWindowStack();
         }
-    } 
+    }
+
+    private void UpdatePlaybackProperty()
+    {
+        OnPropertyChanged("Title");
+        OnPropertyChanged("IsEmpty");
+        OnPropertyChanged("TotalTime");
+        OnPropertyChanged("CurrentTime");
+        OnPropertyChanged("PlayerState");
+        OnPropertyChanged("CurrentTrack");
+        OnPropertyChanged("TotalTimeDisplay");
+    }
 
     public void SearchItemUp()
     {
@@ -375,11 +378,6 @@ public class MainWindowViewModel : Base.BaseViewModel
             DefineNewPresentItem(NavbarItem);
     }
 
-    private bool OnNavSelected(object obj)
-    {
-        return (NavbarItem != Guid.Empty);
-    }
-
     private bool OnCanTogglePlayer(object obj) 
     {
         return _player?.IsEmpty == false;
@@ -403,24 +401,19 @@ public class MainWindowViewModel : Base.BaseViewModel
 
     private void PreviousSwipePlayer(object obj) 
     {
-        OnPropertyChanged("CurrentEntity");
         _player?.SkipPrev();
+        OnPropertyChanged("CurrentEntity");
     }
 
     private void NextSwipePlayer(object obj) 
     {
-        OnPropertyChanged("CurrentEntity");
         _player?.SkipNext();
+        OnPropertyChanged("CurrentEntity");
     }
 
     private void RepeatPlayer(object obj)
     {
         _player?.Repeat();
-    }
-
-    private void ShuffleCollectionPlayer(object obj) 
-    {
-        _player?.Shuffle();
     }
 
     private void VolumeSliderShow(object obj)

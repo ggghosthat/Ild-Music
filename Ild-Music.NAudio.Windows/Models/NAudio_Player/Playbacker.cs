@@ -6,10 +6,12 @@ namespace Ild_Music.NAudio.Windows;
 
 public class NAudioPlaybacker
 {
-    public readonly object synchLock = new();
     private static WaveOutEvent _device;
+    
     private static AudioFileReader _reader;
+    
     private const float DEFAULT_VOLUME = 0.5f;
+
     public event Action TrackFinished;
 
     public NAudioPlaybacker()
@@ -35,19 +37,19 @@ public class NAudioPlaybacker
         set => _reader.CurrentTime = value;
     }
     
-    public Task SetInstance(Track track)
+    public void SetInstance(Track track)
     {   
         CleanPlayer();
+        ReadTrack(track);
+        BuildPlayer(track.Pathway);
+    }
 
+    private void ReadTrack(Track track)
+    {
+        IsEmpty = false;
         CurrentTrack = track;
         Title = track.Name.ToArray();
         TotalTime = track.Duration;
-
-        BuildPlayer(track.Pathway);
-
-        IsEmpty = false;
-        
-        return Task.CompletedTask;
     }
 
     private void BuildPlayer(ReadOnlyMemory<char> path)
@@ -62,8 +64,9 @@ public class NAudioPlaybacker
             _reader = new (path.ToString());
             _device.Init(_reader);
         }
-
+        
         _device.Volume = Volume;
+        IsEmpty = false;
     }
 
     public Task Toggle()
@@ -71,15 +74,20 @@ public class NAudioPlaybacker
         bool isActivePlayer = _device != null && _reader != null;
 
         if (!isActivePlayer)
+        {
+            System.Console.WriteLine("why");
             return Task.CompletedTask;
-        
-        if (_device.PlaybackState != PlaybackState.Playing)
+        }
+
+        if (_device?.PlaybackState != PlaybackState.Playing)
         {
             bool isPlaying = _reader.CurrentTime.TotalMilliseconds < TotalTime.TotalMilliseconds;
 
             _device?.Play();
+     
             while (isPlaying && isActivePlayer);
-            
+        
+            System.Console.WriteLine("Playbacker passed over!");       
             _device?.Stop();
             IsEmpty = true;
             TrackFinished?.Invoke();
@@ -93,7 +101,7 @@ public class NAudioPlaybacker
         return Task.CompletedTask;
     }
 
-    public async Task Stop()
+    public async void Stop()
     {
         await Task.Run( () => 
         {

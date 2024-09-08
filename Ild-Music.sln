@@ -5,11 +5,11 @@ VisualStudioVersion = 17.5.002.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ild-Music.Core", "Ild-Music.Core\Ild-Music.Core.csproj", "{4D7EE5AD-3C11-4B5F-A2A9-11BE03AD158A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ild-Music.VlcPlayer.Linux", "Ild-Music.VlcPlayer.Linux\Ild-Music.VlcPlayer.Linux.csproj", "{90C11B85-DB84-48A1-A142-05ABECBB2C98}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ild-Music.VlcPlayer.Linux", "Ild-Music.VlcPlayer.Linux\Ild-Music.VlcPlayer.Linux.csproj", "{90C11B85-DB84-48A1-A142-05ABECBB2C98}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ild-Music.NAudio.Windows", "Ild-Music.NAudio.Windows\Ild-Music.NAudio.Windows.csproj", "{F4C19FF7-7D4A-4B61-A4BF-ED702ABF42EE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ild-Music.NAudio.Windows", "Ild-Music.NAudio.Windows\Ild-Music.NAudio.Windows.csproj", "{F4C19FF7-7D4A-4B61-A4BF-ED702ABF42EE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ild-Music", "Ild-Music\Ild-Music.csproj", "{F621B50C-5626-4A3C-A3C1-C1151B7441D9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ild-Music", "Ild-Music\Ild-Music.csproj", "{F621B50C-5626-4A3C-A3C1-C1151B7441D9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

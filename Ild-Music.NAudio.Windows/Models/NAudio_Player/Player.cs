@@ -9,7 +9,7 @@ namespace Ild_Music.NAudio.Windows;
 public class NAudioPlayer : IPlayer
 {
     private IEventBag _eventBag = default;
-    public static NAudioPlaybacker _audioPlayer = new();
+    private static NAudioPlaybacker _audioPlayer = new();
     private static Action notifyAction;
     public event Action TrackStarted;
 
@@ -17,6 +17,7 @@ public class NAudioPlayer : IPlayer
     {}
 
     public Guid PlayerId => Guid.NewGuid();
+
     public string PlayerName => "NAudio Player";
 
     public CurrentEntity CurrentEntity {get; private set;}
@@ -28,15 +29,7 @@ public class NAudioPlayer : IPlayer
     public int PlaylistPoint { get; private set; }
     
     public int PlaylistCount { get; private set; }
-    
-    public TimeSpan TotalTime => _audioPlayer.TotalTime;
-
-    public TimeSpan CurrentTime
-    {
-        get => _audioPlayer.CurrentTime; 
-        set => _audioPlayer.CurrentTime = value; 
-    }
-    
+        
     public bool IsEmpty => _audioPlayer.IsEmpty;
 
     public bool IsSwipe { get; private set; } = false;
@@ -57,18 +50,27 @@ public class NAudioPlayer : IPlayer
         set => _audioPlayer.OnVolumeChanged(value);
     }
 
+    public TimeSpan TotalTime => _audioPlayer.TotalTime;
+
+    public TimeSpan CurrentTime
+    {
+        get => _audioPlayer.CurrentTime;
+        set => _audioPlayer.CurrentTime = value;
+    }
+
     public void InjectEventBag(IEventBag eventBag)
     {
         _eventBag = eventBag;
     }
     
-    public async Task DropTrack(Track track)
+    public Task DropTrack(Track track)
     {
-        Stop();
         CurrentTrack = track;
-        await _audioPlayer.SetInstance(track);
+        _audioPlayer.SetInstance(track);
+
         var action = _eventBag?.GetAction((int)PlayerSignal.PLAYER_SET_TRACK);
         action?.DynamicInvoke();
+        return Task.CompletedTask;
     }
 
     public async Task DropPlaylist(Playlist playlist, int index=0)
@@ -81,10 +83,10 @@ public class NAudioPlayer : IPlayer
 
         var track =  (Track)playlist[PlaylistPoint];
         CurrentTrack = track;
-        await _audioPlayer.SetInstance(track);
+        _audioPlayer.SetInstance(track);
         _audioPlayer.TrackFinished += SkipNext;
 
-        var action = _eventBag.GetAction((int)PlayerSignal.PLAYER_SET_PLAYLIST);
+        var action = _eventBag?.GetAction((int)PlayerSignal.PLAYER_SET_PLAYLIST);
         action?.DynamicInvoke();
     }
 
@@ -93,16 +95,18 @@ public class NAudioPlayer : IPlayer
 
     public void Toggle()
     {
-        Task.Run(() => _audioPlayer.Toggle().Wait());
+        Task.Run(() => _audioPlayer.Toggle());
     }
 
     public void Stop()
     {
         IsSwipe = false;
         IsPlaylist = false;
-        Task.Run(() => _audioPlayer.Stop().Wait());
+
+        _audioPlayer.Stop();
         CurrentPlaylist?.EraseTracks();
-        var action = _eventBag.GetAction((int)PlayerSignal.PLAYER_OFF);
+
+        var action = _eventBag?.GetAction((int)PlayerSignal.PLAYER_OFF);
         action?.DynamicInvoke();
     }
     
@@ -126,10 +130,11 @@ public class NAudioPlayer : IPlayer
     {
         if (!IsPlaylist)
             return;
+
         Task.Run(async () => {
             DropMediaInstance(false);
             await _audioPlayer.Toggle();
-            var action = _eventBag.GetAction((int)PlayerSignal.PLAYER_SHIFT_LEFT);
+            var action = _eventBag?.GetAction((int)PlayerSignal.PLAYER_SHIFT_LEFT);
             action?.DynamicInvoke();
         });
     }
@@ -138,10 +143,11 @@ public class NAudioPlayer : IPlayer
     {
         if (!IsPlaylist)
             return;
+
         Task.Run(async () => {
             DropMediaInstance(true);
             await _audioPlayer.Toggle();
-            var action = _eventBag.GetAction((int)PlayerSignal.PLAYER_SHIFT_LEFT);
+            var action = _eventBag?.GetAction((int)PlayerSignal.PLAYER_SHIFT_LEFT);
             action?.DynamicInvoke();
         });
     }
@@ -149,7 +155,7 @@ public class NAudioPlayer : IPlayer
     private void DropMediaInstance(bool direct)
     {
         _audioPlayer.TrackFinished -= SkipNext;
-        _audioPlayer.Stop().Wait();
+        _audioPlayer.Stop();
         notifyAction?.Invoke();
         
         DragPointer(direct);   
@@ -157,11 +163,11 @@ public class NAudioPlayer : IPlayer
         notifyAction?.Invoke();
     }
 
-    private async void SetMedia()
+    private void SetMedia()
     { 
         var track = (Track)CurrentPlaylist?[PlaylistPoint];
         CurrentTrack = track;
-        await _audioPlayer.SetInstance(track);
+        _audioPlayer.SetInstance(track);
     }
 
     private void DragPointer(bool direction)

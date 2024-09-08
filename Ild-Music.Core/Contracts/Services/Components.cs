@@ -119,11 +119,11 @@ public interface IPlayer : IShare
 
     public void Toggle();
 
-    public Task Repeat();
-
     public void SkipPrev();
 
     public void SkipNext();
+    
+    public Task Repeat();
 
     public Task Shuffle();
 }
