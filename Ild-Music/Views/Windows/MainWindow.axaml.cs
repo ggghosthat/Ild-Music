@@ -159,6 +159,12 @@ public partial class MainWindow : Window
         viewModel.DefineNewPresentItem(BrowserViewModel.viewModelId);
     }
 
+    private void OnHidePopups(object sender, PointerPressedEventArgs e)
+    {
+        var viewModel = (MainWindowViewModel)DataContext;
+        viewModel.HidePopups();
+    }
+
     private void SearchBarTyped(object? sender, KeyEventArgs e)
     {
         if (e.Key == Key.Enter)

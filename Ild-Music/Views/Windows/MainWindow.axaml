@@ -81,6 +81,15 @@
                             <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
                         
+                        <Border Grid.Column="0"
+                                Grid.ColumnSpan="3"
+                                Grid.Row="0"
+                                Grid.RowSpan="3"
+                                IsVisible="{Binding IsActivePopup}"
+                                Background="Transparent"
+                                PointerPressed="OnHidePopups"
+                                ZIndex="2"/>
+
                         <Border x:Name="VolumeArea"
                                 Classes="volumePopup"
                                 Classes.open="{Binding VolumeSliderOpen}"

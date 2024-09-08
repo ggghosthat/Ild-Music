@@ -92,6 +92,8 @@ public class MainWindowViewModel : Base.BaseViewModel
 
     public bool SearchAreaOpen { get; private set; } = false;
 
+    public bool IsActivePopup => VolumeSliderOpen || SearchAreaOpen;
+
     public Stack<Guid> WindowStack { get; private set; } = new();
 
     public ObservableCollection<Guid> NavbarItems { get; } = new () {StartViewModel.viewModelId, ListViewModel.viewModelId, BrowserViewModel.viewModelId}; 
@@ -212,6 +214,7 @@ public class MainWindowViewModel : Base.BaseViewModel
     private void UpdateCurrentTime(object sender, EventArgs e)
     {
         OnPropertyChanged("PlayerState");
+
         if (PlayerState)
         {
             OnPropertyChanged("CurrentTime");
@@ -336,6 +339,14 @@ public class MainWindowViewModel : Base.BaseViewModel
         OnPropertyChanged("TotalTimeDisplay");
     }
 
+    public void HidePopups()
+    {
+        if (VolumeSliderOpen)
+            VolumeSliderOpen = false;
+        
+        if (SearchAreaOpen)
+            SearchAreaOpen = false;
+    }
     public void SearchItemUp()
     {
         if (SearchItem is CommonInstanceDTO dto)
