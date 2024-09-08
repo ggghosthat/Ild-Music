@@ -289,7 +289,7 @@ public class MainWindowViewModel : Base.BaseViewModel
     {
         _player?.Stop();
         playlist.LoadTrackLine(_supporterGhost);
-        _player?.DropPlaylist(playlist);
+        Task.Run(() => _player?.DropPlaylist(playlist)).Wait();
 
         UpdatePlaybackProperty();     
 
