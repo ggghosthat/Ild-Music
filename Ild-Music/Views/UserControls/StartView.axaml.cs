@@ -1,22 +1,17 @@
-using Ild_Music.Contracts;
 using Ild_Music.ViewModels;
 
 using System;
 using System.Linq;
-using System.Collections;
 using System.Collections.Generic;
-using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Input;
-using Avalonia.Markup.Xaml;
 using PropertyChanged;
 
 namespace Ild_Music.Views;
 
 [DoNotNotifyAttribute]
 public partial class StartView : UserControl
-{
-    
+{    
     private const string DROP_AREA_BORRDER = "DropArea";
     private const string DROP_PLACE_BORRDER = "DropPlace";
     private static Border dropArea;

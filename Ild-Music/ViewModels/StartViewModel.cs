@@ -78,7 +78,6 @@ public class StartViewModel : BaseViewModel, IFileDropable
     {
         using (var instancePool = _supportGhost.GetInstancePool().Result)
         {
-            System.Console.WriteLine("???");
             Artists.Clear();
             instancePool.ArtistsDTOs.ToList().ForEach(a => Artists.Add(a));    
         }

@@ -38,16 +38,22 @@ public class BrowserViewModel : BaseViewModel
     }
 
     public ObservableCollection<Track> Source { get; private set; } = new();
+
     public ObservableCollection<Track> Output { get; set; } = new();
    
     public CommandDelegator PlayTrackCommand { get; }
+
     public CommandDelegator PlaySourceCommand { get; }
+
     public CommandDelegator SaveTracksCommand { get; }
+
     public CommandDelegator CreatePlaylistCommand { get; }
+
     public CommandDelegator EraseCommand { get; }
+
     public CommandDelegator BackCommand { get; }
     
-    public async Task Browse(IList<string> paths)
+    public async Task Browse(IEnumerable<string> paths)
     {
         await _filer.BrowseFiles(paths);        
         _filer.GetTracks()
@@ -61,7 +67,7 @@ public class BrowserViewModel : BaseViewModel
         if (Output.Count == 1)
         {
             var selectedTrack = Output[0];
-            Task.Run(() => MainVM.DropTrackInstance(this, selectedTrack));
+            MainVM.DropTrackInstance(this, selectedTrack);
         }
     }
 
@@ -74,7 +80,7 @@ public class BrowserViewModel : BaseViewModel
         else
             tempPlaylist = factory.CreateTemporaryPlaylist(Source);
         
-        Task.Run(() => MainVM.DropPlaylistInstance(this, tempPlaylist));
+        MainVM.DropPlaylistInstance(this, tempPlaylist);
     }
 
     private void SaveTracks(object obj)

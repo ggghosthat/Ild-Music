@@ -74,10 +74,7 @@ public class NAudioPlaybacker
         bool isActivePlayer = _device != null && _reader != null;
 
         if (!isActivePlayer)
-        {
-            System.Console.WriteLine("why");
             return Task.CompletedTask;
-        }
 
         if (_device?.PlaybackState != PlaybackState.Playing)
         {
@@ -87,7 +84,6 @@ public class NAudioPlaybacker
      
             while (isPlaying && isActivePlayer);
         
-            System.Console.WriteLine("Playbacker passed over!");       
             _device?.Stop();
             IsEmpty = true;
             TrackFinished?.Invoke();

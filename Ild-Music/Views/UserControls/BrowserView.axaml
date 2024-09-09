@@ -43,42 +43,37 @@
                        VerticalAlignment="Bottom"
                        Text="{x:Static lang:Resources.BrowserTitle}"/>
 
-            <StackPanel Grid.Row="1"
-                        HorizontalAlignment="Stretch"
-                        VerticalAlignment="Stretch"
-                        MinWidth="200"
-                        MaxWidth="400">
-              <Border x:Name="BrowseArea"
-                      Margin="15,5"
-                      CornerRadius="10"
-                      BorderThickness="2"
-                      BorderBrush="#20000000"
-                      Height="{Binding $parent[StackPanel].Bounds.Width}"
-                      Tapped="OpenMusicFiles_Clicked"
-                      DragDrop.AllowDrop="True">
-                  <Border.Styles>
-                      <Style Selector="Border#BrowseArea">
-                          <Setter Property="Background" Value="#50000000"/>
-                      </Style>
-                      <Style Selector="Border#BrowseArea:pointerover">
-                          <Setter Property="Background" Value="#70000000"/>
-                      </Style>
-                  </Border.Styles>
-                  <StackPanel>
-                      <Viewbox>
-                          <Canvas Width="24" Height="24">
-                              <Path Fill="{StaticResource color1}" Data="M9,16V10H5L12,3L19,10H15V16H9M5,20V18H19V20H5Z" />
-                          </Canvas>
-                      </Viewbox>
+            <Border x:Name="BrowseArea"
+                    Grid.Row="1"
+                    Margin="15,5"
+                    Width="300"
+                    Height="300"
+                    CornerRadius="10"
+                    BorderThickness="2"
+                    BorderBrush="#20000000"
+                    Tapped="OpenMusicFiles_Clicked">
+                <Border.Styles>
+                    <Style Selector="Border#BrowseArea">
+                        <Setter Property="Background" Value="#50000000"/>
+                    </Style>
+                    <Style Selector="Border#BrowseArea:pointerover">
+                        <Setter Property="Background" Value="#70000000"/>
+                    </Style>
+                </Border.Styles>
+                <StackPanel>
+                    <Viewbox>
+                        <Canvas Width="24" Height="24">
+                            <Path Fill="{StaticResource color1}" Data="M9,16V10H5L12,3L19,10H15V16H9M5,20V18H19V20H5Z" />
+                        </Canvas>
+                    </Viewbox>
 
-                      <TextBlock FontSize="16"
-                                 Foreground="#9c9c9c"
-                                 FontWeight="Light"
-                                 HorizontalAlignment="Center"
-                                 Text="{x:Static lang:Resources.BrowserDragDropArea}"/>
-                  </StackPanel>
-              </Border>
-            </StackPanel>
+                    <TextBlock FontSize="16"
+                                Foreground="#9c9c9c"
+                                FontWeight="Light"
+                                HorizontalAlignment="Center"
+                                Text="{x:Static lang:Resources.BrowserDragDropArea}"/>
+                </StackPanel>
+            </Border>
 
             <StackPanel Grid.Row="2"
                         Orientation="Horizontal"
@@ -221,7 +216,7 @@
           <ListBox Name="SourceList"
                    ItemsSource="{Binding Source}"
                    SelectedItems="{Binding Output}"
-                   SelectionMode="Toggle, Multiple"
+                   SelectionMode="Multiple"
                    HorizontalAlignment="Stretch"
                    ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                    ScrollViewer.VerticalScrollBarVisibility="Auto"
@@ -348,7 +343,7 @@
                         <Border Grid.Row="0"
                                 Width="50"
                                 Height="50"
-                                CornerRadius="15"                                        
+                                CornerRadius="15"
                                 HorizontalAlignment="Stretch"
                                 VerticalAlignment="Stretch">
                             <Border.Background>
@@ -394,5 +389,36 @@
                        FontSize="15"
                        FontWeight="Light"/>
         </StackPanel>
+
+        <Border x:Name="DropArea"
+                Grid.Row="3"
+                IsVisible="false"  
+                ZIndex="2"
+                Background="#85b2b2b2"
+                PointerPressed="DropAreaReleaseMouse">
+            <Border x:Name="DropPlace"
+                    Margin="10"    
+                    CornerRadius="10"
+                    BorderThickness="3"
+                    Background="Transparent"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch"
+                    BorderBrush="{StaticResource color1}">
+                <StackPanel HorizontalAlignment="Center"
+                            VerticalAlignment="Center">
+                    <PathIcon Width="100"
+                            Height="100"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Foreground="#c2c2c2"
+                            Background="Transparent"
+                            Data="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18V20Z"/>
+                    <Label Content="Drop your music file"
+                        FontWeight="Medium"
+                        FontSize="30"
+                        Foreground="#c2c2c2"/>
+                </StackPanel>
+            </Border>
+        </Border>
     </Grid>
 </UserControl>
