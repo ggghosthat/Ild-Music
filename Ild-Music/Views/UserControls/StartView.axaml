@@ -47,7 +47,8 @@
                           HorizontalScrollBarVisibility="Auto"
                           HorizontalContentAlignment="Left"
                           HorizontalAlignment="Stretch">
-                <ListBox ItemsSource="{Binding Playlists}"
+                <ListBox Height="150"
+                         ItemsSource="{Binding Playlists}"
                          SelectedItem="{Binding CurrentPlaylist}"
                          ScrollViewer.HorizontalScrollBarVisibility="Visible"
                          ScrollViewer.VerticalScrollBarVisibility="Disabled">
@@ -61,11 +62,9 @@
                         <Style Selector="ListBoxItem">
                             <Setter Property="BorderBrush" Value="Transparent"/>
                             <Setter Property="BorderThickness" Value="0"/>
-                            <Setter Property="Padding" Value="2"/> 
+                            <Setter Property="Padding" Value="5"/> 
                             <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
                             <Setter Property="VerticalContentAlignment" Value="Stretch"/>
-                            <Setter Property="Width" Value="110"/>
-                            <Setter Property="Height" Value="110"/>
                             <Setter Property="CornerRadius" Value="10"/>
                             <Setter Property="Margin" Value="5"/>
                             <Setter Property="Template">
@@ -78,10 +77,11 @@
                                         BorderBrush="{TemplateBinding BorderBrush}"
                                         Padding="{TemplateBinding Padding}">
                                     <ContentPresenter Name="PART_ContentPresenter"
-                                                        HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                                        VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
-                                                        ContentTemplate="{TemplateBinding ContentTemplate}"
-                                                        Content="{TemplateBinding Content}"/>
+                                                      HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                      VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                                      ContentTemplate="{TemplateBinding ContentTemplate}"
+                                                      Height="{TemplateBinding Height}"
+                                                      Content="{TemplateBinding Content}"/>
                                 </Border>
                             </ControlTemplate>
                             </Setter>
@@ -143,8 +143,8 @@
                                 </Grid.RowDefinitions> 
                                 
                                 <Border Grid.Row="0"
-                                        Width="70"
-                                        Height="70"
+                                        Width="100"
+                                        Height="100"
                                         CornerRadius="15"                                        
                                         HorizontalAlignment="Stretch"
                                         VerticalAlignment="Stretch">

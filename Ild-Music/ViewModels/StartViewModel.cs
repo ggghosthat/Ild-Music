@@ -19,9 +19,6 @@ public class StartViewModel : BaseViewModel, IFileDropable
 {
     public static readonly Guid viewModelId = Guid.NewGuid();
     public override Guid ViewModelId => viewModelId;
-
-    private Task trackDropTask;
-    private CancellationTokenSource tokenSource = new CancellationTokenSource();
    
     public StartViewModel()
     {
@@ -38,33 +35,50 @@ public class StartViewModel : BaseViewModel, IFileDropable
 
     private static SupportGhost _supportGhost => (SupportGhost)App.Stage.GetGhost(Ghosts.SUPPORT);
     private static FactoryGhost factory => (FactoryGhost)App.Stage.GetGhost(Ghosts.FACTORY);
-    private MainWindowViewModel MainVM => (MainWindowViewModel)App.ViewModelTable[MainWindowViewModel.viewModelId];
+    private MainWindowViewModel mainVM => (MainWindowViewModel)App.ViewModelTable[MainWindowViewModel.viewModelId];
 
     public ObservableCollection<CommonInstanceDTO> Artists {get; set;} = new ();
+
     public ObservableCollection<CommonInstanceDTO> Playlists {get; set;} = new ();
+    
     public ObservableCollection<CommonInstanceDTO> Tracks {get; set;} = new ();
 
     public CommonInstanceDTO CurrentArtist { get; set; }
+    
     public CommonInstanceDTO CurrentPlaylist { get; set; }
+    
     public CommonInstanceDTO CurrentTrack { get; set; }
+    
     public CommandDelegator DropPlaylistCommand {get;}
+    
     public CommandDelegator DropTrackCommand {get;}
+    
     public CommandDelegator DropArtistCommand {get;}
-   
-    private async Task PopullateLists()
+    
+    public override void Load()
     {
-       using (var instancePool = await _supportGhost.GetInstancePool())
-       {
+        Task.Run(PopullateLists);
+    }
+
+    private async Task PopullateLists()
+    {        
+        Artists.Clear();
+        Playlists.Clear();
+        Tracks.Clear();
+        
+        using (var instancePool = await _supportGhost.GetInstancePool())
+        {
            instancePool.ArtistsDTOs.ToList().ForEach(a => Artists.Add(a));
            instancePool.PlaylistsDTOs.ToList().ForEach(p => Playlists.Add(p));
            instancePool.TracksDTOs.ToList().ForEach(t => Tracks.Add(t));
-       }
+        }
     }
 
     private void RefreshArtists()
     {
         using (var instancePool = _supportGhost.GetInstancePool().Result)
         {
+            System.Console.WriteLine("???");
             Artists.Clear();
             instancePool.ArtistsDTOs.ToList().ForEach(a => Artists.Add(a));    
         }
@@ -103,7 +117,7 @@ public class StartViewModel : BaseViewModel, IFileDropable
     private void DropArtist(object obj)
     {
         if (obj is CommonInstanceDTO instanceDTO && instanceDTO.Tag is EntityTag.ARTIST)
-            Task.Run(() => MainVM.ResolveInstance(this, instanceDTO));
+            Task.Run(() => mainVM.ResolveInstance(this, instanceDTO));
     }
 
     private void DropPlaylist(object obj)
@@ -111,7 +125,7 @@ public class StartViewModel : BaseViewModel, IFileDropable
         if (obj is CommonInstanceDTO instanceDTO && instanceDTO.Tag is EntityTag.PLAYLIST)
         {
             var playlist = _supportGhost.GetPlaylistAsync(instanceDTO).Result;
-            MainVM.DropPlaylistInstance(this, playlist, false);
+            mainVM.DropPlaylistInstance(this, playlist, false);
         }
     }
 
@@ -120,37 +134,7 @@ public class StartViewModel : BaseViewModel, IFileDropable
         if (obj is CommonInstanceDTO instanceDTO && instanceDTO.Tag is EntityTag.TRACK)
         {
             var track = _supportGhost.GetTrackAsync(instanceDTO).Result;
-            MainVM.DropTrackInstance(this, track, false);
-        }
-            
-    }
-
-    private void PassPlaylistEntity(CommonInstanceDTO playlistDto)
-    {
-        var mainPlaylistId = MainVM.CurrentPlaylist?.Id ?? Guid.Empty;
-
-        if(mainPlaylistId.Equals(playlistDto.Id))
-        {
-            Task.Run(() => MainVM.ResolveInstance(this, playlistDto));
-        }
-        else
-        {
-            var playlist = _supportGhost.GetPlaylistAsync(playlistDto).Result;
-            MainVM.DropPlaylistInstance(this, playlist, false);
-        }
-    }
-
-    private void PassTrackEntity(CommonInstanceDTO trackDto)
-    {
-        var mainPlaylistId = MainVM.CurrentTrack?.Id ?? Guid.Empty;
-        if(mainPlaylistId.Equals(trackDto.Id))
-        {
-            Task.Run(() => MainVM.ResolveInstance(this, trackDto));
-        }
-        else
-        {
-            var track = _supportGhost.GetTrackAsync(trackDto).Result;
-            MainVM.DropTrackInstance(this, track, false);
-        }
+            mainVM.DropTrackInstance(this, track, false);
+        }            
     }
 }
