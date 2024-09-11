@@ -247,10 +247,12 @@ public sealed class FactoryGhost : IGhost
                                 
                 trackResult = producer.TrackInstance; 
                 
-                if(allocateInstance && taglib.Tag.Pictures.Length > 0)
+                if(taglib.Tag.Pictures.Length > 0)
                 {
                     var avatarSource = taglib.Tag.Pictures[0].Data.Data;
-                    cube.PlaceAvatar(producer.TrackInstance.Id, avatarSource);
+                    // string avatarPath = cube.PlaceAvatar(trackResult.Id, avatarSource);
+                    // trackResult.AvatarPath = avatarPath.ToCharArray();
+                    trackResult.AvatarSource = avatarSource;
                 }
 
                 if (allocateInstance)

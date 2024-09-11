@@ -55,10 +55,11 @@ public class BrowserViewModel : BaseViewModel
     
     public async Task Browse(IEnumerable<string> paths)
     {
-        await _filer.BrowseFiles(paths);        
-        _filer.GetTracks()
-             .ToList()
-             .ForEach(mf => Source.Add(mf));
+        var browsed = _filer.BrowseFiles(paths);
+        
+        foreach (var track in browsed)
+            Source.Add(track);
+
         _filer.CleanFiler();
     }
     

@@ -23,31 +23,26 @@ public class Filer : IWaiter
         factoryGhost = ghost;
     }
 
-	public async Task BrowseFiles(IEnumerable<string> inputPaths)
+	public IEnumerable<Track> BrowseFiles(IEnumerable<string> inputPaths)
 	{
-		Parallel.ForEach(
-			inputPaths,
-			new ParallelOptions { MaxDegreeOfParallelism = 4 },
-			(string file) =>
-        {            
-			//containing file-format restriction.
-    		//in the nearest release will be allow mp3 format only!!!
-            if(File.Exists(file))
-			{
-				var ext = Path.GetExtension(file.ToString());
-	    	    if (ext.Equals(".mp3"))
-	        	{
-                    var track = factoryGhost.CreateTrackBrowsed(file);
-		            MusicFiles.AddOrUpdate(track.Pathway, track, (ReadOnlyMemory<char> key, Track  oldValue) => track);
-	       		}
-	       	}
-        });
-	}
-
-	public IEnumerable<Track> GetTracks()
-	{
+		Parallel.ForEach(inputPaths, new ParallelOptions { MaxDegreeOfParallelism = 4 },
+			(string file) => ProcessFile(file));
+	
 		return MusicFiles.Values;
 	}
+
+    private static void ProcessFile(string file)
+    {
+        if (File.Exists(file))
+        {
+            var ext = Path.GetExtension(file.ToString());
+            if (ext.Equals(".mp3"))
+            {
+                var track = factoryGhost.CreateTrackBrowsed(file);
+                MusicFiles.AddOrUpdate(track.Pathway, track, (ReadOnlyMemory<char> key, Track oldValue) => track);
+            }
+        }
+    }
 
 	public void CleanFiler()
 	{

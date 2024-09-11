@@ -11,7 +11,7 @@ using System;
 using System.IO;
 using System.Threading.Tasks;
 using System.Globalization;
-using SixLabors.ImageSharp;
+using System.Runtime.InteropServices;
 using SixLabors.ImageSharp.Processing;
 using SixLabors.ImageSharp.PixelFormats;
 
@@ -35,7 +35,7 @@ public class IconConverter : IValueConverter
                 EntityTag.TAG => LoadBitmapfromPath(@"avares://Ild-Music/Assets/DefaultIcons/tag.png").Result,
             };
         }
-        if (parameter == "track_icon" && value is Track trackInstance)
+        else if (parameter == "track_icon" && value is Track trackInstance)
         {
             if (trackInstance.AvatarPath.Length > 0)
                 return LoadBitmapFromTrack(trackInstance).Result;
@@ -105,6 +105,13 @@ public class IconConverter : IValueConverter
                 return CalculateDominantColor(source).Result;
             return new Avalonia.Media.Color(150, (byte)39, (byte)218, (byte)72);
         }
+        else if (parameter == "temp_track_icon")
+        {
+            if (value is Track tempTrack && tempTrack.AvatarSource.Length > 0)
+                return LoadBitmapFromAvatarSource(tempTrack.AvatarSource.ToArray()).Result;
+            else
+                return LoadBitmapfromPath(@"avares://Ild-Music/Assets/DefaultIcons/track.png").Result;
+        }
         else return null;
     }
 
@@ -134,10 +141,7 @@ public class IconConverter : IValueConverter
         return ProcessImageFromPath(image, path, w, h);
     }
 
-    private Avalonia.Controls.Image ProcessImageFromSource(
-        Avalonia.Controls.Image image,
-        ReadOnlyMemory<byte> source,
-        double w, double h)
+    private Avalonia.Controls.Image ProcessImageFromSource(Avalonia.Controls.Image image, ReadOnlyMemory<byte> source, double w, double h)
     {
         if (w > 0d && h > 0d)
         {
@@ -152,10 +156,7 @@ public class IconConverter : IValueConverter
         return image;
     }
 
-    private Avalonia.Controls.Image ProcessImageFromPath(
-        Avalonia.Controls.Image image,
-        string path,
-        double w, double h)
+    private Avalonia.Controls.Image ProcessImageFromPath(Avalonia.Controls.Image image, string path, double w, double h)
     {
         if (w > 0d && h > 0d)
         {
@@ -209,45 +210,6 @@ public class IconConverter : IValueConverter
         return Task.FromResult(dominantColor); 
     }
 
-    private Task<Avalonia.Media.Color> CalculateDominantColor(ReadOnlyMemory<char> path)
-    {
-        Avalonia.Media.Color dominantColor;
-        using (var pic = SixLabors.ImageSharp.Image.Load<Rgba32>(path.ToString()))
-        {
-           pic.Mutate(x => 
-              x.Resize(new ResizeOptions 
-              {
-                Sampler = KnownResamplers.NearestNeighbor,
-                Size = new SixLabors.ImageSharp.Size(100, 100)
-              }));
-
-            int r = 0;
-            int g = 0;
-            int b = 0;
-            int totalPixels = 0;
-
-            for (int x = 0; x < pic.Width; x++)
-            {
-                for (int y = 0; y < pic.Height; y++)
-                {
-                    var pixel = pic[x, y];
-                    r += System.Convert.ToInt32(pixel.R);
-                    g += System.Convert.ToInt32(pixel.G);
-                    b += System.Convert.ToInt32(pixel.B);
-                    totalPixels++;
-                }
-            }
-
-            r /= totalPixels;
-            g /= totalPixels;
-            b /= totalPixels;
-
-            dominantColor = new Avalonia.Media.Color(255, (byte) r, (byte) g, (byte) b);
-        }
-
-        return Task.FromResult(dominantColor); 
-    }
-
     private Task<Avalonia.Media.Imaging.Bitmap> LoadBitmapfromPath(string path)
     {
         var bitmap = new Avalonia.Media.Imaging.Bitmap(AssetLoader.Open(new Uri(path)));
@@ -263,6 +225,14 @@ public class IconConverter : IValueConverter
     private Task<Avalonia.Media.Imaging.Bitmap> LoadBitmapFromTrack(Track track)
     {
         var bitmap = new Avalonia.Media.Imaging.Bitmap(track.AvatarPath.ToString());
+        return Task.FromResult(bitmap);
+    }
+
+    private Task<Bitmap> LoadBitmapFromAvatarSource(byte[] avatarSource)
+    {
+        Avalonia.Media.Imaging.Bitmap bitmap;
+        using (var stream = new MemoryStream(avatarSource))
+        bitmap = new Avalonia.Media.Imaging.Bitmap(stream);
         return Task.FromResult(bitmap);
     }
 }

@@ -8,6 +8,7 @@
              xmlns:conv="clr-namespace:Ild_Music.Converters"
              xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
              xmlns:ia="clr-namespace:Avalonia.Xaml.Interactions.Core;assembly=Avalonia.Xaml.Interactions"
+             xmlns:fui="using:FluentAvalonia.UI.Controls"
 
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="Ild_Music.Views.BrowserView"
@@ -46,12 +47,13 @@
             <Border x:Name="BrowseArea"
                     Grid.Row="1"
                     Margin="15,5"
-                    Width="300"
-                    Height="300"
                     CornerRadius="10"
                     BorderThickness="2"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch"
                     BorderBrush="#20000000"
                     Tapped="OpenMusicFiles_Clicked">
+                
                 <Border.Styles>
                     <Style Selector="Border#BrowseArea">
                         <Setter Property="Background" Value="#50000000"/>
@@ -60,19 +62,25 @@
                         <Setter Property="Background" Value="#70000000"/>
                     </Style>
                 </Border.Styles>
-                <StackPanel>
-                    <Viewbox>
+
+                <Grid Width="400" Height="400">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                    </Grid.RowDefinitions>
+                    <Viewbox Grid.Row="0" VerticalAlignment="Top">
                         <Canvas Width="24" Height="24">
                             <Path Fill="{StaticResource color1}" Data="M9,16V10H5L12,3L19,10H15V16H9M5,20V18H19V20H5Z" />
                         </Canvas>
                     </Viewbox>
 
-                    <TextBlock FontSize="16"
-                                Foreground="#9c9c9c"
-                                FontWeight="Light"
-                                HorizontalAlignment="Center"
-                                Text="{x:Static lang:Resources.BrowserDragDropArea}"/>
-                </StackPanel>
+                    <TextBlock Grid.Row="0"
+                               FontSize="16"
+                               Foreground="#9c9c9c"
+                               FontWeight="Light"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Bottom"
+                               Text="{x:Static lang:Resources.BrowserDragDropArea}"/>
+                </Grid>
             </Border>
 
             <StackPanel Grid.Row="2"
@@ -232,25 +240,25 @@
                       <Setter Property="BorderBrush" Value="Transparent"/>
                       <Setter Property="BorderThickness" Value="0"/>
                       <Setter Property="Margin" Value="0"/>
-                      <Setter Property="Padding" Value="4"/>
                       <Setter Property="HorizontalContentAlignment" Value="Stretch"/> 
-                      <Setter Property="Height" Value="50"/>
+                      <Setter Property="Height" Value="60"/>
+                      <Setter Property="CornerRadius" Value="10"/>
 
                       <Setter Property="Template">
                           <ControlTemplate>
                               <Grid HorizontalAlignment="Stretch">
                                   <Border x:Name="Bd"
-                                          Margin="0"
-                                          CornerRadius="10"
+                                          Margin="{TemplateBinding Margin}"
+                                          CornerRadius="{TemplateBinding CornerRadius}"
                                           Background="{TemplateBinding Background}"
                                           BorderThickness="{TemplateBinding BorderThickness}"
                                           BorderBrush="{TemplateBinding BorderBrush}"
-                                          Padding="{TemplateBinding Padding}">
+                                          Height="{TemplateBinding Height}">
                                       <ContentPresenter Name="PART_ContentPresenter"
-                                                              HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                                              VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
-                                                              ContentTemplate="{TemplateBinding ContentTemplate}"
-                                                              Content="{TemplateBinding Content}"/>
+                                                        HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                        VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                                        ContentTemplate="{TemplateBinding ContentTemplate}"
+                                                        Content="{TemplateBinding Content}"/>
                                   </Border>
                               </Grid>
                           </ControlTemplate>
@@ -343,11 +351,12 @@
                         <Border Grid.Row="0"
                                 Width="50"
                                 Height="50"
-                                CornerRadius="15"
-                                HorizontalAlignment="Stretch"
-                                VerticalAlignment="Stretch">
+                                Margin="5"
+                                CornerRadius="5"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center">
                             <Border.Background>
-                                <ImageBrush Stretch="UniformToFill" Source="{Binding ., Converter={StaticResource IconConverter}, ConverterParameter=dto_icon}"/>
+                                <ImageBrush Stretch="UniformToFill" Source="{Binding ., Converter={StaticResource IconConverter}, ConverterParameter=temp_track_icon}"/>
                             </Border.Background>
                         </Border>
 
@@ -420,5 +429,18 @@
                 </StackPanel>
             </Border>
         </Border>
+
+        <Border x:Name="LoadCurtain" 
+                Grid.Column="0"
+                Grid.ColumnSpan="2"
+                Background="#50000000"
+                IsVisible="false">
+            <StackPanel HorizontalAlignment="Center"
+                        VerticalAlignment="Stretch"
+                        Orientation="Horizontal">
+                <fui:ProgressRing IsIndeterminate="True" BorderThickness="5" Width="20" Height="20" Foreground="{StaticResource color1}" Margin="0 0 10 0"/>
+                <Label Content="Track browsing ..." FontSize="18" FontWeight="Regular" Foreground="#c2c2c2"/>
+            </StackPanel>
+        </Border>   
     </Grid>
 </UserControl>
