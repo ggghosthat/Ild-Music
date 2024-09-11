@@ -10,6 +10,7 @@
 ./*.pkg.tar.zst
 Ild-Music/.warehouse
 Ild-Music/storage.db
+Ild-Music/config.json
 Ild-Music/bin
 Ild-Music/obj
 Ild-Music.Core/bin
