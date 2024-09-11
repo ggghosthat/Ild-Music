@@ -1,0 +1,237 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+
+             xmlns:vm="clr-namespace:Ild_Music.ViewModels"
+             xmlns:lang="clr-namespace:Ild_Music.Assets"
+             xmlns:conv="using:Ild_Music.Converters"
+             xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
+             xmlns:ia="clr-namespace:Avalonia.Xaml.Interactions.Core;assembly=Avalonia.Xaml.Interactions"
+
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="Ild_Music.Views.FailedBootView"
+             x:DataType="vm:FailedBootViewModel">
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height = "Auto"/>
+      <RowDefinition Height = "*"/>
+      <RowDefinition Height = "Auto"/>
+    </Grid.RowDefinitions>
+
+    <Grid Grid.Row="0"
+          HorizontalAlignment="Stretch">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="*"/>
+        <ColumnDefinition Width="Auto"/>
+      </Grid.ColumnDefinitions>
+
+      <Label Grid.Column="0"
+            Content="{x:Static lang:Resources.TitleFailedBootView}"
+            FontSize="40"
+            Margin="30 50 30 20"
+            FontWeight="Medium"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Center"/>
+
+      <Viewbox Grid.Column="1"
+               Classes="vb"
+               Width="300"
+               Height="75"
+               Margin="10 20 10 10"
+               HorizontalAlignment="Center"
+               VerticalAlignment="Center">
+          <Canvas Width="170" Height="30">
+              <Path Fill="#27da48" Data="M 30.00,0.00
+                      C 30.00,0.00 40.00,0.00 40.00,0.00
+                          40.00,0.00 40.00,34.00 40.00,34.00
+                          40.00,34.00 30.00,34.00 30.00,34.00
+                          30.00,34.00 30.00,0.00 30.00,0.00 Z
+                      M 105.00,0.00
+                      C 105.00,0.00 115.00,0.00 115.00,0.00
+                          115.00,0.00 115.00,34.00 115.00,34.00
+                          115.00,34.00 105.00,34.00 105.00,34.00
+                          105.00,34.00 105.00,0.00 105.00,0.00 Z
+                      M 15.00,6.00
+                      C 15.00,6.00 25.00,6.00 25.00,6.00
+                          25.00,6.00 25.00,29.00 25.00,29.00
+                          25.00,29.00 15.00,29.00 15.00,29.00
+                          15.00,29.00 15.00,6.00 15.00,6.00 Z
+                      M 45.00,6.00
+                      C 45.00,6.00 55.00,6.00 55.00,6.00
+                          55.00,6.00 55.00,29.00 55.00,29.00
+                          55.00,29.00 45.00,29.00 45.00,29.00
+                          45.00,29.00 45.00,6.00 45.00,6.00 Z
+                      M 90.00,6.00
+                      C 90.00,6.00 100.00,6.00 100.00,6.00
+                          100.00,6.00 100.00,29.00 100.00,29.00
+                          100.00,29.00 90.00,29.00 90.00,29.00
+                          90.00,29.00 90.00,6.00 90.00,6.00 Z
+                      M 120.00,6.00
+                      C 120.00,6.00 130.00,6.00 130.00,6.00
+                          130.00,6.00 130.00,29.00 130.00,29.00
+                          130.00,29.00 120.00,29.00 120.00,29.00
+                          120.00,29.00 120.00,6.00 120.00,6.00 Z
+                      M 0.00,14.00
+                      C 0.00,14.00 10.00,14.00 10.00,14.00
+                          10.00,14.00 10.00,29.00 10.00,29.00
+                          10.00,29.00 0.00,29.00 0.00,29.00
+                          0.00,29.00 0.00,14.00 0.00,14.00 Z
+                      M 60.00,14.00
+                      C 60.00,14.00 70.00,14.00 70.00,14.00
+                          70.00,14.00 70.00,29.00 70.00,29.00
+                          70.00,29.00 60.00,29.00 60.00,29.00
+                          60.00,29.00 60.00,14.00 60.00,14.00 Z
+                      M 75.00,14.00
+                      C 75.00,14.00 85.00,14.00 85.00,14.00
+                          85.00,14.00 85.00,29.00 85.00,29.00
+                          85.00,29.00 75.00,29.00 75.00,29.00
+                          75.00,29.00 75.00,14.00 75.00,14.00 Z
+                      M 135.00,14.00
+                      C 135.00,14.00 145.00,14.00 145.00,14.00
+                          145.00,14.00 145.00,29.00 145.00,29.00
+                          145.00,29.00 135.00,29.00 135.00,29.00
+                          135.00,29.00 135.00,14.00 135.00,14.00 Z" />
+          </Canvas>
+      </Viewbox>
+    </Grid>
+
+    <StackPanel Grid.Row="1">
+      <Label Content="{x:Static lang:Resources.PhraseFailedBootView}"
+             FontSize="16"
+             Margin="30 10"
+             FontWeight="Medium"/>
+           
+      <ScrollViewer Margin="30 10"
+                    Height="100"
+                    VerticalAlignment="Top"
+                    HorizontalAlignment="Left"
+                    HorizontalContentAlignment="Left"
+                    HorizontalScrollBarVisibility="Disabled"
+                    VerticalScrollBarVisibility="Auto">       
+          <ListBox ItemsSource="{Binding Errors}"
+                    SelectedItems="{Binding SelectedError}"
+                    SelectionMode="Multiple,Toggle"
+                    Background="{StaticResource lsSelectedIntances}">
+
+                <ListBox.ItemsPanel>
+                    <ItemsPanelTemplate>                                
+                      <StackPanel Orientation="Vertical"/>
+                    </ItemsPanelTemplate>
+                </ListBox.ItemsPanel>
+
+                <ListBox.Styles>
+                  <Style Selector="ListBoxItem">
+                    <Setter Property="BorderBrush" Value="Transparent"/>
+                    <Setter Property="BorderThickness" Value="0"/>
+                    <Setter Property="Padding" Value="4"/>                                
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>  
+                    <Setter Property="VerticalContentAlignment" Value="Center"/>
+                    <Setter Property="Height" Value="45"/>
+
+                    <Setter Property="Template">
+                      <ControlTemplate>
+                          <Border x:Name="Bd"
+                                  CornerRadius="5"
+                                  Background="{TemplateBinding Background}"
+                                  BorderThickness="{TemplateBinding BorderThickness}"
+                                  BorderBrush="{TemplateBinding BorderBrush}"
+                                  Padding="{TemplateBinding Padding}">
+                              <ContentPresenter Name="PART_ContentPresenter"
+                                                HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                                ContentTemplate="{TemplateBinding ContentTemplate}"
+                                                Content="{TemplateBinding Content}"/>
+                          </Border>
+                      </ControlTemplate>
+                    </Setter>
+                  </Style>
+
+                  <Style Selector="ListBoxItem:pointerover /template/ Border#Bd">
+                    <Setter Property="Background" Value="#4027da48"/>
+                  </Style>
+
+                  <Style Selector="ListBoxItem:pointerover /template/ ContentPresenter">
+                    <Setter Property="Background" Value="Transparent"/>
+                  </Style>
+
+                  <Style Selector="ListBoxItem:selected /template/ Border#Bd">
+                    <Setter Property="Background" Value="#7027da48"/>
+                  </Style>
+
+                  <Style Selector="ListBoxItem:selected /template/ ContentPresenter">
+                    <Setter Property="Background" Value="Transparent"/>
+                  </Style>
+                  
+                  <Style Selector="ListBoxItem:selected:focus /template/ Border#Bd">
+                    <Setter Property="Background" Value="#7027da48"/>
+                  </Style>
+
+                  <Style Selector="ListBoxItem:selected:focus /template/ ContentPresenter">
+                    <Setter Property="Background" Value="Transparent"/>
+                  </Style>
+
+                  <Style Selector="ListBoxItem:selected:pointerover /template/ Border#Bd">
+                    <Setter Property="Background" Value="#7027da48"/>
+                  </Style>
+
+                  <Style Selector="ListBoxItem:selected:pointerover /template/ ContentPresenter">
+                    <Setter Property="Background" Value="Transparent"/>
+                  </Style>
+
+                  <Style Selector="ListBoxItem:selected:focus:pointerover /template/ Border#Bd">
+                    <Setter Property="Background" Value="#7027da48"/>
+                  </Style>
+
+                  <Style Selector="ListBoxItem:selected:focus:pointerover /template/ ContentPresenter">
+                    <Setter Property="Background" Value="Transparent"/>
+                  </Style>
+                </ListBox.Styles>
+
+                <ListBox.ItemTemplate>
+                  <DataTemplate>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        
+                        <TextBlock Grid.Column="0"
+                                   Margin="5"
+                                   FontSize="14"
+                                   Text="{Binding .}"
+                                   TextWrapping="Wrap"
+                                   TextAlignment="Center"
+                                   Foreground="White"
+                                   FontWeight="Regular"
+                                   VerticalAlignment="Center"
+                                   HorizontalAlignment="Left"/>
+                    </Grid>
+                  </DataTemplate>
+                </ListBox.ItemTemplate>
+          </ListBox>
+      </ScrollViewer>
+
+      <StackPanel Margin="30 10"
+                  Orientation="Horizontal">
+        <Button Width="100"
+                Height="25"
+                Margin="3,0"
+                Content="{x:Static lang:Resources.ExportFailedBootView}"
+                Classes="btnApply"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Click="SaveErrorFile_Clicked"/>
+
+        <Button Width="100"
+                Height="25"
+                Margin="3,0"
+                Content="{x:Static lang:Resources.ExitFailedBootView}"
+                Classes="btnApply"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Command="{Binding AppCloseCommand}"/>
+      </StackPanel>
+    </StackPanel>    
+  </Grid>
+</UserControl>

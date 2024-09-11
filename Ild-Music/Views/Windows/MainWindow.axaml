@@ -1,0 +1,975 @@
+    <Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:Ild_Music.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        
+        xmlns:conv="clr-namespace:Ild_Music.Converters"
+        xmlns:v="clr-namespace:Ild_Music.Views"
+        xmlns:lang="clr-namespace:Ild_Music.Assets"
+        xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
+        xmlns:ia="clr-namespace:Avalonia.Xaml.Interactions.Core;assembly=Avalonia.Xaml.Interactions"
+
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="Ild_Music.Views.MainWindow"
+        x:DataType="vm:MainWindowViewModel"
+        Icon="/Assets/ild-music-logo.ico"
+        SystemDecorations="None"
+        WindowStartupLocation="CenterScreen"
+        DragDrop.AllowDrop="True">
+
+    <Window.Resources>
+        <conv:IconConverter x:Key="IconConverter"/>
+        <conv:InstanceConverter x:Key="InstanceConverter"/>
+        <conv:IndicatorConverter x:Key="IndicatorConverter"/>
+        <conv:ListActivityConverter x:Key="ListActivityConverter"/>
+        <conv:PlayerToggleButtonConverter x:Key="PlayerToggleButtonConverter"/>
+    </Window.Resources>
+
+    <Window.Styles>
+        <Style Selector="Border.WindowButton Canvas Path">
+            <Setter Property="Fill" Value="#7b7f6b"/>
+        </Style>
+        <Style Selector="Border.WindowButton:pointerover Canvas Path">
+            <Setter Property="Fill" Value="#6ed48b"/>
+        </Style>
+
+        <Style Selector="Border.NavBarItem">
+            <Setter Property="Background" Value="Transparent"/>
+        </Style>
+        <Style Selector="Border.NavBarItem:pointerover">
+            <Setter Property="Background" Value="#80484d4f"/>
+        </Style>
+
+        <Style Selector="Border.PlayerButton Viewbox Canvas Path">
+            <Setter Property="Fill" Value="#7b7f6b"/>
+        </Style>
+        <Style Selector="Border.PlayerButton:pointerover Viewbox Canvas Path">
+            <Setter Property="Fill" Value="#6ed48b"/>
+        </Style>
+        <Style Selector="Border.PlayerButton:pointerpressed Viewbox Canvas Path">
+            <Setter Property="Fill" Value="#6ed48b"/>
+        </Style>
+
+        <Style Selector="Grid.CurrentTrackArea Ellipse.Indicator">
+            <Setter Property="Fill" Value="Transparent"/>
+        </Style>
+        <Style Selector="Grid.CurrentTrackArea:pointerover Ellipse.Indicator">
+            <Setter Property="Fill" Value="#27da48"/>
+        </Style>
+
+        <Style Selector="Border.SearchButton PathIcon">
+            <Setter Property="Foreground" Value="#7f7f7f"/>
+        </Style>
+        <Style Selector="Border.SearchButton:pointerover PathIcon">
+            <Setter Property="Foreground" Value="#a0a0a0"/>
+        </Style>
+
+        <Style Selector="Window">
+            <Setter Property="Template">
+                <ControlTemplate>
+                    <Grid x:Name="MainGrid"
+                          Background="#2e2e2e">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="auto"/>
+                        </Grid.RowDefinitions>
+                        
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        
+                        <Border Grid.Column="0"
+                                Grid.ColumnSpan="3"
+                                Grid.Row="0"
+                                Grid.RowSpan="3"
+                                IsVisible="{Binding IsActivePopup}"
+                                Background="Transparent"
+                                PointerPressed="OnHidePopups"
+                                ZIndex="2"/>
+
+                        <Border x:Name="VolumeArea"
+                                Classes="volumePopup"
+                                Classes.open="{Binding VolumeSliderOpen}"
+                                ZIndex="3"
+                                Grid.Row="0"
+                                Grid.RowSpan="3"
+                                CornerRadius="5,5,0,0"
+                                Background="#20000000"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Bottom">
+                            <Border.Styles>
+                                <Style Selector="Border.volumePopup">
+                                    <Setter Property="Width" Value="0"/>
+                                    <Setter Property="Height" Value="0"/>
+                                </Style>
+
+                                <Style Selector="Border.volumePopup Slider.volumeSlider">
+                                    <Setter Property="Width" Value="0"/>
+                                    <Setter Property="Height" Value="0"/>
+                                </Style>
+
+                                <Style Selector="Border.volumePopup.open">
+                                    <Setter Property="Width" Value="36"/>
+                                    <Setter Property="Height" Value="100"/>
+                                </Style>
+
+                                <Style Selector="Border.volumePopup.open Slider.volumeSlider">
+                                    <Setter Property="Width" Value="10"/>
+                                    <Setter Property="Height" Value="100"/>
+                                </Style>
+                            </Border.Styles>
+
+                            <Slider x:Name="VolumeSlider"
+                                    Classes="volumeSlider"
+                                    Orientation="Vertical"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Bottom"
+                                    Maximum="{Binding MaxVolume, Mode=OneWay}"
+                                    Minimum="{Binding MinVolume, Mode=OneWay}"
+                                    Value="{Binding CurrentVolume, Mode=TwoWay}">
+                                <Slider.Resources>
+                                    <x:Double x:Key="SliderVerticalThumbWidth">10</x:Double>
+                                    <x:Double x:Key="SliderVerticalThumbHeight">10</x:Double>
+                                    <x:Double x:Key="SliderVerticalWidth">5</x:Double>
+                                    <GridLength x:Key="SliderPreContentMargin">0</GridLength>
+                                    <GridLength x:Key="SliderPostContentMargin">0</GridLength>
+                                </Slider.Resources>
+
+                                <Slider.Styles>
+                                    <Style Selector="Slider.volumeSlider /template/ RepeatButton#PART_DecreaseButton">
+                                        <Setter Property="Background" Value="#34eb64"/>
+                                        <Setter Property="Margin" Value="0, 0, 0, 10"/>
+                                    </Style>
+
+                                    <Style Selector="Slider.volumeSlider /template/ RepeatButton#PART_IncreaseButton">
+                                        <Setter Property="Background" Value="#2b4532"/>
+                                        <Setter Property="Margin" Value="0, 10, 0, 0"/>
+                                    </Style>         
+
+                                    <Style Selector="Slider.volumeSlider Thumb">
+                                        <Setter Property="Template">
+                                            <ControlTemplate>
+                                                <Ellipse Width="10" Height="10" Fill="#19e04e" />
+                                            </ControlTemplate>
+                                        </Setter>
+                                    </Style>                                     
+                                </Slider.Styles>
+                            </Slider>
+                        </Border>
+
+                        <Border x:Name="SearchArea"
+                                ZIndex="3"
+                                Grid.Row="0"
+                                Grid.RowSpan="3"
+                                CornerRadius="10"
+                                Background="#3a3a3a"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Bottom"
+                                Classes="searchPopup"
+                                IsVisible="{Binding SearchAreaOpen}"
+                                Height="200">
+                            <ScrollViewer Margin="0"
+                                          Width="{Binding #SearchBar.Width}"
+                                          Height="200"
+                                          HorizontalAlignment="Stretch"
+                                          VerticalAlignment="Bottom"
+                                          HorizontalScrollBarVisibility="Disabled"
+                                          VerticalScrollBarVisibility="Auto">
+                                <ListBox ItemsSource="{Binding SearchItems}"
+                                          SelectedItem="{Binding SearchItem}"
+                                          HorizontalAlignment="Stretch"
+                                          ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                                          ScrollViewer.VerticalScrollBarVisibility="Visible"
+                                          Background="Transparent">
+                                     <ListBox.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <StackPanel Orientation="Vertical"/>
+                                        </ItemsPanelTemplate>
+                                     </ListBox.ItemsPanel>
+
+                                     <ListBox.Styles>
+                                        <Style Selector="ListBoxItem">
+                                            <Setter Property="BorderBrush" Value="Transparent"/>
+                                            <Setter Property="BorderThickness" Value="0"/>
+                                            <Setter Property="CornerRadius" Value="{Binding #SearchArea.CornerRadius}"/>
+                                            <Setter Property="Margin" Value="0"/>
+                                            <Setter Property="Padding" Value="0"/>
+                                            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+
+                                            <Setter Property="Template">
+                                                <ControlTemplate>
+                                                    <Grid>
+                                                        <Border x:Name="Bd"
+                                                                Margin="{TemplateBinding Margin}"
+                                                                CornerRadius="{TemplateBinding CornerRadius}"
+                                                                Background="{TemplateBinding Background}"
+                                                                BorderThickness="{TemplateBinding BorderThickness}"
+                                                                BorderBrush="{TemplateBinding BorderBrush}"
+                                                                Padding="{TemplateBinding Padding}">
+                                                        <ContentPresenter Name="PART_ContentPresenter"
+                                                                          HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                                          VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                                                          ContentTemplate="{TemplateBinding ContentTemplate}"
+                                                                          Content="{TemplateBinding Content}"/>
+                                                        </Border>
+                                                    </Grid>
+                                                </ControlTemplate>
+                                            </Setter>
+                                        </Style>
+
+                                        <Style Selector="ListBoxItem:pointerover /template/ Border#Bd">
+                                          <Setter Property="Background" Value="#4027da48"/>
+                                        </Style>
+
+                                        <Style Selector="ListBoxItem:pointerover /template/ ContentPresenter">
+                                            <Setter Property="Background" Value="Transparent"/>
+                                        </Style>
+
+                                        <Style Selector="ListBoxItem:selected /template/ Border#Bd">
+                                            <Setter Property="Background" Value="#7027da48"/>
+                                        </Style>
+
+                                        <Style Selector="ListBoxItem:selected /template/ ContentPresenter">
+                                            <Setter Property="Background" Value="Transparent"/>
+                                        </Style>
+                                
+                                        <Style Selector="ListBoxItem:selected:focus /template/ Border#Bd">
+                                            <Setter Property="Background" Value="#7027da48"/>
+                                        </Style>
+
+                                        <Style Selector="ListBoxItem:selected:focus /template/ ContentPresenter">
+                                            <Setter Property="Background" Value="Transparent"/>
+                                        </Style>
+
+                                        <Style Selector="ListBoxItem:selected:pointerover /template/ Border#Bd">
+                                          <Setter Property="Background" Value="#7027da48"/>
+                                        </Style>
+
+                                        <Style Selector="ListBoxItem:selected:pointerover /template/ ContentPresenter">
+                                            <Setter Property="Background" Value="Transparent"/>
+                                        </Style>
+
+                                        <Style Selector="ListBoxItem:selected:focus:pointerover /template/ Border#Bd">
+                                            <Setter Property="Background" Value="#7027da48"/>
+                                        </Style>
+
+                                        <Style Selector="ListBoxItem:selected:focus:pointerover /template/ ContentPresenter">
+                                            <Setter Property="Background" Value="Transparent"/>
+                                        </Style>
+                                     </ListBox.Styles>
+                                    
+                                     <i:Interaction.Behaviors>
+                                         <ia:EventTriggerBehavior EventName="DoubleTapped">
+                                             <ia:InvokeCommandAction Command="{Binding SelectSearchItemCommand}"/>
+                                         </ia:EventTriggerBehavior>  
+                                     </i:Interaction.Behaviors>
+                                     <ListBox.ItemTemplate>
+                                        <DataTemplate>                                     
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                            </Grid.ColumnDefinitions> 
+                                            
+                                            <Image Grid.Column="0"
+                                                   Width="40"
+                                                   Height="40"
+                                                   Stretch="UniformToFill"
+                                                   Source="{Binding ., Converter={StaticResource IconConverter}, ConverterParameter=dto_icon}"/>
+
+                                            <TextBlock Grid.Column="1"
+                                                       Margin="5, 0" 
+                                                       HorizontalAlignment="Stretch"
+                                                       VerticalAlignment="Center"
+                                                       Foreground="White"
+                                                       FontSize="14"
+                                                       FontWeight="Medium"
+                                                       Text="{Binding ., Converter={StaticResource InstanceConverter}, ConverterParameter=name}"
+                                                       TextAlignment="Left"/>
+                                        </Grid>
+                                        </DataTemplate>
+                                     </ListBox.ItemTemplate>
+                                </ListBox>
+                            </ScrollViewer>
+                        </Border>
+                        
+                        <Border x:Name="CurrentInstanceArea"
+                                ZIndex="3"
+                                Height="100"
+                                Width="350"
+                                Grid.Row="0"
+                                Grid.RowSpan="3"
+                                CornerRadius="10"
+                                Background="#80212121"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Bottom"
+                                Classes="currentInstanceAreaPopup"
+                                IsVisible="{Binding IsActiveCurrentTab}">
+
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="auto"/>
+                                </Grid.ColumnDefinitions>
+
+                                <Border Grid.Column="0"
+                                        Width="70"
+                                        Height="70"
+                                        Margin="10 5"
+                                        CornerRadius="10"
+                                        Background="Transparent">
+                                    <Border.Background>
+                                        <ImageBrush Source="{Binding CurrentTrack, Converter={StaticResource IconConverter}, ConverterParameter=track_icon}"/>
+                                    </Border.Background>
+                                </Border>
+
+                                <StackPanel Grid.Column="1">
+                                    <TextBlock Margin="10,20,0,0"
+                                               Text="{Binding CurrentTrack, Converter={StaticResource InstanceConverter}, ConverterParameter=name}"  
+                                               FontSize="16"
+                                               FontWeight="UltraBlack"
+                                               Foreground="White"
+                                               HorizontalAlignment="Left"
+                                               VerticalAlignment="Bottom"
+                                               TextAlignment="Center"/>
+                                               
+                                    <TextBlock Margin="0,2,0,3"
+                                               Text="{Binding CurrentTrack, Converter={StaticResource InstanceConverter}, ConverterParameter=year}"
+                                               FontSize="12"
+                                               FontWeight="Light"
+                                               Foreground="White"
+                                               HorizontalAlignment="Left"
+                                               VerticalAlignment="Bottom"
+                                               TextAlignment="Center"/>
+
+                                    <TextBlock Margin="0,3,0,2"
+                                               Text="{Binding CurrentTrack, Converter={StaticResource InstanceConverter}, ConverterParameter=desc}"
+                                               FontSize="14"
+                                               FontWeight="Light"
+                                               Foreground="White"
+                                               HorizontalAlignment="Left"
+                                               VerticalAlignment="Bottom"
+                                               TextAlignment="Center"/>                                             
+                                </StackPanel>
+                                
+                                <Border Grid.Column="2" 
+                                        Width="50"
+                                        Height="50"
+                                        HorizontalAlignment="Right"
+                                        VerticalAlignment="Top"
+                                        Margin="2, -5">
+                                    <i:Interaction.Behaviors>
+                                        <ia:EventTriggerBehavior EventName="Tapped">
+                                            <ia:InvokeCommandAction Command="{Binding HideCurrentInstanceTabCommand}"/>
+                                        </ia:EventTriggerBehavior>  
+                                    </i:Interaction.Behaviors>
+                                    <PathIcon Foreground="#c3c3c3"
+                                                Background="Transparent"
+                                                VerticalAlignment="Stretch"
+                                                HorizontalAlignment="Stretch"
+                                                Data="M20,14H4V10H20"/>
+                               </Border>
+                            </Grid>
+                        </Border>
+
+                        <!--Main Area-->
+                        <Grid Grid.Row="0"
+                              Grid.ColumnSpan="2"
+                              ColumnDefinitions = "auto, *"
+                              Background="Transparent">
+                            <!--NavBar-->
+                            <Grid x:Name="NavBar"
+                                  IsVisible="{Binding BorderComponentsVisiblity}" 
+                                  Grid.Column="0" 
+                                  Background="#40000000"
+                                  HorizontalAlignment="Stretch">
+                                <!--NavBarItems-->
+                                <StackPanel VerticalAlignment="Top"
+                                            HorizontalAlignment="Center">
+                                    <Viewbox Classes="vb"
+                                             Width="170"
+                                             Height="25"
+                                             Margin="40, 10, 10, 10"
+                                             HorizontalAlignment="Stretch"
+                                             VerticalAlignment="Top">
+                                        <Canvas Width="170" Height="30">
+                                            <Path Fill="#27da48" Data="M 30.00,0.00
+                                                    C 30.00,0.00 40.00,0.00 40.00,0.00
+                                                        40.00,0.00 40.00,34.00 40.00,34.00
+                                                        40.00,34.00 30.00,34.00 30.00,34.00
+                                                        30.00,34.00 30.00,0.00 30.00,0.00 Z
+                                                    M 105.00,0.00
+                                                    C 105.00,0.00 115.00,0.00 115.00,0.00
+                                                        115.00,0.00 115.00,34.00 115.00,34.00
+                                                        115.00,34.00 105.00,34.00 105.00,34.00
+                                                        105.00,34.00 105.00,0.00 105.00,0.00 Z
+                                                    M 15.00,6.00
+                                                    C 15.00,6.00 25.00,6.00 25.00,6.00
+                                                        25.00,6.00 25.00,29.00 25.00,29.00
+                                                        25.00,29.00 15.00,29.00 15.00,29.00
+                                                        15.00,29.00 15.00,6.00 15.00,6.00 Z
+                                                    M 45.00,6.00
+                                                    C 45.00,6.00 55.00,6.00 55.00,6.00
+                                                        55.00,6.00 55.00,29.00 55.00,29.00
+                                                        55.00,29.00 45.00,29.00 45.00,29.00
+                                                        45.00,29.00 45.00,6.00 45.00,6.00 Z
+                                                    M 90.00,6.00
+                                                    C 90.00,6.00 100.00,6.00 100.00,6.00
+                                                        100.00,6.00 100.00,29.00 100.00,29.00
+                                                        100.00,29.00 90.00,29.00 90.00,29.00
+                                                        90.00,29.00 90.00,6.00 90.00,6.00 Z
+                                                    M 120.00,6.00
+                                                    C 120.00,6.00 130.00,6.00 130.00,6.00
+                                                        130.00,6.00 130.00,29.00 130.00,29.00
+                                                        130.00,29.00 120.00,29.00 120.00,29.00
+                                                        120.00,29.00 120.00,6.00 120.00,6.00 Z
+                                                    M 0.00,14.00
+                                                    C 0.00,14.00 10.00,14.00 10.00,14.00
+                                                        10.00,14.00 10.00,29.00 10.00,29.00
+                                                        10.00,29.00 0.00,29.00 0.00,29.00
+                                                        0.00,29.00 0.00,14.00 0.00,14.00 Z
+                                                    M 60.00,14.00
+                                                    C 60.00,14.00 70.00,14.00 70.00,14.00
+                                                        70.00,14.00 70.00,29.00 70.00,29.00
+                                                        70.00,29.00 60.00,29.00 60.00,29.00
+                                                        60.00,29.00 60.00,14.00 60.00,14.00 Z
+                                                    M 75.00,14.00
+                                                    C 75.00,14.00 85.00,14.00 85.00,14.00
+                                                        85.00,14.00 85.00,29.00 85.00,29.00
+                                                        85.00,29.00 75.00,29.00 75.00,29.00
+                                                        75.00,29.00 75.00,14.00 75.00,14.00 Z
+                                                    M 135.00,14.00
+                                                    C 135.00,14.00 145.00,14.00 145.00,14.00
+                                                        145.00,14.00 145.00,29.00 145.00,29.00
+                                                        145.00,29.00 135.00,29.00 135.00,29.00
+                                                        135.00,29.00 135.00,14.00 135.00,14.00 Z" />
+                                        </Canvas>
+                                    </Viewbox>
+
+                                    <Border x:Name="SearchBar"
+                                            CornerRadius="15"
+                                            BorderBrush="{StaticResource color1}"
+                                            BorderThickness="1"
+                                            Margin="10">
+                                        <StackPanel Orientation="Horizontal"
+                                                    HorizontalAlignment="Stretch">
+                                            <TextBox x:Name="SearchBox"
+                                                     Text="{Binding SearchPhrase, Mode=TwoWay}"
+                                                     Width="170"
+                                                     Watermark="{x:Static lang:Resources.SearchBarWatermark}"
+                                                     Background="Transparent"
+                                                     HorizontalAlignment="Stretch"
+                                                     BorderThickness="0"
+                                                     KeyDown="SearchBarTyped">
+                                                <TextBox.Styles>
+                                                    <Style Selector="#SearchBar TextBox">
+                                                      <Setter Property="BorderThickness" Value="0"/>
+                                                      <Setter Property="Background" Value="Transparent"/>
+                                                      <Setter Property="BorderBrush" Value="{StaticResource btnApplyColor1}"/>
+                                                      <Setter Property="SelectionBrush" Value="#0b3338"/>
+                                                    </Style>
+
+                                                    <Style Selector="#SearchBar:pointerover TextBox /template/ Border#PART_BorderElement">
+                                                      <Setter Property="BorderThickness" Value="0"/>
+                                                      <Setter Property="Background" Value="Transparent"/>
+                                                      <Setter Property="BorderBrush" Value="{StaticResource btnApplyColor1}"/>
+                                                    </Style>
+
+                                                    <Style Selector="#SearchBar:focus TextBox /template/ Border#PART_BorderElement">
+                                                      <Setter Property="BorderThickness" Value="0"/>
+                                                      <Setter Property="Background" Value="Transparent"/>
+                                                      <Setter Property="BorderBrush" Value="{StaticResource btnApplyColor1}"/>
+                                                    </Style>
+
+                                                    <Style Selector="#SearchBar:focus:pointerover TextBox /template/ Border#PART_BorderElement">
+                                                      <Setter Property="BorderThickness" Value="0"/>
+                                                      <Setter Property="Background" Value="Transparent"/>
+                                                      <Setter Property="BorderBrush" Value="{StaticResource btnApplyColor1}"/>
+                                                    </Style>
+
+                                                    <Style Selector="#SearchBox:pointerover /template/ Border#PART_BorderElement">
+                                                      <Setter Property="BorderThickness" Value="0"/>
+                                                      <Setter Property="Background" Value="Transparent"/>
+                                                      <Setter Property="BorderBrush" Value="{StaticResource btnApplyColor1}"/>
+                                                    </Style>
+
+                                                    <Style Selector="#SearchBox:focus /template/ Border#PART_BorderElement">
+                                                      <Setter Property="BorderThickness" Value="0"/>
+                                                      <Setter Property="Background" Value="Transparent"/>
+                                                      <Setter Property="BorderBrush" Value="{StaticResource btnApplyColor1}"/>
+                                                    </Style>
+
+                                                    <Style Selector="#SearchBox:focus:pointerover /template/ Border#PART_BorderElement">
+                                                      <Setter Property="BorderThickness" Value="0"/>
+                                                      <Setter Property="Background" Value="Transparent"/>
+                                                      <Setter Property="BorderBrush" Value="{StaticResource btnApplyColor1}"/>
+                                                    </Style>
+                                                </TextBox.Styles>
+                                            </TextBox>
+                                            
+                                            <Border Classes="SearchButton"
+                                                    Width="15"
+                                                    Height="15"
+                                                    Margin="5"
+                                                    BorderThickness="0"
+                                                    CornerRadius="5"
+                                                    HorizontalAlignment="Right"
+                                                    VerticalAlignment="Center"
+                                                    IsVisible="{Binding SearchPhrase, TargetNullValue=False}">
+                                                <i:Interaction.Behaviors>
+                                                    <ia:EventTriggerBehavior EventName="PointerPressed">
+                                                        <ia:InvokeCommandAction Command="{Binding SearchAreaHideCommand}"/>
+                                                    </ia:EventTriggerBehavior>  
+                                                </i:Interaction.Behaviors>
+                                                <PathIcon HorizontalAlignment="Center"
+                                                            VerticalAlignment="Center"
+                                                            Width="15"
+                                                            Height="15"
+                                                            Background="Transparent"
+                                                            Data="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z">
+                                                  </PathIcon>
+                                            </Border>
+
+                                            <Border Classes="SearchButton"
+                                                    Width="15"
+                                                    Height="15"
+                                                    Margin="5"
+                                                    BorderThickness="0"
+                                                    CornerRadius="5"
+                                                    HorizontalAlignment="Right"
+                                                    VerticalAlignment="Center">
+                                                <i:Interaction.Behaviors>
+                                                    <ia:EventTriggerBehavior EventName="PointerPressed">
+                                                        <ia:InvokeCommandAction Command="{Binding SearchCommand}"/>
+                                                    </ia:EventTriggerBehavior>  
+                                                </i:Interaction.Behaviors>
+                                              <PathIcon HorizontalAlignment="Center"
+                                                        VerticalAlignment="Center"
+                                                        Width="15"
+                                                        Height="15"
+                                                        Background="Transparent"
+                                                        Data="M9.5,3A6.5,6.5 0 0,1 16,9.5C16,11.11 15.41,12.59 14.44,13.73L14.71,14H15.5L20.5,19L19,20.5L14,15.5V14.71L13.73,14.44C12.59,15.41 11.11,16 9.5,16A6.5,6.5 0 0,1 3,9.5A6.5,6.5 0 0,1 9.5,3M9.5,5C7,5 5,7 5,9.5C5,12 7,14 9.5,14C12,14 14,12 14,9.5C14,7 12,5 9.5,5Z"/>
+                                            </Border>
+                                        </StackPanel>
+                                    </Border>
+
+                                    <Border Width="200"
+                                            Margin="8, 2"
+                                            CornerRadius="10"
+                                            Classes="NavBarItem"
+                                            VerticalAlignment="Top"
+                                            HorizontalAlignment="Center"
+                                            PointerPressed="HomeNavBarClicked">
+                                        <Border.Styles>
+                                            <Style Selector="Border.NavBarItem Viewbox Canvas Path.NavIcon">
+                                                <Setter Property="Fill" Value="#7b7f6b"/>
+                                            </Style>
+                                        </Border.Styles>
+
+                                        <StackPanel Orientation="Horizontal"
+                                                    HorizontalAlignment="Left">
+                                            <Viewbox Classes="vb"
+                                                    Width="25"
+                                                    Height="25"
+                                                    Margin="10, 5"
+                                                    HorizontalAlignment="Left">
+                                                <Canvas Width="24"
+                                                        Height="24">
+                                                    <Path Classes="NavIcon" Data="M 12 2 A 1 1 0 0 0 11.289062 2.296875 L 1.203125 11.097656 A 0.5 0.5 0 0 0 1 11.5 A 0.5 0.5 0 0 0 1.5 12 L 4 12 L 4 20 C 4 20.552 4.448 21 5 21 L 9 21 C 9.552 21 10 20.552 10 20 L 10 14 L 14 14 L 14 20 C 14 20.552 14.448 21 15 21 L 19 21 C 19.552 21 20 20.552 20 20 L 20 12 L 22.5 12 A 0.5 0.5 0 0 0 23 11.5 A 0.5 0.5 0 0 0 22.796875 11.097656 L 12.716797 2.3027344 A 1 1 0 0 0 12.710938 2.296875 A 1 1 0 0 0 12 2 z"/>
+                                                </Canvas>
+                                            </Viewbox>
+                                            
+                                            <Label FontSize="16"
+                                                    Margin="5"
+                                                    FontWeight="Regular"
+                                                    Content = "{x:Static lang:Resources.HomeNavbarItem}"/>
+                                        </StackPanel>
+                                    </Border>
+
+                                    <Border Width="200"
+                                            Margin="8, 2"
+                                            CornerRadius="10"
+                                            Classes="NavBarItem"
+                                            VerticalAlignment="Top"
+                                            HorizontalAlignment="Center"
+                                            PointerPressed="ListNavBarClicked">
+                                        <Border.Styles>
+                                            <Style Selector="Border.NavBarItem Viewbox Canvas Path.NavIcon">
+                                                <Setter Property="Fill" Value="#7b7f6b"/>
+                                            </Style>
+                                        </Border.Styles>
+
+                                        <StackPanel Orientation="Horizontal"
+                                                    HorizontalAlignment="Left">
+                                            <Viewbox Classes="vb"
+                                                    Width="25"
+                                                    Height="25"
+                                                    Margin="10, 5"
+                                                    HorizontalAlignment="Left">
+                                                <Canvas Width="24"
+                                                        Height="24">
+                                                    <Path Classes="NavIcon" Data="M4 20H18V22H4C2.9 22 2 21.1 2 20V6H4V20M22 4V16C22 17.1 21.1 18 20 18H8C6.9 18 6 17.1 6 16V4C6 2.9 6.9 2 8 2H20C21.1 2 22 2.9 22 4M20 4H8V16H20V4M18 6H13V13L15.5 11.5L18 13V6Z" />
+                                                </Canvas>
+                                            </Viewbox>
+                                            
+                                            <Label FontSize="16"
+                                                    Margin="5"
+                                                    FontWeight="Regular"
+                                                    Content = "{x:Static lang:Resources.ListNavbarItem}"/>
+                                        </StackPanel>
+                                    </Border>
+
+                                    <Border Width="200"
+                                            Margin="8, 2"
+                                            CornerRadius="10"
+                                            Classes="NavBarItem"
+                                            VerticalAlignment="Top"
+                                            HorizontalAlignment="Center"
+                                            PointerPressed="BrowseNavBarClicked">
+                                        <Border.Styles>
+                                            <Style Selector="Border.NavBarItem Viewbox Canvas Path.NavIcon">
+                                                <Setter Property="Fill" Value="#7b7f6b"/>
+                                            </Style>
+                                        </Border.Styles>
+
+                                        <StackPanel Orientation="Horizontal"
+                                                    HorizontalAlignment="Left">
+                                            <Viewbox Classes="vb"
+                                                    Width="25"
+                                                    Height="25"
+                                                    Margin="10, 5"
+                                                    HorizontalAlignment="Left">
+                                                <Canvas Width="24"
+                                                        Height="24">
+                                                    <Path Classes="NavIcon" Data="M12,10L8,14H11V20H13V14H16M19,4H5C3.89,4 3,4.9 3,6V18A2,2 0 0,0 5,20H9V18H5V8H19V18H15V20H19A2,2 0 0,0 21,18V6A2,2 0 0,0 19,4Z" />
+                                                </Canvas>
+                                            </Viewbox>
+                                            
+                                            <Label FontSize="16"
+                                                    Margin="5"
+                                                    FontWeight="Regular"
+                                                    Content = "{x:Static lang:Resources.BrowseNavbarItem}"/>
+                                        </StackPanel>
+                                    </Border>
+                                </StackPanel>
+                            </Grid>
+
+                            <!--ContextArea-->
+                            <Grid Grid.Column="2"
+                                  Grid.ColumnSpan="2">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="auto"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+
+                                <Grid Grid.Row="0" ZIndex="3">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    
+                                    <!--DragMove area-->                          
+                                    <Grid x:Name="DragBar"
+                                        Grid.Column="0"
+                                        Background="Transparent"/>
+
+                                    <StackPanel Grid.Column="1"
+                                            HorizontalAlignment="Right"
+                                            Orientation="Horizontal">                                                                             
+                                        <Border Classes="WindowButton"
+                                                Width="40"
+                                                Height="40"
+                                                Background="Transparent"
+                                                Child="{StaticResource MinimizeHead}"
+                                                PointerPressed="OnHideClick"/>
+                                        <Border Classes="WindowButton"
+                                                Width="40"
+                                                Height="40"
+                                                Background="Transparent"
+                                                Child="{StaticResource MaximizeHead}"
+                                                PointerPressed="OnExpandClick"/>
+                                        <Border Classes="WindowButton"
+                                                Width="40"
+                                                Height="40"
+                                                Background="Transparent"
+                                                Child="{StaticResource CloseHead}"
+                                                PointerPressed="OnCloseClick"/>
+                                    </StackPanel>
+                                </Grid>
+                               
+                                <Grid Grid.Row="0"
+                                      Grid.RowSpan="2">
+                                    <ContentControl Content="{Binding CurrentVM}"/> 
+                                </Grid>
+                            </Grid>
+                        </Grid>
+
+                        <!--Player-->
+                        <Grid Height="40"
+                              IsVisible="{Binding BorderComponentsVisiblity}"  
+                              Grid.Row="2"
+                              ColumnSpan="3"
+                              HorizontalAlignment="Stretch">
+                            <Grid.Background>
+                                <LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,100%">
+                                    <LinearGradientBrush.GradientStops>
+                                        <GradientStop Offset="0" Color="#2b2b2b"/>
+                                        <GradientStop Offset="1" Color="#212121"/>
+                                    </LinearGradientBrush.GradientStops>
+                                </LinearGradientBrush>
+                            </Grid.Background>
+
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="0.5*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <!-- Player Buttons Area -->
+                            <StackPanel Grid.Column="0"
+                                        Orientation="Horizontal"
+                                        VerticalAlignment="Top"
+                                        HorizontalAlignment="Left"
+                                        Margin="15,0,0,0">
+                                <Border Classes="PlayerButton"
+                                        Background="#00000000"
+                                        Margin="0,5">
+                                        <i:Interaction.Behaviors>
+                                            <ia:EventTriggerBehavior EventName="Tapped">
+                                                <ia:InvokeCommandAction Command="{Binding PreviousCommand}"/>
+                                            </ia:EventTriggerBehavior>  
+                                        </i:Interaction.Behaviors>
+                                        <Border>
+                                            <Viewbox Classes="vb" Margin="2,0" HorizontalAlignment="Left">
+                                                <Canvas Width="30" Height="30">
+                                                    <Path Data="M6,6H8V18H6M9.5,12L18,18V6M16,14.14L12.97,12L16,9.86V14.14Z" />
+                                                </Canvas>
+                                            </Viewbox>
+                                        </Border>
+                                </Border>
+                                
+                                <Border Classes="PlayerButton"
+                                        Background="#00000000"
+                                        Margin="0,5">
+                                        <i:Interaction.Behaviors>
+                                            <ia:EventTriggerBehavior EventName="Tapped">
+                                                <ia:InvokeCommandAction Command="{Binding KickCommand}"/>
+                                            </ia:EventTriggerBehavior>  
+                                        </i:Interaction.Behaviors>
+                                        <Border>
+                                            <Viewbox Classes="vb"
+                                                        Margin="2,0" 
+                                                        HorizontalAlignment="Left">
+                                                <Canvas Width="30" Height="30">
+                                                    <Path Data="{Binding PlayerState, Converter={StaticResource PlayerToggleButtonConverter}}"/>
+                                                </Canvas>
+                                            </Viewbox>
+                                        </Border>
+                                </Border>
+
+                                <Border Classes="PlayerButton"
+                                        Background="#00000000"
+                                        Margin="0,5">
+                                        <i:Interaction.Behaviors>
+                                            <ia:EventTriggerBehavior EventName="Tapped">
+                                                <ia:InvokeCommandAction Command="{Binding NextCommand}"/>
+                                            </ia:EventTriggerBehavior>  
+                                        </i:Interaction.Behaviors>
+                                        <Border>
+                                            <Viewbox Classes="vb" Margin="2,0" HorizontalAlignment="Left">
+                                                <Canvas Width="30" Height="30">
+                                                    <Path Data="M6,18L14.5,12L6,6M8,9.86L11.03,12L8,14.14M16,6H18V18H16" />
+                                                </Canvas>
+                                            </Viewbox>
+                                        </Border>
+                                </Border>
+
+                                <Border Classes="PlayerButton"
+                                        Background="#00000000"
+                                        Margin="0,5">
+                                        <i:Interaction.Behaviors>
+                                            <ia:EventTriggerBehavior EventName="Tapped">
+                                                <ia:InvokeCommandAction Command="{Binding RepeatCommand}"/>
+                                            </ia:EventTriggerBehavior>  
+                                        </i:Interaction.Behaviors>
+                                        <Border>
+                                            <Viewbox Classes="vb" Margin="2,0" HorizontalAlignment="Left">
+                                                <Canvas Width="30" Height="30">
+                                                    <Path Data="M6,5.75L10.25,10H7V16H13.5L15.5,18H7A2,2 0 0,1 5,16V10H1.75L6,5.75M18,18.25L13.75,14H17V8H10.5L8.5,6H17A2,2 0 0,1 19,8V14H22.25L18,18.25Z" />
+                                                </Canvas>
+                                            </Viewbox>
+                                        </Border>
+                                </Border>
+
+                                <Border x:Name="VolumeButton"
+                                        Classes="PlayerButton"
+                                        CornerRadius="5"
+                                        Width="36"
+                                        Margin="5">
+                                        <i:Interaction.Behaviors>
+                                            <ia:EventTriggerBehavior EventName="Tapped">
+                                                <ia:InvokeCommandAction Command="{Binding VolumeSliderShowCommand}"/>
+                                            </ia:EventTriggerBehavior>  
+                                        </i:Interaction.Behaviors>
+                                        <Border>
+                                            <Viewbox Classes="vb" Margin="2,0" HorizontalAlignment="Center">
+                                                <Canvas Width="30" Height="30">
+                                                    <Path Data="M7,9V15H11L16,20V4L11,9H7Z" />
+                                                </Canvas>
+                                            </Viewbox>
+                                        </Border>
+                                </Border>
+                            </StackPanel> 
+
+                            <!-- Slider Area -->
+                            <StackPanel x:Name="SliderArea"
+                                        Grid.Column="1"
+                                        Orientation="Horizontal"
+                                        VerticalAlignment="Top"
+                                        HorizontalAlignment="Stretch"
+                                        Margin="5,3,20,0">
+                                <Grid x:Name="SliderParent"
+                                        HorizontalAlignment="Stretch">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+                                    
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <Slider x:Name="sldThumby"
+                                            Grid.Row="0"                    
+                                            Width="{Binding #SliderArea.Bounds.Width}"
+                                            Classes="thumby"                                          
+                                            IsEnabled="{Binding PlayerState}"
+                                            Orientation="Horizontal"
+                                            Maximum="{Binding TotalTime, Mode=OneWay}"
+                                            Minimum="{Binding StartTime, Mode=OneWay}"
+                                            Value="{Binding CurrentTime, Mode=TwoWay}">
+                                            <Slider.Resources>
+                                                <x:Double x:Key="SliderHorizontalThumbWidth">13</x:Double>
+                                                <GridLength x:Key="SliderPreContentMargin">0</GridLength>
+                                                <GridLength x:Key="SliderPostContentMargin">0</GridLength>
+                                            </Slider.Resources>
+                                            <Slider.Styles>
+                                                <Style Selector="Slider.thumby /template/ RepeatButton#PART_DecreaseButton">
+                                                    <Setter Property="Background" Value="#34eb64"/>
+                                                </Style>
+
+                                                <Style Selector="Slider.thumby /template/ RepeatButton#PART_IncreaseButton">
+                                                    <Setter Property="Background" Value="#2b4532"/>
+                                                </Style>
+
+                                                <Style Selector="Slider.thumby /template/ Thumb#thumb">
+                                                    <Setter Property="Template">
+                                                        <ControlTemplate>
+                                                            <Grid>
+                                                                <Ellipse Width="13"
+                                                                            Height="13"
+                                                                            Fill="#34eb64"/>
+                                                            </Grid>
+                                                        </ControlTemplate>
+                                                    </Setter>
+                                                </Style>
+                                            </Slider.Styles>
+                                    </Slider>
+
+                                    <Grid Grid.Row="1">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                            </Grid.ColumnDefinitions>
+                                                <TextBlock Grid.Column="0" 
+                                                            Text="{Binding CurrentTimeDisplay, StringFormat=\{0:mm\\:ss\}}"
+                                                            Foreground="#6ed48b" 
+                                                            Margin="0,-10,0,0"
+                                                            FontSize="10"
+                                                            FontWeight="Light"
+                                                            HorizontalAlignment="Left"/>
+                                                <TextBlock Grid.Column="2"
+                                                            Text="{Binding TotalTimeDisplay, StringFormat=\{0:mm\\:ss\}}"
+                                                            Foreground="#6ed48b"
+                                                            Margin="0,-10,0,0"
+                                                            FontSize="10"
+                                                            FontWeight="Light"
+                                                            HorizontalAlignment="Right"/>   
+                                    </Grid>
+                                </Grid>
+                            </StackPanel>
+
+                            <!-- Current Track Area -->
+                            <Grid x:Name="CurrentInstanceTray"
+                                  Grid.Column="2"
+                                  Classes="CurrentTrackArea"
+                                  VerticalAlignment="Stretch"
+                                  HorizontalAlignment="Stretch"
+                                  IsVisible="{Binding CurrentTrack, Converter={StaticResource IndicatorConverter}}">
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock Grid.Column="1"
+                                           Margin="5,0"
+                                           FontSize="16"
+                                           FontWeight="Medium"
+                                           Foreground="#fff"
+                                           VerticalAlignment="Center"
+                                           Text="{Binding Title, Converter={StaticResource InstanceConverter}, ConverterParameter=shortname}">
+                                    <i:Interaction.Behaviors>
+                                        <ia:EventTriggerBehavior EventName="Tapped">
+                                            <ia:InvokeCommandAction Command="{Binding ShowCurrentInstanceTabCommand}"/>
+                                        </ia:EventTriggerBehavior>  
+                                    </i:Interaction.Behaviors>
+                                </TextBlock>
+
+                                <Border Margin="0,5"
+                                        Grid.Column="2"
+                                        Classes="PlayerButton"
+                                        Background="#00000000"
+                                        IsVisible="{Binding CurrentTrack, Converter={StaticResource IndicatorConverter}}">
+                                    <i:Interaction.Behaviors>
+                                        <ia:EventTriggerBehavior EventName="Tapped">
+                                            <ia:InvokeCommandAction Command="{Binding ResolveCurrentInstanceCommand}"/>
+                                        </ia:EventTriggerBehavior>  
+                                    </i:Interaction.Behaviors>
+                                    <Border>
+                                        <Viewbox Classes="vb" Margin="2,0" HorizontalAlignment="Left">
+                                            <Canvas Width="30" Height="30">
+                                                <Path Data="M11 9H13V7H11V9M14 17V15H13V11H10V13H11V15H10V17H14M5 3H19C20.1 3 21 3.89 21 5V19C21 19.53 20.79 20.04 20.41 20.41C20.04 20.79 19.53 21 19 21H5C4.47 21 3.96 20.79 3.59 20.41C3.21 20.04 3 19.53 3 19V5C3 3.89 3.89 3 5 3M19 19V5H5V19H19Z" />
+                                            </Canvas>
+                                        </Viewbox>
+                                    </Border>
+                                </Border>
+                            </Grid>
+                        </Grid>
+                    </Grid>
+                </ControlTemplate>
+            </Setter>
+        </Style>
+    </Window.Styles>
+
+    <Window.KeyBindings>
+        <KeyBinding Gesture="Space" Command="{Binding KickCommand}"/>
+        <KeyBinding Gesture="Ctrl+Shift+j" Command="{Binding NextCommand}"/>
+        <KeyBinding Gesture="Ctrl+Shift+h" Command="{Binding PreviousCommand}"/>
+        <KeyBinding Gesture="Ctrl+r" Command="{Binding RepeatCommand}"/>
+        <KeyBinding Gesture="Ctrl+x" Command="{Binding ExitCommand}"/>
+
+        <KeyBinding Gesture="Alt+h" Command="{Binding SwitchHomeCommand}"/>
+        <KeyBinding Gesture="Alt+l" Command="{Binding SwitchListCommand}"/>
+        <KeyBinding Gesture="Alt+b" Command="{Binding SwitchBrowseCommand}"/>
+    </Window.KeyBindings>
+
+</Window>
