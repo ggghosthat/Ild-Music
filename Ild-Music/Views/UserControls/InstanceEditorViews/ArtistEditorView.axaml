@@ -55,15 +55,12 @@
         <Grid Grid.Column="0"
               HorizontalAlignment="Center"
               VerticalAlignment="Center">
-              <Border Width="300"
+          <Border Width="300"
                       Height="300"
                       Margin="15"
                       Background="Transparent"
                       Tapped="OpenAvatar_Clicked"
-                      Child="{Binding Avatar, 
-                          Converter={StaticResource IconConverter},
-                          ConverterParameter=aico_col}">
-              </Border>
+                      Child="{Binding Avatar, Converter={StaticResource IconConverter}, ConverterParameter=aico_col}"/>
         </Grid>
 
         <Grid Grid.Column="1"
@@ -93,7 +90,7 @@
                          Width="500"/>
 
                 <StackPanel Orientation="Horizontal"
-                            HorizontalAlignment="Left"
+                            HorizontalAlignment="Center"
                             Margin="15">
 
                     <Button Classes="btnApply"

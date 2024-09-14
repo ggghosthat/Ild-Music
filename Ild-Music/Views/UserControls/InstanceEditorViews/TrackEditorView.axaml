@@ -16,6 +16,7 @@
         <conv:InstanceConverter x:Key="InstanceConverter"/>
         <conv:IconConverter x:Key="IconConverter"/>
         <conv:ErrorMessageConverter x:Key="ErrorStateConverter"/>
+        <conv:ListActivityConverter x:Key="ListActivityConverter"/>
     </UserControl.Resources>
 
   <UserControl.Styles>
@@ -60,16 +61,20 @@
                   Margin="15"
                   Background="Transparent"
                   Tapped="OpenAvatar_Clicked"
-                  Child="{Binding Avatar, 
-                      Converter={StaticResource IconConverter},
-                      ConverterParameter=tico_col}">
-          </Border>
+                  Child="{Binding Avatar, Converter={StaticResource IconConverter}, ConverterParameter=tico_col}"/>
         </Grid>
 
         <Grid Grid.Column="1"
               VerticalAlignment="Center">
-            <StackPanel Orientation="Vertical"
-                        Margin="45, 5">
+            <Grid.RowDefinitions>
+              <RowDefinition Height="auto"/>
+              <RowDefinition Height="auto"/>
+              <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+
+            <StackPanel Grid.Row="0"
+                        Margin="45, 5"
+                        Orientation="Vertical">
                 <TextBox x:Name="txtPath"
                          Text="{Binding Path, Mode=TwoWay}"
                          Watermark="{x:Static lang:Resources.FoldingPathTrackEditorView}"
@@ -100,10 +105,28 @@
                          FontSize="16"
                          Margin="17, 2, 0, 3"
                          Width="500"/>
-                
+            </StackPanel>
+
+            <Grid Grid.Row="1">
+                <StackPanel HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            IsVisible="{Binding #SelectedArtists.ItemCount, Converter={StaticResource ListActivityConverter}, ConverterParameter=is_empty}">
+                    <PathIcon Height="60"
+                              Width="60"
+                              Foreground="#c2c2c2"
+                              Background="Transparent"
+                              VerticalAlignment="Stretch"
+                              HorizontalAlignment="Stretch"
+                              Data="M11,7A2,2 0 0,0 9,9V15A2,2 0 0,0 11,17H13A2,2 0 0,0 15,15V9A2,2 0 0,0 13,7H11M11,9H13V15H11V9M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2Z"/>
+                    <TextBlock Text="There is no artists"
+                              Foreground="#969696"
+                              TextAlignment="Center"
+                              FontSize="15"
+                              FontWeight="Light"/>
+                </StackPanel>
                 <ScrollViewer VerticalScrollBarVisibility="Disabled"
                               HorizontalScrollBarVisibility="Auto"
-                              HorizontalAlignment="Left"
+                              HorizontalAlignment="Center"
                               HorizontalContentAlignment="Left"
                               Margin="17, 5, 0, 3"
                               Height="110"
@@ -113,7 +136,8 @@
                           <ia:InvokeCommandAction Command="{Binding TrackArtistExplorerCommand}"/>
                       </ia:EventTriggerBehavior>  
                     </i:Interaction.Behaviors>                
-                    <ListBox ItemsSource="{Binding SelectedTrackArtists}"
+                    <ListBox x:Name="SelectedArtists"
+                             ItemsSource="{Binding SelectedTrackArtists}"
                              SelectionMode="Multiple,Toggle"
                              Background="{StaticResource lsSelectedIntances}">
 
@@ -226,36 +250,37 @@
                       </ListBox.ItemTemplate>
                     </ListBox>
                 </ScrollViewer>
+            </Grid>
             
-                <StackPanel Orientation="Horizontal"
-                            HorizontalAlignment="Left"
-                            Margin="15">
+            <StackPanel Grid.Row="2"
+                        Margin="15"
+                        Orientation="Horizontal"
+                        HorizontalAlignment="Center">
 
-                    <Button Classes="btnApply"
-                            HorizontalAlignment="Left"
-                            VerticalAlignment="Bottom"
-                            Width="100"
-                            Height="25"
-                            Margin="3,0"
-                            Content="{x:Static lang:Resources.ApplyButtonTrackEditorView}"
-                            Command="{Binding CreateTrackCommand}"/>
+                <Button Classes="btnApply"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Bottom"
+                        Width="100"
+                        Height="25"
+                        Margin="3,0"
+                        Content="{x:Static lang:Resources.ApplyButtonTrackEditorView}"
+                        Command="{Binding CreateTrackCommand}"/>
 
-                    <Button Classes="btnApply"
-                            HorizontalAlignment="Left"
-                            VerticalAlignment="Bottom"
-                            Width="100"
-                            Height="25"
-                            Margin="3,0"
-                            Content="{x:Static lang:Resources.CancelButtonTrackEditorView}"
-                            Command="{Binding CancelCommand}"/>
+                <Button Classes="btnApply"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Bottom"
+                        Width="100"
+                        Height="25"
+                        Margin="3,0"
+                        Content="{x:Static lang:Resources.CancelButtonTrackEditorView}"
+                        Command="{Binding CancelCommand}"/>
 
-                    <TextBlock Classes="logLine"
-                               Text="{Binding TrackLogLine}"
-                               Foreground="{Binding TrackLogError, Converter={StaticResource ErrorStateConverter} }"
-                               Background="Transparent"
-                               FontSize="12"
-                               Margin="5"/>
-                </StackPanel>
+                <TextBlock Classes="logLine"
+                            Text="{Binding TrackLogLine}"
+                            Foreground="{Binding TrackLogError, Converter={StaticResource ErrorStateConverter} }"
+                            Background="Transparent"
+                            FontSize="12"
+                            Margin="5"/>
             </StackPanel>
         </Grid>
     </Grid>
