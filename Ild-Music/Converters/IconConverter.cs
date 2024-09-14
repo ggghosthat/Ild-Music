@@ -57,7 +57,7 @@ public class IconConverter : IValueConverter
         {
             if (value is byte[] playlistIconSource && playlistIconSource.Length > 0)
                 return CraftImage(playlistIconSource, 300d, 300d).Result;
-                
+
             return LoadAsset(@"avares://Ild-Music/Assets/DefaultIcons/playlist.png", 300d, 300d).Result;
         }
         else if (parameter == "tico_col")

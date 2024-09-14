@@ -34,68 +34,45 @@ public class PlaylistEditorViewModel : BaseViewModel
     private static InstanceExplorerViewModel Explorer => (InstanceExplorerViewModel)App.ViewModelTable[InstanceExplorerViewModel.viewModelId];
    
     public Playlist PlaylistInstance { get; private set; } = default!;
+    
     public string Name { get; set; } = default!;
+    
     public string Description { get; set; } = default!;
+    
     public int Year { get; set; } = default!;
+    
     public byte[] Avatar { get; set; } = default!;
+    
     public string AvatarPath { get; set; } = default!;
 
     public ObservableCollection<CommonInstanceDTO> ArtistsProvider {get;set;} = new();
+
     public ObservableCollection<CommonInstanceDTO> TracksProvider {get; set;} = new();
+    
     public ObservableCollection<CommonInstanceDTO> SelectedPlaylistArtists {get;set;} = new();
+    
     public ObservableCollection<CommonInstanceDTO> SelectedPlaylistTracks {get; set;} = new();
 
     public string PlaylistLogLine { get; set; }
+
     public bool PlaylistLogError { get; set; }
+    
     public bool IsEditMode {get; private set;} = false;
+    
     public string ViewHeader {get; private set;} = "Playlist";
 
     public CommandDelegator CreatePlaylistCommand { get; }
+
     public CommandDelegator CancelCommand { get; }
+    
     public CommandDelegator PlaylistArtistExplorerCommand {get;}
+    
     public CommandDelegator PlaylistTrackExplorerCommand {get;}
 
     private void ExitFactory()
     {
         FieldsClear();
         MainVM.ResolveWindowStack();
-    }
-    
-    private async Task InitProviders()
-    {
-        ArtistsProvider.Clear();
-        TracksProvider.Clear();
-
-        using (var instancePool = await supporter.GetInstancePool())
-        {
-            instancePool.ArtistsDTOs.ToList()
-                .ForEach(artist => ArtistsProvider.Add(artist));
-        
-            instancePool.TracksDTOs.ToList()
-                .ForEach(track => TracksProvider.Add(track));
-        }
-    }
-        
-    private void ArtistProviderUpdate()
-    {
-        ArtistsProvider.Clear();
-
-        using (var instancePool = supporter.GetInstancePool().Result)
-        {
-            instancePool.ArtistsDTOs.ToList()
-                .ForEach(artist => ArtistsProvider.Add(artist));            
-        }
-    }
-
-    private void TrackProviderUpdate()
-    {
-        TracksProvider.Clear();
-
-        using (var instancePool = supporter.GetInstancePool().Result)
-        {
-            instancePool.TracksDTOs.ToList()
-                .ForEach(track => TracksProvider.Add(track));            
-        }
     }
 
     private void FieldsClear()
@@ -250,7 +227,6 @@ public class PlaylistEditorViewModel : BaseViewModel
         Description = PlaylistInstance.Description.ToString();
         Year = PlaylistInstance.Year;
         AvatarPath = PlaylistInstance.AvatarPath.ToString();
-        Avatar = new byte[2048];
                 
         if(File.Exists(AvatarPath))
         {

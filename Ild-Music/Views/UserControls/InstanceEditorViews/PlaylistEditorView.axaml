@@ -61,10 +61,7 @@
                       Margin="15"
                       Background="Transparent"
                       Tapped="OpenAvatar_Clicked"
-                      Child="{Binding Avatar, 
-                          Converter={StaticResource IconConverter},
-                          ConverterParameter=pico_col}">
-              </Border>
+                      Child="{Binding Avatar, Converter={StaticResource IconConverter}, ConverterParameter=pico_col}"/>
         </Grid>
 
         <Grid Grid.Column="1"

@@ -58,28 +58,6 @@ public class TrackEditorViewModel : BaseViewModel
         MainVM.ResolveWindowStack();
     }
 
-    private async Task InitProviders()
-    {
-        ArtistsProvider.ToList().Clear();
-
-        using (var instancePool = await supporter.GetInstancePool())
-        {
-            instancePool.ArtistsDTOs.ToList()
-                .ForEach(artist => ArtistsProvider.Add(artist));
-        }
-    }
-
-    private void ArtistProviderUpdate()
-    {
-        ArtistsProvider.Clear();
-        
-        using (var instancePool = supporter.GetInstancePool().Result)
-        {
-            instancePool.ArtistsDTOs.ToList()
-                .ForEach(artist => ArtistsProvider.Add(artist));        
-        }
-    }
-
     private void FieldsClear()
     {
         Path = default;
