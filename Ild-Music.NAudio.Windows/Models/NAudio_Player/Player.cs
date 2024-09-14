@@ -81,10 +81,13 @@ public class NAudioPlayer : IPlayer
         CurrentPlaylist = playlist;
         PlaylistCount = playlist.Count;        
 
-        var track =  (Track)playlist[PlaylistPoint];
-        CurrentTrack = track;
-        _audioPlayer.SetInstance(track);
-        _audioPlayer.TrackFinished += SkipNext;
+        if (PlaylistPoint < playlist.Count)
+        {
+            var track =  (Track)playlist[PlaylistPoint];
+            CurrentTrack = track;
+            _audioPlayer.SetInstance(track);
+            _audioPlayer.TrackFinished += SkipNext;
+        }
 
         var action = _eventBag?.GetAction((int)PlayerSignal.PLAYER_SET_PLAYLIST);
         action?.DynamicInvoke();
