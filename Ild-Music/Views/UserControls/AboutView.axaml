@@ -7,9 +7,10 @@
              xmlns:conv="clr-namespace:Ild_Music.Converters"
              xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
              xmlns:ia="clr-namespace:Avalonia.Xaml.Interactions.Core;assembly=Avalonia.Xaml.Interactions"
+             xmlns:md="https://github.com/whistyun/Markdown.Avalonia"
 
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="Ild_Music.Views.AboutView"
              x:DataType="vm:AboutViewModel">
-  <Label Content="{Binding Content}"/>
+  <md:MarkdownScrollViewer Markdown="{Binding Content}"/>
 </UserControl>
