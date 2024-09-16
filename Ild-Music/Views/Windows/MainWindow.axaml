@@ -655,6 +655,39 @@
                                                     Content = "{x:Static lang:Resources.BrowseNavbarItem}"/>
                                         </StackPanel>
                                     </Border>
+
+                                    <Border Width="200"
+                                            Margin="8, 2"
+                                            CornerRadius="10"
+                                            Classes="NavBarItem"
+                                            VerticalAlignment="Top"
+                                            HorizontalAlignment="Center"
+                                            PointerPressed="AboutNavBarClicked">
+                                        <Border.Styles>
+                                            <Style Selector="Border.NavBarItem Viewbox Canvas Path.NavIcon">
+                                                <Setter Property="Fill" Value="#7b7f6b"/>
+                                            </Style>
+                                        </Border.Styles>
+
+                                        <StackPanel Orientation="Horizontal"
+                                                    HorizontalAlignment="Left">
+                                            <Viewbox Classes="vb"
+                                                    Width="25"
+                                                    Height="25"
+                                                    Margin="10, 5"
+                                                    HorizontalAlignment="Left">
+                                                <Canvas Width="24"
+                                                        Height="24">
+                                                    <Path Classes="NavIcon" Data="M13,9H11V7H13M13,17H11V11H13M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z" />
+                                                </Canvas>
+                                            </Viewbox>
+                                            
+                                            <Label FontSize="16"
+                                                    Margin="5"
+                                                    FontWeight="Regular"
+                                                    Content = "{x:Static lang:Resources.AboutNavbarItem}"/>
+                                        </StackPanel>
+                                    </Border>
                                 </StackPanel>
                             </Grid>
 

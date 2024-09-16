@@ -54,6 +54,8 @@ namespace Ild_Music.Assets
         public static string ListNavbarItem => ResourceManager.GetString("ListNavbarItem", resourceCulture);
  
         public static string BrowseNavbarItem => ResourceManager.GetString("BrowseNavbarItem", resourceCulture);
+        
+        public static string AboutNavbarItem => ResourceManager.GetString("AboutNavbarItem", resourceCulture);
 
         public static string ArtistLabelStartView => ResourceManager.GetString("ArtistLabelStartView", resourceCulture);
  

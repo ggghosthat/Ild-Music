@@ -261,4 +261,8 @@
     <value>Exit</value>
     <comment/>
   </data>
+  <data name="AboutNavbarItem" xml:space="preserve">
+    <value>About</value>
+    <comment/>
+  </data>
 </root>

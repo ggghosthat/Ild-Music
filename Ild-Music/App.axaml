@@ -241,6 +241,10 @@
             <v:FailedBootView/>
         </DataTemplate>
 
+        <DataTemplate DataType="{x:Type vm:AboutViewModel}">
+            <v:AboutView/>
+        </DataTemplate>
+
         <DataTemplate DataType="{x:Type vm:ArtistViewModel}">
             <v:ArtistView/>
         </DataTemplate>

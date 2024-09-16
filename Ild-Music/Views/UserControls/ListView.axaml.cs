@@ -1,8 +1,6 @@
 using Ild_Music.ViewModels;
-using Ild_Music.Contracts;
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Avalonia.Input;

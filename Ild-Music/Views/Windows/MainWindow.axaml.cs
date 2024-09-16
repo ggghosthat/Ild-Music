@@ -159,6 +159,12 @@ public partial class MainWindow : Window
         viewModel.DefineNewPresentItem(BrowserViewModel.viewModelId);
     }
 
+    private void AboutNavBarClicked(object? sender, PointerPressedEventArgs e)
+    {
+        var viewModel = (MainWindowViewModel)DataContext;
+        viewModel.DefineNewPresentItem(AboutViewModel.viewModelId);
+    }
+
     private void OnHidePopups(object sender, PointerPressedEventArgs e)
     {
         var viewModel = (MainWindowViewModel)DataContext;

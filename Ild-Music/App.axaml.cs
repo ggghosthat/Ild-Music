@@ -129,6 +129,8 @@ public partial class App : Application
         App.ViewModelTable.Add(startVm.ViewModelId, startVm);
         var listVm = new ListViewModel();
         App.ViewModelTable.Add(listVm.ViewModelId, listVm);
+        var aboutVm = new AboutViewModel();
+        App.ViewModelTable.Add(aboutVm.ViewModelId, aboutVm);
     }
 
     private static void CrashedLoadingViewModelTableInitialization()
