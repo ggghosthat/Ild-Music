@@ -265,4 +265,24 @@
     <value>About</value>
     <comment/>
   </data>
+  <data name="ArtistViewNoPlaylists" xml:space="preserve">
+    <value>There is no playlists</value>
+    <comment/>
+  </data>
+  <data name="ArtistViewNoTracks" xml:space="preserve">
+    <value>There is no tracks</value>
+    <comment/>
+  </data>
+  <data name="PlaylistViewNoArtists" xml:space="preserve">
+    <value>There is no artists</value>
+    <comment/>
+  </data>
+  <data name="PlaylistViewNoTracks" xml:space="preserve">
+    <value>There is no tracks</value>
+    <comment/>
+  </data>
+  <data name="TrackViewNoArtists" xml:space="preserve">
+    <value>There is no artists</value>
+    <comment/>
+  </data>
 </root>

@@ -120,5 +120,15 @@ namespace Ild_Music.Assets
         public static string ExportFailedBootView => ResourceManager.GetString("ExportFailedBootView", resourceCulture);
         
         public static string ExitFailedBootView => ResourceManager.GetString("ExitFailedBootView", resourceCulture);
+    
+        public static string ArtistViewNoPlaylists => ResourceManager.GetString("ArtistViewNoPlaylists", resourceCulture);
+
+        public static string ArtistViewNoTracks => ResourceManager.GetString("ArtistViewNoTracks", resourceCulture);
+
+        public static string PlaylistViewNoArtists => ResourceManager.GetString("PlaylistViewNoArtists", resourceCulture);
+        
+        public static string PlaylistViewNoTracks => ResourceManager.GetString("PlaylistViewNoTracks", resourceCulture);
+
+        public static string TrackViewNoArtists => ResourceManager.GetString("TrackViewNoArtists", resourceCulture);
     }
 }
