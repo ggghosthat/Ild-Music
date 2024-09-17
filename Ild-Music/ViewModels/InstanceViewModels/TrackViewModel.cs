@@ -40,8 +40,6 @@ namespace Ild_Music.ViewModels
         
         public ObservableCollection<CommonInstanceDTO> TrackArtists {get; private set;} = new();
         
-        public ObservableCollection<CommonInstanceDTO> TrackPlaylists {get; private set;} = new();
-
         public CommandDelegator BackCommand { get; }
 
         public async void SetInstance(CommonInstanceDTO instanceDto)
@@ -55,11 +53,11 @@ namespace Ild_Music.ViewModels
                 await fs.ReadAsync(Avatar, 0, (int)fs.Length);
             }
 
+            if (TrackArtists.Count > 0)
+                TrackArtists.Clear();
+
             supporter.GetInstanceDTOsFromIds(TrackInstance.Artists, EntityTag.ARTIST)
                 .Result.ToList().ForEach(a => TrackArtists.Add(a));
-
-            supporter.GetInstanceDTOsFromIds(TrackInstance.Playlists, EntityTag.PLAYLIST)
-                .Result.ToList().ForEach(p => TrackPlaylists.Add(p));
         }
 
         public async void SetInstance(Track track)
@@ -75,11 +73,11 @@ namespace Ild_Music.ViewModels
                 }
             }
 
+            if (TrackArtists.Count > 0)
+                TrackArtists.Clear();
+
             supporter.GetInstanceDTOsFromIds(TrackInstance.Artists, EntityTag.ARTIST)
                 .Result.ToList().ForEach(a => TrackArtists.Add(a));
-
-            supporter.GetInstanceDTOsFromIds(TrackInstance.Playlists, EntityTag.PLAYLIST)
-                .Result.ToList().ForEach(p => TrackPlaylists.Add(p));
         }
 
         private void BackSwap(object obj)

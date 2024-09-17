@@ -12,5 +12,5 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="Ild_Music.Views.AboutView"
              x:DataType="vm:AboutViewModel">
-  <md:MarkdownScrollViewer Markdown="{Binding Content}"/>
+  <md:MarkdownScrollViewer Margin="5 30 5 5" Markdown="{Binding Content}"/>
 </UserControl>

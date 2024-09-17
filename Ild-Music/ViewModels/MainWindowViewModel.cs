@@ -434,12 +434,19 @@ public class MainWindowViewModel : Base.BaseViewModel
 
     private void ResolveCurrentInstance(object obj)
     {
-        if (CurrentPlaylist == null && CurrentTrack is Track track)
+        if (CurrentTrack is not Track track)
+            return;
+
+        if (CurrentVM is not TrackViewModel trackViewModel)
         {
             var trackVM = (TrackViewModel)App.ViewModelTable[TrackViewModel.viewModelId];
             trackVM?.SetInstance(track);
             PushVM(CurrentVM, trackVM);
             ResolveWindowStack();
+        }
+        else 
+        {
+            trackViewModel?.SetInstance(track);
         }
     }
 

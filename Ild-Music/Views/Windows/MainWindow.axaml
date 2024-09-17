@@ -309,13 +309,13 @@
                                 Classes="currentInstanceAreaPopup"
                                 IsVisible="{Binding IsActiveCurrentTab}">
 
-                            <Grid>
+                            <Grid Grid.Column="0">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="auto"/>
                                     <ColumnDefinition Width="*"/>
                                     <ColumnDefinition Width="auto"/>
                                 </Grid.ColumnDefinitions>
-
+   
                                 <Border Grid.Column="0"
                                         Width="70"
                                         Height="70"
@@ -325,8 +325,13 @@
                                     <Border.Background>
                                         <ImageBrush Source="{Binding CurrentTrack, Converter={StaticResource IconConverter}, ConverterParameter=track_icon}"/>
                                     </Border.Background>
+                                    <i:Interaction.Behaviors>
+                                        <ia:EventTriggerBehavior EventName="Tapped">
+                                            <ia:InvokeCommandAction Command="{Binding ResolveCurrentInstanceCommand}"/>
+                                        </ia:EventTriggerBehavior>  
+                                    </i:Interaction.Behaviors>
                                 </Border>
-
+                                
                                 <StackPanel Grid.Column="1">
                                     <TextBlock Margin="10,20,0,0"
                                                Text="{Binding CurrentTrack, Converter={StaticResource InstanceConverter}, ConverterParameter=name}"  
@@ -353,7 +358,7 @@
                                                Foreground="White"
                                                HorizontalAlignment="Left"
                                                VerticalAlignment="Bottom"
-                                               TextAlignment="Center"/>                                             
+                                               TextAlignment="Center"/>
                                 </StackPanel>
                                 
                                 <Border Grid.Column="2" 
@@ -963,28 +968,9 @@
                                     <i:Interaction.Behaviors>
                                         <ia:EventTriggerBehavior EventName="Tapped">
                                             <ia:InvokeCommandAction Command="{Binding ShowCurrentInstanceTabCommand}"/>
-                                        </ia:EventTriggerBehavior>  
+                                        </ia:EventTriggerBehavior>
                                     </i:Interaction.Behaviors>
                                 </TextBlock>
-
-                                <Border Margin="0,5"
-                                        Grid.Column="2"
-                                        Classes="PlayerButton"
-                                        Background="#00000000"
-                                        IsVisible="{Binding CurrentTrack, Converter={StaticResource IndicatorConverter}}">
-                                    <i:Interaction.Behaviors>
-                                        <ia:EventTriggerBehavior EventName="Tapped">
-                                            <ia:InvokeCommandAction Command="{Binding ResolveCurrentInstanceCommand}"/>
-                                        </ia:EventTriggerBehavior>  
-                                    </i:Interaction.Behaviors>
-                                    <Border>
-                                        <Viewbox Classes="vb" Margin="2,0" HorizontalAlignment="Left">
-                                            <Canvas Width="30" Height="30">
-                                                <Path Data="M11 9H13V7H11V9M14 17V15H13V11H10V13H11V15H10V17H14M5 3H19C20.1 3 21 3.89 21 5V19C21 19.53 20.79 20.04 20.41 20.41C20.04 20.79 19.53 21 19 21H5C4.47 21 3.96 20.79 3.59 20.41C3.21 20.04 3 19.53 3 19V5C3 3.89 3.89 3 5 3M19 19V5H5V19H19Z" />
-                                            </Canvas>
-                                        </Viewbox>
-                                    </Border>
-                                </Border>
                             </Grid>
                         </Grid>
                     </Grid>

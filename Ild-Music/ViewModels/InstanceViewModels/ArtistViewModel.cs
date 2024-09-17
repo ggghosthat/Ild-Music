@@ -55,10 +55,16 @@ public class ArtistViewModel : BaseViewModel
             await fs.ReadAsync(Avatar, 0, (int)fs.Length);
         }
 
+        if (ArtistPlaylists.Count > 0)
+            ArtistPlaylists.Clear();
+
         supporter.GetInstanceDTOsFromIds(ArtistInstance.Playlists, EntityTag.PLAYLIST)
             .Result
             .ToList()
             .ForEach(p => ArtistPlaylists.Add(p));
+
+        if (ArtistTracks.Count > 0)
+            ArtistTracks.Clear();
 
         supporter.GetInstanceDTOsFromIds(ArtistInstance.Tracks, EntityTag.TRACK)
             .Result
@@ -76,11 +82,18 @@ public class ArtistViewModel : BaseViewModel
             Avatar = new byte[fs.Length];
             await fs.ReadAsync(Avatar, 0, (int)fs.Length);
         }
+        
+        if (ArtistPlaylists.Count > 0)
+            ArtistPlaylists.Clear();
 
         supporter.GetInstanceDTOsFromIds(ArtistInstance.Playlists, EntityTag.PLAYLIST)
             .Result
             .ToList()
             .ForEach(p => ArtistPlaylists.Add(p));
+
+        
+        if (ArtistTracks.Count > 0)
+            ArtistTracks.Clear();
 
         supporter.GetInstanceDTOsFromIds(ArtistInstance.Tracks, EntityTag.TRACK)
             .Result
