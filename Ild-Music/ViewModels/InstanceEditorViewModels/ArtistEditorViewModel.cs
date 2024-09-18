@@ -38,6 +38,8 @@ public class ArtistEditorViewModel : BaseViewModel
     public string Description { get; set; } = default!;
     
     public int Year { get; set; } = default!;
+
+    public string YearStr { get; set; }
     
     public byte[] Avatar { get; private set; } = default!;
     

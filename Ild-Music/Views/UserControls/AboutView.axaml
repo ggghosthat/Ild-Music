@@ -12,5 +12,9 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="Ild_Music.Views.AboutView"
              x:DataType="vm:AboutViewModel">
-  <md:MarkdownScrollViewer Margin="5 30 5 5" Markdown="{Binding Content}"/>
+
+  <StackPanel>
+    <Label FontWeight="Medium" FontSize="24" Margin="10 30 5 5" Content="ABOUT"/>
+    <md:MarkdownScrollViewer Margin="10 5 5 5" Markdown="{Binding Content}"/>
+  </StackPanel>
 </UserControl>
