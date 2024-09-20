@@ -5,6 +5,7 @@
 
              xmlns:vm="clr-namespace:Ild_Music.ViewModels"
              xmlns:conv="clr-namespace:Ild_Music.Converters"
+             xmlns:lang="clr-namespace:Ild_Music.Assets"
              xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
              xmlns:ia="clr-namespace:Avalonia.Xaml.Interactions.Core;assembly=Avalonia.Xaml.Interactions"
              
@@ -16,6 +17,7 @@
     <conv:InstanceConverter x:Key="InstanceConverter"/>
     <conv:IconConverter x:Key="IconConverter"/>
     <conv:ListHeaderConverter x:Key="ListHeaderConverter"/>
+    <conv:ListActivityConverter x:Key="ListActivityConverter"/>
   </UserControl.Resources>
 
   <Grid>
@@ -153,7 +155,8 @@
                     VerticalAlignment="Stretch" 
                     DragDrop.AllowDrop="True"
                     PointerWheelChanged="OnScrollChanged">
-        <ListBox ItemsSource="{Binding CurrentList}"
+        <ListBox x:Name="CurrentList"
+                 ItemsSource="{Binding CurrentList}"
                  SelectedItem="{Binding CurrentItem}"
                  ScrollViewer.VerticalScrollBarVisibility="Auto"
                  ScrollViewer.HorizontalScrollBarVisibility="Disabled">
@@ -276,6 +279,24 @@
             </ListBox.ItemTemplate>
         </ListBox>
       </ScrollViewer>
+
+      <StackPanel HorizontalAlignment="Center"
+                  VerticalAlignment="Center"
+                  IsVisible="{Binding #CurrentList.ItemCount, Converter={StaticResource ListActivityConverter}, ConverterParameter=is_empty}">
+            <PathIcon Height="50"
+                      Width="50"
+                      Margin="5"
+                      Foreground="#c2c2c2"
+                      Background="Transparent"
+                      VerticalAlignment="Stretch"
+                      HorizontalAlignment="Stretch"
+                      Data="M11,7A2,2 0 0,0 9,9V15A2,2 0 0,0 11,17H13A2,2 0 0,0 15,15V9A2,2 0 0,0 13,7H11M11,9H13V15H11V9M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2Z"/>
+            <TextBlock Text="{x:Static lang:Resources.EmptyBannerText}"
+                       Foreground="#969696"
+                       TextAlignment="Center"
+                       FontSize="15"
+                       FontWeight="Light"/>
+        </StackPanel>
     </Grid>
 
     <StackPanel Grid.Row="2"
