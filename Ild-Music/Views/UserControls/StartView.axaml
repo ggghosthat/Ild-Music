@@ -16,6 +16,7 @@
     <UserControl.Resources>
         <conv:InstanceConverter x:Key="InstanceConverter"/>
         <conv:IconConverter x:Key="IconConverter"/>
+        <conv:ListActivityConverter x:Key="ListActivityConverter"/>
     </UserControl.Resources>
 
     <Grid Margin="0, 30, 0, 0">
@@ -40,6 +41,26 @@
                       Foreground="White"
                       FontSize="16"
                       FontWeight="Bold"/>
+
+            <StackPanel Grid.Row="1"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        IsVisible="{Binding #PlaylistSource.ItemCount, Converter={StaticResource ListActivityConverter}, ConverterParameter=is_empty}"
+                        ZIndex="2">
+                <PathIcon Height="50"
+                        Width="50"
+                        Margin="5"
+                        Foreground="#c2c2c2"
+                        Background="Transparent"
+                        VerticalAlignment="Stretch"
+                        HorizontalAlignment="Stretch"
+                        Data="M11,7A2,2 0 0,0 9,9V15A2,2 0 0,0 11,17H13A2,2 0 0,0 15,15V9A2,2 0 0,0 13,7H11M11,9H13V15H11V9M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2Z"/>
+                <TextBlock Text="{x:Static lang:Resources.EmptyBannerText}"
+                        Foreground="#969696"
+                        TextAlignment="Center"
+                        FontSize="15"
+                        FontWeight="Light"/>
+            </StackPanel>
             
             <ScrollViewer Margin="0"
                           Grid.Row="1"
@@ -47,7 +68,8 @@
                           HorizontalScrollBarVisibility="Auto"
                           HorizontalContentAlignment="Left"
                           HorizontalAlignment="Stretch">
-                <ListBox Height="150"
+                <ListBox x:Name="PlaylistSource"
+                         Height="150"
                          ItemsSource="{Binding Playlists}"
                          SelectedItem="{Binding CurrentPlaylist}"
                          ScrollViewer.HorizontalScrollBarVisibility="Visible"
@@ -176,6 +198,26 @@
                        FontSize="16"
                        FontWeight="Bold"/>
 
+            <StackPanel Grid.Row="3"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        IsVisible="{Binding #TrackSource.ItemCount, Converter={StaticResource ListActivityConverter}, ConverterParameter=is_empty}"
+                        ZIndex="2">
+                <PathIcon Height="50"
+                        Width="50"
+                        Margin="5"
+                        Foreground="#c2c2c2"
+                        Background="Transparent"
+                        VerticalAlignment="Stretch"
+                        HorizontalAlignment="Stretch"
+                        Data="M11,7A2,2 0 0,0 9,9V15A2,2 0 0,0 11,17H13A2,2 0 0,0 15,15V9A2,2 0 0,0 13,7H11M11,9H13V15H11V9M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2Z"/>
+                <TextBlock Text="{x:Static lang:Resources.EmptyBannerText}"
+                        Foreground="#969696"
+                        TextAlignment="Center"
+                        FontSize="15"
+                        FontWeight="Light"/>
+            </StackPanel>
+
             <ScrollViewer Grid.Row="3"
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch"
@@ -183,7 +225,8 @@
                         HorizontalScrollBarVisibility="Disabled"                        
                         HorizontalContentAlignment="Left"
                         DragDrop.AllowDrop="True">
-                <ListBox ItemsSource="{Binding Tracks}"
+                <ListBox x:Name="TrackSource"
+                         ItemsSource="{Binding Tracks}"
                          SelectedItem="{Binding CurrentTrack}"
                          ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                          ScrollViewer.VerticalScrollBarVisibility="Auto">
@@ -347,17 +390,38 @@
                          FontSize="16"
                          FontWeight="Bold"/>
             
+            <StackPanel Grid.Row="1"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        IsVisible="{Binding #ArtistSource.ItemCount, Converter={StaticResource ListActivityConverter}, ConverterParameter=is_empty}"
+                        ZIndex="2">
+                <PathIcon Height="50"
+                        Width="50"
+                        Margin="5"
+                        Foreground="#c2c2c2"
+                        Background="Transparent"
+                        VerticalAlignment="Stretch"
+                        HorizontalAlignment="Stretch"
+                        Data="M11,7A2,2 0 0,0 9,9V15A2,2 0 0,0 11,17H13A2,2 0 0,0 15,15V9A2,2 0 0,0 13,7H11M11,9H13V15H11V9M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2Z"/>
+                <TextBlock Text="{x:Static lang:Resources.EmptyBannerText}"
+                        Foreground="#969696"
+                        TextAlignment="Center"
+                        FontSize="15"
+                        FontWeight="Light"/>
+            </StackPanel>
+
             <ScrollViewer Grid.Row="1"
                            Margin="0, 5" 
                            HorizontalAlignment="Stretch"
                            HorizontalScrollBarVisibility="Disabled"
                            VerticalScrollBarVisibility="Auto">
-                    <ListBox ItemsSource="{Binding Artists}"
-                              SelectedItem="{Binding CurrentArtist}"
-                              HorizontalAlignment="Stretch"
-                              ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                              ScrollViewer.VerticalScrollBarVisibility="Visible"
-                              Background="Transparent">
+                    <ListBox x:Name="ArtistSource"
+                             ItemsSource="{Binding Artists}"
+                             SelectedItem="{Binding CurrentArtist}"
+                             HorizontalAlignment="Stretch"
+                             ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                             ScrollViewer.VerticalScrollBarVisibility="Visible"
+                             Background="Transparent">
                          <ListBox.ItemsPanel>
                             <ItemsPanelTemplate>
                                 <StackPanel Orientation="Vertical"/>
