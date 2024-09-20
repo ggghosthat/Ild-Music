@@ -11,6 +11,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ild-Music.NAudio.Windows", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ild-Music", "Ild-Music\Ild-Music.csproj", "{F621B50C-5626-4A3C-A3C1-C1151B7441D9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ild-Music.Repository", "Ild-Music.Repository\Ild-Music.Repository.csproj", "{2DCF4BC5-A456-4C8D-B3BA-5A26CFBDC6E3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{F621B50C-5626-4A3C-A3C1-C1151B7441D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F621B50C-5626-4A3C-A3C1-C1151B7441D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F621B50C-5626-4A3C-A3C1-C1151B7441D9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2DCF4BC5-A456-4C8D-B3BA-5A26CFBDC6E3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2DCF4BC5-A456-4C8D-B3BA-5A26CFBDC6E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2DCF4BC5-A456-4C8D-B3BA-5A26CFBDC6E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2DCF4BC5-A456-4C8D-B3BA-5A26CFBDC6E3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -2,11 +2,11 @@
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
-    <RootNamespace>Ild_Music.Reposiotry</RootNamespace>
+    <RootNamespace>Ild_Music.Repository</RootNamespace>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
-  
+
   <ItemGroup>
     <PackageReference Include="Dapper" Version="2.0.143" />
     <PackageReference Include="Microsoft.Data.SQLite" Version="8.0.4" />
