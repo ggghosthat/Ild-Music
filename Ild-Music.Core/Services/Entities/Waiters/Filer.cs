@@ -35,7 +35,7 @@ public class Filer : IWaiter
 
     private static void ProcessFile(string file)
     {
-        if (File.Exists(file) && SuppliedExtensions.CheckFile(file))
+        if (File.Exists(file))
         {
             var track = factoryGhost.CreateTrackBrowsed(file);
             MusicFiles.AddOrUpdate(track.Pathway, track, (ReadOnlyMemory<char> key, Track oldValue) => track);
