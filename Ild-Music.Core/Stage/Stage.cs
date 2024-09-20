@@ -2,6 +2,7 @@ using Ild_Music.Core.Contracts;
 using Ild_Music.Core.Contracts.Services.Interfaces;
 using Ild_Music.Core.Events;
 using Ild_Music.Core.Exceptions.Flag;
+using Ild_Music.Core.Instances.Filing;
 using Ild_Music.Core.Services.Castle;
 
 namespace Ild_Music.Core.Stage;
@@ -13,6 +14,7 @@ public sealed class Stage : IErrorTracable
     public Stage(IConfigure configure)
     {
         Configure = configure;
+        SuppliedExtensions.SupplySingleExtension(".mp3");
     }
 
     public IConfigure Configure {get; private set;}

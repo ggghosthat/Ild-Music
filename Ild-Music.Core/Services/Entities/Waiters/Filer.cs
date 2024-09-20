@@ -1,9 +1,11 @@
 using Ild_Music.Core.Instances;
+using Ild_Music.Core.Instances.Filing;
 using Ild_Music.Core.Contracts.Services.Interfaces;
 
 using System.Collections.Concurrent;
 
 namespace Ild_Music.Core.Services.Entities;
+
 //Filer is a special class wich perfome temporary file system loading
 //Filer just read special files(music formats, such as .mp3)
 public class Filer : IWaiter
@@ -33,14 +35,10 @@ public class Filer : IWaiter
 
     private static void ProcessFile(string file)
     {
-        if (File.Exists(file))
+        if (File.Exists(file) && SuppliedExtensions.CheckFile(file))
         {
-            var ext = Path.GetExtension(file.ToString());
-            if (ext.Equals(".mp3"))
-            {
-                var track = factoryGhost.CreateTrackBrowsed(file);
-                MusicFiles.AddOrUpdate(track.Pathway, track, (ReadOnlyMemory<char> key, Track oldValue) => track);
-            }
+            var track = factoryGhost.CreateTrackBrowsed(file);
+            MusicFiles.AddOrUpdate(track.Pathway, track, (ReadOnlyMemory<char> key, Track oldValue) => track);
         }
     }
 

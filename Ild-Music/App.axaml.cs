@@ -1,25 +1,15 @@
 using Ild_Music.Views;
 using Ild_Music.ViewModels;
-using Ild_Music.Core.Contracts;
 using Ild_Music.Core.Configure;
 using Ild_Music.Core.Exceptions.Flag;
 using Ild_Music.Core.Stage;
 
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
-using Avalonia.Data;
 using Avalonia.Markup.Xaml;
-using Avalonia.Markup.Xaml.MarkupExtensions;
-using Avalonia.Platform;
 using PropertyChanged;
-using System;
-using System.IO;
 using System.Collections;
 using System.Collections.Generic;
-using System.Globalization;
-using System.Resources;
-using System.Reflection;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace Ild_Music;

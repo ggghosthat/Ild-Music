@@ -12,24 +12,20 @@ public sealed class FactoryGhost : IGhost
     private static ICube cube;
     private static InstanceProducer.InstanceProducer producer = default;
     
-    public FactoryGhost()
-    {}
-
     public event Action OnArtistUpdate;
     public event Action OnPlaylistUpdate;
     public event Action OnTrackUpdate;
     public event Action OnTagUpdate;
+    
+    public FactoryGhost()
+    {}
 
     public void Init(ICube inputCube)
     {
        cube = inputCube;
     }
 
-    public void CreateArtist(
-        string name,
-        string description = default!,
-        string avatarPath = default!,
-        int year = 0)
+    public void CreateArtist(string name, string description = default!, string avatarPath = default!, int year = 0)
     {
         try
         {
@@ -49,12 +45,7 @@ public sealed class FactoryGhost : IGhost
         }
     }
         
-    public void CreateArtist(
-        string name,
-        string description,
-        string avatarPath,
-        int year,    
-        out Artist artist)
+    public void CreateArtist(string name, string description, string avatarPath, int year, out Artist artist)
     {
         try
         {
@@ -75,13 +66,7 @@ public sealed class FactoryGhost : IGhost
         }
     }
 
-    public void CreatePlaylist(
-        string name,
-        string description = default!,
-        string avatarPath = default!,
-        int year = 0,
-        IList<Track> tracks = default!,
-        IList<Artist> artists = default!) 
+    public void CreatePlaylist(string name, string description = default!, string avatarPath = default!, int year = 0, IList<Track> tracks = default!, IList<Artist> artists = default!) 
     {   
         try 
         { 
@@ -103,14 +88,7 @@ public sealed class FactoryGhost : IGhost
         } 
     }
 
-    public void CreatePlaylist(
-        string name,
-        string description,
-        string avatarPath,
-        int year,
-        IList<Track> tracks,
-        IList<Artist> artists,
-        out Playlist playlist) 
+    public void CreatePlaylist(string name, string description, string avatarPath, int year, IList<Track> tracks, IList<Artist> artists, out Playlist playlist) 
     {   
         try 
         { 
@@ -133,17 +111,11 @@ public sealed class FactoryGhost : IGhost
         } 
     }
 
-    public void CreateTrack(
-        string pathway,
-        string name = default!, 
-        string description = default!,
-        string avatarPath = default!,
-        int year = 0,
-        IList<Artist> artists = default!) 
+    public void CreateTrack(string pathway, string name = default!, string description = default!, string avatarPath = default!, int year = 0, IList<Artist> artists = default!) 
     {      
         try 
         {
-            using(var taglib = TagLib.File.Create(pathway)) 
+            using(var taglib = TagLib.File.Create(pathway))
             {
                 producer = new InstanceProducer.InstanceProducer(
                     pathway.ToCharArray(), 
@@ -165,14 +137,7 @@ public sealed class FactoryGhost : IGhost
         } 
     }
 
-    public void CreateTrack(
-        string pathway, 
-        string name, 
-        string description,
-        string avatarPath,
-        int year,
-        IList<Artist> artists,
-        out Track track) 
+    public void CreateTrack(string pathway,string name,string description, string avatarPath, int year, IList<Artist> artists, out Track track)
     {      
         try 
         {               
@@ -199,9 +164,7 @@ public sealed class FactoryGhost : IGhost
         } 
     }
 
-    public void CreateTag(
-        string name,
-        string color)
+    public void CreateTag(string name,string color)
     {
         Memory<char> tagName = name.ToArray();
         Memory<char> tagColor = name.ToArray();
@@ -211,10 +174,7 @@ public sealed class FactoryGhost : IGhost
         producer.Dispose();
     }
 
-    public void CreateTag(
-        string name,
-        string color, 
-        out Tag tag)
+    public void CreateTag(string name, string color, out Tag tag)
     {
         Memory<char> tagName = name.ToArray();
         Memory<char> tagColor = name.ToArray();

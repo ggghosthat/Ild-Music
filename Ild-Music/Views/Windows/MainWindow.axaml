@@ -172,7 +172,7 @@
                                 IsVisible="{Binding SearchAreaOpen}"
                                 Height="200">
                             <ScrollViewer Margin="0"
-                                          Width="{Binding #SearchBar.Width}"
+                                          Width="{Binding #SearchBox.Width}"
                                           Height="200"
                                           HorizontalAlignment="Stretch"
                                           VerticalAlignment="Bottom"

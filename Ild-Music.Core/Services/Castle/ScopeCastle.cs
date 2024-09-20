@@ -9,8 +9,6 @@ namespace Ild_Music.Core.Services.Castle;
 
 public sealed class ScopeCastle : ICastle, IDisposable
 {
-    //live state indicator
-    public bool IsActive { get; set; } = false;
 
     //IoC container
     private static ContainerBuilder builder = new ContainerBuilder();
@@ -23,16 +21,20 @@ public sealed class ScopeCastle : ICastle, IDisposable
     private static IEnumerable<IPlayer> availlablePlayers;
     private static IEnumerable<ICube> availlableCubes;
 
+    private static IEnumerable<string> allowedTrackFileExtensions;
+
     //current components
     private static int currentPlayerId;    
     private static int currentCubeId;
 
     private readonly static string cubeStoragePath = Environment.CurrentDirectory;
-    private readonly int cubeCapacity = 300;
     private readonly bool cubeIsMoveTrackFiles = true;
 
     public ScopeCastle()
     {}
+    
+    //live state indicator
+    public bool IsActive { get; set; } = false;
 
     public void Pack()
     {
@@ -58,26 +60,28 @@ public sealed class ScopeCastle : ICastle, IDisposable
 
     private void SupplyCube()
     {
-       if(container.IsRegisteredWithKey<ICube>(currentCubeId))
-       {
-           using (var preScope = container.BeginLifetimeScope())
-           {
-               var currentCube = container.ResolveKeyed<ICube>(currentCubeId);
-               currentCube.Init(cubeStoragePath, cubeIsMoveTrackFiles);               
-               var eventBag = preScope.Resolve<IEventBag>();
-               currentCube.InjectEventBag(eventBag);
-               var supportGhost = new SupportGhost();
-               var factoryGhost = new FactoryGhost();
-               supportGhost.Init(currentCube);
-               factoryGhost.Init(currentCube);
+        if(container.IsRegisteredWithKey<ICube>(currentCubeId))
+        {
+            using (var preScope = container.BeginLifetimeScope())
+            {
+                var currentCube = container.ResolveKeyed<ICube>(currentCubeId);
+                currentCube.Init(cubeStoragePath, cubeIsMoveTrackFiles);               
+                
+                var eventBag = preScope.Resolve<IEventBag>();
+                currentCube.InjectEventBag(eventBag);
 
-               ghosts[Ghosts.SUPPORT] = supportGhost;
-               ghosts[Ghosts.FACTORY] = factoryGhost;
-               var filer = new Filer();
-               filer.WakeUp(factoryGhost);
-               waiters["Filer"] = filer;
-           }
-       } 
+                var supportGhost = new SupportGhost();
+                var factoryGhost = new FactoryGhost();
+                supportGhost.Init(currentCube);
+                factoryGhost.Init(currentCube);
+
+                ghosts[Ghosts.SUPPORT] = supportGhost;
+                ghosts[Ghosts.FACTORY] = factoryGhost;
+                var filer = new Filer();
+                filer.WakeUp(factoryGhost);
+                waiters["Filer"] = filer;
+            }
+        } 
     }
 
     private void SupplyPlayer()
@@ -119,7 +123,6 @@ public sealed class ScopeCastle : ICastle, IDisposable
             .Keyed<ICube>(cube.GetHashCode()); 
     }
 
-
     public async Task RegisterPlayers(ICollection<IPlayer> players)
     {
         if ((players is null) || (players.Count == 0))
@@ -154,7 +157,6 @@ public sealed class ScopeCastle : ICastle, IDisposable
         }    
     }
 
-    //resolve ghosts sychronously and asynchronously
     public IGhost? ResolveGhost(Ghosts ghostTag)
     {
         if (!IsActive) 
@@ -166,7 +168,6 @@ public sealed class ScopeCastle : ICastle, IDisposable
         return ghosts[ghostTag];
     }
 
-
     public Task<IGhost?> ResolveGhostAsync(Ghosts ghostTag)
     {
         if(!IsActive) 
@@ -175,8 +176,6 @@ public sealed class ScopeCastle : ICastle, IDisposable
         return Task.FromResult(ghosts[ghostTag]);
     }
 
-
-    //waiter resolve methods (synchronously and asynchronously)
     public IWaiter ResolveWaiter(string waiterTag)
     {
         if(!IsActive) 
@@ -192,8 +191,7 @@ public sealed class ScopeCastle : ICastle, IDisposable
 
         return Task.FromResult(waiters[waiterTag]);
     }
-   
-    //return current component instances
+
     public IPlayer? GetCurrentPlayer()
     {
         if(!IsActive) 
@@ -230,7 +228,7 @@ public sealed class ScopeCastle : ICastle, IDisposable
     //resolve all cube from IoC
     public Task<IEnumerable<ICube>> GetCubesAsync()
     {
-       if(!IsActive)
+        if(!IsActive)
             throw new Exception();
 
         return Task.FromResult(container.Resolve<IEnumerable<ICube>>());
@@ -238,7 +236,7 @@ public sealed class ScopeCastle : ICastle, IDisposable
 
     public Task<IEventBag> GetEventBag()
     {
-       if(!IsActive)
+        if(!IsActive)
             throw new Exception();
 
         return Task.FromResult(container.Resolve<IEventBag>());

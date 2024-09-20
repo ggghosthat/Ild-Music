@@ -1,6 +1,7 @@
 ﻿using Ild_Music.Core.Events;
 using Ild_Music.Core.Instances;
 using Ild_Music.Core.Instances.DTO;
+using Ild_Music.Core.Instances.Filing;
 using Ild_Music.Core.Instances.Querying;
 
 namespace Ild_Music.Core.Contracts;
@@ -64,13 +65,13 @@ public interface ICube : IShare
     public Task<IEnumerable<CommonInstanceDTO>> SearchInstance(string searchTerm, EntityTag entityTag);
     public Task<IEnumerable<CommonInstanceDTO>> SearchTag(string searchTerm);
 
-    //warehouse TrackAPI
+    //warehouse Track API
     public string GetTrackPathFromId(Guid id);
     public IEnumerable<string> GetTrackPathsFromId(IEnumerable<Guid> ids);
     public void PlaceTrackFile(Track track);
     public void PlaceTrackFiles(IEnumerable<Track> track);
 
-    //warehouse AvatarAPI
+    //warehouse Avatar API
     public string GetAvatarFromId(Guid instanceId);
     public IDictionary<Guid, string> GetAvatarsFromIds(IEnumerable<Guid> instanceIds);
     public void PlaceAvatar(Guid instanceId, string path);
