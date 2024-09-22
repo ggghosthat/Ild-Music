@@ -80,12 +80,7 @@ public partial class MainWindow : Window
         currentInstancePopup = (Control)e.NameScope.Get<Border>(PART_CURRENT_INSTANCE_AREA);
         currentInstanceTray = e.NameScope.Get<Grid>(PART_CURRENT_INSTANCE_TRAY);
 
-        mainGrid = (Control)e.NameScope.Get<Grid>(PART_MAIN_GRID);
-   
-    }
-
-    protected void OnTemplateApplied(TemplateAppliedEventArgs e)
-    {
+        mainGrid = (Control)e.NameScope.Get<Grid>(PART_MAIN_GRID);   
     }
 
     protected override void OnPointerPressed(PointerPressedEventArgs e)
