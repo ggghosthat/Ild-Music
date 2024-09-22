@@ -12,6 +12,4 @@ Start using Ild-Music player:
   3)  Launch `Ild-Music` executable file
 
 ## Contact me
-- [**Email**](mailto:ildairldar990@gmail.com)
-- [**Discord**](https://discord.gg/dXqkwyyR)
-- [**Bluesky**](https://bsky.app/profile/ggghosthat.bsky.social)
+- [**Email**](mailto:ildairldar990@gmail.com), [**Discord**](https://discord.gg/dXqkwyyR), [**Bluesky**](https://bsky.app/profile/ggghosthat.bsky.social)
