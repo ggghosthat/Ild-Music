@@ -81,6 +81,11 @@ public partial class MainWindow : Window
         currentInstanceTray = e.NameScope.Get<Grid>(PART_CURRENT_INSTANCE_TRAY);
 
         mainGrid = (Control)e.NameScope.Get<Grid>(PART_MAIN_GRID);
+   
+    }
+
+    protected void OnTemplateApplied(TemplateAppliedEventArgs e)
+    {
     }
 
     protected override void OnPointerPressed(PointerPressedEventArgs e)
@@ -105,14 +110,14 @@ public partial class MainWindow : Window
             throw new Exception("Cannot get TranslatePoint");
 
         var volumePopupGap = (mainGrid.Bounds.Height - voulumeButtonPosition.Y);
-        var searchPopupGap = (mainGrid.Bounds.Height - (searchBarPosition.Y + searchBar.Bounds.Height + searchPopup.Bounds.Height));
+        var searchPopupGap = (searchBarPosition.Y + searchBar.Bounds.Height);
         var currentInstancePopupGap = (mainGrid.Bounds.Height - currentInstanceTrayPosition.Y) + 10;
 
         
         Dispatcher.UIThread.Post( () => 
         {
             volumePopup.Margin = new Thickness(voulumeButtonPosition.X, 0, 0, volumePopupGap);
-            searchPopup.Margin = new Thickness(searchBarPosition.X, 0, 0, searchPopupGap);
+            searchPopup.Margin = new Thickness(searchBarPosition.X, searchPopupGap, 0, 0);
             currentInstancePopup.Margin = new Thickness(mainGrid.Bounds.Width - currentInstancePopup.Width, 0, 0, currentInstancePopupGap);
         });
     }
