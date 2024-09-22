@@ -79,7 +79,7 @@ public partial class App : Application
     {
         _stage = new (_configure);
         _stage.Build().Wait();
-        return _configure.CheckErrors(_errors);
+        return _stage.CheckErrors(_errors);
     }
 
     private static void StageBuildChainExecute()

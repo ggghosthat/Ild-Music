@@ -33,12 +33,20 @@ public sealed class Stage : IErrorTracable
 
     public async Task Build()
     {
-        CompletionResult = await DockComponents();
-
-        if (CompletionResult)
+        try
         {
+            CompletionResult = await DockComponents();
+
+            if (!CompletionResult)
+                throw new Exception("Could not upload configured components.");
+            
             castle.Pack();
-            OnInitialized?.Invoke();
+            OnInitialized?.Invoke();            
+        }
+        catch (Exception ex) 
+        {
+            var error = new ErrorFlag("stage", "build", ex.Message);
+            Errors.Add(error);
         }
     }       
 

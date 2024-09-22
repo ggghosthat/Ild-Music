@@ -171,129 +171,151 @@
                                 Classes="searchPopup"
                                 IsVisible="{Binding SearchAreaOpen}"
                                 Height="200">
-                            <ScrollViewer Margin="0"
-                                          Width="{Binding #SearchBox.Width}"
-                                          Height="200"
-                                          HorizontalAlignment="Stretch"
-                                          VerticalAlignment="Bottom"
-                                          HorizontalScrollBarVisibility="Disabled"
-                                          VerticalScrollBarVisibility="Auto">
-                                <ListBox ItemsSource="{Binding SearchItems}"
-                                          SelectedItem="{Binding SearchItem}"
-                                          HorizontalAlignment="Stretch"
-                                          ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                                          ScrollViewer.VerticalScrollBarVisibility="Visible"
-                                          Background="Transparent">
-                                     <ListBox.ItemsPanel>
-                                        <ItemsPanelTemplate>
-                                            <StackPanel Orientation="Vertical"/>
-                                        </ItemsPanelTemplate>
-                                     </ListBox.ItemsPanel>
+                            <Grid>
+                                <ScrollViewer Margin="0"
+                                            Width="{Binding #SearchBox.Width}"
+                                            Height="200"
+                                            HorizontalAlignment="Stretch"
+                                            VerticalAlignment="Bottom"
+                                            HorizontalScrollBarVisibility="Disabled"
+                                            VerticalScrollBarVisibility="Auto">
+                                    <ListBox x:Name="SearchSource"
+                                            ItemsSource="{Binding SearchItems}"
+                                            SelectedItem="{Binding SearchItem}"
+                                            HorizontalAlignment="Stretch"
+                                            ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                                            ScrollViewer.VerticalScrollBarVisibility="Visible"
+                                            Background="Transparent">
+                                        <ListBox.ItemsPanel>
+                                            <ItemsPanelTemplate>
+                                                <StackPanel Orientation="Vertical"/>
+                                            </ItemsPanelTemplate>
+                                        </ListBox.ItemsPanel>
 
-                                     <ListBox.Styles>
-                                        <Style Selector="ListBoxItem">
-                                            <Setter Property="BorderBrush" Value="Transparent"/>
-                                            <Setter Property="BorderThickness" Value="0"/>
-                                            <Setter Property="CornerRadius" Value="{Binding #SearchArea.CornerRadius}"/>
-                                            <Setter Property="Margin" Value="0"/>
-                                            <Setter Property="Padding" Value="0"/>
-                                            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                                        <ListBox.Styles>
+                                            <Style Selector="ListBoxItem">
+                                                <Setter Property="BorderBrush" Value="Transparent"/>
+                                                <Setter Property="BorderThickness" Value="0"/>
+                                                <Setter Property="CornerRadius" Value="{Binding #SearchArea.CornerRadius}"/>
+                                                <Setter Property="Margin" Value="0"/>
+                                                <Setter Property="Padding" Value="0"/>
+                                                <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
 
-                                            <Setter Property="Template">
-                                                <ControlTemplate>
-                                                    <Grid>
-                                                        <Border x:Name="Bd"
-                                                                Margin="{TemplateBinding Margin}"
-                                                                CornerRadius="{TemplateBinding CornerRadius}"
-                                                                Background="{TemplateBinding Background}"
-                                                                BorderThickness="{TemplateBinding BorderThickness}"
-                                                                BorderBrush="{TemplateBinding BorderBrush}"
-                                                                Padding="{TemplateBinding Padding}">
-                                                        <ContentPresenter Name="PART_ContentPresenter"
-                                                                          HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                                                          VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
-                                                                          ContentTemplate="{TemplateBinding ContentTemplate}"
-                                                                          Content="{TemplateBinding Content}"/>
-                                                        </Border>
-                                                    </Grid>
-                                                </ControlTemplate>
-                                            </Setter>
-                                        </Style>
+                                                <Setter Property="Template">
+                                                    <ControlTemplate>
+                                                        <Grid>
+                                                            <Border x:Name="Bd"
+                                                                    Margin="{TemplateBinding Margin}"
+                                                                    CornerRadius="{TemplateBinding CornerRadius}"
+                                                                    Background="{TemplateBinding Background}"
+                                                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                                                    Padding="{TemplateBinding Padding}">
+                                                            <ContentPresenter Name="PART_ContentPresenter"
+                                                                            HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                                            VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                                                            ContentTemplate="{TemplateBinding ContentTemplate}"
+                                                                            Content="{TemplateBinding Content}"/>
+                                                            </Border>
+                                                        </Grid>
+                                                    </ControlTemplate>
+                                                </Setter>
+                                            </Style>
 
-                                        <Style Selector="ListBoxItem:pointerover /template/ Border#Bd">
-                                          <Setter Property="Background" Value="#4027da48"/>
-                                        </Style>
+                                            <Style Selector="ListBoxItem:pointerover /template/ Border#Bd">
+                                            <Setter Property="Background" Value="#4027da48"/>
+                                            </Style>
 
-                                        <Style Selector="ListBoxItem:pointerover /template/ ContentPresenter">
-                                            <Setter Property="Background" Value="Transparent"/>
-                                        </Style>
+                                            <Style Selector="ListBoxItem:pointerover /template/ ContentPresenter">
+                                                <Setter Property="Background" Value="Transparent"/>
+                                            </Style>
 
-                                        <Style Selector="ListBoxItem:selected /template/ Border#Bd">
-                                            <Setter Property="Background" Value="#7027da48"/>
-                                        </Style>
+                                            <Style Selector="ListBoxItem:selected /template/ Border#Bd">
+                                                <Setter Property="Background" Value="#7027da48"/>
+                                            </Style>
 
-                                        <Style Selector="ListBoxItem:selected /template/ ContentPresenter">
-                                            <Setter Property="Background" Value="Transparent"/>
-                                        </Style>
-                                
-                                        <Style Selector="ListBoxItem:selected:focus /template/ Border#Bd">
-                                            <Setter Property="Background" Value="#7027da48"/>
-                                        </Style>
-
-                                        <Style Selector="ListBoxItem:selected:focus /template/ ContentPresenter">
-                                            <Setter Property="Background" Value="Transparent"/>
-                                        </Style>
-
-                                        <Style Selector="ListBoxItem:selected:pointerover /template/ Border#Bd">
-                                          <Setter Property="Background" Value="#7027da48"/>
-                                        </Style>
-
-                                        <Style Selector="ListBoxItem:selected:pointerover /template/ ContentPresenter">
-                                            <Setter Property="Background" Value="Transparent"/>
-                                        </Style>
-
-                                        <Style Selector="ListBoxItem:selected:focus:pointerover /template/ Border#Bd">
-                                            <Setter Property="Background" Value="#7027da48"/>
-                                        </Style>
-
-                                        <Style Selector="ListBoxItem:selected:focus:pointerover /template/ ContentPresenter">
-                                            <Setter Property="Background" Value="Transparent"/>
-                                        </Style>
-                                     </ListBox.Styles>
+                                            <Style Selector="ListBoxItem:selected /template/ ContentPresenter">
+                                                <Setter Property="Background" Value="Transparent"/>
+                                            </Style>
                                     
-                                     <i:Interaction.Behaviors>
-                                         <ia:EventTriggerBehavior EventName="DoubleTapped">
-                                             <ia:InvokeCommandAction Command="{Binding SelectSearchItemCommand}"/>
-                                         </ia:EventTriggerBehavior>  
-                                     </i:Interaction.Behaviors>
-                                     <ListBox.ItemTemplate>
-                                        <DataTemplate>                                     
-                                        <Grid>
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="Auto"/>
-                                                <ColumnDefinition Width="Auto"/>
-                                            </Grid.ColumnDefinitions> 
-                                            
-                                            <Image Grid.Column="0"
-                                                   Width="40"
-                                                   Height="40"
-                                                   Stretch="UniformToFill"
-                                                   Source="{Binding ., Converter={StaticResource IconConverter}, ConverterParameter=dto_icon}"/>
+                                            <Style Selector="ListBoxItem:selected:focus /template/ Border#Bd">
+                                                <Setter Property="Background" Value="#7027da48"/>
+                                            </Style>
 
-                                            <TextBlock Grid.Column="1"
-                                                       Margin="5, 0" 
-                                                       HorizontalAlignment="Stretch"
-                                                       VerticalAlignment="Center"
-                                                       Foreground="White"
-                                                       FontSize="14"
-                                                       FontWeight="Medium"
-                                                       Text="{Binding ., Converter={StaticResource InstanceConverter}, ConverterParameter=name}"
-                                                       TextAlignment="Left"/>
-                                        </Grid>
-                                        </DataTemplate>
-                                     </ListBox.ItemTemplate>
-                                </ListBox>
-                            </ScrollViewer>
+                                            <Style Selector="ListBoxItem:selected:focus /template/ ContentPresenter">
+                                                <Setter Property="Background" Value="Transparent"/>
+                                            </Style>
+
+                                            <Style Selector="ListBoxItem:selected:pointerover /template/ Border#Bd">
+                                            <Setter Property="Background" Value="#7027da48"/>
+                                            </Style>
+
+                                            <Style Selector="ListBoxItem:selected:pointerover /template/ ContentPresenter">
+                                                <Setter Property="Background" Value="Transparent"/>
+                                            </Style>
+
+                                            <Style Selector="ListBoxItem:selected:focus:pointerover /template/ Border#Bd">
+                                                <Setter Property="Background" Value="#7027da48"/>
+                                            </Style>
+
+                                            <Style Selector="ListBoxItem:selected:focus:pointerover /template/ ContentPresenter">
+                                                <Setter Property="Background" Value="Transparent"/>
+                                            </Style>
+                                        </ListBox.Styles>
+                                        
+                                        <i:Interaction.Behaviors>
+                                            <ia:EventTriggerBehavior EventName="DoubleTapped">
+                                                <ia:InvokeCommandAction Command="{Binding SelectSearchItemCommand}"/>
+                                            </ia:EventTriggerBehavior>  
+                                        </i:Interaction.Behaviors>
+                                        <ListBox.ItemTemplate>
+                                            <DataTemplate>                                     
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="Auto"/>
+                                                    <ColumnDefinition Width="Auto"/>
+                                                </Grid.ColumnDefinitions> 
+                                                
+                                                <Image Grid.Column="0"
+                                                    Width="40"
+                                                    Height="40"
+                                                    Stretch="UniformToFill"
+                                                    Source="{Binding ., Converter={StaticResource IconConverter}, ConverterParameter=dto_icon}"/>
+
+                                                <TextBlock Grid.Column="1"
+                                                        Margin="5, 0" 
+                                                        HorizontalAlignment="Stretch"
+                                                        VerticalAlignment="Center"
+                                                        Foreground="White"
+                                                        FontSize="14"
+                                                        FontWeight="Medium"
+                                                        Text="{Binding ., Converter={StaticResource InstanceConverter}, ConverterParameter=name}"
+                                                        TextAlignment="Left"/>
+                                            </Grid>
+                                            </DataTemplate>
+                                        </ListBox.ItemTemplate>
+                                    </ListBox>
+                                </ScrollViewer>
+                                <StackPanel Grid.Row="1"
+                                            HorizontalAlignment="Center"
+                                            VerticalAlignment="Center"
+                                            IsVisible="{Binding #SearchSource.ItemCount, Converter={StaticResource ListActivityConverter}, ConverterParameter=is_empty}"
+                                            ZIndex="2">
+                                    <PathIcon Height="50"
+                                            Width="50"
+                                            Margin="5"
+                                            Foreground="#c2c2c2"
+                                            Background="Transparent"
+                                            VerticalAlignment="Stretch"
+                                            HorizontalAlignment="Stretch"
+                                            Data="M11,7A2,2 0 0,0 9,9V15A2,2 0 0,0 11,17H13A2,2 0 0,0 15,15V9A2,2 0 0,0 13,7H11M11,9H13V15H11V9M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2Z"/>
+                                    <TextBlock Text="{x:Static lang:Resources.EmptyBannerText}"
+                                            Foreground="#969696"
+                                            TextAlignment="Center"
+                                            FontSize="15"
+                                            FontWeight="Light"/>
+                                </StackPanel>
+                            </Grid>
                         </Border>
                         
                         <Border x:Name="CurrentInstanceArea"
