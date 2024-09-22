@@ -13,4 +13,5 @@ Start using Ild-Music player:
 
 ## Contact me
 - [**Email**](mailto:ildairldar990@gmail.com)
-- **Discord**: []()
+- [**Discord**](https://discord.gg/dXqkwyyR)
+- [**Bluesky**](https://bsky.app/profile/ggghosthat.bsky.social)
