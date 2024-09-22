@@ -11,5 +11,9 @@ Start using Ild-Music player:
   2)  Extract files to directory
   3)  Launch `Ild-Music` executable file
 
+## Contribute
+Ild-Music is open-source driven project and I am very welcome contributions from everyone. Whether you are developer or enthusiast.
+For more details follow [this document]().  
+
 ## Contact me
 - [**Email**](mailto:ildairldar990@gmail.com), [**Discord**](https://discord.gg/dXqkwyyR), [**Bluesky**](https://bsky.app/profile/ggghosthat.bsky.social)
