@@ -1,0 +1,49 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.002.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ild-Music.Core", "Ild-Music.Core\Ild-Music.Core.csproj", "{4D7EE5AD-3C11-4B5F-A2A9-11BE03AD158A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ild-Music.VlcPlayer.Linux", "Ild-Music.VlcPlayer.Linux\Ild-Music.VlcPlayer.Linux.csproj", "{90C11B85-DB84-48A1-A142-05ABECBB2C98}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ild-Music.NAudio.Windows", "Ild-Music.NAudio.Windows\Ild-Music.NAudio.Windows.csproj", "{F4C19FF7-7D4A-4B61-A4BF-ED702ABF42EE}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ild-Music", "Ild-Music\Ild-Music.csproj", "{F621B50C-5626-4A3C-A3C1-C1151B7441D9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ild-Music.Repository", "Ild-Music.Repository\Ild-Music.Repository.csproj", "{2DCF4BC5-A456-4C8D-B3BA-5A26CFBDC6E3}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4D7EE5AD-3C11-4B5F-A2A9-11BE03AD158A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4D7EE5AD-3C11-4B5F-A2A9-11BE03AD158A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4D7EE5AD-3C11-4B5F-A2A9-11BE03AD158A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4D7EE5AD-3C11-4B5F-A2A9-11BE03AD158A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{90C11B85-DB84-48A1-A142-05ABECBB2C98}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{90C11B85-DB84-48A1-A142-05ABECBB2C98}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{90C11B85-DB84-48A1-A142-05ABECBB2C98}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{90C11B85-DB84-48A1-A142-05ABECBB2C98}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F4C19FF7-7D4A-4B61-A4BF-ED702ABF42EE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F4C19FF7-7D4A-4B61-A4BF-ED702ABF42EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F4C19FF7-7D4A-4B61-A4BF-ED702ABF42EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F4C19FF7-7D4A-4B61-A4BF-ED702ABF42EE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F621B50C-5626-4A3C-A3C1-C1151B7441D9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F621B50C-5626-4A3C-A3C1-C1151B7441D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F621B50C-5626-4A3C-A3C1-C1151B7441D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F621B50C-5626-4A3C-A3C1-C1151B7441D9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2DCF4BC5-A456-4C8D-B3BA-5A26CFBDC6E3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2DCF4BC5-A456-4C8D-B3BA-5A26CFBDC6E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2DCF4BC5-A456-4C8D-B3BA-5A26CFBDC6E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2DCF4BC5-A456-4C8D-B3BA-5A26CFBDC6E3}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {9268A65B-6FA3-4AFF-BD52-C2D50EA7EAED}
+	EndGlobalSection
+EndGlobal

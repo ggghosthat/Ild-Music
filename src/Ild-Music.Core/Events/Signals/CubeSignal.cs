@@ -1,0 +1,15 @@
+namespace Ild_Music.Core.Events.Signals;
+
+public enum CubeSignal 
+{
+    CUBE_ADD_ARTIST,
+    CUBE_ADD_TRACK,
+    CUBE_ADD_PLAYLIST,
+    CUBE_EDIT_ARTIST,
+    CUBE_EDIT_TRACK,
+    CUBE_EDIT_PLAYLIST,
+    CUBE_DELETE_ARTIST,
+    CUBE_DELETE_TRACK,
+    CUBE_DELETE_PLAYLIST,
+    CUBE_WAREHOUSE_GET_TRACK
+}
