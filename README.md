@@ -1,4 +1,4 @@
-![](title.jpg)
+![](img/title.jpg)
 ## About
 Ild-Music - comffy music player to have a fun and et relaxed. Take install, enjoy music. 
 
