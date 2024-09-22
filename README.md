@@ -19,5 +19,13 @@ Start using Ild-Music player:
 Ild-Music is open-source driven project and I am very welcome contributions from everyone. Whether you are developer or enthusiast.
 For more details follow [this document]().  
 
+## Technologies
+- [.NET/C#](https://github.com/dotnet) - developement platform with c# programming language
+- [Avalonia UI](https://github.com/AvaloniaUI) - cross-platform UI framework for .NET
+- [Dapper](https://github.com/DapperLib/Dapper) - simple object mapper for .Net
+- [LibVLCSharp](https://github.com/videolan/libvlcsharp) - cross-platform audio and video API for .NET platforms based on VideoLAN's LibVLC Library
+- [NAudio](https://github.com/naudio/NAudio) - audio library for .NET based on Windows API
+- [ImageSharp](https://github.com/SixLabors/ImageSharp) - graphics library for image procession
+
 ## Contact me
 - [**Email**](mailto:ildairldar990@gmail.com), [**Discord**](https://discord.gg/dXqkwyyR), [**Bluesky**](https://bsky.app/profile/ggghosthat.bsky.social)
