@@ -40,7 +40,7 @@ internal sealed class SearchHandler
                         .Select(a => new CommonInstanceDTO( 
                             id: new Guid(a.AID),
                             name: ((string)a.Name).AsMemory(),
-                            avatar: a.Avatar,
+                            avatarPath: WarehouseAgent.GetAvatarFromId(Guid.Parse((string)a.AID)).AsMemory(),
                             tag: EntityTag.ARTIST))
                         .ToList();
 
@@ -50,7 +50,7 @@ internal sealed class SearchHandler
                         .Select(p => new CommonInstanceDTO( 
                             id: new Guid(p.PID),
                             name: ((string)p.Name).AsMemory(),
-                            avatar: p.Avatar,
+                            avatarPath: WarehouseAgent.GetAvatarFromId(Guid.Parse((string)p.PID)).AsMemory(),
                             tag: EntityTag.PLAYLIST))
                         .ToList(); 
 
@@ -60,7 +60,7 @@ internal sealed class SearchHandler
                         .Select(t => new CommonInstanceDTO( 
                             id: new Guid(t.TID),
                             name: ((string)t.Name).AsMemory(),
-                            avatar: t.Avatar,
+                            avatarPath: WarehouseAgent.GetAvatarFromId(Guid.Parse((string)t.TID)).AsMemory(),
                             tag: EntityTag.TRACK))
                         .ToList();
 
@@ -91,7 +91,7 @@ internal sealed class SearchHandler
                 .Select(a => new CommonInstanceDTO( 
                     id: new Guid(a.AID),
                     name: ((string)a.Name).AsMemory(),
-                    avatar: a.Avatar,
+                    avatarPath: WarehouseAgent.GetAvatarFromId(Guid.Parse((string)a.AID)).AsMemory(),
                     tag: EntityTag.ARTIST)).ToList();
 
                 resultCollection.AddRange(artistsDTO);  
@@ -120,7 +120,7 @@ internal sealed class SearchHandler
                 .Select(p => new CommonInstanceDTO( 
                     id: new Guid(p.PID),
                     name: ((string)p.Name).AsMemory(),
-                    avatar: p.Avatar,
+                    avatarPath: WarehouseAgent.GetAvatarFromId(Guid.Parse((string)p.PID)).AsMemory(),
                     tag: EntityTag.PLAYLIST))
                 .ToList(); 
 
@@ -150,7 +150,7 @@ internal sealed class SearchHandler
                 .Select(t => new CommonInstanceDTO( 
                     id: new Guid(t.TID),
                     name: ((string)t.Name).AsMemory(),
-                    avatar: t.Avatar,
+                    avatarPath: WarehouseAgent.GetAvatarFromId(Guid.Parse((string)t.TID)).AsMemory(),
                     tag: EntityTag.TRACK))
                 .ToList();
 

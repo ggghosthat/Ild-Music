@@ -16,7 +16,6 @@ using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Threading;
 using System.Threading.Tasks;
-using Avalonia.Controls.Documents;
 
 namespace Ild_Music.ViewModels;
 

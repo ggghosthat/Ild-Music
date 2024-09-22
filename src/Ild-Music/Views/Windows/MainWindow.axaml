@@ -173,7 +173,7 @@
                                 Height="200">
                             <Grid>
                                 <ScrollViewer Margin="0"
-                                            Width="{Binding #SearchBox.Width}"
+                                            Width="{Binding #SearchBar.Width}"
                                             Height="200"
                                             HorizontalAlignment="Stretch"
                                             VerticalAlignment="Bottom"
@@ -276,11 +276,16 @@
                                                     <ColumnDefinition Width="Auto"/>
                                                 </Grid.ColumnDefinitions> 
                                                 
-                                                <Image Grid.Column="0"
-                                                    Width="40"
-                                                    Height="40"
-                                                    Stretch="UniformToFill"
-                                                    Source="{Binding ., Converter={StaticResource IconConverter}, ConverterParameter=dto_icon}"/>
+                                                <Border Grid.Row="0"
+                                                        Width="40"
+                                                        Height="40"
+                                                        CornerRadius="5"                                        
+                                                        HorizontalAlignment="Stretch"
+                                                        VerticalAlignment="Stretch">
+                                                    <Border.Background>
+                                                        <ImageBrush Stretch="UniformToFill" Source="{Binding ., Converter={StaticResource IconConverter}, ConverterParameter=dto_icon}"/>
+                                                    </Border.Background>
+                                                </Border>
 
                                                 <TextBlock Grid.Column="1"
                                                         Margin="5, 0" 
