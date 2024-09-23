@@ -23,6 +23,7 @@ Come on [board](https://discord.gg/dXqkwyyR)
 ## Planning features
 - Plugin extensibility
 - Music file rich support
+- Max OS support
 - Improved localization
 - Improved UI theaming
 
