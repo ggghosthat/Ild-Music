@@ -1,0 +1,8 @@
+{
+    "Players": [
+        "./components/Ild-Music.VlcPlayer.Linux/Ild-Music.VlcPlayer.Linux.dll"
+    ],
+    "Repositories": [
+        "./components/Ild-Music.Repository/Ild-Music.Repository.dll"
+    ]
+}

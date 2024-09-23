@@ -24,7 +24,7 @@ public class Docker : IDocker, IDisposable
     public ValueTask<int> Dock()
     {
         Players = DefaultDockProcess<IPlayer>(ref configure.ConfigSheet._players);
-        Cubes = DefaultDockProcess<ICube>(ref configure.ConfigSheet._cubes);
+        Cubes = DefaultDockProcess<ICube>(ref configure.ConfigSheet._repositories);
         
         return (_errors.Count == 0)
             ? ValueTask.FromResult(0)
