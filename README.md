@@ -12,7 +12,7 @@ In 2021 project has been started for educational purposes (learn programming). H
 ## Install and run
 Start using Ild-Music player:
   1)  Visit [Releases page](https://github.com/ggghosthat/Ild-Music/releases) and download the last version for your operating system.   
-  1.1) If you use linux operating system, make sure you have installed `libvlc-dev` package.
+  1.1) If you use Linux operating system, make sure you have installed `libvlc-dev` package. In case of Windows skip this step.
   3)  Extract files to directory
   4)  Launch `Ild-Music` executable file
 
