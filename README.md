@@ -20,8 +20,14 @@ Start using Ild-Music player:
 Ild-Music is open-source driven project and I am very welcome contributions from everyone. Whether you are developer or enthusiast.
 For more details follow [this document]().  
 
+##Planning features
+- Plugin extensibility
+- Music file rich support
+- Improved localization
+- Improved UI theaming
+
 ## Technologies
-- [.NET/C#](https://github.com/dotnet) - developement platform with c# programming language
+- [.NET 8](https://github.com/dotnet) - developement platform with c# programming language
 - [Avalonia UI](https://github.com/AvaloniaUI) - cross-platform UI framework for .NET
 - [Dapper](https://github.com/DapperLib/Dapper) - simple object mapper for .Net
 - [taglib-sharp](https://github.com/mono/taglib-sharp) - library for reading and writing metadata in media files
