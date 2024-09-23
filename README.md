@@ -12,6 +12,7 @@ In 2021 project has been started for educational purposes (learn programming). H
 ## Install and run
 Start using Ild-Music player:
   1)  Visit [Releases page](https://github.com/ggghosthat/Ild-Music/releases) and download the last version for your operating system.
+     1.1) If you use linux operating system, make sure you have installed `libvlc-dev` package.
   2)  Extract files to directory
   3)  Launch `Ild-Music` executable file
 
@@ -23,6 +24,7 @@ For more details follow [this document]().
 - [.NET/C#](https://github.com/dotnet) - developement platform with c# programming language
 - [Avalonia UI](https://github.com/AvaloniaUI) - cross-platform UI framework for .NET
 - [Dapper](https://github.com/DapperLib/Dapper) - simple object mapper for .Net
+- [taglib-sharp](https://github.com/mono/taglib-sharp) - library for reading and writing metadata in media files
 - [LibVLCSharp](https://github.com/videolan/libvlcsharp) - cross-platform audio and video API for .NET platforms based on VideoLAN's LibVLC Library
 - [NAudio](https://github.com/naudio/NAudio) - audio library for .NET based on Windows API
 - [ImageSharp](https://github.com/SixLabors/ImageSharp) - graphics library for image procession
