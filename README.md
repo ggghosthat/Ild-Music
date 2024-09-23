@@ -26,7 +26,7 @@ For more details follow [this document]().
 - Improved localization
 - Improved UI theaming
 
-## Huge thank to
+## Huge thanks to
 - [.NET 8](https://github.com/dotnet) - developement platform with c# programming language
 - [Avalonia UI](https://github.com/AvaloniaUI) - cross-platform UI framework for .NET
 - [Dapper](https://github.com/DapperLib/Dapper) - simple object mapper for .Net
