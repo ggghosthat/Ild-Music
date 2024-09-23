@@ -23,6 +23,7 @@ src/Ild-Music.VLCSharpPlayer/bin
 src/Ild-Music.VLCSharpPlayer/obj
 src/Ild-Music.NAudioPlayerCore/bin
 src/Ild-Music.NAudioPlayerCore/obj
+out
 # User-specific files
 *.rsuser
 *.suo
