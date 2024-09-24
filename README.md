@@ -22,7 +22,7 @@ Start using Ild-Music player:
 
 ## Contribute
 Ild-Music is open-source driven project and I am very welcome contributions from everyone. Whether you are developer or enthusiast.
-Come on [board](https://discord.gg/dXqkwyyR)
+Come on [board](https://discord.gg/dXqkwyyR). Visit this [page](https://github.com/ggghosthat/Ild-Music/CONTRIBUTING.md) for information.
 
 ## Planning features
 - Plugin extensibility
