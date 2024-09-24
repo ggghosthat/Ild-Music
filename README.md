@@ -41,4 +41,4 @@ Come on [board](https://discord.gg/dXqkwyyR). Visit this [page](https://github.c
 - [ImageSharp](https://github.com/SixLabors/ImageSharp) - graphics library for image procession
 
 ## Contact me
-- [**Email**](mailto:ildairldar990@gmail.com), [**Discord**](https://discord.gg/dXqkwyyR), [**Bluesky**](https://bsky.app/profile/ggghosthat.bsky.social)
+- [**Email**](mailto:ildairldar@yahoo.com), [**Discord**](https://discord.gg/dXqkwyyR), [**Bluesky**](https://bsky.app/profile/ggghosthat.bsky.social)
