@@ -17,10 +17,10 @@ Thanks for your interest in contributing to Ild-Music! I am very welcome and app
 ## Build directory rules
   - Each subfolder named as supported operating system
   - Subfolder must contains scripts just for building or publishing process no more no less.
-    
-Examples
-    - `windows` subfolder stores build or publish script for Linux and `linux` subfodler stores both for Linux and WIndows. (NOT ACCEPTABLE)
-    - `window` stores for Windows, `linux` stores for Linux, `macos` stores for Mac OS, `bsd` stores for BSD. (SINGLE ACCEPTABLE VARIANT)
+
+### Examples
+  - `windows` subfolder stores build or publish script for Linux and `linux` subfodler stores both for Linux and WIndows. (NOT ACCEPTABLE)
+  - `window` stores for Windows, `linux` stores for Linux, `macos` stores for Mac OS, `bsd` stores for BSD. (SINGLE ACCEPTABLE VARIANT)
     
 # Contribution algorithm
   - fork repository
