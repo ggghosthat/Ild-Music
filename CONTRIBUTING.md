@@ -7,14 +7,14 @@ Thanks for your interest in contributing to Ild-Music! I am very welcome and app
   - `out` (optional) - artifact directory for building and publishing. DO NOT INCLUDE IN REPOSITORY!
   - `img` - images for markdow files (README, etc)
 
-# Source code directory structure
+## Source code directory structure
   - Ild-Music - main app
   - Ild-Music.Core - share functionality across whole app and components
   - Ild-Music.Repository - data saving component
   - Ild-Music.NAudio.Windows - player component for Windows
   - Ild-Music.VlcPlayer.Linux - player component for Linux
     
-# Build directory rules
+## Build directory rules
   - Each subfolder named as supported operating system
   - Subfolder must contains scripts just for building or publishing process no more no less.
     
