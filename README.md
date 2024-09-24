@@ -1,6 +1,6 @@
 ![](img/title.jpg)
 ## About
-**Ild-Music** - comffy music player to have a fun and et relaxed. Take install, enjoy music. 
+**Ild-Music** - comfy music player to have a fun and relax on any operating system with the same enjoy. Take install, enjoy music.
 
 ![](img/1.png)
 
