@@ -1,6 +1,6 @@
 {
     "Players": [
-        "./components/Ild-Music.NAudio.Windows/Ild-Music.NAudio.Windows.dll"
+        "./components/Ild-Music.VlcPlayer.Linux/Ild-Music.VlcPlayer.Linux.dll"
     ],
     "Repositories": [
         "./components/Ild-Music.Repository/Ild-Music.Repository.dll"
