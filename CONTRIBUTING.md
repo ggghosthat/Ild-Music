@@ -8,6 +8,12 @@ Thanks for your interest in contributing to Ild-Music! I am very welcome and app
   - Ild-Music.NAudio.Windows - player component for Windows
   - Ild-Music.VlcPlayer.Linux - player component for Linux
 
+# Directories
+
+  - `src` - codebase directory
+  - `build` - build scripts directory.
+  - `out` (optional) - artifact directory for building and publishing. DO NOT INCLUDE IN REPOSITORY!
+  
 # Contribution algorithm
   - fork repository
   - configure git
