@@ -2,9 +2,11 @@
 ## About
 **Ild-Music** - comfy music player to have a fun and relax on any operating system with the same enjoy. Take install, enjoy music.
 
+
 ![](img/1.png)
 
 ![](img/2.png)
+
 
 ## History
 In 2021 project has been started for educational purposes (learn programming). However I faced with 2 problems, that I had a lot of music file (primary mp3) and there was not any of tool to playback and enjoy on Windows and Linux with the same experience. In next year (2022) i decided to take upgrade and result was 0.6 version (see in release notes). But it still looked weired, so by this reason in May of 2024 I started redesign whole project for better experience.
