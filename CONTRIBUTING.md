@@ -8,12 +8,19 @@ Thanks for your interest in contributing to Ild-Music! I am very welcome and app
   - Ild-Music.NAudio.Windows - player component for Windows
   - Ild-Music.VlcPlayer.Linux - player component for Linux
 
-# Directories
-
+# Dev directories
   - `src` - codebase directory
   - `build` - build scripts directory.
   - `out` (optional) - artifact directory for building and publishing. DO NOT INCLUDE IN REPOSITORY!
-  
+  - `img` - images for markdow files (README, etc)
+
+# Build directory rules
+  - Each subfolder named as supported operating system
+  - Subfolder must contains scripts just for building or publishing process no more no less.
+  Ex.
+    1) `windows` subfolder stores build or publish script for Linux and `linux` subfodler stores both for Linux and WIndows. (NOT ACCEPTABLE)
+    2) `window` stores for Windows, `linux` stores for Linux, `macos` stores for Mac OS, `bsd` stores for BSD. (SINGLE ACCEPTABLE VARIANT)
+    
 # Contribution algorithm
   - fork repository
   - configure git
