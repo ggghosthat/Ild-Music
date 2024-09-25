@@ -5,7 +5,8 @@
 ## History
 In 2021 I started new project for educational purposes (learn programming). However I faced with 2 problems:
   - I have a lot of music file (primarilyy mp3)
-  -  absence of tool to playback and enjoy on Windows and Linux with the same experience. 
+  -  absence of tool to playback and enjoy on Windows and Linux with the same experience.
+    
 In next year (2022) i decided to take upgrade and result was 0.4 version (see in release notes). But it still looked weired, by this reason in May of 2024 I started redesign whole project for better user experience.
 
 ## Screenshots
