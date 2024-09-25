@@ -25,11 +25,11 @@ Ild-Music is open-source driven project and I am very welcome contributions from
 Come on [board](https://discord.gg/dXqkwyyR). Visit this [page](https://github.com/ggghosthat/Ild-Music/blob/main/CONTRIBUTING.md) for information.
 
 ## Planning features
-- Plugin extensibility
-- Music file rich support
+- plugin extensibility
+- more music file formats to support
 - Max OS support
-- Improved localization
-- Improved UI theaming
+- improved localization
+- improved UI theaming
 
 ## Huge thanks to
 - [.NET 8](https://github.com/dotnet) - developement platform with c# programming language
