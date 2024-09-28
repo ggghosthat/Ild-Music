@@ -14,9 +14,5 @@ public interface ICastle
 
     public IGhost? ResolveGhost(Ghosts ghostTag);
 
-    public IWaiter ResolveWaiter(string waiterTag);
-
     public Task<IGhost?> ResolveGhostAsync(Ghosts ghostTag);
-
-    public Task<IWaiter> ResolveWaiterAsync(string waiterTag);
 }

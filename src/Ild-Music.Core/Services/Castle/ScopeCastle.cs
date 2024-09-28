@@ -4,6 +4,7 @@ using Ild_Music.Core.Events;
 using Ild_Music.Core.Contracts.Services.Interfaces;
 
 using Autofac;
+using Ild_Music.Core.Helpers;
 
 namespace Ild_Music.Core.Services.Castle;
 
@@ -15,7 +16,6 @@ public sealed class ScopeCastle : ICastle, IDisposable
     private static IContainer container;
 
     private static IDictionary<Ghosts, IGhost> ghosts = new Dictionary<Ghosts, IGhost>();
-    private static IDictionary<string, IWaiter> waiters = new Dictionary<string, IWaiter>();
 
     //available components
     private static IEnumerable<IPlayer> availlablePlayers;
@@ -77,9 +77,8 @@ public sealed class ScopeCastle : ICastle, IDisposable
 
                 ghosts[Ghosts.SUPPORT] = supportGhost;
                 ghosts[Ghosts.FACTORY] = factoryGhost;
-                var filer = new Filer();
-                filer.WakeUp(factoryGhost);
-                waiters["Filer"] = filer;
+
+                FileHelper.SetFactoryGhost(factoryGhost);
             }
         } 
     }
@@ -174,22 +173,6 @@ public sealed class ScopeCastle : ICastle, IDisposable
             throw new Exception();
 
         return Task.FromResult(ghosts[ghostTag]);
-    }
-
-    public IWaiter ResolveWaiter(string waiterTag)
-    {
-        if(!IsActive) 
-            throw new Exception();
-
-        return waiters[waiterTag];
-    }
-
-    public Task<IWaiter> ResolveWaiterAsync(string waiterTag)
-    {
-        if(!IsActive) 
-            throw new Exception();
-
-        return Task.FromResult(waiters[waiterTag]);
     }
 
     public IPlayer? GetCurrentPlayer()

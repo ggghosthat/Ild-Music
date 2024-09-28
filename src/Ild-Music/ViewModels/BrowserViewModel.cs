@@ -9,6 +9,7 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
+using Ild_Music.Core.Helpers;
 
 namespace Ild_Music.ViewModels;
 
@@ -17,9 +18,6 @@ public class BrowserViewModel : BaseViewModel
     public static readonly Guid viewModelId = Guid.NewGuid();
     public override Guid ViewModelId => viewModelId;
 
-    private static string FILER_TAG = "Filer";
-    public static Filer _filer;
-
     private static SupportGhost supporter => (SupportGhost)App.Stage.GetGhost(Ghosts.SUPPORT);
     private static FactoryGhost factory => (FactoryGhost)App.Stage.GetGhost(Ghosts.FACTORY);
     private MainWindowViewModel MainVM => (MainWindowViewModel)App.ViewModelTable[MainWindowViewModel.viewModelId];
@@ -27,8 +25,6 @@ public class BrowserViewModel : BaseViewModel
 
     public BrowserViewModel()
     {
-        _filer = (Filer)App.Stage.GetWaiter(FILER_TAG);
-
         PlayTrackCommand = new(PlaySingleTrack, null);
         PlaySourceCommand = new(PlaySelectedSource, null);
         SaveTracksCommand = new(SaveTracks, null);
@@ -55,12 +51,10 @@ public class BrowserViewModel : BaseViewModel
     
     public async Task Browse(IEnumerable<string> paths)
     {
-        var browsed = _filer.BrowseFiles(paths);
+        var browsed = FileHelper.BrowseFiles(paths);
         
         foreach (var track in browsed)
             Source.Add(track);
-
-        _filer.CleanFiler();
     }
     
     private void PlaySingleTrack(object obj)

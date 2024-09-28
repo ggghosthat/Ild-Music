@@ -95,9 +95,6 @@ public sealed class Stage : IErrorTracable
     public IGhost? GetGhost(Ghosts ghostTag) =>
         castle.ResolveGhost(ghostTag);
 
-    public IWaiter? GetWaiter(string waiterName) =>
-        castle.ResolveWaiter(waiterName);
-
     public bool CheckErrors(List<ErrorFlag> errorList)
     {
         bool result = false;

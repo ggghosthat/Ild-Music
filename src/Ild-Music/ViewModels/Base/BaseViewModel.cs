@@ -19,11 +19,6 @@ public class BaseViewModel : INotifyPropertyChanged
     protected IGhost GetGhost(Ghosts ghostTag) =>
         App.Stage.GetGhost(ghostTag);
 
-    protected IWaiter GetWaiter(string waiterName) =>
-        App.Stage.GetWaiter(waiterName);
-
     public virtual void Load()
-    {
-
-    }
+    {}
 }
