@@ -76,6 +76,33 @@ public class VlcPlayer : IPlayer
     public async Task DropNetworkStream(ReadOnlyMemory<char> uri)
     {}
 
+    public Task<IEnumerable<string>> GetSupportedMimeTypes()
+    {
+        var result = new List<string>()
+        {
+            "audio/wav",         // WAV
+            "audio/x-wav",        // WAV
+            "audio/x-aiff",      // AIFF
+            "sound/aiff",        // AIFF
+            "audio/x-pn-aiff",   // AIFF with LPCM audio
+            "audio/mpeg",        // MP3
+            "audio/mp3",         // MP3
+            "audio/x-ms-wma",    // WMA
+            "audio/mp4",         // AAC/MP4
+            "audio/x-m4a",        // AAC/MP4
+            "audio/ogg",         // OGG Vorbis
+            "audio/flac",        // FLAC
+            "audio/x-gsm",       // GSM
+            "audio/x-midi",      // MIDI
+            "audio/midi",        // MIDI
+            "audio/x-mod",       // Module Music Formats
+            "audio/vnd.qcelp",   // Qualcomm PureVoice
+            "audio/x-rmf"        // Rich Music Format
+        };
+
+        return Task.FromResult<IEnumerable<string>>(result);
+    }
+
     public void Toggle()
     {
         Task.Run(async () => await _playerService.Toggle());

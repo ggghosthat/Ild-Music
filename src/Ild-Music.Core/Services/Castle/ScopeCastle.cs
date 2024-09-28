@@ -19,7 +19,7 @@ public sealed class ScopeCastle : ICastle, IDisposable
 
     //available components
     private static IEnumerable<IPlayer> availlablePlayers;
-    private static IEnumerable<ICube> availlableCubes;
+    private static IEnumerable<IRepository> availlableCubes;
 
     private static IEnumerable<string> allowedTrackFileExtensions;
 
@@ -60,11 +60,11 @@ public sealed class ScopeCastle : ICastle, IDisposable
 
     private void SupplyCube()
     {
-        if(container.IsRegisteredWithKey<ICube>(currentCubeId))
+        if(container.IsRegisteredWithKey<IRepository>(currentCubeId))
         {
             using (var preScope = container.BeginLifetimeScope())
             {
-                var currentCube = container.ResolveKeyed<ICube>(currentCubeId);
+                var currentCube = container.ResolveKeyed<IRepository>(currentCubeId);
                 currentCube.Init(cubeStoragePath, cubeIsMoveTrackFiles);               
                 
                 var eventBag = preScope.Resolve<IEventBag>();
@@ -85,19 +85,23 @@ public sealed class ScopeCastle : ICastle, IDisposable
 
     private void SupplyPlayer()
     {
-       if(container.IsRegisteredWithKey<IPlayer>(currentPlayerId))
-       {
-           using (var preScope = container.BeginLifetimeScope())
-           {
-               var currentPlayer = preScope.ResolveKeyed<IPlayer>(currentPlayerId);
-               var eventBag = preScope.Resolve<IEventBag>();
-               currentPlayer.InjectEventBag(eventBag);
-               
-               var playerGhost = new PlayerGhost();
-               playerGhost.Init(currentPlayer);
-               ghosts[Ghosts.PLAYER] = playerGhost;
-           }
-       } 
+        if(container.IsRegisteredWithKey<IPlayer>(currentPlayerId))
+        {
+            using (var preScope = container.BeginLifetimeScope())
+            {
+                var currentPlayer = preScope.ResolveKeyed<IPlayer>(currentPlayerId);
+                
+                var eventBag = preScope.Resolve<IEventBag>();
+                currentPlayer.InjectEventBag(eventBag);
+
+                var mimeTypes = currentPlayer.GetSupportedMimeTypes().Result;
+                FileHelper.SetMimeTypes(mimeTypes);
+
+                var playerGhost = new PlayerGhost();
+                playerGhost.Init(currentPlayer);
+                ghosts[Ghosts.PLAYER] = playerGhost;
+            }
+        } 
     }
 
     public void RegisterPlayer(IPlayer player)
@@ -111,15 +115,15 @@ public sealed class ScopeCastle : ICastle, IDisposable
             .Keyed<IPlayer>(player.GetHashCode());
     }
 
-    public void RegisterCube(ICube cube)
+    public void RegisterCube(IRepository cube)
     {
         if(IsActive) 
             throw new Exception();
 
         currentCubeId = cube.GetHashCode();
-        builder.RegisterInstance<ICube>(cube)
+        builder.RegisterInstance<IRepository>(cube)
             .SingleInstance()
-            .Keyed<ICube>(cube.GetHashCode()); 
+            .Keyed<IRepository>(cube.GetHashCode()); 
     }
 
     public async Task RegisterPlayers(ICollection<IPlayer> players)
@@ -139,7 +143,7 @@ public sealed class ScopeCastle : ICastle, IDisposable
         }
     }
 
-    public async Task RegisterCubes(ICollection<ICube> cubes)
+    public async Task RegisterCubes(ICollection<IRepository> cubes)
     {
         if ((cubes is null) || (cubes.Count == 0))
             return;
@@ -150,9 +154,9 @@ public sealed class ScopeCastle : ICastle, IDisposable
         currentCubeId = cubes.Last().GetHashCode();
         foreach (var cube in cubes)
         {
-            builder.RegisterInstance<ICube>(cube)
+            builder.RegisterInstance<IRepository>(cube)
                 .SingleInstance()
-                .Keyed<ICube>(cube.GetHashCode());
+                .Keyed<IRepository>(cube.GetHashCode());
         }    
     }
 
@@ -187,14 +191,14 @@ public sealed class ScopeCastle : ICastle, IDisposable
         return player;
     }
 
-    public ICube? GetCurrentCube()
+    public IRepository? GetCurrentCube()
     {
         if(!IsActive) 
             throw new Exception();
 
-        ICube cube;
+        IRepository cube;
         using (var scope = container.BeginLifetimeScope())
-            cube = scope.ResolveKeyed<ICube>(currentCubeId);
+            cube = scope.ResolveKeyed<IRepository>(currentCubeId);
 
         return cube;
     }
@@ -209,12 +213,12 @@ public sealed class ScopeCastle : ICastle, IDisposable
     }
 
     //resolve all cube from IoC
-    public Task<IEnumerable<ICube>> GetCubesAsync()
+    public Task<IEnumerable<IRepository>> GetCubesAsync()
     {
         if(!IsActive)
             throw new Exception();
 
-        return Task.FromResult(container.Resolve<IEnumerable<ICube>>());
+        return Task.FromResult(container.Resolve<IEnumerable<IRepository>>());
     }
 
     public Task<IEventBag> GetEventBag()

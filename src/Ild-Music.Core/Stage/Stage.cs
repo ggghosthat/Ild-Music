@@ -21,7 +21,7 @@ public sealed class Stage : IErrorTracable
 
     public IPlayer? PlayerInstance => castle.GetCurrentPlayer();
     
-    public ICube? CubeInstance => castle.GetCurrentCube();
+    public IRepository? CubeInstance => castle.GetCurrentCube();
 
     public bool CompletionResult { get; private set; }
 
@@ -80,7 +80,7 @@ public sealed class Stage : IErrorTracable
     public IEnumerable<IPlayer> GetPlayers() =>
         castle.GetPlayersAsync().Result;
 
-    public IEnumerable<ICube> GetCubes() =>
+    public IEnumerable<IRepository> GetCubes() =>
         castle.GetCubesAsync().Result;
 
     public IEventBag? GetEventBag() =>

@@ -9,7 +9,7 @@ public sealed class FactoryGhost : IGhost
 {
     public ReadOnlyMemory<char> GhostName {get; init;} = "FactoryGhost".AsMemory(); 
 
-    private static ICube cube;
+    private static IRepository cube;
     private static InstanceProducer.InstanceProducer producer = default;
     
     public event Action OnArtistUpdate;
@@ -20,7 +20,7 @@ public sealed class FactoryGhost : IGhost
     public FactoryGhost()
     {}
 
-    public void Init(ICube inputCube)
+    public void Init(IRepository inputCube)
     {
        cube = inputCube;
     }
@@ -206,6 +206,7 @@ public sealed class FactoryGhost : IGhost
                     year); 
                                 
                 trackResult = producer.TrackInstance; 
+                trackResult.MimeType = taglib.MimeType.AsMemory();
                 
                 if(taglib.Tag.Pictures.Length > 0)
                 {

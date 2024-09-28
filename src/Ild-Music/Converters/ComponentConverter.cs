@@ -15,7 +15,7 @@ internal class ComponentConverter : IValueConverter
         {
             if (value is IPlayer player)
                 return Application.Current.FindResource("PlayerDefaultIcon");
-            else if (value is ICube area)
+            else if (value is IRepository area)
                 return Application.Current.FindResource("CubeDefaultIcon");
             return null;
         }
@@ -23,7 +23,7 @@ internal class ComponentConverter : IValueConverter
         {
             if (value is IPlayer player)
                 return player.PlayerName;
-            else if (value is ICube area)
+            else if (value is IRepository area)
                 return area.CubeName;
             return null;
         }
@@ -31,7 +31,7 @@ internal class ComponentConverter : IValueConverter
         {
             if (value is IPlayer player)
                 return player.PlayerId;
-            else if (value is ICube area)
+            else if (value is IRepository area)
                 return area.CubeId;
             return null;   
         }

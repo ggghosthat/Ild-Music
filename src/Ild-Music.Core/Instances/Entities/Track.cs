@@ -50,6 +50,8 @@ public struct Track
 
     public ReadOnlyMemory<char> AvatarPath { get; set; }
     
+    public ReadOnlyMemory<char> MimeType { get; set; }
+    
     public int Year { get; set; } = DateTime.Now.Year;
 
     public bool IsValid { get; private set; } = false;

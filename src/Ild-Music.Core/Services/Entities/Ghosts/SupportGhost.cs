@@ -11,7 +11,7 @@ public sealed class SupportGhost : IGhost
 {
     public ReadOnlyMemory<char> GhostName {get; init;} = "SupporterService".AsMemory();
 
-    private static ICube _cube; 
+    private static IRepository _cube; 
     private MetaData _metaData = new();
 
     public event Action OnArtistsNotifyRefresh;
@@ -22,7 +22,7 @@ public sealed class SupportGhost : IGhost
     public SupportGhost()
     {}
    
-    public void Init(ICube inputCube) 
+    public void Init(IRepository inputCube) 
     {
         _cube = inputCube;
         _cube.LoadStartEntities().Wait();

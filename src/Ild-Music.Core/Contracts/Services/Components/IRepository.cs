@@ -1,19 +1,11 @@
-﻿using Ild_Music.Core.Events;
 using Ild_Music.Core.Instances;
 using Ild_Music.Core.Instances.DTO;
-using Ild_Music.Core.Instances.Filing;
 using Ild_Music.Core.Instances.Querying;
 
 namespace Ild_Music.Core.Contracts;
 
-public interface IShare
-{
-    //add pub-sub supports for all components
-    public void InjectEventBag(IEventBag eventBag);
-}
-
 //Represent Cube instance wich interacts with file system
-public interface ICube : IShare
+public interface IRepository : IShare
 {
     //identifiers
     public Guid CubeId { get; }
@@ -80,51 +72,4 @@ public interface ICube : IShare
     //browsed tracks
     public Task RegisterBrowsedTracks(IEnumerable<Track> tracks);
     public Task EraseBrowsedTracks();
-}
-
-//Represent Player instance
-public interface IPlayer : IShare
-{
-    //identifiers
-    public Guid PlayerId { get; }
-    public string PlayerName { get; }
-
-    //current entity
-    public Track? CurrentTrack { get; }
-    public Playlist? CurrentPlaylist {get;}
-
-    //state attributes
-    public bool IsSwipe { get; }
-    public bool IsEmpty { get; }
-    public bool ToggleState { get; }
-    public int PlaylistPoint {get;}
-
-    //time attributes
-    public TimeSpan TotalTime { get; }
-    public TimeSpan CurrentTime { get; set; }
-
-    //volume attributes
-    public float MaxVolume {get;}
-    public float MinVolume {get;}
-    public float CurrentVolume {get; set;}
-
-    //set entities methods
-    public Task DropTrack(Track track);
-
-    public Task DropPlaylist(Playlist playlist, int index=0);
-
-    public Task DropNetworkStream(ReadOnlyMemory<char> uri);
-
-    //main functionallity
-    public void Stop();
-
-    public void Toggle();
-
-    public void SkipPrev();
-
-    public void SkipNext();
-    
-    public Task Repeat();
-
-    public Task Shuffle();
 }

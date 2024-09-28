@@ -17,14 +17,14 @@ public class Docker : IDocker, IDisposable
 
     public IList<IPlayer> Players {get; private set;}
 
-    public IList<ICube> Cubes {get; private set;}
+    public IList<IRepository> Cubes {get; private set;}
 
     public IList<ErrorFlag> Errors =>_errors;
     
     public ValueTask<int> Dock()
     {
         Players = DefaultDockProcess<IPlayer>(ref configure.ConfigSheet._players);
-        Cubes = DefaultDockProcess<ICube>(ref configure.ConfigSheet._repositories);
+        Cubes = DefaultDockProcess<IRepository>(ref configure.ConfigSheet._repositories);
         
         return (_errors.Count == 0)
             ? ValueTask.FromResult(0)

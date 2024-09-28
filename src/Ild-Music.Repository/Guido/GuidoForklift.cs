@@ -8,7 +8,7 @@ using Ild_Music.Repository.Guido.Handlers;
 
 namespace Ild_Music.Repository;
 
-public class GuidoForklift : ICube //Cars from pixar (lol)
+public class GuidoForklift : IRepository //Cars from pixar (lol)
 { 
     public string CubeName => "Guido Forklift";
     public Guid CubeId {get; private set;} = Guid.Empty;
