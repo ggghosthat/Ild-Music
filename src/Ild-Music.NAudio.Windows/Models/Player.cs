@@ -4,8 +4,6 @@ using Ild_Music.Core.Events;
 using Ild_Music.Core.Events.Signals;
 
 using NAudio.Wave;
-using System.Diagnostics.CodeAnalysis;
-using AutoMapper.Configuration.Annotations;
 
 namespace Ild_Music.NAudio.Windows;
 public class NAudioPlayer : IPlayer

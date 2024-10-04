@@ -44,12 +44,10 @@ public class Docker : IDocker, IDisposable
         
         foreach (string path in paths)
         {
-            System.Console.WriteLine(path);
             if (TryLoadInstance<T>(path, out instance))
                 list.Add(instance);
         }
-        return list;
-        
+        return list;   
     }
 
     private bool TryLoadInstance<T>(string path, out T instance)
@@ -67,6 +65,7 @@ public class Docker : IDocker, IDisposable
         }
         catch(Exception ex)
         {
+            throw ex;
             _errors.Add(new ErrorFlag("component docker", "instance-scan", $"could not find desired instance in assembly with {path} path"));
             instance = default;
             result = false;
