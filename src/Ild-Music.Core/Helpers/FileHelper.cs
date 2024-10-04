@@ -37,8 +37,10 @@ public class FileHelper
 	}
 
     private static void ProcessFile(string file)
-    {        
-        if (_factoryGhost != null && _supportedMimeTypes?.Count() > 0 && File.Exists(file))
+    {    
+        bool isHelperReady = _factoryGhost != null && _supportedMimeTypes?.Count() > 0;
+
+        if (isHelperReady && File.Exists(file))
         {
             var track = _factoryGhost.CreateTrackBrowsed(file);
             var mimeType = track.MimeType.ToString();

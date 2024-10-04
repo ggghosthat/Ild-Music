@@ -44,9 +44,9 @@ public class Docker : IDocker, IDisposable
         
         foreach (string path in paths)
         {
+            System.Console.WriteLine(path);
             if (TryLoadInstance<T>(path, out instance))
                 list.Add(instance);
-             
         }
         return list;
         

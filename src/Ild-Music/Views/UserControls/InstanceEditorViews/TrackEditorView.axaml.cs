@@ -2,12 +2,8 @@ using Ild_Music.ViewModels;
 
 using System;
 using System.Linq;
-using Avalonia;
 using Avalonia.Input;
-using Avalonia.Interactivity;
 using Avalonia.Controls;
-using Avalonia.Interactivity;
-using Avalonia.Markup.Xaml;
 using Avalonia.Platform.Storage;
 using PropertyChanged;
 

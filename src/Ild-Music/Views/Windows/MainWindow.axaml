@@ -7,6 +7,7 @@
         xmlns:conv="clr-namespace:Ild_Music.Converters"
         xmlns:v="clr-namespace:Ild_Music.Views"
         xmlns:lang="clr-namespace:Ild_Music.Assets"
+        xmlns:brush="clr-namespace:Ild_Music.Assets"
         xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
         xmlns:ia="clr-namespace:Avalonia.Xaml.Interactions.Core;assembly=Avalonia.Xaml.Interactions"
 
@@ -28,48 +29,52 @@
 
     <Window.Styles>
         <Style Selector="Border.WindowButton Canvas Path">
-            <Setter Property="Fill" Value="#7b7f6b"/>
+            <Setter Property="Fill" Value="{x:Static brush:Themes.MainWindowButton}"/>
         </Style>
         <Style Selector="Border.WindowButton:pointerover Canvas Path">
-            <Setter Property="Fill" Value="#6ed48b"/>
+            <Setter Property="Fill" Value="{x:Static brush:Themes.MainWindowButtonOver}"/>
         </Style>
 
         <Style Selector="Border.NavBarItem">
-            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Background" Value="{x:Static brush:Themes.Transparent}"/>
         </Style>
         <Style Selector="Border.NavBarItem:pointerover">
-            <Setter Property="Background" Value="#80484d4f"/>
+            <Setter Property="Background" Value="{x:Static brush:Themes.MainWindowNavBar}"/>
         </Style>
 
         <Style Selector="Border.PlayerButton Viewbox Canvas Path">
-            <Setter Property="Fill" Value="#7b7f6b"/>
+            <Setter Property="Fill" Value="{x:Static brush:Themes.MainWindowButton}"/>
         </Style>
         <Style Selector="Border.PlayerButton:pointerover Viewbox Canvas Path">
-            <Setter Property="Fill" Value="#6ed48b"/>
+            <Setter Property="Fill" Value="{x:Static brush:Themes.MainWindowButtonOver}"/>
         </Style>
         <Style Selector="Border.PlayerButton:pointerpressed Viewbox Canvas Path">
-            <Setter Property="Fill" Value="#6ed48b"/>
+            <Setter Property="Fill" Value="{x:Static brush:Themes.MainWindowButtonOver}"/>
         </Style>
 
         <Style Selector="Grid.CurrentTrackArea Ellipse.Indicator">
-            <Setter Property="Fill" Value="Transparent"/>
+            <Setter Property="Fill" Value="{x:Static brush:Themes.Transparent}"/>
         </Style>
         <Style Selector="Grid.CurrentTrackArea:pointerover Ellipse.Indicator">
-            <Setter Property="Fill" Value="#27da48"/>
+            <Setter Property="Fill" Value="{x:Static brush:Themes.MainColor}"/>
         </Style>
 
         <Style Selector="Border.SearchButton PathIcon">
-            <Setter Property="Foreground" Value="#7f7f7f"/>
+            <Setter Property="Foreground" Value="{x:Static brush:Themes.MainWindowSearchButton}"/>
         </Style>
         <Style Selector="Border.SearchButton:pointerover PathIcon">
-            <Setter Property="Foreground" Value="#a0a0a0"/>
+            <Setter Property="Foreground" Value="{x:Static brush:Themes.MainWindowSearchButtonOver}"/>
+        </Style>
+
+        <Style Selector="Border.PlayerButton">
+            <Setter Property="Background" Value="{x:Static brush:Themes.Transparent}"/>
         </Style>
 
         <Style Selector="Window">
             <Setter Property="Template">
                 <ControlTemplate>
                     <Grid x:Name="MainGrid"
-                          Background="#2e2e2e">
+                          Background="{x:Static brush:Themes.MainWindowBackground}">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*"/>
                             <RowDefinition Height="auto"/>
@@ -97,7 +102,7 @@
                                 Grid.Row="0"
                                 Grid.RowSpan="3"
                                 CornerRadius="5,5,0,0"
-                                Background="#20000000"
+                                Background="{x:Static brush:Themes.MainWindowVolumeArea}"
                                 HorizontalAlignment="Left"
                                 VerticalAlignment="Bottom">
                             <Border.Styles>
@@ -140,19 +145,19 @@
 
                                 <Slider.Styles>
                                     <Style Selector="Slider.volumeSlider /template/ RepeatButton#PART_DecreaseButton">
-                                        <Setter Property="Background" Value="#34eb64"/>
+                                        <Setter Property="Background" Value="{x:Static brush:Themes.MainColor}"/>
                                         <Setter Property="Margin" Value="0, 0, 0, 10"/>
                                     </Style>
 
                                     <Style Selector="Slider.volumeSlider /template/ RepeatButton#PART_IncreaseButton">
-                                        <Setter Property="Background" Value="#2b4532"/>
+                                        <Setter Property="Background" Value="#80494f48"/>
                                         <Setter Property="Margin" Value="0, 10, 0, 0"/>
                                     </Style>         
 
                                     <Style Selector="Slider.volumeSlider Thumb">
                                         <Setter Property="Template">
                                             <ControlTemplate>
-                                                <Ellipse Width="10" Height="10" Fill="#19e04e" />
+                                                <Ellipse Width="10" Height="10" Fill="#27da48" />
                                             </ControlTemplate>
                                         </Setter>
                                     </Style>                                     
@@ -236,11 +241,11 @@
                                             <ia:InvokeCommandAction Command="{Binding HideCurrentInstanceTabCommand}"/>
                                         </ia:EventTriggerBehavior>  
                                     </i:Interaction.Behaviors>
-                                    <PathIcon Foreground="#c3c3c3"
-                                                Background="Transparent"
-                                                VerticalAlignment="Stretch"
-                                                HorizontalAlignment="Stretch"
-                                                Data="M20,14H4V10H20"/>
+                                    <PathIcon Foreground="#a0a0a0"
+                                              Background="Transparent"
+                                              VerticalAlignment="Stretch"
+                                              HorizontalAlignment="Stretch"
+                                              Data="M20,14H4V10H20"/>
                                </Border>
                             </Grid>
                         </Border>
@@ -250,7 +255,7 @@
                                 Grid.Row="0"
                                 Grid.RowSpan="3"
                                 CornerRadius="10"
-                                Background="#3a3a3a"
+                                Background="#212121"
                                 HorizontalAlignment="Left"
                                 VerticalAlignment="Top"
                                 Classes="searchPopup"
@@ -479,46 +484,46 @@
                                                     KeyDown="SearchBarTyped">
                                                 <TextBox.Styles>
                                                     <Style Selector="#SearchBar TextBox">
-                                                    <Setter Property="BorderThickness" Value="0"/>
-                                                    <Setter Property="Background" Value="Transparent"/>
-                                                    <Setter Property="BorderBrush" Value="{StaticResource btnApplyColor1}"/>
-                                                    <Setter Property="SelectionBrush" Value="#0b3338"/>
+                                                        <Setter Property="BorderThickness" Value="0"/>
+                                                        <Setter Property="Background" Value="Transparent"/>
+                                                        <Setter Property="BorderBrush" Value="{StaticResource btnApplyColor1}"/>
+                                                        <Setter Property="SelectionBrush" Value="#0b3338"/>
                                                     </Style>
 
                                                     <Style Selector="#SearchBar:pointerover TextBox /template/ Border#PART_BorderElement">
-                                                    <Setter Property="BorderThickness" Value="0"/>
-                                                    <Setter Property="Background" Value="Transparent"/>
-                                                    <Setter Property="BorderBrush" Value="{StaticResource btnApplyColor1}"/>
+                                                        <Setter Property="BorderThickness" Value="0"/>
+                                                        <Setter Property="Background" Value="Transparent"/>
+                                                        <Setter Property="BorderBrush" Value="{StaticResource btnApplyColor1}"/>
                                                     </Style>
 
                                                     <Style Selector="#SearchBar:focus TextBox /template/ Border#PART_BorderElement">
-                                                    <Setter Property="BorderThickness" Value="0"/>
-                                                    <Setter Property="Background" Value="Transparent"/>
-                                                    <Setter Property="BorderBrush" Value="{StaticResource btnApplyColor1}"/>
+                                                        <Setter Property="BorderThickness" Value="0"/>
+                                                        <Setter Property="Background" Value="Transparent"/>
+                                                        <Setter Property="BorderBrush" Value="{StaticResource btnApplyColor1}"/>
                                                     </Style>
 
                                                     <Style Selector="#SearchBar:focus:pointerover TextBox /template/ Border#PART_BorderElement">
-                                                    <Setter Property="BorderThickness" Value="0"/>
-                                                    <Setter Property="Background" Value="Transparent"/>
-                                                    <Setter Property="BorderBrush" Value="{StaticResource btnApplyColor1}"/>
+                                                        <Setter Property="BorderThickness" Value="0"/>
+                                                        <Setter Property="Background" Value="Transparent"/>
+                                                        <Setter Property="BorderBrush" Value="{StaticResource btnApplyColor1}"/>
                                                     </Style>
 
                                                     <Style Selector="#SearchBox:pointerover /template/ Border#PART_BorderElement">
-                                                    <Setter Property="BorderThickness" Value="0"/>
-                                                    <Setter Property="Background" Value="Transparent"/>
-                                                    <Setter Property="BorderBrush" Value="{StaticResource btnApplyColor1}"/>
+                                                        <Setter Property="BorderThickness" Value="0"/>
+                                                        <Setter Property="Background" Value="Transparent"/>
+                                                        <Setter Property="BorderBrush" Value="{StaticResource btnApplyColor1}"/>
                                                     </Style>
 
                                                     <Style Selector="#SearchBox:focus /template/ Border#PART_BorderElement">
-                                                    <Setter Property="BorderThickness" Value="0"/>
-                                                    <Setter Property="Background" Value="Transparent"/>
-                                                    <Setter Property="BorderBrush" Value="{StaticResource btnApplyColor1}"/>
+                                                        <Setter Property="BorderThickness" Value="0"/>
+                                                        <Setter Property="Background" Value="Transparent"/>
+                                                        <Setter Property="BorderBrush" Value="{StaticResource btnApplyColor1}"/>
                                                     </Style>
 
                                                     <Style Selector="#SearchBox:focus:pointerover /template/ Border#PART_BorderElement">
-                                                    <Setter Property="BorderThickness" Value="0"/>
-                                                    <Setter Property="Background" Value="Transparent"/>
-                                                    <Setter Property="BorderBrush" Value="{StaticResource btnApplyColor1}"/>
+                                                        <Setter Property="BorderThickness" Value="0"/>
+                                                        <Setter Property="Background" Value="Transparent"/>
+                                                        <Setter Property="BorderBrush" Value="{StaticResource btnApplyColor1}"/>
                                                     </Style>
                                                 </TextBox.Styles>
                                             </TextBox>
@@ -781,7 +786,6 @@
                                         HorizontalAlignment="Left"
                                         Margin="15,0,0,0">
                                 <Border Classes="PlayerButton"
-                                        Background="#00000000"
                                         Margin="0,5">
                                         <i:Interaction.Behaviors>
                                             <ia:EventTriggerBehavior EventName="Tapped">
@@ -798,7 +802,6 @@
                                 </Border>
                                 
                                 <Border Classes="PlayerButton"
-                                        Background="#00000000"
                                         Margin="0,5">
                                         <i:Interaction.Behaviors>
                                             <ia:EventTriggerBehavior EventName="Tapped">
@@ -817,7 +820,6 @@
                                 </Border>
 
                                 <Border Classes="PlayerButton"
-                                        Background="#00000000"
                                         Margin="0,5">
                                         <i:Interaction.Behaviors>
                                             <ia:EventTriggerBehavior EventName="Tapped">
@@ -834,7 +836,6 @@
                                 </Border>
 
                                 <Border Classes="PlayerButton"
-                                        Background="#00000000"
                                         Margin="0,5">
                                         <i:Interaction.Behaviors>
                                             <ia:EventTriggerBehavior EventName="Tapped">
@@ -906,20 +907,18 @@
                                             </Slider.Resources>
                                             <Slider.Styles>
                                                 <Style Selector="Slider.thumby /template/ RepeatButton#PART_DecreaseButton">
-                                                    <Setter Property="Background" Value="#34eb64"/>
+                                                    <Setter Property="Background" Value="#27da48"/>
                                                 </Style>
 
                                                 <Style Selector="Slider.thumby /template/ RepeatButton#PART_IncreaseButton">
-                                                    <Setter Property="Background" Value="#2b4532"/>
+                                                    <Setter Property="Background" Value="#494f48"/>
                                                 </Style>
 
                                                 <Style Selector="Slider.thumby /template/ Thumb#thumb">
                                                     <Setter Property="Template">
                                                         <ControlTemplate>
                                                             <Grid>
-                                                                <Ellipse Width="13"
-                                                                            Height="13"
-                                                                            Fill="#34eb64"/>
+                                                                <Ellipse Width="13" Height="13" Fill="#27da48"/>
                                                             </Grid>
                                                         </ControlTemplate>
                                                     </Setter>
@@ -997,5 +996,4 @@
         <KeyBinding Gesture="Alt+l" Command="{Binding SwitchListCommand}"/>
         <KeyBinding Gesture="Alt+b" Command="{Binding SwitchBrowseCommand}"/>
     </Window.KeyBindings>
-
 </Window>
