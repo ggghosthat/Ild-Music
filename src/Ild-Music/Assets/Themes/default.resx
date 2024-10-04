@@ -177,4 +177,24 @@
     <value>#fff</value>
     <comment/>
   </data>
+  <data name="PlayerGradient1" xml:space="preserve">
+    <value>#2b2b2b</value>
+    <comment/>
+  </data>
+  <data name="PlayerGradient2" xml:space="preserve">
+    <value>#212121</value>
+    <comment/>
+  </data>
+  <data name="MainWindowNavBarBackground" xml:space="preserve">
+    <value>#40000000</value>
+    <comment/>
+  </data>
+  <data name="MainWindowSearchArea" xml:space="preserve">
+    <value>#454545</value>
+    <comment/>
+  </data>
+  <data name="TextColor1" xml:space="preserve">
+    <value>#c2c2c2</value>
+    <comment/>
+  </data>
 </root>

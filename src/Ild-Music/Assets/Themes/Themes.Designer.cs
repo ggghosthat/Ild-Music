@@ -44,6 +44,12 @@ public class Themes
         return new SolidColorBrush(color);
     }
 
+    private static Color ToColor(string hexName)
+    {
+        string hex = ResourceManager.GetString(hexName);
+        return Color.Parse(hex);
+    }
+
     public static SolidColorBrush MainColor => ToSolidColor("MainColor");
     
     public static SolidColorBrush GlobalColor1 => ToSolidColor("GlobalColor1");
@@ -73,4 +79,14 @@ public class Themes
     public static SolidColorBrush Transparent => ToSolidColor("Transparent");
     
     public static SolidColorBrush TextColor => ToSolidColor("TextColor");
+
+    public static Color PlayerGradient1 => ToColor("PlayerGradient1");
+    
+    public static Color PlayerGradient2 => ToColor("PlayerGradient2");
+
+    public static SolidColorBrush MainWindowNavBarBackground => ToSolidColor("MainWindowNavBarBackground");
+
+    public static SolidColorBrush MainWindowSearchArea => ToSolidColor("MainWindowSearchArea");
+
+    public static SolidColorBrush TextColor1 => ToSolidColor("TextColor1");
 }

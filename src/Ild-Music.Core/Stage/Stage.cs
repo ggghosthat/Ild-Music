@@ -61,7 +61,7 @@ public sealed class Stage : IErrorTracable
             if(dock == 0)
             {
                 await castle.RegisterPlayers(docker.Players);
-                await castle.RegisterCubes(docker.Cubes);
+                await castle.RegisterCubes(docker.Repositories);
 
                 isCompleted = true;
             }

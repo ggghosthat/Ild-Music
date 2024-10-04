@@ -6,8 +6,7 @@
         
         xmlns:conv="clr-namespace:Ild_Music.Converters"
         xmlns:v="clr-namespace:Ild_Music.Views"
-        xmlns:lang="clr-namespace:Ild_Music.Assets"
-        xmlns:brush="clr-namespace:Ild_Music.Assets"
+        xmlns:assets="clr-namespace:Ild_Music.Assets"
         xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
         xmlns:ia="clr-namespace:Avalonia.Xaml.Interactions.Core;assembly=Avalonia.Xaml.Interactions"
 
@@ -29,52 +28,52 @@
 
     <Window.Styles>
         <Style Selector="Border.WindowButton Canvas Path">
-            <Setter Property="Fill" Value="{x:Static brush:Themes.MainWindowButton}"/>
+            <Setter Property="Fill" Value="{x:Static assets:Themes.MainWindowButton}"/>
         </Style>
         <Style Selector="Border.WindowButton:pointerover Canvas Path">
-            <Setter Property="Fill" Value="{x:Static brush:Themes.MainWindowButtonOver}"/>
+            <Setter Property="Fill" Value="{x:Static assets:Themes.MainWindowButtonOver}"/>
         </Style>
 
         <Style Selector="Border.NavBarItem">
-            <Setter Property="Background" Value="{x:Static brush:Themes.Transparent}"/>
+            <Setter Property="Background" Value="{x:Static assets:Themes.Transparent}"/>
         </Style>
         <Style Selector="Border.NavBarItem:pointerover">
-            <Setter Property="Background" Value="{x:Static brush:Themes.MainWindowNavBar}"/>
+            <Setter Property="Background" Value="{x:Static assets:Themes.MainWindowNavBar}"/>
         </Style>
 
         <Style Selector="Border.PlayerButton Viewbox Canvas Path">
-            <Setter Property="Fill" Value="{x:Static brush:Themes.MainWindowButton}"/>
+            <Setter Property="Fill" Value="{x:Static assets:Themes.MainWindowButton}"/>
         </Style>
         <Style Selector="Border.PlayerButton:pointerover Viewbox Canvas Path">
-            <Setter Property="Fill" Value="{x:Static brush:Themes.MainWindowButtonOver}"/>
+            <Setter Property="Fill" Value="{x:Static assets:Themes.MainWindowButtonOver}"/>
         </Style>
         <Style Selector="Border.PlayerButton:pointerpressed Viewbox Canvas Path">
-            <Setter Property="Fill" Value="{x:Static brush:Themes.MainWindowButtonOver}"/>
+            <Setter Property="Fill" Value="{x:Static assets:Themes.MainWindowButtonOver}"/>
         </Style>
 
         <Style Selector="Grid.CurrentTrackArea Ellipse.Indicator">
-            <Setter Property="Fill" Value="{x:Static brush:Themes.Transparent}"/>
+            <Setter Property="Fill" Value="{x:Static assets:Themes.Transparent}"/>
         </Style>
         <Style Selector="Grid.CurrentTrackArea:pointerover Ellipse.Indicator">
-            <Setter Property="Fill" Value="{x:Static brush:Themes.MainColor}"/>
+            <Setter Property="Fill" Value="{x:Static assets:Themes.MainColor}"/>
         </Style>
 
         <Style Selector="Border.SearchButton PathIcon">
-            <Setter Property="Foreground" Value="{x:Static brush:Themes.MainWindowSearchButton}"/>
+            <Setter Property="Foreground" Value="{x:Static assets:Themes.MainWindowSearchButton}"/>
         </Style>
         <Style Selector="Border.SearchButton:pointerover PathIcon">
-            <Setter Property="Foreground" Value="{x:Static brush:Themes.MainWindowSearchButtonOver}"/>
+            <Setter Property="Foreground" Value="{x:Static assets:Themes.MainWindowSearchButtonOver}"/>
         </Style>
 
         <Style Selector="Border.PlayerButton">
-            <Setter Property="Background" Value="{x:Static brush:Themes.Transparent}"/>
+            <Setter Property="Background" Value="{x:Static assets:Themes.Transparent}"/>
         </Style>
 
         <Style Selector="Window">
             <Setter Property="Template">
                 <ControlTemplate>
                     <Grid x:Name="MainGrid"
-                          Background="{x:Static brush:Themes.MainWindowBackground}">
+                          Background="{x:Static assets:Themes.MainWindowBackground}">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*"/>
                             <RowDefinition Height="auto"/>
@@ -102,7 +101,7 @@
                                 Grid.Row="0"
                                 Grid.RowSpan="3"
                                 CornerRadius="5,5,0,0"
-                                Background="{x:Static brush:Themes.MainWindowVolumeArea}"
+                                Background="{x:Static assets:Themes.MainWindowVolumeArea}"
                                 HorizontalAlignment="Left"
                                 VerticalAlignment="Bottom">
                             <Border.Styles>
@@ -145,19 +144,19 @@
 
                                 <Slider.Styles>
                                     <Style Selector="Slider.volumeSlider /template/ RepeatButton#PART_DecreaseButton">
-                                        <Setter Property="Background" Value="{x:Static brush:Themes.MainColor}"/>
+                                        <Setter Property="Background" Value="{x:Static assets:Themes.MainColor}"/>
                                         <Setter Property="Margin" Value="0, 0, 0, 10"/>
                                     </Style>
 
                                     <Style Selector="Slider.volumeSlider /template/ RepeatButton#PART_IncreaseButton">
-                                        <Setter Property="Background" Value="#80494f48"/>
+                                        <Setter Property="Background" Value="{x:Static assets:Themes.MainWindowNavBar}"/>
                                         <Setter Property="Margin" Value="0, 10, 0, 0"/>
                                     </Style>         
 
                                     <Style Selector="Slider.volumeSlider Thumb">
                                         <Setter Property="Template">
                                             <ControlTemplate>
-                                                <Ellipse Width="10" Height="10" Fill="#27da48" />
+                                                <Ellipse Width="10" Height="10" Fill="{x:Static assets:Themes.MainColor}" />
                                             </ControlTemplate>
                                         </Setter>
                                     </Style>                                     
@@ -172,7 +171,7 @@
                                 Grid.Row="0"
                                 Grid.RowSpan="3"
                                 CornerRadius="10"
-                                Background="#80212121"
+                                Background="{x:Static assets:Themes.MainWindowVolumeArea}"
                                 HorizontalAlignment="Right"
                                 VerticalAlignment="Bottom"
                                 Classes="currentInstanceAreaPopup"
@@ -241,7 +240,7 @@
                                             <ia:InvokeCommandAction Command="{Binding HideCurrentInstanceTabCommand}"/>
                                         </ia:EventTriggerBehavior>  
                                     </i:Interaction.Behaviors>
-                                    <PathIcon Foreground="#a0a0a0"
+                                    <PathIcon Foreground="{x:Static assets:Themes.MainWindowSearchButtonOver}"
                                               Background="Transparent"
                                               VerticalAlignment="Stretch"
                                               HorizontalAlignment="Stretch"
@@ -255,7 +254,7 @@
                                 Grid.Row="0"
                                 Grid.RowSpan="3"
                                 CornerRadius="10"
-                                Background="#212121"
+                                Background="{x:Static assets:Themes.MainWindowSearchArea}"
                                 HorizontalAlignment="Left"
                                 VerticalAlignment="Top"
                                 Classes="searchPopup"
@@ -309,43 +308,43 @@
                                         </Style>
 
                                         <Style Selector="ListBoxItem:pointerover /template/ Border#Bd">
-                                          <Setter Property="Background" Value="#4027da48"/>
+                                          <Setter Property="Background" Value="{x:Static assets:Themes.ListBoxOver}"/>
                                         </Style>
 
                                         <Style Selector="ListBoxItem:pointerover /template/ ContentPresenter">
-                                            <Setter Property="Background" Value="Transparent"/>
+                                            <Setter Property="Background" Value="{x:Static assets:Themes.Transparent}"/>
                                         </Style>
 
                                         <Style Selector="ListBoxItem:selected /template/ Border#Bd">
-                                            <Setter Property="Background" Value="#7027da48"/>
+                                            <Setter Property="Background" Value="{x:Static assets:Themes.ListBoxSelected}"/>
                                         </Style>
 
                                         <Style Selector="ListBoxItem:selected /template/ ContentPresenter">
-                                            <Setter Property="Background" Value="Transparent"/>
+                                            <Setter Property="Background" Value="{x:Static assets:Themes.Transparent}"/>
                                         </Style>
                                 
                                         <Style Selector="ListBoxItem:selected:focus /template/ Border#Bd">
-                                            <Setter Property="Background" Value="#7027da48"/>
+                                            <Setter Property="Background" Value="{x:Static assets:Themes.ListBoxSelected}"/>
                                         </Style>
 
                                         <Style Selector="ListBoxItem:selected:focus /template/ ContentPresenter">
-                                            <Setter Property="Background" Value="Transparent"/>
+                                            <Setter Property="Background" Value="{x:Static assets:Themes.Transparent}"/>
                                         </Style>
 
                                         <Style Selector="ListBoxItem:selected:pointerover /template/ Border#Bd">
-                                          <Setter Property="Background" Value="#7027da48"/>
+                                          <Setter Property="Background" Value="{x:Static assets:Themes.ListBoxSelected}"/>
                                         </Style>
 
                                         <Style Selector="ListBoxItem:selected:pointerover /template/ ContentPresenter">
-                                            <Setter Property="Background" Value="Transparent"/>
+                                            <Setter Property="Background" Value="{x:Static assets:Themes.Transparent}"/>
                                         </Style>
 
                                         <Style Selector="ListBoxItem:selected:focus:pointerover /template/ Border#Bd">
-                                            <Setter Property="Background" Value="#7027da48"/>
+                                            <Setter Property="Background" Value="{x:Static assets:Themes.ListBoxSelected}"/>
                                         </Style>
 
                                         <Style Selector="ListBoxItem:selected:focus:pointerover /template/ ContentPresenter">
-                                            <Setter Property="Background" Value="Transparent"/>
+                                            <Setter Property="Background" Value="{x:Static assets:Themes.Transparent}"/>
                                         </Style>
                                      </ListBox.Styles>
                                     
@@ -365,6 +364,7 @@
                                             <Border Grid.Column="0"
                                                     Width="40"
                                                     Height="40"
+                                                    Margin="5"
                                                     CornerRadius="5"                                        
                                                     HorizontalAlignment="Stretch"
                                                     VerticalAlignment="Stretch">
@@ -398,7 +398,7 @@
                             <Grid x:Name="NavBar"
                                   IsVisible="{Binding BorderComponentsVisiblity}" 
                                   Grid.Column="0" 
-                                  Background="#40000000"
+                                  Background="{x:Static assets:Themes.MainWindowNavBarBackground}"
                                   HorizontalAlignment="Stretch">
                                 <!--NavBarItems-->
                                 <StackPanel VerticalAlignment="Top"
@@ -410,7 +410,7 @@
                                              HorizontalAlignment="Stretch"
                                              VerticalAlignment="Top">
                                         <Canvas Width="170" Height="30">
-                                            <Path Fill="#27da48" Data="M 30.00,0.00
+                                            <Path Fill="{x:Static assets:Themes.MainColor}" Data="M 30.00,0.00
                                                     C 30.00,0.00 40.00,0.00 40.00,0.00
                                                         40.00,0.00 40.00,34.00 40.00,34.00
                                                         40.00,34.00 30.00,34.00 30.00,34.00
@@ -477,7 +477,7 @@
                                             <TextBox x:Name="SearchBox"
                                                     Text="{Binding SearchPhrase, Mode=TwoWay}"
                                                     Width="170"
-                                                    Watermark="{x:Static lang:Resources.SearchBarWatermark}"
+                                                    Watermark="{x:Static assets:Resources.SearchBarWatermark}"
                                                     Background="Transparent"
                                                     HorizontalAlignment="Stretch"
                                                     BorderThickness="0"
@@ -485,45 +485,45 @@
                                                 <TextBox.Styles>
                                                     <Style Selector="#SearchBar TextBox">
                                                         <Setter Property="BorderThickness" Value="0"/>
-                                                        <Setter Property="Background" Value="Transparent"/>
+                                                        <Setter Property="Background" Value="{x:Static assets:Themes.Transparent}"/>
                                                         <Setter Property="BorderBrush" Value="{StaticResource btnApplyColor1}"/>
-                                                        <Setter Property="SelectionBrush" Value="#0b3338"/>
+                                                        <Setter Property="SelectionBrush" Value="{x:Static assets:Themes.ListBoxSelected}"/>
                                                     </Style>
 
                                                     <Style Selector="#SearchBar:pointerover TextBox /template/ Border#PART_BorderElement">
                                                         <Setter Property="BorderThickness" Value="0"/>
-                                                        <Setter Property="Background" Value="Transparent"/>
+                                                        <Setter Property="Background" Value="{x:Static assets:Themes.Transparent}"/>
                                                         <Setter Property="BorderBrush" Value="{StaticResource btnApplyColor1}"/>
                                                     </Style>
 
                                                     <Style Selector="#SearchBar:focus TextBox /template/ Border#PART_BorderElement">
                                                         <Setter Property="BorderThickness" Value="0"/>
-                                                        <Setter Property="Background" Value="Transparent"/>
+                                                        <Setter Property="Background" Value="{x:Static assets:Themes.Transparent}"/>
                                                         <Setter Property="BorderBrush" Value="{StaticResource btnApplyColor1}"/>
                                                     </Style>
 
                                                     <Style Selector="#SearchBar:focus:pointerover TextBox /template/ Border#PART_BorderElement">
                                                         <Setter Property="BorderThickness" Value="0"/>
-                                                        <Setter Property="Background" Value="Transparent"/>
-                                                        <Setter Property="BorderBrush" Value="{StaticResource btnApplyColor1}"/>
+                                                        <Setter Property="Background" Value="{x:Static assets:Themes.Transparent}"/>
+                                                        <Setter Property="BorderBrush" Value="{x:Static assets:Themes.GlobalColor1}"/>
                                                     </Style>
 
                                                     <Style Selector="#SearchBox:pointerover /template/ Border#PART_BorderElement">
                                                         <Setter Property="BorderThickness" Value="0"/>
-                                                        <Setter Property="Background" Value="Transparent"/>
-                                                        <Setter Property="BorderBrush" Value="{StaticResource btnApplyColor1}"/>
+                                                        <Setter Property="Background" Value="{x:Static assets:Themes.Transparent}"/>
+                                                        <Setter Property="BorderBrush" Value="{x:Static assets:Themes.GlobalColor1}"/>
                                                     </Style>
 
                                                     <Style Selector="#SearchBox:focus /template/ Border#PART_BorderElement">
                                                         <Setter Property="BorderThickness" Value="0"/>
-                                                        <Setter Property="Background" Value="Transparent"/>
-                                                        <Setter Property="BorderBrush" Value="{StaticResource btnApplyColor1}"/>
+                                                        <Setter Property="Background" Value="{x:Static assets:Themes.Transparent}"/>
+                                                        <Setter Property="BorderBrush" Value="{x:Static assets:Themes.GlobalColor1}"/>
                                                     </Style>
 
                                                     <Style Selector="#SearchBox:focus:pointerover /template/ Border#PART_BorderElement">
                                                         <Setter Property="BorderThickness" Value="0"/>
-                                                        <Setter Property="Background" Value="Transparent"/>
-                                                        <Setter Property="BorderBrush" Value="{StaticResource btnApplyColor1}"/>
+                                                        <Setter Property="Background" Value="{x:Static assets:Themes.Transparent}"/>
+                                                        <Setter Property="BorderBrush" Value="{x:Static assets:Themes.GlobalColor1}"/>
                                                     </Style>
                                                 </TextBox.Styles>
                                             </TextBox>
@@ -543,12 +543,11 @@
                                                     </ia:EventTriggerBehavior>  
                                                 </i:Interaction.Behaviors>
                                                 <PathIcon HorizontalAlignment="Center"
-                                                            VerticalAlignment="Center"
-                                                            Width="15"
-                                                            Height="15"
-                                                            Background="Transparent"
-                                                            Data="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z">
-                                                </PathIcon>
+                                                        VerticalAlignment="Center"
+                                                        Width="15"
+                                                        Height="15"
+                                                        Background="{x:Static assets:Themes.Transparent}"
+                                                        Data="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z"/>
                                             </Border>
 
                                             <Border Classes="SearchButton"
@@ -564,7 +563,7 @@
                                                         <ia:InvokeCommandAction Command="{Binding SearchCommand}"/>
                                                     </ia:EventTriggerBehavior>  
                                                 </i:Interaction.Behaviors>
-                                            <PathIcon HorizontalAlignment="Center"
+                                                <PathIcon HorizontalAlignment="Center"
                                                         VerticalAlignment="Center"
                                                         Width="15"
                                                         Height="15"
@@ -583,7 +582,7 @@
                                             PointerPressed="HomeNavBarClicked">
                                         <Border.Styles>
                                             <Style Selector="Border.NavBarItem Viewbox Canvas Path.NavIcon">
-                                                <Setter Property="Fill" Value="#7b7f6b"/>
+                                                <Setter Property="Fill" Value="{x:Static assets:Themes.MainWindowButton}"/>
                                             </Style>
                                         </Border.Styles>
 
@@ -603,7 +602,7 @@
                                             <Label FontSize="16"
                                                     Margin="5"
                                                     FontWeight="Regular"
-                                                    Content = "{x:Static lang:Resources.HomeNavbarItem}"/>
+                                                    Content = "{x:Static assets:Resources.HomeNavbarItem}"/>
                                         </StackPanel>
                                     </Border>
 
@@ -616,7 +615,7 @@
                                             PointerPressed="ListNavBarClicked">
                                         <Border.Styles>
                                             <Style Selector="Border.NavBarItem Viewbox Canvas Path.NavIcon">
-                                                <Setter Property="Fill" Value="#7b7f6b"/>
+                                                <Setter Property="Fill" Value="{x:Static assets:Themes.MainWindowButton}"/>
                                             </Style>
                                         </Border.Styles>
 
@@ -636,7 +635,7 @@
                                             <Label FontSize="16"
                                                     Margin="5"
                                                     FontWeight="Regular"
-                                                    Content = "{x:Static lang:Resources.ListNavbarItem}"/>
+                                                    Content = "{x:Static assets:Resources.ListNavbarItem}"/>
                                         </StackPanel>
                                     </Border>
 
@@ -649,7 +648,7 @@
                                             PointerPressed="BrowseNavBarClicked">
                                         <Border.Styles>
                                             <Style Selector="Border.NavBarItem Viewbox Canvas Path.NavIcon">
-                                                <Setter Property="Fill" Value="#7b7f6b"/>
+                                                <Setter Property="Fill" Value="{x:Static assets:Themes.MainWindowButton}"/>
                                             </Style>
                                         </Border.Styles>
 
@@ -669,7 +668,7 @@
                                             <Label FontSize="16"
                                                     Margin="5"
                                                     FontWeight="Regular"
-                                                    Content = "{x:Static lang:Resources.BrowseNavbarItem}"/>
+                                                    Content = "{x:Static assets:Resources.BrowseNavbarItem}"/>
                                         </StackPanel>
                                     </Border>
 
@@ -682,7 +681,7 @@
                                             PointerPressed="AboutNavBarClicked">
                                         <Border.Styles>
                                             <Style Selector="Border.NavBarItem Viewbox Canvas Path.NavIcon">
-                                                <Setter Property="Fill" Value="#7b7f6b"/>
+                                                <Setter Property="Fill" Value="{x:Static assets:Themes.MainWindowButton}"/>
                                             </Style>
                                         </Border.Styles>
 
@@ -702,7 +701,7 @@
                                             <Label FontSize="16"
                                                     Margin="5"
                                                     FontWeight="Regular"
-                                                    Content = "{x:Static lang:Resources.AboutNavbarItem}"/>
+                                                    Content = "{x:Static assets:Resources.AboutNavbarItem}"/>
                                         </StackPanel>
                                     </Border>
                                 </StackPanel>
@@ -725,7 +724,7 @@
                                     <!--DragMove area-->                          
                                     <Grid x:Name="DragBar"
                                         Grid.Column="0"
-                                        Background="Transparent"/>
+                                        Background="{x:Static assets:Themes.Transparent}"/>
 
                                     <StackPanel Grid.Column="1"
                                             HorizontalAlignment="Right"
@@ -733,19 +732,19 @@
                                         <Border Classes="WindowButton"
                                                 Width="40"
                                                 Height="40"
-                                                Background="Transparent"
+                                                Background="{x:Static assets:Themes.Transparent}"
                                                 Child="{StaticResource MinimizeHead}"
                                                 PointerPressed="OnHideClick"/>
                                         <Border Classes="WindowButton"
                                                 Width="40"
                                                 Height="40"
-                                                Background="Transparent"
+                                                Background="{x:Static assets:Themes.Transparent}"
                                                 Child="{StaticResource MaximizeHead}"
                                                 PointerPressed="OnExpandClick"/>
                                         <Border Classes="WindowButton"
                                                 Width="40"
                                                 Height="40"
-                                                Background="Transparent"
+                                                Background="{x:Static assets:Themes.Transparent}"
                                                 Child="{StaticResource CloseHead}"
                                                 PointerPressed="OnCloseClick"/>
                                     </StackPanel>
@@ -767,8 +766,8 @@
                             <Grid.Background>
                                 <LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,100%">
                                     <LinearGradientBrush.GradientStops>
-                                        <GradientStop Offset="0" Color="#2b2b2b"/>
-                                        <GradientStop Offset="1" Color="#212121"/>
+                                        <GradientStop Offset="0" Color="{x:Static assets:Themes.PlayerGradient1}"/>
+                                        <GradientStop Offset="1" Color="{x:Static assets:Themes.PlayerGradient2}"/>
                                     </LinearGradientBrush.GradientStops>
                                 </LinearGradientBrush>
                             </Grid.Background>
@@ -907,18 +906,18 @@
                                             </Slider.Resources>
                                             <Slider.Styles>
                                                 <Style Selector="Slider.thumby /template/ RepeatButton#PART_DecreaseButton">
-                                                    <Setter Property="Background" Value="#27da48"/>
+                                                    <Setter Property="Background" Value="{x:Static assets:Themes.MainColor}"/>
                                                 </Style>
 
                                                 <Style Selector="Slider.thumby /template/ RepeatButton#PART_IncreaseButton">
-                                                    <Setter Property="Background" Value="#494f48"/>
+                                                    <Setter Property="Background" Value="{x:Static assets:Themes.MainWindowNavBar}"/>
                                                 </Style>
 
                                                 <Style Selector="Slider.thumby /template/ Thumb#thumb">
                                                     <Setter Property="Template">
                                                         <ControlTemplate>
                                                             <Grid>
-                                                                <Ellipse Width="13" Height="13" Fill="#27da48"/>
+                                                                <Ellipse Width="13" Height="13" Fill="{x:Static assets:Themes.MainColor}"/>
                                                             </Grid>
                                                         </ControlTemplate>
                                                     </Setter>
@@ -934,14 +933,14 @@
                                             </Grid.ColumnDefinitions>
                                                 <TextBlock Grid.Column="0" 
                                                             Text="{Binding CurrentTimeDisplay, StringFormat=\{0:mm\\:ss\}}"
-                                                            Foreground="#6ed48b" 
+                                                            Foreground="{x:Static assets:Themes.MainWindowButtonOver}" 
                                                             Margin="0,-10,0,0"
                                                             FontSize="10"
                                                             FontWeight="Light"
                                                             HorizontalAlignment="Left"/>
                                                 <TextBlock Grid.Column="2"
                                                             Text="{Binding TotalTimeDisplay, StringFormat=\{0:mm\\:ss\}}"
-                                                            Foreground="#6ed48b"
+                                                            Foreground="{x:Static assets:Themes.MainWindowButtonOver}"
                                                             Margin="0,-10,0,0"
                                                             FontSize="10"
                                                             FontWeight="Light"
@@ -968,7 +967,7 @@
                                            Margin="5,0"
                                            FontSize="16"
                                            FontWeight="Medium"
-                                           Foreground="#fff"
+                                           Foreground="{x:Static assets:Themes.TextColor}"
                                            VerticalAlignment="Center"
                                            Text="{Binding Title, Converter={StaticResource InstanceConverter}, ConverterParameter=shortname}">
                                     <i:Interaction.Behaviors>

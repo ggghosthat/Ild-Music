@@ -17,14 +17,14 @@ public class Docker : IDocker, IDisposable
 
     public IList<IPlayer> Players {get; private set;}
 
-    public IList<IRepository> Cubes {get; private set;}
+    public IList<IRepository> Repositories {get; private set;}
 
     public IList<ErrorFlag> Errors =>_errors;
     
     public ValueTask<int> Dock()
     {
         Players = DefaultDockProcess<IPlayer>(ref configure.ConfigSheet._players);
-        Cubes = DefaultDockProcess<IRepository>(ref configure.ConfigSheet._repositories);
+        Repositories = DefaultDockProcess<IRepository>(ref configure.ConfigSheet._repositories);
         
         return (_errors.Count == 0)
             ? ValueTask.FromResult(0)
@@ -37,12 +37,12 @@ public class Docker : IDocker, IDisposable
         return LoadFromAssembly<T>(assemblies);
     }
   
-    private List<T> LoadFromAssembly<T>(IEnumerable<string> paths)
+    private List<T> LoadFromAssembly<T>(IEnumerable<string> assemblyPaths)
     {
         T instance;
         var list = new List<T>();
         
-        foreach (string path in paths)
+        foreach (string path in assemblyPaths)
         {
             if (TryLoadInstance<T>(path, out instance))
                 list.Add(instance);
@@ -55,17 +55,14 @@ public class Docker : IDocker, IDisposable
         bool result;
         try
         {
-            var assembly = Assembly.LoadFrom(path);
-            var exportedTypes = assembly.ExportedTypes;
+            var exportedTypes = Assembly.LoadFrom(path).ExportedTypes;
             instance = exportedTypes
                 .Where(t => t.IsClass && t.GetInterfaces().Contains(typeof(T)))
-                .Select(t => (T)Activator.CreateInstance(t))
-                .First();
+                .Select(t => (T)Activator.CreateInstance(t)).First();
             result = instance != null;
         }
         catch(Exception ex)
         {
-            throw ex;
             _errors.Add(new ErrorFlag("component docker", "instance-scan", $"could not find desired instance in assembly with {path} path"));
             instance = default;
             result = false;
@@ -78,7 +75,7 @@ public class Docker : IDocker, IDisposable
     {
         configure = null;
         Players = null;
-        Cubes = null;
+        Repositories = null;
         _errors.Clear();
         GC.Collect();
     }

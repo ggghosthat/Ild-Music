@@ -6,6 +6,7 @@
         xmlns:conv="clr-namespace:Ild_Music.Converters"
         xmlns:v="clr-namespace:Ild_Music.Views"
         xmlns:vm="clr-namespace:Ild_Music.ViewModels"
+        xmlns:assets="clr-namespace:Ild_Music.Assets"
         xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
         xmlns:ia="clr-namespace:Avalonia.Xaml.Interactions.Core;assembly=Avalonia.Xaml.Interactions"
         xmlns:fui="using:FluentAvalonia.UI.Controls"
@@ -20,7 +21,7 @@
     <Style Selector="Window">
       <Setter Property="Template">
           <ControlTemplate>
-            <Grid Background="#2e2e2e">
+            <Grid Background="{x:Static assets:Themes.MainWindowBackground}">
               <Grid.RowDefinitions>
                   <RowDefinition Height="auto"/>
                   <RowDefinition Height="*"/>
@@ -44,7 +45,7 @@
                           Width="300"
                           Height="75">
                     <Canvas Width="175" Height="30">
-                        <Path Fill="#27da48" Data="M 30.00,0.00
+                        <Path Fill="{x:Static assets:Themes.MainColor}" Data="M 30.00,0.00
                                 C 30.00,0.00 40.00,0.00 40.00,0.00
                                     40.00,0.00 40.00,34.00 40.00,34.00
                                     40.00,34.00 30.00,34.00 30.00,34.00
@@ -101,8 +102,8 @@
                 <StackPanel HorizontalAlignment="Center"
                             VerticalAlignment="Stretch"
                             Orientation="Horizontal">
-                  <fui:ProgressRing IsIndeterminate="True" BorderThickness="5" Width="20" Height="20" Foreground="{StaticResource color1}" Margin="0 0 10 0"/>
-                  <Label Content="Initializing ..." FontSize="18" FontWeight="Regular" Foreground="#c2c2c2"/>
+                  <fui:ProgressRing IsIndeterminate="True" BorderThickness="5" Width="20" Height="20" Foreground="{x:Static assets:Themes.MainColor}" Margin="0 0 10 0"/>
+                  <Label Content="Initializing ..." FontSize="18" FontWeight="Regular" Foreground="{x:Static assets:Themes.TextColor1}"/>
                 </StackPanel>
               </StackPanel>
             </Grid>
