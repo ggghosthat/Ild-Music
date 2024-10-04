@@ -5,7 +5,7 @@
 
              xmlns:vm="clr-namespace:Ild_Music.ViewModels"
              xmlns:conv="clr-namespace:Ild_Music.Converters"
-             xmlns:lang="clr-namespace:Ild_Music.Assets"
+             xmlns:assets="clr-namespace:Ild_Music.Assets"
              xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
              xmlns:ia="clr-namespace:Avalonia.Xaml.Interactions.Core;assembly=Avalonia.Xaml.Interactions"
 
@@ -56,7 +56,7 @@
                       HorizontalAlignment="Stretch"
                       VerticalAlignment="Stretch">
 
-                  <PathIcon Foreground="#c2c2c2"
+                  <PathIcon Foreground="{x:Static assets:Themes.TextColor1}"
                             Background="Transparent"
                             VerticalAlignment="Stretch"
                             HorizontalAlignment="Stretch"
@@ -67,14 +67,14 @@
             <Border Width="300"
                     Height="300"
                     Margin="15"
-                    Background="Transparent"
+                    Background="{x:Static assets:Themes.Transparent}"
                     Child="{Binding Avatar, Converter={StaticResource IconConverter}, ConverterParameter=pico_col}"/>
 
             <TextBlock Margin="15,0"
                        Text="{Binding Name}"    
                        FontSize="25"
                        FontWeight="UltraBlack"
-                       Foreground="White"
+                       Foreground="{x:Static assets:Themes.TextColor1}"
                        HorizontalAlignment="Center"
                        VerticalAlignment="Bottom"
                        TextAlignment="Center"/>
@@ -83,7 +83,7 @@
                        Text="{Binding Description}"
                        FontSize="16"
                        FontWeight="Light"
-                       Foreground="White"
+                       Foreground="{x:Static assets:Themes.TextColor1}"
                        HorizontalAlignment="Center"
                        VerticalAlignment="Bottom"
                        TextAlignment="Center"/>
@@ -92,7 +92,7 @@
                        Text="{Binding Year}"
                        FontSize="14"
                        FontWeight="Light"
-                       Foreground="White"
+                       Foreground="{x:Static assets:Themes.TextColor1}"
                        HorizontalAlignment="Center"
                        VerticalAlignment="Bottom"
                        TextAlignment="Center"/>     
@@ -101,16 +101,16 @@
           <Grid Grid.Column="1">
             <StackPanel HorizontalAlignment="Center"
                         VerticalAlignment="Center"
-                        IsVisible="{Binding #ArtistsSource.ItemCount, Converter={StaticResource ListActivityConverter}, ConverterParameter=is_empty}">
+                        IsVisible="{Binding #TracksSource.ItemCount, Converter={StaticResource ListActivityConverter}, ConverterParameter=is_empty}">
                 <PathIcon Height="60"
                           Width="60"
-                          Foreground="#c2c2c2"
+                          Foreground="{x:Static assets:Themes.TextColor1}"
                           Background="Transparent"
                           VerticalAlignment="Stretch"
                           HorizontalAlignment="Stretch"
                           Data="M11,7A2,2 0 0,0 9,9V15A2,2 0 0,0 11,17H13A2,2 0 0,0 15,15V9A2,2 0 0,0 13,7H11M11,9H13V15H11V9M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2Z"/>
-                <TextBlock Text="{x:Static lang:Resources.PlaylistViewNoArtists}"
-                           Foreground="#969696"
+                <TextBlock Text="{x:Static assets:Resources.ArtistViewNoTracks}"
+                           Foreground="{x:Static assets:Themes.TextColor1}"
                            TextAlignment="Center"
                            FontSize="15"
                            FontWeight="Light"/>
@@ -123,7 +123,7 @@
                       VerticalScrollBarVisibility="Auto">
               <ListBox x:Name="ArtistsSource"
                        ItemsSource="{Binding PlaylistArtists}"
-                       Background="{StaticResource lsSelectedIntances}">
+                       Background="{x:Static assets:Themes.GlobalColor2}">
 
                   <ListBox.ItemsPanel>
                       <ItemsPanelTemplate>                                
@@ -159,43 +159,43 @@
                     </Style>
 
                     <Style Selector="ListBoxItem:pointerover /template/ Border#Bd">
-                      <Setter Property="Background" Value="#4027da48"/>
+                      <Setter Property="Background" Value="{x:Static assets:Themes.ListBoxOver}"/>
                     </Style>
 
                     <Style Selector="ListBoxItem:pointerover /template/ ContentPresenter">
-                      <Setter Property="Background" Value="Transparent"/>
+                        <Setter Property="Background" Value="{x:Static assets:Themes.Transparent}"/>
                     </Style>
 
                     <Style Selector="ListBoxItem:selected /template/ Border#Bd">
-                      <Setter Property="Background" Value="#7027da48"/>
+                        <Setter Property="Background" Value="{x:Static assets:Themes.ListBoxSelected}"/>
                     </Style>
 
                     <Style Selector="ListBoxItem:selected /template/ ContentPresenter">
-                      <Setter Property="Background" Value="Transparent"/>
+                        <Setter Property="Background" Value="{x:Static assets:Themes.Transparent}"/>
                     </Style>
-                    
+            
                     <Style Selector="ListBoxItem:selected:focus /template/ Border#Bd">
-                      <Setter Property="Background" Value="#7027da48"/>
+                        <Setter Property="Background" Value="{x:Static assets:Themes.ListBoxSelected}"/>
                     </Style>
 
                     <Style Selector="ListBoxItem:selected:focus /template/ ContentPresenter">
-                      <Setter Property="Background" Value="Transparent"/>
+                        <Setter Property="Background" Value="{x:Static assets:Themes.Transparent}"/>
                     </Style>
 
                     <Style Selector="ListBoxItem:selected:pointerover /template/ Border#Bd">
-                      <Setter Property="Background" Value="#7027da48"/>
+                      <Setter Property="Background" Value="{x:Static assets:Themes.ListBoxSelected}"/>
                     </Style>
 
                     <Style Selector="ListBoxItem:selected:pointerover /template/ ContentPresenter">
-                      <Setter Property="Background" Value="Transparent"/>
+                        <Setter Property="Background" Value="{x:Static assets:Themes.Transparent}"/>
                     </Style>
 
                     <Style Selector="ListBoxItem:selected:focus:pointerover /template/ Border#Bd">
-                      <Setter Property="Background" Value="#7027da48"/>
+                        <Setter Property="Background" Value="{x:Static assets:Themes.ListBoxSelected}"/>
                     </Style>
 
                     <Style Selector="ListBoxItem:selected:focus:pointerover /template/ ContentPresenter">
-                      <Setter Property="Background" Value="Transparent"/>
+                        <Setter Property="Background" Value="{x:Static assets:Themes.Transparent}"/>
                     </Style>
                   </ListBox.Styles>
 
@@ -208,8 +208,8 @@
                         </Grid.ColumnDefinitions>                            
 
                         <Border Grid.Row="0"
-                                Width="40"
-                                Height="40"
+                                Width="70"
+                                Height="70"
                                 Margin="5"
                                 CornerRadius="10"
                                 HorizontalAlignment="Stretch"
@@ -224,7 +224,7 @@
                                    TextAlignment="Center"
                                    FontSize="16"
                                    Margin="5"
-                                   Foreground="White"
+                                   Foreground="{x:Static assets:Themes.TextColor1}"
                                    FontWeight="Medium"
                                    VerticalAlignment="Center"
                                    HorizontalAlignment="Left"
@@ -242,13 +242,13 @@
                         IsVisible="{Binding #TracksSource.ItemCount, Converter={StaticResource ListActivityConverter}, ConverterParameter=is_empty}">
                 <PathIcon Height="60"
                           Width="60"
-                          Foreground="#c2c2c2"
+                          Foreground="{x:Static assets:Themes.TextColor1}"
                           Background="Transparent"
                           VerticalAlignment="Stretch"
                           HorizontalAlignment="Stretch"
                           Data="M11,7A2,2 0 0,0 9,9V15A2,2 0 0,0 11,17H13A2,2 0 0,0 15,15V9A2,2 0 0,0 13,7H11M11,9H13V15H11V9M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2Z"/>
-                <TextBlock Text="{x:Static lang:Resources.PlaylistViewNoTracks}"
-                           Foreground="#969696"
+                <TextBlock Text="{x:Static assets:Resources.ArtistViewNoTracks}"
+                           Foreground="{x:Static assets:Themes.TextColor1}"
                            TextAlignment="Center"
                            FontSize="15"
                            FontWeight="Light"/>
@@ -261,7 +261,7 @@
                     VerticalScrollBarVisibility="Auto">
               <ListBox x:Name="TracksSource"
                        ItemsSource="{Binding PlaylistTracks}"
-                       Background="{StaticResource lsSelectedIntances}">
+                       Background="{x:Static assets:Themes.GlobalColor2}">
 
                   <ListBox.ItemsPanel>
                       <ItemsPanelTemplate>                                
@@ -297,43 +297,43 @@
                     </Style>
 
                     <Style Selector="ListBoxItem:pointerover /template/ Border#Bd">
-                      <Setter Property="Background" Value="#4027da48"/>
+                      <Setter Property="Background" Value="{x:Static assets:Themes.ListBoxOver}"/>
                     </Style>
 
                     <Style Selector="ListBoxItem:pointerover /template/ ContentPresenter">
-                      <Setter Property="Background" Value="Transparent"/>
+                        <Setter Property="Background" Value="{x:Static assets:Themes.Transparent}"/>
                     </Style>
 
                     <Style Selector="ListBoxItem:selected /template/ Border#Bd">
-                      <Setter Property="Background" Value="#7027da48"/>
+                        <Setter Property="Background" Value="{x:Static assets:Themes.ListBoxSelected}"/>
                     </Style>
 
                     <Style Selector="ListBoxItem:selected /template/ ContentPresenter">
-                      <Setter Property="Background" Value="Transparent"/>
+                        <Setter Property="Background" Value="{x:Static assets:Themes.Transparent}"/>
                     </Style>
-                    
+            
                     <Style Selector="ListBoxItem:selected:focus /template/ Border#Bd">
-                      <Setter Property="Background" Value="#7027da48"/>
+                        <Setter Property="Background" Value="{x:Static assets:Themes.ListBoxSelected}"/>
                     </Style>
 
                     <Style Selector="ListBoxItem:selected:focus /template/ ContentPresenter">
-                      <Setter Property="Background" Value="Transparent"/>
+                        <Setter Property="Background" Value="{x:Static assets:Themes.Transparent}"/>
                     </Style>
 
                     <Style Selector="ListBoxItem:selected:pointerover /template/ Border#Bd">
-                      <Setter Property="Background" Value="#7027da48"/>
+                      <Setter Property="Background" Value="{x:Static assets:Themes.ListBoxSelected}"/>
                     </Style>
 
                     <Style Selector="ListBoxItem:selected:pointerover /template/ ContentPresenter">
-                      <Setter Property="Background" Value="Transparent"/>
+                        <Setter Property="Background" Value="{x:Static assets:Themes.Transparent}"/>
                     </Style>
 
                     <Style Selector="ListBoxItem:selected:focus:pointerover /template/ Border#Bd">
-                      <Setter Property="Background" Value="#7027da48"/>
+                        <Setter Property="Background" Value="{x:Static assets:Themes.ListBoxSelected}"/>
                     </Style>
 
                     <Style Selector="ListBoxItem:selected:focus:pointerover /template/ ContentPresenter">
-                      <Setter Property="Background" Value="Transparent"/>
+                        <Setter Property="Background" Value="{x:Static assets:Themes.Transparent}"/>
                     </Style>
                   </ListBox.Styles>
 
@@ -346,8 +346,8 @@
                         </Grid.ColumnDefinitions>                            
 
                         <Border Grid.Row="0"
-                                Width="40"
-                                Height="40"
+                                Width="70"
+                                Height="70"
                                 Margin="5"
                                 CornerRadius="10"
                                 HorizontalAlignment="Stretch"
@@ -362,7 +362,7 @@
                                    TextAlignment="Center"
                                    FontSize="16"
                                    Margin="5"
-                                   Foreground="White"
+                                   Foreground="{x:Static assets:Themes.TextColor1}"
                                    FontWeight="Medium"
                                    VerticalAlignment="Center"
                                    HorizontalAlignment="Left"
