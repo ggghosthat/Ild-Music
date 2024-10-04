@@ -117,64 +117,64 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="MainColor" xml:space="preserve">
+  <data name="Color1" xml:space="preserve">
     <value>#27da48</value>
     <comment/>
   </data>
-  <data name="GlobalColor1" xml:space="preserve">
+  <data name="Color2" xml:space="preserve">
     <value>#4527da48</value>
     <comment/>
   </data>
-  <data name="GlobalColor2" xml:space="preserve">
+  <data name="Color3" xml:space="preserve">
     <value>#35515151</value>
     <comment/>
   </data>
-  <data name="MainWindowButton" xml:space="preserve">
+  <data name="Color4" xml:space="preserve">
     <value>#7b7f6b</value>
     <comment/>
   </data>
-  <data name="MainWindowButtonOver" xml:space="preserve">
+  <data name="Color5" xml:space="preserve">
     <value>#6ed48b</value>
     <comment/>
   </data>
-  <data name="MainWindowNavBar" xml:space="preserve">
+  <data name="Color6" xml:space="preserve">
     <value>#80494f48</value>
     <comment/>
   </data>
-  <data name="MainWindowSearchButton" xml:space="preserve">
+  <data name="Color7" xml:space="preserve">
     <value>#7f7f7f</value>
     <comment/>
   </data>
-  <data name="MainWindowSearchButtonOver" xml:space="preserve">
+  <data name="Color8" xml:space="preserve">
     <value>#a0a0a0</value>
     <comment/>
   </data>
-  <data name="MainWindowBackground" xml:space="preserve">
+  <data name="Color9" xml:space="preserve">
     <value>#2e2e2e</value>
     <comment/>
   </data>
-  <data name="MainWindowVolumeArea" xml:space="preserve">
+  <data name="Color10" xml:space="preserve">
     <value>#20000000</value>
     <comment/>
   </data>
-  <data name="MainWindowCurrentInstanceArea" xml:space="preserve">
+  <data name="Color11" xml:space="preserve">
     <value>#80212121</value>
     <comment/>
   </data>
-  <data name="ListBoxOver" xml:space="preserve">
+  <data name="Color12" xml:space="preserve">
     <value>#4027da48</value>
     <comment/>
   </data>
-  <data name="ListBoxSelected" xml:space="preserve">
+  <data name="Color13" xml:space="preserve">
     <value>#7027da48</value>
     <comment/>
   </data>
-  <data name="Transparent" xml:space="preserve">
+  <data name="Color14" xml:space="preserve">
     <value>#00000000</value>
     <comment/>
   </data>
-  <data name="TextColor" xml:space="preserve">
-    <value>#fff</value>
+  <data name="Color15" xml:space="preserve">
+    <value>#c2c2c2</value>
     <comment/>
   </data>
   <data name="PlayerGradient1" xml:space="preserve">
@@ -185,16 +185,12 @@
     <value>#212121</value>
     <comment/>
   </data>
-  <data name="MainWindowNavBarBackground" xml:space="preserve">
+  <data name="Color16" xml:space="preserve">
     <value>#40000000</value>
     <comment/>
   </data>
-  <data name="MainWindowSearchArea" xml:space="preserve">
+  <data name="Color17" xml:space="preserve">
     <value>#454545</value>
-    <comment/>
-  </data>
-  <data name="TextColor1" xml:space="preserve">
-    <value>#c2c2c2</value>
     <comment/>
   </data>
 </root>

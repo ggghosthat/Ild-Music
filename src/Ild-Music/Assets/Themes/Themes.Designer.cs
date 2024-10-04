@@ -50,43 +50,44 @@ public class Themes
         return Color.Parse(hex);
     }
 
-    public static SolidColorBrush MainColor => ToSolidColor("MainColor");
+    public static SolidColorBrush MainColor => ToSolidColor("Color1");
     
-    public static SolidColorBrush GlobalColor1 => ToSolidColor("GlobalColor1");
+    public static SolidColorBrush GlobalColor1 => ToSolidColor("Color2");
     
-    public static SolidColorBrush GlobalColor2 => ToSolidColor("GlobalColor2");
+    public static SolidColorBrush GlobalColor2 => ToSolidColor("Color3");
     
-    public static SolidColorBrush MainWindowButton => ToSolidColor("MainWindowButton");
+    public static SolidColorBrush MainWindowButton => ToSolidColor("Color4");
     
-    public static SolidColorBrush MainWindowButtonOver => ToSolidColor("MainWindowButtonOver");
+    public static SolidColorBrush MainWindowButtonOver => ToSolidColor("Color5");
     
-    public static SolidColorBrush MainWindowNavBar => ToSolidColor("MainWindowNavBar");
+    public static SolidColorBrush MainWindowNavBar => ToSolidColor("Color6");
     
-    public static SolidColorBrush MainWindowSearchButton => ToSolidColor("MainWindowSearchButton");
+    public static SolidColorBrush MainWindowSearchButton => ToSolidColor("Color7");
     
-    public static SolidColorBrush MainWindowSearchButtonOver => ToSolidColor("MainWindowSearchButtonOver");
+    public static SolidColorBrush MainWindowSearchButtonOver => ToSolidColor("Color8");
     
-    public static SolidColorBrush MainWindowBackground => ToSolidColor("MainWindowBackground");
+    public static SolidColorBrush MainWindowBackground => ToSolidColor("Color9");
     
-    public static SolidColorBrush MainWindowVolumeArea => ToSolidColor("MainWindowVolumeArea");
+    public static SolidColorBrush MainWindowVolumeArea => ToSolidColor("Color10");
     
-    public static SolidColorBrush MainWindowCurrentInstanceArea => ToSolidColor("MainWindowCurrentInstanceArea");
+    public static SolidColorBrush MainWindowCurrentInstanceArea => ToSolidColor("Color11");
     
-    public static SolidColorBrush ListBoxOver => ToSolidColor("ListBoxOver");
+    public static SolidColorBrush ListBoxOver => ToSolidColor("Color12");
     
-    public static SolidColorBrush ListBoxSelected => ToSolidColor("ListBoxSelected");
+    public static SolidColorBrush ListBoxSelected => ToSolidColor("Color13");
     
-    public static SolidColorBrush Transparent => ToSolidColor("Transparent");
+    public static SolidColorBrush Transparent => ToSolidColor("Color14");
     
-    public static SolidColorBrush TextColor => ToSolidColor("TextColor");
+    public static SolidColorBrush TextColor => ToSolidColor("Color15");
+
+    public static SolidColorBrush TextColor1 => ToSolidColor("Color15");
+
+    public static SolidColorBrush MainWindowNavBarBackground => ToSolidColor("Color16");
+
+    public static SolidColorBrush MainWindowSearchArea => ToSolidColor("Color17");
 
     public static Color PlayerGradient1 => ToColor("PlayerGradient1");
     
     public static Color PlayerGradient2 => ToColor("PlayerGradient2");
 
-    public static SolidColorBrush MainWindowNavBarBackground => ToSolidColor("MainWindowNavBarBackground");
-
-    public static SolidColorBrush MainWindowSearchArea => ToSolidColor("MainWindowSearchArea");
-
-    public static SolidColorBrush TextColor1 => ToSolidColor("TextColor1");
 }
