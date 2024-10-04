@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 
              xmlns:vm="clr-namespace:Ild_Music.ViewModels"
-             xmlns:lang="clr-namespace:Ild_Music.Assets"
+             xmlns:assets="clr-namespace:Ild_Music.Assets"
              xmlns:conv="clr-namespace:Ild_Music.Converters"
              xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
              xmlns:ia="clr-namespace:Avalonia.Xaml.Interactions.Core;assembly=Avalonia.Xaml.Interactions"
@@ -22,27 +22,27 @@
   <UserControl.Styles>
     <Style Selector="TextBox">
       <Setter Property="BorderThickness" Value="0,0,0,1"/>
-      <Setter Property="BorderBrush" Value="{StaticResource btnApplyColor1}"/>
-      <Setter Property="Background" Value="Transparent"/>
-      <Setter Property="SelectionBrush" Value="#0b3338"/>
+      <Setter Property="BorderBrush" Value="{x:Static assets:Themes.GlobalColor1}"/>
+      <Setter Property="Background" Value="{x:Static assets:Themes.Transparent}"/>
+      <Setter Property="SelectionBrush" Value="{x:Static assets:Themes.GlobalColor2}"/>
     </Style>
 
     <Style Selector="TextBox:pointerover /template/ Border#PART_BorderElement">
-      <Setter Property="BorderBrush" Value="{StaticResource btnApplyColor1}"/>
+      <Setter Property="BorderBrush" Value="{x:Static assets:Themes.GlobalColor1}"/>
       <Setter Property="BorderThickness" Value="0,0,0,1"/>
-      <Setter Property="Background" Value="#50000000"/>
+      <Setter Property="Background" Value="{x:Static assets:Themes.Transparent}"/>
     </Style>
 
     <Style Selector="TextBox:focus /template/ Border#PART_BorderElement">
-      <Setter Property="BorderBrush" Value="{StaticResource btnApplyColor2}"/>
+      <Setter Property="BorderBrush" Value="{x:Static assets:Themes.MainColor}"/>
       <Setter Property="BorderThickness" Value="0,0,0,1"/>
-      <Setter Property="Background" Value="Transparent"/>
+      <Setter Property="Background" Value="{x:Static assets:Themes.Transparent}"/>
     </Style>
 
     <Style Selector="TextBox:focus:pointerover /template/ Border#PART_BorderElement">
-      <Setter Property="BorderBrush" Value="{StaticResource btnApplyColor2}"/>
+      <Setter Property="BorderBrush" Value="{x:Static assets:Themes.MainColor}"/>
       <Setter Property="BorderThickness" Value="0,0,0,1"/>
-      <Setter Property="Background" Value="#50000000"/>
+      <Setter Property="Background" Value="{x:Static assets:Themes.Transparent}"/>
     </Style>
   </UserControl.Styles>
   
@@ -59,7 +59,7 @@
           <Border Width="300"
                   Height="300"
                   Margin="15"
-                  Background="Transparent"
+                  Background="{x:Static assets:Themes.Transparent}"
                   Tapped="OpenAvatar_Clicked"
                   Child="{Binding Avatar, Converter={StaticResource IconConverter}, ConverterParameter=tico_col}"/>
         </Grid>
@@ -77,7 +77,7 @@
                         Orientation="Vertical">
                 <TextBox x:Name="txtPath"
                          Text="{Binding Path, Mode=TwoWay}"
-                         Watermark="{x:Static lang:Resources.FoldingPathTrackEditorView}"
+                         Watermark="{x:Static assets:Resources.FoldingPathTrackEditorView}"
                          IsReadOnly="True"
                          HorizontalAlignment="Left"
                          FontSize="16"
@@ -85,21 +85,21 @@
                          Width="500"
                          DoubleTapped="OpenMusicFile_Clicked"/>
 
-                <TextBox Watermark="{x:Static lang:Resources.NameTrackEditorView}"
+                <TextBox Watermark="{x:Static assets:Resources.NameTrackEditorView}"
                          Text="{Binding Name, Mode=TwoWay}"
                          HorizontalAlignment="Left"
                          FontSize="16"
                          Margin="17, 3, 0, 2"
                          Width="500"/>
 
-                <TextBox Watermark="{x:Static lang:Resources.DescriptionTrackEditorView}"
+                <TextBox Watermark="{x:Static assets:Resources.DescriptionTrackEditorView}"
                          Text="{Binding Description, Mode=TwoWay}"
                          HorizontalAlignment="Left"
                          FontSize="16"
                          Margin="17, 2, 0, 3"
                          Width="500"/>
 
-                <TextBox Watermark="{x:Static lang:Resources.YearTrackEditorView}"
+                <TextBox Watermark="{x:Static assets:Resources.YearTrackEditorView}"
                          Text="{Binding Year, Mode=TwoWay}"
                          HorizontalAlignment="Left"
                          FontSize="16"
@@ -113,13 +113,13 @@
                             IsVisible="{Binding #SelectedArtists.ItemCount, Converter={StaticResource ListActivityConverter}, ConverterParameter=is_empty}">
                     <PathIcon Height="60"
                               Width="60"
-                              Foreground="#c2c2c2"
-                              Background="Transparent"
+                              Foreground="{x:Static assets:Themes.TextColor}"
+                              Background="{x:Static assets:Themes.Transparent}"
                               VerticalAlignment="Stretch"
                               HorizontalAlignment="Stretch"
                               Data="M11,7A2,2 0 0,0 9,9V15A2,2 0 0,0 11,17H13A2,2 0 0,0 15,15V9A2,2 0 0,0 13,7H11M11,9H13V15H11V9M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2Z"/>
                     <TextBlock Text="There is no artists"
-                              Foreground="#969696"
+                              Foreground="{x:Static assets:Themes.TextColor}"
                               TextAlignment="Center"
                               FontSize="15"
                               FontWeight="Light"/>
@@ -178,43 +178,43 @@
                         </Style>
 
                         <Style Selector="ListBoxItem:pointerover /template/ Border#Bd">
-                          <Setter Property="Background" Value="#4027da48"/>
+                          <Setter Property="Background" Value="{x:Static assets:Themes.ListBoxOver}"/>
                         </Style>
 
                         <Style Selector="ListBoxItem:pointerover /template/ ContentPresenter">
-                          <Setter Property="Background" Value="Transparent"/>
+                          <Setter Property="Background" Value="{x:Static assets:Themes.Transparent}"/>
                         </Style>
 
                         <Style Selector="ListBoxItem:selected /template/ Border#Bd">
-                          <Setter Property="Background" Value="#7027da48"/>
+                          <Setter Property="Background" Value="{x:Static assets:Themes.ListBoxSelected}"/>
                         </Style>
 
                         <Style Selector="ListBoxItem:selected /template/ ContentPresenter">
-                          <Setter Property="Background" Value="Transparent"/>
+                          <Setter Property="Background" Value="{x:Static assets:Themes.Transparent}"/>
                         </Style>
                         
                         <Style Selector="ListBoxItem:selected:focus /template/ Border#Bd">
-                          <Setter Property="Background" Value="#7027da48"/>
+                          <Setter Property="Background" Value="{x:Static assets:Themes.ListBoxSelected}"/>
                         </Style>
 
                         <Style Selector="ListBoxItem:selected:focus /template/ ContentPresenter">
-                          <Setter Property="Background" Value="Transparent"/>
+                          <Setter Property="Background" Value="{x:Static assets:Themes.Transparent}"/>
                         </Style>
 
                         <Style Selector="ListBoxItem:selected:pointerover /template/ Border#Bd">
-                          <Setter Property="Background" Value="#7027da48"/>
+                          <Setter Property="Background" Value="{x:Static assets:Themes.ListBoxSelected}"/>
                         </Style>
 
                         <Style Selector="ListBoxItem:selected:pointerover /template/ ContentPresenter">
-                          <Setter Property="Background" Value="Transparent"/>
+                          <Setter Property="Background" Value="{x:Static assets:Themes.Transparent}"/>
                         </Style>
 
                         <Style Selector="ListBoxItem:selected:focus:pointerover /template/ Border#Bd">
-                          <Setter Property="Background" Value="#7027da48"/>
+                          <Setter Property="Background" Value="{x:Static assets:Themes.ListBoxSelected}"/>
                         </Style>
 
                         <Style Selector="ListBoxItem:selected:focus:pointerover /template/ ContentPresenter">
-                          <Setter Property="Background" Value="Transparent"/>
+                          <Setter Property="Background" Value="{x:Static assets:Themes.Transparent}"/>
                         </Style>
                       </ListBox.Styles>
 
@@ -241,7 +241,7 @@
                                        TextWrapping="Wrap"
                                        TextAlignment="Center"
                                        FontSize="12"
-                                       Foreground="White"
+                                       Foreground="{x:Static assets:Themes.TextColor1}"
                                        FontWeight="Light"
                                        VerticalAlignment="Top"
                                        Text="{Binding ., Converter={StaticResource InstanceConverter}, ConverterParameter=name}"/>
@@ -263,7 +263,7 @@
                         Width="100"
                         Height="25"
                         Margin="3,0"
-                        Content="{x:Static lang:Resources.ApplyButtonTrackEditorView}"
+                        Content="{x:Static assets:Resources.ApplyButtonTrackEditorView}"
                         Command="{Binding CreateTrackCommand}"/>
 
                 <Button Classes="btnApply"
@@ -272,7 +272,7 @@
                         Width="100"
                         Height="25"
                         Margin="3,0"
-                        Content="{x:Static lang:Resources.CancelButtonTrackEditorView}"
+                        Content="{x:Static assets:Resources.CancelButtonTrackEditorView}"
                         Command="{Binding CancelCommand}"/>
 
                 <TextBlock Classes="logLine"

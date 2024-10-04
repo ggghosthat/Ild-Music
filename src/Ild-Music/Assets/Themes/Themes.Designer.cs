@@ -89,5 +89,4 @@ public class Themes
     public static Color PlayerGradient1 => ToColor("PlayerGradient1");
     
     public static Color PlayerGradient2 => ToColor("PlayerGradient2");
-
 }
