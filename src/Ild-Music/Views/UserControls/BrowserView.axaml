@@ -106,17 +106,17 @@
                             HorizontalAlignment="Stretch"
                             VerticalAlignment="Stretch">
                         <Border.Styles>
-                        <Style Selector="Border">
-                            <Setter Property="Background" Value="{x:Static assets:Themes.Transparent}"/>
-                        </Style>
+                            <Style Selector="Border">
+                                <Setter Property="Background" Value="{x:Static assets:Themes.Transparent}"/>
+                            </Style>
 
-                        <Style Selector="Border:pointerover">
-                            <Setter Property="Background" Value="{x:Static assets:Themes.MainWindowButtonOver}"/>
-                        </Style>
+                            <Style Selector="Border:pointerover">
+                                <Setter Property="Background" Value="{x:Static assets:Themes.MainWindowButtonOver}"/>
+                            </Style>
                         </Border.Styles>
 
-                        <PathIcon Foreground="{StaticResource color1}"
-                                Background="Transparent"
+                        <PathIcon Foreground="{x:Static assets:Themes.MainColor}"
+                                Background="{x:Static assets:Themes.Transparent}"
                                 VerticalAlignment="Stretch"
                                 HorizontalAlignment="Stretch"
                                 Data="M8,5.14V19.14L19,12.14L8,5.14Z"/>
@@ -144,8 +144,8 @@
                         </Style>
                         </Border.Styles>
 
-                        <PathIcon Foreground="{StaticResource color1}"
-                                Background="Transparent"
+                        <PathIcon Foreground="{x:Static assets:Themes.MainColor}"
+                                Background="{x:Static assets:Themes.Transparent}"
                                 VerticalAlignment="Stretch"
                                 HorizontalAlignment="Stretch"
                                 Data="M17 9V12H14V14H17V17H19V14H22V12H19V9H17M9 3V13.55C8.41 13.21 7.73 13 7 13C4.79 13 3 14.79 3 17S4.79 21 7 21 11 19.21 11 17V7H15V3H9Z"/>
@@ -164,17 +164,17 @@
                             HorizontalAlignment="Stretch"
                             VerticalAlignment="Stretch">
                         <Border.Styles>
-                        <Style Selector="Border">
-                            <Setter Property="Background" Value="{x:Static assets:Themes.Transparent}"/>
-                        </Style>
+                            <Style Selector="Border">
+                                <Setter Property="Background" Value="{x:Static assets:Themes.Transparent}"/>
+                            </Style>
 
-                        <Style Selector="Border:pointerover">
-                            <Setter Property="Background" Value="{x:Static assets:Themes.MainWindowButtonOver}"/>
-                        </Style>
+                            <Style Selector="Border:pointerover">
+                                <Setter Property="Background" Value="{x:Static assets:Themes.MainWindowButtonOver}"/>
+                            </Style>
                         </Border.Styles>
 
-                        <PathIcon Foreground="{StaticResource color1}"
-                                Background="Transparent"
+                        <PathIcon Foreground="{x:Static assets:Themes.MainColor}"
+                                Background="{x:Static assets:Themes.Transparent}"
                                 VerticalAlignment="Stretch"
                                 HorizontalAlignment="Stretch"
                                 Data="M3 16H10V14H3M18 14V10H16V14H12V16H16V20H18V16H22V14M14 6H3V8H14M14 10H3V12H14V10Z"/>
@@ -202,8 +202,8 @@
                         </Style>
                         </Border.Styles>
                         
-                        <PathIcon Foreground="{StaticResource color1}"
-                                Background="Transparent"
+                        <PathIcon Foreground="{x:Static assets:Themes.MainColor}"
+                                Background="{x:Static assets:Themes.Transparent}"
                                 VerticalAlignment="Stretch"
                                 HorizontalAlignment="Stretch"
                                 Data="M9,3V4H4V6H5V19A2,2 0 0,0 7,21H17A2,2 0 0,0 19,19V6H20V4H15V3H9M7,6H17V19H7V6M9,8V17H11V8H9M13,8V17H15V8H13Z"/>

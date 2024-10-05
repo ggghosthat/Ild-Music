@@ -298,102 +298,107 @@
       </StackPanel>
     </Grid>
 
-    <StackPanel Grid.Row="2"
-                Orientation="Horizontal"
-                HorizontalAlignment="Left">          
-      <Border Width="30"
-              Height="30"
-              Margin="10, 0, 5, 5"
-              BorderThickness="0"
-              CornerRadius="5"
-              HorizontalAlignment="Right"
-              VerticalAlignment="Center">
-          <i:Interaction.Behaviors>
-            <ia:EventTriggerBehavior EventName="PointerPressed">
-              <ia:InvokeCommandAction Command="{Binding AddCommand}"/>
-            </ia:EventTriggerBehavior>  
-          </i:Interaction.Behaviors>
-          <Border.Styles>
-            <Style Selector="Border PathIcon">
-                <Setter Property="Foreground" Value="{x:Static assets:Themes.MainWindowSearchButton}"/>
-            </Style>
+    <Border Grid.Row="2"
+            Margin="10 5"
+            CornerRadius="25"
+            HorizontalAlignment="Left"
+            Background="{x:Static assets:Themes.GlobalColor2}">
+      <StackPanel Margin="15 0"
+                  Orientation="Horizontal">        
+        <Border x:Name="BorderAdd"
+                Width="30"
+                Height="30"
+                Margin="5"
+                BorderThickness="0"
+                CornerRadius="5"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Center">
+            <i:Interaction.Behaviors>
+              <ia:EventTriggerBehavior EventName="PointerPressed">
+                <ia:InvokeCommandAction Command="{Binding AddCommand}"/>
+              </ia:EventTriggerBehavior>  
+            </i:Interaction.Behaviors>
+            <Border.Styles>
+              <Style Selector="Border#BorderAdd PathIcon">
+                  <Setter Property="Foreground" Value="{x:Static assets:Themes.MainWindowSearchButton}"/>
+              </Style>
 
-            <Style Selector="Border:pointerover PathIcon" >
-                <Setter Property="Foreground" Value="{x:Static assets:Themes.TextColor1}"/>
-            </Style>
-          </Border.Styles>
+              <Style Selector="Border#BorderAdd:pointerover PathIcon" >
+                  <Setter Property="Foreground" Value="{x:Static assets:Themes.MainColor}"/>
+              </Style>
+            </Border.Styles>
 
-          <PathIcon HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    Width="20"
-                    Height="20"
-                    Background="{x:Static assets:Themes.Transparent}"
-                    Data="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z"> 
-          </PathIcon>
-      </Border>
+            <PathIcon HorizontalAlignment="Center"
+                      VerticalAlignment="Center"
+                      Width="20"
+                      Height="20"
+                      Background="{x:Static assets:Themes.Transparent}"
+                      Data="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z"/>
+        </Border>
+        
+        <Border x:Name="BorderDelete"
+                Width="30"
+                Height="30"
+                Margin="5"
+                BorderThickness="0"
+                CornerRadius="5"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Center">
+            <i:Interaction.Behaviors>
+              <ia:EventTriggerBehavior EventName="PointerPressed">
+                <ia:InvokeCommandAction Command="{Binding DeleteCommand}"/>
+              </ia:EventTriggerBehavior>  
+            </i:Interaction.Behaviors>
+            <Border.Styles>
+              <Style Selector="Border#BorderDelete PathIcon">
+                  <Setter Property="Foreground" Value="{x:Static assets:Themes.MainWindowSearchButton}"/>
+              </Style>
 
-      <Border Width="30"
-              Height="30"
-              Margin="10, 2, 5, 5"
-              BorderThickness="0"
-              CornerRadius="5"
-              HorizontalAlignment="Right"
-              VerticalAlignment="Center">
-          <i:Interaction.Behaviors>
-            <ia:EventTriggerBehavior EventName="PointerPressed">
-              <ia:InvokeCommandAction Command="{Binding DeleteCommand}"/>
-            </ia:EventTriggerBehavior>  
-          </i:Interaction.Behaviors>
-          <Border.Styles>
-            <Style Selector="Border PathIcon">
-                <Setter Property="Foreground" Value="{x:Static assets:Themes.MainWindowSearchButton}"/>
-            </Style>
+              <Style Selector="Border#BorderDelete:pointerover PathIcon" >
+                  <Setter Property="Foreground" Value="{x:Static assets:Themes.MainColor}"/>
+              </Style>
+            </Border.Styles>
 
-            <Style Selector="Border:pointerover PathIcon" >
-                <Setter Property="Foreground" Value="{x:Static assets:Themes.TextColor1}"/>
-            </Style>
-          </Border.Styles>
+            <PathIcon HorizontalAlignment="Center"
+                      VerticalAlignment="Center"
+                      Width="20"
+                      Height="20"
+                      Background="{x:Static assets:Themes.Transparent}"
+                      Data="M9,3V4H4V6H5V19A2,2 0 0,0 7,21H17A2,2 0 0,0 19,19V6H20V4H15V3H9M7,6H17V19H7V6M9,8V17H11V8H9M13,8V17H15V8H13Z"/>
+        </Border>
 
-          <PathIcon HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    Width="20"
-                    Height="20"
-                    Background="{x:Static assets:Themes.Transparent}"
-                    Data="M9,3V4H4V6H5V19A2,2 0 0,0 7,21H17A2,2 0 0,0 19,19V6H20V4H15V3H9M7,6H17V19H7V6M9,8V17H11V8H9M13,8V17H15V8H13Z"> 
-          </PathIcon>
-      </Border>
+        <Border x:Name="BorderUpdate"
+                Width="30"
+                Height="30"
+                Margin="5"
+                BorderThickness="0"
+                CornerRadius="5"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Center">
+            <i:Interaction.Behaviors>
+              <ia:EventTriggerBehavior EventName="PointerPressed">
+                <ia:InvokeCommandAction Command="{Binding EditCommand}"/>
+              </ia:EventTriggerBehavior>  
+            </i:Interaction.Behaviors>
+            <Border.Styles>
+              <Style Selector="Border#BorderUpdate PathIcon">
+                  <Setter Property="Foreground" Value="{x:Static assets:Themes.MainWindowSearchButton}"/>
+              </Style>
 
-      <Border Width="30"
-              Height="30"
-              Margin="10, 2, 5, 5"
-              BorderThickness="0"
-              CornerRadius="5"
-              HorizontalAlignment="Right"
-              VerticalAlignment="Center">
-          <i:Interaction.Behaviors>
-            <ia:EventTriggerBehavior EventName="PointerPressed">
-              <ia:InvokeCommandAction Command="{Binding EditCommand}"/>
-            </ia:EventTriggerBehavior>  
-          </i:Interaction.Behaviors>
-          <Border.Styles>
-            <Style Selector="Border PathIcon">
-                <Setter Property="Foreground" Value="{x:Static assets:Themes.MainWindowSearchButton}"/>
-            </Style>
+              <Style Selector="Border#BorderUpdate:pointerover PathIcon" >
+                  <Setter Property="Foreground" Value="{x:Static assets:Themes.MainColor}"/>
+              </Style>
+            </Border.Styles>
 
-            <Style Selector="Border:pointerover PathIcon" >
-                <Setter Property="Foreground" Value="{x:Static assets:Themes.TextColor1}"/>
-            </Style>
-          </Border.Styles>
-
-          <PathIcon HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    Width="20"
-                    Height="20"
-                    Background="{x:Static assets:Themes.Transparent}"
-                    Data="M14.06,9L15,9.94L5.92,19H5V18.08L14.06,9M17.66,3C17.41,3 17.15,3.1 16.96,3.29L15.13,5.12L18.88,8.87L20.71,7.04C21.1,6.65 21.1,6 20.71,5.63L18.37,3.29C18.17,3.09 17.92,3 17.66,3M14.06,6.19L3,17.25V21H6.75L17.81,9.94L14.06,6.19Z"> 
-          </PathIcon>
-      </Border>
-    </StackPanel>
+            <PathIcon HorizontalAlignment="Center"
+                      VerticalAlignment="Center"
+                      Width="20"
+                      Height="20"
+                      Background="{x:Static assets:Themes.Transparent}"
+                      Data="M14.06,9L15,9.94L5.92,19H5V18.08L14.06,9M17.66,3C17.41,3 17.15,3.1 16.96,3.29L15.13,5.12L18.88,8.87L20.71,7.04C21.1,6.65 21.1,6 20.71,5.63L18.37,3.29C18.17,3.09 17.92,3 17.66,3M14.06,6.19L3,17.25V21H6.75L17.81,9.94L14.06,6.19Z"/>
+        </Border>
+      </StackPanel>
+    </Border>
 
 
     <!--background-->
