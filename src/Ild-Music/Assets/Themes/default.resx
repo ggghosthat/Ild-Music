@@ -194,7 +194,23 @@
     <comment/>
   </data>
   <data name="Color18" xml:space="preserve">
-    <value>969696</value>
+    <value>#969696</value>
+    <comment/>
+  </data>
+  <data name="Color19" xml:space="preserve">
+    <value>#85b2b2b2</value>
+    <comment/>
+  </data>
+  <data name="Color20" xml:space="preserve">
+    <value>#50000000</value>
+    <comment/>
+  </data>
+  <data name="Color21" xml:space="preserve">
+    <value>#70000000</value>
+    <comment/>
+  </data>
+  <data name="ListCurrentListBackground" xml:space="preserve">
+    <value>#85b2b2b2</value>
     <comment/>
   </data>
 </root>

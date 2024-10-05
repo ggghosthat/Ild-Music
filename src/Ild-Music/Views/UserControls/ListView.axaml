@@ -5,7 +5,7 @@
 
              xmlns:vm="clr-namespace:Ild_Music.ViewModels"
              xmlns:conv="clr-namespace:Ild_Music.Converters"
-             xmlns:lang="clr-namespace:Ild_Music.Assets"
+             xmlns:assets="clr-namespace:Ild_Music.Assets"
              xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
              xmlns:ia="clr-namespace:Avalonia.Xaml.Interactions.Core;assembly=Avalonia.Xaml.Interactions"
              
@@ -131,7 +131,7 @@
             <ListBox.ItemTemplate>
               <DataTemplate>
                 <TextBlock FontSize="14"
-                           Foreground="#c2c2c2"
+                           Foreground="{x:Static assets:Themes.TextColor1}"
                            Text="{Binding ., Converter={StaticResource ListHeaderConverter}}"/>
               </DataTemplate>
             </ListBox.ItemTemplate>
@@ -147,7 +147,7 @@
             <Setter Property="Cursor" Value="Hand"></Setter>
         </Style>
       </Grid.Styles>
-      <ScrollViewer Background="#50000000"
+      <ScrollViewer Background="{x:Static assets:Themes.FadeBackground}"
                     HorizontalContentAlignment="Center"
                     HorizontalScrollBarVisibility="Disabled"
                     VerticalScrollBarVisibility="Auto"
@@ -200,43 +200,43 @@
               </Style>
 
               <Style Selector="ListBoxItem:pointerover /template/ Border#Bd">
-                <Setter Property="Background" Value="#4027da48"/>
+                <Setter Property="Background" Value="{x:Static assets:Themes.ListBoxOver}"/>
               </Style>
 
               <Style Selector="ListBoxItem:pointerover /template/ ContentPresenter">
-                <Setter Property="Background" Value="Transparent"/>
+                  <Setter Property="Background" Value="{x:Static assets:Themes.Transparent}"/>
               </Style>
 
               <Style Selector="ListBoxItem:selected /template/ Border#Bd">
-                <Setter Property="Background" Value="#7027da48"/>
+                  <Setter Property="Background" Value="{x:Static assets:Themes.ListBoxSelected}"/>
               </Style>
 
               <Style Selector="ListBoxItem:selected /template/ ContentPresenter">
-                <Setter Property="Background" Value="Transparent"/>
+                  <Setter Property="Background" Value="{x:Static assets:Themes.Transparent}"/>
               </Style>
-
+      
               <Style Selector="ListBoxItem:selected:focus /template/ Border#Bd">
-                <Setter Property="Background" Value="#7027da48"/>
+                  <Setter Property="Background" Value="{x:Static assets:Themes.ListBoxSelected}"/>
               </Style>
 
               <Style Selector="ListBoxItem:selected:focus /template/ ContentPresenter">
-                <Setter Property="Background" Value="Transparent"/>
+                  <Setter Property="Background" Value="{x:Static assets:Themes.Transparent}"/>
               </Style>
 
               <Style Selector="ListBoxItem:selected:pointerover /template/ Border#Bd">
-                <Setter Property="Background" Value="#7027da48"/>
+                <Setter Property="Background" Value="{x:Static assets:Themes.ListBoxSelected}"/>
               </Style>
 
               <Style Selector="ListBoxItem:selected:pointerover /template/ ContentPresenter">
-                <Setter Property="Background" Value="Transparent"/>
+                  <Setter Property="Background" Value="{x:Static assets:Themes.Transparent}"/>
               </Style>
 
               <Style Selector="ListBoxItem:selected:focus:pointerover /template/ Border#Bd">
-                <Setter Property="Background" Value="#7027da48"/>
+                  <Setter Property="Background" Value="{x:Static assets:Themes.ListBoxSelected}"/>
               </Style>
 
               <Style Selector="ListBoxItem:selected:focus:pointerover /template/ ContentPresenter">
-                <Setter Property="Background" Value="Transparent"/>
+                  <Setter Property="Background" Value="{x:Static assets:Themes.Transparent}"/>
               </Style>
             </ListBox.Styles>
 
@@ -268,11 +268,11 @@
                                TextWrapping="NoWrap"
                                TextAlignment="Center"
                                FontSize="12"
-                               Foreground="White"
                                FontWeight="Light"
-                               Background="Transparent"
                                VerticalAlignment="Top"
                                HorizontalAlignment="Stretch"
+                               Foreground="{x:Static assets:Themes.TextColor1}"
+                               Background="{x:Static assets:Themes.Transparent}"
                                Text="{Binding ., Converter={StaticResource InstanceConverter}, ConverterParameter=shortname}"/>
                 </Grid>
               </DataTemplate>
@@ -283,20 +283,19 @@
       <StackPanel HorizontalAlignment="Center"
                   VerticalAlignment="Center"
                   IsVisible="{Binding #CurrentList.ItemCount, Converter={StaticResource ListActivityConverter}, ConverterParameter=is_empty}">
-            <PathIcon Height="50"
-                      Width="50"
-                      Margin="5"
-                      Foreground="#c2c2c2"
-                      Background="Transparent"
-                      VerticalAlignment="Stretch"
-                      HorizontalAlignment="Stretch"
-                      Data="M11,7A2,2 0 0,0 9,9V15A2,2 0 0,0 11,17H13A2,2 0 0,0 15,15V9A2,2 0 0,0 13,7H11M11,9H13V15H11V9M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2Z"/>
-            <TextBlock Text="{x:Static lang:Resources.EmptyBannerText}"
-                       Foreground="#969696"
-                       TextAlignment="Center"
-                       FontSize="15"
-                       FontWeight="Light"/>
-        </StackPanel>
+          <PathIcon Height="60"
+                    Width="60"
+                    Foreground="{x:Static assets:Themes.TextColor}"
+                    Background="{x:Static assets:Themes.Transparent}"
+                    VerticalAlignment="Stretch"
+                    HorizontalAlignment="Stretch"
+                    Data="M11,7A2,2 0 0,0 9,9V15A2,2 0 0,0 11,17H13A2,2 0 0,0 15,15V9A2,2 0 0,0 13,7H11M11,9H13V15H11V9M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2Z"/>
+          <TextBlock Text="There is no artists"
+                    Foreground="{x:Static assets:Themes.TextColor}"
+                    TextAlignment="Center"
+                    FontSize="15"
+                    FontWeight="Light"/>
+      </StackPanel>
     </Grid>
 
     <StackPanel Grid.Row="2"
@@ -316,11 +315,11 @@
           </i:Interaction.Behaviors>
           <Border.Styles>
             <Style Selector="Border PathIcon">
-                <Setter Property="Foreground" Value="#7f7f7f"/>
+                <Setter Property="Foreground" Value="{x:Static assets:Themes.MainWindowSearchButton}"/>
             </Style>
 
             <Style Selector="Border:pointerover PathIcon" >
-                <Setter Property="Foreground" Value="#fff"/>
+                <Setter Property="Foreground" Value="{x:Static assets:Themes.TextColor1}"/>
             </Style>
           </Border.Styles>
 
@@ -328,7 +327,7 @@
                     VerticalAlignment="Center"
                     Width="20"
                     Height="20"
-                    Background="Transparent"
+                    Background="{x:Static assets:Themes.Transparent}"
                     Data="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z"> 
           </PathIcon>
       </Border>
@@ -347,11 +346,11 @@
           </i:Interaction.Behaviors>
           <Border.Styles>
             <Style Selector="Border PathIcon">
-                <Setter Property="Foreground" Value="#7f7f7f"/>
+                <Setter Property="Foreground" Value="{x:Static assets:Themes.MainWindowSearchButton}"/>
             </Style>
 
-            <Style Selector="Border:pointerover PathIcon">
-                <Setter Property="Foreground" Value="#fff"/>
+            <Style Selector="Border:pointerover PathIcon" >
+                <Setter Property="Foreground" Value="{x:Static assets:Themes.TextColor1}"/>
             </Style>
           </Border.Styles>
 
@@ -359,7 +358,7 @@
                     VerticalAlignment="Center"
                     Width="20"
                     Height="20"
-                    Background="Transparent"
+                    Background="{x:Static assets:Themes.Transparent}"
                     Data="M9,3V4H4V6H5V19A2,2 0 0,0 7,21H17A2,2 0 0,0 19,19V6H20V4H15V3H9M7,6H17V19H7V6M9,8V17H11V8H9M13,8V17H15V8H13Z"> 
           </PathIcon>
       </Border>
@@ -378,11 +377,11 @@
           </i:Interaction.Behaviors>
           <Border.Styles>
             <Style Selector="Border PathIcon">
-                <Setter Property="Foreground" Value="#7f7f7f"/>
+                <Setter Property="Foreground" Value="{x:Static assets:Themes.MainWindowSearchButton}"/>
             </Style>
 
-            <Style Selector="Border:pointerover PathIcon">
-                <Setter Property="Foreground" Value="#fff"/>
+            <Style Selector="Border:pointerover PathIcon" >
+                <Setter Property="Foreground" Value="{x:Static assets:Themes.TextColor1}"/>
             </Style>
           </Border.Styles>
 
@@ -390,7 +389,7 @@
                     VerticalAlignment="Center"
                     Width="20"
                     Height="20"
-                    Background="Transparent"
+                    Background="{x:Static assets:Themes.Transparent}"
                     Data="M14.06,9L15,9.94L5.92,19H5V18.08L14.06,9M17.66,3C17.41,3 17.15,3.1 16.96,3.29L15.13,5.12L18.88,8.87L20.71,7.04C21.1,6.65 21.1,6 20.71,5.63L18.37,3.29C18.17,3.09 17.92,3 17.66,3M14.06,6.19L3,17.25V21H6.75L17.81,9.94L14.06,6.19Z"> 
           </PathIcon>
       </Border>
@@ -403,29 +402,29 @@
             Grid.RowSpan="3"
             IsVisible="false"  
             ZIndex="2"
-            Background="#85b2b2b2"
+            Background="{x:Static assets:Themes.ListCurrentListBackground}"
             PointerPressed="DropAreaReleaseMouse">
       <Border x:Name="DropPlace"
               Margin="10"    
               CornerRadius="10"
               BorderThickness="3"
-              Background="Transparent"
+              Background="{x:Static assets:Themes.Transparent}"
               HorizontalAlignment="Stretch"
               VerticalAlignment="Stretch"
-              BorderBrush="{StaticResource color1}">
+              BorderBrush="{x:Static assets:Themes.MainColor}">
           <StackPanel HorizontalAlignment="Center"
                       VerticalAlignment="Center">
             <PathIcon Width="100"
                       Height="100"
                       HorizontalAlignment="Center"
                       VerticalAlignment="Center"
-                      Foreground="#c2c2c2"
-                      Background="Transparent"
+                      Foreground="{x:Static assets:Themes.TextColor1}"
+                      Background="{x:Static assets:Themes.Transparent}"
                       Data="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18V20Z"/>
             <Label Content="Drop your music file"
-                FontWeight="Medium"
-                FontSize="30"
-                Foreground="#c2c2c2"/>
+                   FontWeight="Medium"
+                   FontSize="30"
+                   Foreground="{x:Static assets:Themes.TextColor1}"/>
         </StackPanel>          
       </Border>
     </Border>

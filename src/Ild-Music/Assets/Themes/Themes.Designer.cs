@@ -89,4 +89,14 @@ public class Themes
     public static Color PlayerGradient1 => ToColor("PlayerGradient1");
     
     public static Color PlayerGradient2 => ToColor("PlayerGradient2");
+
+    public static SolidColorBrush BrowseArea => ToSolidColor("Color19");
+
+    public static SolidColorBrush FadeBackground => ToSolidColor("Color20");
+
+    public static SolidColorBrush BrowseAreaBorder => ToSolidColor("Color10");
+
+    public static SolidColorBrush BrowseAreaHover => ToSolidColor("Color21");
+
+    public static SolidColorBrush ListCurrentListBackground => ToSolidColor("ListCurrentListBackground");
 }

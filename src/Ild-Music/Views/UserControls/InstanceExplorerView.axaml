@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 
              xmlns:vm="clr-namespace:Ild_Music.ViewModels"
-             xmlns:lang="clr-namespace:Ild_Music.Assets"
+             xmlns:assets="clr-namespace:Ild_Music.Assets"
              xmlns:conv="clr-namespace:Ild_Music.Converters"
              xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
              xmlns:ia="clr-namespace:Avalonia.Xaml.Interactions.Core;assembly=Avalonia.Xaml.Interactions"
@@ -20,35 +20,35 @@
     <UserControl.Styles>
         <Style Selector="TextBox">
           <Setter Property="BorderThickness" Value="0"/>
-          <Setter Property="SelectionBrush" Value="#0b3338"/>
-          <Setter Property="BorderBrush" Value="Transparent"/>
-          <Setter Property="Background" Value="Transparent"/>
+          <Setter Property="SelectionBrush" Value="{x:Static assets:Themes.GlobalColor2}"/>
+          <Setter Property="BorderBrush" Value="{x:Static assets:Themes.Transparent}"/>
+          <Setter Property="Background" Value="{x:Static assets:Themes.Transparent}"/>
         </Style>
 
         <Style Selector="TextBox:pointerover /template/ Border#PART_BorderElement">
           <Setter Property="BorderThickness" Value="0"/>
-          <Setter Property="BorderBrush" Value="Transparent"/>
-          <Setter Property="Background" Value="Transparent"/>
+          <Setter Property="BorderBrush" Value="{x:Static assets:Themes.Transparent}"/>
+          <Setter Property="Background" Value="{x:Static assets:Themes.Transparent}"/>
         </Style>
 
         <Style Selector="TextBox:focus /template/ Border#PART_BorderElement">
           <Setter Property="BorderThickness" Value="0"/>
-          <Setter Property="BorderBrush" Value="Transparent"/>
-          <Setter Property="Background" Value="Transparent"/>
+          <Setter Property="BorderBrush" Value="{x:Static assets:Themes.Transparent}"/>
+          <Setter Property="Background" Value="{x:Static assets:Themes.Transparent}"/>
         </Style>
 
         <Style Selector="TextBox:focus:pointerover /template/ Border#PART_BorderElement">
           <Setter Property="BorderThickness" Value="0"/>
-          <Setter Property="BorderBrush" Value="Transparent"/>
-          <Setter Property="Background" Value="Transparent"/>
+          <Setter Property="BorderBrush" Value="{x:Static assets:Themes.Transparent}"/>
+          <Setter Property="Background" Value="{x:Static assets:Themes.Transparent}"/>
         </Style>
 
         <Style Selector="Border#btnCleanSearch PathIcon">
-            <Setter Property="Foreground" Value="#7f7f7f"/>
+            <Setter Property="Foreground" Value="{x:Static assets:Themes.MainWindowSearchButton}"/>
         </Style>
 
         <Style Selector="Border#btnCleanSearch:pointerover PathIcon" >
-            <Setter Property="Foreground" Value="#fff"/>
+            <Setter Property="Foreground" Value="{x:Static assets:Themes.TextColor1}"/>
         </Style>
     </UserControl.Styles>
     
@@ -71,7 +71,7 @@
                     BorderThickness="1"
                     CornerRadius="15"
                     BorderBrush="{StaticResource color1}"
-                    Background="#50000000"                    
+                    Background="{x:Static assets:Themes.FadeBackground}"                    
                     HorizontalAlignment="Stretch"
                     VerticalAlignment="Top">
                 <Grid>
@@ -83,7 +83,7 @@
                   <TextBox Grid.Column="0"
                            HorizontalAlignment="Stretch"
                            Background="Transparent"
-                           Watermark="{x:Static lang:Resources.SearBarInstanceExplorer}"
+                           Watermark="{x:Static assets:Resources.SearBarInstanceExplorer}"
                            FontWeight="Regular"
                            Foreground="White"
                            TextAlignment="Left"
@@ -104,14 +104,13 @@
                                 Classes="btnCleanSearch"
                                 HorizontalAlignment="Right"
                                 VerticalAlignment="Center">
-
                             <Border.Styles>
                               <Style Selector="Border.btnCleanSearch PathIcon">
-                                  <Setter Property="Foreground" Value="#7f7f7f"/>
+                                  <Setter Property="Foreground" Value="{x:Static assets:Themes.MainWindowSearchButton}"/>
                               </Style>
 
                               <Style Selector="Border.btnCleanSearch:pointerover PathIcon" >
-                                  <Setter Property="Foreground" Value="#fff"/>
+                                  <Setter Property="Foreground" Value="{x:Static assets:Themes.TextColor1}"/>
                               </Style>
                             </Border.Styles>
 
@@ -138,14 +137,13 @@
                                 Margin="5"
                                 HorizontalAlignment="Right"
                                 VerticalAlignment="Center">
-
                             <Border.Styles>
-                              <Style Selector="Border.btnSearch PathIcon">
-                                  <Setter Property="Foreground" Value="#7f7f7f"/>
+                              <Style Selector="Border.btnCleanSearch PathIcon">
+                                  <Setter Property="Foreground" Value="{x:Static assets:Themes.MainWindowSearchButton}"/>
                               </Style>
 
-                              <Style Selector="Border.btnSearch:pointerover PathIcon" >
-                                  <Setter Property="Foreground" Value="#fff"/>
+                              <Style Selector="Border.btnCleanSearch:pointerover PathIcon" >
+                                  <Setter Property="Foreground" Value="{x:Static assets:Themes.TextColor1}"/>
                               </Style>
                             </Border.Styles>
 
@@ -167,7 +165,7 @@
                     FontSize="16"
                     Width="100"
                     Height="30"
-                    Content="{x:Static lang:Resources.SearchButtonInstanceExplorer}"
+                    Content="{x:Static assets:Resources.SearchButtonInstanceExplorer}"
                     Classes="btnApply"
                     HorizontalAlignment="Right"
                     VerticalAlignment="Top"
@@ -184,7 +182,7 @@
             <ListBox ItemsSource="{Binding Source}"
                      SelectedItems="{Binding Output}"
                      SelectionMode="Multiple,Toggle"
-                     Background="{StaticResource lsSelectedIntances}">
+                     Background="{x:Static assets:Themes.GlobalColor2}">
 
                   <ListBox.ItemsPanel>
                       <ItemsPanelTemplate>                                
@@ -194,7 +192,7 @@
 
                   <ListBox.Styles>
                     <Style Selector="ListBoxItem">
-                      <Setter Property="BorderBrush" Value="Transparent"/>
+                      <Setter Property="BorderBrush" Value="{x:Static assets:Themes.Transparent}"/>
                       <Setter Property="BorderThickness" Value="0"/>
                       <Setter Property="Padding" Value="4"/>                                
                       <Setter Property="HorizontalContentAlignment" Value="Stretch"/>  
@@ -205,7 +203,6 @@
                         <ControlTemplate>
                             <Border x:Name="Bd"
                                     CornerRadius="5"
-                                    Background="{TemplateBinding Background}"
                                     BorderThickness="{TemplateBinding BorderThickness}"
                                     BorderBrush="{TemplateBinding BorderBrush}"
                                     Padding="{TemplateBinding Padding}">
@@ -220,43 +217,43 @@
                     </Style>
 
                     <Style Selector="ListBoxItem:pointerover /template/ Border#Bd">
-                      <Setter Property="Background" Value="#4027da48"/>
+                      <Setter Property="Background" Value="{x:Static assets:Themes.ListBoxOver}"/>
                     </Style>
 
                     <Style Selector="ListBoxItem:pointerover /template/ ContentPresenter">
-                      <Setter Property="Background" Value="Transparent"/>
+                        <Setter Property="Background" Value="{x:Static assets:Themes.Transparent}"/>
                     </Style>
 
                     <Style Selector="ListBoxItem:selected /template/ Border#Bd">
-                      <Setter Property="Background" Value="#7027da48"/>
+                        <Setter Property="Background" Value="{x:Static assets:Themes.ListBoxSelected}"/>
                     </Style>
 
                     <Style Selector="ListBoxItem:selected /template/ ContentPresenter">
-                      <Setter Property="Background" Value="Transparent"/>
+                        <Setter Property="Background" Value="{x:Static assets:Themes.Transparent}"/>
                     </Style>
-                    
+            
                     <Style Selector="ListBoxItem:selected:focus /template/ Border#Bd">
-                      <Setter Property="Background" Value="#7027da48"/>
+                        <Setter Property="Background" Value="{x:Static assets:Themes.ListBoxSelected}"/>
                     </Style>
 
                     <Style Selector="ListBoxItem:selected:focus /template/ ContentPresenter">
-                      <Setter Property="Background" Value="Transparent"/>
+                        <Setter Property="Background" Value="{x:Static assets:Themes.Transparent}"/>
                     </Style>
 
                     <Style Selector="ListBoxItem:selected:pointerover /template/ Border#Bd">
-                      <Setter Property="Background" Value="#7027da48"/>
+                      <Setter Property="Background" Value="{x:Static assets:Themes.ListBoxSelected}"/>
                     </Style>
 
                     <Style Selector="ListBoxItem:selected:pointerover /template/ ContentPresenter">
-                      <Setter Property="Background" Value="Transparent"/>
+                        <Setter Property="Background" Value="{x:Static assets:Themes.Transparent}"/>
                     </Style>
 
                     <Style Selector="ListBoxItem:selected:focus:pointerover /template/ Border#Bd">
-                      <Setter Property="Background" Value="#7027da48"/>
+                        <Setter Property="Background" Value="{x:Static assets:Themes.ListBoxSelected}"/>
                     </Style>
 
                     <Style Selector="ListBoxItem:selected:focus:pointerover /template/ ContentPresenter">
-                      <Setter Property="Background" Value="Transparent"/>
+                        <Setter Property="Background" Value="{x:Static assets:Themes.Transparent}"/>
                     </Style>
                   </ListBox.Styles>
 
@@ -400,7 +397,7 @@
                         <TextBlock TextWrapping="Wrap" 
                                    TextAlignment="Center"
                                    FontSize="18"
-                                   Foreground="#c2c2c2"
+                                   Foreground="{x:Static assets:Themes.TextColor1}"
                                    FontWeight="Light"
                                    VerticalAlignment="Stretch"
                                    HorizontalAlignment="Stretch"

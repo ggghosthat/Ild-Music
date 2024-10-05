@@ -270,7 +270,7 @@
                                           HorizontalAlignment="Stretch"
                                           ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                                           ScrollViewer.VerticalScrollBarVisibility="Visible"
-                                          Background="Transparent">
+                                          Background="{x:Static assets:Themes.Transparent}">
                                      <ListBox.ItemsPanel>
                                         <ItemsPanelTemplate>
                                             <StackPanel Orientation="Vertical"/>

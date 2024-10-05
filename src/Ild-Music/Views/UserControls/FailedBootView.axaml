@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 
              xmlns:vm="clr-namespace:Ild_Music.ViewModels"
-             xmlns:lang="clr-namespace:Ild_Music.Assets"
+             xmlns:assets="clr-namespace:Ild_Music.Assets"
              xmlns:conv="using:Ild_Music.Converters"
              xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
              xmlns:ia="clr-namespace:Avalonia.Xaml.Interactions.Core;assembly=Avalonia.Xaml.Interactions"
@@ -27,7 +27,7 @@
       </Grid.ColumnDefinitions>
 
       <Label Grid.Column="0"
-            Content="{x:Static lang:Resources.TitleFailedBootView}"
+            Content="{x:Static assets:Resources.TitleFailedBootView}"
             FontSize="40"
             Margin="30 50 30 20"
             FontWeight="Medium"
@@ -42,7 +42,8 @@
                HorizontalAlignment="Center"
                VerticalAlignment="Center">
           <Canvas Width="170" Height="30">
-              <Path Fill="#27da48" Data="M 30.00,0.00
+              <Path Fill="{x:Static assets:Themes.MainColor}"
+                    Data="M 30.00,0.00
                       C 30.00,0.00 40.00,0.00 40.00,0.00
                           40.00,0.00 40.00,34.00 40.00,34.00
                           40.00,34.00 30.00,34.00 30.00,34.00
@@ -97,22 +98,22 @@
     </Grid>
 
     <StackPanel Grid.Row="1">
-      <Label Content="{x:Static lang:Resources.PhraseFailedBootView}"
+      <Label Content="{x:Static assets:Resources.PhraseFailedBootView}"
              FontSize="16"
              Margin="30 10"
              FontWeight="Medium"/>
            
       <ScrollViewer Margin="30 10"
                     Height="100"
-                    VerticalAlignment="Top"
-                    HorizontalAlignment="Left"
+                    VerticalAlignment="Stretch"
+                    HorizontalAlignment="Stretch"
                     HorizontalContentAlignment="Left"
                     HorizontalScrollBarVisibility="Disabled"
                     VerticalScrollBarVisibility="Auto">       
           <ListBox ItemsSource="{Binding Errors}"
                     SelectedItems="{Binding SelectedError}"
                     SelectionMode="Multiple,Toggle"
-                    Background="{StaticResource lsSelectedIntances}">
+                    Background="{x:Static assets:Themes.GlobalColor2}">
 
                 <ListBox.ItemsPanel>
                     <ItemsPanelTemplate>                                
@@ -122,7 +123,7 @@
 
                 <ListBox.Styles>
                   <Style Selector="ListBoxItem">
-                    <Setter Property="BorderBrush" Value="Transparent"/>
+                    <Setter Property="BorderBrush" Value="{x:Static assets:Themes.Transparent}"/>
                     <Setter Property="BorderThickness" Value="0"/>
                     <Setter Property="Padding" Value="4"/>                                
                     <Setter Property="HorizontalContentAlignment" Value="Stretch"/>  
@@ -133,7 +134,6 @@
                       <ControlTemplate>
                           <Border x:Name="Bd"
                                   CornerRadius="5"
-                                  Background="{TemplateBinding Background}"
                                   BorderThickness="{TemplateBinding BorderThickness}"
                                   BorderBrush="{TemplateBinding BorderBrush}"
                                   Padding="{TemplateBinding Padding}">
@@ -148,43 +148,43 @@
                   </Style>
 
                   <Style Selector="ListBoxItem:pointerover /template/ Border#Bd">
-                    <Setter Property="Background" Value="#4027da48"/>
+                      <Setter Property="Background" Value="{x:Static assets:Themes.ListBoxOver}"/>
                   </Style>
 
                   <Style Selector="ListBoxItem:pointerover /template/ ContentPresenter">
-                    <Setter Property="Background" Value="Transparent"/>
+                      <Setter Property="Background" Value="{x:Static assets:Themes.Transparent}"/>
                   </Style>
 
                   <Style Selector="ListBoxItem:selected /template/ Border#Bd">
-                    <Setter Property="Background" Value="#7027da48"/>
+                      <Setter Property="Background" Value="{x:Static assets:Themes.ListBoxSelected}"/>
                   </Style>
 
                   <Style Selector="ListBoxItem:selected /template/ ContentPresenter">
-                    <Setter Property="Background" Value="Transparent"/>
+                      <Setter Property="Background" Value="{x:Static assets:Themes.Transparent}"/>
                   </Style>
-                  
+          
                   <Style Selector="ListBoxItem:selected:focus /template/ Border#Bd">
-                    <Setter Property="Background" Value="#7027da48"/>
+                      <Setter Property="Background" Value="{x:Static assets:Themes.ListBoxSelected}"/>
                   </Style>
 
                   <Style Selector="ListBoxItem:selected:focus /template/ ContentPresenter">
-                    <Setter Property="Background" Value="Transparent"/>
+                      <Setter Property="Background" Value="{x:Static assets:Themes.Transparent}"/>
                   </Style>
 
                   <Style Selector="ListBoxItem:selected:pointerover /template/ Border#Bd">
-                    <Setter Property="Background" Value="#7027da48"/>
+                      <Setter Property="Background" Value="{x:Static assets:Themes.ListBoxSelected}"/>
                   </Style>
 
                   <Style Selector="ListBoxItem:selected:pointerover /template/ ContentPresenter">
-                    <Setter Property="Background" Value="Transparent"/>
+                      <Setter Property="Background" Value="{x:Static assets:Themes.Transparent}"/>
                   </Style>
 
                   <Style Selector="ListBoxItem:selected:focus:pointerover /template/ Border#Bd">
-                    <Setter Property="Background" Value="#7027da48"/>
+                      <Setter Property="Background" Value="{x:Static assets:Themes.ListBoxSelected}"/>
                   </Style>
 
                   <Style Selector="ListBoxItem:selected:focus:pointerover /template/ ContentPresenter">
-                    <Setter Property="Background" Value="Transparent"/>
+                      <Setter Property="Background" Value="{x:Static assets:Themes.Transparent}"/>
                   </Style>
                 </ListBox.Styles>
 
@@ -217,7 +217,7 @@
         <Button Width="100"
                 Height="25"
                 Margin="3,0"
-                Content="{x:Static lang:Resources.ExportFailedBootView}"
+                Content="{x:Static assets:Resources.ExportFailedBootView}"
                 Classes="btnApply"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Top"
@@ -226,7 +226,7 @@
         <Button Width="100"
                 Height="25"
                 Margin="3,0"
-                Content="{x:Static lang:Resources.ExitFailedBootView}"
+                Content="{x:Static assets:Resources.ExitFailedBootView}"
                 Classes="btnApply"
                 HorizontalAlignment="Left"
                 VerticalAlignment="Top"
