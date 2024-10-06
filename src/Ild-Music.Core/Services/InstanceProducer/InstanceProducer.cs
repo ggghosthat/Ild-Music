@@ -1,6 +1,6 @@
 using Ild_Music.Core.Instances;
 
-namespace Ild_Music.Core.Services.InstanceProducer;
+namespace Ild_Music.Core.Services;
 
 internal struct InstanceProducer : IDisposable
 {        

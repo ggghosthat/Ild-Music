@@ -741,7 +741,7 @@
                                                     VerticalAlignment="Center"
                                                     Width="30"
                                                     Height="30"
-                                                    Margin="5"
+                                                    Margin="5 3"
                                                     Foreground="{x:Static assets:Themes.MainColor}"
                                                     Data="M17 9V12H14V14H17V17H19V14H22V12H19V9H17M9 3V13.55C8.41 13.21 7.73 13 7 13C4.79 13 3 14.79 3 17S4.79 21 7 21 11 19.21 11 17V7H15V3H9Z"/>
                                         </Border>
@@ -767,7 +767,7 @@
                                                     VerticalAlignment="Center"
                                                     Width="30"
                                                     Height="30"
-                                                    Margin="5"
+                                                    Margin="5 3"
                                                     Foreground="{x:Static assets:Themes.MainColor}"
                                                     Data="M3 16H10V14H3M18 14V10H16V14H12V16H16V20H18V16H22V14M14 6H3V8H14M14 10H3V12H14V10Z"/>
                                         </Border>
@@ -793,7 +793,7 @@
                                                     VerticalAlignment="Center"
                                                     Width="30"
                                                     Height="30"
-                                                    Margin="5"
+                                                    Margin="5 3"
                                                     Foreground="{x:Static assets:Themes.MainColor}"
                                                     Data="M530 10086 c0 -649 2 -677 65 -852 183 -513 786 -971 1728 -1313 867
                                                         -314 1957 -495 2727 -452 927 52 1967 302 2704 649 389 183 677 373 897 592

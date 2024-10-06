@@ -2,6 +2,7 @@ using Ild_Music.Core.Instances;
 using Ild_Music.Core.Contracts;
 using Ild_Music.Core.Contracts.Services.Interfaces;
 using Ild_Music.Core.Exceptions.CubeExceptions;
+using Ild_Music.Core.Helpers;
 
 namespace Ild_Music.Core.Services.Entities;
 
@@ -9,8 +10,8 @@ public sealed class FactoryGhost : IGhost
 {
     public ReadOnlyMemory<char> GhostName {get; init;} = "FactoryGhost".AsMemory(); 
 
-    private static IRepository cube;
-    private static InstanceProducer.InstanceProducer producer = default;
+    private static IRepository _repository;
+    private static InstanceProducer producer = default;
     
     public event Action OnArtistUpdate;
     public event Action OnPlaylistUpdate;
@@ -22,21 +23,15 @@ public sealed class FactoryGhost : IGhost
 
     public void Init(IRepository inputCube)
     {
-       cube = inputCube;
+       _repository = inputCube;
     }
 
     public void CreateArtist(string name, string description = default!, string avatarPath = default!, int year = 0)
     {
         try
         {
-            producer = new InstanceProducer.InstanceProducer(
-                name.ToCharArray(),
-                description?.ToCharArray(),
-                avatarPath?.ToCharArray(), 
-                year);
-            
-            cube.AddArtistObj(producer.ArtistInstance);
-            producer.Dispose();
+            var artist = FactoryHelper.CreateArtist(name, description, avatarPath, year);
+            _repository.AddArtistObj(artist);
             OnArtistUpdate?.Invoke();
         }
         catch (InvalidArtistException ex)
@@ -49,15 +44,9 @@ public sealed class FactoryGhost : IGhost
     {
         try
         {
-            producer = new InstanceProducer.InstanceProducer(
-                name.ToCharArray(),
-                description?.ToCharArray(),
-                avatarPath?.ToCharArray(), 
-                year);
-
-            artist = producer.ArtistInstance; 
-            cube.AddArtistObj(producer.ArtistInstance);
-            producer.Dispose();
+            
+            artist = FactoryHelper.CreateArtist(name, description, avatarPath, year);
+            _repository.AddArtistObj(artist);
             OnArtistUpdate?.Invoke();
         }
         catch (InvalidArtistException ex)
@@ -70,16 +59,8 @@ public sealed class FactoryGhost : IGhost
     {   
         try 
         { 
-            producer = new InstanceProducer.InstanceProducer(
-                name.ToCharArray(), 
-                description?.ToCharArray(),
-                avatarPath?.ToCharArray(), 
-                tracks,
-                artists,
-                year);
-
-            cube.AddPlaylistObj(producer.PlaylistInstance);
-            producer.Dispose();
+            var playlist = FactoryHelper.CreatePlaylist(name, description, avatarPath, year, tracks, artists);
+            _repository.AddPlaylistObj(playlist);
             OnPlaylistUpdate?.Invoke();
         } 
         catch (InvalidPlaylistException ex) 
@@ -92,17 +73,8 @@ public sealed class FactoryGhost : IGhost
     {   
         try 
         { 
-            producer = new InstanceProducer.InstanceProducer(
-                name.ToCharArray(), 
-                description?.ToCharArray(),
-                avatarPath?.ToCharArray(), 
-                tracks,
-                artists,
-                year);
-
-            playlist = producer.PlaylistInstance;
-            cube.AddPlaylistObj(playlist);
-            producer.Dispose();
+            playlist = FactoryHelper.CreatePlaylist(name, description, avatarPath, year, tracks, artists);
+            _repository.AddPlaylistObj(playlist);
             OnPlaylistUpdate?.Invoke();
         } 
         catch (InvalidPlaylistException ex) 
@@ -115,21 +87,9 @@ public sealed class FactoryGhost : IGhost
     {      
         try 
         {
-            using(var taglib = TagLib.File.Create(pathway))
-            {
-                producer = new InstanceProducer.InstanceProducer(
-                    pathway.ToCharArray(), 
-                    name.ToCharArray(),
-                    description?.ToCharArray(), 
-                    avatarPath?.ToCharArray(),
-                    artists,
-                    taglib.Properties.Duration, 
-                    year);
-
-                cube.AddTrackObj(producer.TrackInstance);
-                producer.Dispose();
-                OnTrackUpdate?.Invoke();
-            } 
+            var track = FactoryHelper.CreateTrack(pathway, name, description, avatarPath, year, artists);
+            _repository.AddTrackObj(producer.TrackInstance);
+            OnTrackUpdate?.Invoke();
         } 
         catch (InvalidTrackException ex) 
         { 
@@ -141,22 +101,9 @@ public sealed class FactoryGhost : IGhost
     {      
         try 
         {               
-            using(var taglib = TagLib.File.Create(pathway)) 
-            { 
-                producer = new InstanceProducer.InstanceProducer(
-                    pathway.ToCharArray(), 
-                    name?.ToCharArray(), 
-                    description?.ToCharArray(),
-                    avatarPath?.ToCharArray(),
-                    artists,
-                    taglib.Properties.Duration, 
-                    year);
-
-                track = producer.TrackInstance;
-                cube.AddTrackObj(producer.TrackInstance);
-                producer.Dispose();
-                OnTrackUpdate?.Invoke();
-            } 
+            track = FactoryHelper.CreateTrack(pathway, name, description, avatarPath, year, artists);
+            _repository.AddTrackObj(producer.TrackInstance);
+            OnTrackUpdate?.Invoke();
         } 
         catch (InvalidTrackException ex) 
         { 
@@ -166,62 +113,26 @@ public sealed class FactoryGhost : IGhost
 
     public void CreateTag(string name,string color)
     {
-        Memory<char> tagName = name.ToArray();
-        Memory<char> tagColor = name.ToArray();
-
-        producer = new InstanceProducer.InstanceProducer(tagName, tagColor, null, null, null); 
-        cube.AddTagObj(producer.TagInstance);
-        producer.Dispose();
+        var tag = FactoryHelper.CreateTag(name, color);
+        _repository.AddTagObj(tag);
     }
 
     public void CreateTag(string name, string color, out Tag tag)
     {
-        Memory<char> tagName = name.ToArray();
-        Memory<char> tagColor = name.ToArray();
-
-        producer = new InstanceProducer.InstanceProducer(tagName, tagColor, null, null, null); 
-        tag = producer.TagInstance;
-        cube.AddTagObj(producer.TagInstance);
-        producer.Dispose();
-        OnTagUpdate?.Invoke();
+        tag = FactoryHelper.CreateTag(name, color);
+        _repository.AddTagObj(tag);
     }
     
     public Track CreateTrackBrowsed(string pathway, bool allocateInstance = false)
     {      
         try 
         {        
-            Track trackResult = default!;
-            using(var taglib = TagLib.File.Create(pathway.ToString())) 
-            {
-                int year = DateTime.Now.Year; 
-                var name = taglib.Tag.Title ?? "Untitled track";
-                
-                producer = new InstanceProducer.InstanceProducer(
-                    pathway.ToCharArray(),
-                    name.ToCharArray(),
-                    String.Empty.ToCharArray(),
-                    String.Empty.ToCharArray(),
-                    null,
-                    taglib.Properties.Duration,
-                    year); 
-                                
-                trackResult = producer.TrackInstance; 
-                trackResult.MimeType = taglib.MimeType.AsMemory();
-                
-                if(taglib.Tag.Pictures.Length > 0)
-                {
-                    var avatarSource = taglib.Tag.Pictures[0].Data.Data;
-                    // string avatarPath = cube.PlaceAvatar(trackResult.Id, avatarSource);
-                    // trackResult.AvatarPath = avatarPath.ToCharArray();
-                    trackResult.AvatarSource = avatarSource;
-                }
+            var track = FactoryHelper.CreateTrack(pathway);
+            
+            if (allocateInstance)
+                _repository.AddTrackObj(track).Wait();
 
-                if (allocateInstance)
-                    cube.AddTrackObj(trackResult).Wait();
-
-                producer.Dispose(); 
-            }
-            return trackResult; 
+            return track; 
         } 
         catch (InvalidTrackException ex)
         {
@@ -233,20 +144,9 @@ public sealed class FactoryGhost : IGhost
     {      
         try 
         {  
-            cube.RegisterBrowsedTracks(tracks);
-            Playlist playlist;
-            producer = new InstanceProducer.InstanceProducer(
-                $"Temporary playlist {DateTime.Now}".ToCharArray(), 
-                String.Empty.ToCharArray(),
-                String.Empty.ToCharArray(), 
-                tracks,
-                null,
-                DateTime.Now.Year);
-
-            playlist = producer.PlaylistInstance;
-            producer.Dispose();
-
-            return playlist;
+            _repository.RegisterBrowsedTracks(tracks);
+            string playlistName = $"Temporary playlist {DateTime.Now}";
+            return FactoryHelper.CreatePlaylist(playlistName, String.Empty, String.Empty, DateTime.Now.Year, tracks, null);
         } 
         catch (InvalidTrackException ex)
         {
@@ -256,23 +156,7 @@ public sealed class FactoryGhost : IGhost
 
     public void ClearBrowsedTracks()
     {
-        if (cube.BrowsedTracks.Count() > 0)
-            cube.EraseBrowsedTracks();
-    }
-
-    private async ValueTask<Memory<byte>> ExtractTrackAvatar(string pathway) 
-    { 
-        Memory<byte> buffer; 
-        if(File.Exists(pathway)) 
-        { 
-            using(FileStream fs = File.OpenRead(pathway))
-            {
-                buffer = new byte[fs.Length];
-                await fs.ReadAsync(buffer);
-            }
-            return buffer;
-        }
-
-        throw new FileNotFoundException($"Could not find file: {pathway}");
+        if (_repository.BrowsedTracks.Count() > 0)
+            _repository.EraseBrowsedTracks();
     }
 }
