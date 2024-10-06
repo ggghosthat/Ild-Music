@@ -717,7 +717,8 @@
                                         VerticalAlignment="Bottom"
                                         HorizontalAlignment="Center"
                                         Background="{x:Static assets:Themes.GlobalColor2}"
-                                        Margin="0 5">
+                                        Margin="0 5"
+                                        IsVisible="{Binding InstanceExtensionVisibility}">
                                     <StackPanel Margin="20 0"
                                                 Orientation="Horizontal">
                                         <Border x:Name="BorderAddTrack"

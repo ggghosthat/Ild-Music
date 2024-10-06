@@ -89,6 +89,8 @@ public class MainWindowViewModel : Base.BaseViewModel
 
     public BaseViewModel CurrentVM { get; set; }
 
+    public bool InstanceExtensionVisibility { get; set; } = true;
+
     public bool VolumeSliderOpen { get; private set; } = false;
 
     public bool SearchAreaOpen { get; private set; } = false;
@@ -98,6 +100,13 @@ public class MainWindowViewModel : Base.BaseViewModel
     public Stack<Guid> WindowStack { get; private set; } = new();
 
     public ObservableCollection<Guid> NavbarItems { get; } = new () {StartViewModel.viewModelId, ListViewModel.viewModelId, BrowserViewModel.viewModelId}; 
+
+    public IEnumerable<Guid> EditorsIdCollection => new Collection<Guid>() 
+    {
+        ArtistEditorViewModel.viewModelId,
+        PlaylistEditorViewModel.viewModelId,
+        TrackEditorViewModel.viewModelId
+    };
 
     public Guid NavbarItem { get; set; }
 
@@ -234,6 +243,12 @@ public class MainWindowViewModel : Base.BaseViewModel
     public void DefineNewPresentItem(Guid viewModelId)
     {
         var viewModel = (BaseViewModel)App.ViewModelTable[viewModelId];
+
+        if (viewModel is IEditorViewModel)
+            InstanceExtensionVisibility = false;
+        else
+            InstanceExtensionVisibility = true;
+
         viewModel.Load();
         CurrentVM = viewModel;
     }
@@ -244,7 +259,12 @@ public class MainWindowViewModel : Base.BaseViewModel
             return;
 
         var viewModelId = WindowStack.Pop();
-        DefineNewPresentItem(viewModelId); 
+        DefineNewPresentItem(viewModelId);
+    }
+
+    private void ToggleInstanceExtensionVisibility(Guid viewModelId)
+    {
+        
     }
 
     public void ResolveInstance(
@@ -496,22 +516,22 @@ public class MainWindowViewModel : Base.BaseViewModel
         SearchAreaOpen = true;
     }
 
-    public void SwitchHome(object obj)
+    private void SwitchHome(object obj)
     {
         DefineNewPresentItem(StartViewModel.viewModelId);
     }
 
-    public void SwitchList(object obj)
+    private  void SwitchList(object obj)
     {
         DefineNewPresentItem(ListViewModel.viewModelId);
     }
 
-    public void SwitchBrowse(object obj)
+    private void SwitchBrowse(object obj)
     {
         DefineNewPresentItem(BrowserViewModel.viewModelId);
     }
 
-    public void Exit(object obj)
+    private void Exit(object obj)
     {
         if(Application.Current.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktopLifetime)
             desktopLifetime.Shutdown();

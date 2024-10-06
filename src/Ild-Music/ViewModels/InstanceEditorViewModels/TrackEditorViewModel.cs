@@ -15,7 +15,7 @@ using System.Threading.Tasks;
 
 namespace Ild_Music.ViewModels;
 
-public class TrackEditorViewModel : BaseViewModel
+public class TrackEditorViewModel : BaseViewModel, IEditorViewModel
 {
     public static readonly Guid viewModelId = Guid.NewGuid();
     public override Guid ViewModelId => viewModelId;

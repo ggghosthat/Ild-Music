@@ -15,7 +15,7 @@ using System.Threading.Tasks;
 
 namespace Ild_Music.ViewModels;
 
-public class PlaylistEditorViewModel : BaseViewModel
+public class PlaylistEditorViewModel : BaseViewModel, IEditorViewModel
 {
     public static readonly Guid viewModelId = Guid.NewGuid();
     public override Guid ViewModelId => viewModelId;

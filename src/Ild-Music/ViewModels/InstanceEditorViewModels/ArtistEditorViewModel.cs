@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace Ild_Music.ViewModels;
 
-public class ArtistEditorViewModel : BaseViewModel
+public class ArtistEditorViewModel : BaseViewModel, IEditorViewModel
 {
     public static readonly Guid viewModelId = Guid.NewGuid();
     public override Guid ViewModelId => viewModelId;
