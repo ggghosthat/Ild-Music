@@ -297,4 +297,36 @@
     <value>New artist</value>
     <comment/>
   </data>
+  <data name="StartViewNoArtists" xml:space="preserve">
+    <value>There no artists</value>
+    <comment/>
+  </data>
+  <data name="StartViewNoPlaylists" xml:space="preserve">
+    <value>There is no playlists</value>
+    <comment/>
+  </data>
+  <data name="StartViewNoTracks" xml:space="preserve">
+    <value>There is no tracks</value>
+    <comment/>
+  </data>
+  <data name="ListViewNotItems" xml:space="preserve">
+    <value>There is not items in collection</value>
+    <comment/>
+  </data>
+  <data name="BrowserViewNotTracks" xml:space="preserve">
+    <value>There is not tracks</value>
+    <comment/>
+  </data>
+  <data name="PlaylistEditorViewNoArtists" xml:space="preserve">
+    <value>There is no artists</value>
+    <comment/>
+  </data>
+  <data name="PlaylistEditorViewNoTracks" xml:space="preserve">
+    <value>There is no tracks</value>
+    <comment/>
+  </data>
+  <data name="TrackEditorViewNoArtists" xml:space="preserve">
+    <value>There is no artists</value>
+    <comment/>
+  </data>
 </root>

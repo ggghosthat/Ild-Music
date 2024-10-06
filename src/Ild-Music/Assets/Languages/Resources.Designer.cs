@@ -125,4 +125,20 @@ public class Resources
     public static string MainWindowCreatePlaylist => ResourceManager.GetString("MainWindowCreatePlaylist", resourceCulture);
     
     public static string MainWindowCreateArtist => ResourceManager.GetString("MainWindowCreateArtist", resourceCulture);
+
+    public static string StartViewNoArtists => ResourceManager.GetString("StartViewNoArtists", resourceCulture);
+    
+    public static string StartViewNoPlaylists => ResourceManager.GetString("StartViewNoPlaylists", resourceCulture);
+    
+    public static string StartViewNoTracks => ResourceManager.GetString("StartViewNoTracks", resourceCulture);
+    
+    public static string ListViewNotItems => ResourceManager.GetString("ListViewNotItems", resourceCulture);
+    
+    public static string BrowserViewNotTracks => ResourceManager.GetString("BrowserViewNotTracks", resourceCulture);
+
+    public static string PlaylistEditorViewNoArtists => ResourceManager.GetString("PlaylistEditorViewNoArtists", resourceCulture);
+    
+    public static string PlaylistEditorViewNoTracks => ResourceManager.GetString("PlaylistEditorViewNoTracks", resourceCulture);
+    
+    public static string TrackEditorViewNoArtists => ResourceManager.GetString("TrackEditorViewNoArtists", resourceCulture);
 }

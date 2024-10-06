@@ -42,7 +42,9 @@
                       FontSize="16"
                       FontWeight="Bold"/>
 
-            <StackPanel HorizontalAlignment="Center"
+            <StackPanel Grid.Row="1"
+                        ZIndex="3"
+                        HorizontalAlignment="Center"
                         VerticalAlignment="Center"
                         IsVisible="{Binding #PlaylistSource.ItemCount, Converter={StaticResource ListActivityConverter}, ConverterParameter=is_empty}">
                 <PathIcon Height="60"
@@ -52,7 +54,7 @@
                             VerticalAlignment="Stretch"
                             HorizontalAlignment="Stretch"
                             Data="M11,7A2,2 0 0,0 9,9V15A2,2 0 0,0 11,17H13A2,2 0 0,0 15,15V9A2,2 0 0,0 13,7H11M11,9H13V15H11V9M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2Z"/>
-                <TextBlock Text="There is no artists"
+                <TextBlock Text="{x:Static assets:Resources.StartViewNoPlaylists}"
                             Foreground="{x:Static assets:Themes.TextColor}"
                             TextAlignment="Center"
                             FontSize="15"
@@ -195,21 +197,23 @@
                        FontSize="16"
                        FontWeight="Bold"/>
 
-            <StackPanel HorizontalAlignment="Center"
+            <StackPanel Grid.Row="3"
+                        ZIndex="3"
+                        HorizontalAlignment="Center"
                         VerticalAlignment="Center"
                         IsVisible="{Binding #TrackSource.ItemCount, Converter={StaticResource ListActivityConverter}, ConverterParameter=is_empty}">
                 <PathIcon Height="60"
-                            Width="60"
-                            Foreground="{x:Static assets:Themes.TextColor}"
-                            Background="{x:Static assets:Themes.Transparent}"
-                            VerticalAlignment="Stretch"
-                            HorizontalAlignment="Stretch"
-                            Data="M11,7A2,2 0 0,0 9,9V15A2,2 0 0,0 11,17H13A2,2 0 0,0 15,15V9A2,2 0 0,0 13,7H11M11,9H13V15H11V9M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2Z"/>
-                <TextBlock Text="There is no artists"
-                            Foreground="{x:Static assets:Themes.TextColor}"
-                            TextAlignment="Center"
-                            FontSize="15"
-                            FontWeight="Light"/>
+                          Width="60"
+                          Foreground="{x:Static assets:Themes.TextColor}"
+                          Background="{x:Static assets:Themes.Transparent}"
+                          VerticalAlignment="Stretch"
+                          HorizontalAlignment="Stretch"
+                          Data="M11,7A2,2 0 0,0 9,9V15A2,2 0 0,0 11,17H13A2,2 0 0,0 15,15V9A2,2 0 0,0 13,7H11M11,9H13V15H11V9M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2Z"/>
+                <TextBlock Text="{x:Static assets:Resources.StartViewNoTracks}"
+                           Foreground="{x:Static assets:Themes.TextColor}"
+                           TextAlignment="Center"
+                           FontSize="15"
+                           FontWeight="Light"/>
             </StackPanel>
 
             <ScrollViewer Grid.Row="3"
@@ -384,21 +388,23 @@
                          FontSize="16"
                          FontWeight="Bold"/>
             
-            <StackPanel HorizontalAlignment="Center"
+            <StackPanel Grid.Row="1"
+                        ZIndex="3"
+                        HorizontalAlignment="Center"
                         VerticalAlignment="Center"
                         IsVisible="{Binding #ArtistSource.ItemCount, Converter={StaticResource ListActivityConverter}, ConverterParameter=is_empty}">
                 <PathIcon Height="60"
-                            Width="60"
-                            Foreground="{x:Static assets:Themes.TextColor}"
-                            Background="{x:Static assets:Themes.Transparent}"
-                            VerticalAlignment="Stretch"
-                            HorizontalAlignment="Stretch"
-                            Data="M11,7A2,2 0 0,0 9,9V15A2,2 0 0,0 11,17H13A2,2 0 0,0 15,15V9A2,2 0 0,0 13,7H11M11,9H13V15H11V9M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2Z"/>
-                <TextBlock Text="There is no artists"
-                            Foreground="{x:Static assets:Themes.TextColor}"
-                            TextAlignment="Center"
-                            FontSize="15"
-                            FontWeight="Light"/>
+                          Width="60"
+                          Foreground="{x:Static assets:Themes.TextColor}"
+                          Background="{x:Static assets:Themes.Transparent}"
+                          VerticalAlignment="Stretch"
+                          HorizontalAlignment="Stretch"
+                          Data="M11,7A2,2 0 0,0 9,9V15A2,2 0 0,0 11,17H13A2,2 0 0,0 15,15V9A2,2 0 0,0 13,7H11M11,9H13V15H11V9M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2Z"/>
+                <TextBlock Text="{x:Static assets:Resources.StartViewNoArtists}"
+                           Foreground="{x:Static assets:Themes.TextColor}"
+                           TextAlignment="Center"
+                           FontSize="15"
+                           FontWeight="Light"/>
             </StackPanel>
 
             <ScrollViewer Grid.Row="1"
