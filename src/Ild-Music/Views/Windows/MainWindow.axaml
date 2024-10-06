@@ -726,7 +726,11 @@
                                                 CornerRadius="10"
                                                 HorizontalAlignment="Left"
                                                 VerticalAlignment="Center">
-                                            
+                                            <i:Interaction.Behaviors>
+                                                <ia:EventTriggerBehavior EventName="Tapped">
+                                                    <ia:InvokeCommandAction Command="{Binding AddInstanceCommand}" CommandParameter='track'/>
+                                                </ia:EventTriggerBehavior>  
+                                            </i:Interaction.Behaviors>
                                             <Border.Styles>
                                                 <Style Selector="Border#BorderAddTrack">
                                                     <Setter Property="Background" Value="{x:Static assets:Themes.Transparent}"/>
@@ -752,7 +756,11 @@
                                                 CornerRadius="10"
                                                 HorizontalAlignment="Left"
                                                 VerticalAlignment="Center">
-                                            
+                                            <i:Interaction.Behaviors>
+                                                <ia:EventTriggerBehavior EventName="Tapped">
+                                                    <ia:InvokeCommandAction Command="{Binding AddInstanceCommand}" CommandParameter='playlist'/>
+                                                </ia:EventTriggerBehavior>  
+                                            </i:Interaction.Behaviors>
                                             <Border.Styles>
                                                 <Style Selector="Border#BorderAddArtist">
                                                     <Setter Property="Background" Value="{x:Static assets:Themes.Transparent}"/>
@@ -778,7 +786,11 @@
                                                 CornerRadius="10"
                                                 HorizontalAlignment="Left"
                                                 VerticalAlignment="Center">
-                                            
+                                            <i:Interaction.Behaviors>
+                                                <ia:EventTriggerBehavior EventName="Tapped">
+                                                    <ia:InvokeCommandAction Command="{Binding AddInstanceCommand}" CommandParameter='artist'/>
+                                                </ia:EventTriggerBehavior>  
+                                            </i:Interaction.Behaviors>
                                             <Border.Styles>
                                                 <Style Selector="Border#BorderAddPlaylist">
                                                     <Setter Property="Background" Value="{x:Static assets:Themes.Transparent}"/>

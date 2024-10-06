@@ -83,6 +83,8 @@ public class MainWindowViewModel : Base.BaseViewModel
     
     public CommandDelegator SwitchBrowseCommand { get; private set; }
     
+    public CommandDelegator AddInstanceCommand { get; private set; }
+    
     public bool BorderComponentsVisiblity { get; set; } = true;
 
     public BaseViewModel CurrentVM { get; set; }
@@ -189,18 +191,20 @@ public class MainWindowViewModel : Base.BaseViewModel
         SwitchHomeCommand = new(SwitchHome, null);
         SwitchListCommand = new(SwitchList, null);
         SwitchBrowseCommand = new(SwitchBrowse, null);
+
+        AddInstanceCommand = new(AddInstance, null);
     }
 
     private void PresetViewModel()
     {   
-        App.ViewModelTable.Add(MainWindowViewModel.viewModelId, this);
+        App.ViewModelTable.Add(viewModelId, this);
         CurrentVM = (BaseViewModel)App.ViewModelTable[StartViewModel.viewModelId];
     }
 
     private void PresetFailedBoot()
     {   
         BorderComponentsVisiblity = false;
-        App.ViewModelTable.Add(MainWindowViewModel.viewModelId, this);
+        App.ViewModelTable.Add(viewModelId, this);
         CurrentVM = (BaseViewModel)App.ViewModelTable[FailedBootViewModel.viewModelId];
     }
 
@@ -511,5 +515,25 @@ public class MainWindowViewModel : Base.BaseViewModel
     {
         if(Application.Current.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktopLifetime)
             desktopLifetime.Shutdown();
+    }
+
+    private void AddInstance(object obj)
+    {
+        if (obj is not string instanceType)
+            return;
+
+        BaseViewModel editor = instanceType switch
+        {
+            "artist" => (BaseViewModel)App.ViewModelTable[ArtistEditorViewModel.viewModelId],
+            "playlist" => (BaseViewModel)App.ViewModelTable[PlaylistEditorViewModel.viewModelId],
+            "track" =>  (BaseViewModel)App.ViewModelTable[TrackEditorViewModel.viewModelId],
+            _ => null
+        };
+
+        if (editor is null)
+            return;
+
+        PushVM(CurrentVM, editor);
+        ResolveWindowStack();
     }
 }
