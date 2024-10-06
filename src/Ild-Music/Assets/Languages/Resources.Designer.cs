@@ -119,4 +119,10 @@ public class Resources
     public static string PlaylistViewNoTracks => ResourceManager.GetString("PlaylistViewNoTracks", resourceCulture);
 
     public static string TrackViewNoArtists => ResourceManager.GetString("TrackViewNoArtists", resourceCulture);
+
+    public static string MainWindowCreateTrack => ResourceManager.GetString("MainWindowCreateTrack", resourceCulture);
+
+    public static string MainWindowCreatePlaylist => ResourceManager.GetString("MainWindowCreatePlaylist", resourceCulture);
+    
+    public static string MainWindowCreateArtist => ResourceManager.GetString("MainWindowCreateArtist", resourceCulture);
 }

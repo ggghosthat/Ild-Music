@@ -400,8 +400,14 @@
                                   Grid.Column="0" 
                                   Background="{x:Static assets:Themes.MainWindowNavBarBackground}"
                                   HorizontalAlignment="Stretch">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="auto"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+                                
                                 <!--NavBarItems-->
-                                <StackPanel VerticalAlignment="Top"
+                                <StackPanel Grid.Row="0"
+                                            VerticalAlignment="Top"
                                             HorizontalAlignment="Center">
                                     <Viewbox Classes="vb"
                                              Width="170"
@@ -705,6 +711,104 @@
                                         </StackPanel>
                                     </Border>
                                 </StackPanel>
+
+                                <Border Grid.Row="1"
+                                        CornerRadius="25"
+                                        VerticalAlignment="Bottom"
+                                        HorizontalAlignment="Center"
+                                        Background="{x:Static assets:Themes.GlobalColor2}"
+                                        Margin="0 5">
+                                    <StackPanel Margin="20 0"
+                                                Orientation="Horizontal">
+                                        <Border x:Name="BorderAddTrack"
+                                                Margin="5"
+                                                BorderThickness="0"
+                                                CornerRadius="10"
+                                                HorizontalAlignment="Left"
+                                                VerticalAlignment="Center">
+                                            
+                                            <Border.Styles>
+                                                <Style Selector="Border#BorderAddTrack">
+                                                    <Setter Property="Background" Value="{x:Static assets:Themes.Transparent}"/>
+                                                </Style>
+
+                                                <Style Selector="Border#BorderAddTrack:pointerover" >
+                                                    <Setter Property="Background" Value="{x:Static assets:Themes.MainWindowSearchButton}"/>
+                                                </Style>
+                                            </Border.Styles>
+
+                                            <PathIcon HorizontalAlignment="Center"
+                                                    VerticalAlignment="Center"
+                                                    Width="30"
+                                                    Height="30"
+                                                    Margin="5"
+                                                    Foreground="{x:Static assets:Themes.MainColor}"
+                                                    Data="M17 9V12H14V14H17V17H19V14H22V12H19V9H17M9 3V13.55C8.41 13.21 7.73 13 7 13C4.79 13 3 14.79 3 17S4.79 21 7 21 11 19.21 11 17V7H15V3H9Z"/>
+                                        </Border>
+
+                                        <Border x:Name="BorderAddArtist"
+                                                Margin="5"
+                                                BorderThickness="0"
+                                                CornerRadius="10"
+                                                HorizontalAlignment="Left"
+                                                VerticalAlignment="Center">
+                                            
+                                            <Border.Styles>
+                                                <Style Selector="Border#BorderAddArtist">
+                                                    <Setter Property="Background" Value="{x:Static assets:Themes.Transparent}"/>
+                                                </Style>
+
+                                                <Style Selector="Border#BorderAddArtist:pointerover" >
+                                                    <Setter Property="Background" Value="{x:Static assets:Themes.MainWindowSearchButton}"/>
+                                                </Style>
+                                            </Border.Styles>
+
+                                            <PathIcon HorizontalAlignment="Center"
+                                                    VerticalAlignment="Center"
+                                                    Width="30"
+                                                    Height="30"
+                                                    Margin="5"
+                                                    Foreground="{x:Static assets:Themes.MainColor}"
+                                                    Data="M3 16H10V14H3M18 14V10H16V14H12V16H16V20H18V16H22V14M14 6H3V8H14M14 10H3V12H14V10Z"/>
+                                        </Border>
+
+                                        <Border x:Name="BorderAddPlaylist"
+                                                Margin="5"
+                                                BorderThickness="0"
+                                                CornerRadius="10"
+                                                HorizontalAlignment="Left"
+                                                VerticalAlignment="Center">
+                                            
+                                            <Border.Styles>
+                                                <Style Selector="Border#BorderAddPlaylist">
+                                                    <Setter Property="Background" Value="{x:Static assets:Themes.Transparent}"/>
+                                                </Style>
+
+                                                <Style Selector="Border#BorderAddPlaylist:pointerover" >
+                                                    <Setter Property="Background" Value="{x:Static assets:Themes.MainWindowSearchButton}"/>
+                                                </Style>
+                                            </Border.Styles>
+
+                                            <PathIcon HorizontalAlignment="Center"
+                                                    VerticalAlignment="Center"
+                                                    Width="30"
+                                                    Height="30"
+                                                    Margin="5"
+                                                    Foreground="{x:Static assets:Themes.MainColor}"
+                                                    Data="M530 10086 c0 -649 2 -677 65 -852 183 -513 786 -971 1728 -1313 867
+                                                        -314 1957 -495 2727 -452 927 52 1967 302 2704 649 389 183 677 373 897 592
+                                                        180 178 288 338 354 524 63 175 65 203 65 852 l0 584 -4270 0 -4270 0 0 -584z
+                                                        M9600 7200 l0 -800 -800 0 -800 0 0 -535 0 -535 800 0 800 0 0 -800
+                                                        0 -800 535 0 535 0 0 800 0 800 800 0 800 0 0 535 0 535 -800 0 -800 0 0 800
+                                                        0 800 -535 0 -535 0 0 -800z
+                                                        M4507 6385 c-311 -44 -616 -158 -871 -325 -522 -342 -851 -855 -952
+                                                        -1485 -25 -151 -25 -457 0 -615 74 -487 287 -898 642 -1241 542 -523 1336
+                                                        -716 2074 -504 270 78 525 211 751 393 95 77 278 265 351 362 218 289 358 622
+                                                        415 990 26 170 24 474 -5 640 -79 461 -274 849 -587 1165 -324 327 -702 524
+                                                        -1170 611 -124 23 -513 28 -648 9z"/>
+                                        </Border>                                    
+                                    </StackPanel>
+                                </Border>
                             </Grid>
 
                             <!--ContextArea-->

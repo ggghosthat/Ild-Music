@@ -285,4 +285,16 @@
     <value>There is no artists</value>
     <comment/>
   </data>
+  <data name="MainWindowCreateTrack" xml:space="preserve">
+    <value>New track</value>
+    <comment/>
+  </data>
+  <data name="MainWindowCreatePlayist" xml:space="preserve">
+    <value>New playlist</value>
+    <comment/>
+  </data>
+  <data name="MainWindowCreateArtist" xml:space="preserve">
+    <value>New artist</value>
+    <comment/>
+  </data>
 </root>
