@@ -1,5 +1,6 @@
 using Ild_Music.Core.Contracts;
 using Ild_Music.Core.Exceptions.Flag;
+using System.Net;
 using System.Reflection;
 
 namespace Ild_Music.Core.Stage;
@@ -7,6 +8,8 @@ namespace Ild_Music.Core.Stage;
 public class Docker : IDocker, IDisposable
 {
     private List<ErrorFlag> _errors = [];
+
+    private List<ErrorFlag> _pluginLoadErrors = [];
 
     public Docker(IConfigure _configure)
     {
@@ -20,55 +23,71 @@ public class Docker : IDocker, IDisposable
     public IList<IRepository> Repositories {get; private set;}
 
     public IList<ErrorFlag> Errors =>_errors;
+
+    public IList<ErrorFlag> PluginLoadErrors => _pluginLoadErrors;
     
     public ValueTask<int> Dock()
     {
-        Players = DefaultDockProcess<IPlayer>(ref configure.ConfigSheet._players);
-        Repositories = DefaultDockProcess<IRepository>(ref configure.ConfigSheet._repositories);
+        Players = DefaultDockProcess<IPlayer>(configure.ConfigSheet._players).ToList();
+        Repositories = DefaultDockProcess<IRepository>(configure.ConfigSheet._repositories).ToList();
         
         return (_errors.Count == 0)
             ? ValueTask.FromResult(0)
             : ValueTask.FromResult(1);
     }
     
-    private IList<T> DefaultDockProcess<T>(ref IEnumerable<string> assembliesPaths)
+    public Task<IEnumerable<IPlugin>> DockPlugins(IEnumerable<string> pluginPaths)
     {
-        var assemblies = assembliesPaths.Where(p => File.Exists(p)).Select(p => p);
-        return LoadFromAssembly<T>(assemblies);
-    }
-  
-    private List<T> LoadFromAssembly<T>(IEnumerable<string> assemblyPaths)
-    {
-        T instance;
-        var list = new List<T>();
+        var plugins = new List<IPlugin>();
         
-        foreach (string path in assemblyPaths)
-        {
-            if (TryLoadInstance<T>(path, out instance))
-                list.Add(instance);
-        }
-        return list;   
-    }
-
-    private bool TryLoadInstance<T>(string path, out T instance)
-    {
-        bool result;
         try
         {
-            var exportedTypes = Assembly.LoadFrom(path).ExportedTypes;
-            instance = exportedTypes
-                .Where(t => t.IsClass && t.GetInterfaces().Contains(typeof(T)))
-                .Select(t => (T)Activator.CreateInstance(t)).First();
-            result = instance != null;
+            foreach (string path in pluginPaths)
+            {
+                if (!File.Exists(path))
+                    continue;
+
+                var plugin = LoadInstance<IPlugin>(path);
+                plugins.Add(plugin);
+            }
         }
         catch(Exception ex)
         {
-            _errors.Add(new ErrorFlag("component docker", "instance-scan", $"could not find desired instance in assembly with {path} path"));
-            instance = default;
-            result = false;
+            _pluginLoadErrors.Add(new ErrorFlag("component docker", "plugin-scan", ex.Message));
         }
 
-        return result;
+        return Task.FromResult<IEnumerable<IPlugin>>(plugins);
+    }
+
+    private IEnumerable<T> DefaultDockProcess<T>(IEnumerable<string> assembliesPaths) where T : class
+    {
+        var dockedResult = new List<T>();
+        
+        try
+        {
+            foreach (string path in assembliesPaths)
+            {
+                if (!File.Exists(path))
+                    continue;
+
+                var instance = LoadInstance<T>(path);
+                dockedResult.Add(instance);
+            }
+        }
+        catch(Exception ex)
+        {
+            _errors.Add(new ErrorFlag("component docker", "component-scan", ex.Message));
+        }
+        
+        return dockedResult;
+    }
+  
+    private T LoadInstance<T>(string path) where T : class
+    {
+        var exportedTypes = Assembly.LoadFrom(path).ExportedTypes;
+        return exportedTypes
+            .Where(t => t.IsClass && t.GetInterfaces().Contains(typeof(T)))
+            .Select(t => (T)Activator.CreateInstance(t)).First();
     }
 
     public void Dispose()

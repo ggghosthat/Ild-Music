@@ -10,20 +10,14 @@ namespace Ild_Music.Core.Services.Castle;
 
 public sealed class ScopeCastle : ICastle, IDisposable
 {
-
-    //IoC container
     private static ContainerBuilder builder = new ContainerBuilder();
     private static IContainer container;
 
     private static IDictionary<Ghosts, IGhost> ghosts = new Dictionary<Ghosts, IGhost>();
 
-    //available components
     private static IEnumerable<IPlayer> availlablePlayers;
     private static IEnumerable<IRepository> availlableCubes;
 
-    private static IEnumerable<string> allowedTrackFileExtensions;
-
-    //current components
     private static int currentPlayerId;    
     private static int currentCubeId;
 
@@ -33,7 +27,6 @@ public sealed class ScopeCastle : ICastle, IDisposable
     public ScopeCastle()
     {}
     
-    //live state indicator
     public bool IsActive { get; set; } = false;
 
     public void Pack()
@@ -47,7 +40,7 @@ public sealed class ScopeCastle : ICastle, IDisposable
             container = builder.Build();
                      
             //ghosts initialization
-            SupplyCube();
+            SupplyRepository();
             SupplyPlayer();
             
             IsActive = true;
@@ -57,8 +50,29 @@ public sealed class ScopeCastle : ICastle, IDisposable
             throw ex;
         }
     }
+    
+    private void SupplyPlayer()
+    {
+        if(container.IsRegisteredWithKey<IPlayer>(currentPlayerId))
+        {
+            using (var preScope = container.BeginLifetimeScope())
+            {
+                var currentPlayer = preScope.ResolveKeyed<IPlayer>(currentPlayerId);
+                
+                var eventBag = preScope.Resolve<IEventBag>();
+                currentPlayer.InjectEventBag(eventBag);
 
-    private void SupplyCube()
+                var mimeTypes = currentPlayer.GetSupportedMimeTypes().Result;
+                FileHelper.SetMimeTypes(mimeTypes);
+
+                var playerGhost = new PlayerGhost();
+                playerGhost.Init(currentPlayer);
+                ghosts[Ghosts.PLAYER] = playerGhost;
+            }
+        } 
+    }
+
+    private void SupplyRepository()
     {
         if(container.IsRegisteredWithKey<IRepository>(currentCubeId))
         {
@@ -83,27 +97,6 @@ public sealed class ScopeCastle : ICastle, IDisposable
         } 
     }
 
-    private void SupplyPlayer()
-    {
-        if(container.IsRegisteredWithKey<IPlayer>(currentPlayerId))
-        {
-            using (var preScope = container.BeginLifetimeScope())
-            {
-                var currentPlayer = preScope.ResolveKeyed<IPlayer>(currentPlayerId);
-                
-                var eventBag = preScope.Resolve<IEventBag>();
-                currentPlayer.InjectEventBag(eventBag);
-
-                var mimeTypes = currentPlayer.GetSupportedMimeTypes().Result;
-                FileHelper.SetMimeTypes(mimeTypes);
-
-                var playerGhost = new PlayerGhost();
-                playerGhost.Init(currentPlayer);
-                ghosts[Ghosts.PLAYER] = playerGhost;
-            }
-        } 
-    }
-
     public void RegisterPlayer(IPlayer player)
     {
         if(IsActive) 
@@ -115,7 +108,7 @@ public sealed class ScopeCastle : ICastle, IDisposable
             .Keyed<IPlayer>(player.GetHashCode());
     }
 
-    public void RegisterCube(IRepository cube)
+    public void RegisterRepository(IRepository cube)
     {
         if(IsActive) 
             throw new Exception();
@@ -124,6 +117,13 @@ public sealed class ScopeCastle : ICastle, IDisposable
         builder.RegisterInstance<IRepository>(cube)
             .SingleInstance()
             .Keyed<IRepository>(cube.GetHashCode()); 
+    }
+
+    public void RegisterPlugin(IPlugin plugin)
+    {
+        builder.RegisterInstance<IPlugin>(plugin)
+            .SingleInstance()
+            .Named<IPlugin>(plugin.PluginName);
     }
 
     public async Task RegisterPlayers(ICollection<IPlayer> players)
@@ -143,7 +143,7 @@ public sealed class ScopeCastle : ICastle, IDisposable
         }
     }
 
-    public async Task RegisterCubes(ICollection<IRepository> cubes)
+    public async Task RegisterRepositories(ICollection<IRepository> cubes)
     {
         if ((cubes is null) || (cubes.Count == 0))
             return;
@@ -157,7 +157,17 @@ public sealed class ScopeCastle : ICastle, IDisposable
             builder.RegisterInstance<IRepository>(cube)
                 .SingleInstance()
                 .Keyed<IRepository>(cube.GetHashCode());
-        }    
+        }
+    }
+
+    public async Task RegisterPlugins(IEnumerable<IPlugin> plugins)
+    {
+        foreach (var plugin in plugins)
+        {
+            builder.RegisterInstance<IPlugin>(plugin)
+                .SingleInstance()
+                .Named<IPlugin>(plugin.PluginName);
+        }
     }
 
     public IGhost? ResolveGhost(Ghosts ghostTag)
@@ -191,7 +201,7 @@ public sealed class ScopeCastle : ICastle, IDisposable
         return player;
     }
 
-    public IRepository? GetCurrentCube()
+    public IRepository? GetCurrentRepository()
     {
         if(!IsActive) 
             throw new Exception();
@@ -203,7 +213,15 @@ public sealed class ScopeCastle : ICastle, IDisposable
         return cube;
     }
 
-    //reolve all players from IoC
+    public IPlugin? GetPlugin(string pluginName)
+    {
+        IPlugin plugin;
+        using (var scope = container.BeginLifetimeScope())
+            plugin = scope.ResolveNamed<IPlugin>(pluginName);
+
+        return plugin;
+    }
+
     public Task<IEnumerable<IPlayer>> GetPlayersAsync()
     {
         if(!IsActive) 
@@ -212,13 +230,17 @@ public sealed class ScopeCastle : ICastle, IDisposable
         return Task.FromResult(container.Resolve<IEnumerable<IPlayer>>());
     }
 
-    //resolve all cube from IoC
-    public Task<IEnumerable<IRepository>> GetCubesAsync()
+    public Task<IEnumerable<IRepository>> GetRepositoriesAsync()
     {
         if(!IsActive)
             throw new Exception();
 
         return Task.FromResult(container.Resolve<IEnumerable<IRepository>>());
+    }
+
+    public Task<IEnumerable<IPlugin>> GetPluginsAsync()
+    {
+        return Task.FromResult(container.Resolve<IEnumerable<IPlugin>>());
     }
 
     public Task<IEventBag> GetEventBag()
@@ -238,7 +260,7 @@ public sealed class ScopeCastle : ICastle, IDisposable
             currentPlayerId = newPlayerId; 
     }
 
-    public void SwitchCube(int newCubeId)
+    public void SwitchRepository(int newCubeId)
     {
         if(!IsActive)
             throw new Exception();

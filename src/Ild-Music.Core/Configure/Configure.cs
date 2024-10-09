@@ -15,7 +15,7 @@ public class Configure : IConfigure, IErrorTracable
         ComponentsFile = componentsFile.AsMemory();
     }
 
-    public ReadOnlyMemory<char> ComponentsFile {get; init;}
+    public ReadOnlyMemory<char> ComponentsFile { get; init; }
 
     public Config? ConfigSheet {get; set;}
 

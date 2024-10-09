@@ -21,9 +21,11 @@ public sealed class Stage : IErrorTracable
 
     public IPlayer? PlayerInstance => castle.GetCurrentPlayer();
     
-    public IRepository? CubeInstance => castle.GetCurrentCube();
+    public IRepository? CubeInstance => castle.GetCurrentRepository();
 
-    public bool CompletionResult { get; private set; }
+    public bool ComponentsCompletionResult { get; private set; }
+
+    public bool PluginsCompletionResult { get; private set; }
 
     public List<ErrorFlag> Errors { get; private set; } = [];
 
@@ -35,9 +37,10 @@ public sealed class Stage : IErrorTracable
     {
         try
         {
-            CompletionResult = await DockComponents();
+            ComponentsCompletionResult = await LoadComponents();
+            PluginsCompletionResult = await LoadPlugins();
 
-            if (!CompletionResult)
+            if (!ComponentsCompletionResult)
                 throw new Exception("Could not upload configured components.");
             
             castle.Pack();
@@ -50,7 +53,7 @@ public sealed class Stage : IErrorTracable
         }
     }       
 
-    private async Task<bool> DockComponents()
+    private async Task<bool> LoadComponents()
     {
         bool isCompleted;
        
@@ -58,10 +61,10 @@ public sealed class Stage : IErrorTracable
         {
             var dock = await docker.Dock();
 
-            if(dock == 0)
+            if (dock == 0)
             {
                 await castle.RegisterPlayers(docker.Players);
-                await castle.RegisterCubes(docker.Repositories);
+                await castle.RegisterRepositories(docker.Repositories);
 
                 isCompleted = true;
             }
@@ -76,12 +79,40 @@ public sealed class Stage : IErrorTracable
        
         return isCompleted;
     }
+    
+    public async Task<bool> LoadPlugins()
+    {
+        bool isCompleted;
+
+        using (var docker = new Docker(Configure))
+        {
+            var plugins = docker.DockPlugins(Configure.ConfigSheet.Plugins).Result;
+
+            if (plugins.Count() > 0)
+            {
+                await castle.RegisterPlugins(plugins);
+                isCompleted = true;
+            }
+            else
+            { 
+                foreach (var err in docker.Errors)
+                    Errors.Add(err);
+
+                isCompleted = false;
+            }
+        }
+
+        return isCompleted;
+    }
 
     public IEnumerable<IPlayer> GetPlayers() =>
         castle.GetPlayersAsync().Result;
 
     public IEnumerable<IRepository> GetCubes() =>
-        castle.GetCubesAsync().Result;
+        castle.GetRepositoriesAsync().Result;
+
+    public IEnumerable<IPlugin> GetPlugins() =>
+        castle.GetPluginsAsync().Result;
 
     public IEventBag? GetEventBag() =>
         castle.GetEventBag().Result;
@@ -90,7 +121,7 @@ public sealed class Stage : IErrorTracable
         castle.SwitchPlayer(playerId);
     
     public void SwitchCube(int cubeId) =>
-        castle.SwitchCube(cubeId);
+        castle.SwitchRepository(cubeId);
 
     public IGhost? GetGhost(Ghosts ghostTag) =>
         castle.ResolveGhost(ghostTag);

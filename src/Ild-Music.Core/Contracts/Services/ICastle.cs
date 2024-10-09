@@ -8,7 +8,7 @@ public interface ICastle
 
     public void Pack();
     
-    public void RegisterCube(IRepository cube); 
+    public void RegisterRepository(IRepository cube); 
 
     public void RegisterPlayer(IPlayer player);
 
