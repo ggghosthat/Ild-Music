@@ -16,6 +16,6 @@ public interface IPlugin : IShare
     public UserControl UserControl { get; set; }
 
     public BaseViewModel ViewModel { get; set; }
-    
-    public void Toggle();
-}
+
+        public void Toggle();
+    }
