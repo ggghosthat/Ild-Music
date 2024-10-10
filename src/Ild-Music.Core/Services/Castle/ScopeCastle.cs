@@ -5,15 +5,19 @@ using Ild_Music.Core.Contracts.Services.Interfaces;
 
 using Autofac;
 using Ild_Music.Core.Helpers;
+using Ild_Music.Core.Contracts.Plagination;
+using System.Collections.ObjectModel;
 
 namespace Ild_Music.Core.Services.Castle;
 
 public sealed class ScopeCastle : ICastle, IDisposable
 {
-    private static ContainerBuilder builder = new ContainerBuilder();
+    private static ContainerBuilder builder = new ();
     private static IContainer container;
 
-    private static IDictionary<Ghosts, IGhost> ghosts = new Dictionary<Ghosts, IGhost>();
+    private static Dictionary<Ghosts, IGhost> ghosts = [];
+
+    private static Dictionary<PlaginationTag, List<PlugFunction>> funcs = [];
 
     private static IEnumerable<IPlayer> availlablePlayers;
     private static IEnumerable<IRepository> availlableCubes;
@@ -97,6 +101,20 @@ public sealed class ScopeCastle : ICastle, IDisposable
         } 
     }
 
+    private void ExtendFunctionalityWithPlugin(IDictionary<PlaginationTag, IList<PlugFunction>> pluginFunctionality)
+    {
+        pluginFunctionality.ToList()
+            .ForEach(func => 
+            {
+                 var tag = func.Key;
+
+                if (!funcs.ContainsKey(tag))
+                    funcs[tag] = new List<PlugFunction>();
+                
+                funcs[tag].AddRange(func.Value);
+            });
+    }
+
     public void RegisterPlayer(IPlayer player)
     {
         if(IsActive) 
@@ -121,11 +139,12 @@ public sealed class ScopeCastle : ICastle, IDisposable
 
     public void RegisterPlugin(IPlugin plugin)
     {
+        ExtendFunctionalityWithPlugin(plugin.PluginFuncs);
+
         builder.RegisterInstance<IPlugin>(plugin)
             .SingleInstance()
             .Named<IPlugin>(plugin.PluginName);
     }
-
     public async Task RegisterPlayers(ICollection<IPlayer> players)
     {
         if ((players is null) || (players.Count == 0))
