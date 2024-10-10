@@ -1,24 +1,15 @@
 using Ild_Music.Command;
 using Ild_Music.Core.Exceptions.Flag;
-using Ild_Music.Core.Instances;
-using Ild_Music.Core.Services.Entities;
-using Ild_Music.ViewModels.Base;
-using Ild_Music.Core.Contracts.Services.Interfaces;
+using Ild_Music.Core.Contracts.ViewModel;
 
 using System;
 using System.IO;
 using System.Linq;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Threading.Tasks;
 using Avalonia;
-using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
-using Avalonia.Input;
-using Avalonia.Threading;
-using Avalonia.VisualTree;
 using Avalonia.Input.Platform;
-using Avalonia.Controls.ApplicationLifetimes;
 
 namespace Ild_Music.ViewModels;
 

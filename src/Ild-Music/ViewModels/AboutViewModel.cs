@@ -1,6 +1,6 @@
 using System;
 using System.Net;
-using Ild_Music.ViewModels.Base;
+using Ild_Music.Core.Contracts.ViewModel;
 
 namespace Ild_Music.ViewModels;
 

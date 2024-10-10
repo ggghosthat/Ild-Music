@@ -6,7 +6,7 @@ using Ild_Music.Core.Instances;
 using Ild_Music.Core.Instances.DTO;
 using Ild_Music.Core.Contracts.Services.Interfaces;
 using Ild_Music.Command;
-using Ild_Music.ViewModels.Base;
+using Ild_Music.Core.Contracts.ViewModel;
 
 using System;
 using System.Linq;
@@ -19,7 +19,7 @@ using System.Threading.Tasks;
 
 namespace Ild_Music.ViewModels;
 
-public class MainWindowViewModel : Base.BaseViewModel
+public class MainWindowViewModel : BaseViewModel
 {
     public static readonly Guid viewModelId = Guid.NewGuid();
     public override Guid ViewModelId => viewModelId;

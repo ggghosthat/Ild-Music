@@ -1,9 +1,7 @@
 using System;
 using Avalonia.Controls;
 using Avalonia.Controls.Templates;
-using Ild_Music.ViewModels.Base;
-using Ild_Music.ViewModels;
-using Ild_Music.Views;
+using Ild_Music.Core.Contracts.ViewModel;
 
 namespace Ild_Music;
 
@@ -27,8 +25,5 @@ public class ViewLocator : IDataTemplate
         return new TextBlock { Text = "Not Found: " + name };
     }
 
-    public bool Match(object? data)
-    {
-        return data is BaseViewModel;
-    }
+    public bool Match(object? data) => data is BaseViewModel;
 }

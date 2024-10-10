@@ -4,7 +4,7 @@ using Ild_Music.Core.Instances.DTO;
 using Ild_Music.Core.Services.Entities;
 using Ild_Music.Core.Contracts.Services.Interfaces;
 using Ild_Music.Command;
-using Ild_Music.ViewModels.Base;
+using Ild_Music.Core.Contracts.ViewModel;
 
 using System;
 using System.Linq;

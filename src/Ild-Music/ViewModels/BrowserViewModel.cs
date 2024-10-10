@@ -1,7 +1,7 @@
 using Ild_Music.Command;
 using Ild_Music.Core.Instances;
 using Ild_Music.Core.Services.Entities;
-using Ild_Music.ViewModels.Base;
+using Ild_Music.Core.Contracts.ViewModel;
 using Ild_Music.Core.Contracts.Services.Interfaces;
 
 using System;

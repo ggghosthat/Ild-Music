@@ -1,5 +1,4 @@
 using Ild_Music.ViewModels;
-using Ild_Music.ViewModels.Base;
 
 using System;
 using PropertyChanged;

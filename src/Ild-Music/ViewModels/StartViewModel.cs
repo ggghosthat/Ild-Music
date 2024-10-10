@@ -1,5 +1,5 @@
-using Ild_Music.ViewModels.Base;
 using Ild_Music.Command;
+using Ild_Music.Core.Contracts.ViewModel;
 using Ild_Music.Core.Instances;
 using Ild_Music.Core.Instances.DTO;
 using Ild_Music.Core.Services.Entities;
@@ -10,7 +10,6 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace Ild_Music.ViewModels;
